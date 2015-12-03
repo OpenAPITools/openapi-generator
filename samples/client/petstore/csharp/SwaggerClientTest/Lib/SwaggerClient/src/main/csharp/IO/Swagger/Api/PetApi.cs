@@ -32,6 +32,16 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> UpdatePetWithHttpInfo (Pet body = null);
+
+        /// <summary>
+        /// Update an existing pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdatePetAsync (Pet body = null);
         
@@ -45,6 +55,16 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         void AddPet (Pet body = null);
   
+        /// <summary>
+        /// Add a new pet to the store
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> AddPetWithHttpInfo (Pet body = null);
+
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -72,6 +92,16 @@ namespace IO.Swagger.Api
         /// Multiple status values can be provided with comma seperated strings
         /// </remarks>
         /// <param name="status">Status values that need to be considered for filter</param>
+        /// <returns>ApiResponse< List<Pet> ></returns>
+        ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo (List<string> status = null);
+
+        /// <summary>
+        /// Finds Pets by status
+        /// </summary>
+        /// <remarks>
+        /// Multiple status values can be provided with comma seperated strings
+        /// </remarks>
+        /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns></returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status = null);
         
@@ -92,6 +122,16 @@ namespace IO.Swagger.Api
         /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </remarks>
         /// <param name="tags">Tags to filter by</param>
+        /// <returns>ApiResponse< List<Pet> ></returns>
+        ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags = null);
+
+        /// <summary>
+        /// Finds Pets by tags
+        /// </summary>
+        /// <remarks>
+        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </remarks>
+        /// <param name="tags">Tags to filter by</param>
         /// <returns></returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags = null);
         
@@ -105,6 +145,16 @@ namespace IO.Swagger.Api
         /// <returns>Pet</returns>
         Pet GetPetById (long? petId);
   
+        /// <summary>
+        /// Find pet by ID
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>ApiResponse< Pet ></returns>
+        ApiResponse<Pet> GetPetByIdWithHttpInfo (long? petId);
+
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -136,6 +186,18 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be updated</param>
         /// <param name="name">Updated name of the pet</param>
         /// <param name="status">Updated status of the pet</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (string petId, string name = null, string status = null);
+
+        /// <summary>
+        /// Updates a pet in the store with form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet</param>
+        /// <param name="status">Updated status of the pet</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdatePetWithFormAsync (string petId, string name = null, string status = null);
         
@@ -150,6 +212,17 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         void DeletePet (long? petId, string apiKey = null);
   
+        /// <summary>
+        /// Deletes a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"></param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null);
+
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -173,6 +246,18 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         void UploadFile (long? petId, string additionalMetadata = null, Stream file = null);
   
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server</param>
+        /// <param name="file">file to upload</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
+
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -230,16 +315,6 @@ namespace IO.Swagger.Api
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
 
-        /// <summary>
-        /// Gets the status code of the previous request
-        /// </summary>
-        public int StatusCode { get; private set; }
-
-        /// <summary>
-        /// Gets the response headers of the previous request
-        /// </summary>
-        public Dictionary<String, String> ResponseHeaders { get; private set; } 
-
         private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
 
         /// <summary>
@@ -266,8 +341,18 @@ namespace IO.Swagger.Api
         /// Update an existing pet 
         /// </summary>
         /// <param name="body">Pet object that needs to be added to the store</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void UpdatePet (Pet body = null)
+        {
+             UpdatePetWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// Update an existing pet 
+        /// </summary>
+        /// <param name="body">Pet object that needs to be added to the store</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> UpdatePetWithHttpInfo (Pet body = null)
         {
             
     
@@ -311,15 +396,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling UpdatePet: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UpdatePet: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UpdatePet: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -371,11 +458,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UpdatePet: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UpdatePet: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UpdatePet: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -385,8 +473,18 @@ namespace IO.Swagger.Api
         /// Add a new pet to the store 
         /// </summary>
         /// <param name="body">Pet object that needs to be added to the store</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void AddPet (Pet body = null)
+        {
+             AddPetWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// Add a new pet to the store 
+        /// </summary>
+        /// <param name="body">Pet object that needs to be added to the store</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> AddPetWithHttpInfo (Pet body = null)
         {
             
     
@@ -430,15 +528,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling AddPet: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling AddPet: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling AddPet: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling AddPet: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -490,11 +590,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling AddPet: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling AddPet: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling AddPet: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -504,8 +605,19 @@ namespace IO.Swagger.Api
         /// Finds Pets by status Multiple status values can be provided with comma seperated strings
         /// </summary>
         /// <param name="status">Status values that need to be considered for filter</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public List<Pet> FindPetsByStatus (List<string> status = null)
+        {
+             ApiResponse<List<Pet>> response = FindPetsByStatusWithHttpInfo(status);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Finds Pets by status Multiple status values can be provided with comma seperated strings
+        /// </summary>
+        /// <param name="status">Status values that need to be considered for filter</param> 
+        /// <returns></returns>
+        public ApiResponse< List<Pet> > FindPetsByStatusWithHttpInfo (List<string> status = null)
         {
             
     
@@ -549,15 +661,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling FindPetsByStatus: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling FindPetsByStatus: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
+            return new ApiResponse<List<Pet>>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>)));
+            
         }
     
         /// <summary>
@@ -609,11 +723,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling FindPetsByStatus: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling FindPetsByStatus: " + response.ErrorMessage, response.ErrorMessage);
 
             return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
         }
@@ -622,8 +737,19 @@ namespace IO.Swagger.Api
         /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <param name="tags">Tags to filter by</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public List<Pet> FindPetsByTags (List<string> tags = null)
+        {
+             ApiResponse<List<Pet>> response = FindPetsByTagsWithHttpInfo(tags);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </summary>
+        /// <param name="tags">Tags to filter by</param> 
+        /// <returns></returns>
+        public ApiResponse< List<Pet> > FindPetsByTagsWithHttpInfo (List<string> tags = null)
         {
             
     
@@ -667,15 +793,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling FindPetsByTags: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling FindPetsByTags: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
+            return new ApiResponse<List<Pet>>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>)));
+            
         }
     
         /// <summary>
@@ -727,11 +855,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling FindPetsByTags: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling FindPetsByTags: " + response.ErrorMessage, response.ErrorMessage);
 
             return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
         }
@@ -740,8 +869,19 @@ namespace IO.Swagger.Api
         /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
         /// <param name="petId">ID of pet that needs to be fetched</param> 
-        /// <returns>Pet</returns>            
+        /// <returns>Pet</returns>
         public Pet GetPetById (long? petId)
+        {
+             ApiResponse<Pet> response = GetPetByIdWithHttpInfo(petId);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </summary>
+        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <returns>Pet</returns>
+        public ApiResponse< Pet > GetPetByIdWithHttpInfo (long? petId)
         {
             
             // verify the required parameter 'petId' is set
@@ -788,15 +928,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling GetPetById: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetPetById: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetPetById: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet));
+            return new ApiResponse<Pet>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet)));
+            
         }
     
         /// <summary>
@@ -850,11 +992,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetPetById: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetPetById: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetPetById: " + response.ErrorMessage, response.ErrorMessage);
 
             return (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet));
         }
@@ -865,8 +1008,20 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be updated</param> 
         /// <param name="name">Updated name of the pet</param> 
         /// <param name="status">Updated status of the pet</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void UpdatePetWithForm (string petId, string name = null, string status = null)
+        {
+             UpdatePetWithFormWithHttpInfo(petId, name, status);
+        }
+
+        /// <summary>
+        /// Updates a pet in the store with form data 
+        /// </summary>
+        /// <param name="petId">ID of pet that needs to be updated</param> 
+        /// <param name="name">Updated name of the pet</param> 
+        /// <param name="status">Updated status of the pet</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> UpdatePetWithFormWithHttpInfo (string petId, string name = null, string status = null)
         {
             
             // verify the required parameter 'petId' is set
@@ -915,15 +1070,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling UpdatePetWithForm: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UpdatePetWithForm: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -981,11 +1138,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UpdatePetWithForm: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UpdatePetWithForm: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -996,8 +1154,19 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="petId">Pet id to delete</param> 
         /// <param name="apiKey"></param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void DeletePet (long? petId, string apiKey = null)
+        {
+             DeletePetWithHttpInfo(petId, apiKey);
+        }
+
+        /// <summary>
+        /// Deletes a pet 
+        /// </summary>
+        /// <param name="petId">Pet id to delete</param> 
+        /// <param name="apiKey"></param> 
+        /// <returns></returns>
+        public ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null)
         {
             
             // verify the required parameter 'petId' is set
@@ -1045,15 +1214,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling DeletePet: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeletePet: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeletePet: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -1109,11 +1280,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling DeletePet: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeletePet: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeletePet: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -1125,8 +1297,20 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet to update</param> 
         /// <param name="additionalMetadata">Additional data to pass to server</param> 
         /// <param name="file">file to upload</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void UploadFile (long? petId, string additionalMetadata = null, Stream file = null)
+        {
+             UploadFileWithHttpInfo(petId, additionalMetadata, file);
+        }
+
+        /// <summary>
+        /// uploads an image 
+        /// </summary>
+        /// <param name="petId">ID of pet to update</param> 
+        /// <param name="additionalMetadata">Additional data to pass to server</param> 
+        /// <param name="file">file to upload</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
         {
             
             // verify the required parameter 'petId' is set
@@ -1175,15 +1359,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling UploadFile: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UploadFile: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UploadFile: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -1241,11 +1427,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UploadFile: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UploadFile: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UploadFile: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;

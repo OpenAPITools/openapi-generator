@@ -30,6 +30,15 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
+        /// <returns>ApiResponse< Dictionary<string, int?> ></returns>
+        ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
+
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
         /// <returns></returns>
         System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
         
@@ -43,6 +52,16 @@ namespace IO.Swagger.Api
         /// <returns>Order</returns>
         Order PlaceOrder (Order body = null);
   
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">order placed for purchasing the pet</param>
+        /// <returns>ApiResponse< Order ></returns>
+        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
+
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -70,6 +89,16 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>ApiResponse< Order ></returns>
+        ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
+
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
         System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
         
@@ -83,6 +112,16 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         void DeleteOrder (string orderId);
   
+        /// <summary>
+        /// Delete purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </remarks>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId);
+
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
@@ -138,16 +177,6 @@ namespace IO.Swagger.Api
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
 
-        /// <summary>
-        /// Gets the status code of the previous request
-        /// </summary>
-        public int StatusCode { get; private set; }
-
-        /// <summary>
-        /// Gets the response headers of the previous request
-        /// </summary>
-        public Dictionary<String, String> ResponseHeaders { get; private set; } 
-
         private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
 
         /// <summary>
@@ -173,8 +202,18 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns></returns>            
+        /// <returns></returns>
         public Dictionary<string, int?> GetInventory ()
+        {
+             ApiResponse<Dictionary<string, int?>> response = GetInventoryWithHttpInfo();
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <returns></returns>
+        public ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
         {
             
     
@@ -217,15 +256,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
+            return new ApiResponse<Dictionary<string, int?>>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>)));
+            
         }
     
         /// <summary>
@@ -275,11 +316,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
 
             return (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
         }
@@ -288,8 +330,19 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param> 
-        /// <returns>Order</returns>            
+        /// <returns>Order</returns>
         public Order PlaceOrder (Order body = null)
+        {
+             ApiResponse<Order> response = PlaceOrderWithHttpInfo(body);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <param name="body">order placed for purchasing the pet</param> 
+        /// <returns>Order</returns>
+        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body = null)
         {
             
     
@@ -325,15 +378,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
+            return new ApiResponse<Order>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
+            
         }
     
         /// <summary>
@@ -377,11 +432,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
 
             return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
@@ -390,8 +446,19 @@ namespace IO.Swagger.Api
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param> 
-        /// <returns>Order</returns>            
+        /// <returns>Order</returns>
         public Order GetOrderById (string orderId)
+        {
+             ApiResponse<Order> response = GetOrderByIdWithHttpInfo(orderId);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <param name="orderId">ID of pet that needs to be fetched</param> 
+        /// <returns>Order</returns>
+        public ApiResponse< Order > GetOrderByIdWithHttpInfo (string orderId)
         {
             
             // verify the required parameter 'orderId' is set
@@ -430,15 +497,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
+            return new ApiResponse<Order>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
+            
         }
     
         /// <summary>
@@ -484,11 +553,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
 
             return (Order) Configuration.ApiClient.Deserialize(response, typeof(Order));
         }
@@ -497,8 +567,18 @@ namespace IO.Swagger.Api
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void DeleteOrder (string orderId)
+        {
+             DeleteOrderWithHttpInfo(orderId);
+        }
+
+        /// <summary>
+        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </summary>
+        /// <param name="orderId">ID of the order that needs to be deleted</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId)
         {
             
             // verify the required parameter 'orderId' is set
@@ -537,15 +617,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -591,11 +673,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;

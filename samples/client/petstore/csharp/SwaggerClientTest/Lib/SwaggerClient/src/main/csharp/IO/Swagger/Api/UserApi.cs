@@ -32,6 +32,16 @@ namespace IO.Swagger.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <param name="body">Created user object</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> CreateUserWithHttpInfo (User body = null);
+
+        /// <summary>
+        /// Create user
+        /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
+        /// <param name="body">Created user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUserAsync (User body = null);
         
@@ -52,6 +62,16 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">List of user object</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> body = null);
+
+        /// <summary>
+        /// Creates list of users with given input array
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body = null);
         
@@ -65,6 +85,16 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         void CreateUsersWithListInput (List<User> body = null);
   
+        /// <summary>
+        /// Creates list of users with given input array
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">List of user object</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> body = null);
+
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -94,6 +124,17 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <returns>ApiResponse< string ></returns>
+        ApiResponse<string> LoginUserWithHttpInfo (string username = null, string password = null);
+
+        /// <summary>
+        /// Logs user into the system
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
         System.Threading.Tasks.Task<string> LoginUserAsync (string username = null, string password = null);
         
@@ -106,6 +147,15 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         void LogoutUser ();
   
+        /// <summary>
+        /// Logs out current logged in user session
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> LogoutUserWithHttpInfo ();
+
         /// <summary>
         /// Logs out current logged in user session
         /// </summary>
@@ -125,6 +175,16 @@ namespace IO.Swagger.Api
         /// <returns>User</returns>
         User GetUserByName (string username);
   
+        /// <summary>
+        /// Get user by user name
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <returns>ApiResponse< User ></returns>
+        ApiResponse<User> GetUserByNameWithHttpInfo (string username);
+
         /// <summary>
         /// Get user by user name
         /// </summary>
@@ -154,6 +214,17 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> UpdateUserWithHttpInfo (string username, User body = null);
+
+        /// <summary>
+        /// Updated user
+        /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
+        /// <param name="username">name that need to be deleted</param>
+        /// <param name="body">Updated user object</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdateUserAsync (string username, User body = null);
         
@@ -167,6 +238,16 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         void DeleteUser (string username);
   
+        /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <returns>ApiResponse<Object></returns>
+        ApiResponse<Object> DeleteUserWithHttpInfo (string username);
+
         /// <summary>
         /// Delete user
         /// </summary>
@@ -222,16 +303,6 @@ namespace IO.Swagger.Api
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
 
-        /// <summary>
-        /// Gets the status code of the previous request
-        /// </summary>
-        public int StatusCode { get; private set; }
-
-        /// <summary>
-        /// Gets the response headers of the previous request
-        /// </summary>
-        public Dictionary<String, String> ResponseHeaders { get; private set; } 
-
         private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
 
         /// <summary>
@@ -258,8 +329,18 @@ namespace IO.Swagger.Api
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void CreateUser (User body = null)
+        {
+             CreateUserWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// Create user This can only be done by the logged in user.
+        /// </summary>
+        /// <param name="body">Created user object</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> CreateUserWithHttpInfo (User body = null)
         {
             
     
@@ -295,15 +376,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling CreateUser: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling CreateUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling CreateUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling CreateUser: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -347,11 +430,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling CreateUser: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling CreateUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling CreateUser: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -361,8 +445,18 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void CreateUsersWithArrayInput (List<User> body = null)
+        {
+             CreateUsersWithArrayInputWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// Creates list of users with given input array 
+        /// </summary>
+        /// <param name="body">List of user object</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> body = null)
         {
             
     
@@ -398,15 +492,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling CreateUsersWithArrayInput: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -450,11 +546,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -464,8 +561,18 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void CreateUsersWithListInput (List<User> body = null)
+        {
+             CreateUsersWithListInputWithHttpInfo(body);
+        }
+
+        /// <summary>
+        /// Creates list of users with given input array 
+        /// </summary>
+        /// <param name="body">List of user object</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> body = null)
         {
             
     
@@ -501,15 +608,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling CreateUsersWithListInput: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -553,11 +662,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -568,8 +678,20 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">The user name for login</param> 
         /// <param name="password">The password for login in clear text</param> 
-        /// <returns>string</returns>            
+        /// <returns>string</returns>
         public string LoginUser (string username = null, string password = null)
+        {
+             ApiResponse<string> response = LoginUserWithHttpInfo(username, password);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Logs user into the system 
+        /// </summary>
+        /// <param name="username">The user name for login</param> 
+        /// <param name="password">The password for login in clear text</param> 
+        /// <returns>string</returns>
+        public ApiResponse< string > LoginUserWithHttpInfo (string username = null, string password = null)
         {
             
     
@@ -606,15 +728,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling LoginUser: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling LoginUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling LoginUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling LoginUser: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (string) Configuration.ApiClient.Deserialize(response, typeof(string));
+            return new ApiResponse<string>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (string) Configuration.ApiClient.Deserialize(response, typeof(string)));
+            
         }
     
         /// <summary>
@@ -660,11 +784,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling LoginUser: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling LoginUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling LoginUser: " + response.ErrorMessage, response.ErrorMessage);
 
             return (string) Configuration.ApiClient.Deserialize(response, typeof(string));
         }
@@ -672,8 +797,17 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
-        /// <returns></returns>            
+        /// <returns></returns>
         public void LogoutUser ()
+        {
+             LogoutUserWithHttpInfo();
+        }
+
+        /// <summary>
+        /// Logs out current logged in user session 
+        /// </summary>
+        /// <returns></returns>
+        public ApiResponse<Object> LogoutUserWithHttpInfo ()
         {
             
     
@@ -708,15 +842,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling LogoutUser: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling LogoutUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -758,11 +894,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling LogoutUser: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -772,8 +909,19 @@ namespace IO.Swagger.Api
         /// Get user by user name 
         /// </summary>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param> 
-        /// <returns>User</returns>            
+        /// <returns>User</returns>
         public User GetUserByName (string username)
+        {
+             ApiResponse<User> response = GetUserByNameWithHttpInfo(username);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Get user by user name 
+        /// </summary>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param> 
+        /// <returns>User</returns>
+        public ApiResponse< User > GetUserByNameWithHttpInfo (string username)
         {
             
             // verify the required parameter 'username' is set
@@ -812,15 +960,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetUserByName: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling GetUserByName: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (User) Configuration.ApiClient.Deserialize(response, typeof(User));
+            return new ApiResponse<User>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (User) Configuration.ApiClient.Deserialize(response, typeof(User)));
+            
         }
     
         /// <summary>
@@ -866,11 +1016,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling GetUserByName: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.ErrorMessage, response.ErrorMessage);
 
             return (User) Configuration.ApiClient.Deserialize(response, typeof(User));
         }
@@ -880,8 +1031,19 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">name that need to be deleted</param> 
         /// <param name="body">Updated user object</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void UpdateUser (string username, User body = null)
+        {
+             UpdateUserWithHttpInfo(username, body);
+        }
+
+        /// <summary>
+        /// Updated user This can only be done by the logged in user.
+        /// </summary>
+        /// <param name="username">name that need to be deleted</param> 
+        /// <param name="body">Updated user object</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> UpdateUserWithHttpInfo (string username, User body = null)
         {
             
             // verify the required parameter 'username' is set
@@ -921,15 +1083,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UpdateUser: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling UpdateUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -977,11 +1141,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling UpdateUser: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;
@@ -991,8 +1156,18 @@ namespace IO.Swagger.Api
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void DeleteUser (string username)
+        {
+             DeleteUserWithHttpInfo(username);
+        }
+
+        /// <summary>
+        /// Delete user This can only be done by the logged in user.
+        /// </summary>
+        /// <param name="username">The name that needs to be deleted</param> 
+        /// <returns></returns>
+        public ApiResponse<Object> DeleteUserWithHttpInfo (string username)
         {
             
             // verify the required parameter 'username' is set
@@ -1031,15 +1206,17 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
     
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling DeleteUser: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException (StatusCode, "Error calling DeleteUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
@@ -1085,11 +1262,12 @@ namespace IO.Swagger.Api
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
 
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
+            int statusCode = (int) response.StatusCode;
  
-            if (StatusCode >= 400)
-                throw new ApiException (StatusCode, "Error calling DeleteUser: " + response.Content, response.Content);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.ErrorMessage, response.ErrorMessage);
 
             
             return;

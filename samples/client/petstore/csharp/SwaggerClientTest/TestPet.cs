@@ -236,10 +236,10 @@ namespace SwaggerClient.TestPet
 		public void TestStatusCodeAndHeader ()
 		{
 			PetApi petApi = new PetApi ();
-			petApi.GetPetById (petId);
-			Assert.AreEqual (petApi.StatusCode, 200);
-			Assert.IsTrue (petApi.ResponseHeaders.ContainsKey("Content-Type"));
-			Assert.AreEqual (petApi.ResponseHeaders["Content-Type"], "application/json");
+			var response = petApi.GetPetByIdWithHttpInfo (petId);
+			Assert.AreEqual (response.StatusCode, 200);
+			Assert.IsTrue (response.Headers.ContainsKey("Content-Type"));
+			Assert.AreEqual (response.Headers["Content-Type"], "application/json");
 		}
 
 	}
