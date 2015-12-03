@@ -44,6 +44,16 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdatePetAsync (Pet body = null);
+
+        /// <summary>
+        /// Update an existing pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetAsyncWithHttpInfo (Pet body = null);
         
         /// <summary>
         /// Add a new pet to the store
@@ -74,6 +84,16 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         System.Threading.Tasks.Task AddPetAsync (Pet body = null);
+
+        /// <summary>
+        /// Add a new pet to the store
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body = null);
         
         /// <summary>
         /// Finds Pets by status
@@ -104,6 +124,16 @@ namespace IO.Swagger.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns></returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status = null);
+
+        /// <summary>
+        /// Finds Pets by status
+        /// </summary>
+        /// <remarks>
+        /// Multiple status values can be provided with comma seperated strings
+        /// </remarks>
+        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusAsyncWithHttpInfo (List<string> status = null);
         
         /// <summary>
         /// Finds Pets by tags
@@ -134,6 +164,16 @@ namespace IO.Swagger.Api
         /// <param name="tags">Tags to filter by</param>
         /// <returns></returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags = null);
+
+        /// <summary>
+        /// Finds Pets by tags
+        /// </summary>
+        /// <remarks>
+        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </remarks>
+        /// <param name="tags">Tags to filter by</param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsAsyncWithHttpInfo (List<string> tags = null);
         
         /// <summary>
         /// Find pet by ID
@@ -164,6 +204,16 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Pet</returns>
         System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId);
+
+        /// <summary>
+        /// Find pet by ID
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>Pet</returns>
+        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long? petId);
         
         /// <summary>
         /// Updates a pet in the store with form data
@@ -200,6 +250,18 @@ namespace IO.Swagger.Api
         /// <param name="status">Updated status of the pet</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UpdatePetWithFormAsync (string petId, string name = null, string status = null);
+
+        /// <summary>
+        /// Updates a pet in the store with form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet</param>
+        /// <param name="status">Updated status of the pet</param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (string petId, string name = null, string status = null);
         
         /// <summary>
         /// Deletes a pet
@@ -233,6 +295,17 @@ namespace IO.Swagger.Api
         /// <param name="apiKey"></param>
         /// <returns></returns>
         System.Threading.Tasks.Task DeletePetAsync (long? petId, string apiKey = null);
+
+        /// <summary>
+        /// Deletes a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"></param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null);
         
         /// <summary>
         /// uploads an image
@@ -269,6 +342,18 @@ namespace IO.Swagger.Api
         /// <param name="file">file to upload</param>
         /// <returns></returns>
         System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata = null, Stream file = null);
+
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server</param>
+        /// <param name="file">file to upload</param>
+        /// <returns></returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
         
     }
   
@@ -427,6 +512,17 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public async System.Threading.Tasks.Task UpdatePetAsync (Pet body = null)
         {
+             await UpdatePetAsyncWithHttpInfo(body);
+
+        }
+
+        /// <summary>
+        /// Update an existing pet 
+        /// </summary>
+        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetAsyncWithHttpInfo (Pet body = null)
+        {
             
     
             var path_ = "/pet";
@@ -477,7 +573,9 @@ namespace IO.Swagger.Api
                 throw new ApiException (statusCode, "Error calling UpdatePet: " + response.ErrorMessage, response.ErrorMessage);
 
             
-            return;
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
         
         /// <summary>
@@ -559,6 +657,17 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public async System.Threading.Tasks.Task AddPetAsync (Pet body = null)
         {
+             await AddPetAsyncWithHttpInfo(body);
+
+        }
+
+        /// <summary>
+        /// Add a new pet to the store 
+        /// </summary>
+        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body = null)
+        {
             
     
             var path_ = "/pet";
@@ -609,7 +718,9 @@ namespace IO.Swagger.Api
                 throw new ApiException (statusCode, "Error calling AddPet: " + response.ErrorMessage, response.ErrorMessage);
 
             
-            return;
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
         
         /// <summary>
@@ -692,6 +803,18 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status = null)
         {
+             ApiResponse<List<Pet>> response = await FindPetsByStatusAsyncWithHttpInfo(status);
+             return response.Data;
+
+        }
+
+        /// <summary>
+        /// Finds Pets by status Multiple status values can be provided with comma seperated strings
+        /// </summary>
+        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusAsyncWithHttpInfo (List<string> status = null)
+        {
             
     
             var path_ = "/pet/findByStatus";
@@ -741,7 +864,10 @@ namespace IO.Swagger.Api
             else if (statusCode == 0)
                 throw new ApiException (statusCode, "Error calling FindPetsByStatus: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
+            return new ApiResponse<List<Pet>>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>)));
+            
         }
         
         /// <summary>
@@ -824,6 +950,18 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags = null)
         {
+             ApiResponse<List<Pet>> response = await FindPetsByTagsAsyncWithHttpInfo(tags);
+             return response.Data;
+
+        }
+
+        /// <summary>
+        /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </summary>
+        /// <param name="tags">Tags to filter by</param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsAsyncWithHttpInfo (List<string> tags = null)
+        {
             
     
             var path_ = "/pet/findByTags";
@@ -873,7 +1011,10 @@ namespace IO.Swagger.Api
             else if (statusCode == 0)
                 throw new ApiException (statusCode, "Error calling FindPetsByTags: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>));
+            return new ApiResponse<List<Pet>>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>)));
+            
         }
         
         /// <summary>
@@ -959,6 +1100,18 @@ namespace IO.Swagger.Api
         /// <returns>Pet</returns>
         public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId)
         {
+             ApiResponse<Pet> response = await GetPetByIdAsyncWithHttpInfo(petId);
+             return response.Data;
+
+        }
+
+        /// <summary>
+        /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </summary>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>Pet</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long? petId)
+        {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
             
@@ -1010,7 +1163,10 @@ namespace IO.Swagger.Api
             else if (statusCode == 0)
                 throw new ApiException (statusCode, "Error calling GetPetById: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet));
+            return new ApiResponse<Pet>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet)));
+            
         }
         
         /// <summary>
@@ -1103,6 +1259,19 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public async System.Threading.Tasks.Task UpdatePetWithFormAsync (string petId, string name = null, string status = null)
         {
+             await UpdatePetWithFormAsyncWithHttpInfo(petId, name, status);
+
+        }
+
+        /// <summary>
+        /// Updates a pet in the store with form data 
+        /// </summary>
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet</param>
+        /// <param name="status">Updated status of the pet</param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (string petId, string name = null, string status = null)
+        {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
             
@@ -1157,7 +1326,9 @@ namespace IO.Swagger.Api
                 throw new ApiException (statusCode, "Error calling UpdatePetWithForm: " + response.ErrorMessage, response.ErrorMessage);
 
             
-            return;
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
         
         /// <summary>
@@ -1246,6 +1417,18 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public async System.Threading.Tasks.Task DeletePetAsync (long? petId, string apiKey = null)
         {
+             await DeletePetAsyncWithHttpInfo(petId, apiKey);
+
+        }
+
+        /// <summary>
+        /// Deletes a pet 
+        /// </summary>
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null)
+        {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
             
@@ -1299,7 +1482,9 @@ namespace IO.Swagger.Api
                 throw new ApiException (statusCode, "Error calling DeletePet: " + response.ErrorMessage, response.ErrorMessage);
 
             
-            return;
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
         
         /// <summary>
@@ -1392,6 +1577,19 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public async System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata = null, Stream file = null)
         {
+             await UploadFileAsyncWithHttpInfo(petId, additionalMetadata, file);
+
+        }
+
+        /// <summary>
+        /// uploads an image 
+        /// </summary>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server</param>
+        /// <param name="file">file to upload</param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
+        {
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");
             
@@ -1446,7 +1644,9 @@ namespace IO.Swagger.Api
                 throw new ApiException (statusCode, "Error calling UploadFile: " + response.ErrorMessage, response.ErrorMessage);
 
             
-            return;
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
         
     }
