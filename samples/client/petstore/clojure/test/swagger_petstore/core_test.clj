@@ -124,14 +124,27 @@
   (let [file (-> "hello.txt" io/resource io/file)]
     (are [param expected]
       (is (= expected (normalize-param param)))
-      [12 "34"] ["12" "34"]
       file file
       "abc" "abc"
-      [[12 "34"] file "abc"] [["12" "34"] file "abc"])))
+      [12 "34"] "12,34"
+      ^{:collection-format :csv} [12 "34"] "12,34"
+      ^{:collection-format :ssv} [12 "34"] "12 34"
+      ^{:collection-format :tsv} [12 "34"] "12\t34"
+      (with-collection-format [12 "34"] :pipes) "12|34"
+      (with-collection-format [12 "34"] :multi) ["12" "34"]
+      [[12 "34"] file "abc"] ["12,34" file "abc"])))
 
 (deftest test-normalize-params
-  (is (= {:a "123" :b ["4" ["5" "6"]]}
-         (normalize-params {:a 123 :b [4 [5 "6"]] :c nil}))))
+  (is (= {:a "123" :b "4,5,6"}
+         (normalize-params {:a 123 :b [4 [5 "6"]] :c nil})))
+  (is (= {:a "123" :b ["4" "5,6"]}
+         (normalize-params {:a 123
+                            :b ^{:collection-format :multi} [4 [5 "6"]]
+                            :c nil})))
+  (is (= {:a "123" :b "4 5|6"}
+         (normalize-params {:a 123
+                            :b (with-collection-format [4 (with-collection-format [5 "6"] :pipes)] :ssv)
+                            :c nil}))))
 
 (deftest test-json-mime?
   (are [mime expected]
