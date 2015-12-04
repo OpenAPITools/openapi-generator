@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 set JAVA_OPTS=%JAVA_OPTS% -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate -t modules\swagger-codegen\src\main\resources\php -i modules\swagger-codegen\src\test\resources\2_0\petstore.json -l php -o samples\client\petstore\php
+set ags=generate -t modules\swagger-codegen\src\main\resources\ruby -i modules\swagger-codegen\src\test\resources\2_0\petstore.json -l ruby -o samples\client\petstore\ruby
 
 java %JAVA_OPTS% -jar %executable% %ags%
