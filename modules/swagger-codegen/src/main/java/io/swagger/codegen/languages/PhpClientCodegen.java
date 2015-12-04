@@ -15,10 +15,16 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
+    static Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
+
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_PATH = "packagePath";
     public static final String SRC_BASE_PATH = "srcBasePath";
@@ -129,7 +135,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         return (getPackagePath() + File.separatorChar + basePath
                     // Replace period, backslash, forward slash with file separator in package name
-                    + packageName.replaceAll("[\\.\\\\/]", File.separator)
+                    + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
                     // Trim prefix file separators from package path
                     .replaceAll(regFirstPathSeparator, ""))
                     // Trim trailing file separators from the overall path
@@ -217,11 +223,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + toPackagePath(apiPackage(), srcBasePath));
+        return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
     }
 
     public String modelFileFolder() {
-        return (outputFolder + "/" + toPackagePath(modelPackage(), srcBasePath));
+        return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
     }
 
     @Override
