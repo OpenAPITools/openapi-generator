@@ -19,7 +19,12 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
+    static Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
+
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_PATH = "packagePath";
     public static final String SRC_BASE_PATH = "srcBasePath";
@@ -109,6 +114,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String toPackagePath(String packageName, String basePath) {
+        LOGGER.info("============================");
+        LOGGER.info("packageName = " + packageName);
         packageName = packageName.replace(invokerPackage, "");
         if (basePath != null && basePath.length() > 0) {
             basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar;
@@ -120,6 +127,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else { // for windows
             regFirstPathSeparator = "^\\\\";
         }
+        LOGGER.info("regFirstPathSeparator = " + regFirstPathSeparator);
 
         String regLastPathSeparator;
         if ("/".equals(File.separator)) { // for mac, linux
@@ -127,6 +135,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else { // for windows
             regLastPathSeparator = "\\\\$";
         }
+        LOGGER.info("regLastPathSeparator= " + regLastPathSeparator);
+        LOGGER.info("packageName = " + packageName);
 
         return (getPackagePath() + File.separatorChar + basePath
                     // Replace period, backslash, forward slash with file separator in package name
@@ -218,11 +228,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + toPackagePath(apiPackage(), srcBasePath));
+        return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
     }
 
     public String modelFileFolder() {
-        return (outputFolder + "/" + toPackagePath(modelPackage(), srcBasePath));
+        return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
     }
 
     @Override
