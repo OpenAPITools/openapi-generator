@@ -1,5 +1,5 @@
 (ns swagger-petstore.api.store
-  (:require [swagger-petstore.core :refer [call-api check-required-params]])
+  (:require [swagger-petstore.core :refer [call-api check-required-params with-collection-format]])
   (:import (java.io File)))
 
 (defn get-inventory
@@ -12,7 +12,8 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]}))
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    ["api_key"]}))
 
 (defn place-order
   "Place an order for a pet
@@ -26,7 +27,8 @@
               :form-params   {}
               :body-param    body
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    []})))
 
 (defn get-order-by-id
   "Find purchase order by ID
@@ -38,7 +40,8 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]}))
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    []}))
 
 (defn delete-order
   "Delete purchase order by ID
@@ -50,4 +53,5 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]}))
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    []}))

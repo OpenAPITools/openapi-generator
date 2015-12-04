@@ -1,5 +1,5 @@
 (ns swagger-petstore.api.user
-  (:require [swagger-petstore.core :refer [call-api check-required-params]])
+  (:require [swagger-petstore.core :refer [call-api check-required-params with-collection-format]])
   (:import (java.io File)))
 
 (defn create-user
@@ -14,7 +14,8 @@
               :form-params   {}
               :body-param    body
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    []})))
 
 (defn create-users-with-array-input
   "Creates list of users with given input array
@@ -28,7 +29,8 @@
               :form-params   {}
               :body-param    body
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    []})))
 
 (defn create-users-with-list-input
   "Creates list of users with given input array
@@ -42,7 +44,8 @@
               :form-params   {}
               :body-param    body
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    []})))
 
 (defn login-user
   "Logs user into the system
@@ -55,7 +58,8 @@
               :query-params  {"username" username "password" password }
               :form-params   {}
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    []})))
 
 (defn logout-user
   "Logs out current logged in user session
@@ -67,7 +71,8 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]}))
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    []}))
 
 (defn get-user-by-name
   "Get user by user name
@@ -79,7 +84,8 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]}))
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    []}))
 
 (defn update-user
   "Updated user
@@ -93,7 +99,8 @@
               :form-params   {}
               :body-param    body
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    []})))
 
 (defn delete-user
   "Delete user
@@ -105,4 +112,5 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]}))
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    []}))
