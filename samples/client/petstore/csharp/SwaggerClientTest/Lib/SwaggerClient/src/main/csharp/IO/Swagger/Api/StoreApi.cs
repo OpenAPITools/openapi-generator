@@ -21,7 +21,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>
         Dictionary<string, int?> GetInventory ();
   
         /// <summary>
@@ -30,7 +30,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
-        /// <returns>ApiResponse< Dictionary<string, int?> ></returns>
+        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
         ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
         System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
         
         /// <summary>
@@ -68,7 +68,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>ApiResponse< Order ></returns>
+        /// <returns>ApiResponse of Order</returns>
         ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of Order</returns>
         System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of ApiResponse (Order)</returns>
         System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null);
         
         /// <summary>
@@ -108,7 +108,7 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>ApiResponse< Order ></returns>
+        /// <returns>ApiResponse of Order</returns>
         ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of Order</returns>
         System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of ApiResponse (Order)</returns>
         System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId);
         
         /// <summary>
@@ -148,7 +148,7 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns>ApiResponse<Object></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId);
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task DeleteOrderAsync (string orderId);
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId);
         
     }
@@ -252,7 +252,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>
         public Dictionary<string, int?> GetInventory ()
         {
              ApiResponse<Dictionary<string, int?>> response = GetInventoryWithHttpInfo();
@@ -262,7 +262,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
         public ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
         {
             
@@ -322,7 +322,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
         {
              ApiResponse<Dictionary<string, int?>> response = await GetInventoryAsyncWithHttpInfo();
@@ -333,7 +333,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ()
         {
             
@@ -405,7 +405,7 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param> 
-        /// <returns>Order</returns>
+        /// <returns>ApiResponse of Order</returns>
         public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body = null)
         {
             
@@ -459,7 +459,7 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null)
         {
              ApiResponse<Order> response = await PlaceOrderAsyncWithHttpInfo(body);
@@ -471,7 +471,7 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null)
         {
             
@@ -536,7 +536,7 @@ namespace IO.Swagger.Api
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param> 
-        /// <returns>Order</returns>
+        /// <returns>ApiResponse of Order</returns>
         public ApiResponse< Order > GetOrderByIdWithHttpInfo (string orderId)
         {
             
@@ -593,7 +593,7 @@ namespace IO.Swagger.Api
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId)
         {
              ApiResponse<Order> response = await GetOrderByIdAsyncWithHttpInfo(orderId);
@@ -605,7 +605,7 @@ namespace IO.Swagger.Api
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId)
         {
             // verify the required parameter 'orderId' is set
@@ -671,7 +671,7 @@ namespace IO.Swagger.Api
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId)
         {
             
@@ -728,7 +728,7 @@ namespace IO.Swagger.Api
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeleteOrderAsync (string orderId)
         {
              await DeleteOrderAsyncWithHttpInfo(orderId);
@@ -739,7 +739,7 @@ namespace IO.Swagger.Api
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId)
         {
             // verify the required parameter 'orderId' is set
