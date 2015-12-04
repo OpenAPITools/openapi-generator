@@ -114,8 +114,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String toPackagePath(String packageName, String basePath) {
-        LOGGER.info("============================");
-        LOGGER.info("packageName = " + packageName);
         packageName = packageName.replace(invokerPackage, "");
         if (basePath != null && basePath.length() > 0) {
             basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar;
@@ -127,7 +125,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else { // for windows
             regFirstPathSeparator = "^\\\\";
         }
-        LOGGER.info("regFirstPathSeparator = " + regFirstPathSeparator);
 
         String regLastPathSeparator;
         if ("/".equals(File.separator)) { // for mac, linux
@@ -135,8 +132,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else { // for windows
             regLastPathSeparator = "\\\\$";
         }
-        LOGGER.info("regLastPathSeparator= " + regLastPathSeparator);
-        LOGGER.info("packageName = " + packageName);
 
         return (getPackagePath() + File.separatorChar + basePath
                     // Replace period, backslash, forward slash with file separator in package name
