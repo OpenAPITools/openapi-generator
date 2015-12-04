@@ -1,8 +1,12 @@
 ﻿<Properties StartupItem="SwaggerClientTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestConfiguration.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
     <Files>
-      <File FileName="TestConfiguration.cs" Line="60" Column="22" />
+      <File FileName="TestConfiguration.cs" Line="17" Column="33" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="523" Column="49" />
+      <File FileName="TestPet.cs" Line="87" Column="4" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Client/Configuration.cs" Line="1" Column="1" />
+      <File FileName="TestApiClient.cs" Line="22" Column="4" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">
@@ -10,9 +14,9 @@
           <Node name="SwaggerClientTest" expanded="True">
             <Node name="SwaggerClientTest" expanded="True">
               <Node name="SwaggerClient" expanded="True">
-                <Node name="TestConfiguration" expanded="True">
-                  <Node name="TestConfiguration" expanded="True">
-                    <Node name="TestUsage" selected="True" />
+                <Node name="TestPet" expanded="True">
+                  <Node name="TestPet" expanded="True">
+                    <Node name="TestGetPetByIdAsyncWithHttpInfo" selected="True" />
                   </Node>
                 </Node>
               </Node>

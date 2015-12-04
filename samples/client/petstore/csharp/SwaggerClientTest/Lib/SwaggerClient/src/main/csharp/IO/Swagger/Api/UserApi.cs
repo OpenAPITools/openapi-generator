@@ -32,7 +32,7 @@ namespace IO.Swagger.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <param name="body">Created user object</param>
-        /// <returns>ApiResponse<Object></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> CreateUserWithHttpInfo (User body = null);
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace IO.Swagger.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <param name="body">Created user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task CreateUserAsync (User body = null);
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace IO.Swagger.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <param name="body">Created user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserAsyncWithHttpInfo (User body = null);
         
         /// <summary>
@@ -72,7 +72,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">List of user object</param>
-        /// <returns>ApiResponse<Object></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> body = null);
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body = null);
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithArrayInputAsyncWithHttpInfo (List<User> body = null);
         
         /// <summary>
@@ -112,7 +112,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">List of user object</param>
-        /// <returns>ApiResponse<Object></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> body = null);
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body = null);
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithListInputAsyncWithHttpInfo (List<User> body = null);
         
         /// <summary>
@@ -154,7 +154,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
-        /// <returns>ApiResponse< string ></returns>
+        /// <returns>ApiResponse of string</returns>
         ApiResponse<string> LoginUserWithHttpInfo (string username = null, string password = null);
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
-        /// <returns>string</returns>
+        /// <returns>Task of string</returns>
         System.Threading.Tasks.Task<string> LoginUserAsync (string username = null, string password = null);
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
-        /// <returns>string</returns>
+        /// <returns>Task of ApiResponse (string)</returns>
         System.Threading.Tasks.Task<ApiResponse<string>> LoginUserAsyncWithHttpInfo (string username = null, string password = null);
         
         /// <summary>
@@ -194,7 +194,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <returns>ApiResponse<Object></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> LogoutUserWithHttpInfo ();
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task LogoutUserAsync ();
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> LogoutUserAsyncWithHttpInfo ();
         
         /// <summary>
@@ -232,7 +232,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>ApiResponse< User ></returns>
+        /// <returns>ApiResponse of User</returns>
         ApiResponse<User> GetUserByNameWithHttpInfo (string username);
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>User</returns>
+        /// <returns>Task of User</returns>
         System.Threading.Tasks.Task<User> GetUserByNameAsync (string username);
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>User</returns>
+        /// <returns>Task of ApiResponse (User)</returns>
         System.Threading.Tasks.Task<ApiResponse<User>> GetUserByNameAsyncWithHttpInfo (string username);
         
         /// <summary>
@@ -274,7 +274,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
-        /// <returns>ApiResponse<Object></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdateUserWithHttpInfo (string username, User body = null);
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task UpdateUserAsync (string username, User body = null);
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserAsyncWithHttpInfo (string username, User body = null);
         
         /// <summary>
@@ -316,7 +316,7 @@ namespace IO.Swagger.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <param name="username">The name that needs to be deleted</param>
-        /// <returns>ApiResponse<Object></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> DeleteUserWithHttpInfo (string username);
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace IO.Swagger.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <param name="username">The name that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task DeleteUserAsync (string username);
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace IO.Swagger.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <param name="username">The name that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeleteUserAsyncWithHttpInfo (string username);
         
     }
@@ -431,7 +431,7 @@ namespace IO.Swagger.Api
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param> 
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> CreateUserWithHttpInfo (User body = null)
         {
             
@@ -485,7 +485,7 @@ namespace IO.Swagger.Api
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task CreateUserAsync (User body = null)
         {
              await CreateUserAsyncWithHttpInfo(body);
@@ -496,7 +496,7 @@ namespace IO.Swagger.Api
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <param name="body">Created user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserAsyncWithHttpInfo (User body = null)
         {
             
@@ -560,7 +560,7 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param> 
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> body = null)
         {
             
@@ -614,7 +614,7 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body = null)
         {
              await CreateUsersWithArrayInputAsyncWithHttpInfo(body);
@@ -625,7 +625,7 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithArrayInputAsyncWithHttpInfo (List<User> body = null)
         {
             
@@ -689,7 +689,7 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param> 
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> body = null)
         {
             
@@ -743,7 +743,7 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body = null)
         {
              await CreateUsersWithListInputAsyncWithHttpInfo(body);
@@ -754,7 +754,7 @@ namespace IO.Swagger.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <param name="body">List of user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithListInputAsyncWithHttpInfo (List<User> body = null)
         {
             
@@ -821,7 +821,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">The user name for login</param> 
         /// <param name="password">The password for login in clear text</param> 
-        /// <returns>string</returns>
+        /// <returns>ApiResponse of string</returns>
         public ApiResponse< string > LoginUserWithHttpInfo (string username = null, string password = null)
         {
             
@@ -877,7 +877,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
-        /// <returns>string</returns>
+        /// <returns>Task of string</returns>
         public async System.Threading.Tasks.Task<string> LoginUserAsync (string username = null, string password = null)
         {
              ApiResponse<string> response = await LoginUserAsyncWithHttpInfo(username, password);
@@ -890,7 +890,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
-        /// <returns>string</returns>
+        /// <returns>Task of ApiResponse (string)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<string>> LoginUserAsyncWithHttpInfo (string username = null, string password = null)
         {
             
@@ -953,7 +953,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> LogoutUserWithHttpInfo ()
         {
             
@@ -1005,7 +1005,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task LogoutUserAsync ()
         {
              await LogoutUserAsyncWithHttpInfo();
@@ -1015,7 +1015,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> LogoutUserAsyncWithHttpInfo ()
         {
             
@@ -1079,7 +1079,7 @@ namespace IO.Swagger.Api
         /// Get user by user name 
         /// </summary>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param> 
-        /// <returns>User</returns>
+        /// <returns>ApiResponse of User</returns>
         public ApiResponse< User > GetUserByNameWithHttpInfo (string username)
         {
             
@@ -1136,7 +1136,7 @@ namespace IO.Swagger.Api
         /// Get user by user name 
         /// </summary>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>User</returns>
+        /// <returns>Task of User</returns>
         public async System.Threading.Tasks.Task<User> GetUserByNameAsync (string username)
         {
              ApiResponse<User> response = await GetUserByNameAsyncWithHttpInfo(username);
@@ -1148,7 +1148,7 @@ namespace IO.Swagger.Api
         /// Get user by user name 
         /// </summary>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <returns>User</returns>
+        /// <returns>Task of ApiResponse (User)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<User>> GetUserByNameAsyncWithHttpInfo (string username)
         {
             // verify the required parameter 'username' is set
@@ -1216,7 +1216,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">name that need to be deleted</param> 
         /// <param name="body">Updated user object</param> 
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UpdateUserWithHttpInfo (string username, User body = null)
         {
             
@@ -1275,7 +1275,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task UpdateUserAsync (string username, User body = null)
         {
              await UpdateUserAsyncWithHttpInfo(username, body);
@@ -1287,7 +1287,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <param name="username">name that need to be deleted</param>
         /// <param name="body">Updated user object</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserAsyncWithHttpInfo (string username, User body = null)
         {
             // verify the required parameter 'username' is set
@@ -1354,7 +1354,7 @@ namespace IO.Swagger.Api
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param> 
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> DeleteUserWithHttpInfo (string username)
         {
             
@@ -1411,7 +1411,7 @@ namespace IO.Swagger.Api
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeleteUserAsync (string username)
         {
              await DeleteUserAsyncWithHttpInfo(username);
@@ -1422,7 +1422,7 @@ namespace IO.Swagger.Api
         /// Delete user This can only be done by the logged in user.
         /// </summary>
         /// <param name="username">The name that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> DeleteUserAsyncWithHttpInfo (string username)
         {
             // verify the required parameter 'username' is set
