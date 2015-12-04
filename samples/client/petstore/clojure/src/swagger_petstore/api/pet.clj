@@ -1,5 +1,5 @@
 (ns swagger-petstore.api.pet
-  (:require [swagger-petstore.core :refer [call-api check-required-params]])
+  (:require [swagger-petstore.core :refer [call-api check-required-params with-collection-format]])
   (:import (java.io File)))
 
 (defn update-pet
@@ -14,7 +14,8 @@
               :form-params   {}
               :body-param    body
               :content-types ["application/json" "application/xml"]
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
 
 (defn add-pet
   "Add a new pet to the store
@@ -28,7 +29,8 @@
               :form-params   {}
               :body-param    body
               :content-types ["application/json" "application/xml"]
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
 
 (defn find-pets-by-status
   "Finds Pets by status
@@ -38,10 +40,11 @@
    (call-api "/pet/findByStatus" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"status" status }
+              :query-params  {"status" (with-collection-format status :multi) }
               :form-params   {}
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
 
 (defn find-pets-by-tags
   "Finds Pets by tags
@@ -51,10 +54,11 @@
    (call-api "/pet/findByTags" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"tags" tags }
+              :query-params  {"tags" (with-collection-format tags :multi) }
               :form-params   {}
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
 
 (defn get-pet-by-id
   "Find pet by ID
@@ -66,7 +70,8 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json" "application/xml"]}))
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    ["api_key"]}))
 
 (defn update-pet-with-form
   "Updates a pet in the store with form data
@@ -79,7 +84,8 @@
               :query-params  {}
               :form-params   {"name" name "status" status }
               :content-types ["application/x-www-form-urlencoded"]
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
 
 (defn delete-pet
   "Deletes a pet
@@ -92,7 +98,8 @@
               :query-params  {}
               :form-params   {}
               :content-types []
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
 
 (defn upload-file
   "uploads an image
@@ -105,4 +112,5 @@
               :query-params  {}
               :form-params   {"additionalMetadata" additional-metadata "file" file }
               :content-types ["multipart/form-data"]
-              :accepts       ["application/json" "application/xml"]})))
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
