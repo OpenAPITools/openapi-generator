@@ -5,16 +5,22 @@
  * {{description}}
  **/{{/description}}
 function {{classname}}() { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
-  var self = this;
-  {{#vars}}
-  /**{{#description}}
-   * {{{description}}}{{/description}}
-   * datatype: {{{datatypeWithEnum}}}{{#minimum}}
-   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-   * maximum: {{maximum}}{{/maximum}}
-   **/
-   self.{{name}} = {{{defaultValue}}};
-  {{/vars}}
+  	var self = this;
+  	{{#vars}}
+  	/**{{#description}}
+	  * {{{description}}}{{/description}}
+	  * datatype: {{{datatypeWithEnum}}}{{#minimum}}
+	  * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+	  * maximum: {{maximum}}{{/maximum}}
+	  **/
+	  self.{{name}} = {{{defaultValue}}};
+	 {{/vars}}
+  
+  	self.constructFromObject = function(data) {
+	  	{{#vars}}
+	  	self.{{name}} = {{{defaultValueWithParam}}}
+	  	{{/vars}}
+	}
   
   {{#vars}}
   /**{{#description}}

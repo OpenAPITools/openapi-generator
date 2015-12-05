@@ -25,7 +25,7 @@ function {{classname}}() {
      }
      {{/required}}{{/allParams}}
     // create path and map variables
-	var {{localVariablePrefix}}path = '{{basePath}}' + self.replaceAll(self.replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
+	var {{localVariablePrefix}}path = '{{basePath}}' + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
 , "\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}});
 
     var queryParams = {};
@@ -42,7 +42,7 @@ function {{classname}}() {
       {{localVariablePrefix}}formParams.put("{{baseName}}", {{paramName}});
     {{/formParams}}
 
-	path += self.createQueryString(queryParams);
+	path += createQueryString(queryParams);
 
 	if (console) {
 		console.log('path: ' + path);
@@ -71,7 +71,10 @@ function {{classname}}() {
 		/**
 		  * @returns {{{returnType}}}
 		  */
-		var myResponse = response;
+		{{#returnTypeIsPrimitive}} var myResponse = response;{{/returnTypeIsPrimitive}}
+		{{^returnTypeIsPrimitive}} var myResponse = new  {{{returnType}}}();
+		myResponse.constructFromObject(response);{{/returnTypeIsPrimitive}}
+		
     	callback(myResponse, textStatus, jqXHR);
 	});
     
@@ -86,28 +89,28 @@ function {{classname}}() {
 
 {{/operations}}
 
-self.replaceAll = function (haystack, needle, replace) {
-	var result= haystack;
-	if (needle !=null && replace!=null) {
-		result= haystack.replace(new RegExp(needle, 'g'), replace);
+ 	function replaceAll (haystack, needle, replace) {
+		var result= haystack;
+		if (needle !=null && replace!=null) {
+			result= haystack.replace(new RegExp(needle, 'g'), replace);
+		}
+		return result;
 	}
-	return result;
-}
 
-self.createQueryString = function (queryParams) {
-	var queryString ='';
-	var i = 0;
-	for (var queryParamName in queryParams) {
-		if (i==0) {
-			queryString += '?' ;
-		} else {
-			queryString += '&' ;
+ 	function createQueryString (queryParams) {
+		var queryString ='';
+		var i = 0;
+		for (var queryParamName in queryParams) {
+			if (i==0) {
+				queryString += '?' ;
+			} else {
+				queryString += '&' ;
+			}
+			
+			queryString +=  queryParamName + '=' + encodeURIComponent(queryParams[queryParamName]);
+			i++;
 		}
 		
-		queryString +=  queryParamName + '=' + encodeURIComponent(queryParams[queryParamName]);
-		i++;
+		return queryString;
 	}
-	
-	return queryString;
-}
 }
