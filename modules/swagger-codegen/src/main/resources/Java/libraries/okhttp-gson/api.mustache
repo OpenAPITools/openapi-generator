@@ -3,6 +3,7 @@ package {{package}};
 import {{invokerPackage}}.ApiCallback;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.ApiResponse;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 import {{invokerPackage}}.ProgressRequestBody;
@@ -106,9 +107,20 @@ public class {{classname}} {
    * @return {{{returnType}}}{{/returnType}}
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    {{#returnType}}ApiResponse<{{{returnType}}}> {{localVariablePrefix}}resp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    return {{localVariablePrefix}}resp.getData();{{/returnType}}
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}{{#allParams}}
+   * @param {{paramName}} {{description}}{{/allParams}}
+   * @return ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
+   */
+  public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Call {{localVariablePrefix}}call = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}null, null);
     {{#returnType}}Type {{localVariablePrefix}}returnType = new TypeToken<{{{returnType}}}>(){}.getType();
-    return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call, {{localVariablePrefix}}returnType);{{/returnType}}{{^returnType}}{{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call);{{/returnType}}
+    return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call, {{localVariablePrefix}}returnType);{{/returnType}}{{^returnType}}return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call);{{/returnType}}
   }
 
   /**
