@@ -77,6 +77,38 @@ namespace SwaggerClient.TestPet
 		}
 
 		/// <summary>
+		/// Test GetPetByIdAsyncWithHttpInfo
+		/// </summary>
+		[Test ()]
+		public void TestGetPetByIdAsyncWithHttpInfo ()
+		{
+			PetApi petApi = new PetApi ();
+			var task = petApi.GetPetByIdAsyncWithHttpInfo (petId);
+
+			Assert.AreEqual (200, task.Result.StatusCode);
+			Assert.IsTrue (task.Result.Headers.ContainsKey("Content-Type"));
+			Assert.AreEqual (task.Result.Headers["Content-Type"], "application/json");
+
+			Pet response = task.Result.Data;
+			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
+
+			Assert.AreEqual ("Csharp test", response.Name);
+			Assert.AreEqual ("available", response.Status);
+
+			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.AreEqual (petId, response.Tags [0].Id);
+			Assert.AreEqual ("sample tag name1", response.Tags [0].Name);
+
+			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
+			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
+
+			Assert.IsInstanceOf<Category> (response.Category, "Response.Category is a Category");
+			Assert.AreEqual (56, response.Category.Id);
+			Assert.AreEqual ("sample category name2", response.Category.Name);
+
+		}
+
+		/// <summary>
 		/// Test GetPetById
 		/// </summary>
 		[Test ()]
@@ -229,6 +261,32 @@ namespace SwaggerClient.TestPet
 
 		}
 
+		/// <summary>
+		/// Test status code
+		/// </summary>
+		[Test ()]
+		public void TestStatusCodeAndHeader ()
+		{
+			PetApi petApi = new PetApi ();
+			var response = petApi.GetPetByIdWithHttpInfo (petId);
+			Assert.AreEqual (response.StatusCode, 200);
+			Assert.IsTrue (response.Headers.ContainsKey("Content-Type"));
+			Assert.AreEqual (response.Headers["Content-Type"], "application/json");
+		}
+
+		/// <summary>
+		/// Test default header (should be deprecated
+		/// </summary>
+		[Test ()]
+		public void TestDefaultHeader ()
+		{
+			PetApi petApi = new PetApi ();
+			// there should be a warning for using AddDefaultHeader (deprecated) below
+			petApi.AddDefaultHeader ("header_key", "header_value");
+			// the following should be used instead as suggested in the doc
+			petApi.Configuration.AddDefaultHeader ("header_key2", "header_value2");
+
+		}
 	}
 }
 
