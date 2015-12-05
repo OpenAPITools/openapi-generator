@@ -104,9 +104,6 @@ public class ApiClient {
 
   private Map<String, Authentication> authentications;
 
-  private int statusCode;
-  private Map<String, List<String>> responseHeaders;
-
   private DateFormat dateFormat;
   private DateFormat datetimeFormat;
   private boolean lenientDatetimeFormat;
@@ -143,8 +140,8 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -174,24 +171,6 @@ public class ApiClient {
   public ApiClient setJSON(JSON json) {
     this.json = json;
     return this;
-  }
-
-  /**
-   * Gets the status code of the previous request.
-   * NOTE: Status code of last async response is not recorded here, it is
-   * passed to the callback methods instead.
-   */
-  public int getStatusCode() {
-    return statusCode;
-  }
-
-  /**
-   * Gets the response headers of the previous request.
-   * NOTE: Headers of last async response is not recorded here, it is passed
-   * to callback methods instead.
-   */
-  public Map<String, List<String>> getResponseHeaders() {
-    return responseHeaders;
   }
 
   public boolean isVerifyingSsl() {
@@ -730,7 +709,7 @@ public class ApiClient {
   /**
    * @see #execute(Call, Type)
    */
-  public <T> T execute(Call call) throws ApiException {
+  public <T> ApiResponse<T> execute(Call call) throws ApiException {
     return execute(call, null);
   }
 
@@ -739,14 +718,15 @@ public class ApiClient {
    *
    * @param returnType The return type used to deserialize HTTP response body
    * @param <T> The return type corresponding to (same with) returnType
-   * @return The Java object deserialized from response body. Returns null if returnType is null.
+   * @return <code>ApiResponse</code> object containing response status, headers and
+   *   data, which is a Java object deserialized from response body and would be null
+   *   when returnType is null.
    */
-  public <T> T execute(Call call, Type returnType) throws ApiException {
+  public <T> ApiResponse<T> execute(Call call, Type returnType) throws ApiException {
     try {
       Response response = call.execute();
-      this.statusCode = response.code();
-      this.responseHeaders = response.headers().toMultimap();
-      return handleResponse(response, returnType);
+      T data = handleResponse(response, returnType);
+      return new ApiResponse<T>(response.code(), response.headers().toMultimap(), data);
     } catch (IOException e) {
       throw new ApiException(e);
     }
