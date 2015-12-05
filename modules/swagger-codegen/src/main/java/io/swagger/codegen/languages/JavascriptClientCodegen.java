@@ -76,7 +76,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         "Object",
                         "byte[]")
         );
-        instantiationTypes.put("array", "ArrayList");
+        instantiationTypes.put("array", "Array");
         instantiationTypes.put("map", "HashMap");
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
@@ -171,10 +171,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         additionalProperties.put("fullJavaUtil", fullJavaUtil);
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
-
-        if (fullJavaUtil) {
-            typeMapping.put("array", "java.util.List");
-            typeMapping.put("map", "java.util.Map");
+*/
+        //if (fullJavaUtil) {
+            typeMapping.put("array", "Array");
+            /*typeMapping.put("map", "java.util.Map");
             typeMapping.put("DateTime", "java.util.Date");
             typeMapping.remove("List");
             importMapping.remove("Date");
@@ -186,9 +186,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             importMapping.remove("Set");
             importMapping.remove("DateTime");
             instantiationTypes.put("array", "java.util.ArrayList");
-            instantiationTypes.put("map", "java.util.HashMap");
-        }
-
+            instantiationTypes.put("map", "java.util.HashMap");*/
+            //}
+        /*
         this.sanitizeConfig();
 
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
@@ -319,7 +319,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
+            return getSwaggerType(p); // TODO: + "/* <" + getTypeDeclaration(inner) + "> */";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
@@ -369,6 +369,46 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         
         return super.toDefaultValue(p);
     }
+    
+
+    @Override
+    public String toDefaultValueWithParam(String name, Property p) {
+        if (p instanceof ArrayProperty) {
+            final ArrayProperty ap = (ArrayProperty) p;
+            final String pattern;
+            if (fullJavaUtil) {
+                pattern = "new java.util.ArrayList<%s>()";
+            } else {
+                pattern = "new ArrayList<%s>()" ;
+            }
+            return String.format(pattern, getTypeDeclaration(ap.getItems()))+ ";";
+        } else if (p instanceof MapProperty) {
+            final MapProperty ap = (MapProperty) p;
+            final String pattern;
+            if (fullJavaUtil) {
+                pattern = "new java.util.HashMap<String, %s>()";
+            } else {
+                pattern = "new HashMap<String, %s>()";
+            }
+            return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()))+ ";";
+            
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            return "data." + name + ";";
+           
+           // added for Javascript
+        } else if (p instanceof RefProperty) {
+        	RefProperty rp = (RefProperty)p;
+        	System.out.println("rp: " + rp.getName() + rp.getAccess() + rp.getDescription() + rp.getExample() + rp.getFormat() + rp.getSimpleRef() + rp.getTitle() + rp.getType());
+        	
+        	return "new " +rp.getSimpleRef()  + "(data." + name + ");"; 
+        }
+        
+        System.out.println("property: " + p);
+        
+        return super.toDefaultValueWithParam(name, p);
+    }
+
 
     @Override
     public String getSwaggerType(Property p) {
