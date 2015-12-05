@@ -588,39 +588,39 @@ public class DefaultCodegen {
      */
     public String toDefaultValueWithParam(String name, Property p) {
         if (p instanceof StringProperty) {
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else if (p instanceof BooleanProperty) {
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else if (p instanceof DateProperty) {
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else if (p instanceof DateTimeProperty) {
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else if (p instanceof DoubleProperty) {
             DoubleProperty dp = (DoubleProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else if (p instanceof FloatProperty) {
             FloatProperty dp = (FloatProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else if (p instanceof IntegerProperty) {
             IntegerProperty dp = (IntegerProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else if (p instanceof LongProperty) {
             LongProperty dp = (LongProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-            return "data." + name + ";";
+            return " = data." + name + ";";
         } else {
-            return "data." + name + ";";
+            return " = data." + name + ";";
         }
     }
 
