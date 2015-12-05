@@ -26,7 +26,7 @@ function {{classname}}() {
      {{/required}}{{/allParams}}
     // create path and map variables
 	var {{localVariablePrefix}}path = '{{basePath}}' + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
-, "\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}});
+, "\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString()){{/pathParams}});
 
     var queryParams = {};
     var headerParams =  {};

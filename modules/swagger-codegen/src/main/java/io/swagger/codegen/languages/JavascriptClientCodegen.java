@@ -334,11 +334,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (p instanceof ArrayProperty) {
             final ArrayProperty ap = (ArrayProperty) p;
             final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.ArrayList<%s>()";
-            } else {
-                pattern = "new ArrayList<%s>()";
-            }
+            //if (fullJavaUtil) {
+            //    pattern = "new ArrayList()";
+            //} else {
+            //    pattern = "new ArrayList<%s>()";
+            //}
+            
+            pattern = "new Array()";
             return String.format(pattern, getTypeDeclaration(ap.getItems()));
         } else if (p instanceof MapProperty) {
             final MapProperty ap = (MapProperty) p;
@@ -376,17 +378,19 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (p instanceof ArrayProperty) {
             final ArrayProperty ap = (ArrayProperty) p;
             final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.ArrayList<%s>()";
-            } else {
-                pattern = "new ArrayList<%s>()" ;
-            }
+//            if (fullJavaUtil) {
+//                pattern = "new java.util.ArrayList<%s>()";
+//            } else {
+//                pattern = "new ArrayList<%s>()" ;
+//            }
+            pattern = " = new Array()" ;
+            
             return String.format(pattern, getTypeDeclaration(ap.getItems()))+ ";";
         } else if (p instanceof MapProperty) {
             final MapProperty ap = (MapProperty) p;
             final String pattern;
             if (fullJavaUtil) {
-                pattern = "new java.util.HashMap<String, %s>()";
+                pattern = " = new java.util.HashMap<String, %s>()";
             } else {
                 pattern = "new HashMap<String, %s>()";
             }
@@ -394,14 +398,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             
         } else if (p instanceof LongProperty) {
             LongProperty dp = (LongProperty) p;
-            return "data." + name + ";";
+            return " = data." + name + ";";
            
            // added for Javascript
         } else if (p instanceof RefProperty) {
         	RefProperty rp = (RefProperty)p;
         	System.out.println("rp: " + rp.getName() + rp.getAccess() + rp.getDescription() + rp.getExample() + rp.getFormat() + rp.getSimpleRef() + rp.getTitle() + rp.getType());
         	
-        	return "new " +rp.getSimpleRef()  + "(data." + name + ");"; 
+        	return ".constructFromObject(data." + name + ");"; 
         }
         
         System.out.println("property: " + p);
