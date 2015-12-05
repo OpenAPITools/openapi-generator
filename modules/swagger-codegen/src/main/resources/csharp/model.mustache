@@ -83,7 +83,7 @@ namespace {{packageName}}.Model
                     this.{{name}} == other.{{name}} ||
                     this.{{name}} != null &&
                     this.{{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}};
+                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
         /// <summary>

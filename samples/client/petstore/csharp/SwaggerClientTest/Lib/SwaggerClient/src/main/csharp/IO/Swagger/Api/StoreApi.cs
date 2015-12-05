@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using RestSharp;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
@@ -20,7 +21,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>
         Dictionary<string, int?> GetInventory ();
   
         /// <summary>
@@ -29,8 +30,26 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
-        /// <returns></returns>
+        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
+        ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
+
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
         System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
+
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
         
         /// <summary>
         /// Place an order for a pet
@@ -49,8 +68,28 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
+        /// <returns>ApiResponse of Order</returns>
+        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
+
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">order placed for purchasing the pet</param>
+        /// <returns>Task of Order</returns>
         System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
+
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">order placed for purchasing the pet</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null);
         
         /// <summary>
         /// Find purchase order by ID
@@ -69,8 +108,28 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
+        /// <returns>ApiResponse of Order</returns>
+        ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
+
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of Order</returns>
         System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
+
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId);
         
         /// <summary>
         /// Delete purchase order by ID
@@ -89,8 +148,28 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId);
+
+        /// <summary>
+        /// Delete purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </remarks>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns>Task of void</returns>
         System.Threading.Tasks.Task DeleteOrderAsync (string orderId);
+
+        /// <summary>
+        /// Delete purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </remarks>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId);
         
     }
   
@@ -102,56 +181,89 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
-        /// <param name="apiClient"> an instance of ApiClient (optional)</param>
-        /// <returns></returns>
-        public StoreApi(ApiClient apiClient = null)
-        {
-            if (apiClient == null) // use the default one in Configuration
-                this.ApiClient = Configuration.DefaultApiClient; 
-            else
-                this.ApiClient = apiClient;
-        }
-    
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StoreApi"/> class.
-        /// </summary>
         /// <returns></returns>
         public StoreApi(String basePath)
         {
-            this.ApiClient = new ApiClient(basePath);
+            this.Configuration = new Configuration(new ApiClient(basePath));
         }
     
         /// <summary>
-        /// Sets the base path of the API client.
+        /// Initializes a new instance of the <see cref="StoreApi"/> class
+        /// using Configuration object
         /// </summary>
-        /// <param name="basePath">The base path</param>
-        /// <value>The base path</value>
-        public void SetBasePath(String basePath)
+        /// <param name="configuration">An instance of Configuration</param>
+        /// <returns></returns>
+        public StoreApi(Configuration configuration = null)
         {
-            this.ApiClient.BasePath = basePath;
+            if (configuration == null) // use the default one in Configuration
+                this.Configuration = Configuration.Default; 
+            else
+                this.Configuration = configuration;
         }
-    
+
         /// <summary>
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
         public String GetBasePath()
         {
-            return this.ApiClient.BasePath;
+            return this.Configuration.ApiClient.RestClient.BaseUrl.ToString();
+        }
+
+        /// <summary>
+        /// Sets the base path of the API client.
+        /// </summary>
+        /// <value>The base path</value>
+        [Obsolete("SetBasePath is deprecated, please do 'Configuraiton.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+        public void SetBasePath(String basePath)
+        {
+            // do nothing
         }
     
         /// <summary>
-        /// Gets or sets the API client.
+        /// Gets or sets the configuration object
         /// </summary>
-        /// <value>An instance of the ApiClient</value>
-        public ApiClient ApiClient {get; set;}
-    
+        /// <value>An instance of the Configuration</value>
+        public Configuration Configuration {get; set;}
+
+        /// <summary>
+        /// Gets the default header.
+        /// </summary>
+        /// <returns>Dictionary of HTTP header</returns>
+        [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
+        public Dictionary<String, String> DefaultHeader()
+        {
+            return this.Configuration.DefaultHeader;
+        }
+
+        /// <summary>
+        /// Add default header.
+        /// </summary>
+        /// <param name="key">Header field name.</param>
+        /// <param name="value">Header field value.</param>
+        /// <returns></returns>
+        [Obsolete("AddDefaultHeader is deprecated, please use Configuration.AddDefaultHeader instead.")]
+        public void AddDefaultHeader(string key, string value)
+        {
+            this.Configuration.AddDefaultHeader(key, value);
+        }
+   
         
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns></returns>            
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>
         public Dictionary<string, int?> GetInventory ()
+        {
+             ApiResponse<Dictionary<string, int?>> response = GetInventoryWithHttpInfo();
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
+        public ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
         {
             
     
@@ -159,7 +271,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
@@ -168,9 +280,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -180,26 +292,49 @@ namespace IO.Swagger.Api
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "api_key" };
+
+            
+            // authentication (api_key) required
+            
+            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
+            if (!String.IsNullOrEmpty(apiKeyValue))
+            {
+                headerParams["api_key"] = apiKeyValue;
+            }
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Dictionary<string, int?>) ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
+            return new ApiResponse<Dictionary<string, int?>>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>)));
+            
         }
     
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
+        {
+             ApiResponse<Dictionary<string, int?>> response = await GetInventoryAsyncWithHttpInfo();
+             return response.Data;
+
+        }
+
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ()
         {
             
     
@@ -216,9 +351,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -228,24 +363,50 @@ namespace IO.Swagger.Api
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] { "api_key" };
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.Content, response.Content);
 
-            return (Dictionary<string, int?>) ApiClient.Deserialize(response, typeof(Dictionary<string, int?>));
+            
+            // authentication (api_key) required
+            
+            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
+            if (!String.IsNullOrEmpty(apiKeyValue))
+            {
+                headerParams["api_key"] = apiKeyValue;
+            }
+            
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
+ 
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
+
+            return new ApiResponse<Dictionary<string, int?>>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>)));
+            
         }
         
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param> 
-        /// <returns>Order</returns>            
+        /// <returns>Order</returns>
         public Order PlaceOrder (Order body = null)
+        {
+             ApiResponse<Order> response = PlaceOrderWithHttpInfo(body);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <param name="body">order placed for purchasing the pet</param> 
+        /// <returns>ApiResponse of Order</returns>
+        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body = null)
         {
             
     
@@ -253,7 +414,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
@@ -262,9 +423,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -273,29 +434,45 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            
+
             
     
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            return new ApiResponse<Order>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
+            
         }
     
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
         /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null)
+        {
+             ApiResponse<Order> response = await PlaceOrderAsyncWithHttpInfo(body);
+             return response.Data;
+
+        }
+
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <param name="body">order placed for purchasing the pet</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null)
         {
             
     
@@ -312,9 +489,9 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
@@ -323,26 +500,44 @@ namespace IO.Swagger.Api
             
             
             
-            postBody = ApiClient.Serialize(body); // http body (model) parameter
+            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
 
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
+ 
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
+
+            return new ApiResponse<Order>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
+            
         }
         
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param> 
-        /// <returns>Order</returns>            
+        /// <returns>Order</returns>
         public Order GetOrderById (string orderId)
+        {
+             ApiResponse<Order> response = GetOrderByIdWithHttpInfo(orderId);
+             return response.Data;
+        }
+
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <param name="orderId">ID of pet that needs to be fetched</param> 
+        /// <returns>ApiResponse of Order</returns>
+        public ApiResponse< Order > GetOrderByIdWithHttpInfo (string orderId)
         {
             
             // verify the required parameter 'orderId' is set
@@ -353,7 +548,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
@@ -362,40 +557,56 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
+
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            return new ApiResponse<Order>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
+            
         }
     
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
+        /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId)
+        {
+             ApiResponse<Order> response = await GetOrderByIdAsyncWithHttpInfo(orderId);
+             return response.Data;
+
+        }
+
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
@@ -414,37 +625,54 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling GetOrderById: " + response.Content, response.Content);
 
-            return (Order) ApiClient.Deserialize(response, typeof(Order));
+            
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
+ 
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
+
+            return new ApiResponse<Order>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
+            
         }
         
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
-        /// <returns></returns>            
+        /// <returns></returns>
         public void DeleteOrder (string orderId)
+        {
+             DeleteOrderWithHttpInfo(orderId);
+        }
+
+        /// <summary>
+        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </summary>
+        /// <param name="orderId">ID of the order that needs to be deleted</param> 
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId)
         {
             
             // verify the required parameter 'orderId' is set
@@ -455,7 +683,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
@@ -464,40 +692,55 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
+
+            
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
     
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
-            else if (((int)response.StatusCode) == 0)
-                throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
     
-            return;
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
     
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
+        /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeleteOrderAsync (string orderId)
+        {
+             await DeleteOrderAsyncWithHttpInfo(orderId);
+
+        }
+
+        /// <summary>
+        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </summary>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
@@ -516,30 +759,36 @@ namespace IO.Swagger.Api
             String[] http_header_accepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = ApiClient.SelectHeaderAccept(http_header_accepts);
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
             if (http_header_accept != null)
-                headerParams.Add("Accept", ApiClient.SelectHeaderAccept(http_header_accepts));
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
             
             
-    
-            // authentication setting, if any
-            String[] authSettings = new String[] {  };
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) await ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
-            if (((int)response.StatusCode) >= 400)
-                throw new ApiException ((int)response.StatusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
 
             
-            return;
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
+ 
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
+
+            
+            return new ApiResponse<Object>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
         
     }
