@@ -104,8 +104,10 @@ class ApiKeyAuth implements Authentication {
 }
 
 class OAuth implements Authentication {
+    public accessToken: string;
+
     applyToRequest(requestOptions: request.Options): void {
-        // TODO: support oauth
+        requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
     }
 }
 
@@ -129,8 +131,8 @@ export class UserApi {
         'petstore_auth': new OAuth(),
     }
 
-    constructor(url: string, basePath?: string);
-    constructor(private url: string, basePathOrUsername: string, password?: string, basePath?: string) {
+    constructor(basePath?: string);
+    constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
             if (basePath) {
                 this.basePath = basePath;
@@ -144,6 +146,10 @@ export class UserApi {
 
     set apiKey(key: string) {
         this.authentications.api_key.apiKey = key;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
     }
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
@@ -159,7 +165,7 @@ export class UserApi {
      * @param body Created user object
      */
     public createUser (body?: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/user';
+        const path = this.basePath + '/user';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -208,7 +214,7 @@ export class UserApi {
      * @param body List of user object
      */
     public createUsersWithArrayInput (body?: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/user/createWithArray';
+        const path = this.basePath + '/user/createWithArray';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -257,7 +263,7 @@ export class UserApi {
      * @param body List of user object
      */
     public createUsersWithListInput (body?: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/user/createWithList';
+        const path = this.basePath + '/user/createWithList';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -307,7 +313,7 @@ export class UserApi {
      * @param password The password for login in clear text
      */
     public loginUser (username?: string, password?: string) : Promise<{ response: http.ClientResponse; body: string;  }> {
-        const path = this.url + this.basePath + '/user/login';
+        const path = this.basePath + '/user/login';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -362,7 +368,7 @@ export class UserApi {
      * 
      */
     public logoutUser () : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/user/logout';
+        const path = this.basePath + '/user/logout';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -410,7 +416,7 @@ export class UserApi {
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByName (username: string) : Promise<{ response: http.ClientResponse; body: User;  }> {
-        const path = this.url + this.basePath + '/user/{username}'
+        const path = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -465,7 +471,7 @@ export class UserApi {
      * @param body Updated user object
      */
     public updateUser (username: string, body?: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/user/{username}'
+        const path = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -520,7 +526,7 @@ export class UserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUser (username: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/user/{username}'
+        const path = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -581,8 +587,8 @@ export class PetApi {
         'petstore_auth': new OAuth(),
     }
 
-    constructor(url: string, basePath?: string);
-    constructor(private url: string, basePathOrUsername: string, password?: string, basePath?: string) {
+    constructor(basePath?: string);
+    constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
             if (basePath) {
                 this.basePath = basePath;
@@ -596,6 +602,10 @@ export class PetApi {
 
     set apiKey(key: string) {
         this.authentications.api_key.apiKey = key;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
     }
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
@@ -611,7 +621,7 @@ export class PetApi {
      * @param body Pet object that needs to be added to the store
      */
     public updatePet (body?: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/pet';
+        const path = this.basePath + '/pet';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -662,7 +672,7 @@ export class PetApi {
      * @param body Pet object that needs to be added to the store
      */
     public addPet (body?: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/pet';
+        const path = this.basePath + '/pet';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -713,7 +723,7 @@ export class PetApi {
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus (status?: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
-        const path = this.url + this.basePath + '/pet/findByStatus';
+        const path = this.basePath + '/pet/findByStatus';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -767,7 +777,7 @@ export class PetApi {
      * @param tags Tags to filter by
      */
     public findPetsByTags (tags?: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
-        const path = this.url + this.basePath + '/pet/findByTags';
+        const path = this.basePath + '/pet/findByTags';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -821,7 +831,7 @@ export class PetApi {
      * @param petId ID of pet that needs to be fetched
      */
     public getPetById (petId: number) : Promise<{ response: http.ClientResponse; body: Pet;  }> {
-        const path = this.url + this.basePath + '/pet/{petId}'
+        const path = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -879,7 +889,7 @@ export class PetApi {
      * @param status Updated status of the pet
      */
     public updatePetWithForm (petId: string, name?: string, status?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/pet/{petId}'
+        const path = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -944,7 +954,7 @@ export class PetApi {
      * @param apiKey 
      */
     public deletePet (petId: number, apiKey?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/pet/{petId}'
+        const path = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -1004,7 +1014,7 @@ export class PetApi {
      * @param file file to upload
      */
     public uploadFile (petId: number, additionalMetadata?: string, file?: any) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/pet/{petId}/uploadImage'
+        const path = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -1076,8 +1086,8 @@ export class StoreApi {
         'petstore_auth': new OAuth(),
     }
 
-    constructor(url: string, basePath?: string);
-    constructor(private url: string, basePathOrUsername: string, password?: string, basePath?: string) {
+    constructor(basePath?: string);
+    constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
             if (basePath) {
                 this.basePath = basePath;
@@ -1092,6 +1102,10 @@ export class StoreApi {
     set apiKey(key: string) {
         this.authentications.api_key.apiKey = key;
     }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
+    }
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
@@ -1105,7 +1119,7 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      */
     public getInventory () : Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }> {
-        const path = this.url + this.basePath + '/store/inventory';
+        const path = this.basePath + '/store/inventory';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -1155,7 +1169,7 @@ export class StoreApi {
      * @param body order placed for purchasing the pet
      */
     public placeOrder (body?: Order) : Promise<{ response: http.ClientResponse; body: Order;  }> {
-        const path = this.url + this.basePath + '/store/order';
+        const path = this.basePath + '/store/order';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -1204,7 +1218,7 @@ export class StoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById (orderId: string) : Promise<{ response: http.ClientResponse; body: Order;  }> {
-        const path = this.url + this.basePath + '/store/order/{orderId}'
+        const path = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -1258,7 +1272,7 @@ export class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder (orderId: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const path = this.url + this.basePath + '/store/order/{orderId}'
+        const path = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);

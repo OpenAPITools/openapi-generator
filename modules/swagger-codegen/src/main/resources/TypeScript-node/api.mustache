@@ -73,8 +73,10 @@ class ApiKeyAuth implements Authentication {
 }
 
 class OAuth implements Authentication {
+    public accessToken: string;
+
     applyToRequest(requestOptions: request.Options): void {
-        // TODO: support oauth
+        requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
     }
 }
 
@@ -115,13 +117,13 @@ export class {{classname}} {
 {{/authMethods}}
     }
 
-    constructor(url: string, basePath?: string);
+    constructor(basePath?: string);
 {{#authMethods}}
 {{#isBasic}}
-    constructor(url: string, username: string, password: string, basePath?: string);
+    constructor(username: string, password: string, basePath?: string);
 {{/isBasic}}
 {{/authMethods}}
-    constructor(private url: string, basePathOrUsername: string, password?: string, basePath?: string) {
+    constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
 {{#authMethods}}
 {{#isBasic}}
@@ -156,6 +158,10 @@ export class {{classname}} {
     }
 {{/isApiKey}}
 {{#isOAuth}}
+
+    set accessToken(token: string) {
+        this.authentications.{{name}}.accessToken = token;
+    }
 {{/isOAuth}}
 {{/authMethods}}
     private extendObj<T1,T2>(objA: T1, objB: T2) {
@@ -173,7 +179,7 @@ export class {{classname}} {
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
     public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
-        const path = this.url + this.basePath + '{{path}}'{{#pathParams}}
+        const path = this.basePath + '{{path}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
