@@ -107,7 +107,7 @@ class StoreApi
 
 
     /**
-     * getInventory
+     * getInventoryWithHttpInfo
      *
      * Returns pet inventories by status
      *
@@ -196,7 +196,7 @@ class StoreApi
 
 
     /**
-     * placeOrder
+     * placeOrderWithHttpInfo
      *
      * Place an order for a pet
      *
@@ -283,7 +283,7 @@ class StoreApi
 
 
     /**
-     * getOrderById
+     * getOrderByIdWithHttpInfo
      *
      * Find purchase order by ID
      *
@@ -377,7 +377,7 @@ class StoreApi
 
 
     /**
-     * deleteOrder
+     * deleteOrderWithHttpInfo
      *
      * Delete purchase order by ID
      *

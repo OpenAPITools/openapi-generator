@@ -108,7 +108,7 @@ class UserApi
 
 
     /**
-     * createUser
+     * createUserWithHttpInfo
      *
      * Create user
      *
@@ -187,7 +187,7 @@ class UserApi
 
 
     /**
-     * createUsersWithArrayInput
+     * createUsersWithArrayInputWithHttpInfo
      *
      * Creates list of users with given input array
      *
@@ -266,7 +266,7 @@ class UserApi
 
 
     /**
-     * createUsersWithListInput
+     * createUsersWithListInputWithHttpInfo
      *
      * Creates list of users with given input array
      *
@@ -346,7 +346,7 @@ class UserApi
 
 
     /**
-     * loginUser
+     * loginUserWithHttpInfo
      *
      * Logs user into the system
      *
@@ -435,7 +435,7 @@ class UserApi
 
 
     /**
-     * logoutUser
+     * logoutUserWithHttpInfo
      *
      * Logs out current logged in user session
      *
@@ -509,7 +509,7 @@ class UserApi
 
 
     /**
-     * getUserByName
+     * getUserByNameWithHttpInfo
      *
      * Get user by user name
      *
@@ -604,7 +604,7 @@ class UserApi
 
 
     /**
-     * updateUser
+     * updateUserWithHttpInfo
      *
      * Updated user
      *
@@ -695,7 +695,7 @@ class UserApi
 
 
     /**
-     * deleteUser
+     * deleteUserWithHttpInfo
      *
      * Delete user
      *
