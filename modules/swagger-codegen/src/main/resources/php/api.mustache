@@ -92,7 +92,7 @@ use \{{invokerPackage}}\ObjectSerializer;
   
     {{#operation}}
     /**
-     * {{{nickname}}}
+     * {{{operationId}}}
      *
      * {{{summary}}}
      *
@@ -100,12 +100,28 @@ use \{{invokerPackage}}\ObjectSerializer;
   {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
-    public function {{nickname}}({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    public function {{operationId}} ({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    {
+        list($response, $statusCode, $httpHeader) = $this->{{operationId}}WithHttpInfo ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        return $response; 
+    }
+
+
+    /**
+     * {{{operationId}}}
+     *
+     * {{{summary}}}
+     *
+  {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
+  {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     * @throws \{{invokerPackage}}\ApiException on non-2xx response
+     */
+    public function {{operationId}}WithHttpInfo ({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
         {{#allParams}}{{#required}}
         // verify the required parameter '{{paramName}}' is set
         if (${{paramName}} === null) {
-            throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{nickname}}');
+            throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{operationId}}');
         }{{/required}}{{/allParams}}
   
         // parse inputs
@@ -182,17 +198,17 @@ use \{{invokerPackage}}\ObjectSerializer;
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams{{#returnType}}, '{{returnType}}'{{/returnType}}
             );
             {{#returnType}}
             if (!$response) {
-                return null;
+                return array(null, $statusCode, $httpHeader);
             }
 
-            return $this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader));
             {{/returnType}}
         } catch (ApiException $e) {
             switch ($e->getCode()) { {{#responses}}{{#dataType}}
@@ -205,7 +221,7 @@ use \{{invokerPackage}}\ObjectSerializer;
             throw $e;
         }
         {{#returnType}}
-        return null;
+        return array(null, $statusCode, $httpHeader);
         {{/returnType}}
     }
     {{/operation}}

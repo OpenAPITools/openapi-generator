@@ -231,7 +231,7 @@ class ApiClient
         } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
             // return raw body if response is a file
             if ($responseType == '\SplFileObject') {
-                return array($http_body, $http_header);
+                return array($http_body, $response_info['http_code'], $http_header);
             }
 
             $data = json_decode($http_body);
@@ -249,7 +249,7 @@ class ApiClient
                 $response_info['http_code'], $http_header, $data
             );
         }
-        return array($data, $http_header);
+        return array($data, $response_info['http_code'], $http_header);
     }
 
     /**
