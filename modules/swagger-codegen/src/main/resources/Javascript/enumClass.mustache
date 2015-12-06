@@ -1,7 +1,11 @@
 function {{datatypeWithEnum}}() {
 	var self = this;
 	
-{{#allowableValues}}{{#enumVars}}	self.{{name}} = "{{value}}"{{^-last}},
-  {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
+{{#allowableValues}}{{#enumVars}}
+	/**
+	 * @const 
+	 */ 
+	self.{{name}} = "{{value}}"{{^-last}},
+	{{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
 
 }
