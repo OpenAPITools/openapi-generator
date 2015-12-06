@@ -100,7 +100,7 @@ class PetApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updatePet($body=null)
+    public function updatePet($body = null)
     {
         list($response, $statusCode, $httpHeader) = $this->updatePetWithHttpInfo ($body);
         return $response; 
@@ -116,7 +116,7 @@ class PetApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updatePetWithHttpInfo($body=null)
+    public function updatePetWithHttpInfo($body = null)
     {
         
   
@@ -147,7 +147,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -157,8 +157,7 @@ class PetApi
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -184,7 +183,7 @@ class PetApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function addPet($body=null)
+    public function addPet($body = null)
     {
         list($response, $statusCode, $httpHeader) = $this->addPetWithHttpInfo ($body);
         return $response; 
@@ -200,7 +199,7 @@ class PetApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function addPetWithHttpInfo($body=null)
+    public function addPetWithHttpInfo($body = null)
     {
         
   
@@ -231,7 +230,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -241,8 +240,7 @@ class PetApi
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -268,7 +266,7 @@ class PetApi
      * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function findPetsByStatus($status=null)
+    public function findPetsByStatus($status = null)
     {
         list($response, $statusCode, $httpHeader) = $this->findPetsByStatusWithHttpInfo ($status);
         return $response; 
@@ -284,7 +282,7 @@ class PetApi
      * @return Array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function findPetsByStatusWithHttpInfo($status=null)
+    public function findPetsByStatusWithHttpInfo($status = null)
     {
         
   
@@ -314,7 +312,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -324,8 +322,7 @@ class PetApi
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -359,7 +356,7 @@ class PetApi
      * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function findPetsByTags($tags=null)
+    public function findPetsByTags($tags = null)
     {
         list($response, $statusCode, $httpHeader) = $this->findPetsByTagsWithHttpInfo ($tags);
         return $response; 
@@ -375,7 +372,7 @@ class PetApi
      * @return Array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function findPetsByTagsWithHttpInfo($tags=null)
+    public function findPetsByTagsWithHttpInfo($tags = null)
     {
         
   
@@ -405,7 +402,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -415,8 +412,7 @@ class PetApi
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -504,7 +500,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -516,8 +512,7 @@ class PetApi
         
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -553,7 +548,7 @@ class PetApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updatePetWithForm($pet_id, $name=null, $status=null)
+    public function updatePetWithForm($pet_id, $name = null, $status = null)
     {
         list($response, $statusCode, $httpHeader) = $this->updatePetWithFormWithHttpInfo ($pet_id, $name, $status);
         return $response; 
@@ -571,7 +566,7 @@ class PetApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updatePetWithFormWithHttpInfo($pet_id, $name=null, $status=null)
+    public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null)
     {
         
         // verify the required parameter 'pet_id' is set
@@ -621,7 +616,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -631,8 +626,7 @@ class PetApi
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -659,7 +653,7 @@ class PetApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deletePet($pet_id, $api_key=null)
+    public function deletePet($pet_id, $api_key = null)
     {
         list($response, $statusCode, $httpHeader) = $this->deletePetWithHttpInfo ($pet_id, $api_key);
         return $response; 
@@ -676,7 +670,7 @@ class PetApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deletePetWithHttpInfo($pet_id, $api_key=null)
+    public function deletePetWithHttpInfo($pet_id, $api_key = null)
     {
         
         // verify the required parameter 'pet_id' is set
@@ -717,7 +711,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -727,8 +721,7 @@ class PetApi
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -756,7 +749,7 @@ class PetApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function uploadFile($pet_id, $additional_metadata=null, $file=null)
+    public function uploadFile($pet_id, $additional_metadata = null, $file = null)
     {
         list($response, $statusCode, $httpHeader) = $this->uploadFileWithHttpInfo ($pet_id, $additional_metadata, $file);
         return $response; 
@@ -774,7 +767,7 @@ class PetApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function uploadFileWithHttpInfo($pet_id, $additional_metadata=null, $file=null)
+    public function uploadFileWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
     {
         
         // verify the required parameter 'pet_id' is set
@@ -830,7 +823,7 @@ class PetApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -840,8 +833,7 @@ class PetApi
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,

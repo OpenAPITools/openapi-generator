@@ -100,7 +100,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUser($body=null)
+    public function createUser($body = null)
     {
         list($response, $statusCode, $httpHeader) = $this->createUserWithHttpInfo ($body);
         return $response; 
@@ -116,7 +116,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUserWithHttpInfo($body=null)
+    public function createUserWithHttpInfo($body = null)
     {
         
   
@@ -147,13 +147,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -179,7 +178,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithArrayInput($body=null)
+    public function createUsersWithArrayInput($body = null)
     {
         list($response, $statusCode, $httpHeader) = $this->createUsersWithArrayInputWithHttpInfo ($body);
         return $response; 
@@ -195,7 +194,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithArrayInputWithHttpInfo($body=null)
+    public function createUsersWithArrayInputWithHttpInfo($body = null)
     {
         
   
@@ -226,13 +225,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -258,7 +256,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithListInput($body=null)
+    public function createUsersWithListInput($body = null)
     {
         list($response, $statusCode, $httpHeader) = $this->createUsersWithListInputWithHttpInfo ($body);
         return $response; 
@@ -274,7 +272,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithListInputWithHttpInfo($body=null)
+    public function createUsersWithListInputWithHttpInfo($body = null)
     {
         
   
@@ -305,13 +303,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -338,7 +335,7 @@ class UserApi
      * @return string
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function loginUser($username=null, $password=null)
+    public function loginUser($username = null, $password = null)
     {
         list($response, $statusCode, $httpHeader) = $this->loginUserWithHttpInfo ($username, $password);
         return $response; 
@@ -355,7 +352,7 @@ class UserApi
      * @return Array of string, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function loginUserWithHttpInfo($username=null, $password=null)
+    public function loginUserWithHttpInfo($username = null, $password = null)
     {
         
   
@@ -388,13 +385,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -469,13 +465,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -555,13 +550,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -596,7 +590,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updateUser($username, $body=null)
+    public function updateUser($username, $body = null)
     {
         list($response, $statusCode, $httpHeader) = $this->updateUserWithHttpInfo ($username, $body);
         return $response; 
@@ -613,7 +607,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updateUserWithHttpInfo($username, $body=null)
+    public function updateUserWithHttpInfo($username, $body = null)
     {
         
         // verify the required parameter 'username' is set
@@ -655,13 +649,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -741,13 +734,12 @@ class UserApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,

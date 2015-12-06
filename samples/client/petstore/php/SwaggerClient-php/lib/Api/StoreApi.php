@@ -141,7 +141,7 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
@@ -153,8 +153,7 @@ class StoreApi
         
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -188,7 +187,7 @@ class StoreApi
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function placeOrder($body=null)
+    public function placeOrder($body = null)
     {
         list($response, $statusCode, $httpHeader) = $this->placeOrderWithHttpInfo ($body);
         return $response; 
@@ -204,7 +203,7 @@ class StoreApi
      * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function placeOrderWithHttpInfo($body=null)
+    public function placeOrderWithHttpInfo($body = null)
     {
         
   
@@ -235,13 +234,12 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -329,13 +327,12 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
@@ -423,13 +420,12 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
