@@ -1,7 +1,15 @@
 /*
  * {{>generatedAnnotation}}
  */
-function {{classname}}() {
+
+//export module
+if ( typeof define === "function" && define.amd ) {     
+	define(['jquery'], function($) {
+        return {{classname}};
+	 });
+}
+
+var {{classname}} = function {{classname}}() {
 	var self = this;
 {{#operations}}
   {{#operation}}

@@ -1,10 +1,19 @@
 {{#models}}{{#model}}
 {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
+
+//export module
+if ( typeof define === "function" && define.amd ) {     
+	define('{{classname}}', ['jquery'{{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}'{{datatypeWithEnum}}'{{/isPrimitiveType}}{{/vars}}], 
+		function(${{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}{{datatypeWithEnum}}{{/isPrimitiveType}}{{/vars}}) {
+        return {{classname}};
+	 });
+}
+
 {{#description}}/**
  * {{description}}
  **/{{/description}}
-function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
+var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
   	var self = this;
   	{{#vars}}
   	/**{{#description}}
