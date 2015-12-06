@@ -113,7 +113,7 @@ class UserApi
      * Create user
      *
      * @param \Swagger\Client\Model\User $body Created user object (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function createUserWithHttpInfo ($body=null)
@@ -160,6 +160,8 @@ class UserApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -190,7 +192,7 @@ class UserApi
      * Creates list of users with given input array
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function createUsersWithArrayInputWithHttpInfo ($body=null)
@@ -237,6 +239,8 @@ class UserApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -267,7 +271,7 @@ class UserApi
      * Creates list of users with given input array
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function createUsersWithListInputWithHttpInfo ($body=null)
@@ -314,6 +318,8 @@ class UserApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -346,7 +352,7 @@ class UserApi
      *
      * @param string $username The user name for login (optional)
      * @param string $password The password for login in clear text (optional)
-     * @return string
+     * @return Array of string, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function loginUserWithHttpInfo ($username=null, $password=null)
@@ -401,8 +407,6 @@ class UserApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -435,7 +439,7 @@ class UserApi
      *
      * Logs out current logged in user session
      *
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function logoutUserWithHttpInfo ()
@@ -478,6 +482,8 @@ class UserApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -508,7 +514,7 @@ class UserApi
      * Get user by user name
      *
      * @param string $username The name that needs to be fetched. Use user1 for testing. (required)
-     * @return \Swagger\Client\Model\User
+     * @return Array of \Swagger\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getUserByNameWithHttpInfo ($username)
@@ -568,8 +574,6 @@ class UserApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -606,7 +610,7 @@ class UserApi
      *
      * @param string $username name that need to be deleted (required)
      * @param \Swagger\Client\Model\User $body Updated user object (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function updateUserWithHttpInfo ($username, $body=null)
@@ -664,6 +668,8 @@ class UserApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -694,7 +700,7 @@ class UserApi
      * Delete user
      *
      * @param string $username The name that needs to be deleted (required)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteUserWithHttpInfo ($username)
@@ -747,6 +753,8 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 

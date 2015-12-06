@@ -113,7 +113,7 @@ class PetApi
      * Update an existing pet
      *
      * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function updatePetWithHttpInfo ($body=null)
@@ -165,6 +165,8 @@ class PetApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -195,7 +197,7 @@ class PetApi
      * Add a new pet to the store
      *
      * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function addPetWithHttpInfo ($body=null)
@@ -247,6 +249,8 @@ class PetApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -277,7 +281,7 @@ class PetApi
      * Finds Pets by status
      *
      * @param string[] $status Status values that need to be considered for filter (optional)
-     * @return \Swagger\Client\Model\Pet[]
+     * @return Array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function findPetsByStatusWithHttpInfo ($status=null)
@@ -334,8 +338,6 @@ class PetApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -370,7 +372,7 @@ class PetApi
      * Finds Pets by tags
      *
      * @param string[] $tags Tags to filter by (optional)
-     * @return \Swagger\Client\Model\Pet[]
+     * @return Array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function findPetsByTagsWithHttpInfo ($tags=null)
@@ -427,8 +429,6 @@ class PetApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -463,7 +463,7 @@ class PetApi
      * Find pet by ID
      *
      * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return \Swagger\Client\Model\Pet
+     * @return Array of \Swagger\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getPetByIdWithHttpInfo ($pet_id)
@@ -530,8 +530,6 @@ class PetApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -570,7 +568,7 @@ class PetApi
      * @param string $pet_id ID of pet that needs to be updated (required)
      * @param string $name Updated name of the pet (optional)
      * @param string $status Updated status of the pet (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function updatePetWithFormWithHttpInfo ($pet_id, $name=null, $status=null)
@@ -641,6 +639,8 @@ class PetApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -673,7 +673,7 @@ class PetApi
      *
      * @param int $pet_id Pet id to delete (required)
      * @param string $api_key  (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deletePetWithHttpInfo ($pet_id, $api_key=null)
@@ -735,6 +735,8 @@ class PetApi
                 $headerParams
             );
             
+            return array(null, $statusCode, $httpHeader);
+            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -769,7 +771,7 @@ class PetApi
      * @param int $pet_id ID of pet to update (required)
      * @param string $additional_metadata Additional data to pass to server (optional)
      * @param \SplFileObject $file file to upload (optional)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function uploadFileWithHttpInfo ($pet_id, $additional_metadata=null, $file=null)
@@ -845,6 +847,8 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
