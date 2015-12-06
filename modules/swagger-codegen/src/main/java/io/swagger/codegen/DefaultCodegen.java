@@ -1883,8 +1883,7 @@ public class DefaultCodegen {
             }
             
             m.mandatory = mandatory;
-            m.mandatoryParams = StringUtils.join(mandatory, ", ");
-
+            
         } else {
             m.emptyVars = true;
             m.hasVars = false;
