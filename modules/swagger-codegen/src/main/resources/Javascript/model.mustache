@@ -4,7 +4,7 @@
 {{#description}}/**
  * {{description}}
  **/{{/description}}
-function {{classname}}({{mandatoryParams}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
+function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
   	var self = this;
   	{{#vars}}
   	/**{{#description}}
