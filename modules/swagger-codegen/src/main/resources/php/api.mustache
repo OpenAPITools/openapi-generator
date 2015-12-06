@@ -100,7 +100,7 @@ use \{{invokerPackage}}\ObjectSerializer;
   {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
-    public function {{operationId}}({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    public function {{operationId}}({{#allParams}}${{paramName}}{{^required}} = null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
         list($response, $statusCode, $httpHeader) = $this->{{operationId}}WithHttpInfo ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         return $response; 
@@ -116,7 +116,7 @@ use \{{invokerPackage}}\ObjectSerializer;
   {{/allParams}}   * @return Array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
-    public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
         {{#allParams}}{{#required}}
         // verify the required parameter '{{paramName}}' is set
@@ -178,7 +178,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } else if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
         {{#authMethods}}{{#isApiKey}}
@@ -196,8 +196,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         }{{/isOAuth}}
         {{/authMethods}}
         // make the API Call
-        try
-        {
+        try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,

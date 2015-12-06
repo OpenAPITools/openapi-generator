@@ -131,7 +131,7 @@ class ApiClient
      * @throws \{{invokerPackage}}\ApiException on a non 2xx response
      * @return mixed
      */
-    public function callApi($resourcePath, $method, $queryParams, $postData, $headerParams, $responseType=null)
+    public function callApi($resourcePath, $method, $queryParams, $postData, $headerParams, $responseType = null)
     {
 
         $headers = array();
@@ -149,7 +149,7 @@ class ApiClient
         // form data
         if ($postData and in_array('Content-Type: application/x-www-form-urlencoded', $headers)) {
             $postData = http_build_query($postData);
-        } else if ((is_object($postData) or is_array($postData)) and !in_array('Content-Type: multipart/form-data', $headers)) { // json model
+        } elseif ((is_object($postData) or is_array($postData)) and !in_array('Content-Type: multipart/form-data', $headers)) { // json model
             $postData = json_encode($this->serializer->sanitizeForSerialization($postData));
         }
 
@@ -160,7 +160,7 @@ class ApiClient
         if ($this->config->getCurlTimeout() != 0) {
             curl_setopt($curl, CURLOPT_TIMEOUT, $this->config->getCurlTimeout());
         }
-        // return the result on success, rather than just TRUE
+        // return the result on success, rather than just true 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -178,21 +178,21 @@ class ApiClient
         if ($method == self::$POST) {
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-        } else if ($method == self::$HEAD) {
+        } elseif ($method == self::$HEAD) {
             curl_setopt($curl, CURLOPT_NOBODY, true);
-        } else if ($method == self::$OPTIONS) {
+        } elseif ($method == self::$OPTIONS) {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "OPTIONS");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-        } else if ($method == self::$PATCH) {
+        } elseif ($method == self::$PATCH) {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PATCH");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-        } else if ($method == self::$PUT) {
+        } elseif ($method == self::$PUT) {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-        } else if ($method == self::$DELETE) {
+        } elseif ($method == self::$DELETE) {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
             curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-        } else if ($method != self::$GET) {
+        } elseif ($method != self::$GET) {
             throw new ApiException('Method ' . $method . ' is not recognized.');
         }
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -228,7 +228,7 @@ class ApiClient
         // Handle the response
         if ($response_info['http_code'] == 0) {
             throw new ApiException("API call to $url timed out: ".serialize($response_info), 0, null, null);
-        } else if ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
+        } elseif ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
             // return raw body if response is a file
             if ($responseType == '\SplFileObject') {
                 return array($http_body, $response_info['http_code'], $http_header);
