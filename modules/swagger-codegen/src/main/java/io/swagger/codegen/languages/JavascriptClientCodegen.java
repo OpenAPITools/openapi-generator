@@ -50,8 +50,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         modelTemplateFiles.put("model.mustache", ".js");
         apiTemplateFiles.put("api.mustache", ".js");
         templateDir = "Javascript";
-        apiPackage = "api";
-        modelPackage = "model";
+        apiPackage = "scripts/rest/api";
+        modelPackage = "scripts/rest/model";
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(

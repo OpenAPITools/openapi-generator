@@ -1,4 +1,12 @@
-function {{datatypeWithEnum}}() {
+
+//export module
+if ( typeof define === "function" && define.amd ) {     
+	define('{{datatypeWithEnum}}', ['jquery'], function($) {
+        return {{datatypeWithEnum}};
+	 });
+}
+
+var {{datatypeWithEnum}} = function {{datatypeWithEnum}}() {
 	var self = this;
 	
 {{#allowableValues}}{{#enumVars}}
