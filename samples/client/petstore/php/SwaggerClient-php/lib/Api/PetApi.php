@@ -108,7 +108,7 @@ class PetApi
 
 
     /**
-     * updatePet
+     * updatePetWithHttpInfo
      *
      * Update an existing pet
      *
@@ -192,7 +192,7 @@ class PetApi
 
 
     /**
-     * addPet
+     * addPetWithHttpInfo
      *
      * Add a new pet to the store
      *
@@ -276,7 +276,7 @@ class PetApi
 
 
     /**
-     * findPetsByStatus
+     * findPetsByStatusWithHttpInfo
      *
      * Finds Pets by status
      *
@@ -367,7 +367,7 @@ class PetApi
 
 
     /**
-     * findPetsByTags
+     * findPetsByTagsWithHttpInfo
      *
      * Finds Pets by tags
      *
@@ -458,7 +458,7 @@ class PetApi
 
 
     /**
-     * getPetById
+     * getPetByIdWithHttpInfo
      *
      * Find pet by ID
      *
@@ -561,7 +561,7 @@ class PetApi
 
 
     /**
-     * updatePetWithForm
+     * updatePetWithFormWithHttpInfo
      *
      * Updates a pet in the store with form data
      *
@@ -667,7 +667,7 @@ class PetApi
 
 
     /**
-     * deletePet
+     * deletePetWithHttpInfo
      *
      * Deletes a pet
      *
@@ -764,7 +764,7 @@ class PetApi
 
 
     /**
-     * uploadFile
+     * uploadFileWithHttpInfo
      *
      * uploads an image
      *
