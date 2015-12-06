@@ -100,7 +100,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUser ($body=null)
+    public function createUser($body=null)
     {
         list($response, $statusCode, $httpHeader) = $this->createUserWithHttpInfo ($body);
         return $response; 
@@ -116,7 +116,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUserWithHttpInfo ($body=null)
+    public function createUserWithHttpInfo($body=null)
     {
         
   
@@ -179,7 +179,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithArrayInput ($body=null)
+    public function createUsersWithArrayInput($body=null)
     {
         list($response, $statusCode, $httpHeader) = $this->createUsersWithArrayInputWithHttpInfo ($body);
         return $response; 
@@ -195,7 +195,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithArrayInputWithHttpInfo ($body=null)
+    public function createUsersWithArrayInputWithHttpInfo($body=null)
     {
         
   
@@ -258,7 +258,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithListInput ($body=null)
+    public function createUsersWithListInput($body=null)
     {
         list($response, $statusCode, $httpHeader) = $this->createUsersWithListInputWithHttpInfo ($body);
         return $response; 
@@ -274,7 +274,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithListInputWithHttpInfo ($body=null)
+    public function createUsersWithListInputWithHttpInfo($body=null)
     {
         
   
@@ -338,7 +338,7 @@ class UserApi
      * @return string
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function loginUser ($username=null, $password=null)
+    public function loginUser($username=null, $password=null)
     {
         list($response, $statusCode, $httpHeader) = $this->loginUserWithHttpInfo ($username, $password);
         return $response; 
@@ -355,7 +355,7 @@ class UserApi
      * @return Array of string, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function loginUserWithHttpInfo ($username=null, $password=null)
+    public function loginUserWithHttpInfo($username=null, $password=null)
     {
         
   
@@ -427,7 +427,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function logoutUser ()
+    public function logoutUser()
     {
         list($response, $statusCode, $httpHeader) = $this->logoutUserWithHttpInfo ();
         return $response; 
@@ -442,7 +442,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function logoutUserWithHttpInfo ()
+    public function logoutUserWithHttpInfo()
     {
         
   
@@ -501,7 +501,7 @@ class UserApi
      * @return \Swagger\Client\Model\User
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function getUserByName ($username)
+    public function getUserByName($username)
     {
         list($response, $statusCode, $httpHeader) = $this->getUserByNameWithHttpInfo ($username);
         return $response; 
@@ -517,7 +517,7 @@ class UserApi
      * @return Array of \Swagger\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function getUserByNameWithHttpInfo ($username)
+    public function getUserByNameWithHttpInfo($username)
     {
         
         // verify the required parameter 'username' is set
@@ -596,7 +596,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updateUser ($username, $body=null)
+    public function updateUser($username, $body=null)
     {
         list($response, $statusCode, $httpHeader) = $this->updateUserWithHttpInfo ($username, $body);
         return $response; 
@@ -613,7 +613,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updateUserWithHttpInfo ($username, $body=null)
+    public function updateUserWithHttpInfo($username, $body=null)
     {
         
         // verify the required parameter 'username' is set
@@ -687,7 +687,7 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deleteUser ($username)
+    public function deleteUser($username)
     {
         list($response, $statusCode, $httpHeader) = $this->deleteUserWithHttpInfo ($username);
         return $response; 
@@ -703,7 +703,7 @@ class UserApi
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deleteUserWithHttpInfo ($username)
+    public function deleteUserWithHttpInfo($username)
     {
         
         // verify the required parameter 'username' is set
