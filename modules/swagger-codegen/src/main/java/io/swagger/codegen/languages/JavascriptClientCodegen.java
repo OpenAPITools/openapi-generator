@@ -88,12 +88,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
         cliOptions.add(new CliOption("fullJavaUtil", "whether to use fully qualified name for classes under java.util (default to false)"));
 
-        /*
-        supportedLibraries.put("<default>", "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
-        supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
-        supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
-        supportedLibraries.put("retrofit", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
-        cliOptions.add(buildLibraryCliOption(supportedLibraries));*/
     }
 
     @Override
@@ -114,138 +108,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public void processOpts() {
         super.processOpts();
-/*
-        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
-        } else {
-            //not set, use default to be passed to template
-            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        }
 
-        if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
-            this.setGroupId((String) additionalProperties.get(CodegenConstants.GROUP_ID));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
-            this.setArtifactId((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
-        }
-
-
-        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
-            this.setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
-        }
-
-        // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
-        additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
-
-        if (additionalProperties.containsKey("fullJavaUtil")) {
-            fullJavaUtil = Boolean.valueOf(additionalProperties.get("fullJavaUtil").toString());
-        }
-        if (fullJavaUtil) {
-            javaUtilPrefix = "java.util.";
-        }
-        additionalProperties.put("fullJavaUtil", fullJavaUtil);
-        additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
-*/
-        //if (fullJavaUtil) {
             typeMapping.put("array", "Array");
-            /*typeMapping.put("map", "java.util.Map");
-            typeMapping.put("DateTime", "java.util.Date");
-            typeMapping.remove("List");
-            importMapping.remove("Date");
-            importMapping.remove("Map");
-            importMapping.remove("HashMap");
-            importMapping.remove("Array");
-            importMapping.remove("ArrayList");
-            importMapping.remove("List");
-            importMapping.remove("Set");
-            importMapping.remove("DateTime");
-            instantiationTypes.put("array", "java.util.ArrayList");
-            instantiationTypes.put("map", "java.util.HashMap");*/
-            //}
-        /*
-        this.sanitizeConfig();
-
-        final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
-
-        final String authFolder = (sourceFolder + File.separator + invokerPackage + ".auth").replace(".", File.separator);
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
-
-        if (!"retrofit".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
-            supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
-            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
-            supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
-            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
-        }
-
-        // library-specific files
-        if ("okhttp-gson".equals(getLibrary())) {
-            // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
-            supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
-            // "build.sbt" is for development with SBT
-            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        } else if ("retrofit".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
-            supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
-        } else {
-            supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
-        }*/
+            
     }
-/*
-    private void sanitizeConfig() {
-        // Sanitize any config options here. We also have to update the additionalProperties because
-        // the whole additionalProperties object is injected into the main object passed to the mustache layer
-
-        this.setApiPackage(sanitizePackageName(apiPackage));
-        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            this.additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-        }
-
-        this.setModelPackage(sanitizePackageName(modelPackage));
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        }
-
-        this.setInvokerPackage(sanitizePackageName(invokerPackage));
-        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        }
-    }*/
 
     @Override
     public String escapeReservedWord(String name) {
