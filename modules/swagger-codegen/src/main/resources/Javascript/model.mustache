@@ -4,16 +4,17 @@
 {{#description}}/**
  * {{description}}
  **/{{/description}}
-function {{classname}}() { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
+function {{classname}}({{mandatoryParams}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
   	var self = this;
   	{{#vars}}
   	/**{{#description}}
 	  * {{{description}}}{{/description}}
-	  * datatype: {{{datatypeWithEnum}}}{{#minimum}}
+	  * datatype: {{{datatypeWithEnum}}}{{#required}}
+	  * required{{/required}}{{#minimum}}
 	  * minimum: {{minimum}}{{/minimum}}{{#maximum}}
 	  * maximum: {{maximum}}{{/maximum}}
 	  **/
-	  self.{{name}} = {{{defaultValue}}};
+	  self.{{name}} = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
 	 {{/vars}}
   
   	self.constructFromObject = function(data) {
@@ -42,6 +43,9 @@ function {{classname}}() { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
   }
   {{/vars}}
 
+  self.toJson = function () {
+  	return JSON.stringify(self);
+  }
 }
 {{/model}}
 {{/models}}
