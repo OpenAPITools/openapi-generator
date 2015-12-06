@@ -100,7 +100,23 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUser($body=null)
+    public function createUser ($body=null)
+    {
+        list($response, $statusCode, $httpHeader) = $this->createUserWithHttpInfo ($body);
+        return $response; 
+    }
+
+
+    /**
+     * createUser
+     *
+     * Create user
+     *
+     * @param \Swagger\Client\Model\User $body Created user object (optional)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function createUserWithHttpInfo ($body=null)
     {
         
   
@@ -138,7 +154,7 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams
@@ -162,7 +178,23 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithArrayInput($body=null)
+    public function createUsersWithArrayInput ($body=null)
+    {
+        list($response, $statusCode, $httpHeader) = $this->createUsersWithArrayInputWithHttpInfo ($body);
+        return $response; 
+    }
+
+
+    /**
+     * createUsersWithArrayInput
+     *
+     * Creates list of users with given input array
+     *
+     * @param \Swagger\Client\Model\User[] $body List of user object (optional)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function createUsersWithArrayInputWithHttpInfo ($body=null)
     {
         
   
@@ -200,7 +232,7 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams
@@ -224,7 +256,23 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function createUsersWithListInput($body=null)
+    public function createUsersWithListInput ($body=null)
+    {
+        list($response, $statusCode, $httpHeader) = $this->createUsersWithListInputWithHttpInfo ($body);
+        return $response; 
+    }
+
+
+    /**
+     * createUsersWithListInput
+     *
+     * Creates list of users with given input array
+     *
+     * @param \Swagger\Client\Model\User[] $body List of user object (optional)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function createUsersWithListInputWithHttpInfo ($body=null)
     {
         
   
@@ -262,7 +310,7 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams
@@ -287,7 +335,24 @@ class UserApi
      * @return string
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function loginUser($username=null, $password=null)
+    public function loginUser ($username=null, $password=null)
+    {
+        list($response, $statusCode, $httpHeader) = $this->loginUserWithHttpInfo ($username, $password);
+        return $response; 
+    }
+
+
+    /**
+     * loginUser
+     *
+     * Logs user into the system
+     *
+     * @param string $username The user name for login (optional)
+     * @param string $password The password for login in clear text (optional)
+     * @return string
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function loginUserWithHttpInfo ($username=null, $password=null)
     {
         
   
@@ -327,17 +392,17 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams, 'string'
             );
             
             if (!$response) {
-                return null;
+                return array(null, $statusCode, $httpHeader);
             }
 
-            return $this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader));
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -350,7 +415,7 @@ class UserApi
             throw $e;
         }
         
-        return null;
+        return array(null, $statusCode, $httpHeader);
         
     }
     
@@ -362,7 +427,22 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function logoutUser()
+    public function logoutUser ()
+    {
+        list($response, $statusCode, $httpHeader) = $this->logoutUserWithHttpInfo ();
+        return $response; 
+    }
+
+
+    /**
+     * logoutUser
+     *
+     * Logs out current logged in user session
+     *
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function logoutUserWithHttpInfo ()
     {
         
   
@@ -396,7 +476,7 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams
@@ -420,7 +500,23 @@ class UserApi
      * @return \Swagger\Client\Model\User
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function getUserByName($username)
+    public function getUserByName ($username)
+    {
+        list($response, $statusCode, $httpHeader) = $this->getUserByNameWithHttpInfo ($username);
+        return $response; 
+    }
+
+
+    /**
+     * getUserByName
+     *
+     * Get user by user name
+     *
+     * @param string $username The name that needs to be fetched. Use user1 for testing. (required)
+     * @return \Swagger\Client\Model\User
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getUserByNameWithHttpInfo ($username)
     {
         
         // verify the required parameter 'username' is set
@@ -465,17 +561,17 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\User'
             );
             
             if (!$response) {
-                return null;
+                return array(null, $statusCode, $httpHeader);
             }
 
-            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader));
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -488,7 +584,7 @@ class UserApi
             throw $e;
         }
         
-        return null;
+        return array(null, $statusCode, $httpHeader);
         
     }
     
@@ -502,7 +598,24 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function updateUser($username, $body=null)
+    public function updateUser ($username, $body=null)
+    {
+        list($response, $statusCode, $httpHeader) = $this->updateUserWithHttpInfo ($username, $body);
+        return $response; 
+    }
+
+
+    /**
+     * updateUser
+     *
+     * Updated user
+     *
+     * @param string $username name that need to be deleted (required)
+     * @param \Swagger\Client\Model\User $body Updated user object (optional)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function updateUserWithHttpInfo ($username, $body=null)
     {
         
         // verify the required parameter 'username' is set
@@ -551,7 +664,7 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams
@@ -575,7 +688,23 @@ class UserApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deleteUser($username)
+    public function deleteUser ($username)
+    {
+        list($response, $statusCode, $httpHeader) = $this->deleteUserWithHttpInfo ($username);
+        return $response; 
+    }
+
+
+    /**
+     * deleteUser
+     *
+     * Delete user
+     *
+     * @param string $username The name that needs to be deleted (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function deleteUserWithHttpInfo ($username)
     {
         
         // verify the required parameter 'username' is set
@@ -620,7 +749,7 @@ class UserApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams

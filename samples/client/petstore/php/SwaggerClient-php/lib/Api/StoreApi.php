@@ -99,7 +99,22 @@ class StoreApi
      * @return map[string,int]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function getInventory()
+    public function getInventory ()
+    {
+        list($response, $statusCode, $httpHeader) = $this->getInventoryWithHttpInfo ();
+        return $response; 
+    }
+
+
+    /**
+     * getInventory
+     *
+     * Returns pet inventories by status
+     *
+     * @return map[string,int]
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getInventoryWithHttpInfo ()
     {
         
   
@@ -140,17 +155,17 @@ class StoreApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams, 'map[string,int]'
             );
             
             if (!$response) {
-                return null;
+                return array(null, $statusCode, $httpHeader);
             }
 
-            return $this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader));
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -163,7 +178,7 @@ class StoreApi
             throw $e;
         }
         
-        return null;
+        return array(null, $statusCode, $httpHeader);
         
     }
     
@@ -176,7 +191,23 @@ class StoreApi
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function placeOrder($body=null)
+    public function placeOrder ($body=null)
+    {
+        list($response, $statusCode, $httpHeader) = $this->placeOrderWithHttpInfo ($body);
+        return $response; 
+    }
+
+
+    /**
+     * placeOrder
+     *
+     * Place an order for a pet
+     *
+     * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (optional)
+     * @return \Swagger\Client\Model\Order
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function placeOrderWithHttpInfo ($body=null)
     {
         
   
@@ -214,17 +245,17 @@ class StoreApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Order'
             );
             
             if (!$response) {
-                return null;
+                return array(null, $statusCode, $httpHeader);
             }
 
-            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader));
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -237,7 +268,7 @@ class StoreApi
             throw $e;
         }
         
-        return null;
+        return array(null, $statusCode, $httpHeader);
         
     }
     
@@ -250,7 +281,23 @@ class StoreApi
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function getOrderById($order_id)
+    public function getOrderById ($order_id)
+    {
+        list($response, $statusCode, $httpHeader) = $this->getOrderByIdWithHttpInfo ($order_id);
+        return $response; 
+    }
+
+
+    /**
+     * getOrderById
+     *
+     * Find purchase order by ID
+     *
+     * @param string $order_id ID of pet that needs to be fetched (required)
+     * @return \Swagger\Client\Model\Order
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getOrderByIdWithHttpInfo ($order_id)
     {
         
         // verify the required parameter 'order_id' is set
@@ -295,17 +342,17 @@ class StoreApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Order'
             );
             
             if (!$response) {
-                return null;
+                return array(null, $statusCode, $httpHeader);
             }
 
-            return $this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader));
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -318,7 +365,7 @@ class StoreApi
             throw $e;
         }
         
-        return null;
+        return array(null, $statusCode, $httpHeader);
         
     }
     
@@ -331,7 +378,23 @@ class StoreApi
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deleteOrder($order_id)
+    public function deleteOrder ($order_id)
+    {
+        list($response, $statusCode, $httpHeader) = $this->deleteOrderWithHttpInfo ($order_id);
+        return $response; 
+    }
+
+
+    /**
+     * deleteOrder
+     *
+     * Delete purchase order by ID
+     *
+     * @param string $order_id ID of the order that needs to be deleted (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function deleteOrderWithHttpInfo ($order_id)
     {
         
         // verify the required parameter 'order_id' is set
@@ -376,7 +439,7 @@ class StoreApi
         // make the API Call
         try
         {
-            list($response, $httpHeader) = $this->apiClient->callApi(
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, $method,
                 $queryParams, $httpBody,
                 $headerParams
