@@ -25,7 +25,13 @@ function {{classname}}() {
      }
      {{/required}}{{/allParams}}
     // create path and map variables
-	var {{localVariablePrefix}}path = '{{basePath}}' + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
+    var basePath = '{{basePath}}';
+    // if basePath ends with a /, remove it as path starts with a leading /
+    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
+    	basePath = basePath.substring(0, basePath.length-1);
+    }
+    
+	var {{localVariablePrefix}}path = basePath + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
 , "\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString()){{/pathParams}});
 
     var queryParams = {};
@@ -44,10 +50,10 @@ function {{classname}}() {
 
 	path += createQueryString(queryParams);
 
-	if (console) {
-		console.log('path: ' + path);
-		console.log('queryParams: ' + queryParams);
-	}
+	//if (console) {
+		//console.log('path: ' + path);
+		//console.log('queryParams: ' + queryParams);
+	//}
 
     {{#isResponseBinary}}
     byte[] {{localVariablePrefix}}response = null;

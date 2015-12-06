@@ -13,6 +13,13 @@ public class CodegenModel {
     public String unescapedDescription;
     public String defaultValue;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
+    
+    // list of all required parameters
+    public Set<String> mandatory = new HashSet<String>();
+    
+    // TODO: temporary solution to get a delimited list of default constructor parameters, should be replaced if there is a better way of injecting the mandatory parameters into the mustache templates
+    public String mandatoryParams;
+    
     public Set<String> imports = new HashSet<String>();
     public Boolean hasVars, emptyVars, hasMoreModels, hasEnums;
     public ExternalDocs externalDocs;
