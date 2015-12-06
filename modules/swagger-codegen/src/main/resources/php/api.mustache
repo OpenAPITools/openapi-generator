@@ -108,12 +108,12 @@ use \{{invokerPackage}}\ObjectSerializer;
 
 
     /**
-     * {{{operationId}}}
+     * {{{operationId}}}WithHttpInfo
      *
      * {{{summary}}}
      *
   {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
-  {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+  {{/allParams}}   * @return Array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
     public function {{operationId}}WithHttpInfo ({{#allParams}}${{paramName}}{{^required}}=null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
@@ -209,7 +209,7 @@ use \{{invokerPackage}}\ObjectSerializer;
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader), $statusCode, $httpHeader);
-            {{/returnType}}{{#returnType}}
+            {{/returnType}}{{^returnType}}
             return array(null, $statusCode, $httpHeader);
             {{/returnType}}
         } catch (ApiException $e) {

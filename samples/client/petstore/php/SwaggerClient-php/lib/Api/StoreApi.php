@@ -111,7 +111,7 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
-     * @return map[string,int]
+     * @return Array of map[string,int], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getInventoryWithHttpInfo ()
@@ -167,8 +167,6 @@ class StoreApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -203,7 +201,7 @@ class StoreApi
      * Place an order for a pet
      *
      * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (optional)
-     * @return \Swagger\Client\Model\Order
+     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function placeOrderWithHttpInfo ($body=null)
@@ -256,8 +254,6 @@ class StoreApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -292,7 +288,7 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param string $order_id ID of pet that needs to be fetched (required)
-     * @return \Swagger\Client\Model\Order
+     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getOrderByIdWithHttpInfo ($order_id)
@@ -352,8 +348,6 @@ class StoreApi
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
             
-            return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
@@ -388,7 +382,7 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
-     * @return void
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteOrderWithHttpInfo ($order_id)
@@ -441,6 +435,8 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams
             );
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 

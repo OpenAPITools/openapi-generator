@@ -168,7 +168,26 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertSame($response->getName(), 'updatePet');
   }
 
-  // test updatePet and verify by the "id" of the response
+  // test updatePetWithFormWithHttpInfo and verify by the "name" of the response
+  public function testUpdatePetWithFormWithHttpInfo()
+  {
+    // initialize the API client
+    $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
+    $api_client = new Swagger\Client\ApiClient($config);
+    $pet_id = 10001;  // ID of pet that needs to be fetched
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+    // update Pet (form)
+    list($update_response, $status_code, $http_headers) = $pet_api->updatePetWithFormWithHttpInfo($pet_id, 'update pet with form with http info');
+    // return nothing (void)
+    $this->assertNull($update_response);
+    $this->assertSame($status_code, 200);
+    $this->assertSame($http_headers['Content-Type'], 'application/json');
+    $response = $pet_api->getPetById($pet_id);
+    $this->assertSame($response->getId(), $pet_id);
+    $this->assertSame($response->getName(), 'update pet with form with http info');
+  }
+
+  // test updatePetWithForm and verify by the "name" and "status" of the response
   public function testUpdatePetWithForm()
   {
     // initialize the API client
