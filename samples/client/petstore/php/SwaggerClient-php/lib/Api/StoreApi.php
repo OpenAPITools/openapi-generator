@@ -165,7 +165,9 @@ class StoreApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -177,9 +179,6 @@ class StoreApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -255,7 +254,9 @@ class StoreApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -267,9 +268,6 @@ class StoreApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -352,7 +350,9 @@ class StoreApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -364,9 +364,6 @@ class StoreApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -451,7 +448,6 @@ class StoreApi
   
             throw $e;
         }
-        
     }
     
 }

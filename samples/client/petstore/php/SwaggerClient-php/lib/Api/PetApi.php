@@ -171,7 +171,6 @@ class PetApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -254,7 +253,6 @@ class PetApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -334,7 +332,9 @@ class PetApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -346,9 +346,6 @@ class PetApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -428,7 +425,9 @@ class PetApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -440,9 +439,6 @@ class PetApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -532,7 +528,9 @@ class PetApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -544,9 +542,6 @@ class PetApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -652,7 +647,6 @@ class PetApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -747,7 +741,6 @@ class PetApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -859,7 +852,6 @@ class PetApi
   
             throw $e;
         }
-        
     }
     
 }

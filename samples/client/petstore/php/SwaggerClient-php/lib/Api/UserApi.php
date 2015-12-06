@@ -166,7 +166,6 @@ class UserApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -244,7 +243,6 @@ class UserApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -322,7 +320,6 @@ class UserApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -402,7 +399,9 @@ class UserApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -414,9 +413,6 @@ class UserApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -488,7 +484,6 @@ class UserApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -571,7 +566,9 @@ class UserApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
+            
+            return array(null, $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
@@ -583,9 +580,6 @@ class UserApi
   
             throw $e;
         }
-        
-        return array(null, $statusCode, $httpHeader);
-        
     }
     
     /**
@@ -676,7 +670,6 @@ class UserApi
   
             throw $e;
         }
-        
     }
     
     /**
@@ -761,7 +754,6 @@ class UserApi
   
             throw $e;
         }
-        
     }
     
 }

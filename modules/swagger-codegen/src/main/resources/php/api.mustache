@@ -208,7 +208,9 @@ use \{{invokerPackage}}\ObjectSerializer;
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader));
+            return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader), $statusCode, $httpHeader);
+            {{/returnType}}{{#returnType}}
+            return array(null, $statusCode, $httpHeader);
             {{/returnType}}
         } catch (ApiException $e) {
             switch ($e->getCode()) { {{#responses}}{{#dataType}}
@@ -220,9 +222,6 @@ use \{{invokerPackage}}\ObjectSerializer;
   
             throw $e;
         }
-        {{#returnType}}
-        return array(null, $statusCode, $httpHeader);
-        {{/returnType}}
     }
     {{/operation}}
 }

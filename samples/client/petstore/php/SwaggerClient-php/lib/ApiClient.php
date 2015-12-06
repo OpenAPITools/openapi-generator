@@ -216,7 +216,7 @@ class ApiClient
         // Make the request
         $response = curl_exec($curl);
         $http_header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $http_header = substr($response, 0, $http_header_size);
+        $http_header = $this->http_parse_headers(substr($response, 0, $http_header_size));
         $http_body = substr($response, $http_header_size);
         $response_info = curl_getinfo($curl);
 
@@ -286,5 +286,53 @@ class ApiClient
         } else {
             return implode(',', $content_type);
         }
+    }
+
+   /**
+    * Return an array of HTTP response headers
+    *
+    * @param string $raw_headers A string of raw HTTP response headers
+    *
+    * @return string[] Array of HTTP response heaers
+    */
+    protected function http_parse_headers($raw_headers)
+    {
+        // ref/credit: http://php.net/manual/en/function.http-parse-headers.php#112986
+        $headers = array();
+        $key = ''; // [+]
+   
+        foreach(explode("\n", $raw_headers) as $i => $h)
+        {
+            $h = explode(':', $h, 2);
+   
+            if (isset($h[1]))
+            {
+                if (!isset($headers[$h[0]]))
+                    $headers[$h[0]] = trim($h[1]);
+                elseif (is_array($headers[$h[0]]))
+                {
+                    // $tmp = array_merge($headers[$h[0]], array(trim($h[1]))); // [-]
+                    // $headers[$h[0]] = $tmp; // [-]
+                    $headers[$h[0]] = array_merge($headers[$h[0]], array(trim($h[1]))); // [+]
+                }
+                else
+                {
+                    // $tmp = array_merge(array($headers[$h[0]]), array(trim($h[1]))); // [-]
+                    // $headers[$h[0]] = $tmp; // [-]
+                    $headers[$h[0]] = array_merge(array($headers[$h[0]]), array(trim($h[1]))); // [+]
+                }
+   
+                $key = $h[0]; // [+]
+            }
+            else // [+]
+            { // [+]
+                if (substr($h[0], 0, 1) == "\t") // [+]
+                    $headers[$key] .= "\r\n\t".trim($h[0]); // [+]
+                elseif (!$key) // [+]
+                    $headers[0] = trim($h[0]);trim($h[0]); // [+]
+            } // [+]
+        }
+   
+        return $headers;
     }
 }

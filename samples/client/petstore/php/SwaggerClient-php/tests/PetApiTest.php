@@ -105,6 +105,25 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
   }
 
+  // test getPetById with a Pet object (id 10005)
+  public function testGetPetByIdWithHttpInfo()
+  {
+    // initialize the API client without host
+    $pet_id = 10005;  // ID of pet that needs to be fetched
+    $pet_api = new Swagger\Client\Api\PetAPI();
+    $pet_api->getApiClient()->getConfig()->setApiKey('api_key', '111222333444555');
+    // return Pet (model)
+    list($response, $status_code, $response_headers) = $pet_api->getPetByIdWithHttpInfo($pet_id);
+    $this->assertSame($response->getId(), $pet_id);
+    $this->assertSame($response->getName(), 'PHP Unit Test');
+    $this->assertSame($response->getCategory()->getId(), $pet_id);
+    $this->assertSame($response->getCategory()->getName(), 'test php category');
+    $this->assertSame($response->getTags()[0]->getId(), $pet_id);
+    $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
+    $this->assertSame($status_code, 200);
+    $this->assertSame($response_headers['Content-Type'], 'application/json');
+  }
+
   // test getPetByStatus and verify by the "id" of the response
   public function testFindPetByStatus()
   {
