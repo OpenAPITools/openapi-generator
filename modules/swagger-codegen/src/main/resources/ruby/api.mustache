@@ -17,7 +17,7 @@ module {{moduleName}}
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def {{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
-      {{#returnType}}status_code, headers, data = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
+      {{#returnType}}data, status_code, headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
       {{#returnType}}return data{{/returnType}}{{^returnType}}return nil{{/returnType}}
     end
 
@@ -26,7 +26,7 @@ module {{moduleName}}
 {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
-{{/required}}{{/allParams}}    # @return [Array<Fixnum, Hash, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}>] response status code, response headers and {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}
+{{/required}}{{/allParams}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Fixnum, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       if Configuration.debugging
         Configuration.logger.debug "Calling API: {{classname}}#{{operationId}} ..."
@@ -74,7 +74,7 @@ module {{moduleName}}
       {{/bodyParam}}
 
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      status_code, headers, data = @api_client.call_api(:{{httpMethod}}, path,
+      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -82,9 +82,9 @@ module {{moduleName}}
         :auth_names => auth_names{{#returnType}},
         :return_type => '{{{returnType}}}'{{/returnType}})
       if Configuration.debugging
-        Configuration.logger.debug "API called: {{classname}}#{{operationId}}\nStatus code: #{status_code}\nHeaders: #{headers}\nData: #{data.inspect}"
+        Configuration.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
-      return status_code, headers, data
+      return data, status_code, headers
     end
 {{/operation}}
   end
