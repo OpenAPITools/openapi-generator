@@ -89,6 +89,7 @@ public class PetApi {
    * Update an existing pet
    * 
    * @param body Pet object that needs to be added to the store
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updatePet(Pet body) throws ApiException {
     updatePetWithHttpInfo(body);
@@ -99,6 +100,7 @@ public class PetApi {
    * 
    * @param body Pet object that needs to be added to the store
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
     Call call = updatePetCall(body, null, null);
@@ -111,6 +113,7 @@ public class PetApi {
    * @param body Pet object that needs to be added to the store
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call updatePetAsync(Pet body, final ApiCallback<Void> callback) throws ApiException {
 
@@ -184,6 +187,7 @@ public class PetApi {
    * Add a new pet to the store
    * 
    * @param body Pet object that needs to be added to the store
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void addPet(Pet body) throws ApiException {
     addPetWithHttpInfo(body);
@@ -194,6 +198,7 @@ public class PetApi {
    * 
    * @param body Pet object that needs to be added to the store
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
     Call call = addPetCall(body, null, null);
@@ -206,6 +211,7 @@ public class PetApi {
    * @param body Pet object that needs to be added to the store
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call addPetAsync(Pet body, final ApiCallback<Void> callback) throws ApiException {
 
@@ -282,6 +288,7 @@ public class PetApi {
    * Multiple status values can be provided with comma seperated strings
    * @param status Status values that need to be considered for filter
    * @return List<Pet>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
     ApiResponse<List<Pet>> resp = findPetsByStatusWithHttpInfo(status);
@@ -293,6 +300,7 @@ public class PetApi {
    * Multiple status values can be provided with comma seperated strings
    * @param status Status values that need to be considered for filter
    * @return ApiResponse<List<Pet>>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
     Call call = findPetsByStatusCall(status, null, null);
@@ -306,6 +314,7 @@ public class PetApi {
    * @param status Status values that need to be considered for filter
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> callback) throws ApiException {
 
@@ -383,6 +392,7 @@ public class PetApi {
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
    * @return List<Pet>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
     ApiResponse<List<Pet>> resp = findPetsByTagsWithHttpInfo(tags);
@@ -394,6 +404,7 @@ public class PetApi {
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
    * @return ApiResponse<List<Pet>>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
     Call call = findPetsByTagsCall(tags, null, null);
@@ -407,6 +418,7 @@ public class PetApi {
    * @param tags Tags to filter by
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call findPetsByTagsAsync(List<String> tags, final ApiCallback<List<Pet>> callback) throws ApiException {
 
@@ -488,6 +500,7 @@ public class PetApi {
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
    * @return Pet
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public Pet getPetById(Long petId) throws ApiException {
     ApiResponse<Pet> resp = getPetByIdWithHttpInfo(petId);
@@ -499,6 +512,7 @@ public class PetApi {
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
    * @return ApiResponse<Pet>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
     Call call = getPetByIdCall(petId, null, null);
@@ -512,6 +526,7 @@ public class PetApi {
    * @param petId ID of pet that needs to be fetched
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call getPetByIdAsync(Long petId, final ApiCallback<Pet> callback) throws ApiException {
 
@@ -598,6 +613,7 @@ public class PetApi {
    * @param petId ID of pet that needs to be updated
    * @param name Updated name of the pet
    * @param status Updated status of the pet
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updatePetWithForm(String petId, String name, String status) throws ApiException {
     updatePetWithFormWithHttpInfo(petId, name, status);
@@ -610,6 +626,7 @@ public class PetApi {
    * @param name Updated name of the pet
    * @param status Updated status of the pet
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(String petId, String name, String status) throws ApiException {
     Call call = updatePetWithFormCall(petId, name, status, null, null);
@@ -624,6 +641,7 @@ public class PetApi {
    * @param status Updated status of the pet
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call updatePetWithFormAsync(String petId, String name, String status, final ApiCallback<Void> callback) throws ApiException {
 
@@ -706,6 +724,7 @@ public class PetApi {
    * 
    * @param petId Pet id to delete
    * @param apiKey 
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
     deletePetWithHttpInfo(petId, apiKey);
@@ -717,6 +736,7 @@ public class PetApi {
    * @param petId Pet id to delete
    * @param apiKey 
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
     Call call = deletePetCall(petId, apiKey, null, null);
@@ -730,6 +750,7 @@ public class PetApi {
    * @param apiKey 
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> callback) throws ApiException {
 
@@ -815,6 +836,7 @@ public class PetApi {
    * @param petId ID of pet to update
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     uploadFileWithHttpInfo(petId, additionalMetadata, file);
@@ -827,6 +849,7 @@ public class PetApi {
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
     Call call = uploadFileCall(petId, additionalMetadata, file, null, null);
@@ -841,6 +864,7 @@ public class PetApi {
    * @param file file to upload
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<Void> callback) throws ApiException {
 
