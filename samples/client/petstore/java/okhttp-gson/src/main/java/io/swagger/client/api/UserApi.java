@@ -89,6 +89,7 @@ public class UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUser(User body) throws ApiException {
     createUserWithHttpInfo(body);
@@ -99,6 +100,7 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param body Created user object
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
     Call call = createUserCall(body, null, null);
@@ -111,6 +113,7 @@ public class UserApi {
    * @param body Created user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call createUserAsync(User body, final ApiCallback<Void> callback) throws ApiException {
 
@@ -184,6 +187,7 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
     createUsersWithArrayInputWithHttpInfo(body);
@@ -194,6 +198,7 @@ public class UserApi {
    * 
    * @param body List of user object
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
     Call call = createUsersWithArrayInputCall(body, null, null);
@@ -206,6 +211,7 @@ public class UserApi {
    * @param body List of user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call createUsersWithArrayInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
 
@@ -279,6 +285,7 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
     createUsersWithListInputWithHttpInfo(body);
@@ -289,6 +296,7 @@ public class UserApi {
    * 
    * @param body List of user object
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
     Call call = createUsersWithListInputCall(body, null, null);
@@ -301,6 +309,7 @@ public class UserApi {
    * @param body List of user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call createUsersWithListInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
 
@@ -380,6 +389,7 @@ public class UserApi {
    * @param username The user name for login
    * @param password The password for login in clear text
    * @return String
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public String loginUser(String username, String password) throws ApiException {
     ApiResponse<String> resp = loginUserWithHttpInfo(username, password);
@@ -392,6 +402,7 @@ public class UserApi {
    * @param username The user name for login
    * @param password The password for login in clear text
    * @return ApiResponse<String>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
     Call call = loginUserCall(username, password, null, null);
@@ -406,6 +417,7 @@ public class UserApi {
    * @param password The password for login in clear text
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call loginUserAsync(String username, String password, final ApiCallback<String> callback) throws ApiException {
 
@@ -479,6 +491,7 @@ public class UserApi {
   /**
    * Logs out current logged in user session
    * 
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void logoutUser() throws ApiException {
     logoutUserWithHttpInfo();
@@ -488,6 +501,7 @@ public class UserApi {
    * Logs out current logged in user session
    * 
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
     Call call = logoutUserCall(null, null);
@@ -499,6 +513,7 @@ public class UserApi {
    * 
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call logoutUserAsync(final ApiCallback<Void> callback) throws ApiException {
 
@@ -579,6 +594,7 @@ public class UserApi {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @return User
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public User getUserByName(String username) throws ApiException {
     ApiResponse<User> resp = getUserByNameWithHttpInfo(username);
@@ -590,6 +606,7 @@ public class UserApi {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @return ApiResponse<User>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
     Call call = getUserByNameCall(username, null, null);
@@ -603,6 +620,7 @@ public class UserApi {
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call getUserByNameAsync(String username, final ApiCallback<User> callback) throws ApiException {
 
@@ -684,6 +702,7 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
    * @param body Updated user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updateUser(String username, User body) throws ApiException {
     updateUserWithHttpInfo(username, body);
@@ -695,6 +714,7 @@ public class UserApi {
    * @param username name that need to be deleted
    * @param body Updated user object
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
     Call call = updateUserCall(username, body, null, null);
@@ -708,6 +728,7 @@ public class UserApi {
    * @param body Updated user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call updateUserAsync(String username, User body, final ApiCallback<Void> callback) throws ApiException {
 
@@ -787,6 +808,7 @@ public class UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deleteUser(String username) throws ApiException {
     deleteUserWithHttpInfo(username);
@@ -797,6 +819,7 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
     Call call = deleteUserCall(username, null, null);
@@ -809,6 +832,7 @@ public class UserApi {
    * @param username The name that needs to be deleted
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call deleteUserAsync(String username, final ApiCallback<Void> callback) throws ApiException {
 

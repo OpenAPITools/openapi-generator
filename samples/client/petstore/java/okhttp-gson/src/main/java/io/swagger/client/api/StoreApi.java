@@ -89,6 +89,7 @@ public class StoreApi {
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
    * @return Map<String, Integer>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public Map<String, Integer> getInventory() throws ApiException {
     ApiResponse<Map<String, Integer>> resp = getInventoryWithHttpInfo();
@@ -99,6 +100,7 @@ public class StoreApi {
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
    * @return ApiResponse<Map<String, Integer>>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
     Call call = getInventoryCall(null, null);
@@ -111,6 +113,7 @@ public class StoreApi {
    * Returns a map of status codes to quantities
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call getInventoryAsync(final ApiCallback<Map<String, Integer>> callback) throws ApiException {
 
@@ -186,6 +189,7 @@ public class StoreApi {
    * 
    * @param body order placed for purchasing the pet
    * @return Order
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public Order placeOrder(Order body) throws ApiException {
     ApiResponse<Order> resp = placeOrderWithHttpInfo(body);
@@ -197,6 +201,7 @@ public class StoreApi {
    * 
    * @param body order placed for purchasing the pet
    * @return ApiResponse<Order>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
     Call call = placeOrderCall(body, null, null);
@@ -210,6 +215,7 @@ public class StoreApi {
    * @param body order placed for purchasing the pet
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call placeOrderAsync(Order body, final ApiCallback<Order> callback) throws ApiException {
 
@@ -291,6 +297,7 @@ public class StoreApi {
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched
    * @return Order
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public Order getOrderById(String orderId) throws ApiException {
     ApiResponse<Order> resp = getOrderByIdWithHttpInfo(orderId);
@@ -302,6 +309,7 @@ public class StoreApi {
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched
    * @return ApiResponse<Order>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Order> getOrderByIdWithHttpInfo(String orderId) throws ApiException {
     Call call = getOrderByIdCall(orderId, null, null);
@@ -315,6 +323,7 @@ public class StoreApi {
    * @param orderId ID of pet that needs to be fetched
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call getOrderByIdAsync(String orderId, final ApiCallback<Order> callback) throws ApiException {
 
@@ -395,6 +404,7 @@ public class StoreApi {
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param orderId ID of the order that needs to be deleted
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deleteOrder(String orderId) throws ApiException {
     deleteOrderWithHttpInfo(orderId);
@@ -405,6 +415,7 @@ public class StoreApi {
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param orderId ID of the order that needs to be deleted
    * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
     Call call = deleteOrderCall(orderId, null, null);
@@ -417,6 +428,7 @@ public class StoreApi {
    * @param orderId ID of the order that needs to be deleted
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call deleteOrderAsync(String orderId, final ApiCallback<Void> callback) throws ApiException {
 
