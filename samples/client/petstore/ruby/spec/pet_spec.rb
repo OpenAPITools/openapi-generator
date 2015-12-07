@@ -50,6 +50,17 @@ describe "Pet" do
       pet.category.name.should == "category test"
     end
 
+    it "should fetch a pet object with http info" do
+      status_code, headers, pet = @pet_api.get_pet_by_id_with_http_info(10002)
+      status_code.should == 200
+      headers['Content-Type'].should == 'application/json'
+      pet.should be_a(Petstore::Pet)
+      pet.id.should == 10002
+      pet.name.should == "RUBY UNIT TESTING"
+      pet.tags[0].name.should == "tag test"
+      pet.category.name.should == "category test"
+    end
+
     it "should not find a pet that does not exist" do
       begin
         @pet_api.get_pet_by_id(-10002)

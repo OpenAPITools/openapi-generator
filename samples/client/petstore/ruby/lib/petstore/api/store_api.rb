@@ -13,6 +13,15 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Hash<String, Integer>]
     def get_inventory(opts = {})
+      status_code, headers, data = get_inventory_with_http_info(opts)
+      return data
+    end
+
+    # Returns pet inventories by status
+    # Returns a map of status codes to quantities
+    # @param [Hash] opts the optional parameters
+    # @return [Array<Fixnum, Hash, Hash<String, Integer>>] response status code, response headers and Hash<String, Integer> data
+    def get_inventory_with_http_info(opts = {})
       if Configuration.debugging
         Configuration.logger.debug "Calling API: StoreApi#get_inventory ..."
       end
@@ -42,7 +51,7 @@ module Petstore
       
 
       auth_names = ['api_key']
-      result = @api_client.call_api(:GET, path,
+      status_code, headers, data = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -50,9 +59,9 @@ module Petstore
         :auth_names => auth_names,
         :return_type => 'Hash<String, Integer>')
       if Configuration.debugging
-        Configuration.logger.debug "API called: StoreApi#get_inventory. Result: #{result.inspect}"
+        Configuration.logger.debug "API called: StoreApi#get_inventory\nStatus code: #{status_code}\nHeaders: #{headers}\nData: #{data.inspect}"
       end
-      return result
+      return status_code, headers, data
     end
 
     # Place an order for a pet
@@ -61,6 +70,16 @@ module Petstore
     # @option opts [Order] :body order placed for purchasing the pet
     # @return [Order]
     def place_order(opts = {})
+      status_code, headers, data = place_order_with_http_info(opts)
+      return data
+    end
+
+    # Place an order for a pet
+    # 
+    # @param [Hash] opts the optional parameters
+    # @option opts [Order] :body order placed for purchasing the pet
+    # @return [Array<Fixnum, Hash, Order>] response status code, response headers and Order data
+    def place_order_with_http_info(opts = {})
       if Configuration.debugging
         Configuration.logger.debug "Calling API: StoreApi#place_order ..."
       end
@@ -90,7 +109,7 @@ module Petstore
       
 
       auth_names = []
-      result = @api_client.call_api(:POST, path,
+      status_code, headers, data = @api_client.call_api(:POST, path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -98,9 +117,9 @@ module Petstore
         :auth_names => auth_names,
         :return_type => 'Order')
       if Configuration.debugging
-        Configuration.logger.debug "API called: StoreApi#place_order. Result: #{result.inspect}"
+        Configuration.logger.debug "API called: StoreApi#place_order\nStatus code: #{status_code}\nHeaders: #{headers}\nData: #{data.inspect}"
       end
-      return result
+      return status_code, headers, data
     end
 
     # Find purchase order by ID
@@ -109,6 +128,16 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Order]
     def get_order_by_id(order_id, opts = {})
+      status_code, headers, data = get_order_by_id_with_http_info(order_id, opts)
+      return data
+    end
+
+    # Find purchase order by ID
+    # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+    # @param order_id ID of pet that needs to be fetched
+    # @param [Hash] opts the optional parameters
+    # @return [Array<Fixnum, Hash, Order>] response status code, response headers and Order data
+    def get_order_by_id_with_http_info(order_id, opts = {})
       if Configuration.debugging
         Configuration.logger.debug "Calling API: StoreApi#get_order_by_id ..."
       end
@@ -141,7 +170,7 @@ module Petstore
       
 
       auth_names = []
-      result = @api_client.call_api(:GET, path,
+      status_code, headers, data = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -149,9 +178,9 @@ module Petstore
         :auth_names => auth_names,
         :return_type => 'Order')
       if Configuration.debugging
-        Configuration.logger.debug "API called: StoreApi#get_order_by_id. Result: #{result.inspect}"
+        Configuration.logger.debug "API called: StoreApi#get_order_by_id\nStatus code: #{status_code}\nHeaders: #{headers}\nData: #{data.inspect}"
       end
-      return result
+      return status_code, headers, data
     end
 
     # Delete purchase order by ID
@@ -160,6 +189,16 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def delete_order(order_id, opts = {})
+      delete_order_with_http_info(order_id, opts)
+      return nil
+    end
+
+    # Delete purchase order by ID
+    # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    # @param order_id ID of the order that needs to be deleted
+    # @param [Hash] opts the optional parameters
+    # @return [Array<Fixnum, Hash, nil>] response status code, response headers and nil
+    def delete_order_with_http_info(order_id, opts = {})
       if Configuration.debugging
         Configuration.logger.debug "Calling API: StoreApi#delete_order ..."
       end
@@ -192,16 +231,16 @@ module Petstore
       
 
       auth_names = []
-      @api_client.call_api(:DELETE, path,
+      status_code, headers, data = @api_client.call_api(:DELETE, path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
       if Configuration.debugging
-        Configuration.logger.debug "API called: StoreApi#delete_order"
+        Configuration.logger.debug "API called: StoreApi#delete_order\nStatus code: #{status_code}\nHeaders: #{headers}\nData: #{data.inspect}"
       end
-      return nil
+      return status_code, headers, data
     end
   end
 end
