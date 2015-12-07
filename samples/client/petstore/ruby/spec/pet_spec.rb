@@ -51,7 +51,7 @@ describe "Pet" do
     end
 
     it "should fetch a pet object with http info" do
-      status_code, headers, pet = @pet_api.get_pet_by_id_with_http_info(10002)
+      pet, status_code, headers = @pet_api.get_pet_by_id_with_http_info(10002)
       status_code.should == 200
       headers['Content-Type'].should == 'application/json'
       pet.should be_a(Petstore::Pet)
