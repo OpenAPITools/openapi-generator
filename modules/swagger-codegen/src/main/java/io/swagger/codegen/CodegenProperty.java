@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class CodegenProperty {
     public String baseName, complexType, getter, setter, description, datatype, datatypeWithEnum,
-            name, min, max, defaultValue, baseType, containerType;
+            name, min, max, defaultValue, defaultValueWithParam, baseType, containerType;
 
     public String unescapedDescription;
 

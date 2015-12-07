@@ -1,0 +1,130 @@
+/*
+ * {{>generatedAnnotation}}
+ */
+
+//export module
+if ( typeof define === "function" && define.amd ) {     
+	define(['jquery'], function($) {
+        return {{classname}};
+	 });
+}
+
+var {{classname}} = function {{classname}}() {
+	var self = this;
+{{#operations}}
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}   * @param {{=<% %>=}}{<% dataType %>} <%={{ }}=%> {{paramName}} {{description}}
+{{/allParams}}   * @param {function} callback the callback function
+   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   */
+  self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, callback) {
+    
+    var {{localVariablePrefix}}postBody = {{#bodyParam}}{{^isBinary}}JSON.stringify({{paramName}}){{/isBinary}}{{#isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    var {{localVariablePrefix}}postBinaryBody = {{#bodyParam}}{{#isBinary}}{{paramName}}{{/isBinary}}{{^isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    {{#allParams}}{{#required}}
+     // verify the required parameter '{{paramName}}' is set
+     if ({{paramName}} == null) {
+        //throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+        var errorRequiredMsg = "Missing the required parameter '{{paramName}}' when calling {{nickname}}";
+        throw errorRequiredMsg;
+     }
+     {{/required}}{{/allParams}}
+    // create path and map variables
+    var basePath = '{{basePath}}';
+    // if basePath ends with a /, remove it as path starts with a leading /
+    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
+    	basePath = basePath.substring(0, basePath.length-1);
+    }
+    
+	var {{localVariablePrefix}}path = basePath + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
+, "\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString()){{/pathParams}});
+
+    var queryParams = {};
+    var headerParams =  {};
+    var formParams =  {};
+
+    {{#queryParams}}
+    queryParams.{{baseName}} = {{paramName}};
+    {{/queryParams}}
+    {{#headerParams}}if ({{paramName}} != null)
+    {{localVariablePrefix}}headerParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
+    {{/headerParams}}
+    {{#formParams}}if ({{paramName}} != null)
+      {{localVariablePrefix}}formParams.put("{{baseName}}", {{paramName}});
+    {{/formParams}}
+
+	path += createQueryString(queryParams);
+
+	//if (console) {
+		//console.log('path: ' + path);
+		//console.log('queryParams: ' + queryParams);
+	//}
+
+    {{#isResponseBinary}}
+    byte[] {{localVariablePrefix}}response = null;
+    {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeBinaryAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams,{{localVariablePrefix}} postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
+    return {{localVariablePrefix}}response;
+    {{/isResponseBinary}}
+
+    {{^isResponseBinary}}
+    {{#returnType}}
+    //TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
+    //return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
+    
+	var options = {type: "{{httpMethod}}", async: true, contentType: "application/json", dataType: "json", data: postBody};
+    var request = $.ajax(path, options);
+    //request.fail(function(jqXHR, textStatus, errorThrown){
+    //    errorHandler(jqXHR, textStatus, errorThrown);
+    //});
+    
+		
+	request.done(function(response, textStatus, jqXHR){
+		/**
+		  * @returns {{{returnType}}}
+		  */
+		{{#returnTypeIsPrimitive}} var myResponse = response;{{/returnTypeIsPrimitive}}
+		{{^returnTypeIsPrimitive}} var myResponse = new  {{{returnType}}}();
+		myResponse.constructFromObject(response);{{/returnTypeIsPrimitive}}
+		
+    	callback(myResponse, textStatus, jqXHR);
+	});
+    
+    {{/returnType}}{{^returnType}}
+    {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);
+    {{/returnType}}
+    {{/isResponseBinary}}
+
+
+  }
+  {{/operation}}
+
+{{/operations}}
+
+ 	function replaceAll (haystack, needle, replace) {
+		var result= haystack;
+		if (needle !=null && replace!=null) {
+			result= haystack.replace(new RegExp(needle, 'g'), replace);
+		}
+		return result;
+	}
+
+ 	function createQueryString (queryParams) {
+		var queryString ='';
+		var i = 0;
+		for (var queryParamName in queryParams) {
+			if (i==0) {
+				queryString += '?' ;
+			} else {
+				queryString += '&' ;
+			}
+			
+			queryString +=  queryParamName + '=' + encodeURIComponent(queryParams[queryParamName]);
+			i++;
+		}
+		
+		return queryString;
+	}
+}
