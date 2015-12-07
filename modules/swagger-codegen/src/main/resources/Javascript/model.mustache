@@ -1,0 +1,60 @@
+{{#models}}{{#model}}
+{{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
+
+//export module
+if ( typeof define === "function" && define.amd ) {     
+	define('{{classname}}', ['jquery'{{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}'{{datatypeWithEnum}}'{{/isPrimitiveType}}{{/vars}}], 
+		function(${{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}{{datatypeWithEnum}}{{/isPrimitiveType}}{{/vars}}) {
+        return {{classname}};
+	 });
+}
+
+{{#description}}/**
+ * {{description}}
+ **/{{/description}}
+var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
+  	var self = this;
+  	{{#vars}}
+  	/**{{#description}}
+	  * {{{description}}}{{/description}}
+	  * datatype: {{{datatypeWithEnum}}}{{#required}}
+	  * required{{/required}}{{#minimum}}
+	  * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+	  * maximum: {{maximum}}{{/maximum}}
+	  **/
+	  self.{{name}} = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
+	 {{/vars}}
+  
+  	self.constructFromObject = function(data) {
+	  	{{#vars}}
+	  	self.{{name}}{{{defaultValueWithParam}}}
+	  	{{/vars}}
+	}
+  
+  {{#vars}}
+  /**{{#description}}
+   * get {{{description}}}{{/description}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
+   **/
+  self.{{getter}} = function() {
+    return self.{{name}};
+  }
+  
+  /**{{#description}}
+   * set {{{description}}}{{/description}}
+   * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
+   **/
+  self.{{setter}} = function ({{name}}) {
+    self.{{name}} = {{name}};
+  }
+  {{/vars}}
+
+  self.toJson = function () {
+  	return JSON.stringify(self);
+  }
+}
+{{/model}}
+{{/models}}
