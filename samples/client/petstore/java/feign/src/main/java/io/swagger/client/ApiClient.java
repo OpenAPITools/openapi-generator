@@ -1,4 +1,4 @@
-package {{invokerPackage}};
+package io.swagger.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,12 +8,12 @@ import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
 
-{{>generatedAnnotation}}
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T01:11:21.159-05:00")
 public class ApiClient {
   public interface Api {}
 
   private ObjectMapper objectMapper;
-  private String basePath = "{{basePath}}";
+  private String basePath = "http://petstore.swagger.io/v2";
 
   public ApiClient() {
     objectMapper = createObjectMapper();
