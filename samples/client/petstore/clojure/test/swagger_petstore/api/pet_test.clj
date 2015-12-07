@@ -30,6 +30,18 @@
     (is (= (get-in pet [:category :name]) (get-in fetched [:category :name])))
     (delete-pet id)))
 
+(deftest test-create-and-get-pet-with-http-info
+  (let [{:keys [id] :as pet} (make-random-pet)
+        _ (add-pet-with-http-info {:body pet})
+        {:keys [status headers data]} (get-pet-by-id-with-http-info id)]
+    (is (= 200 status))
+    (is (= "application/json" (:content-type headers)))
+    (is (identity data))
+    (is (= id (:id data)))
+    (is (identity (:category data)))
+    (is (= (get-in pet [:category :name]) (get-in data [:category :name])))
+    (delete-pet id)))
+
 (deftest test-find-pets-by-status
   (let [status "pending"
         {:keys [id] :as pet} (make-random-pet {:status status})
