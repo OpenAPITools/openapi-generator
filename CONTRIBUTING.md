@@ -1,3 +1,5 @@
+# Guidelines For Contributing
+
 ## Before submitting an issue
 
  - Before submitting an issue, search the [open issue](https://github.com/swagger-api/swagger-codegen/issues) and [closed issue](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aissue+is%3Aclosed) to ensure no one else has reported something similar before.
