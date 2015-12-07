@@ -117,6 +117,8 @@ You can build a client against the swagger sample [petstore](http://petstore.swa
 ./bin/java-petstore.sh
 ```
 
+(On Windows, run `./bin/windows/java-petstore.bat` instead)
+
 This will run the generator with this command:
 
 ```
@@ -217,6 +219,7 @@ See our [javascript library](http://github.com/swagger-api/swagger-js)--it's com
 static code generation.
 There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a swagger specification.
 
+:exclamation: On Dec 7th 2015, a Javascript API client generator has been added by @jfiala.
 
 ### Generating a client from local files
 If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
@@ -276,6 +279,7 @@ FlashClientCodegen.java
 FlaskConnexionCodegen.java
 JavaClientCodegen.java
 JavaInflectorServerCodegen.java
+JavascriptClientCodegen.java
 JaxRSServerCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
@@ -288,6 +292,7 @@ ScalaClientCodegen.java
 ScalatraServerCodegen.java
 SilexServerCodegen.java
 SinatraServerCodegen.java
+SlimFrameworkServerCodegen.java
 SpringMVCServerCodegen.java
 StaticDocCodegen.java
 StaticHtmlGenerator.java
