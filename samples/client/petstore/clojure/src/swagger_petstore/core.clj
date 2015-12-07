@@ -198,9 +198,10 @@
     (try
       (parse-string body true)
       (catch JsonParseException e
-        ;; return the body string directly on JSON parsing error
+        ;; Return the body string directly on JSON parsing error.
         body))
-    ;; for non-JSON response, return the body string directly
+
+    ;; For other cases, return the body string directly.
     :else body))
 
 (defn form-params->multipart
@@ -236,4 +237,4 @@
     (when debug
       (println "Response:")
       (println resp))
-    (deserialize resp)))
+    (assoc resp :data (deserialize resp))))
