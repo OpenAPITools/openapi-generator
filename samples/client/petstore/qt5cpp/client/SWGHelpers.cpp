@@ -1,9 +1,9 @@
 #include "SWGHelpers.h"
 #include "SWGModelFactory.h"
 #include "SWGObject.h"
-#import <QDebug>
-#import <QJsonArray>
-#import <QJsonValue>
+#include <QDebug>
+#include <QJsonArray>
+#include <QJsonValue>
 
 namespace Swagger {
 
@@ -24,6 +24,14 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
     else if(QStringLiteral("qint64").compare(type) == 0) {
         qint64 *val = static_cast<qint64*>(value);
         *val = obj.toVariant().toLongLong();
+    }
+    else if(QStringLiteral("float").compare(type) == 0) {
+        float *val = static_cast<float*>(value);
+        *val = obj.toDouble();
+    }
+    else if(QStringLiteral("double").compare(type) == 0) {
+        double *val = static_cast<double*>(value);
+        *val = obj.toDouble();
     }
     else if (QStringLiteral("QString").compare(type) == 0) {
         QString **val = static_cast<QString**>(value);
@@ -86,6 +94,16 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                     setValue(&val, jval, QStringLiteral("bool"), QStringLiteral(""));
                     output->append((void*)&val);
                 }
+                else if(QStringLiteral("float").compare(complexType) == 0) {
+                    float val;
+                    setValue(&val, jval, QStringLiteral("float"), QStringLiteral(""));
+                    output->append((void*)&val);
+                }
+                else if(QStringLiteral("double").compare(complexType) == 0) {
+                    double val;
+                    setValue(&val, jval, QStringLiteral("double"), QStringLiteral(""));
+                    output->append((void*)&val);
+                }
             }
         }
         QList<void*> **val = static_cast<QList<void*>**>(value);
@@ -129,6 +147,14 @@ toJsonValue(QString name, void* value, QJsonObject* output, QString type) {
     }
     else if(QStringLiteral("bool").compare(type) == 0) {
         bool* str = static_cast<bool*>(value);
+        output->insert(name, QJsonValue(*str));    
+    }
+    else if(QStringLiteral("float").compare(type) == 0) {
+        float* str = static_cast<float*>(value);
+        output->insert(name, QJsonValue((double)*str));    
+    }
+    else if(QStringLiteral("double").compare(type) == 0) {
+        double* str = static_cast<double*>(value);
         output->insert(name, QJsonValue(*str));    
     }
 }
