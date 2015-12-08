@@ -10,9 +10,7 @@ import io.swagger.client.model.Pet;
 import java.io.File;
 import io.swagger.client.model.ApiResponse;
 
-
 import java.util.*;
-
 import feign.*;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T01:11:21.159-05:00")
