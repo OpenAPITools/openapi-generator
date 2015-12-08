@@ -16,6 +16,14 @@ namespace IO.Swagger.Model
     [DataContract]
     public class User : IEquatable<User>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="User" /> class.
+        /// </summary>
+        public User()
+        {
+            
+        }
+
         
         /// <summary>
         /// Gets or Sets Id
