@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-petstore-feign</artifactId>
+  <artifactId>swagger-java-client</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-petstore-feign</name>
+  <name>swagger-java-client</name>
   <version>1.0.0</version>
   <scm>
     <connection>scm:git:git@github.com:swagger-api/swagger-mustache.git</connection>

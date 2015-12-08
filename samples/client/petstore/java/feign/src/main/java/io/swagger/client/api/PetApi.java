@@ -1,20 +1,18 @@
 package io.swagger.client.api;
 
-import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
-import io.swagger.client.Configuration;
-import io.swagger.client.Pair;
-import io.swagger.client.TypeRef;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
 import io.swagger.client.model.ApiResponse;
 
+
 import java.util.*;
+
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T01:11:21.159-05:00")
-public interface PetApi extends io.swagger.client.ApiClient.Api {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T22:27:06.680-05:00")
+public interface PetApi extends ApiClient.Api {
 
 
   /**
@@ -28,7 +26,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void updatePet(Pet body) throws ApiException;
+  void updatePet(Pet body);
   
   /**
    * Add a new pet to the store
@@ -41,7 +39,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void addPet(Pet body) throws ApiException;
+  void addPet(Pet body);
   
   /**
    * Finds Pets by status
@@ -54,7 +52,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  List<Pet> findPetsByStatus(@Param("status") List<String> status) throws ApiException;
+  List<Pet> findPetsByStatus(@Param("status") List<String> status);
   
   /**
    * Finds Pets by tags
@@ -67,7 +65,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  List<Pet> findPetsByTags(@Param("tags") List<String> tags) throws ApiException;
+  List<Pet> findPetsByTags(@Param("tags") List<String> tags);
   
   /**
    * Find pet by ID
@@ -80,7 +78,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  Pet getPetById(@Param("petId") Long petId) throws ApiException;
+  Pet getPetById(@Param("petId") Long petId);
   
   /**
    * Updates a pet in the store with form data
@@ -95,7 +93,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/x-www-form-urlencoded",
     "Accepts: application/json",
   })
-  void updatePetWithForm(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status) throws ApiException;
+  void updatePetWithForm(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status);
   
   /**
    * Deletes a pet
@@ -110,7 +108,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Accepts: application/json",
     "apiKey: {apiKey}"
   })
-  void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey) throws ApiException;
+  void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
   
   /**
    * uploads an image
@@ -125,7 +123,7 @@ public interface PetApi extends io.swagger.client.ApiClient.Api {
     "Content-type: multipart/form-data",
     "Accepts: application/json",
   })
-  ApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file) throws ApiException;
+  ApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
   
 
 }

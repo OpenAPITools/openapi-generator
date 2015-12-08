@@ -1,10 +1,6 @@
 package {{package}};
 
-import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
-import {{invokerPackage}}.Configuration;
-import {{invokerPackage}}.Pair;
-import {{invokerPackage}}.TypeRef;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -14,7 +10,7 @@ import {{invokerPackage}}.TypeRef;
 import feign.*;
 
 {{>generatedAnnotation}}
-public interface {{classname}} extends {{invokerPackage}}.ApiClient.Api {
+public interface {{classname}} extends ApiClient.Api {
 
 {{#operations}}{{#operation}}
   /**
@@ -30,7 +26,7 @@ public interface {{classname}} extends {{invokerPackage}}.ApiClient.Api {
     "{{paramName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
     {{/hasMore}}{{/headerParams}}
   })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^vendorExtensions.x-isBody}}@Param("{{paramName}}") {{/vendorExtensions.x-isBody}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException;
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^vendorExtensions.x-isBody}}@Param("{{paramName}}") {{/vendorExtensions.x-isBody}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   {{/operation}}
 {{/operations}}
 }

@@ -1,7 +1,5 @@
 package io.swagger.petstore.test;
 
-import io.swagger.client.ApiException;
-
 import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
@@ -48,12 +46,8 @@ public class StoreApiTest {
 
         api.deleteOrder(String.valueOf(order.getId()));
 
-        try {
-            api.getOrderById(order.getId());
-            // fail("expected an error");
-        } catch (ApiException e) {
-            // ok
-        }
+        api.getOrderById(order.getId());
+//        fail("expected an error");
     }
 
     private Order createOrder() {
