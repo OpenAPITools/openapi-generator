@@ -1,10 +1,6 @@
 package io.swagger.petstore.test;
 
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.Configuration;
-
-import io.swagger.client.ApiCallback;
+import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
@@ -65,6 +61,21 @@ public class PetApiTest {
         api.addPet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testCreateAndGetPetWithHttpInfo() throws Exception {
+        Pet pet = createRandomPet();
+        api.addPetWithHttpInfo(pet);
+
+        ApiResponse<Pet> resp = api.getPetByIdWithHttpInfo(pet.getId());
+        assertEquals(200, resp.getStatusCode());
+        assertEquals("application/json", resp.getHeaders().get("Content-Type").get(0));
+        Pet fetched = resp.getData();
         assertNotNull(fetched);
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
