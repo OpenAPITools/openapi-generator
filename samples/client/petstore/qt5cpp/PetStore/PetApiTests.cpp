@@ -35,34 +35,12 @@ void PetApiTests::runTests() {
     delete tests;
 }
 
-void PetApiTests::getPetByIdTest() {
-    SWGPetApi* api = getApi();
-
-    static QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(1000);
-    timer.setSingleShot(true);
-
-    auto validator = [](SWGPet* pet) {
-        QVERIFY(pet->getId() == 3);
-        loop.quit();
-    };
-
-    connect(api, &SWGPetApi::getPetByIdSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-    api->getPetById(3);
-    timer.start();
-    loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    delete api;
-}
-
 void PetApiTests::findPetsByStatusTest() {
     SWGPetApi* api = getApi();
 
     static QEventLoop loop;
     QTimer timer;
-    timer.setInterval(1000);
+    timer.setInterval(4000);
     timer.setSingleShot(true);
 
     auto validator = [](QList<SWGPet*>* pets) {
