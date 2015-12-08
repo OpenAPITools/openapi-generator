@@ -2,13 +2,14 @@ package io.swagger.client.auth;
 
 import io.swagger.client.Pair;
 
+import com.migcomponents.migbase64.Base64;
+
 import java.util.Map;
 import java.util.List;
 
 import java.io.UnsupportedEncodingException;
-import javax.xml.bind.DatatypeConverter;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-17T11:17:50.535-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-22T13:15:27.225+08:00")
 public class HttpBasicAuth implements Authentication {
   private String username;
   private String password;
@@ -31,9 +32,12 @@ public class HttpBasicAuth implements Authentication {
 
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+    if (username == null && password == null) {
+      return;
+    }
     String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
     try {
-      headerParams.put("Authorization", "Basic " + DatatypeConverter.printBase64Binary(str.getBytes("UTF-8")));
+      headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.getBytes("UTF-8"), false));
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
