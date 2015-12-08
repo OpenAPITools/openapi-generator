@@ -89,7 +89,7 @@ class {{classname}} implements ArrayAccess
       * ${{name}} {{#description}}{{{description}}}{{/description}}
       * @var {{datatype}}
       */
-    protected ${{name}};
+    protected ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
     {{/vars}}
 
     /**
