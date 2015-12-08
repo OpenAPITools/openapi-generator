@@ -21,7 +21,7 @@ module {{moduleName}}
     end
 
     def initialize(attributes = {})
-      return if !attributes.is_a?(Hash) || attributes.empty?
+      return unless attributes.is_a?(Hash)
 
       # convert string to symbol for hash key
       attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
@@ -30,7 +30,9 @@ module {{moduleName}}
       if attributes[:'{{{baseName}}}']
         {{#isContainer}}if (value = attributes[:'{{{baseName}}}']).is_a?(Array)
           self.{{{name}}} = value
-        end{{/isContainer}}{{^isContainer}}self.{{{name}}} = attributes[:'{{{baseName}}}']{{/isContainer}}
+        end{{/isContainer}}{{^isContainer}}self.{{{name}}} = attributes[:'{{{baseName}}}']{{/isContainer}}{{#defaultValue}}
+      else
+        self.{{{name}}} = {{{defaultValue}}}{{/defaultValue}}
       end
       {{/vars}}
     end

@@ -49,7 +49,7 @@ module Petstore
     end
 
     def initialize(attributes = {})
-      return if !attributes.is_a?(Hash) || attributes.empty?
+      return unless attributes.is_a?(Hash)
 
       # convert string to symbol for hash key
       attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
