@@ -25,7 +25,6 @@ signals:
     bool success();
 
 private slots:
-    void getPetByIdTest();
     void findPetsByStatusTest();
     void createAndGetPetTest();
     void updatePetTest();
