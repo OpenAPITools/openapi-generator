@@ -4,21 +4,31 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import feign.codec.EncodeException;
 import feign.codec.Encoder;
 import feign.RequestTemplate;
 
 {{>generatedAnnotation}}
 public class FormAwareEncoder implements Encoder {
+  public static final String UTF_8 = "utf-8";
   private static final String LINE_FEED = "\r\n";
+  private static final String TWO_DASH = "--";
   private static final String BOUNDARY = "----------------314159265358979323846";
 
+  private byte[] lineFeedBytes;
+  private byte[] boundaryBytes;
+  private byte[] twoDashBytes;
+  private byte[] atBytes;
+  private byte[] eqBytes;
+
   private final Encoder delegate;
-  private DateFormat dateFormat;
+  private final DateFormat dateFormat;
 
   public FormAwareEncoder(Encoder delegate) {
     this.delegate = delegate;
@@ -28,93 +38,121 @@ public class FormAwareEncoder implements Encoder {
 
     // Use UTC as the default time zone.
     this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    try {
+      this.lineFeedBytes = LINE_FEED.getBytes(UTF_8);
+      this.boundaryBytes = BOUNDARY.getBytes(UTF_8);
+      this.twoDashBytes = TWO_DASH.getBytes(UTF_8);
+      this.atBytes = "&".getBytes(UTF_8);
+      this.eqBytes = "=".getBytes(UTF_8);
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void encode(Object object, Type bodyType, RequestTemplate template) {
+  public void encode(Object object, Type bodyType, RequestTemplate template) throws EncodeException {
     if (object instanceof Map) {
-      StringBuilder formParamBuilder = new StringBuilder();
-      Map<String, Object> formParams = (Map<String, Object>) object;
-      boolean isMultiPart = isMultiPart(formParams);
-      for (Map.Entry<String, Object> param : formParams.entrySet()) {
-        String keyStr = param.getKey();
-        if (param.getValue() instanceof File) {
-            addFilePart(formParamBuilder, keyStr, (File) param.getValue());
-        } else {
-          String valueStr = parameterToString(param.getValue());
-          if (isMultiPart) {
-            addMultiPartFormField(formParamBuilder, keyStr, valueStr);
-          } else {
-            addEncodedFormField(formParamBuilder, keyStr, valueStr);
-          }
-        }
+      try {
+        encodeFormParams(template, (Map<String, Object>) object);
+      } catch (IOException e) {
+        throw new EncodeException("Failed to create request", e);
       }
-
-      if (isMultiPart) {
-        formParamBuilder.append(LINE_FEED);
-        formParamBuilder.append("--").append(BOUNDARY).append("--").append(LINE_FEED);
-      }
-
-      String contentType = isMultiPart ? "multipart/form-data; boundary=" + BOUNDARY : "application/x-www-form-urlencoded";
-      template.header("Content-type");
-      template.header("Content-type", contentType);
-      template.header("MIME-Version", "1.0");
-      template.body(formParamBuilder.toString());
     } else {
       delegate.encode(object, bodyType, template);
     }
   }
 
+  private void encodeFormParams(RequestTemplate template, Map<String, Object> formParams) throws IOException {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+    boolean isMultiPart = isMultiPart(formParams);
+    boolean isFirstField = true;
+    for (Map.Entry<String, Object> param : formParams.entrySet()) {
+      String keyStr = param.getKey();
+      if (param.getValue() instanceof File) {
+          addFilePart(baos, keyStr, (File) param.getValue());
+      } else {
+        String valueStr = parameterToString(param.getValue());
+        if (isMultiPart) {
+          addMultiPartFormField(baos, keyStr, valueStr);
+        } else {
+          addEncodedFormField(baos, keyStr, valueStr, isFirstField);
+          isFirstField = false;
+        }
+      }
+    }
+
+    if (isMultiPart) {
+      baos.write(lineFeedBytes);
+      baos.write(twoDashBytes);
+      baos.write(boundaryBytes);
+      baos.write(twoDashBytes);
+      baos.write(lineFeedBytes);
+    }
+
+    String contentType = isMultiPart ? "multipart/form-data; boundary=" + BOUNDARY : "application/x-www-form-urlencoded";
+    template.header("Content-type");
+    template.header("Content-type", contentType);
+    template.header("MIME-Version", "1.0");
+    template.body(baos.toByteArray(), Charset.forName(UTF_8));
+  }
+
   /*
    * Currently only supports text files
    */
-  private void addFilePart(StringBuilder formParamBuilder, String fieldName, File uploadFile) {
-    try {
-      String fileName = uploadFile.getName();
-      formParamBuilder.append("--").append(BOUNDARY).append(LINE_FEED);
-      formParamBuilder.append(
-        "Content-Disposition: form-data; name=\"" + fieldName
-          + "\"; filename=\"" + fileName + "\"")
-        .append(LINE_FEED);
-      formParamBuilder.append(
-        "Content-Type: "
-          + URLConnection.guessContentTypeFromName(fileName))
-        .append(LINE_FEED);
-      formParamBuilder.append(LINE_FEED);
+  private void addFilePart(ByteArrayOutputStream baos, String fieldName, File uploadFile) throws IOException {
+    String fileName = uploadFile.getName();
+    baos.write(twoDashBytes);
+    baos.write(boundaryBytes);
+    baos.write(lineFeedBytes);
 
-      BufferedReader reader = new BufferedReader(new FileReader(uploadFile));
-      String line = "";
-      while ((line = reader.readLine()) != null) {
-        formParamBuilder.append(line).append(LINE_FEED);
-      }
+    String contentDisposition = "Content-Disposition: form-data; name=\"" + fieldName
+            + "\"; filename=\"" + fileName + "\"";
+    baos.write(contentDisposition.getBytes(UTF_8));
+    baos.write(lineFeedBytes);
+    String contentType = "Content-Type: " + URLConnection.guessContentTypeFromName(fileName);
+    baos.write(contentType.getBytes(UTF_8));
+    baos.write(lineFeedBytes);
+    baos.write(lineFeedBytes);
 
-      formParamBuilder.append(LINE_FEED);
-    } catch (IOException e) {
-      e.printStackTrace();
+    BufferedReader reader = new BufferedReader(new FileReader(uploadFile));
+    InputStream input = new FileInputStream(uploadFile);
+    byte[] bytes = new byte[4096];
+    int len = bytes.length;
+    while ((len = input.read(bytes)) != -1) {
+      baos.write(bytes, 0, len);
+      baos.write(lineFeedBytes);
     }
+
+    baos.write(lineFeedBytes);
   }
 
-  private void addEncodedFormField(StringBuilder formParamBuilder, String name, String value) {
-    if (formParamBuilder.length() > 0) {
-      formParamBuilder.append("&");
+  private void addEncodedFormField(ByteArrayOutputStream baos, String name, String value, boolean isFirstField) throws IOException {
+    if (!isFirstField) {
+      baos.write(atBytes);
     }
 
-    try {
-      formParamBuilder.append(URLEncoder.encode(name, "utf8"))
-        .append("=")
-        .append(URLEncoder.encode(value, "utf8"));
-    } catch (UnsupportedEncodingException e) {
-      // move on to next
-    }
+    String encodedName = URLEncoder.encode(name, UTF_8);
+    String encodedValue = URLEncoder.encode(value, UTF_8);
+    baos.write(encodedName.getBytes(UTF_8));
+    baos.write("=".getBytes(UTF_8));
+    baos.write(encodedValue.getBytes(UTF_8));
   }
 
-  private void addMultiPartFormField(StringBuilder formParamBuilder, String name, String value) {
-    formParamBuilder.append("--").append(BOUNDARY).append(LINE_FEED);
-    formParamBuilder.append("Content-Disposition: form-data; name=\"" + name + "\"")
-            .append(LINE_FEED);
-    formParamBuilder.append("Content-Type: text/plain; charset=utf-8").append(
-            LINE_FEED);
-    formParamBuilder.append(LINE_FEED);
-    formParamBuilder.append(value).append(LINE_FEED);
+  private void addMultiPartFormField(ByteArrayOutputStream baos, String name, String value) throws IOException {
+    baos.write(twoDashBytes);
+    baos.write(boundaryBytes);
+    baos.write(lineFeedBytes);
+
+    String contentDisposition = "Content-Disposition: form-data; name=\"" + name + "\"";
+    String contentType = "Content-Type: text/plain; charset=utf-8";
+
+    baos.write(contentDisposition.getBytes(UTF_8));
+    baos.write(lineFeedBytes);
+    baos.write(contentType.getBytes(UTF_8));
+    baos.write(lineFeedBytes);
+    baos.write(lineFeedBytes);
+    baos.write(value.getBytes(UTF_8));
+    baos.write(lineFeedBytes);
   }
 
   private boolean isMultiPart(Map<String, Object> formParams) {

@@ -1,10 +1,6 @@
 package io.swagger.client.api;
 
-import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
-import io.swagger.client.Configuration;
-import io.swagger.client.Pair;
-import io.swagger.client.TypeRef;
 
 import io.swagger.client.model.User;
 import java.util.*;
@@ -14,8 +10,8 @@ import java.util.*;
 
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T01:11:21.159-05:00")
-public interface UserApi extends io.swagger.client.ApiClient.Api {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T22:27:06.680-05:00")
+public interface UserApi extends ApiClient.Api {
 
 
   /**
@@ -29,7 +25,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void createUser(User body) throws ApiException;
+  void createUser(User body);
   
   /**
    * Creates list of users with given input array
@@ -42,7 +38,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void createUsersWithArrayInput(List<User> body) throws ApiException;
+  void createUsersWithArrayInput(List<User> body);
   
   /**
    * Creates list of users with given input array
@@ -55,7 +51,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void createUsersWithListInput(List<User> body) throws ApiException;
+  void createUsersWithListInput(List<User> body);
   
   /**
    * Logs user into the system
@@ -69,7 +65,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  String loginUser(@Param("username") String username, @Param("password") String password) throws ApiException;
+  String loginUser(@Param("username") String username, @Param("password") String password);
   
   /**
    * Logs out current logged in user session
@@ -81,7 +77,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void logoutUser() throws ApiException;
+  void logoutUser();
   
   /**
    * Get user by user name
@@ -94,7 +90,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  User getUserByName(@Param("username") String username) throws ApiException;
+  User getUserByName(@Param("username") String username);
   
   /**
    * Updated user
@@ -108,7 +104,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void updateUser(@Param("username") String username, User body) throws ApiException;
+  void updateUser(@Param("username") String username, User body);
   
   /**
    * Delete user
@@ -121,7 +117,7 @@ public interface UserApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void deleteUser(@Param("username") String username) throws ApiException;
+  void deleteUser(@Param("username") String username);
   
 
 }

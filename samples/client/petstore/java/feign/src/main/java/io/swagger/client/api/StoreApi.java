@@ -1,10 +1,6 @@
 package io.swagger.client.api;
 
-import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
-import io.swagger.client.Configuration;
-import io.swagger.client.Pair;
-import io.swagger.client.TypeRef;
 
 import java.util.Map;
 import io.swagger.client.model.Order;
@@ -14,8 +10,8 @@ import java.util.*;
 
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T01:11:21.159-05:00")
-public interface StoreApi extends io.swagger.client.ApiClient.Api {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T22:27:06.680-05:00")
+public interface StoreApi extends ApiClient.Api {
 
 
   /**
@@ -28,7 +24,7 @@ public interface StoreApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  Map<String, Integer> getInventory() throws ApiException;
+  Map<String, Integer> getInventory();
   
   /**
    * Place an order for a pet
@@ -41,7 +37,7 @@ public interface StoreApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  Order placeOrder(Order body) throws ApiException;
+  Order placeOrder(Order body);
   
   /**
    * Find purchase order by ID
@@ -54,7 +50,7 @@ public interface StoreApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  Order getOrderById(@Param("orderId") Long orderId) throws ApiException;
+  Order getOrderById(@Param("orderId") Long orderId);
   
   /**
    * Delete purchase order by ID
@@ -67,7 +63,7 @@ public interface StoreApi extends io.swagger.client.ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void deleteOrder(@Param("orderId") String orderId) throws ApiException;
+  void deleteOrder(@Param("orderId") String orderId);
   
 
 }
