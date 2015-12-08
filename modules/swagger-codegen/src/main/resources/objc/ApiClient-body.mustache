@@ -128,24 +128,22 @@ static void (^reachabilityChangeBlock)(int);
 /*
  * Detect `Accept` from accepts
  */
-+ (NSString *) selectHeaderAccept:(NSArray *)accepts
-{
++ (NSString *) selectHeaderAccept:(NSArray *)accepts {
     if (accepts == nil || [accepts count] == 0) {
         return @"";
     }
-
     NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
-    [accepts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [lowerAccepts addObject:[obj lowercaseString]];
-    }];
-
-
-    if ([lowerAccepts containsObject:@"application/json"]) {
-        return @"application/json";
+    for (NSString *string in accepts) {
+        NSString * lowerAccept = [string lowercaseString];
+        if([lowerAccept containsString:@"application/json"]) {
+            return @"application/json";
+        }
+        [lowerAccepts addObject:lowerAccept];
     }
-    else {
-        return [lowerAccepts componentsJoinedByString:@", "];
+    if(lowerAccepts.count == 1){
+        return [lowerAccepts firstObject];
     }
+    return [lowerAccepts componentsJoinedByString:@", "];
 }
 
 /*
