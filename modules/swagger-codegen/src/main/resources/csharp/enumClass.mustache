@@ -1,6 +1,6 @@
-public enum {{name}} {
-  {{#allowableValues}}{{#enumVars}}
-       [EnumMember("{{jsonname}}")]
-       {{name}}{{^-last}},
-  {{/-last}}{{#-last}}{{/-last}}{{/enumVars}}{{/allowableValues}}
-    }
+public enum {{datatypeWithEnum}} {
+            {{#allowableValues}}{{#enumVars}}
+            [EnumMember(Value = "{{jsonname}}")]
+            {{name}}{{^-last}},
+            {{/-last}}{{#-last}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+        }

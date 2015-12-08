@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
@@ -13,8 +14,6 @@ import io.swagger.models.Swagger;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
 
@@ -23,13 +22,15 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     private static final String PROJECT_DESCRIPTION = "projectDescription";
     private static final String PROJECT_VERSION = "projectVersion";
     private static final String PROJECT_URL = "projectUrl";
-    private static final String LICENSE_NAME = "licenseName";
-    private static final String LICENSE_URL = "licenseUrl";
+    private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
+    private static final String PROJECT_LICENSE_URL = "projectLicenseUrl";
     private static final String BASE_NAMESPACE = "baseNamespace";
 
     protected String projectName = null;
     protected String projectDescription = null;
     protected String projectVersion = null;
+    protected String baseNamespace = null;
+
     protected String sourceFolder = "src";
 
     public ClojureClientCodegen() {
@@ -37,6 +38,21 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         outputFolder = "generated-code" + File.separator + "clojure";
         apiTemplateFiles.put("api.mustache", ".clj");
         embeddedTemplateDir = templateDir = "clojure";
+
+        cliOptions.add(new CliOption(PROJECT_NAME,
+                "name of the project (Default: generated from info.title or \"swagger-clj-client\")"));
+        cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
+                "description of the project (Default: using info.description or \"Client library of <projectNname>\")"));
+        cliOptions.add(new CliOption(PROJECT_VERSION,
+                "version of the project (Default: using info.version or \"1.0.0\")"));
+        cliOptions.add(new CliOption(PROJECT_URL,
+                "URL of the project (Default: using info.contact.url or not included in project.clj)"));
+        cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
+                "name of the license the project uses (Default: using info.license.name or not included in project.clj)"));
+        cliOptions.add(new CliOption(PROJECT_LICENSE_URL,
+                "URL of the license the project uses (Default: using info.license.url or not included in project.clj)"));
+        cliOptions.add(new CliOption(BASE_NAMESPACE,
+                "the base/top namespace (Default: generated from projectName)"));
     }
 
     @Override
@@ -67,6 +83,9 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         if (additionalProperties.containsKey(PROJECT_VERSION)) {
             projectVersion = ((String) additionalProperties.get(PROJECT_VERSION));
         }
+        if (additionalProperties.containsKey(BASE_NAMESPACE)) {
+            baseNamespace = ((String) additionalProperties.get(BASE_NAMESPACE));
+        }
 
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
@@ -91,11 +110,11 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             }
             if (info.getLicense() != null) {
                 License license = info.getLicense();
-                if (additionalProperties.get(LICENSE_NAME) == null) {
-                    additionalProperties.put(LICENSE_NAME, license.getName());
+                if (additionalProperties.get(PROJECT_LICENSE_NAME) == null) {
+                    additionalProperties.put(PROJECT_LICENSE_NAME, license.getName());
                 }
-                if (additionalProperties.get(LICENSE_URL) == null) {
-                    additionalProperties.put(LICENSE_URL, license.getUrl());
+                if (additionalProperties.get(PROJECT_LICENSE_URL) == null) {
+                    additionalProperties.put(PROJECT_LICENSE_URL, license.getUrl());
                 }
             }
         }
@@ -110,8 +129,9 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         if (projectDescription == null) {
             projectDescription = "Client library of " + projectName;
         }
-
-        final String baseNamespace = dashize(projectName);
+        if (baseNamespace == null) {
+            baseNamespace = dashize(projectName);
+        }
         apiPackage = baseNamespace + ".api";
 
         additionalProperties.put(PROJECT_NAME, projectName);
