@@ -1,30 +1,11 @@
 ﻿<Properties StartupItem="SwaggerClientTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs">
     <Files>
       <File FileName="TestConfiguration.cs" Line="17" Column="33" />
-      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="523" Column="49" />
-      <File FileName="TestPet.cs" Line="87" Column="4" />
-      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Client/Configuration.cs" Line="1" Column="1" />
-      <File FileName="TestApiClient.cs" Line="22" Column="4" />
+      <File FileName="TestPet.cs" Line="81" Column="17" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="12" Column="18" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="SwaggerClientTest" expanded="True">
-            <Node name="SwaggerClientTest" expanded="True">
-              <Node name="SwaggerClient" expanded="True">
-                <Node name="TestPet" expanded="True">
-                  <Node name="TestPet" expanded="True">
-                    <Node name="TestGetPetByIdAsyncWithHttpInfo" selected="True" />
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
