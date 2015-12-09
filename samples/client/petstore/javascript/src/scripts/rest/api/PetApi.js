@@ -1,5 +1,5 @@
 /*
- * @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavascriptClientCodegen", date = "2015-12-07T10:51:19.835+08:00")
+ * @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavascriptClientCodegen", date = "2015-12-09T16:07:21.000+07:00")
  */
 
 //export module
