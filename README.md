@@ -214,6 +214,22 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar meta \
 
 This will write, in the folder `output/myLibrary`, all the files you need to get started, including a README.md. Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
 
+You would then compile your library in the `output/myLibrary` folder with `mvn package` and execute the codegen like such:
+
+
+```
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.Codegen
+```
+
+Note the `myClientCodegen` is an option now, and you can use the usual arguments for generating your library:
+
+```
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar \
+  io.swagger.codegen.Codegen generate -l myClientCodegen\
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -o myClient
+```
+
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
 static code generation.
@@ -516,7 +532,7 @@ Then you will receieve a JSON response with the URL to download the zipped code.
 Guidelines for Contribution
 ---------------------------
 
-Please refer to this [page](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
+Please refer to this [page](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md)
 
 License
 -------
