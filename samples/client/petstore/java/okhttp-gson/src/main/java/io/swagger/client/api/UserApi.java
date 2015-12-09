@@ -3,6 +3,7 @@ package io.swagger.client.api;
 import io.swagger.client.ApiCallback;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
+import io.swagger.client.ApiResponse;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody;
@@ -88,10 +89,22 @@ public class UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUser(User body) throws ApiException {
+    createUserWithHttpInfo(body);
+  }
+
+  /**
+   * Create user
+   * This can only be done by the logged in user.
+   * @param body Created user object
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
     Call call = createUserCall(body, null, null);
-    apiClient.execute(call);
+    return apiClient.execute(call);
   }
 
   /**
@@ -100,13 +113,14 @@ public class UserApi {
    * @param body Created user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call createUserAsync(User body, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -173,10 +187,22 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
+    createUsersWithArrayInputWithHttpInfo(body);
+  }
+
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
     Call call = createUsersWithArrayInputCall(body, null, null);
-    apiClient.execute(call);
+    return apiClient.execute(call);
   }
 
   /**
@@ -185,13 +211,14 @@ public class UserApi {
    * @param body List of user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call createUsersWithArrayInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -258,10 +285,22 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
+    createUsersWithListInputWithHttpInfo(body);
+  }
+
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
     Call call = createUsersWithListInputCall(body, null, null);
-    apiClient.execute(call);
+    return apiClient.execute(call);
   }
 
   /**
@@ -270,13 +309,14 @@ public class UserApi {
    * @param body List of user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call createUsersWithListInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -298,7 +338,7 @@ public class UserApi {
   }
   
   /* Build call for loginUser */
-  private Call loginUserCall(String username,String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
 
@@ -349,9 +389,23 @@ public class UserApi {
    * @param username The user name for login
    * @param password The password for login in clear text
    * @return String
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public String loginUser(String username, String password) throws ApiException {
-    Call call = loginUserCall(username,password, null, null);
+    ApiResponse<String> resp = loginUserWithHttpInfo(username, password);
+    return resp.getData();
+  }
+
+  /**
+   * Logs user into the system
+   * 
+   * @param username The user name for login
+   * @param password The password for login in clear text
+   * @return ApiResponse<String>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
+    Call call = loginUserCall(username, password, null, null);
     Type returnType = new TypeToken<String>(){}.getType();
     return apiClient.execute(call, returnType);
   }
@@ -363,13 +417,14 @@ public class UserApi {
    * @param password The password for login in clear text
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call loginUserAsync(String username, String password, final ApiCallback<String> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -385,14 +440,14 @@ public class UserApi {
       };
     }
 
-    Call call = loginUserCall(username,password, progressListener, progressRequestListener);
+    Call call = loginUserCall(username, password, progressListener, progressRequestListener);
     Type returnType = new TypeToken<String>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
   }
   
   /* Build call for logoutUser */
-  private Call logoutUserCall( final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call logoutUserCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
 
@@ -436,10 +491,21 @@ public class UserApi {
   /**
    * Logs out current logged in user session
    * 
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void logoutUser() throws ApiException {
-    Call call = logoutUserCall( null, null);
-    apiClient.execute(call);
+    logoutUserWithHttpInfo();
+  }
+
+  /**
+   * Logs out current logged in user session
+   * 
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
+    Call call = logoutUserCall(null, null);
+    return apiClient.execute(call);
   }
 
   /**
@@ -447,13 +513,14 @@ public class UserApi {
    * 
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call logoutUserAsync(final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -469,7 +536,7 @@ public class UserApi {
       };
     }
 
-    Call call = logoutUserCall( progressListener, progressRequestListener);
+    Call call = logoutUserCall(progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
@@ -527,8 +594,21 @@ public class UserApi {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @return User
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public User getUserByName(String username) throws ApiException {
+    ApiResponse<User> resp = getUserByNameWithHttpInfo(username);
+    return resp.getData();
+  }
+
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return ApiResponse<User>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
     Call call = getUserByNameCall(username, null, null);
     Type returnType = new TypeToken<User>(){}.getType();
     return apiClient.execute(call, returnType);
@@ -540,13 +620,14 @@ public class UserApi {
    * @param username The name that needs to be fetched. Use user1 for testing.
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call getUserByNameAsync(String username, final ApiCallback<User> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -569,7 +650,7 @@ public class UserApi {
   }
   
   /* Build call for updateUser */
-  private Call updateUserCall(String username,User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call updateUserCall(String username, User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = body;
     
     // verify the required parameter 'username' is set
@@ -621,10 +702,23 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
    * @param body Updated user object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updateUser(String username, User body) throws ApiException {
-    Call call = updateUserCall(username,body, null, null);
-    apiClient.execute(call);
+    updateUserWithHttpInfo(username, body);
+  }
+
+  /**
+   * Updated user
+   * This can only be done by the logged in user.
+   * @param username name that need to be deleted
+   * @param body Updated user object
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
+    Call call = updateUserCall(username, body, null, null);
+    return apiClient.execute(call);
   }
 
   /**
@@ -634,13 +728,14 @@ public class UserApi {
    * @param body Updated user object
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call updateUserAsync(String username, User body, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -656,7 +751,7 @@ public class UserApi {
       };
     }
 
-    Call call = updateUserCall(username,body, progressListener, progressRequestListener);
+    Call call = updateUserCall(username, body, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
@@ -713,10 +808,22 @@ public class UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deleteUser(String username) throws ApiException {
+    deleteUserWithHttpInfo(username);
+  }
+
+  /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
     Call call = deleteUserCall(username, null, null);
-    apiClient.execute(call);
+    return apiClient.execute(call);
   }
 
   /**
@@ -725,13 +832,14 @@ public class UserApi {
    * @param username The name that needs to be deleted
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call deleteUserAsync(String username, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {

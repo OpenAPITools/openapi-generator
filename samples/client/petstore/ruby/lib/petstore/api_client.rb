@@ -15,9 +15,6 @@ module Petstore
     # @return [Hash]
     attr_accessor :default_headers
 
-    # Stores the HTTP response from the last API call using this API client.
-    attr_accessor :last_response
-
     def initialize(host = nil)
       @host = host || Configuration.base_url
       @format = 'json'
@@ -28,12 +25,13 @@ module Petstore
       }
     end
 
+    # Call an API with given options.
+    #
+    # @return [Array<(Object, Fixnum, Hash)>] an array of 3 elements:
+    #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)
       response = request.run
-
-      # record as last response
-      @last_response = response
 
       if Configuration.debugging
         Configuration.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
@@ -47,10 +45,11 @@ module Petstore
       end
 
       if opts[:return_type]
-        deserialize(response, opts[:return_type])
+        data = deserialize(response, opts[:return_type])
       else
-        nil
+        data = nil
       end
+      return data, response.code, response.headers
     end
 
     def build_request(http_method, path, opts = {})
