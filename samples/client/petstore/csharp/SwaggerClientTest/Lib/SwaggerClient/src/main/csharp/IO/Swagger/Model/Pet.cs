@@ -16,6 +16,14 @@ namespace IO.Swagger.Model
     [DataContract]
     public class Pet : IEquatable<Pet>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pet" /> class.
+        /// </summary>
+        public Pet()
+        {
+            
+        }
+
         
         /// <summary>
         /// Gets or Sets Id

@@ -16,6 +16,14 @@ namespace IO.Swagger.Model
     [DataContract]
     public class Category : IEquatable<Category>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Category" /> class.
+        /// </summary>
+        public Category()
+        {
+            
+        }
+
         
         /// <summary>
         /// Gets or Sets Id
