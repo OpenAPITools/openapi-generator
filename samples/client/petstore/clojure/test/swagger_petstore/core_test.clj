@@ -151,10 +151,12 @@
     (is (= expected (boolean (json-mime? mime))))
     :json true
     "application/json" true
+    "APPLICATION/JSON" true
     "application/json; charset=utf8" true
     nil false
     :xml false
-    "application/pdf" false))
+    "application/pdf" false
+    "application/jsonp" false))
 
 (deftest test-json-preferred-mime
   (are [mimes expected]
