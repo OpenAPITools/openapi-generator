@@ -86,6 +86,15 @@ module {{moduleName}}
       Typhoeus::Request.new(url, req_opts)
     end
 
+    # Check if the given MIME is a JSON MIME.
+    # JSON MIME examples:
+    #   application/json
+    #   application/json; charset=UTF8
+    #   APPLICATION/JSON
+    def json_mime?(mime)
+       !!(mime =~ /\Aapplication\/json(;.*)?\z/i)
+    end
+
     # Deserialize the response to the given return type.
     #
     # @param [String] return_type some examples: "User", "Array[User]", "Hash[String,Integer]"
@@ -99,9 +108,7 @@ module {{moduleName}}
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'
 
-      unless content_type.start_with?('application/json')
-        fail "Content-Type is not supported: #{content_type}"
-      end
+      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
 
       begin
         data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
@@ -228,26 +235,21 @@ module {{moduleName}}
     # @param [Array] accepts array for Accept
     # @return [String] the Accept header (e.g. application/json)
     def select_header_accept(accepts)
-      if accepts.empty?
-        return
-      elsif accepts.any?{ |s| s.casecmp('application/json') == 0 }
-        'application/json' # look for json data by default
-      else
-        accepts.join(',')
-      end
+      return nil if accepts.nil? || accepts.empty?
+      # use JSON when present, otherwise use all of the provided
+      json_accept = accepts.find { |s| json_mime?(s) }
+      return json_accept || accepts.join(',')
     end
 
     # Return Content-Type header based on an array of content types provided.
     # @param [Array] content_types array for Content-Type
     # @return [String] the Content-Type header  (e.g. application/json)
     def select_header_content_type(content_types)
-      if content_types.empty?
-        'application/json' # use application/json by default
-      elsif content_types.any?{ |s| s.casecmp('application/json')==0 }
-        'application/json' # use application/json if it's included
-      else
-        content_types[0] # otherwise, use the first one
-      end
+      # use application/json by default
+      return 'application/json' if content_types.nil? || content_types.empty?
+      # use JSON when present, otherwise use the first one
+      json_content_type = content_types.find { |s| json_mime?(s) }
+      return json_content_type || content_types.first
     end
 
     # Convert object (array, hash, object, etc) to JSON string.
