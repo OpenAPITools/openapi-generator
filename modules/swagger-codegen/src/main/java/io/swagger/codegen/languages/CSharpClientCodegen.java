@@ -7,9 +7,7 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenModel;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.models.properties.*;
 import io.swagger.codegen.CliOption;
 
 import java.io.File;
@@ -299,5 +297,52 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         return objs;
+    }
+
+    /**
+     * Return the default value of the property
+     *
+     * @param p Swagger property object
+     * @return string presentation of the default value of the property
+     */
+    @Override
+    public String toDefaultValue(Property p) {
+        if (p instanceof StringProperty) {
+            StringProperty dp = (StringProperty) p;
+            if (dp.getDefault() != null) {
+                return "\"" + dp.getDefault().toString() + "\"";
+            }
+        } else if (p instanceof BooleanProperty) {
+            BooleanProperty dp = (BooleanProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof DateProperty) {
+            // TODO
+        } else if (p instanceof DateTimeProperty) {
+            // TODO
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        }
+
+        return null;
     }
 }

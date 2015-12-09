@@ -104,9 +104,6 @@ public class ApiClient {
 
   private Map<String, Authentication> authentications;
 
-  private int statusCode;
-  private Map<String, List<String>> responseHeaders;
-
   private DateFormat dateFormat;
   private DateFormat datetimeFormat;
   private boolean lenientDatetimeFormat;
@@ -175,24 +172,6 @@ public class ApiClient {
   public ApiClient setJSON(JSON json) {
     this.json = json;
     return this;
-  }
-
-  /**
-   * Gets the status code of the previous request.
-   * NOTE: Status code of last async response is not recorded here, it is
-   * passed to the callback methods instead.
-   */
-  public int getStatusCode() {
-    return statusCode;
-  }
-
-  /**
-   * Gets the response headers of the previous request.
-   * NOTE: Headers of last async response is not recorded here, it is passed
-   * to callback methods instead.
-   */
-  public Map<String, List<String>> getResponseHeaders() {
-    return responseHeaders;
   }
 
   public boolean isVerifyingSsl() {
@@ -618,6 +597,8 @@ public class ApiClient {
    * @param response HTTP response
    * @param returnType The type of the Java object
    * @return The deserialized Java object
+   * @throws ApiException If fail to deserialize response body, i.e. cannot read response body
+   *   or the Content-Type of the response is not supported.
    */
   public <T> T deserialize(Response response, Type returnType) throws ApiException {
     if (response == null || returnType == null)
@@ -666,6 +647,7 @@ public class ApiClient {
    * @param obj The Java object
    * @param contentType The request Content-Type
    * @return The serialized string
+   * @throws ApiException If fail to serialize the given object
    */
   public String serialize(Object obj, String contentType) throws ApiException {
     if (contentType.startsWith("application/json")) {
@@ -680,6 +662,7 @@ public class ApiClient {
 
   /**
    * Download file from the given response.
+   * @throws ApiException If fail to read file content from response and write to disk
    */
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
@@ -731,7 +714,7 @@ public class ApiClient {
   /**
    * @see #execute(Call, Type)
    */
-  public <T> T execute(Call call) throws ApiException {
+  public <T> ApiResponse<T> execute(Call call) throws ApiException {
     return execute(call, null);
   }
 
@@ -740,14 +723,16 @@ public class ApiClient {
    *
    * @param returnType The return type used to deserialize HTTP response body
    * @param <T> The return type corresponding to (same with) returnType
-   * @return The Java object deserialized from response body. Returns null if returnType is null.
+   * @return <code>ApiResponse</code> object containing response status, headers and
+   *   data, which is a Java object deserialized from response body and would be null
+   *   when returnType is null.
+   * @throws ApiException If fail to execute the call
    */
-  public <T> T execute(Call call, Type returnType) throws ApiException {
+  public <T> ApiResponse<T> execute(Call call, Type returnType) throws ApiException {
     try {
       Response response = call.execute();
-      this.statusCode = response.code();
-      this.responseHeaders = response.headers().toMultimap();
-      return handleResponse(response, returnType);
+      T data = handleResponse(response, returnType);
+      return new ApiResponse<T>(response.code(), response.headers().toMultimap(), data);
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -756,7 +741,7 @@ public class ApiClient {
   /**
    * #see executeAsync(Call, Type, ApiCallback)
    */
-  public <T> void executeAsync(Call call, ApiCallback<T> callback) throws ApiException {
+  public <T> void executeAsync(Call call, ApiCallback<T> callback) {
     executeAsync(call, null, callback);
   }
 
@@ -787,6 +772,12 @@ public class ApiClient {
     });
   }
 
+  /**
+   * Handle the given response, return the deserialized object when the response is successful.
+   *
+   * @throws ApiException If the response has a unsuccessful status code or
+   *   fail to deserialize the response body
+   */
   public <T> T handleResponse(Response response, Type returnType) throws ApiException {
     if (response.isSuccessful()) {
       if (returnType == null || response.code() == 204) {
@@ -820,6 +811,7 @@ public class ApiClient {
    * @param formParams The form parameters
    * @param authNames The authentications to apply
    * @return The HTTP call
+   * @throws ApiException If fail to serialize the request body object
    */
   public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);

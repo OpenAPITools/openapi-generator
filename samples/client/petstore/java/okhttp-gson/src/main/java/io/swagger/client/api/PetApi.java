@@ -3,6 +3,7 @@ package io.swagger.client.api;
 import io.swagger.client.ApiCallback;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
+import io.swagger.client.ApiResponse;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody;
@@ -88,10 +89,22 @@ public class PetApi {
    * Update an existing pet
    * 
    * @param body Pet object that needs to be added to the store
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updatePet(Pet body) throws ApiException {
+    updatePetWithHttpInfo(body);
+  }
+
+  /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
     Call call = updatePetCall(body, null, null);
-    apiClient.execute(call);
+    return apiClient.execute(call);
   }
 
   /**
@@ -100,13 +113,14 @@ public class PetApi {
    * @param body Pet object that needs to be added to the store
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call updatePetAsync(Pet body, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -173,10 +187,22 @@ public class PetApi {
    * Add a new pet to the store
    * 
    * @param body Pet object that needs to be added to the store
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void addPet(Pet body) throws ApiException {
+    addPetWithHttpInfo(body);
+  }
+
+  /**
+   * Add a new pet to the store
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
     Call call = addPetCall(body, null, null);
-    apiClient.execute(call);
+    return apiClient.execute(call);
   }
 
   /**
@@ -185,13 +211,14 @@ public class PetApi {
    * @param body Pet object that needs to be added to the store
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call addPetAsync(Pet body, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -261,8 +288,21 @@ public class PetApi {
    * Multiple status values can be provided with comma seperated strings
    * @param status Status values that need to be considered for filter
    * @return List<Pet>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
+    ApiResponse<List<Pet>> resp = findPetsByStatusWithHttpInfo(status);
+    return resp.getData();
+  }
+
+  /**
+   * Finds Pets by status
+   * Multiple status values can be provided with comma seperated strings
+   * @param status Status values that need to be considered for filter
+   * @return ApiResponse<List<Pet>>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
     Call call = findPetsByStatusCall(status, null, null);
     Type returnType = new TypeToken<List<Pet>>(){}.getType();
     return apiClient.execute(call, returnType);
@@ -274,13 +314,14 @@ public class PetApi {
    * @param status Status values that need to be considered for filter
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -351,8 +392,21 @@ public class PetApi {
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
    * @return List<Pet>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
+    ApiResponse<List<Pet>> resp = findPetsByTagsWithHttpInfo(tags);
+    return resp.getData();
+  }
+
+  /**
+   * Finds Pets by tags
+   * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+   * @param tags Tags to filter by
+   * @return ApiResponse<List<Pet>>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
     Call call = findPetsByTagsCall(tags, null, null);
     Type returnType = new TypeToken<List<Pet>>(){}.getType();
     return apiClient.execute(call, returnType);
@@ -364,13 +418,14 @@ public class PetApi {
    * @param tags Tags to filter by
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call findPetsByTagsAsync(List<String> tags, final ApiCallback<List<Pet>> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -445,8 +500,21 @@ public class PetApi {
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
    * @return Pet
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public Pet getPetById(Long petId) throws ApiException {
+    ApiResponse<Pet> resp = getPetByIdWithHttpInfo(petId);
+    return resp.getData();
+  }
+
+  /**
+   * Find pet by ID
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return ApiResponse<Pet>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
     Call call = getPetByIdCall(petId, null, null);
     Type returnType = new TypeToken<Pet>(){}.getType();
     return apiClient.execute(call, returnType);
@@ -458,13 +526,14 @@ public class PetApi {
    * @param petId ID of pet that needs to be fetched
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call getPetByIdAsync(Long petId, final ApiCallback<Pet> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -487,7 +556,7 @@ public class PetApi {
   }
   
   /* Build call for updatePetWithForm */
-  private Call updatePetWithFormCall(String petId,String name,String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call updatePetWithFormCall(String petId, String name, String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -544,10 +613,24 @@ public class PetApi {
    * @param petId ID of pet that needs to be updated
    * @param name Updated name of the pet
    * @param status Updated status of the pet
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updatePetWithForm(String petId, String name, String status) throws ApiException {
-    Call call = updatePetWithFormCall(petId,name,status, null, null);
-    apiClient.execute(call);
+    updatePetWithFormWithHttpInfo(petId, name, status);
+  }
+
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> updatePetWithFormWithHttpInfo(String petId, String name, String status) throws ApiException {
+    Call call = updatePetWithFormCall(petId, name, status, null, null);
+    return apiClient.execute(call);
   }
 
   /**
@@ -558,13 +641,14 @@ public class PetApi {
    * @param status Updated status of the pet
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call updatePetWithFormAsync(String petId, String name, String status, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -580,13 +664,13 @@ public class PetApi {
       };
     }
 
-    Call call = updatePetWithFormCall(petId,name,status, progressListener, progressRequestListener);
+    Call call = updatePetWithFormCall(petId, name, status, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for deletePet */
-  private Call deletePetCall(Long petId,String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call deletePetCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -640,10 +724,23 @@ public class PetApi {
    * 
    * @param petId Pet id to delete
    * @param apiKey 
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
-    Call call = deletePetCall(petId,apiKey, null, null);
-    apiClient.execute(call);
+    deletePetWithHttpInfo(petId, apiKey);
+  }
+
+  /**
+   * Deletes a pet
+   * 
+   * @param petId Pet id to delete
+   * @param apiKey 
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+    Call call = deletePetCall(petId, apiKey, null, null);
+    return apiClient.execute(call);
   }
 
   /**
@@ -653,13 +750,14 @@ public class PetApi {
    * @param apiKey 
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -675,13 +773,13 @@ public class PetApi {
       };
     }
 
-    Call call = deletePetCall(petId,apiKey, progressListener, progressRequestListener);
+    Call call = deletePetCall(petId, apiKey, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
   
   /* Build call for uploadFile */
-  private Call uploadFileCall(Long petId,String additionalMetadata,File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call uploadFileCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
@@ -738,10 +836,24 @@ public class PetApi {
    * @param petId ID of pet to update
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-    Call call = uploadFileCall(petId,additionalMetadata,file, null, null);
-    apiClient.execute(call);
+    uploadFileWithHttpInfo(petId, additionalMetadata, file);
+  }
+
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
+    Call call = uploadFileCall(petId, additionalMetadata, file, null, null);
+    return apiClient.execute(call);
   }
 
   /**
@@ -752,13 +864,14 @@ public class PetApi {
    * @param file file to upload
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
   public Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-    if(callback != null) {
+    if (callback != null) {
       progressListener = new ProgressResponseBody.ProgressListener() {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
@@ -774,7 +887,7 @@ public class PetApi {
       };
     }
 
-    Call call = uploadFileCall(petId,additionalMetadata,file, progressListener, progressRequestListener);
+    Call call = uploadFileCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }
