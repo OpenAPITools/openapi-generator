@@ -39,7 +39,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-02T18:29:05.463+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T16:17:57.986+08:00")
 public class ApiClient {
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
@@ -337,6 +337,17 @@ public class ApiClient {
   }
 
   /**
+   * Check if the given MIME is a JSON MIME.
+   * JSON MIME examples:
+   *   application/json
+   *   application/json; charset=UTF8
+   *   APPLICATION/JSON
+   */
+  public boolean isJsonMime(String mime) {
+    return mime != null && mime.matches("(?i)application\\/json(;.*)?");
+  }
+
+  /**
    * Select the Accept header's value from the given accepts array:
    *   if JSON exists in the given array, use it;
    *   otherwise use all of them (joining into a string)
@@ -346,8 +357,14 @@ public class ApiClient {
    *   null will be returned (not to set the Accept header explicitly).
    */
   public String selectHeaderAccept(String[] accepts) {
-    if (accepts.length == 0) return null;
-    if (StringUtil.containsIgnoreCase(accepts, "application/json")) return "application/json";
+    if (accepts.length == 0) {
+      return null;
+    }
+    for (String accept : accepts) {
+      if (isJsonMime(accept)) {
+        return accept;
+      }
+    }
     return StringUtil.join(accepts, ",");
   }
 
@@ -361,8 +378,14 @@ public class ApiClient {
    *   JSON will be used.
    */
   public String selectHeaderContentType(String[] contentTypes) {
-    if (contentTypes.length == 0) return "application/json";
-    if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
+    if (contentTypes.length == 0) {
+      return "application/json";
+    }
+    for (String contentType : contentTypes) {
+      if (isJsonMime(contentType)) {
+        return contentType;
+      }
+    }
     return contentTypes[0];
   }
 
@@ -382,7 +405,7 @@ public class ApiClient {
    * Content-Type (only JSON is supported for now).
    */
   public String serialize(Object obj, String contentType) throws ApiException {
-    if (contentType.startsWith("application/json")) {
+    if (isJsonMime(contentType)) {
       return json.serialize(obj);
     } else {
       throw new ApiException(400, "can not serialize object into Content-Type: " + contentType);
@@ -406,7 +429,7 @@ public class ApiClient {
     else
       body = "";
 
-    if (contentType.startsWith("application/json")) {
+    if (isJsonMime(contentType)) {
       return json.deserialize(body, returnType);
     } else if (returnType.getType().equals(String.class)) {
       // Expecting string, return the raw response body.
