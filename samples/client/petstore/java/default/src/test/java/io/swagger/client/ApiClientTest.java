@@ -39,15 +39,28 @@ public class ApiClientTest {
     }
 
     @Test
+    public void testIsJsonMime() {
+      assertFalse(apiClient.isJsonMime(null));
+      assertFalse(apiClient.isJsonMime(""));
+      assertFalse(apiClient.isJsonMime("text/plain"));
+      assertFalse(apiClient.isJsonMime("application/xml"));
+      assertFalse(apiClient.isJsonMime("application/jsonp"));
+
+      assertTrue(apiClient.isJsonMime("application/json"));
+      assertTrue(apiClient.isJsonMime("application/json; charset=UTF8"));
+      assertTrue(apiClient.isJsonMime("APPLICATION/JSON"));
+    }
+
+    @Test
     public void testSelectHeaderAccept() {
-        String[] accepts = {"APPLICATION/JSON", "APPLICATION/XML"};
+        String[] accepts = {"application/json", "application/xml"};
         assertEquals("application/json", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[]{"application/json", "application/xml"};
-        assertEquals("application/json", apiClient.selectHeaderAccept(accepts));
+        accepts = new String[]{"APPLICATION/XML", "APPLICATION/JSON"};
+        assertEquals("APPLICATION/JSON", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[]{"application/xml", "application/json"};
-        assertEquals("application/json", apiClient.selectHeaderAccept(accepts));
+        accepts = new String[]{"application/xml", "application/json; charset=UTF8"};
+        assertEquals("application/json; charset=UTF8", apiClient.selectHeaderAccept(accepts));
 
         accepts = new String[]{"text/plain", "application/xml"};
         assertEquals("text/plain,application/xml", apiClient.selectHeaderAccept(accepts));
@@ -58,14 +71,14 @@ public class ApiClientTest {
 
     @Test
     public void testSelectHeaderContentType() {
-        String[] contentTypes = {"APPLICATION/JSON", "APPLICATION/XML"};
+        String[] contentTypes = {"application/json", "application/xml"};
         assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[]{"application/json", "application/xml"};
-        assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
+        contentTypes = new String[]{"APPLICATION/JSON", "APPLICATION/XML"};
+        assertEquals("APPLICATION/JSON", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[]{"application/xml", "application/json"};
-        assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
+        contentTypes = new String[]{"application/xml", "application/json; charset=UTF8"};
+        assertEquals("application/json; charset=UTF8", apiClient.selectHeaderContentType(contentTypes));
 
         contentTypes = new String[]{"text/plain", "application/xml"};
         assertEquals("text/plain", apiClient.selectHeaderContentType(contentTypes));
