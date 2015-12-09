@@ -4,14 +4,15 @@ import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
-import io.swagger.client.TypeRef;
+
+import javax.ws.rs.core.GenericType;
 
 import java.util.Map;
 import io.swagger.client.model.Order;
 
 import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-29T00:18:01.946+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T12:31:44.572-05:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -37,7 +38,7 @@ public class StoreApi {
    * Returns a map of status codes to quantities
    * @return Map<String, Integer>
    */
-  public Map<String, Integer> getInventory () throws ApiException {
+  public Map<String, Integer> getInventory() throws ApiException {
     Object postBody = null;
     
     // create path and map variables
@@ -67,7 +68,7 @@ public class StoreApi {
     String[] authNames = new String[] { "api_key" };
 
     
-    TypeRef returnType = new TypeRef<Map<String, Integer>>() {};
+    GenericType<Map<String, Integer>> returnType = new GenericType<Map<String, Integer>>() {};
     return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
   }
@@ -78,7 +79,7 @@ public class StoreApi {
    * @param body order placed for purchasing the pet
    * @return Order
    */
-  public Order placeOrder (Order body) throws ApiException {
+  public Order placeOrder(Order body) throws ApiException {
     Object postBody = body;
     
     // create path and map variables
@@ -108,7 +109,7 @@ public class StoreApi {
     String[] authNames = new String[] {  };
 
     
-    TypeRef returnType = new TypeRef<Order>() {};
+    GenericType<Order> returnType = new GenericType<Order>() {};
     return apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
   }
@@ -119,7 +120,7 @@ public class StoreApi {
    * @param orderId ID of pet that needs to be fetched
    * @return Order
    */
-  public Order getOrderById (String orderId) throws ApiException {
+  public Order getOrderById(String orderId) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -155,7 +156,7 @@ public class StoreApi {
     String[] authNames = new String[] {  };
 
     
-    TypeRef returnType = new TypeRef<Order>() {};
+    GenericType<Order> returnType = new GenericType<Order>() {};
     return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
   }
@@ -166,7 +167,7 @@ public class StoreApi {
    * @param orderId ID of the order that needs to be deleted
    * @return void
    */
-  public void deleteOrder (String orderId) throws ApiException {
+  public void deleteOrder(String orderId) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'orderId' is set

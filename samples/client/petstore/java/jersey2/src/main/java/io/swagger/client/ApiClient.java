@@ -6,6 +6,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -29,20 +30,18 @@ import java.util.TimeZone;
 
 import java.net.URLEncoder;
 
-import java.io.IOException;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
 
 import io.swagger.client.auth.Authentication;
 import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T16:27:55.818+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T12:31:44.572-05:00")
 public class ApiClient {
   private Client client;
   private Map<String, Client> hostMap = new HashMap<String, Client>();
@@ -411,18 +410,39 @@ public class ApiClient {
    * Serialize the given Java object into string entity according the given
    * Content-Type (only JSON is supported for now).
    */
-  public Entity<String> serialize(Object obj, String contentType) throws ApiException {
-    if (isJsonMime(contentType)) {
-      return Entity.json(json.serialize(obj));
+  public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+    Entity<?> entity = null;
+    if (contentType.startsWith("multipart/form-data")) {
+      MultiPart multiPart = new MultiPart();
+      for (Entry<String, Object> param: formParams.entrySet()) {
+        if (param.getValue() instanceof File) {
+          File file = (File) param.getValue();
+          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
+              .fileName(file.getName()).size(file.length()).build();
+          multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+        } else {
+          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();
+          multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(param.getValue())));
+        }
+      }
+      entity = Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE);
+    } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+      Form form = new Form();
+      for (Entry<String, Object> param: formParams.entrySet()) {
+        form.param(param.getKey(), parameterToString(param.getValue()));
+      }
+      entity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
     } else {
-      throw new ApiException(400, "can not serialize object into Content-Type: " + contentType);
+      // We let jersey handle the serialization
+      entity = Entity.entity(obj, contentType);
     }
+    return entity;
   }
 
   /**
    * Deserialize response body to Java object according to the Content-Type.
    */
-  public <T> T deserialize(Response response, TypeRef returnType) throws ApiException {
+  public <T> T deserialize(Response response, GenericType<T> returnType) throws ApiException {
     String contentType = null;
     List<Object> contentTypes = response.getHeaders().get("Content-Type");
     if (contentTypes != null && !contentTypes.isEmpty())
@@ -430,24 +450,7 @@ public class ApiClient {
     if (contentType == null)
       throw new ApiException(500, "missing Content-Type in response");
 
-    String body;
-    if (response.hasEntity())
-      body = (String) response.readEntity(String.class);
-    else
-      body = "";
-
-    if (isJsonMime(contentType)) {
-      return json.deserialize(body, returnType);
-    } else if (returnType.getType().equals(String.class)) {
-      // Expecting string, return the raw response body.
-      return (T) body;
-    } else {
-      throw new ApiException(
-        500,
-        "Content type \"" + contentType + "\" is not supported for type: "
-          + returnType.getType()
-      );
-    }
+    return response.readEntity(returnType);
   }
 
   /**
@@ -465,7 +468,7 @@ public class ApiClient {
    * @param returnType The return type into which to deserialize the response
    * @return The response body in type of string
    */
-  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, TypeRef returnType) throws ApiException {
+  public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     WebTarget target = client.target(this.basePath).path(path);
@@ -496,50 +499,16 @@ public class ApiClient {
       }
     }
 
-    Entity<?> formEntity = null;
-
-    if (contentType.startsWith("multipart/form-data")) {
-      MultiPart multiPart = new MultiPart();
-      for (Entry<String, Object> param: formParams.entrySet()) {
-        if (param.getValue() instanceof File) {
-          File file = (File) param.getValue();
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
-              .fileName(file.getName()).size(file.length()).build();
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
-        } else {
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(param.getValue())));
-        }
-      }
-      formEntity = Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE);
-    } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
-      Form form = new Form();
-      for (Entry<String, Object> param: formParams.entrySet()) {
-        form.param(param.getKey(), parameterToString(param.getValue()));
-      }
-      formEntity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
-    }
+    Entity<?> entity = serialize(body, formParams, contentType);
 
     Response response = null;
 
     if ("GET".equals(method)) {
       response = invocationBuilder.get();
     } else if ("POST".equals(method)) {
-      if (formEntity != null) {
-        response = invocationBuilder.post(formEntity);
-      } else if (body == null) {
-        response = invocationBuilder.post(null);
-      } else {
-        response = invocationBuilder.post(serialize(body, contentType));
-      }
+      response = invocationBuilder.post(entity);
     } else if ("PUT".equals(method)) {
-      if (formEntity != null) {
-        response = invocationBuilder.put(formEntity);
-      } else if (body == null) {
-        response = invocationBuilder.put(null);
-      } else {
-        response = invocationBuilder.put(serialize(body, contentType));
-      }
+      response = invocationBuilder.put(entity);
     } else if ("DELETE".equals(method)) {
       response = invocationBuilder.delete();
     } else {
@@ -578,6 +547,8 @@ public class ApiClient {
   private void buildClient() {
     final ClientConfig clientConfig = new ClientConfig();
     clientConfig.register(MultiPartFeature.class);
+    clientConfig.register(json);
+    clientConfig.register(org.glassfish.jersey.jackson.JacksonFeature.class);
     if (debugging) {
       clientConfig.register(LoggingFilter.class);
     }
