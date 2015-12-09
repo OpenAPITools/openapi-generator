@@ -6,9 +6,7 @@ import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.models.properties.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -187,6 +185,43 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toDefaultValue(Property p) {
+        if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof BooleanProperty) {
+            BooleanProperty bp = (BooleanProperty) p;
+            if (bp.getDefault() != null) {
+                return bp.getDefault().toString();
+            }
+        } else if (p instanceof StringProperty) {
+            StringProperty sp = (StringProperty) p;
+            if (sp.getDefault() != null) {
+                return "\"" + escapeText(sp.getDefault()) + "\"";
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
         String type = null;
@@ -202,10 +237,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             return null;
         }
         return type;
-    }
-
-    public String toDefaultValue(Property p) {
-        return "null";
     }
 
     @Override

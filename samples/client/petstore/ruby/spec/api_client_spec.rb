@@ -145,4 +145,52 @@ describe Petstore::ApiClient do
     end
   end
 
+  describe "#json_mime?" do
+    let(:api_client) { Petstore::ApiClient.new }
+
+    it "works" do
+      api_client.json_mime?(nil).should == false
+      api_client.json_mime?('').should == false
+
+      api_client.json_mime?('application/json').should == true
+      api_client.json_mime?('application/json; charset=UTF8').should == true
+      api_client.json_mime?('APPLICATION/JSON').should == true
+
+      api_client.json_mime?('application/xml').should == false
+      api_client.json_mime?('text/plain').should == false
+      api_client.json_mime?('application/jsonp').should == false
+    end
+  end
+
+  describe "#select_header_accept" do
+    let(:api_client) { Petstore::ApiClient.new }
+
+    it "works" do
+      api_client.select_header_accept(nil).should == nil
+      api_client.select_header_accept([]).should == nil
+
+      api_client.select_header_accept(['application/json']).should == 'application/json'
+      api_client.select_header_accept(['application/xml', 'application/json; charset=UTF8']).should == 'application/json; charset=UTF8'
+      api_client.select_header_accept(['APPLICATION/JSON', 'text/html']).should == 'APPLICATION/JSON'
+
+      api_client.select_header_accept(['application/xml']).should == 'application/xml'
+      api_client.select_header_accept(['text/html', 'application/xml']).should == 'text/html,application/xml'
+    end
+  end
+
+  describe "#select_header_content_type" do
+    let(:api_client) { Petstore::ApiClient.new }
+
+    it "works" do
+      api_client.select_header_content_type(nil).should == 'application/json'
+      api_client.select_header_content_type([]).should == 'application/json'
+
+      api_client.select_header_content_type(['application/json']).should == 'application/json'
+      api_client.select_header_content_type(['application/xml', 'application/json; charset=UTF8']).should == 'application/json; charset=UTF8'
+      api_client.select_header_content_type(['APPLICATION/JSON', 'text/html']).should == 'APPLICATION/JSON'
+      api_client.select_header_content_type(['application/xml']).should == 'application/xml'
+      api_client.select_header_content_type(['text/plain', 'application/xml']).should == 'text/plain'
+    end
+  end
+
 end
