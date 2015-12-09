@@ -1,21 +1,19 @@
 module Petstore
-  # 
   class Tag < BaseObject
     attr_accessor :id, :name
-    # attribute mapping from ruby-style variable name to JSON key
+
+    # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         
-        # 
         :'id' => :'id',
         
-        # 
         :'name' => :'name'
         
       }
     end
 
-    # attribute type
+    # Attribute type mapping.
     def self.swagger_types
       {
         :'id' => :'Integer',
@@ -41,6 +39,7 @@ module Petstore
       
     end
 
+    # Check equality by comparing each attribute.
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
@@ -48,10 +47,12 @@ module Petstore
           name == o.name
     end
 
+    # @see the `==` method
     def eql?(o)
       self == o
     end
 
+    # Calculate hash code according to all attributes.
     def hash
       [id, name].hash
     end

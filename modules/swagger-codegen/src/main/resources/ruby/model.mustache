@@ -1,18 +1,19 @@
-module {{moduleName}}
-{{#models}}  # {{description}}
-{{#model}}  class {{classname}} < BaseObject
+module {{moduleName}}{{#models}}{{#model}}{{#description}}
+  # {{{description}}}{{/description}}
+  class {{classname}} < BaseObject
     attr_accessor {{#vars}}:{{{name}}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{newline}}
-    # attribute mapping from ruby-style variable name to JSON key
+
+    # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        {{#vars}}
-        # {{description}}
+        {{#vars}}{{#description}}
+        # {{{description}}}{{/description}}
         :'{{{name}}}' => :'{{{baseName}}}'{{#hasMore}},{{/hasMore}}
         {{/vars}}
       }
     end
 
-    # attribute type
+    # Attribute type mapping.
     def self.swagger_types
       {
         {{#vars}}:'{{{name}}}' => :'{{{datatype}}}'{{#hasMore}},{{/hasMore}}
@@ -37,6 +38,7 @@ module {{moduleName}}
       {{/vars}}
     end
 {{#vars}}{{#isEnum}}
+    # Custom attribute writer method checking allowed values (enum).
     def {{{name}}}=({{{name}}})
       allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
       if {{{name}}} && !allowed_values.include?({{{name}}})
@@ -45,16 +47,19 @@ module {{moduleName}}
       @{{{name}}} = {{{name}}}
     end
 {{/isEnum}}{{/vars}}
+    # Check equality by comparing each attribute.
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class{{#vars}} &&
           {{name}} == o.{{name}}{{/vars}}
     end
 
+    # @see the `==` method
     def eql?(o)
       self == o
     end
 
+    # Calculate hash code according to all attributes.
     def hash
       [{{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}].hash
     end

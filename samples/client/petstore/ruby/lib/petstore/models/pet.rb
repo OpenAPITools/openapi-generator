@@ -1,24 +1,19 @@
 module Petstore
-  # 
   class Pet < BaseObject
     attr_accessor :id, :category, :name, :photo_urls, :tags, :status
-    # attribute mapping from ruby-style variable name to JSON key
+
+    # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         
-        # 
         :'id' => :'id',
         
-        # 
         :'category' => :'category',
         
-        # 
         :'name' => :'name',
         
-        # 
         :'photo_urls' => :'photoUrls',
         
-        # 
         :'tags' => :'tags',
         
         # pet status in the store
@@ -27,7 +22,7 @@ module Petstore
       }
     end
 
-    # attribute type
+    # Attribute type mapping.
     def self.swagger_types
       {
         :'id' => :'Integer',
@@ -77,6 +72,7 @@ module Petstore
       
     end
 
+    # Custom attribute writer method checking allowed values (enum).
     def status=(status)
       allowed_values = ["available", "pending", "sold"]
       if status && !allowed_values.include?(status)
@@ -85,6 +81,7 @@ module Petstore
       @status = status
     end
 
+    # Check equality by comparing each attribute.
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
@@ -96,10 +93,12 @@ module Petstore
           status == o.status
     end
 
+    # @see the `==` method
     def eql?(o)
       self == o
     end
 
+    # Calculate hash code according to all attributes.
     def hash
       [id, category, name, photo_urls, tags, status].hash
     end
