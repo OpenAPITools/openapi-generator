@@ -158,6 +158,7 @@ describe Petstore::ApiClient do
 
       api_client.json_mime?('application/xml').should == false
       api_client.json_mime?('text/plain').should == false
+      api_client.json_mime?('application/jsonp').should == false
     end
   end
 
