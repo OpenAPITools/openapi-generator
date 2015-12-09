@@ -18,6 +18,15 @@ namespace {{packageName}}.Model
     [DataContract]
     public class {{classname}} : IEquatable<{{classname}}>{{#parent}}, {{{parent}}}{{/parent}}
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        public {{classname}}()
+        {
+            {{#vars}}{{#defaultValue}}this.{{name}} = {{{defaultValue}}};
+            {{/defaultValue}}{{/vars}}
+        }
+
         {{#vars}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}

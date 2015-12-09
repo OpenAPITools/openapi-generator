@@ -16,6 +16,14 @@ namespace IO.Swagger.Model
     [DataContract]
     public class Order : IEquatable<Order>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Order" /> class.
+        /// </summary>
+        public Order()
+        {
+            
+        }
+
         
         /// <summary>
         /// Gets or Sets Id
