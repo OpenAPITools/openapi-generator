@@ -20,7 +20,7 @@ var {{classname}} = function {{classname}}() {
 {{/allParams}}   * @param {function} callback the callback function
    * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, callback) {
+  self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}callback) {
     
     var {{localVariablePrefix}}postBody = {{#bodyParam}}{{^isBinary}}JSON.stringify({{paramName}}){{/isBinary}}{{#isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     var {{localVariablePrefix}}postBinaryBody = {{#bodyParam}}{{#isBinary}}{{paramName}}{{/isBinary}}{{^isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};

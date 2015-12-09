@@ -38,7 +38,7 @@ if ( typeof define === "function" && define.amd ) {
 }
 
 
-var Pet = function Pet(name, photoUrls) { 
+var Pet = function Pet(photoUrls, name) { 
   	var self = this;
   	
   	/**
