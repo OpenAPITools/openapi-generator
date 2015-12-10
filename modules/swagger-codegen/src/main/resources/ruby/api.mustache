@@ -5,8 +5,8 @@ module {{moduleName}}
   class {{classname}}
     attr_accessor :api_client
 
-    def initialize(api_client = nil)
-      @api_client = api_client || Configuration.api_client
+    def initialize(api_client = ApiClient.default)
+      @api_client = api_client
     end
 {{#operation}}
 {{newline}}
@@ -28,8 +28,8 @@ module {{moduleName}}
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Fixnum, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: {{classname}}#{{operationId}} ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: {{classname}}#{{operationId}} ..."
       end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
@@ -81,8 +81,8 @@ module {{moduleName}}
         :body => post_body,
         :auth_names => auth_names{{#returnType}},
         :return_type => '{{{returnType}}}'{{/returnType}})
-      if Configuration.debugging
-        Configuration.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

@@ -10,34 +10,34 @@ describe Petstore::ApiClient do
       context 'host' do
         it 'removes http from host' do
           Petstore.configure { |c| c.host = 'http://example.com' }
-          Petstore.configure.host.should == 'example.com'
+          Petstore::Configuration.default.host.should == 'example.com'
         end
 
         it 'removes https from host' do
           Petstore.configure { |c| c.host = 'https://wookiee.com' }
-          Petstore.configure.host.should == 'wookiee.com'
+          Petstore::ApiClient.default.config.host.should == 'wookiee.com'
         end
 
         it 'removes trailing path from host' do
           Petstore.configure { |c| c.host = 'hobo.com/v4' }
-          Petstore.configure.host.should == 'hobo.com'
+          Petstore::Configuration.default.host.should == 'hobo.com'
         end
       end
 
       context 'base_path' do
         it "prepends a slash to base_path" do
           Petstore.configure { |c| c.base_path = 'v4/dog' }
-          Petstore.configure.base_path.should == '/v4/dog'
+          Petstore::Configuration.default.base_path.should == '/v4/dog'
         end
 
         it "doesn't prepend a slash if one is already there" do
           Petstore.configure { |c| c.base_path = '/v4/dog' }
-          Petstore.configure.base_path.should == '/v4/dog'
+          Petstore::Configuration.default.base_path.should == '/v4/dog'
         end
 
         it "ends up as a blank string if nil" do
           Petstore.configure { |c| c.base_path = nil }
-          Petstore.configure.base_path.should == ''
+          Petstore::Configuration.default.base_path.should == ''
         end
       end
 
@@ -53,12 +53,25 @@ describe Petstore::ApiClient do
       end
 
       api_client = Petstore::ApiClient.new
+
+      config2 = Petstore::Configuration.new do |c|
+        c.api_key_prefix['api_key'] = 'PREFIX2'
+        c.api_key['api_key'] = 'special-key2'
+      end
+      api_client2 = Petstore::ApiClient.new(config2)
       
+      auth_names = ['api_key', 'unknown']
+
       header_params = {}
       query_params = {}
-      auth_names = ['api_key', 'unknown']
       api_client.update_params_for_auth! header_params, query_params, auth_names
       header_params.should == {'api_key' => 'PREFIX special-key'}
+      query_params.should == {}
+
+      header_params = {}
+      query_params = {}
+      api_client2.update_params_for_auth! header_params, query_params, auth_names
+      header_params.should == {'api_key' => 'PREFIX2 special-key2'}
       query_params.should == {}
     end
 
