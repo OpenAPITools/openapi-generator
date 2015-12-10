@@ -4,8 +4,8 @@ module Petstore
   class PetApi
     attr_accessor :api_client
 
-    def initialize(api_client = nil)
-      @api_client = api_client || Configuration.api_client
+    def initialize(api_client = ApiClient.default)
+      @api_client = api_client
     end
 
     # Update an existing pet
@@ -24,8 +24,8 @@ module Petstore
     # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def update_pet_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#update_pet ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#update_pet ..."
       end
       
       # resource path
@@ -59,8 +59,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#update_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#update_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -81,8 +81,8 @@ module Petstore
     # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def add_pet_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#add_pet ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#add_pet ..."
       end
       
       # resource path
@@ -116,8 +116,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#add_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#add_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -138,8 +138,8 @@ module Petstore
     # @option opts [Array<String>] :status Status values that need to be considered for filter
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_status_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#find_pets_by_status ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#find_pets_by_status ..."
       end
       
       # resource path
@@ -175,8 +175,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Array<Pet>')
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#find_pets_by_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#find_pets_by_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -197,8 +197,8 @@ module Petstore
     # @option opts [Array<String>] :tags Tags to filter by
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_tags_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
       end
       
       # resource path
@@ -234,8 +234,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Array<Pet>')
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#find_pets_by_tags\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#find_pets_by_tags\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -256,8 +256,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Array<(Pet, Fixnum, Hash)>] Pet data, response status code and response headers
     def get_pet_by_id_with_http_info(pet_id, opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#get_pet_by_id ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#get_pet_by_id ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -295,8 +295,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'Pet')
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#get_pet_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#get_pet_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -321,8 +321,8 @@ module Petstore
     # @option opts [String] :status Updated status of the pet
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def update_pet_with_form_with_http_info(pet_id, opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#update_pet_with_form ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#update_pet_with_form ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -361,8 +361,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#update_pet_with_form\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#update_pet_with_form\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -385,8 +385,8 @@ module Petstore
     # @option opts [String] :api_key 
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def delete_pet_with_http_info(pet_id, opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#delete_pet ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#delete_pet ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -424,8 +424,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#delete_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#delete_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -450,8 +450,8 @@ module Petstore
     # @option opts [File] :file file to upload
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def upload_file_with_http_info(pet_id, opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: PetApi#upload_file ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: PetApi#upload_file ..."
       end
       
       # verify the required parameter 'pet_id' is set
@@ -490,8 +490,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: PetApi#upload_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#upload_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
