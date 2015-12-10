@@ -5,12 +5,10 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.model.User;
 import java.util.*;
 
-
 import java.util.*;
-
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T22:59:22.180-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-10T16:26:30.730+08:00")
 public interface UserApi extends ApiClient.Api {
 
 
@@ -119,5 +117,4 @@ public interface UserApi extends ApiClient.Api {
   })
   void deleteUser(@Param("username") String username);
   
-
 }
