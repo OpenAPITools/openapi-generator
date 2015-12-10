@@ -378,6 +378,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-feign</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/feign</module>
+            </modules>
+        </profile>
+        <profile>
             <id>scala-client</id>
             <activation>
                 <property>
