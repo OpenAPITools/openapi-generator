@@ -4,22 +4,21 @@ import io.swagger.client.StringUtil;
 import java.util.Date;
 
 
-
 import java.util.Objects;
 
 import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.*;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T22:59:22.180-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-10T16:26:30.730+08:00")
 public class Order   {
   
   private Long id = null;
   private Long petId = null;
   private Integer quantity = null;
   private Date shipDate = null;
+
 
 public enum StatusEnum {
   PLACED("placed"),
@@ -33,13 +32,14 @@ public enum StatusEnum {
   }
 
   @Override
+  @JsonValue
   public String toString() {
     return value;
   }
 }
 
   private StatusEnum status = null;
-  private Boolean complete = false;
+  private Boolean complete = null;
 
   
   /**
@@ -153,5 +153,3 @@ public enum StatusEnum {
     return sb.toString();
   }
 }
-
-

@@ -4,14 +4,11 @@ import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
-import io.swagger.client.model.ApiResponse;
-
 
 import java.util.*;
-
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T22:59:22.180-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-10T16:26:30.730+08:00")
 public interface PetApi extends ApiClient.Api {
 
 
@@ -69,8 +66,8 @@ public interface PetApi extends ApiClient.Api {
   
   /**
    * Find pet by ID
-   * Returns a single pet
-   * @param petId ID of pet to return
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
    * @return Pet
    */
   @RequestLine("GET /pet/{petId}")
@@ -93,7 +90,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-type: application/x-www-form-urlencoded",
     "Accepts: application/json",
   })
-  void updatePetWithForm(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status);
+  void updatePetWithForm(@Param("petId") String petId, @Param("name") String name, @Param("status") String status);
   
   /**
    * Deletes a pet
@@ -116,14 +113,13 @@ public interface PetApi extends ApiClient.Api {
    * @param petId ID of pet to update
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
-   * @return ApiResponse
+   * @return void
    */
   @RequestLine("POST /pet/{petId}/uploadImage")
   @Headers({
     "Content-type: multipart/form-data",
     "Accepts: application/json",
   })
-  ApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  void uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
   
-
 }
