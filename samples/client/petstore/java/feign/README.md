@@ -1,4 +1,4 @@
-# swagger-java-client
+# swagger-petstore-feign
 
 ## Requirements
 
@@ -25,7 +25,7 @@ After the client libarary is installed/deployed, you can use it in your Maven pr
 ```xml
 <dependency>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-java-client</artifactId>
+    <artifactId>swagger-petstore-feign</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
