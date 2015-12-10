@@ -3,16 +3,14 @@ package io.swagger.client.model;
 import io.swagger.client.StringUtil;
 
 
-
 import java.util.Objects;
 
 import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.*;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T22:59:22.180-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-10T16:26:30.730+08:00")
 public class User   {
   
   private Long id = null;
@@ -164,5 +162,3 @@ public class User   {
     return sb.toString();
   }
 }
-
-

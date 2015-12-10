@@ -80,7 +80,7 @@ if(hasProperty('target') && target == 'android') {
     
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'swagger-java-client'
+            pom.artifactId = 'swagger-petstore-feign'
         }
     }
     

@@ -5,12 +5,10 @@ import io.swagger.client.ApiClient;
 import java.util.Map;
 import io.swagger.client.model.Order;
 
-
 import java.util.*;
-
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T22:59:22.180-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-10T16:26:30.730+08:00")
 public interface StoreApi extends ApiClient.Api {
 
 
@@ -50,7 +48,7 @@ public interface StoreApi extends ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  Order getOrderById(@Param("orderId") Long orderId);
+  Order getOrderById(@Param("orderId") String orderId);
   
   /**
    * Delete purchase order by ID
@@ -65,5 +63,4 @@ public interface StoreApi extends ApiClient.Api {
   })
   void deleteOrder(@Param("orderId") String orderId);
   
-
 }
