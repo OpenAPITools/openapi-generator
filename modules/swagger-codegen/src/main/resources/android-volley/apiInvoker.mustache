@@ -361,7 +361,17 @@ public class ApiInvoker {
        if(request != null) mRequestQueue.add(request);
     }
     else if ("PUT".equals(method)) {
-
+       PutRequest request = null;
+       if (formParamStr != null) {
+          request = new PutRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+       } else if (body != null) {
+          if (body instanceof HttpEntity) {
+             request = new PutRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+          } else {
+             request = new PutRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+          }
+       }
+       if(request != null) mRequestQueue.add(request);
     }
     else if ("DELETE".equals(method)) {
 
