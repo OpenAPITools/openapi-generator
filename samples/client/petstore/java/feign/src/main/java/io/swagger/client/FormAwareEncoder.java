@@ -14,7 +14,7 @@ import feign.codec.EncodeException;
 import feign.codec.Encoder;
 import feign.RequestTemplate;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-07T22:27:06.680-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T22:59:22.180-05:00")
 public class FormAwareEncoder implements Encoder {
   public static final String UTF_8 = "utf-8";
   private static final String LINE_FEED = "\r\n";

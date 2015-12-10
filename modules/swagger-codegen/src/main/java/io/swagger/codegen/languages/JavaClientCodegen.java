@@ -560,7 +560,6 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     for (Operation operation : path.getOperations()) {
                         boolean hasFormParameters = false;
                         for (Parameter parameter : operation.getParameters()) {
-                            parameter.getVendorExtensions().put("x-isBody", parameter instanceof BodyParameter);
                             if (parameter instanceof FormParameter) {
                                 hasFormParameters = true;
                             }
