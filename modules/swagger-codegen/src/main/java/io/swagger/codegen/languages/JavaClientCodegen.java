@@ -11,6 +11,12 @@ import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Model;
+import io.swagger.models.Operation;
+import io.swagger.models.Path;
+import io.swagger.models.Swagger;
+import io.swagger.models.parameters.BodyParameter;
+import io.swagger.models.parameters.FormParameter;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.DoubleProperty;
@@ -98,6 +104,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("false"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
+        supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.1.1");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
         supportedLibraries.put("retrofit", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
@@ -215,12 +222,16 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
-        supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+        if ("feign".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("FormAwareEncoder.mustache", invokerFolder, "FormAwareEncoder.java"));
+        } else {
+            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+        }
 
-        if (!("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary()))) {
+        if (!("feign".equals(getLibrary()) || "retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -240,7 +251,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if ("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
-        } else {
+        } else if (!"feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("TypeRef.mustache", invokerFolder, "TypeRef.java"));
         }
     }
@@ -542,6 +553,57 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         return objs;
+    }
+
+    public void preprocessSwagger(Swagger swagger) {
+        if (swagger != null && swagger.getPaths() != null) {
+            for (String pathname : swagger.getPaths().keySet()) {
+                Path path = swagger.getPath(pathname);
+                if (path.getOperations() != null) {
+                    for (Operation operation : path.getOperations()) {
+                        boolean hasFormParameters = false;
+                        for (Parameter parameter : operation.getParameters()) {
+                            if (parameter instanceof FormParameter) {
+                                hasFormParameters = true;
+                            }
+                        }
+
+                        String defaultContentType = hasFormParameters ? "application/x-www-form-urlencoded" : "application/json";
+                        String contentType = operation.getConsumes() == null || operation.getConsumes().isEmpty()
+                                ? defaultContentType : operation.getConsumes().get(0);
+                        String accepts = getAccept(operation);
+                        operation.setVendorExtension("x-contentType", contentType);
+                        operation.setVendorExtension("x-accepts", accepts);
+                    }
+                }
+            }
+        }
+    }
+
+    private String getAccept(Operation operation) {
+        String accepts = null;
+        String defaultContentType = "application/json";
+        if (operation.getProduces() != null && !operation.getProduces().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (String produces : operation.getProduces()) {
+                if (defaultContentType.equalsIgnoreCase(produces)) {
+                    accepts = defaultContentType;
+                    break;
+                } else {
+                    if (sb.length() > 0) {
+                        sb.append(",");
+                    }
+                    sb.append(produces);
+                }
+            }
+            if (accepts == null) {
+                accepts = sb.toString();
+            }
+        } else {
+            accepts = defaultContentType;
+        }
+
+        return accepts;
     }
 
     protected boolean needToImport(String type) {

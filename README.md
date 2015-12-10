@@ -299,6 +299,7 @@ JavaClientCodegen.java
 JavaInflectorServerCodegen.java
 JavascriptClientCodegen.java
 JaxRSServerCodegen.java
+JMeterCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
 PerlClientCodegen.java
@@ -376,9 +377,10 @@ CONFIG OPTIONS
 	    library template (sub-template) to use:
 	    <default> - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
 	    jersey2 - HTTP client: Jersey client 2.6
+	    feign - HTTP client: Netflix Feign 8.1.1.  JSON processing: Jackson 2.6.3
 	    okhttp-gson - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
 	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
-      retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
+        retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
 ```
 
 Your config file for java can look like
@@ -387,7 +389,8 @@ Your config file for java can look like
 {
   "groupId":"com.my.company",
   "artifactId":"MyClent",
-  "artifactVersion":"1.2.0"
+  "artifactVersion":"1.2.0",
+  "library":"feign"
 }
 ```
 
