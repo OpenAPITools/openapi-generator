@@ -4,11 +4,12 @@
 
 - (instancetype)init {
   self = [super init];
-  if (self) 
-  {
+
+  if (self) {
     // initalise property's default value, if any
     
   }
+
   return self;
 }
 
