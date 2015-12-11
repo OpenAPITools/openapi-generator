@@ -156,7 +156,10 @@ namespace IO.Swagger.Client
         public string ParameterToString(object obj)
         {
             if (obj is DateTime)
-                return ((DateTime)obj).ToString ("u");
+                // Return an ISO 8601 formatted string, also known as a Round-trip date/time pattern
+                // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                // For example: 2009-06-15T13:45:30.0000000
+                return ((DateTime)obj).ToString ("o");
             else if (obj is IList)
             {
                 string flattenString = "";
