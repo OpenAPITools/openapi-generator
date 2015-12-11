@@ -143,7 +143,7 @@ namespace {{packageName}}.Client
         public string ParameterToString(object obj)
         {
             if (obj is DateTime)
-                return ((DateTime)obj).ToString ("u");
+                return ((DateTime)obj).ToString ("o");
             else if (obj is List<string>)
                 return String.Join(",", (obj as List<string>).ToArray());
             else
