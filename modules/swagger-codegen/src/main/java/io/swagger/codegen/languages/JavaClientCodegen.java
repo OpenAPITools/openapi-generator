@@ -251,6 +251,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if ("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
+        } else if("jersey2".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
         }
     }
 
