@@ -1,6 +1,8 @@
 module Petstore
   class Tag < BaseObject
-    attr_accessor :id, :name
+    attr_accessor :id
+
+    attr_accessor :name
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
