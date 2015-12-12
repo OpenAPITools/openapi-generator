@@ -157,9 +157,9 @@ class ApiClient(object):
             deserialized_data = None
 
         if callback:
-            callback(deserialized_data)
+            callback((deserialized_data, response_data.status, response_data.getheaders()))
         else:
-            return deserialized_data
+            return (deserialized_data, response_data.status, response_data.getheaders())
 
     def to_path_value(self, obj):
         """
