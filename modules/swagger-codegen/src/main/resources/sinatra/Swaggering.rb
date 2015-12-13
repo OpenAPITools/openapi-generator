@@ -26,6 +26,13 @@ class Swaggering < Sinatra::Base
       cross_origin
       Swaggering.to_resource_listing
     }
+
+    # for swagger.yaml
+    get("/swagger.yaml") {
+      cross_origin
+      File.read("./swagger.yaml");
+    }
+
     @@configuration ||= Configuration.new
     yield(@@configuration) if block_given?
   end
