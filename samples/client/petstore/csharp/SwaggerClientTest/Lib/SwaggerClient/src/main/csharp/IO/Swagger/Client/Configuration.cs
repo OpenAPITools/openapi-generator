@@ -109,13 +109,13 @@ namespace IO.Swagger.Client
                 return apiKeyValue;
         }
   
-        private static string _tempFolderPath = Path.GetTempPath();
+        private string _tempFolderPath = Path.GetTempPath();
   
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
         /// </summary>
         /// <value>Folder path.</value>
-        public static String TempFolderPath
+        public String TempFolderPath
         {
             get { return _tempFolderPath; }
   
@@ -141,7 +141,7 @@ namespace IO.Swagger.Client
 
         private const string ISO8601_DATETIME_FORMAT = "o";
 
-        private static string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
+        private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
 
         /// <summary>
         /// Gets or sets the the date time format used when serializing in the ApiClient
@@ -151,7 +151,7 @@ namespace IO.Swagger.Client
         /// No validation is done to ensure that the string you're providing is valid
         /// </summary>
         /// <value>The DateTimeFormat string</value>
-        public static String DateTimeFormat
+        public String DateTimeFormat
         {
             get
             {
