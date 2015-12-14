@@ -1,6 +1,21 @@
 module Petstore
   class User < BaseObject
-    attr_accessor :id, :username, :first_name, :last_name, :email, :password, :phone, :user_status
+    attr_accessor :id
+
+    attr_accessor :username
+
+    attr_accessor :first_name
+
+    attr_accessor :last_name
+
+    attr_accessor :email
+
+    attr_accessor :password
+
+    attr_accessor :phone
+
+    # User Status
+    attr_accessor :user_status
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
@@ -20,7 +35,6 @@ module Petstore
         
         :'phone' => :'phone',
         
-        # User Status
         :'user_status' => :'userStatus'
         
       }
