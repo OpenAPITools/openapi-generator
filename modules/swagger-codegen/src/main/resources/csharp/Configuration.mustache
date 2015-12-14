@@ -13,6 +13,45 @@ namespace {{packageName}}.Client
     public class Configuration
     {
         /// <summary>
+        /// Initializes a new instance of the Configuration class with different settings
+        /// </summary>
+        /// <param name="apiClient">Api client</param>
+        /// <param name="defaultHeader">Dictionary of default HTTP header</param>
+        /// <param name="username">Username</param>
+        /// <param name="password">Password</param>
+        /// <param name="accessToken">accessToken</param>
+        /// <param name="apiKey">Dictionary of API key</param>
+        /// <param name="apiKeyPrefix">Dictionary of API key prefix</param>
+        /// <param name="tempFolderPath">Temp folder path</param>
+        /// <param name="dateTimeFormat">DateTime format string</param>
+        public Configuration(ApiClient apiClient,
+                             Dictionary<String, String> defaultHeader,
+                             string username,
+                             string password,
+                             string accessToken,
+                             Dictionary<String, String> apiKey,
+                             Dictionary<String, String> apiKeyPrefix,
+                             string tempFolderPath,
+                             string dateTimeFormat
+                            )
+        {
+            if (apiClient == null)
+                ApiClient = ApiClient.Default;
+            else 
+                ApiClient = apiClient;
+
+            Username = username;
+            Password = password;
+            AccessToken = accessToken;
+            ApiKey = apiKey;
+            ApiKeyPrefix = apiKeyPrefix;
+
+            TempFolderPath = tempFolderPath;
+            DateTimeFormat = dateTimeFormat;
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the Configuration class.
         /// </summary>
         /// <param name="apiClient">Api client.</param>

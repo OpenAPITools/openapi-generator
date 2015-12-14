@@ -55,6 +55,15 @@ namespace SwaggerClientTest.TestConfiguration
             Assert.AreEqual("u", Configuration.Default.DateTimeFormat);
         }
 
+		[Test ()]
+		public void TestConstructor()
+		{
+			Configuration c = new Configuration (username: "test username", password: "test password");
+			Assert.AreEqual (c.Username, "test username");
+			Assert.AreEqual (c.Password, "test password");
+
+		}
+
         [Test ()]
 		public void TestDefautlConfiguration ()
 		{	
