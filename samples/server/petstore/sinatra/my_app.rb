@@ -7,3 +7,7 @@ class MyApp < Swaggering
   end
 end
 
+# include the api files
+Dir["./api/*.rb"].each { |file|
+  require file
+}
