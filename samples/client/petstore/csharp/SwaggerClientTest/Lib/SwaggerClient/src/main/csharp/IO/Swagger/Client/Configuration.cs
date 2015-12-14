@@ -13,10 +13,52 @@ namespace IO.Swagger.Client
     public class Configuration
     {
         /// <summary>
+        /// Initializes a new instance of the Configuration class with different settings
+        /// </summary>
+        /// <param name="apiClient">Api client</param>
+        /// <param name="defaultHeader">Dictionary of default HTTP header</param>
+        /// <param name="username">Username</param>
+        /// <param name="password">Password</param>
+        /// <param name="accessToken">accessToken</param>
+        /// <param name="apiKey">Dictionary of API key</param>
+        /// <param name="apiKeyPrefix">Dictionary of API key prefix</param>
+        /// <param name="tempFolderPath">Temp folder path</param>
+        /// <param name="dateTimeFormat">DateTime format string</param>
+        public Configuration(ApiClient apiClient = null,
+                             Dictionary<String, String> defaultHeader = null,
+                             string username = null,
+                             string password = null,
+                             string accessToken = null,
+                             Dictionary<String, String> apiKey = null,
+                             Dictionary<String, String> apiKeyPrefix = null,
+                             string tempFolderPath = null,
+                             string dateTimeFormat = null
+                            )
+        {
+            if (apiClient == null)
+                ApiClient = ApiClient.Default;
+            else 
+                ApiClient = apiClient;
+
+            Username = username;
+            Password = password;
+            AccessToken = accessToken;
+
+			if (apiKey != null)
+                ApiKey = apiKey;
+			if (apiKeyPrefix != null)
+			    ApiKeyPrefix = apiKeyPrefix;
+
+            TempFolderPath = tempFolderPath;
+            DateTimeFormat = dateTimeFormat;
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the Configuration class.
         /// </summary>
         /// <param name="apiClient">Api client.</param>
-        public Configuration(ApiClient apiClient=null)
+        public Configuration(ApiClient apiClient)
         {
             if (apiClient == null)
                 ApiClient = ApiClient.Default;
