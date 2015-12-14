@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
 using IO.Swagger.Client;
+using System.Reflection;
 
-
-namespace SwaggerClient.TestPet
+namespace SwaggerClientTest.TestPet
 {
 	[TestFixture ()]
 	public class TestPet
@@ -166,15 +166,15 @@ namespace SwaggerClient.TestPet
 		[Test ()]
 		public void TestUploadFile ()
 		{
-			PetApi petApi = new PetApi ();
-			//NOTE: please provide a valid file (full path)
-			FileStream fileStream = new FileStream("/var/tmp/small.gif", FileMode.Open);
+		    Assembly _assembly = Assembly.GetExecutingAssembly();
+		    Stream _imageStream = _assembly.GetManifestResourceStream("SwaggerClientTest.swagger-logo.png");
+            PetApi petApi = new PetApi ();			
 			// test file upload with form parameters
-			petApi.UploadFile(petId, "new form name", fileStream);
+			petApi.UploadFile(petId, "new form name", _imageStream);
 
 			// test file upload without any form parameters
 			// using optional parameter syntax introduced at .net 4.0
-			petApi.UploadFile(petId: petId, file: fileStream);
+			petApi.UploadFile(petId: petId, file: _imageStream);
 
 		}
 
