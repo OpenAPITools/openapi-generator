@@ -11,7 +11,7 @@ namespace SwaggerClientTest.TestApiClient
         public void TearDown()
         {
             // Reset to default, just in case
-            Configuration.DateTimeFormat = "o";
+            Configuration.Default.DateTimeFormat = "o";
         }
 
         [Test ()]
@@ -29,28 +29,34 @@ namespace SwaggerClientTest.TestApiClient
 		}
 
         [Test ()]
-	    public void TestParameterToString_DateTime ()
-	    {
-            ApiClient api = new ApiClient();
+	    public void TestParameterToStringForDateTime ()
+		{
+			ApiClient api = new ApiClient ();
 
-            // test datetime
-            DateTime dateUtc = DateTime.Parse("2008-04-10T13:30:00.0000000z", null, System.Globalization.DateTimeStyles.RoundtripKind);
-            Assert.AreEqual("2008-04-10T13:30:00.0000000Z", api.ParameterToString(dateUtc));
+			// test datetime
+			DateTime dateUtc = DateTime.Parse ("2008-04-10T13:30:00.0000000z", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			Assert.AreEqual ("2008-04-10T13:30:00.0000000Z", api.ParameterToString (dateUtc));
 
-            // test datetime with no timezone
-            DateTime dateWithNoTz = DateTime.Parse("2008-04-10T13:30:00.000", null, System.Globalization.DateTimeStyles.RoundtripKind);
-            Assert.AreEqual("2008-04-10T13:30:00.0000000", api.ParameterToString(dateWithNoTz));
+			// test datetime with no timezone
+			DateTime dateWithNoTz = DateTime.Parse ("2008-04-10T13:30:00.000", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			Assert.AreEqual ("2008-04-10T13:30:00.0000000", api.ParameterToString (dateWithNoTz));
+		}
 
+		// The test below only passes when running at -04:00 timezone
+		[Ignore ()]
+		public void TestParameterToStringWithTimeZoneForDateTime ()
+		{
+			ApiClient api = new ApiClient ();
             // test datetime with a time zone
             DateTime dateWithTz = DateTime.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
             Assert.AreEqual("2008-04-10T13:30:00.0000000-04:00", api.ParameterToString(dateWithTz));
         }
 
         [Test ()]
-        public void TestParameterToString_DateTime_WithUFormat ()
+        public void TestParameterToStringForDateTimeWithUFormat ()
         {
             // Setup the DateTimeFormat across all of the calls
-            Configuration.DateTimeFormat = "u";
+            Configuration.Default.DateTimeFormat = "u";
             ApiClient api = new ApiClient();
             
             // test datetime
@@ -59,10 +65,10 @@ namespace SwaggerClientTest.TestApiClient
         }
 
         [Test ()]
-        public void TestParameterToString_DateTime_WithCustomFormat ()
+        public void TestParameterToStringForDateTimeWithCustomFormat ()
         {
             // Setup the DateTimeFormat across all of the calls
-            Configuration.DateTimeFormat = "dd/MM/yy HH:mm:ss";
+            Configuration.Default.DateTimeFormat = "dd/MM/yy HH:mm:ss";
             ApiClient api = new ApiClient();
 
             // test datetime

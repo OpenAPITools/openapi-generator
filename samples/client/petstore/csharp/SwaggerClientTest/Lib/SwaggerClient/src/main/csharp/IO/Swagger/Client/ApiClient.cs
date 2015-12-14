@@ -19,23 +19,56 @@ namespace IO.Swagger.Client
     public class ApiClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" /> class.
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default configuration and base path (http://petstore.swagger.io/v2).
+        /// </summary>
+        public ApiClient()
+        {
+            Configuration = Configuration.Default;
+            RestClient = new RestClient("http://petstore.swagger.io/v2");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default base path (http://petstore.swagger.io/v2).
+        /// </summary>
+        /// <param name="config">An instance of Configuration.</param>
+        public ApiClient(Configuration config = null)
+        {
+            if (config == null)
+                Configuration = Configuration.Default;
+            else
+                Configuration = config;
+
+            RestClient = new RestClient("http://petstore.swagger.io/v2");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default configuration.
         /// </summary>
         /// <param name="basePath">The base path.</param>
-        public ApiClient(String basePath="http://petstore.swagger.io/v2")
+        public ApiClient(String basePath = "http://petstore.swagger.io/v2")
         {
            if (String.IsNullOrEmpty(basePath))
                 throw new ArgumentException("basePath cannot be empty");
 
             RestClient = new RestClient(basePath);
+            Configuration = Configuration.Default;
         }
 
         /// <summary>
         /// Gets or sets the default API client for making HTTP calls.
         /// </summary>
         /// <value>The default API client.</value>
-        public static ApiClient Default = new ApiClient();
+        public static ApiClient Default = new ApiClient(Configuration.Default);
     
+        /// <summary>
+        /// Gets or sets the Configuration.
+        /// </summary>
+        /// <value>An instance of the Configuration.</value>
+        public Configuration Configuration { get; set; }
+
         /// <summary>
         /// Gets or sets the RestClient.
         /// </summary>
