@@ -1,13 +1,14 @@
 module {{moduleName}}{{#models}}{{#model}}{{#description}}
   # {{{description}}}{{/description}}
-  class {{classname}} < BaseObject
-    attr_accessor {{#vars}}:{{{name}}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{newline}}
+  class {{classname}} < BaseObject{{#vars}}{{#description}}
+    # {{{description}}}{{/description}}
+    attr_accessor :{{{name}}}
+{{/vars}}
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        {{#vars}}{{#description}}
-        # {{{description}}}{{/description}}
+        {{#vars}}
         :'{{{name}}}' => :'{{{baseName}}}'{{#hasMore}},{{/hasMore}}
         {{/vars}}
       }
