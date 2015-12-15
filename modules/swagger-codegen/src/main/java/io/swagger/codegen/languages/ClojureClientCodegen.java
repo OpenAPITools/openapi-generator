@@ -26,10 +26,10 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     private static final String PROJECT_LICENSE_URL = "projectLicenseUrl";
     private static final String BASE_NAMESPACE = "baseNamespace";
 
-    protected String projectName = null;
-    protected String projectDescription = null;
-    protected String projectVersion = null;
-    protected String baseNamespace = null;
+    protected String projectName;
+    protected String projectDescription;
+    protected String projectVersion;
+    protected String baseNamespace;
 
     protected String sourceFolder = "src";
 

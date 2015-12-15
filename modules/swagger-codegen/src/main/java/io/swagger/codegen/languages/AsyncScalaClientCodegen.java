@@ -33,7 +33,7 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
     protected String sourceFolder = "src/main/scala";
     protected String clientName = "SwaggerClient";
     protected String authScheme = "";
-    protected boolean authPreemptive = false;
+    protected boolean authPreemptive;
     protected boolean asyncHttpClient = !authScheme.isEmpty();
 
     public AsyncScalaClientCodegen() {

@@ -21,8 +21,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String gemName = null;
-    protected String moduleName = null;
+    protected String gemName;
+    protected String moduleName;
     protected String gemVersion = "1.0.0";
     protected String libFolder = "lib";
 

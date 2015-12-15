@@ -26,7 +26,7 @@ import java.util.HashSet;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName = "io.swagger";
-    protected String packageVersion = null;
+    protected String packageVersion;
 
     protected String invokerPackage = "io.swagger";
     protected String sourceFolder = "src/main/flex";
