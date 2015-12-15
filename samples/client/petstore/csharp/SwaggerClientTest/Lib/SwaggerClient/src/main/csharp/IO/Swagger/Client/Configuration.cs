@@ -13,10 +13,52 @@ namespace IO.Swagger.Client
     public class Configuration
     {
         /// <summary>
+        /// Initializes a new instance of the Configuration class with different settings
+        /// </summary>
+        /// <param name="apiClient">Api client</param>
+        /// <param name="defaultHeader">Dictionary of default HTTP header</param>
+        /// <param name="username">Username</param>
+        /// <param name="password">Password</param>
+        /// <param name="accessToken">accessToken</param>
+        /// <param name="apiKey">Dictionary of API key</param>
+        /// <param name="apiKeyPrefix">Dictionary of API key prefix</param>
+        /// <param name="tempFolderPath">Temp folder path</param>
+        /// <param name="dateTimeFormat">DateTime format string</param>
+        public Configuration(ApiClient apiClient = null,
+                             Dictionary<String, String> defaultHeader = null,
+                             string username = null,
+                             string password = null,
+                             string accessToken = null,
+                             Dictionary<String, String> apiKey = null,
+                             Dictionary<String, String> apiKeyPrefix = null,
+                             string tempFolderPath = null,
+                             string dateTimeFormat = null
+                            )
+        {
+            if (apiClient == null)
+                ApiClient = ApiClient.Default;
+            else 
+                ApiClient = apiClient;
+
+            Username = username;
+            Password = password;
+            AccessToken = accessToken;
+
+			if (apiKey != null)
+                ApiKey = apiKey;
+			if (apiKeyPrefix != null)
+			    ApiKeyPrefix = apiKeyPrefix;
+
+            TempFolderPath = tempFolderPath;
+            DateTimeFormat = dateTimeFormat;
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the Configuration class.
         /// </summary>
         /// <param name="apiClient">Api client.</param>
-        public Configuration(ApiClient apiClient=null)
+        public Configuration(ApiClient apiClient)
         {
             if (apiClient == null)
                 ApiClient = ApiClient.Default;
@@ -109,13 +151,13 @@ namespace IO.Swagger.Client
                 return apiKeyValue;
         }
   
-        private static string _tempFolderPath = Path.GetTempPath();
+        private string _tempFolderPath = Path.GetTempPath();
   
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
         /// </summary>
         /// <value>Folder path.</value>
-        public static String TempFolderPath
+        public String TempFolderPath
         {
             get { return _tempFolderPath; }
   
@@ -141,7 +183,7 @@ namespace IO.Swagger.Client
 
         private const string ISO8601_DATETIME_FORMAT = "o";
 
-        private static string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
+        private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
 
         /// <summary>
         /// Gets or sets the the date time format used when serializing in the ApiClient
@@ -151,7 +193,7 @@ namespace IO.Swagger.Client
         /// No validation is done to ensure that the string you're providing is valid
         /// </summary>
         /// <value>The DateTimeFormat string</value>
-        public static String DateTimeFormat
+        public String DateTimeFormat
         {
             get
             {
