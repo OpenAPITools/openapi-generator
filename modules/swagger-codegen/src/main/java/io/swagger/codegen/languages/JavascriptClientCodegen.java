@@ -34,15 +34,8 @@ import org.slf4j.LoggerFactory;
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
-    protected String invokerPackage = "io.swagger.client";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-java-client";
-    protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src";
     protected String localVariablePrefix = "";
-    protected boolean fullJavaUtil = false;
-    protected String javaUtilPrefix = "";
-    protected Boolean serializableModel = false;
 
     public JavascriptClientCodegen() {
         super();
@@ -80,14 +73,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         instantiationTypes.put("map", "HashMap");
 
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
-        cliOptions.add(new CliOption("fullJavaUtil", "whether to use fully qualified name for classes under java.util (default to false)"));
-
     }
 
     @Override
@@ -108,9 +95,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public void processOpts() {
         super.processOpts();
-
-            typeMapping.put("array", "Array");
-            
+        typeMapping.put("array", "Array");
     }
 
     @Override
@@ -198,84 +183,42 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toDefaultValue(Property p) {
         if (p instanceof ArrayProperty) {
-            final ArrayProperty ap = (ArrayProperty) p;
-            final String pattern;
-            //if (fullJavaUtil) {
-            //    pattern = "new ArrayList()";
-            //} else {
-            //    pattern = "new ArrayList<%s>()";
-            //}
-            
-            pattern = "new Array()";
-            return String.format(pattern, getTypeDeclaration(ap.getItems()));
+            return "[]";
         } else if (p instanceof MapProperty) {
-            final MapProperty ap = (MapProperty) p;
-            final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.HashMap<String, %s>()";
-            } else {
-                pattern = "new HashMap<String, %s>()";
-            }
-            return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()));
-            
+            return "{}";
         } else if (p instanceof LongProperty) {
             LongProperty dp = (LongProperty) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString()+"l";
             }
            return "null";
-           
+
            // added for Javascript
         } else if (p instanceof RefProperty) {
         	RefProperty rp = (RefProperty)p;
-        	System.out.println("rp: " + rp.getName() + rp.getAccess() + rp.getDescription() + rp.getExample() + rp.getFormat() + rp.getSimpleRef() + rp.getTitle() + rp.getType());
-        	
-        	return "new " +rp.getSimpleRef()  + "()"; 
+        	return "new " +rp.getSimpleRef()  + "()";
         }
-        
-        System.out.println("property: " + p);
-        
+
         return super.toDefaultValue(p);
     }
-    
+
 
     @Override
     public String toDefaultValueWithParam(String name, Property p) {
         if (p instanceof ArrayProperty) {
-            final ArrayProperty ap = (ArrayProperty) p;
-            final String pattern;
-//            if (fullJavaUtil) {
-//                pattern = "new java.util.ArrayList<%s>()";
-//            } else {
-//                pattern = "new ArrayList<%s>()" ;
-//            }
-            pattern = " = new Array()" ;
-            
-            return String.format(pattern, getTypeDeclaration(ap.getItems()))+ ";";
+            return  " = new Array();";
         } else if (p instanceof MapProperty) {
-            final MapProperty ap = (MapProperty) p;
-            final String pattern;
-            if (fullJavaUtil) {
-                pattern = " = new java.util.HashMap<String, %s>()";
-            } else {
-                pattern = "new HashMap<String, %s>()";
-            }
-            return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()))+ ";";
-            
+            return " = {}";
         } else if (p instanceof LongProperty) {
             LongProperty dp = (LongProperty) p;
             return " = data." + name + ";";
-           
+
            // added for Javascript
         } else if (p instanceof RefProperty) {
         	RefProperty rp = (RefProperty)p;
-        	System.out.println("rp: " + rp.getName() + rp.getAccess() + rp.getDescription() + rp.getExample() + rp.getFormat() + rp.getSimpleRef() + rp.getTitle() + rp.getType());
-        	
-        	return ".constructFromObject(data." + name + ");"; 
+        	return ".constructFromObject(data." + name + ");";
         }
-        
-        System.out.println("property: " + p);
-        
+
         return super.toDefaultValueWithParam(name, p);
     }
 
@@ -449,7 +392,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     }
                 }
             }
-            
+
             if(removedChildEnum) {
                 // If we removed an entry from this model's vars, we need to ensure hasMore is updated
                 int count = 0, numVars = codegenProperties.size();
@@ -464,37 +407,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
 
     public void setLocalVariablePrefix(String localVariablePrefix) {
         this.localVariablePrefix = localVariablePrefix;
-    }
-
-
-    public Boolean getSerializableModel() {
-        return serializableModel;
-    }
-
-    public void setSerializableModel(Boolean serializableModel) {
-        this.serializableModel = serializableModel;
     }
 
     private String sanitizePackageName(String packageName) {
