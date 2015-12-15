@@ -45,14 +45,17 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         );
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "inflector";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java Inflector Server application.";
     }
@@ -131,6 +134,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         return objs;
     }
 
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -188,6 +192,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         return camelize(name)+ "Controller";
     }
 
+    @Override
     public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename);
     }

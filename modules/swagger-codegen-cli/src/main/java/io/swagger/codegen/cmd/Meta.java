@@ -135,6 +135,7 @@ public class Meta implements Runnable {
      */
     private Mustache.TemplateLoader loader(final DefaultGenerator generator) {
         return new Mustache.TemplateLoader() {
+            @Override
             public Reader getTemplate(String name) {
                 return generator.getTemplateReader(TEMPLATE_DIR_CLASSPATH
                         + File.separator + name.concat(MUSTACHE_EXTENSION));

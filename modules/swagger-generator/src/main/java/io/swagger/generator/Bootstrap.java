@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Bootstrap extends HttpServlet {
+    @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext context = config.getServletContext();
 

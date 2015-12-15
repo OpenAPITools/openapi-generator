@@ -86,6 +86,7 @@ public class CodegenTest {
         final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/requiredTest.json");
 
         final DefaultCodegen codegen = new DefaultCodegen() {
+            @Override
             public String getSwaggerType(Property p) {
                 if (p != null && !p.getRequired()) {
                     return "Optional<" + super.getSwaggerType(p) + ">";

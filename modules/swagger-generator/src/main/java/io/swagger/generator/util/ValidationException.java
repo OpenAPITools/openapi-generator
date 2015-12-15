@@ -19,6 +19,7 @@ public class ValidationException extends Exception {
         this.code = code;
     }
 
+    @Override
     public String getMessage() {
         return msg;
     }
