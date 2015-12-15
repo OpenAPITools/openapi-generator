@@ -13,7 +13,7 @@ namespace SwaggerClientTest.TestConfiguration
 	    public void TearDown ()
 	    {
             // Reset to default, just in case
-            Configuration.DateTimeFormat = "o";
+            Configuration.Default.DateTimeFormat = "o";
 	    }
 
 		[Test ()]
@@ -44,16 +44,25 @@ namespace SwaggerClientTest.TestConfiguration
 	    {
             // Should default to the Round-trip Format Specifier - "o"
             // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
-            Assert.AreEqual("o", Configuration.DateTimeFormat);
+            Assert.AreEqual("o", Configuration.Default.DateTimeFormat);
 	    }
 
         [Test ()]
         public void TestDateTimeFormat_UType()
         {
-            Configuration.DateTimeFormat = "u";
+            Configuration.Default.DateTimeFormat = "u";
 
-            Assert.AreEqual("u", Configuration.DateTimeFormat);
+            Assert.AreEqual("u", Configuration.Default.DateTimeFormat);
         }
+
+		[Test ()]
+		public void TestConstructor()
+		{
+			Configuration c = new Configuration (username: "test username", password: "test password");
+			Assert.AreEqual (c.Username, "test username");
+			Assert.AreEqual (c.Password, "test password");
+
+		}
 
         [Test ()]
 		public void TestDefautlConfiguration ()
