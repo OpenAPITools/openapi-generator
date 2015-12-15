@@ -139,14 +139,17 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
                     .replaceAll(regLastPathSeparator+ "$", "");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "php";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a PHP client library.";
     }
@@ -223,6 +226,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
     }

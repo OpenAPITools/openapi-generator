@@ -135,14 +135,17 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "csharp";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a CSharp client library.";
     }
@@ -157,6 +160,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }

@@ -132,6 +132,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    @Override
     public String apiPackage() {
         return controllerPackage;
     }
@@ -142,6 +143,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
      * @return the CodegenType for this generator
      * @see io.swagger.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -152,6 +154,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "python-flask";
     }
@@ -162,6 +165,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a python server library using the connexion project.  By default, " +
                 "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";

@@ -51,6 +51,7 @@ public abstract class AbstractOptionsTest {
 
     private Function<CliOption, String> getCliOptionTransformer() {
         return new Function<CliOption, String>() {
+            @Override
             public String apply(CliOption option) {
                 return option.getOpt();
             }

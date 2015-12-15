@@ -104,14 +104,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("autodoc.script.mustache", ("bin/").replace('/', File.separatorChar), "autodoc"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "perl";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Perl client library.";
     }
@@ -126,6 +129,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + "/lib/WWW/" + moduleName + apiPackage()).replace('/', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/lib/WWW/" + moduleName + modelPackage()).replace('/', File.separatorChar);
     }
@@ -162,6 +166,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return type;
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }
