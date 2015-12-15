@@ -27,6 +27,8 @@ import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 import {{invokerPackage}}.request.GetRequest;
 import {{invokerPackage}}.request.PostRequest;
+import {{invokerPackage}}.request.PutRequest;
+import {{invokerPackage}}.request.DeleteRequest;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE;
@@ -374,7 +376,17 @@ public class ApiInvoker {
        if(request != null) mRequestQueue.add(request);
     }
     else if ("DELETE".equals(method)) {
-
+       DeleteRequest request = null;
+          if (formParamStr != null) {
+           request = new PutRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+          } else if (body != null) {
+          if (body instanceof HttpEntity) {
+       request = new PutRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+          } else {
+             request = new PutRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+          }
+       }
+       if(request != null) mRequestQueue.add(request);
     }
     else if ("PATCH".equals(method)) {
 
