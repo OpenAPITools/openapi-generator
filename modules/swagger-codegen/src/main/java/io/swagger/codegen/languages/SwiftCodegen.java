@@ -40,7 +40,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
   protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT };
   protected String projectName = "SwaggerClient";
-  protected boolean unwrapRequired = false;
+  protected boolean unwrapRequired;
   protected String[] responseAs = new String[0];
   protected String sourceFolder = "Classes" + File.separator + "Swaggers";
   private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");

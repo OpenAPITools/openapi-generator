@@ -40,10 +40,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PROJECT_VERSION = "projectVersion";
     private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
 
-    protected String projectName = null;
-    protected String moduleName = null;
-    protected String projectDescription = null;
-    protected String projectVersion = null;
+    protected String projectName;
+    protected String moduleName;
+    protected String projectDescription;
+    protected String projectVersion;
 
     protected String sourceFolder = "src";
     protected String localVariablePrefix = "";

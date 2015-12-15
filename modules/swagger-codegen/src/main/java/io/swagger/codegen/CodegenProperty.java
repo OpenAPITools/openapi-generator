@@ -31,7 +31,7 @@ public class CodegenProperty {
     public Double maximum;
     public Boolean exclusiveMinimum;
     public Boolean exclusiveMaximum;
-    public Boolean hasMore = null, required = null, secondaryParam = null;
+    public Boolean hasMore, required, secondaryParam;
     public Boolean isPrimitiveType, isContainer, isNotContainer;
     public boolean isEnum;
     public Boolean isReadOnly = false;

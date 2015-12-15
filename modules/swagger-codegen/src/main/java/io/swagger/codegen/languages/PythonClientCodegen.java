@@ -15,8 +15,8 @@ import java.util.HashSet;
 import org.apache.commons.lang.StringUtils;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String packageName = null;
-    protected String packageVersion = null;
+    protected String packageName;
+    protected String packageVersion;
 
     public PythonClientCodegen() {
         super();

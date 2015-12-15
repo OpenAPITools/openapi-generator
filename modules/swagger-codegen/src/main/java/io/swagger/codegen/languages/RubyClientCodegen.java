@@ -19,8 +19,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String GEM_NAME = "gemName";
     public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
-    protected String gemName = null;
-    protected String moduleName = null;
+    protected String gemName;
+    protected String moduleName;
     protected String gemVersion = "1.0.0";
     protected String libFolder = "lib";
 
