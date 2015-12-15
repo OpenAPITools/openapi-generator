@@ -66,7 +66,7 @@ var Pet = function Pet(photoUrls, name) {
   	/**
 	  * datatype: Array
 	  **/
-	  self.tags = new Array();
+	  self.tags = [];
 	 
   	/**
 	  * pet status in the store

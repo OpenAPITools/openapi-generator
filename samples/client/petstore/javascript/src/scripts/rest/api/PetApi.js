@@ -1,7 +1,3 @@
-/*
- * @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavascriptClientCodegen", date = "2015-12-09T16:07:21.000+07:00")
- */
-
 //export module
 if ( typeof define === "function" && define.amd ) {     
 	define(['jquery'], function($) {
