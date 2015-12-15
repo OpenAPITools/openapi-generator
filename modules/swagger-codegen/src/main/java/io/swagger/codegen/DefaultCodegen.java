@@ -1824,6 +1824,16 @@ public class DefaultCodegen {
     }
 
     /**
+     * Dashize the given word.
+     *
+     * @param word The word
+     * @return The dashized version of the word, e.g. "my-name"
+     */
+    protected String dashize(String word) {
+        return underscore(word).replaceAll("[_ ]", "-");
+    }
+
+    /**
      * Generate the next name for the given name, i.e. append "2" to the base name if not ending with a number,
      * otherwise increase the number by 1. For example:
      *   status    => status2

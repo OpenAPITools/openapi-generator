@@ -11,7 +11,7 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Model;
+import io.swagger.models.*;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
@@ -33,6 +33,15 @@ import org.slf4j.LoggerFactory;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+
+    private static final String PROJECT_NAME = "projectName";
+    private static final String PROJECT_DESCRIPTION = "projectDescription";
+    private static final String PROJECT_VERSION = "projectVersion";
+    private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
+
+    protected String projectName = null;
+    protected String projectDescription = null;
+    protected String projectVersion = null;
 
     protected String sourceFolder = "src";
     protected String localVariablePrefix = "";
@@ -72,9 +81,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("map", "HashMap");
 
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
+        cliOptions.add(new CliOption(PROJECT_NAME,
+                "name of the project (Default: generated from info.title or \"swagger-js-client\")"));
+        cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
+                "description of the project (Default: using info.description or \"Client library of <projectNname>\")"));
+        cliOptions.add(new CliOption(PROJECT_VERSION,
+                "version of the project (Default: using info.version or \"1.0.0\")"));
+        cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
+                "name of the license the project uses (Default: using info.license.name)"));
     }
 
     @Override
@@ -96,6 +112,58 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public void processOpts() {
         super.processOpts();
         typeMapping.put("array", "Array");
+    }
+
+    @Override
+    public void preprocessSwagger(Swagger swagger) {
+        super.preprocessSwagger(swagger);
+
+        if (additionalProperties.containsKey(PROJECT_NAME)) {
+            projectName = ((String) additionalProperties.get(PROJECT_NAME));
+        }
+        if (additionalProperties.containsKey(PROJECT_DESCRIPTION)) {
+            projectDescription = ((String) additionalProperties.get(PROJECT_DESCRIPTION));
+        }
+        if (additionalProperties.containsKey(PROJECT_VERSION)) {
+            projectVersion = ((String) additionalProperties.get(PROJECT_VERSION));
+        }
+
+        if (swagger.getInfo() != null) {
+            Info info = swagger.getInfo();
+            if (projectName == null &&  info.getTitle() != null) {
+                // when projectName is not specified, generate it from info.title
+                projectName = dashize(info.getTitle());
+            }
+            if (projectVersion == null) {
+                // when projectVersion is not specified, use info.version
+                projectVersion = info.getVersion();
+            }
+            if (projectDescription == null) {
+                // when projectDescription is not specified, use info.description
+                projectDescription = info.getDescription();
+            }
+            if (info.getLicense() != null) {
+                License license = info.getLicense();
+                if (additionalProperties.get(PROJECT_LICENSE_NAME) == null) {
+                    additionalProperties.put(PROJECT_LICENSE_NAME, license.getName());
+                }
+            }
+        }
+
+        // default values
+        if (projectName == null) {
+            projectName = "swagger-js-client";
+        }
+        if (projectVersion == null) {
+            projectVersion = "1.0.0";
+        }
+        if (projectDescription == null) {
+            projectDescription = "Client library of " + projectName;
+        }
+
+        additionalProperties.put(PROJECT_NAME, projectName);
+        additionalProperties.put(PROJECT_DESCRIPTION, escapeText(projectDescription));
+        additionalProperties.put(PROJECT_VERSION, projectVersion);
     }
 
     @Override
