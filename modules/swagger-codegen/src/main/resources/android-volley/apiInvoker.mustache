@@ -29,6 +29,7 @@ import {{invokerPackage}}.request.GetRequest;
 import {{invokerPackage}}.request.PostRequest;
 import {{invokerPackage}}.request.PutRequest;
 import {{invokerPackage}}.request.DeleteRequest;
+import {{invokerPackage}}.request.PatchRequest;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE;
@@ -378,19 +379,29 @@ public class ApiInvoker {
     else if ("DELETE".equals(method)) {
        DeleteRequest request = null;
           if (formParamStr != null) {
-           request = new PutRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+           request = new DeleteRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
           } else if (body != null) {
           if (body instanceof HttpEntity) {
-       request = new PutRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+             request = new DeleteRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
           } else {
-             request = new PutRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+             request = new DeleteRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
           }
        }
        if(request != null) mRequestQueue.add(request);
     }
     else if ("PATCH".equals(method)) {
-
-    }
+                PatchRequest request = null;
+          if (formParamStr != null) {
+             request = new PatchRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
+          } else if (body != null) {
+             if (body instanceof HttpEntity) {
+                request = new PatchRequest(url, headers, null, (HttpEntity) body, stringRequest, errorListener);
+             } else {
+                request = new PatchRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
+             }
+             }
+          if(request != null) mRequestQueue.add(request);
+       }
   }
 
   private void initConnectionManager() {
