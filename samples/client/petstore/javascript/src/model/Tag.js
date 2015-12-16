@@ -1,9 +1,15 @@
+// require files in Node.js environment
+
+if (typeof module === 'object' && module.exports) {
+  
+}
+
 
 
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('Tag', ['jquery'], 
+if ( typeof define === "function" && define.amd ) {
+	define('Tag', ['jquery'],
 		function($) {
         return Tag;
 	 });
@@ -14,7 +20,7 @@ var Tag = function Tag() {
   	var self = this;
   	
   	/**
-	  * datatype: Long
+	  * datatype: Integer
 	  **/
 	  self.id = null;
 	 
@@ -34,14 +40,14 @@ var Tag = function Tag() {
   
   
   /**
-   * @return {Long}
+   * @return {Integer}
    **/
   self.getId = function() {
     return self.id;
   }
   
   /**
-   * @param {Long} id
+   * @param {Integer} id
    **/
   self.setId = function (id) {
     self.id = id;
@@ -65,4 +71,8 @@ var Tag = function Tag() {
   self.toJson = function () {
   	return JSON.stringify(self);
   }
+}
+
+if (typeof module === 'object' && module.exports) {
+  module.exports = Tag;
 }

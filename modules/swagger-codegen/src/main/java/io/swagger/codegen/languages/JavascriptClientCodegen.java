@@ -35,11 +35,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     private static final String PROJECT_NAME = "projectName";
+    private static final String MODULE_NAME = "moduleName";
     private static final String PROJECT_DESCRIPTION = "projectDescription";
     private static final String PROJECT_VERSION = "projectVersion";
     private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
 
     protected String projectName = null;
+    protected String moduleName = null;
     protected String projectDescription = null;
     protected String projectVersion = null;
 
@@ -52,41 +54,44 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         modelTemplateFiles.put("model.mustache", ".js");
         apiTemplateFiles.put("api.mustache", ".js");
         templateDir = "Javascript";
-        apiPackage = "scripts/rest/api";
-        modelPackage = "scripts/rest/model";
+        apiPackage = "api";
+        modelPackage = "model";
 
+        // reference: http://www.w3schools.com/js/js_reserved.asp
         reservedWords = new HashSet<String>(
                 Arrays.asList(
-                        "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while")
+                        "abstract", "arguments", "boolean", "break", "byte",
+                        "case", "catch", "char", "class", "const",
+                        "continue", "debugger", "default", "delete", "do",
+                        "double", "else", "enum", "eval", "export",
+                        "extends", "false", "final", "finally", "float",
+                        "for", "function", "goto", "if", "implements",
+                        "import", "in", "instanceof", "int", "interface",
+                        "let", "long", "native", "new", "null",
+                        "package", "private", "protected", "public", "return",
+                        "short", "static", "super", "switch", "synchronized",
+                        "this", "throw", "throws", "transient", "true",
+                        "try", "typeof", "var", "void", "volatile",
+                        "while", "with", "yield",
+                        "Array", "Date", "eval", "function", "hasOwnProperty",
+                        "Infinity", "isFinite", "isNaN", "isPrototypeOf",
+                        "Math", "NaN", "Number", "Object",
+                        "prototype", "String", "toString", "undefined", "valueOf")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Object",
-                        "byte[]")
+                Arrays.asList("String", "Boolean", "Integer", "Number", "Array", "Object", "Date", "File")
         );
-        instantiationTypes.put("array", "Array");
-        instantiationTypes.put("map", "HashMap");
+        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue("src"));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(PROJECT_NAME,
                 "name of the project (Default: generated from info.title or \"swagger-js-client\")"));
+        cliOptions.add(new CliOption(MODULE_NAME,
+                "module name for AMD, Node or globals (Default: generated from <projectName>)"));
         cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
-                "description of the project (Default: using info.description or \"Client library of <projectNname>\")"));
+                "description of the project (Default: using info.description or \"Client library of <projectName>\")"));
         cliOptions.add(new CliOption(PROJECT_VERSION,
                 "version of the project (Default: using info.version or \"1.0.0\")"));
         cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
@@ -111,7 +116,25 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public void processOpts() {
         super.processOpts();
+
+        typeMapping = new HashMap<String, String>();
         typeMapping.put("array", "Array");
+        typeMapping.put("List", "Array");
+        typeMapping.put("map", "Object");
+        typeMapping.put("object", "Object");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("char", "String");
+        typeMapping.put("string", "String");
+        typeMapping.put("short", "Integer");
+        typeMapping.put("int", "Integer");
+        typeMapping.put("integer", "Integer");
+        typeMapping.put("long", "Integer");
+        typeMapping.put("float", "Number");
+        typeMapping.put("double", "Number");
+        typeMapping.put("number", "Number");
+        typeMapping.put("DateTime", "Date");
+
+        importMapping.clear();
     }
 
     @Override
@@ -121,11 +144,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(PROJECT_NAME)) {
             projectName = ((String) additionalProperties.get(PROJECT_NAME));
         }
+        if (additionalProperties.containsKey(MODULE_NAME)) {
+            moduleName = ((String) additionalProperties.get(MODULE_NAME));
+        }
         if (additionalProperties.containsKey(PROJECT_DESCRIPTION)) {
             projectDescription = ((String) additionalProperties.get(PROJECT_DESCRIPTION));
         }
         if (additionalProperties.containsKey(PROJECT_VERSION)) {
             projectVersion = ((String) additionalProperties.get(PROJECT_VERSION));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
+            localVariablePrefix = (String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX);
+        }
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            sourceFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
         }
 
         if (swagger.getInfo() != null) {
@@ -154,6 +186,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (projectName == null) {
             projectName = "swagger-js-client";
         }
+        if (moduleName == null) {
+            moduleName = camelize(underscore(projectName));
+        }
         if (projectVersion == null) {
             projectVersion = "1.0.0";
         }
@@ -162,8 +197,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         additionalProperties.put(PROJECT_NAME, projectName);
+        additionalProperties.put(MODULE_NAME, moduleName);
         additionalProperties.put(PROJECT_DESCRIPTION, escapeText(projectDescription));
         additionalProperties.put(PROJECT_VERSION, projectVersion);
+        additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
+        additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
+
+        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", sourceFolder, "index.js"));
     }
 
     @Override
@@ -234,6 +275,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
+    public String toModelImport(String name) {
+        return name;
+    }
+
+    @Override
+    public String toApiImport(String name) {
+        return name;
+    }
+
+    @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
@@ -263,8 +314,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
            // added for Javascript
         } else if (p instanceof RefProperty) {
-        	RefProperty rp = (RefProperty)p;
-        	return "new " +rp.getSimpleRef()  + "()";
+            RefProperty rp = (RefProperty)p;
+            return "new " +rp.getSimpleRef()  + "()";
         }
 
         return super.toDefaultValue(p);
@@ -283,8 +334,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
            // added for Javascript
         } else if (p instanceof RefProperty) {
-        	RefProperty rp = (RefProperty)p;
-        	return ".constructFromObject(data." + name + ");";
+            RefProperty rp = (RefProperty)p;
+            return ".constructFromObject(data." + name + ");";
         }
 
         return super.toDefaultValueWithParam(name, p);
@@ -297,7 +348,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0) {
+            if (!needToImport(type)) {
                 return type;
             }
         } else {
@@ -408,7 +459,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     protected boolean needToImport(String type) {
-        return super.needToImport(type) && type.indexOf(".") < 0;
+        return !defaultIncludes.contains(type)
+            && !languageSpecificPrimitives.contains(type);
     }
 
     private String findCommonPrefixOfVars(List<String> vars) {
@@ -473,14 +525,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         return codegenModel;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setLocalVariablePrefix(String localVariablePrefix) {
-        this.localVariablePrefix = localVariablePrefix;
     }
 
     private String sanitizePackageName(String packageName) {

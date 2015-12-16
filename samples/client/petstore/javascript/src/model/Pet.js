@@ -1,3 +1,11 @@
+// require files in Node.js environment
+var Category;var Tag;
+if (typeof module === 'object' && module.exports) {
+  
+  Category = require('./Category.js');
+  Tag = require('./Tag.js');
+}
+
 
 
 //export module
@@ -30,8 +38,8 @@ var StatusEnum = function StatusEnum() {
 
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('Pet', ['jquery', 'Category', 'Array'], 
+if ( typeof define === "function" && define.amd ) {
+	define('Pet', ['jquery', 'Category', 'Array'],
 		function($, Category, Array) {
         return Pet;
 	 });
@@ -42,7 +50,7 @@ var Pet = function Pet(photoUrls, name) {
   	var self = this;
   	
   	/**
-	  * datatype: Long
+	  * datatype: Integer
 	  **/
 	  self.id = null;
 	 
@@ -93,14 +101,14 @@ var Pet = function Pet(photoUrls, name) {
   
   
   /**
-   * @return {Long}
+   * @return {Integer}
    **/
   self.getId = function() {
     return self.id;
   }
   
   /**
-   * @param {Long} id
+   * @param {Integer} id
    **/
   self.setId = function (id) {
     self.id = id;
@@ -182,4 +190,8 @@ var Pet = function Pet(photoUrls, name) {
   self.toJson = function () {
   	return JSON.stringify(self);
   }
+}
+
+if (typeof module === 'object' && module.exports) {
+  module.exports = Pet;
 }

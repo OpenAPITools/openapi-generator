@@ -1,10 +1,18 @@
+// require files in Node.js environment
+{{#imports}}
+var {{import}};{{/imports}}
+if (typeof module === 'object' && module.exports) {
+  {{#imports}}
+  {{import}} = require('./{{import}}.js');{{/imports}}
+}
+
 {{#models}}{{#model}}
 {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('{{classname}}', ['jquery'{{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}'{{datatypeWithEnum}}'{{/isPrimitiveType}}{{/vars}}], 
+if ( typeof define === "function" && define.amd ) {
+	define('{{classname}}', ['jquery'{{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}'{{datatypeWithEnum}}'{{/isPrimitiveType}}{{/vars}}],
 		function(${{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}{{datatypeWithEnum}}{{/isPrimitiveType}}{{/vars}}) {
         return {{classname}};
 	 });
@@ -55,6 +63,10 @@ var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/
   self.toJson = function () {
   	return JSON.stringify(self);
   }
+}
+
+if (typeof module === 'object' && module.exports) {
+  module.exports = {{classname}};
 }
 {{/model}}
 {{/models}}

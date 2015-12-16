@@ -1,6 +1,14 @@
-//export module
+// require files in Node.js environment
+{{#imports}}
+var {{import}};{{/imports}}
+if (typeof module === 'object' && module.exports) {
+  {{#imports}}
+  {{import}} = require('./{{import}}.js');{{/imports}}
+}
+
+// export module for AMD
 if ( typeof define === "function" && define.amd ) {     
-	define(['jquery'], function($) {
+	define(['jquery'{{#imports}}, '{{import}}'{{/imports}}], function(${{#imports}}, {{import}}{{/imports}}) {
         return {{classname}};
 	 });
 }
@@ -123,4 +131,9 @@ var {{classname}} = function {{classname}}() {
 		
 		return queryString;
 	}
+}
+
+// export module for Node.js
+if (typeof module === 'object' && module.exports) {
+  module.exports = {{classname}};
 }
