@@ -1,8 +1,8 @@
 // require files in Node.js environment
-var Pet;
+var $, Pet;
 if (typeof module === 'object' && module.exports) {
-  
-  Pet = require('./Pet.js');
+  $ = require('jquery');
+  Pet = require('../model/Pet.js');
 }
 
 // export module for AMD

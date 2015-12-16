@@ -1,9 +1,8 @@
 // require files in Node.js environment
-{{#imports}}
-var {{import}};{{/imports}}
+var ${{#imports}}, {{import}}{{/imports}};
 if (typeof module === 'object' && module.exports) {
-  {{#imports}}
-  {{import}} = require('./{{import}}.js');{{/imports}}
+  $ = require('jquery');{{#imports}}
+  {{import}} = require('../model/{{import}}.js');{{/imports}}
 }
 
 // export module for AMD

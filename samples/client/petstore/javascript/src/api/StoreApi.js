@@ -1,8 +1,8 @@
 // require files in Node.js environment
-var Order;
+var $, Order;
 if (typeof module === 'object' && module.exports) {
-  
-  Order = require('./Order.js');
+  $ = require('jquery');
+  Order = require('../model/Order.js');
 }
 
 // export module for AMD
