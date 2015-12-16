@@ -4,7 +4,8 @@ import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
-import {{invokerPackage}}.TypeRef;
+
+import javax.ws.rs.core.GenericType;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -83,7 +84,7 @@ public class {{classname}} {
     String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
     {{#returnType}}
-    TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
+    GenericType<{{{returnType}}}> {{localVariablePrefix}}returnType = new GenericType<{{{returnType}}}>() {};
     return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
     {{/returnType}}{{^returnType}}
     {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);

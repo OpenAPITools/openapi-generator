@@ -1,17 +1,18 @@
 package io.swagger.client.api;
 
+import com.sun.jersey.api.client.GenericType;
+
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
-import io.swagger.client.TypeRef;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
 
 import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-29T00:18:25.953+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T22:51:50.471-05:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -38,9 +39,8 @@ public class PetApi {
    * @param body Pet object that needs to be added to the store
    * @return void
    */
-  public void updatePet (Pet body) throws ApiException {
+  public void updatePet(Pet body) throws ApiException {
     Object postBody = body;
-    byte[] postBinaryBody = null;
     
     // create path and map variables
     String path = "/pet".replaceAll("\\{format\\}","json");
@@ -69,14 +69,8 @@ public class PetApi {
     String[] authNames = new String[] { "petstore_auth" };
 
     
-
+    apiClient.invokeAPI(path, "PUT", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
-    
-    apiClient.invokeAPI(path, "PUT", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-    
-
-
   }
   
   /**
@@ -85,9 +79,8 @@ public class PetApi {
    * @param body Pet object that needs to be added to the store
    * @return void
    */
-  public void addPet (Pet body) throws ApiException {
+  public void addPet(Pet body) throws ApiException {
     Object postBody = body;
-    byte[] postBinaryBody = null;
     
     // create path and map variables
     String path = "/pet".replaceAll("\\{format\\}","json");
@@ -116,14 +109,8 @@ public class PetApi {
     String[] authNames = new String[] { "petstore_auth" };
 
     
-
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
-    
-    apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-    
-
-
   }
   
   /**
@@ -132,9 +119,8 @@ public class PetApi {
    * @param status Status values that need to be considered for filter
    * @return List<Pet>
    */
-  public List<Pet> findPetsByStatus (List<String> status) throws ApiException {
+  public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
     // create path and map variables
     String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
@@ -165,15 +151,9 @@ public class PetApi {
     String[] authNames = new String[] { "petstore_auth" };
 
     
-
+    GenericType<List<Pet>> returnType = new GenericType<List<Pet>>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
-    
-    TypeRef returnType = new TypeRef<List<Pet>>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-
   }
   
   /**
@@ -182,9 +162,8 @@ public class PetApi {
    * @param tags Tags to filter by
    * @return List<Pet>
    */
-  public List<Pet> findPetsByTags (List<String> tags) throws ApiException {
+  public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
     // create path and map variables
     String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
@@ -215,15 +194,9 @@ public class PetApi {
     String[] authNames = new String[] { "petstore_auth" };
 
     
-
+    GenericType<List<Pet>> returnType = new GenericType<List<Pet>>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
-    
-    TypeRef returnType = new TypeRef<List<Pet>>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-
   }
   
   /**
@@ -232,9 +205,8 @@ public class PetApi {
    * @param petId ID of pet that needs to be fetched
    * @return Pet
    */
-  public Pet getPetById (Long petId) throws ApiException {
+  public Pet getPetById(Long petId) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
      // verify the required parameter 'petId' is set
      if (petId == null) {
@@ -269,15 +241,9 @@ public class PetApi {
     String[] authNames = new String[] { "api_key" };
 
     
-
+    GenericType<Pet> returnType = new GenericType<Pet>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
-    
-    TypeRef returnType = new TypeRef<Pet>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-
   }
   
   /**
@@ -288,9 +254,8 @@ public class PetApi {
    * @param status Updated status of the pet
    * @return void
    */
-  public void updatePetWithForm (String petId, String name, String status) throws ApiException {
+  public void updatePetWithForm(String petId, String name, String status) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
      // verify the required parameter 'petId' is set
      if (petId == null) {
@@ -329,14 +294,8 @@ public class PetApi {
     String[] authNames = new String[] { "petstore_auth" };
 
     
-
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
-    
-    apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-    
-
-
   }
   
   /**
@@ -346,9 +305,8 @@ public class PetApi {
    * @param apiKey 
    * @return void
    */
-  public void deletePet (Long petId, String apiKey) throws ApiException {
+  public void deletePet(Long petId, String apiKey) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
      // verify the required parameter 'petId' is set
      if (petId == null) {
@@ -385,14 +343,8 @@ public class PetApi {
     String[] authNames = new String[] { "petstore_auth" };
 
     
-
+    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
-    
-    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-    
-
-
   }
   
   /**
@@ -403,9 +355,8 @@ public class PetApi {
    * @param file file to upload
    * @return void
    */
-  public void uploadFile (Long petId, String additionalMetadata, File file) throws ApiException {
+  public void uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
      // verify the required parameter 'petId' is set
      if (petId == null) {
@@ -444,14 +395,8 @@ public class PetApi {
     String[] authNames = new String[] { "petstore_auth" };
 
     
-
+    apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
-    
-    apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-    
-
-
   }
   
 }
