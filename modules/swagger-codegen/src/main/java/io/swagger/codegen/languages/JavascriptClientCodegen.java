@@ -281,7 +281,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toApiImport(String name) {
-        return name;
+        return toApiName(name);
     }
 
     @Override

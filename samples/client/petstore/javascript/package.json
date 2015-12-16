@@ -5,9 +5,14 @@
   "license": "Apache 2.0",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "dependencies": {
     "jquery": "^2.1.4"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "mockrequire": "0.0.5",
+    "najax": "0.3.1"
   }
 }

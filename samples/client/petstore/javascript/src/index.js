@@ -12,11 +12,11 @@ if (typeof module === 'object' && module.exports) {
   SwaggerPetstore.Order = require('./model/Order.js');
   
   
-  SwaggerPetstore.User = require('./api/User.js');
+  SwaggerPetstore.UserApi = require('./api/UserApi.js');
   
-  SwaggerPetstore.Store = require('./api/Store.js');
+  SwaggerPetstore.StoreApi = require('./api/StoreApi.js');
   
-  SwaggerPetstore.Pet = require('./api/Pet.js');
+  SwaggerPetstore.PetApi = require('./api/PetApi.js');
   
   module.exports = SwaggerPetstore;
 }

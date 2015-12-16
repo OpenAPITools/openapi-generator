@@ -1,8 +1,8 @@
 // require files in Node.js environment
-var User;
+var $, User;
 if (typeof module === 'object' && module.exports) {
-  
-  User = require('./User.js');
+  $ = require('jquery');
+  User = require('../model/User.js');
 }
 
 // export module for AMD
