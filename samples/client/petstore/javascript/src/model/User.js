@@ -1,9 +1,15 @@
+// require files in Node.js environment
+
+if (typeof module === 'object' && module.exports) {
+  
+}
+
 
 
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('User', ['jquery'], 
+if ( typeof define === "function" && define.amd ) {
+	define('User', ['jquery'],
 		function($) {
         return User;
 	 });
@@ -14,7 +20,7 @@ var User = function User() {
   	var self = this;
   	
   	/**
-	  * datatype: Long
+	  * datatype: Integer
 	  **/
 	  self.id = null;
 	 
@@ -77,14 +83,14 @@ var User = function User() {
   
   
   /**
-   * @return {Long}
+   * @return {Integer}
    **/
   self.getId = function() {
     return self.id;
   }
   
   /**
-   * @param {Long} id
+   * @param {Integer} id
    **/
   self.setId = function (id) {
     self.id = id;
@@ -194,4 +200,8 @@ var User = function User() {
   self.toJson = function () {
   	return JSON.stringify(self);
   }
+}
+
+if (typeof module === 'object' && module.exports) {
+  module.exports = User;
 }

@@ -1,6 +1,13 @@
-//export module
+// require files in Node.js environment
+var Order;
+if (typeof module === 'object' && module.exports) {
+  
+  Order = require('./Order.js');
+}
+
+// export module for AMD
 if ( typeof define === "function" && define.amd ) {     
-	define(['jquery'], function($) {
+	define(['jquery', 'Order'], function($, Order) {
         return StoreApi;
 	 });
 }
@@ -12,7 +19,7 @@ var StoreApi = function StoreApi() {
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
    * @param {function} callback the callback function
-   * @return Map<String, Integer>
+   * @return Object<String, Integer>
    */
   self.getInventory = function(callback) {
     
@@ -47,7 +54,7 @@ var StoreApi = function StoreApi() {
 
     
     
-    //TypeRef returnType = new TypeRef<Map<String, Integer>>() {};
+    //TypeRef returnType = new TypeRef<Object<String, Integer>>() {};
     //return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
 	var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
@@ -59,11 +66,10 @@ var StoreApi = function StoreApi() {
 		
 	request.done(function(response, textStatus, jqXHR){
 		/**
-		  * @returns Map<String, Integer>
+		  * @returns Object<String, Integer>
 		  */
+		 var myResponse = response;
 		
-		 var myResponse = new  Map<String, Integer>();
-		myResponse.constructFromObject(response);
 		
     	callback(myResponse, textStatus, jqXHR);
 	});
@@ -297,4 +303,9 @@ var StoreApi = function StoreApi() {
 		
 		return queryString;
 	}
+}
+
+// export module for Node.js
+if (typeof module === 'object' && module.exports) {
+  module.exports = StoreApi;
 }

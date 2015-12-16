@@ -1,3 +1,9 @@
+// require files in Node.js environment
+
+if (typeof module === 'object' && module.exports) {
+  
+}
+
 
 
 //export module
@@ -30,9 +36,9 @@ var StatusEnum = function StatusEnum() {
 
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('Order', ['jquery', 'Date'], 
-		function($, Date) {
+if ( typeof define === "function" && define.amd ) {
+	define('Order', ['jquery'],
+		function($) {
         return Order;
 	 });
 }
@@ -42,12 +48,12 @@ var Order = function Order() {
   	var self = this;
   	
   	/**
-	  * datatype: Long
+	  * datatype: Integer
 	  **/
 	  self.id = null;
 	 
   	/**
-	  * datatype: Long
+	  * datatype: Integer
 	  **/
 	  self.petId = null;
 	 
@@ -91,28 +97,28 @@ var Order = function Order() {
   
   
   /**
-   * @return {Long}
+   * @return {Integer}
    **/
   self.getId = function() {
     return self.id;
   }
   
   /**
-   * @param {Long} id
+   * @param {Integer} id
    **/
   self.setId = function (id) {
     self.id = id;
   }
   
   /**
-   * @return {Long}
+   * @return {Integer}
    **/
   self.getPetId = function() {
     return self.petId;
   }
   
   /**
-   * @param {Long} petId
+   * @param {Integer} petId
    **/
   self.setPetId = function (petId) {
     self.petId = petId;
@@ -180,4 +186,8 @@ var Order = function Order() {
   self.toJson = function () {
   	return JSON.stringify(self);
   }
+}
+
+if (typeof module === 'object' && module.exports) {
+  module.exports = Order;
 }
