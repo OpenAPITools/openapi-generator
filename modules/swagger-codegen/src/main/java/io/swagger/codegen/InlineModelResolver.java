@@ -13,9 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class InlineModelResolver {
     private Swagger swagger = null;
     private boolean skipMatches = false;
+    static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     Map<String, Model> addedModels = new HashMap<String, Model>();
     Map<String, String> generatedSignature = new HashMap<String, String>();
@@ -60,8 +64,19 @@ public class InlineModelResolver {
                                         Property inner = am.getItems();
 
                                         if(inner instanceof ObjectProperty) {
+                                            String modelName = uniqueName(bp.getName());
                                             ObjectProperty op = (ObjectProperty) inner;
                                             flattenProperties(op.getProperties(), pathname);
+
+                                            Model inner_model = modelFromProperty(op, modelName);
+                                            String existing = matchGenerated(inner_model);
+                                            if (existing != null) {
+                                                am.setItems(new RefProperty(existing));
+                                            } else {
+                                                am.setItems(new RefProperty(modelName));
+                                                addGenerated(modelName, inner_model);
+                                                swagger.addDefinition(modelName, inner_model);
+                                            }
                                         }
                                     }
                                 }
@@ -222,6 +237,7 @@ public class InlineModelResolver {
                     addGenerated(modelName, model);
                     swagger.addDefinition(modelName, model);
                 }
+            } else {
             }
         }
         if (propsToUpdate.size() > 0) {
