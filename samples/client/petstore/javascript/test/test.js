@@ -1,27 +1,16 @@
-var assert = require('assert');
-var mockrequire = require('mockrequire');
-
-var jquery = require('jquery');
-var domino = require('domino');
-var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-var window = domino.createWindow();
-var $ = jquery(window);
-$.support.cors = true;
-$.ajaxSettings.xhr = function() {
-  return new XMLHttpRequest();
-};
-
-var PetApi = mockrequire('../src/api/PetApi', {
-  'jquery': $
-});
+if (typeof module === 'object' && module.exports) {
+  var expect = require('expect.js');
+  var requireWithMocks = require('./helper.js').requireWithMocks;
+  var PetApi = requireWithMocks('../src/api/PetApi');
+}
 
 describe('PetApi', function() {
   describe('#getPetById', function () {
     it('should work', function (done) {
       var api = new PetApi();
       api.getPetById(1, function(pet, textStatus, jqXHR) {
-        assert.equal('success', textStatus);
-        assert.equal(1, pet.id);
+        expect(textStatus).to.be('success');
+        expect(pet.id).to.be(1);
         done();
       });
     });
