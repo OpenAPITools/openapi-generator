@@ -1,11 +1,18 @@
 var assert = require('assert');
 var mockrequire = require('mockrequire');
-var najax = require('najax');
+
+var jquery = require('jquery');
+var domino = require('domino');
+var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+var window = domino.createWindow();
+var $ = jquery(window);
+$.support.cors = true;
+$.ajaxSettings.xhr = function() {
+  return new XMLHttpRequest();
+};
 
 var PetApi = mockrequire('../src/api/PetApi', {
-  'jquery': {
-    'ajax': najax
-  }
+  'jquery': $
 });
 
 describe('PetApi', function() {
