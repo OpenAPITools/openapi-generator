@@ -9,78 +9,81 @@ if (typeof module === 'object' && module.exports) {
 
 //export module
 if ( typeof define === "function" && define.amd ) {
-	define('User', ['jquery'],
-		function($) {
-        return User;
-	 });
+  define('User', ['jquery'],
+    function($) {
+      return User;
+   });
 }
 
 
 var User = function User() { 
-  	var self = this;
-  	
-  	/**
-	  * datatype: Integer
-	  **/
-	  self.id = null;
-	 
-  	/**
-	  * datatype: String
-	  **/
-	  self.username = null;
-	 
-  	/**
-	  * datatype: String
-	  **/
-	  self.firstName = null;
-	 
-  	/**
-	  * datatype: String
-	  **/
-	  self.lastName = null;
-	 
-  	/**
-	  * datatype: String
-	  **/
-	  self.email = null;
-	 
-  	/**
-	  * datatype: String
-	  **/
-	  self.password = null;
-	 
-  	/**
-	  * datatype: String
-	  **/
-	  self.phone = null;
-	 
-  	/**
-	  * User Status
-	  * datatype: Integer
-	  **/
-	  self.userStatus = null;
-	 
+  var self = this;
   
-  	self.constructFromObject = function(data) {
-	  	
-	  	self.id = data.id;
-	  	
-	  	self.username = data.username;
-	  	
-	  	self.firstName = data.firstName;
-	  	
-	  	self.lastName = data.lastName;
-	  	
-	  	self.email = data.email;
-	  	
-	  	self.password = data.password;
-	  	
-	  	self.phone = data.phone;
-	  	
-	  	self.userStatus = data.userStatus;
-	  	
-	}
+  /**
+   * datatype: Integer
+   **/
+  self.id = null;
   
+  /**
+   * datatype: String
+   **/
+  self.username = null;
+  
+  /**
+   * datatype: String
+   **/
+  self.firstName = null;
+  
+  /**
+   * datatype: String
+   **/
+  self.lastName = null;
+  
+  /**
+   * datatype: String
+   **/
+  self.email = null;
+  
+  /**
+   * datatype: String
+   **/
+  self.password = null;
+  
+  /**
+   * datatype: String
+   **/
+  self.phone = null;
+  
+  /**
+   * User Status
+   * datatype: Integer
+   **/
+  self.userStatus = null;
+  
+  
+  self.constructFromObject = function(data) {
+    if (!data) {
+      return;
+    }
+    
+    self.id = data.id;
+    
+    self.username = data.username;
+    
+    self.firstName = data.firstName;
+    
+    self.lastName = data.lastName;
+    
+    self.email = data.email;
+    
+    self.password = data.password;
+    
+    self.phone = data.phone;
+    
+    self.userStatus = data.userStatus;
+    
+  }
+
   
   /**
    * @return {Integer}
@@ -88,7 +91,7 @@ var User = function User() {
   self.getId = function() {
     return self.id;
   }
-  
+
   /**
    * @param {Integer} id
    **/
@@ -102,7 +105,7 @@ var User = function User() {
   self.getUsername = function() {
     return self.username;
   }
-  
+
   /**
    * @param {String} username
    **/
@@ -116,7 +119,7 @@ var User = function User() {
   self.getFirstName = function() {
     return self.firstName;
   }
-  
+
   /**
    * @param {String} firstName
    **/
@@ -130,7 +133,7 @@ var User = function User() {
   self.getLastName = function() {
     return self.lastName;
   }
-  
+
   /**
    * @param {String} lastName
    **/
@@ -144,7 +147,7 @@ var User = function User() {
   self.getEmail = function() {
     return self.email;
   }
-  
+
   /**
    * @param {String} email
    **/
@@ -158,7 +161,7 @@ var User = function User() {
   self.getPassword = function() {
     return self.password;
   }
-  
+
   /**
    * @param {String} password
    **/
@@ -172,7 +175,7 @@ var User = function User() {
   self.getPhone = function() {
     return self.phone;
   }
-  
+
   /**
    * @param {String} phone
    **/
@@ -187,7 +190,7 @@ var User = function User() {
   self.getUserStatus = function() {
     return self.userStatus;
   }
-  
+
   /**
    * set User Status
    * @param {Integer} userStatus
@@ -198,7 +201,7 @@ var User = function User() {
   
 
   self.toJson = function () {
-  	return JSON.stringify(self);
+    return JSON.stringify(self);
   }
 }
 

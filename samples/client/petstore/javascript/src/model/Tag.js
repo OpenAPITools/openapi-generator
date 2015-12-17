@@ -9,35 +9,38 @@ if (typeof module === 'object' && module.exports) {
 
 //export module
 if ( typeof define === "function" && define.amd ) {
-	define('Tag', ['jquery'],
-		function($) {
-        return Tag;
-	 });
+  define('Tag', ['jquery'],
+    function($) {
+      return Tag;
+   });
 }
 
 
 var Tag = function Tag() { 
-  	var self = this;
-  	
-  	/**
-	  * datatype: Integer
-	  **/
-	  self.id = null;
-	 
-  	/**
-	  * datatype: String
-	  **/
-	  self.name = null;
-	 
+  var self = this;
   
-  	self.constructFromObject = function(data) {
-	  	
-	  	self.id = data.id;
-	  	
-	  	self.name = data.name;
-	  	
-	}
+  /**
+   * datatype: Integer
+   **/
+  self.id = null;
   
+  /**
+   * datatype: String
+   **/
+  self.name = null;
+  
+  
+  self.constructFromObject = function(data) {
+    if (!data) {
+      return;
+    }
+    
+    self.id = data.id;
+    
+    self.name = data.name;
+    
+  }
+
   
   /**
    * @return {Integer}
@@ -45,7 +48,7 @@ var Tag = function Tag() {
   self.getId = function() {
     return self.id;
   }
-  
+
   /**
    * @param {Integer} id
    **/
@@ -59,7 +62,7 @@ var Tag = function Tag() {
   self.getName = function() {
     return self.name;
   }
-  
+
   /**
    * @param {String} name
    **/
@@ -69,7 +72,7 @@ var Tag = function Tag() {
   
 
   self.toJson = function () {
-  	return JSON.stringify(self);
+    return JSON.stringify(self);
   }
 }
 
