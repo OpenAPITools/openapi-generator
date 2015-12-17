@@ -103,11 +103,23 @@ public class InlineModelResolver {
                                     }
                                 } else if (property instanceof ArrayProperty) {
                                     ArrayProperty ap = (ArrayProperty) property;
-                                    if(ap.getItems() instanceof ObjectProperty) {
-                                        ObjectProperty op = (ObjectProperty) ap.getItems();
-                                        Map<String, Property> props = op.getProperties();
-                                        flattenProperties(props, "path");
-                                    }
+                                    Property inner = ap.getItems();
+
+                                    if(inner instanceof ObjectProperty) {
+				        String modelName = uniqueName("inline_response_" + key);
+				        ObjectProperty op = (ObjectProperty) inner;
+				        flattenProperties(op.getProperties(), pathname);
+
+				        Model inner_model = modelFromProperty(op, modelName);
+				        String existing = matchGenerated(inner_model);
+				        if (existing != null) {
+				            ap.setItems(new RefProperty(existing));
+				        } else {
+				            ap.setItems(new RefProperty(modelName));
+				            addGenerated(modelName, inner_model);
+				            swagger.addDefinition(modelName, inner_model);
+				        }   
+				    }   
                                 } else if (property instanceof MapProperty) {
                                     MapProperty op = (MapProperty) property;
 
@@ -367,4 +379,5 @@ public class InlineModelResolver {
     public void setSkipMatches(boolean skipMatches) {
         this.skipMatches = skipMatches;
     }
+
 }
