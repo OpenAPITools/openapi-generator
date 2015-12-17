@@ -4,9 +4,7 @@ import io.swagger.client.model.Order;
 
 import java.lang.Exception;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.TimeZone;
 
 import org.junit.*;
@@ -30,9 +28,8 @@ public class JSONTest {
         final String dateStr = "2015-11-07T14:11:05.267Z";
         order.setShipDate(dateFormat.parse(dateStr));
 
-        String str = json.serialize(order);
-        TypeRef typeRef = new TypeRef<Order>() { };
-        Order o = json.deserialize(str, typeRef);
+        String str = json.getContext(null).writeValueAsString(order);
+        Order o = json.getContext(null).readValue(str, Order.class);
         assertEquals(dateStr, dateFormat.format(o.getShipDate()));
     }
 
@@ -44,9 +41,8 @@ public class JSONTest {
         order.setShipDate(dateFormat.parse(dateStr));
 
         json.setDateFormat(dateFormat);
-        String str = json.serialize(order);
-        TypeRef typeRef = new TypeRef<Order>() { };
-        Order o = json.deserialize(str, typeRef);
+        String str = json.getContext(null).writeValueAsString(order);
+        Order o = json.getContext(null).readValue(str, Order.class);
         assertEquals(dateStr, dateFormat.format(o.getShipDate()));
     }
 }

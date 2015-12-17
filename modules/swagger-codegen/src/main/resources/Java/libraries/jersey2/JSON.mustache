@@ -1,4 +1,4 @@
-package io.swagger.client;
+package {{invokerPackage}};
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
@@ -8,7 +8,7 @@ import java.text.DateFormat;
 
 import javax.ws.rs.ext.ContextResolver;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-09T12:31:44.572-05:00")
+{{>generatedAnnotation}}
 public class JSON implements ContextResolver<ObjectMapper> {
   private ObjectMapper mapper;
 
