@@ -42,7 +42,7 @@ var {{classname}} = function {{classname}}() {
     }
     
     var {{localVariablePrefix}}path = basePath + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
-, "\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}{{{paramName}}}.toString(){{/pathParams}});
+, "\\{" + "{{baseName}}" + "\\}", encodeURIComponent({{localVariablePrefix}}{{{paramName}}}.toString()){{/pathParams}});
 
     var queryParams = {};
     var headerParams =  {};

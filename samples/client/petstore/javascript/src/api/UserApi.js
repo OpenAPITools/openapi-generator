@@ -306,7 +306,7 @@ var UserApi = function UserApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/user/{username}", "\\{format\\}","json")
-, "\\{" + "username" + "\\}", username.toString());
+, "\\{" + "username" + "\\}", encodeURIComponent(username.toString()));
 
     var queryParams = {};
     var headerParams =  {};
@@ -372,7 +372,7 @@ var UserApi = function UserApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/user/{username}", "\\{format\\}","json")
-, "\\{" + "username" + "\\}", username.toString());
+, "\\{" + "username" + "\\}", encodeURIComponent(username.toString()));
 
     var queryParams = {};
     var headerParams =  {};
@@ -431,7 +431,7 @@ var UserApi = function UserApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/user/{username}", "\\{format\\}","json")
-, "\\{" + "username" + "\\}", username.toString());
+, "\\{" + "username" + "\\}", encodeURIComponent(username.toString()));
 
     var queryParams = {};
     var headerParams =  {};

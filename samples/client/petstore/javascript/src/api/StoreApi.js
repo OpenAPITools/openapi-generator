@@ -154,7 +154,7 @@ var StoreApi = function StoreApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/store/order/{orderId}", "\\{format\\}","json")
-, "\\{" + "orderId" + "\\}", orderId.toString());
+, "\\{" + "orderId" + "\\}", encodeURIComponent(orderId.toString()));
 
     var queryParams = {};
     var headerParams =  {};
@@ -219,7 +219,7 @@ var StoreApi = function StoreApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/store/order/{orderId}", "\\{format\\}","json")
-, "\\{" + "orderId" + "\\}", orderId.toString());
+, "\\{" + "orderId" + "\\}", encodeURIComponent(orderId.toString()));
 
     var queryParams = {};
     var headerParams =  {};
