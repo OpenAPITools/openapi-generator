@@ -42,7 +42,7 @@ var {{classname}} = function {{classname}}() {
     }
     
     var {{localVariablePrefix}}path = basePath + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
-, "\\{" + "{{baseName}}" + "\\}", encodeURIComponent({{localVariablePrefix}}{{{paramName}}}.toString()){{/pathParams}});
+, "\\{" + "{{baseName}}" + "\\}", encodeURIComponent({{{paramName}}}.toString()){{/pathParams}});
 
     var queryParams = {};
     var headerParams =  {};
@@ -52,7 +52,7 @@ var {{classname}} = function {{classname}}() {
     queryParams.{{baseName}} = {{paramName}};
     {{/queryParams}}
     {{#headerParams}}if ({{paramName}} != null)
-    {{localVariablePrefix}}headerParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
+    {{localVariablePrefix}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
     {{#formParams}}if ({{paramName}} != null)
       {{localVariablePrefix}}formParams.put("{{baseName}}", {{paramName}});
