@@ -48,10 +48,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -60,6 +63,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   /**
@@ -94,10 +99,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -106,6 +114,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   /**
@@ -140,10 +150,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -152,6 +165,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   /**
@@ -191,10 +206,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -208,6 +226,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   /**
@@ -241,10 +261,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -253,6 +276,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   /**
@@ -295,10 +320,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -313,6 +341,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   /**
@@ -356,10 +386,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "PUT", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -368,6 +401,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   /**
@@ -410,10 +445,13 @@ var UserApi = function UserApi() {
 
     var options = {type: "DELETE", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
+
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
 		
     request.done(function(response, textStatus, jqXHR){
       
@@ -422,6 +460,8 @@ var UserApi = function UserApi() {
       }
       
     });
+ 
+    return request;
   }
   
   

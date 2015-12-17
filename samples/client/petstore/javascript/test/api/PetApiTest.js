@@ -33,15 +33,21 @@ var createRandomPet = function() {
 describe('PetApi', function() {
   it('should create and get pet', function (done) {
     var pet = createRandomPet();
-    api.addPet(pet);
+    api.addPet(pet).then(function() {
+      api.getPetById(pet.id, function(fetched, textStatus, jqXHR, error) {
+        if (error) throw error;
 
-    api.getPetById(pet.id, function(fetched, textStatus, jqXHR) {
-      expect(textStatus).to.be('success');
-      expect(fetched).to.be.ok();
-      expect(fetched.id).to.be(pet.id);
-      expect(fetched.getCategory()).to.be.ok();
-      expect(fetched.getCategory().getName()).to.be(pet.getCategory().getName());
-      done();
+        expect(textStatus).to.be('success');
+        expect(fetched).to.be.ok();
+        expect(fetched.id).to.be(pet.id);
+        expect(fetched.getCategory()).to.be.ok();
+        expect(fetched.getCategory().getName()).to.be(pet.getCategory().getName());
+
+        api.deletePet(pet.id);
+        done();
+      });
+    }, function(jqXHR, textStatus, errorThrown) {
+      throw errorThrown || textStatus;
     });
   });
 });
