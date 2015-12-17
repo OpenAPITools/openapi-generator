@@ -32,9 +32,9 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>mocha</executable>
+                            <executable>npm</executable>
                             <arguments>
-                                <argument>--recursive</argument>
+                                <argument>test</argument>
                             </arguments>
                         </configuration>
                     </execution>

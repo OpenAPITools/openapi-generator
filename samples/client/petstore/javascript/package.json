@@ -5,7 +5,7 @@
   "license": "Apache 2.0",
   "main": "src/index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha --recursive"
   },
   "dependencies": {
     "jquery": "~2.1.4"

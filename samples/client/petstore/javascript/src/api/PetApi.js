@@ -262,7 +262,7 @@ var PetApi = function PetApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/pet/{petId}", "\\{format\\}","json")
-, "\\{" + "petId" + "\\}", petId.toString());
+, "\\{" + "petId" + "\\}", encodeURIComponent(petId.toString()));
 
     var queryParams = {};
     var headerParams =  {};
@@ -329,7 +329,7 @@ var PetApi = function PetApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/pet/{petId}", "\\{format\\}","json")
-, "\\{" + "petId" + "\\}", petId.toString());
+, "\\{" + "petId" + "\\}", encodeURIComponent(petId.toString()));
 
     var queryParams = {};
     var headerParams =  {};
@@ -393,7 +393,7 @@ var PetApi = function PetApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/pet/{petId}", "\\{format\\}","json")
-, "\\{" + "petId" + "\\}", petId.toString());
+, "\\{" + "petId" + "\\}", encodeURIComponent(petId.toString()));
 
     var queryParams = {};
     var headerParams =  {};
@@ -456,7 +456,7 @@ var PetApi = function PetApi() {
     }
     
     var path = basePath + replaceAll(replaceAll("/pet/{petId}/uploadImage", "\\{format\\}","json")
-, "\\{" + "petId" + "\\}", petId.toString());
+, "\\{" + "petId" + "\\}", encodeURIComponent(petId.toString()));
 
     var queryParams = {};
     var headerParams =  {};
