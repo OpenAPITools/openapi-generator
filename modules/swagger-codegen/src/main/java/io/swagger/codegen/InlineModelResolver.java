@@ -157,6 +157,7 @@ public class InlineModelResolver {
                     flattenProperties(properties, modelName);
 
                 } else if (model instanceof ArrayModel) {
+		    LOGGER.info("arry model of " + modelName);
                     ArrayModel m = (ArrayModel) model;
                     Property inner = m.getItems();
                     if (inner instanceof ObjectProperty) {
@@ -223,6 +224,7 @@ public class InlineModelResolver {
             Property property = properties.get(key);
             if (property instanceof ObjectProperty && ((ObjectProperty)property).getProperties().size() > 0) {
                 String modelName = uniqueName(path + "_" + key);
+                LOGGER.info("flattening: "  + modelName); 
 
                 ObjectProperty op = (ObjectProperty) property;
                 Model model = modelFromProperty(op, modelName);
@@ -237,7 +239,31 @@ public class InlineModelResolver {
                     addGenerated(modelName, model);
                     swagger.addDefinition(modelName, model);
                 }
+            } else if (property instanceof ArrayProperty) {
+                ArrayProperty ap = (ArrayProperty) property;
+                Property inner = ap.getItems();
+
+                if (inner instanceof ObjectProperty) {
+                    String modelName = uniqueName(path + "_" + key);
+                    LOGGER.info("flattening(array inner): "  + modelName); 
+
+                    ObjectProperty op = (ObjectProperty) inner;
+		    flattenProperties(op.getProperties(), path);
+
+                    Model inner_model = modelFromProperty(op, modelName);
+                    String existing = matchGenerated(inner_model);
+
+		    if (existing != null) {
+		        ap.setItems(new RefProperty(existing));
+		    } else {
+		        ap.setItems(new RefProperty(modelName));
+		        addGenerated(modelName, inner_model);
+                        LOGGER.info("flattening(array inner): "  + modelName); 
+		        swagger.addDefinition(modelName, inner_model);
+		    }
+                }
             } else {
+                LOGGER.info("not flattening " + key);
             }
         }
         if (propsToUpdate.size() > 0) {
