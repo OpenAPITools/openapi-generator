@@ -390,6 +390,18 @@
             </modules>
         </profile>
         <profile>
+            <id>javascript-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript</module>
+            </modules>
+        </profile>
+        <profile>
             <id>scala-client</id>
             <activation>
                 <property>
@@ -465,6 +477,7 @@
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
+                <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <!--module>samples/client/petstore/objc</module-->
