@@ -11,19 +11,19 @@
   <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
   <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
 
-  <script src="../src/model/Category.js"></script>
-  <script src="../src/model/Tag.js"></script>
-  <script src="../src/model/Pet.js"></script>
-  <script src="../src/model/User.js"></script>
-  <script src="../src/api/PetApi.js"></script>
-
   <script>
     mocha.setup({
       ui: 'bdd',
       timeout: 5000
     });
   </script>
-  <script src="test.js"></script>
+
+  <script src="../src/model/Category.js"></script>
+  <script src="../src/model/Tag.js"></script>
+  <script src="../src/model/Pet.js"></script>
+  <script src="../src/model/User.js"></script>
+  <script src="../src/api/PetApi.js"></script>
+  <script src="api/PetApiTest.js"></script>
   <script>
     mocha.checkLeaks();
     mocha.globals(['jQuery']);
