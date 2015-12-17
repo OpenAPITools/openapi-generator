@@ -110,41 +110,31 @@ public class InlineModelResolver {
 				        ObjectProperty op = (ObjectProperty) inner;
 				        flattenProperties(op.getProperties(), pathname);
 
-				        Model inner_model = modelFromProperty(op, modelName);
-				        String existing = matchGenerated(inner_model);
+				        Model innerModel = modelFromProperty(op, modelName);
+				        String existing = matchGenerated(innerModel);
 				        if (existing != null) {
 				            ap.setItems(new RefProperty(existing));
 				        } else {
 				            ap.setItems(new RefProperty(modelName));
-				            addGenerated(modelName, inner_model);
-				            swagger.addDefinition(modelName, inner_model);
+				            addGenerated(modelName, innerModel);
+				            swagger.addDefinition(modelName, innerModel);
 				        }   
 				    }   
                                 } else if (property instanceof MapProperty) {
-                                    MapProperty op = (MapProperty) property;
+                                    MapProperty mp = (MapProperty) property;
 
-                                    Property innerProperty = op.getAdditionalProperties();
+                                    Property innerProperty = mp.getAdditionalProperties();
                                     if(innerProperty instanceof ObjectProperty) {
-                                        ModelImpl innerModel = new ModelImpl();
-                                        // TODO: model props
-                                        innerModel.setTitle(property.getTitle());
-                                        property.getVendorExtensions();
-                                        property.getRequired();
-                                        property.getReadOnly();
-                                        property.getAccess();
-                                        innerModel.setDescription(property.getDescription());
-                                        innerModel.setExample(property.getExample());
-                                        innerModel.setName(property.getName());
-                                        innerModel.setXml(property.getXml());
-
-                                        innerModel.setAdditionalProperties(innerProperty);
-
                                         String modelName = uniqueName("inline_response_" + key);
-                                        String existing = matchGenerated(innerModel);
+                                        ObjectProperty op = (ObjectProperty) innerProperty;
+				        flattenProperties(op.getProperties(), pathname);
+
+				        Model innerModel = modelFromProperty(op, modelName);
+				        String existing = matchGenerated(innerModel);
                                         if (existing != null) {
-                                            response.setSchema(new RefProperty(existing));
+                                            mp.setAdditionalProperties(new RefProperty(existing));
                                         } else {
-                                            response.setSchema(new RefProperty(modelName));
+                                            mp.setAdditionalProperties(new RefProperty(modelName));
                                             addGenerated(modelName, innerModel);
                                             swagger.addDefinition(modelName, innerModel);
                                         }
