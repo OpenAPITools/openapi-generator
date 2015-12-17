@@ -401,7 +401,7 @@ var PetApi = function PetApi() {
 
     
     if (apiKey != null)
-    headerParams.put("api_key", apiClient.parameterToString(apiKey));
+    headerParams.put("api_key", apiKey);
     
     
 
