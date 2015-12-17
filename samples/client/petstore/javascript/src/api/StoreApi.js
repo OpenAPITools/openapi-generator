@@ -15,6 +15,7 @@ if ( typeof define === "function" && define.amd ) {
 var StoreApi = function StoreApi() {
 	var self = this;
   
+  
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
@@ -22,7 +23,6 @@ var StoreApi = function StoreApi() {
    * @return Object<String, Integer>
    */
   self.getInventory = function(callback) {
-    
     var postBody = null;
     var postBinaryBody = null;
     
@@ -33,7 +33,7 @@ var StoreApi = function StoreApi() {
     	basePath = basePath.substring(0, basePath.length-1);
     }
     
-	var path = basePath + replaceAll(replaceAll("/store/inventory", "\\{format\\}","json"));
+    var path = basePath + replaceAll(replaceAll("/store/inventory", "\\{format\\}","json"));
 
     var queryParams = {};
     var headerParams =  {};
@@ -43,41 +43,27 @@ var StoreApi = function StoreApi() {
     
     
 
-	path += createQueryString(queryParams);
+    path += createQueryString(queryParams);
 
-	//if (console) {
-		//console.log('path: ' + path);
-		//console.log('queryParams: ' + queryParams);
-	//}
-
-    
-
-    
-    
-    //TypeRef returnType = new TypeRef<Object<String, Integer>>() {};
-    //return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-	var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
+    var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
     //request.fail(function(jqXHR, textStatus, errorThrown){
     //    errorHandler(jqXHR, textStatus, errorThrown);
     //});
     
 		
-	request.done(function(response, textStatus, jqXHR){
-		/**
-		  * @returns Object<String, Integer>
-		  */
-		 var myResponse = response;
-		
-		
-    	callback(myResponse, textStatus, jqXHR);
-	});
-    
-    
-    
-
-
+    request.done(function(response, textStatus, jqXHR){
+      
+      /**
+        * @returns Object<String, Integer>
+        */
+      var myResponse = response;
+      
+      if (callback) {
+        callback(myResponse, textStatus, jqXHR);
+      }
+      
+    });
   }
   
   /**
@@ -88,7 +74,6 @@ var StoreApi = function StoreApi() {
    * @return Order
    */
   self.placeOrder = function(body, callback) {
-    
     var postBody = JSON.stringify(body);
     var postBinaryBody = null;
     
@@ -99,7 +84,7 @@ var StoreApi = function StoreApi() {
     	basePath = basePath.substring(0, basePath.length-1);
     }
     
-	var path = basePath + replaceAll(replaceAll("/store/order", "\\{format\\}","json"));
+    var path = basePath + replaceAll(replaceAll("/store/order", "\\{format\\}","json"));
 
     var queryParams = {};
     var headerParams =  {};
@@ -109,42 +94,28 @@ var StoreApi = function StoreApi() {
     
     
 
-	path += createQueryString(queryParams);
+    path += createQueryString(queryParams);
 
-	//if (console) {
-		//console.log('path: ' + path);
-		//console.log('queryParams: ' + queryParams);
-	//}
-
-    
-
-    
-    
-    //TypeRef returnType = new TypeRef<Order>() {};
-    //return apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-	var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
+    var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
     //request.fail(function(jqXHR, textStatus, errorThrown){
     //    errorHandler(jqXHR, textStatus, errorThrown);
     //});
     
 		
-	request.done(function(response, textStatus, jqXHR){
-		/**
-		  * @returns Order
-		  */
-		
-		 var myResponse = new  Order();
-		myResponse.constructFromObject(response);
-		
-    	callback(myResponse, textStatus, jqXHR);
-	});
-    
-    
-    
-
-
+    request.done(function(response, textStatus, jqXHR){
+      
+      /**
+        * @returns Order
+        */
+      
+      var myResponse = new Order();
+      myResponse.constructFromObject(response);
+      if (callback) {
+        callback(myResponse, textStatus, jqXHR);
+      }
+      
+    });
   }
   
   /**
@@ -155,7 +126,6 @@ var StoreApi = function StoreApi() {
    * @return Order
    */
   self.getOrderById = function(orderId, callback) {
-    
     var postBody = null;
     var postBinaryBody = null;
     
@@ -173,8 +143,8 @@ var StoreApi = function StoreApi() {
     	basePath = basePath.substring(0, basePath.length-1);
     }
     
-	var path = basePath + replaceAll(replaceAll("/store/order/{orderId}", "\\{format\\}","json")
-, "\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+    var path = basePath + replaceAll(replaceAll("/store/order/{orderId}", "\\{format\\}","json")
+, "\\{" + "orderId" + "\\}", orderId.toString());
 
     var queryParams = {};
     var headerParams =  {};
@@ -184,42 +154,28 @@ var StoreApi = function StoreApi() {
     
     
 
-	path += createQueryString(queryParams);
+    path += createQueryString(queryParams);
 
-	//if (console) {
-		//console.log('path: ' + path);
-		//console.log('queryParams: ' + queryParams);
-	//}
-
-    
-
-    
-    
-    //TypeRef returnType = new TypeRef<Order>() {};
-    //return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-	var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
+    var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
     //request.fail(function(jqXHR, textStatus, errorThrown){
     //    errorHandler(jqXHR, textStatus, errorThrown);
     //});
     
 		
-	request.done(function(response, textStatus, jqXHR){
-		/**
-		  * @returns Order
-		  */
-		
-		 var myResponse = new  Order();
-		myResponse.constructFromObject(response);
-		
-    	callback(myResponse, textStatus, jqXHR);
-	});
-    
-    
-    
-
-
+    request.done(function(response, textStatus, jqXHR){
+      
+      /**
+        * @returns Order
+        */
+      
+      var myResponse = new Order();
+      myResponse.constructFromObject(response);
+      if (callback) {
+        callback(myResponse, textStatus, jqXHR);
+      }
+      
+    });
   }
   
   /**
@@ -230,7 +186,6 @@ var StoreApi = function StoreApi() {
    * @return void
    */
   self.deleteOrder = function(orderId, callback) {
-    
     var postBody = null;
     var postBinaryBody = null;
     
@@ -248,8 +203,8 @@ var StoreApi = function StoreApi() {
     	basePath = basePath.substring(0, basePath.length-1);
     }
     
-	var path = basePath + replaceAll(replaceAll("/store/order/{orderId}", "\\{format\\}","json")
-, "\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+    var path = basePath + replaceAll(replaceAll("/store/order/{orderId}", "\\{format\\}","json")
+, "\\{" + "orderId" + "\\}", orderId.toString());
 
     var queryParams = {};
     var headerParams =  {};
@@ -259,25 +214,25 @@ var StoreApi = function StoreApi() {
     
     
 
-	path += createQueryString(queryParams);
+    path += createQueryString(queryParams);
 
-	//if (console) {
-		//console.log('path: ' + path);
-		//console.log('queryParams: ' + queryParams);
-	//}
-
+    var options = {type: "DELETE", async: true, contentType: "application/json", dataType: "json", data: postBody};
+    var request = $.ajax(path, options);
+    //request.fail(function(jqXHR, textStatus, errorThrown){
+    //    errorHandler(jqXHR, textStatus, errorThrown);
+    //});
     
-
-    
-    
-    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-    
-
-
+		
+    request.done(function(response, textStatus, jqXHR){
+      
+      if (callback) {
+        callback(response, textStatus, jqXHR);
+      }
+      
+    });
   }
   
-
+  
 
  	function replaceAll (haystack, needle, replace) {
 		var result= haystack;

@@ -10,10 +10,10 @@ $.ajaxSettings.xhr = function() {
   return new XMLHttpRequest();
 };
 
-var requireWithMocks = function(path) {
-  return mockrequire(path, {
+var requireApiWithMocks = function(path) {
+  return mockrequire('../src/api/' + path, {
     'jquery': $
   });
 };
 
-exports.requireWithMocks = requireWithMocks;
+exports.requireApiWithMocks = requireApiWithMocks;
