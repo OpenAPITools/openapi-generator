@@ -1,7 +1,7 @@
 require 'json'
 
 
-MyApp.add_route('GET', '/store/inventory', {
+MyApp.add_route('GET', '/v2/store/inventory', {
   "resourcePath" => "/Store",
   "summary" => "Returns pet inventories by status",
   "nickname" => "get_inventory", 
@@ -21,7 +21,7 @@ MyApp.add_route('GET', '/store/inventory', {
 end
 
 
-MyApp.add_route('POST', '/store/order', {
+MyApp.add_route('POST', '/v2/store/order', {
   "resourcePath" => "/Store",
   "summary" => "Place an order for a pet",
   "nickname" => "place_order", 
@@ -48,7 +48,7 @@ MyApp.add_route('POST', '/store/order', {
 end
 
 
-MyApp.add_route('GET', '/store/order/{orderId}', {
+MyApp.add_route('GET', '/v2/store/order/{orderId}', {
   "resourcePath" => "/Store",
   "summary" => "Find purchase order by ID",
   "nickname" => "get_order_by_id", 
@@ -75,7 +75,7 @@ MyApp.add_route('GET', '/store/order/{orderId}', {
 end
 
 
-MyApp.add_route('DELETE', '/store/order/{orderId}', {
+MyApp.add_route('DELETE', '/v2/store/order/{orderId}', {
   "resourcePath" => "/Store",
   "summary" => "Delete purchase order by ID",
   "nickname" => "delete_order", 

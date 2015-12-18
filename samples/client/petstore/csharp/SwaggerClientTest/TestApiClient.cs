@@ -3,11 +3,18 @@ using System;
 using System.Collections.Generic;
 using IO.Swagger.Client;
 
-namespace SwaggerClient.TestApiClient
+namespace SwaggerClientTest.TestApiClient
 {
 	public class TestApiClient
 	{
-		[Test ()]
+        [TearDown()]
+        public void TearDown()
+        {
+            // Reset to default, just in case
+            Configuration.Default.DateTimeFormat = "o";
+        }
+
+        [Test ()]
 		public void TestParameterToString ()
 		{	
 			ApiClient api = new ApiClient ();
@@ -20,6 +27,54 @@ namespace SwaggerClient.TestApiClient
 			List<int> numList = new List<int>(new int[] {1, 37});
 			Assert.AreEqual("1,37", api.ParameterToString (numList));
 		}
-	}
+
+        [Test ()]
+	    public void TestParameterToStringForDateTime ()
+		{
+			ApiClient api = new ApiClient ();
+
+			// test datetime
+			DateTime dateUtc = DateTime.Parse ("2008-04-10T13:30:00.0000000z", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			Assert.AreEqual ("2008-04-10T13:30:00.0000000Z", api.ParameterToString (dateUtc));
+
+			// test datetime with no timezone
+			DateTime dateWithNoTz = DateTime.Parse ("2008-04-10T13:30:00.000", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			Assert.AreEqual ("2008-04-10T13:30:00.0000000", api.ParameterToString (dateWithNoTz));
+		}
+
+		// The test below only passes when running at -04:00 timezone
+		[Ignore ()]
+		public void TestParameterToStringWithTimeZoneForDateTime ()
+		{
+			ApiClient api = new ApiClient ();
+            // test datetime with a time zone
+            DateTime dateWithTz = DateTime.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
+            Assert.AreEqual("2008-04-10T13:30:00.0000000-04:00", api.ParameterToString(dateWithTz));
+        }
+
+        [Test ()]
+        public void TestParameterToStringForDateTimeWithUFormat ()
+        {
+            // Setup the DateTimeFormat across all of the calls
+            Configuration.Default.DateTimeFormat = "u";
+            ApiClient api = new ApiClient();
+            
+            // test datetime
+            DateTime dateUtc = DateTime.Parse("2009-06-15 20:45:30Z", null, System.Globalization.DateTimeStyles.RoundtripKind);
+            Assert.AreEqual("2009-06-15 20:45:30Z", api.ParameterToString(dateUtc));
+        }
+
+        [Test ()]
+        public void TestParameterToStringForDateTimeWithCustomFormat ()
+        {
+            // Setup the DateTimeFormat across all of the calls
+            Configuration.Default.DateTimeFormat = "dd/MM/yy HH:mm:ss";
+            ApiClient api = new ApiClient();
+
+            // test datetime
+            DateTime dateUtc = DateTime.Parse("2009-06-15 20:45:30Z", null, System.Globalization.DateTimeStyles.RoundtripKind);
+            Assert.AreEqual("15/06/09 20:45:30", api.ParameterToString(dateUtc));
+        }
+    }
 }
 

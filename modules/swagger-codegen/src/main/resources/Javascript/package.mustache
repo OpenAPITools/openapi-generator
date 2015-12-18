@@ -1,0 +1,20 @@
+{
+  "name": "{{{projectName}}}",
+  "version": "{{{projectVersion}}}",
+  "description": "{{{projectDescription}}}",{{#projectLicenseName}}
+  "license": "{{{projectLicenseName}}}",{{/projectLicenseName}}
+  "main": "{{sourceFolder}}/index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive"
+  },
+  "dependencies": {
+    "jquery": "~2.1.4"
+  },
+  "devDependencies": {
+    "mocha": "~2.3.4",
+    "expect.js": "~0.3.1",
+    "mockrequire": "~0.0.5",
+    "domino": "~1.0.20",
+    "xmlhttprequest": "~1.8.0"
+  }
+}

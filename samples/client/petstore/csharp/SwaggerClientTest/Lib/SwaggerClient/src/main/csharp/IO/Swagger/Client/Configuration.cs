@@ -13,10 +13,52 @@ namespace IO.Swagger.Client
     public class Configuration
     {
         /// <summary>
+        /// Initializes a new instance of the Configuration class with different settings
+        /// </summary>
+        /// <param name="apiClient">Api client</param>
+        /// <param name="defaultHeader">Dictionary of default HTTP header</param>
+        /// <param name="username">Username</param>
+        /// <param name="password">Password</param>
+        /// <param name="accessToken">accessToken</param>
+        /// <param name="apiKey">Dictionary of API key</param>
+        /// <param name="apiKeyPrefix">Dictionary of API key prefix</param>
+        /// <param name="tempFolderPath">Temp folder path</param>
+        /// <param name="dateTimeFormat">DateTime format string</param>
+        public Configuration(ApiClient apiClient = null,
+                             Dictionary<String, String> defaultHeader = null,
+                             string username = null,
+                             string password = null,
+                             string accessToken = null,
+                             Dictionary<String, String> apiKey = null,
+                             Dictionary<String, String> apiKeyPrefix = null,
+                             string tempFolderPath = null,
+                             string dateTimeFormat = null
+                            )
+        {
+            if (apiClient == null)
+                ApiClient = ApiClient.Default;
+            else 
+                ApiClient = apiClient;
+
+            Username = username;
+            Password = password;
+            AccessToken = accessToken;
+
+			if (apiKey != null)
+                ApiKey = apiKey;
+			if (apiKeyPrefix != null)
+			    ApiKeyPrefix = apiKeyPrefix;
+
+            TempFolderPath = tempFolderPath;
+            DateTimeFormat = dateTimeFormat;
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the Configuration class.
         /// </summary>
         /// <param name="apiClient">Api client.</param>
-        public Configuration(ApiClient apiClient=null)
+        public Configuration(ApiClient apiClient)
         {
             if (apiClient == null)
                 ApiClient = ApiClient.Default;
@@ -109,13 +151,13 @@ namespace IO.Swagger.Client
                 return apiKeyValue;
         }
   
-        private static string _tempFolderPath = Path.GetTempPath();
+        private string _tempFolderPath = Path.GetTempPath();
   
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
         /// </summary>
         /// <value>Folder path.</value>
-        public static String TempFolderPath
+        public String TempFolderPath
         {
             get { return _tempFolderPath; }
   
@@ -138,7 +180,40 @@ namespace IO.Swagger.Client
                     _tempFolderPath = value  + Path.DirectorySeparatorChar;
             }
         }
-  
+
+        private const string ISO8601_DATETIME_FORMAT = "o";
+
+        private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
+
+        /// <summary>
+        /// Gets or sets the the date time format used when serializing in the ApiClient
+        /// By default, it's set to ISO 8601 - "o", for others see:
+        /// https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx
+        /// and https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx
+        /// No validation is done to ensure that the string you're providing is valid
+        /// </summary>
+        /// <value>The DateTimeFormat string</value>
+        public String DateTimeFormat
+        {
+            get
+            {
+                return _dateTimeFormat;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    // Never allow a blank or null string, go back to the default
+                    _dateTimeFormat = ISO8601_DATETIME_FORMAT;
+                    return;
+                }
+
+                // Caution, no validation when you choose date time format other than ISO 8601
+                // Take a look at the above links
+                _dateTimeFormat = value;
+            }
+        }
+
         /// <summary>
         /// Returns a string with essential information for debugging.
         /// </summary>

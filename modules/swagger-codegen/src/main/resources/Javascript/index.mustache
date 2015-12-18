@@ -1,0 +1,10 @@
+if (typeof module === 'object' && module.exports) {
+  var {{moduleName}} = {};
+  {{#models}}
+  {{moduleName}}.{{importPath}} = require('./model/{{importPath}}.js');
+  {{/models}}
+  {{#apiInfo}}{{#apis}}
+  {{moduleName}}.{{importPath}} = require('./api/{{importPath}}.js');
+  {{/apis}}{{/apiInfo}}
+  module.exports = {{moduleName}};
+}

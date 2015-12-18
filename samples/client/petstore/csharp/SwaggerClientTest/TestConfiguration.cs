@@ -5,10 +5,17 @@ using IO.Swagger.Client;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
 
-namespace SwaggerClient.TestConfiguration
+namespace SwaggerClientTest.TestConfiguration
 {
 	public class TestConfiguration
 	{
+	    [TearDown ()]
+	    public void TearDown ()
+	    {
+            // Reset to default, just in case
+            Configuration.Default.DateTimeFormat = "o";
+	    }
+
 		[Test ()]
 		public void TestAuthentication ()
 		{
@@ -32,7 +39,32 @@ namespace SwaggerClient.TestConfiguration
 			Assert.AreNotSame (p.Configuration, Configuration.Default);
 		}
 
+        [Test ()]
+	    public void TestDateTimeFormat_Default ()
+	    {
+            // Should default to the Round-trip Format Specifier - "o"
+            // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+            Assert.AreEqual("o", Configuration.Default.DateTimeFormat);
+	    }
+
+        [Test ()]
+        public void TestDateTimeFormat_UType()
+        {
+            Configuration.Default.DateTimeFormat = "u";
+
+            Assert.AreEqual("u", Configuration.Default.DateTimeFormat);
+        }
+
 		[Test ()]
+		public void TestConstructor()
+		{
+			Configuration c = new Configuration (username: "test username", password: "test password");
+			Assert.AreEqual (c.Username, "test username");
+			Assert.AreEqual (c.Password, "test password");
+
+		}
+
+        [Test ()]
 		public void TestDefautlConfiguration ()
 		{	
 			PetApi p1 = new PetApi ();

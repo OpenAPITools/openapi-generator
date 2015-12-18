@@ -184,14 +184,14 @@ use \{{invokerPackage}}\ObjectSerializer;
         {{#authMethods}}{{#isApiKey}}
         // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('{{keyParamName}}');
-        if ($apiKey !== null) {
+        if (strlen($apiKey) !== 0) {
             {{#isKeyInHeader}}$headerParams['{{keyParamName}}'] = $apiKey;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $apiKey;{{/isKeyInQuery}}
         }{{/isApiKey}}
         {{#isBasic}}// this endpoint requires HTTP basic authentication
-        if ($this->apiClient->getConfig()->getUsername() !== null or $this->apiClient->getConfig()->getPassword() !== null) {
+        if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
             $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
         }{{/isBasic}}{{#isOAuth}}// this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }{{/isOAuth}}
         {{/authMethods}}

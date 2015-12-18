@@ -174,7 +174,7 @@
   [mime]
   (if mime
     (or (= :json mime)
-        (re-matches #"application/json(;.*)?" (name mime)))))
+        (re-matches #"(?i)application/json(;.*)?" (name mime)))))
 
 (defn json-preferred-mime
   "Choose a MIME from the given MIMEs with JSON preferred,

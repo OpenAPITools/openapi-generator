@@ -4,8 +4,8 @@ module Petstore
   class UserApi
     attr_accessor :api_client
 
-    def initialize(api_client = nil)
-      @api_client = api_client || Configuration.api_client
+    def initialize(api_client = ApiClient.default)
+      @api_client = api_client
     end
 
     # Create user
@@ -24,8 +24,8 @@ module Petstore
     # @option opts [User] :body Created user object
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def create_user_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#create_user ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#create_user ..."
       end
       
       # resource path
@@ -59,8 +59,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#create_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#create_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -81,8 +81,8 @@ module Petstore
     # @option opts [Array<User>] :body List of user object
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def create_users_with_array_input_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#create_users_with_array_input ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#create_users_with_array_input ..."
       end
       
       # resource path
@@ -116,8 +116,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#create_users_with_array_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#create_users_with_array_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -138,8 +138,8 @@ module Petstore
     # @option opts [Array<User>] :body List of user object
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def create_users_with_list_input_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#create_users_with_list_input ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#create_users_with_list_input ..."
       end
       
       # resource path
@@ -173,8 +173,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#create_users_with_list_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#create_users_with_list_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -197,8 +197,8 @@ module Petstore
     # @option opts [String] :password The password for login in clear text
     # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
     def login_user_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#login_user ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#login_user ..."
       end
       
       # resource path
@@ -235,8 +235,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'String')
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#login_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#login_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -255,8 +255,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def logout_user_with_http_info(opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#logout_user ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#logout_user ..."
       end
       
       # resource path
@@ -290,8 +290,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#logout_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#logout_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -312,8 +312,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Array<(User, Fixnum, Hash)>] User data, response status code and response headers
     def get_user_by_name_with_http_info(username, opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#get_user_by_name ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#get_user_by_name ..."
       end
       
       # verify the required parameter 'username' is set
@@ -351,8 +351,8 @@ module Petstore
         :body => post_body,
         :auth_names => auth_names,
         :return_type => 'User')
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#get_user_by_name\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#get_user_by_name\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -375,8 +375,8 @@ module Petstore
     # @option opts [User] :body Updated user object
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def update_user_with_http_info(username, opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#update_user ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#update_user ..."
       end
       
       # verify the required parameter 'username' is set
@@ -413,8 +413,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#update_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#update_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -435,8 +435,8 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def delete_user_with_http_info(username, opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: UserApi#delete_user ..."
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: UserApi#delete_user ..."
       end
       
       # verify the required parameter 'username' is set
@@ -473,8 +473,8 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: UserApi#delete_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UserApi#delete_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
