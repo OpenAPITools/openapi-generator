@@ -841,6 +841,8 @@ public class DefaultCodegen {
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
                 m.isEnum = true;
                 m.allowableValues = impl.getEnum();
+                Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
+                m.dataType = getSwaggerType(p);
             }
             if (impl.getAdditionalProperties() != null) {
                 MapProperty mapProperty = new MapProperty(impl.getAdditionalProperties());
