@@ -6,6 +6,7 @@ using RestSharp;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
 
+
 namespace IO.Swagger.Api
 {
     
@@ -306,6 +307,42 @@ namespace IO.Swagger.Api
         /// <param name="apiKey"></param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null);
+        
+        /// <summary>
+        /// downloads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <returns>Stream</returns>
+        Stream DownloadFile ();
+  
+        /// <summary>
+        /// downloads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <returns>ApiResponse of Stream</returns>
+        ApiResponse<Stream> DownloadFileWithHttpInfo ();
+
+        /// <summary>
+        /// downloads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <returns>Task of Stream</returns>
+        System.Threading.Tasks.Task<Stream> DownloadFileAsync ();
+
+        /// <summary>
+        /// downloads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <returns>Task of ApiResponse (Stream)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Stream>> DownloadFileAsyncWithHttpInfo ();
         
         /// <summary>
         /// uploads an image
@@ -1485,6 +1522,131 @@ namespace IO.Swagger.Api
             return new ApiResponse<Object>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
+        }
+        
+        /// <summary>
+        /// downloads an image 
+        /// </summary>
+        /// <returns>Stream</returns>
+        public Stream DownloadFile ()
+        {
+             ApiResponse<Stream> response = DownloadFileWithHttpInfo();
+             return response.Data;
+        }
+
+        /// <summary>
+        /// downloads an image 
+        /// </summary>
+        /// <returns>ApiResponse of Stream</returns>
+        public ApiResponse< Stream > DownloadFileWithHttpInfo ()
+        {
+            
+    
+            var path_ = "/pet/{petId}/downloadImage";
+    
+            var pathParams = new Dictionary<String, String>();
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/octet-stream"
+            };
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            pathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            
+    
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
+    
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DownloadFile: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DownloadFile: " + response.ErrorMessage, response.ErrorMessage);
+    
+            return new ApiResponse<Stream>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Stream) Configuration.ApiClient.Deserialize(response, typeof(Stream)));
+            
+        }
+    
+        /// <summary>
+        /// downloads an image 
+        /// </summary>
+        /// <returns>Task of Stream</returns>
+        public async System.Threading.Tasks.Task<Stream> DownloadFileAsync ()
+        {
+             ApiResponse<Stream> response = await DownloadFileAsyncWithHttpInfo();
+             return response.Data;
+
+        }
+
+        /// <summary>
+        /// downloads an image 
+        /// </summary>
+        /// <returns>Task of ApiResponse (Stream)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Stream>> DownloadFileAsyncWithHttpInfo ()
+        {
+            
+    
+            var path_ = "/pet/{petId}/downloadImage";
+    
+            var pathParams = new Dictionary<String, String>();
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+            // to determine the Accept header
+            String[] http_header_accepts = new String[] {
+                "application/octet-stream"
+            };
+            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
+            if (http_header_accept != null)
+                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            pathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+
+            int statusCode = (int) response.StatusCode;
+ 
+            if (statusCode >= 400)
+                throw new ApiException (statusCode, "Error calling DownloadFile: " + response.Content, response.Content);
+            else if (statusCode == 0)
+                throw new ApiException (statusCode, "Error calling DownloadFile: " + response.ErrorMessage, response.ErrorMessage);
+
+            return new ApiResponse<Stream>(statusCode,
+                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Stream) Configuration.ApiClient.Deserialize(response, typeof(Stream)));
+            
         }
         
         /// <summary>
