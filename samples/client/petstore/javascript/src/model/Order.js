@@ -1,3 +1,9 @@
+// require files in Node.js environment
+
+if (typeof module === 'object' && module.exports) {
+  
+}
+
 
 
 //export module
@@ -30,89 +36,92 @@ var StatusEnum = function StatusEnum() {
 
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('Order', ['jquery', 'Date'], 
-		function($, Date) {
-        return Order;
-	 });
+if ( typeof define === "function" && define.amd ) {
+  define('Order', ['jquery'],
+    function($) {
+      return Order;
+   });
 }
 
 
 var Order = function Order() { 
-  	var self = this;
-  	
-  	/**
-	  * datatype: Long
-	  **/
-	  self.id = null;
-	 
-  	/**
-	  * datatype: Long
-	  **/
-	  self.petId = null;
-	 
-  	/**
-	  * datatype: Integer
-	  **/
-	  self.quantity = null;
-	 
-  	/**
-	  * datatype: Date
-	  **/
-	  self.shipDate = null;
-	 
-  	/**
-	  * Order Status
-	  * datatype: StatusEnum
-	  **/
-	  self.status = null;
-	 
-  	/**
-	  * datatype: Boolean
-	  **/
-	  self.complete = null;
-	 
-  
-  	self.constructFromObject = function(data) {
-	  	
-	  	self.id = data.id;
-	  	
-	  	self.petId = data.petId;
-	  	
-	  	self.quantity = data.quantity;
-	  	
-	  	self.shipDate = data.shipDate;
-	  	
-	  	self.status = data.status;
-	  	
-	  	self.complete = data.complete;
-	  	
-	}
-  
+  var self = this;
   
   /**
-   * @return {Long}
+   * datatype: Integer
+   **/
+  self.id = null;
+  
+  /**
+   * datatype: Integer
+   **/
+  self.petId = null;
+  
+  /**
+   * datatype: Integer
+   **/
+  self.quantity = null;
+  
+  /**
+   * datatype: Date
+   **/
+  self.shipDate = null;
+  
+  /**
+   * Order Status
+   * datatype: StatusEnum
+   **/
+  self.status = null;
+  
+  /**
+   * datatype: Boolean
+   **/
+  self.complete = null;
+  
+  
+  self.constructFromObject = function(data) {
+    if (!data) {
+      return;
+    }
+    
+    self.id = data.id;
+    
+    self.petId = data.petId;
+    
+    self.quantity = data.quantity;
+    
+    self.shipDate = data.shipDate;
+    
+    self.status = data.status;
+    
+    self.complete = data.complete;
+    
+  }
+
+  
+  /**
+   * @return {Integer}
    **/
   self.getId = function() {
     return self.id;
   }
-  
+
   /**
-   * @param {Long} id
+   * @param {Integer} id
    **/
   self.setId = function (id) {
     self.id = id;
   }
   
   /**
-   * @return {Long}
+   * @return {Integer}
    **/
   self.getPetId = function() {
     return self.petId;
   }
-  
+
   /**
-   * @param {Long} petId
+   * @param {Integer} petId
    **/
   self.setPetId = function (petId) {
     self.petId = petId;
@@ -124,7 +133,7 @@ var Order = function Order() {
   self.getQuantity = function() {
     return self.quantity;
   }
-  
+
   /**
    * @param {Integer} quantity
    **/
@@ -138,7 +147,7 @@ var Order = function Order() {
   self.getShipDate = function() {
     return self.shipDate;
   }
-  
+
   /**
    * @param {Date} shipDate
    **/
@@ -153,7 +162,7 @@ var Order = function Order() {
   self.getStatus = function() {
     return self.status;
   }
-  
+
   /**
    * set Order Status
    * @param {StatusEnum} status
@@ -168,7 +177,7 @@ var Order = function Order() {
   self.getComplete = function() {
     return self.complete;
   }
-  
+
   /**
    * @param {Boolean} complete
    **/
@@ -178,6 +187,10 @@ var Order = function Order() {
   
 
   self.toJson = function () {
-  	return JSON.stringify(self);
+    return JSON.stringify(self);
   }
+}
+
+if (typeof module === 'object' && module.exports) {
+  module.exports = Order;
 }
