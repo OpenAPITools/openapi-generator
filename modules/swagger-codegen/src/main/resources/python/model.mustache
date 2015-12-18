@@ -49,7 +49,7 @@ class {{classname}}(object):
         }
 
 {{#vars}}
-        self._{{name}} = None
+        self._{{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}
 {{/vars}}
 
 {{#vars}}

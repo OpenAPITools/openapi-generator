@@ -1,17 +1,20 @@
-/*
- * {{>generatedAnnotation}}
- */
+// require files in Node.js environment
+var ${{#imports}}, {{import}}{{/imports}};
+if (typeof module === 'object' && module.exports) {
+  $ = require('jquery');{{#imports}}
+  {{import}} = require('../model/{{import}}.js');{{/imports}}
+}
 
-//export module
+// export module for AMD
 if ( typeof define === "function" && define.amd ) {     
-	define(['jquery'], function($) {
+	define(['jquery'{{#imports}}, '{{import}}'{{/imports}}], function(${{#imports}}, {{import}}{{/imports}}) {
         return {{classname}};
 	 });
 }
 
 var {{classname}} = function {{classname}}() {
 	var self = this;
-{{#operations}}
+  {{#operations}}
   {{#operation}}
   /**
    * {{summary}}
@@ -20,8 +23,7 @@ var {{classname}} = function {{classname}}() {
 {{/allParams}}   * @param {function} callback the callback function
    * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}, callback) {
-    
+  self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}callback) {
     var {{localVariablePrefix}}postBody = {{#bodyParam}}{{^isBinary}}JSON.stringify({{paramName}}){{/isBinary}}{{#isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     var {{localVariablePrefix}}postBinaryBody = {{#bodyParam}}{{#isBinary}}{{paramName}}{{/isBinary}}{{^isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
@@ -39,8 +41,8 @@ var {{classname}} = function {{classname}}() {
     	basePath = basePath.substring(0, basePath.length-1);
     }
     
-	var {{localVariablePrefix}}path = basePath + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
-, "\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString()){{/pathParams}});
+    var {{localVariablePrefix}}path = basePath + replaceAll(replaceAll("{{{path}}}", "\\{format\\}","json"){{#pathParams}}
+, "\\{" + "{{baseName}}" + "\\}", encodeURIComponent({{{paramName}}}.toString()){{/pathParams}});
 
     var queryParams = {};
     var headerParams =  {};
@@ -50,58 +52,46 @@ var {{classname}} = function {{classname}}() {
     queryParams.{{baseName}} = {{paramName}};
     {{/queryParams}}
     {{#headerParams}}if ({{paramName}} != null)
-    {{localVariablePrefix}}headerParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
+    {{localVariablePrefix}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
     {{#formParams}}if ({{paramName}} != null)
       {{localVariablePrefix}}formParams.put("{{baseName}}", {{paramName}});
     {{/formParams}}
 
-	path += createQueryString(queryParams);
+    path += createQueryString(queryParams);
 
-	//if (console) {
-		//console.log('path: ' + path);
-		//console.log('queryParams: ' + queryParams);
-	//}
-
-    {{#isResponseBinary}}
-    byte[] {{localVariablePrefix}}response = null;
-    {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeBinaryAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams,{{localVariablePrefix}} postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
-    return {{localVariablePrefix}}response;
-    {{/isResponseBinary}}
-
-    {{^isResponseBinary}}
-    {{#returnType}}
-    //TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
-    //return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
-    
-	var options = {type: "{{httpMethod}}", async: true, contentType: "application/json", dataType: "json", data: postBody};
+    var options = {type: "{{httpMethod}}", async: true, contentType: "application/json", dataType: "json", data: postBody};
     var request = $.ajax(path, options);
-    //request.fail(function(jqXHR, textStatus, errorThrown){
-    //    errorHandler(jqXHR, textStatus, errorThrown);
-    //});
-    
-		
-	request.done(function(response, textStatus, jqXHR){
-		/**
-		  * @returns {{{returnType}}}
-		  */
-		{{#returnTypeIsPrimitive}} var myResponse = response;{{/returnTypeIsPrimitive}}
-		{{^returnTypeIsPrimitive}} var myResponse = new  {{{returnType}}}();
-		myResponse.constructFromObject(response);{{/returnTypeIsPrimitive}}
-		
-    	callback(myResponse, textStatus, jqXHR);
-	});
-    
-    {{/returnType}}{{^returnType}}
-    {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);
-    {{/returnType}}
-    {{/isResponseBinary}}
 
-
+    request.fail(function(jqXHR, textStatus, errorThrown){
+      if (callback) {
+        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
+        callback(null, textStatus, jqXHR, error);
+      }
+    });
+		
+    request.done(function(response, textStatus, jqXHR){
+      {{#returnType}}
+      /**
+        * @returns {{{returnType}}}
+        */
+      {{#returnTypeIsPrimitive}}var myResponse = response;{{/returnTypeIsPrimitive}}
+      {{^returnTypeIsPrimitive}}var myResponse = new {{{returnType}}}();
+      myResponse.constructFromObject(response);{{/returnTypeIsPrimitive}}
+      if (callback) {
+        callback(myResponse, textStatus, jqXHR);
+      }
+      {{/returnType}}{{^returnType}}
+      if (callback) {
+        callback(response, textStatus, jqXHR);
+      }
+      {{/returnType}}
+    });
+ 
+    return request;
   }
   {{/operation}}
-
-{{/operations}}
+  {{/operations}}
 
  	function replaceAll (haystack, needle, replace) {
 		var result= haystack;
@@ -127,4 +117,9 @@ var {{classname}} = function {{classname}}() {
 		
 		return queryString;
 	}
+}
+
+// export module for Node.js
+if (typeof module === 'object' && module.exports) {
+  module.exports = {{classname}};
 }

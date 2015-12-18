@@ -7,6 +7,7 @@ class MyApp < Swaggering
   end
 end
 
-{{#apis}}
-require './lib/{{className}}.rb'
-{{/apis}}
+# include the api files
+Dir["./api/*.rb"].each { |file|
+  require file
+}

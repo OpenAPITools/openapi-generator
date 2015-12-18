@@ -152,7 +152,7 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
         
@@ -235,7 +235,7 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
         
@@ -317,7 +317,7 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
         
@@ -407,7 +407,7 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
         
@@ -506,7 +506,7 @@ class PetApi
         
         // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-        if ($apiKey !== null) {
+        if (strlen($apiKey) !== 0) {
             $headerParams['api_key'] = $apiKey;
         }
         
@@ -621,7 +621,7 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
         
@@ -716,7 +716,7 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
         
@@ -828,7 +828,7 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-        if ($this->apiClient->getConfig()->getAccessToken() !== null) {
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
         

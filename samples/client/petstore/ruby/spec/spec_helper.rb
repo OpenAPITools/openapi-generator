@@ -36,7 +36,7 @@ end
 #  help
 #end
 
-API_CLIENT = Petstore::ApiClient.new
+API_CLIENT = Petstore::ApiClient.new(Petstore::Configuration.new)
 
 # always delete and then re-create the pet object with 10002
 def prepare_pet(pet_api)

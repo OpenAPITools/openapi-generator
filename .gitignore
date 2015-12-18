@@ -13,6 +13,7 @@ generated-sources/*
 generated-code/*
 *.swp
 *.swo
+*.csproj.user
 
 /target
 /generated-files
@@ -36,6 +37,9 @@ samples/client/petstore/objc/SwaggerClientTests/Pods
 samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcworkspace
 samples/client/petstore/objc/SwaggerClientTests/Podfile.lock
 samples/server/petstore/nodejs/node_modules
+samples/client/petstore/csharp/SwaggerClientTest/.vs
+samples/client/petstore/csharp/SwaggerClientTest/obj
+samples/client/petstore/csharp/SwaggerClientTest/bin
 target
 .idea
 .lib

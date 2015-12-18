@@ -549,6 +549,17 @@ public class ApiClient {
   }
 
   /**
+   * Check if the given MIME is a JSON MIME.
+   * JSON MIME examples:
+   *   application/json
+   *   application/json; charset=UTF8
+   *   APPLICATION/JSON
+   */
+  public boolean isJsonMime(String mime) {
+    return mime != null && mime.matches("(?i)application\\/json(;.*)?");
+  }
+
+  /**
    * Select the Accept header's value from the given accepts array:
    *   if JSON exists in the given array, use it;
    *   otherwise use all of them (joining into a string)
@@ -558,8 +569,14 @@ public class ApiClient {
    *   null will be returned (not to set the Accept header explicitly).
    */
   public String selectHeaderAccept(String[] accepts) {
-    if (accepts.length == 0) return null;
-    if (StringUtil.containsIgnoreCase(accepts, "application/json")) return "application/json";
+    if (accepts.length == 0) {
+      return null;
+    }
+    for (String accept : accepts) {
+      if (isJsonMime(accept)) {
+        return accept;
+      }
+    }
     return StringUtil.join(accepts, ",");
   }
 
@@ -573,8 +590,14 @@ public class ApiClient {
    *   JSON will be used.
    */
   public String selectHeaderContentType(String[] contentTypes) {
-    if (contentTypes.length == 0) return "application/json";
-    if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
+    if (contentTypes.length == 0) {
+      return "application/json";
+    }
+    for (String contentType : contentTypes) {
+      if (isJsonMime(contentType)) {
+        return contentType;
+      }
+    }
     return contentTypes[0];
   }
 
@@ -625,7 +648,7 @@ public class ApiClient {
       // ensuring a default content type
       contentType = "application/json";
     }
-    if (contentType.startsWith("application/json")) {
+    if (isJsonMime(contentType)) {
       return json.deserialize(respBody, returnType);
     } else if (returnType.equals(String.class)) {
       // Expecting string, return the raw response body.
@@ -649,7 +672,7 @@ public class ApiClient {
    * @throws ApiException If fail to serialize the given object
    */
   public String serialize(Object obj, String contentType) throws ApiException {
-    if (contentType.startsWith("application/json")) {
+    if (isJsonMime(contentType)) {
       if (obj != null)
         return json.serialize(obj);
       else
@@ -821,7 +844,9 @@ public class ApiClient {
 
     String contentType = (String) headerParams.get("Content-Type");
     // ensuring a default content type
-    if (contentType == null) contentType = "application/json";
+    if (contentType == null) {
+      contentType = "application/json";
+    }
 
     RequestBody reqBody;
     if (!HttpMethod.permitsRequestBody(method)) {

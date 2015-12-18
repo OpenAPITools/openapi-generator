@@ -1,7 +1,7 @@
 require 'json'
 
 
-MyApp.add_route('PUT', '/pet', {
+MyApp.add_route('PUT', '/v2/pet', {
   "resourcePath" => "/Pet",
   "summary" => "Update an existing pet",
   "nickname" => "update_pet", 
@@ -28,7 +28,7 @@ MyApp.add_route('PUT', '/pet', {
 end
 
 
-MyApp.add_route('POST', '/pet', {
+MyApp.add_route('POST', '/v2/pet', {
   "resourcePath" => "/Pet",
   "summary" => "Add a new pet to the store",
   "nickname" => "add_pet", 
@@ -55,7 +55,7 @@ MyApp.add_route('POST', '/pet', {
 end
 
 
-MyApp.add_route('GET', '/pet/findByStatus', {
+MyApp.add_route('GET', '/v2/pet/findByStatus', {
   "resourcePath" => "/Pet",
   "summary" => "Finds Pets by status",
   "nickname" => "find_pets_by_status", 
@@ -85,7 +85,7 @@ MyApp.add_route('GET', '/pet/findByStatus', {
 end
 
 
-MyApp.add_route('GET', '/pet/findByTags', {
+MyApp.add_route('GET', '/v2/pet/findByTags', {
   "resourcePath" => "/Pet",
   "summary" => "Finds Pets by tags",
   "nickname" => "find_pets_by_tags", 
@@ -115,7 +115,7 @@ MyApp.add_route('GET', '/pet/findByTags', {
 end
 
 
-MyApp.add_route('GET', '/pet/{petId}', {
+MyApp.add_route('GET', '/v2/pet/{petId}', {
   "resourcePath" => "/Pet",
   "summary" => "Find pet by ID",
   "nickname" => "get_pet_by_id", 
@@ -142,7 +142,7 @@ MyApp.add_route('GET', '/pet/{petId}', {
 end
 
 
-MyApp.add_route('POST', '/pet/{petId}', {
+MyApp.add_route('POST', '/v2/pet/{petId}', {
   "resourcePath" => "/Pet",
   "summary" => "Updates a pet in the store with form data",
   "nickname" => "update_pet_with_form", 
@@ -169,7 +169,7 @@ MyApp.add_route('POST', '/pet/{petId}', {
 end
 
 
-MyApp.add_route('DELETE', '/pet/{petId}', {
+MyApp.add_route('DELETE', '/v2/pet/{petId}', {
   "resourcePath" => "/Pet",
   "summary" => "Deletes a pet",
   "nickname" => "delete_pet", 
@@ -203,7 +203,7 @@ MyApp.add_route('DELETE', '/pet/{petId}', {
 end
 
 
-MyApp.add_route('POST', '/pet/{petId}/uploadImage', {
+MyApp.add_route('POST', '/v2/pet/{petId}/uploadImage', {
   "resourcePath" => "/Pet",
   "summary" => "uploads an image",
   "nickname" => "upload_file", 

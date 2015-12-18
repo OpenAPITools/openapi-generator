@@ -128,24 +128,25 @@ static void (^reachabilityChangeBlock)(int);
 /*
  * Detect `Accept` from accepts
  */
-+ (NSString *) selectHeaderAccept:(NSArray *)accepts
-{
++ (NSString *) selectHeaderAccept:(NSArray *)accepts {
     if (accepts == nil || [accepts count] == 0) {
         return @"";
     }
 
     NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
-    [accepts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [lowerAccepts addObject:[obj lowercaseString]];
-    }];
-
-
-    if ([lowerAccepts containsObject:@"application/json"]) {
-        return @"application/json";
+    for (NSString *string in accepts) {
+        NSString * lowerAccept = [string lowercaseString];
+        if ([lowerAccept containsString:@"application/json"]) {
+            return @"application/json";
+        }
+        [lowerAccepts addObject:lowerAccept];
     }
-    else {
-        return [lowerAccepts componentsJoinedByString:@", "];
+
+    if (lowerAccepts.count == 1) {
+        return [lowerAccepts firstObject];
     }
+
+    return [lowerAccepts componentsJoinedByString:@", "];
 }
 
 /*
@@ -171,7 +172,7 @@ static void (^reachabilityChangeBlock)(int);
 }
 
 + (NSString*)escape:(id)unescaped {
-    if([unescaped isKindOfClass:[NSString class]]){
+    if ([unescaped isKindOfClass:[NSString class]]){
         return (NSString *)CFBridgingRelease
         (CFURLCreateStringByAddingPercentEscapes(
                                                  NULL,
@@ -212,7 +213,7 @@ static void (^reachabilityChangeBlock)(int);
 
 -(Boolean) executeRequestWithId:(NSNumber*) requestId {
     NSSet* matchingItems = [queuedRequests objectsPassingTest:^BOOL(id obj, BOOL *stop) {
-        if([obj intValue]  == [requestId intValue]) {
+        if ([obj intValue]  == [requestId intValue]) {
             return YES;
         }
         else {
@@ -220,7 +221,7 @@ static void (^reachabilityChangeBlock)(int);
         }
     }];
 
-    if(matchingItems.count == 1) {
+    if (matchingItems.count == 1) {
         {{classPrefix}}DebugLog(@"removed request id %@", requestId);
         [queuedRequests removeObject:requestId];
         return YES;
@@ -268,7 +269,7 @@ static void (^reachabilityChangeBlock)(int);
         }
 
         // call the reachability block, if configured
-        if(reachabilityChangeBlock != nil) {
+        if (reachabilityChangeBlock != nil) {
             reachabilityChangeBlock(status);
         }
     }];
@@ -410,16 +411,16 @@ static void (^reachabilityChangeBlock)(int);
                       completionBlock: (void (^)(id, NSError *))completionBlock {
     AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
                                                                success:^(AFHTTPRequestOperation *operation, id response) {
-                                                                   if([self executeRequestWithId:requestId]) {
+                                                                   if ([self executeRequestWithId:requestId]) {
                                                                        [self logResponse:operation forRequest:request error:nil];
                                                                        NSDictionary *responseHeaders = [[operation response] allHeaderFields];
                                                                        self.HTTPResponseHeaders = responseHeaders;
                                                                        completionBlock(response, nil);
                                                                    }
                                                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                                   if([self executeRequestWithId:requestId]) {
+                                                                   if ([self executeRequestWithId:requestId]) {
                                                                        NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
-                                                                       if(operation.responseObject) {
+                                                                       if (operation.responseObject) {
                                                                            // Add in the (parsed) response body.
                                                                            userInfo[{{classPrefix}}ResponseObjectErrorKey] = operation.responseObject;
                                                                        }
@@ -590,10 +591,10 @@ static void (^reachabilityChangeBlock)(int);
 
     // request cache
     BOOL hasHeaderParams = false;
-    if(headerParams != nil && [headerParams count] > 0) {
+    if (headerParams != nil && [headerParams count] > 0) {
         hasHeaderParams = true;
     }
-    if(offlineState) {
+    if (offlineState) {
         {{classPrefix}}DebugLog(@"%@ cache forced", resourcePath);
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
     }
@@ -606,7 +607,7 @@ static void (^reachabilityChangeBlock)(int);
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
 
-    if(hasHeaderParams){
+    if (hasHeaderParams){
         for(NSString * key in [headerParams keyEnumerator]){
             [request setValue:[headerParams valueForKey:key] forHTTPHeaderField:key];
         }
@@ -639,36 +640,36 @@ static void (^reachabilityChangeBlock)(int);
     int counter = 0;
 
     NSMutableString * requestUrl = [NSMutableString stringWithFormat:@"%@", path];
-    if(queryParams != nil){
+    if (queryParams != nil){
         for(NSString * key in [queryParams keyEnumerator]){
-            if(counter == 0) separator = @"?";
+            if (counter == 0) separator = @"?";
             else separator = @"&";
             id queryParam = [queryParams valueForKey:key];
-            if([queryParam isKindOfClass:[NSString class]]){
+            if ([queryParam isKindOfClass:[NSString class]]){
                 [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
                                           [{{classPrefix}}ApiClient escape:key], [{{classPrefix}}ApiClient escape:[queryParams valueForKey:key]]]];
             }
-            else if([queryParam isKindOfClass:[{{classPrefix}}QueryParamCollection class]]){
+            else if ([queryParam isKindOfClass:[{{classPrefix}}QueryParamCollection class]]){
                 {{classPrefix}}QueryParamCollection * coll = ({{classPrefix}}QueryParamCollection*) queryParam;
                 NSArray* values = [coll values];
                 NSString* format = [coll format];
 
-                if([format isEqualToString:@"csv"]) {
+                if ([format isEqualToString:@"csv"]) {
                     [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
                         [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@","]]]];
 
                 }
-                else if([format isEqualToString:@"tsv"]) {
+                else if ([format isEqualToString:@"tsv"]) {
                     [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
                         [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"\t"]]]];
 
                 }
-                else if([format isEqualToString:@"pipes"]) {
+                else if ([format isEqualToString:@"pipes"]) {
                     [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
                         [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"|"]]]];
 
                 }
-                else if([format isEqualToString:@"multi"]) {
+                else if ([format isEqualToString:@"multi"]) {
                     for(id obj in values) {
                         [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
                             [{{classPrefix}}ApiClient escape:key], [NSString stringWithFormat:@"%@", obj]]];

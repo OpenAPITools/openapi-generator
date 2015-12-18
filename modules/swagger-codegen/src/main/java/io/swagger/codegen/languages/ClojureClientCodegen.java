@@ -199,8 +199,4 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String namespaceToFolder(String ns) {
         return ns.replace(".", File.separator).replace("-", "_");
     }
-
-    protected String dashize(String s) {
-        return underscore(s).replaceAll("[_ ]", "-");
-    }
 }

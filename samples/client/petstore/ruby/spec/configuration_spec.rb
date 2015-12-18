@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Petstore::Configuration do
-  let(:config) { Petstore::Configuration.instance }
+  let(:config) { Petstore::Configuration.default }
 
   before(:each) do
     Petstore.configure do |c|

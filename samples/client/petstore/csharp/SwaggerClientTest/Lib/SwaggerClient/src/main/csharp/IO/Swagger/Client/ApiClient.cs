@@ -19,23 +19,56 @@ namespace IO.Swagger.Client
     public class ApiClient
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" /> class.
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default configuration and base path (http://petstore.swagger.io/v2).
+        /// </summary>
+        public ApiClient()
+        {
+            Configuration = Configuration.Default;
+            RestClient = new RestClient("http://petstore.swagger.io/v2");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default base path (http://petstore.swagger.io/v2).
+        /// </summary>
+        /// <param name="config">An instance of Configuration.</param>
+        public ApiClient(Configuration config = null)
+        {
+            if (config == null)
+                Configuration = Configuration.Default;
+            else
+                Configuration = config;
+
+            RestClient = new RestClient("http://petstore.swagger.io/v2");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default configuration.
         /// </summary>
         /// <param name="basePath">The base path.</param>
-        public ApiClient(String basePath="http://petstore.swagger.io/v2")
+        public ApiClient(String basePath = "http://petstore.swagger.io/v2")
         {
            if (String.IsNullOrEmpty(basePath))
                 throw new ArgumentException("basePath cannot be empty");
 
             RestClient = new RestClient(basePath);
+            Configuration = Configuration.Default;
         }
 
         /// <summary>
         /// Gets or sets the default API client for making HTTP calls.
         /// </summary>
         /// <value>The default API client.</value>
-        public static ApiClient Default = new ApiClient();
+        public static ApiClient Default = new ApiClient(Configuration.Default);
     
+        /// <summary>
+        /// Gets or sets the Configuration.
+        /// </summary>
+        /// <value>An instance of the Configuration.</value>
+        public Configuration Configuration { get; set; }
+
         /// <summary>
         /// Gets or sets the RestClient.
         /// </summary>
@@ -147,7 +180,7 @@ namespace IO.Swagger.Client
         }
     
         /// <summary>
-        /// If parameter is DateTime, output in ISO8601 format.
+        /// If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with Configuration.DateTime.
         /// If parameter is a list, join the list with ",".
         /// Otherwise just return the string.
         /// </summary>
@@ -156,7 +189,11 @@ namespace IO.Swagger.Client
         public string ParameterToString(object obj)
         {
             if (obj is DateTime)
-                return ((DateTime)obj).ToString ("u");
+                // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
+                // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
+                // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                // For example: 2009-06-15T13:45:30.0000000
+                return ((DateTime)obj).ToString (Configuration.DateTimeFormat);
             else if (obj is IList)
             {
                 string flattenString = "";

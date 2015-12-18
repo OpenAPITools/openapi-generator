@@ -1,7 +1,7 @@
 require 'json'
 
 
-MyApp.add_route('POST', '/user', {
+MyApp.add_route('POST', '/v2/user', {
   "resourcePath" => "/User",
   "summary" => "Create user",
   "nickname" => "create_user", 
@@ -28,7 +28,7 @@ MyApp.add_route('POST', '/user', {
 end
 
 
-MyApp.add_route('POST', '/user/createWithArray', {
+MyApp.add_route('POST', '/v2/user/createWithArray', {
   "resourcePath" => "/User",
   "summary" => "Creates list of users with given input array",
   "nickname" => "create_users_with_array_input", 
@@ -55,7 +55,7 @@ MyApp.add_route('POST', '/user/createWithArray', {
 end
 
 
-MyApp.add_route('POST', '/user/createWithList', {
+MyApp.add_route('POST', '/v2/user/createWithList', {
   "resourcePath" => "/User",
   "summary" => "Creates list of users with given input array",
   "nickname" => "create_users_with_list_input", 
@@ -82,7 +82,7 @@ MyApp.add_route('POST', '/user/createWithList', {
 end
 
 
-MyApp.add_route('GET', '/user/login', {
+MyApp.add_route('GET', '/v2/user/login', {
   "resourcePath" => "/User",
   "summary" => "Logs user into the system",
   "nickname" => "login_user", 
@@ -122,7 +122,7 @@ MyApp.add_route('GET', '/user/login', {
 end
 
 
-MyApp.add_route('GET', '/user/logout', {
+MyApp.add_route('GET', '/v2/user/logout', {
   "resourcePath" => "/User",
   "summary" => "Logs out current logged in user session",
   "nickname" => "logout_user", 
@@ -142,7 +142,7 @@ MyApp.add_route('GET', '/user/logout', {
 end
 
 
-MyApp.add_route('GET', '/user/{username}', {
+MyApp.add_route('GET', '/v2/user/{username}', {
   "resourcePath" => "/User",
   "summary" => "Get user by user name",
   "nickname" => "get_user_by_name", 
@@ -154,7 +154,7 @@ MyApp.add_route('GET', '/user/{username}', {
     
     {
       "name" => "username",
-      "description" => "The name that needs to be fetched. Use user1 for testing. ",
+      "description" => "The name that needs to be fetched. Use user1 for testing.",
       "dataType" => "string",
       "paramType" => "path",
     },
@@ -169,7 +169,7 @@ MyApp.add_route('GET', '/user/{username}', {
 end
 
 
-MyApp.add_route('PUT', '/user/{username}', {
+MyApp.add_route('PUT', '/v2/user/{username}', {
   "resourcePath" => "/User",
   "summary" => "Updated user",
   "nickname" => "update_user", 
@@ -203,7 +203,7 @@ MyApp.add_route('PUT', '/user/{username}', {
 end
 
 
-MyApp.add_route('DELETE', '/user/{username}', {
+MyApp.add_route('DELETE', '/v2/user/{username}', {
   "resourcePath" => "/User",
   "summary" => "Delete user",
   "nickname" => "delete_user", 
