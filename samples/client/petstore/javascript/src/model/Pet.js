@@ -1,3 +1,11 @@
+// require files in Node.js environment
+var Category;var Tag;
+if (typeof module === 'object' && module.exports) {
+  
+  Category = require('./Category.js');
+  Tag = require('./Tag.js');
+}
+
 
 
 //export module
@@ -30,77 +38,80 @@ var StatusEnum = function StatusEnum() {
 
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('Pet', ['jquery', 'Category', 'Array'], 
-		function($, Category, Array) {
-        return Pet;
-	 });
+if ( typeof define === "function" && define.amd ) {
+  define('Pet', ['jquery', 'Category', 'Array'],
+    function($, Category, Array) {
+      return Pet;
+   });
 }
 
 
 var Pet = function Pet(photoUrls, name) { 
-  	var self = this;
-  	
-  	/**
-	  * datatype: Long
-	  **/
-	  self.id = null;
-	 
-  	/**
-	  * datatype: Category
-	  **/
-	  self.category = new Category();
-	 
-  	/**
-	  * datatype: String
-	  * required
-	  **/
-	  self.name = name;
-	 
-  	/**
-	  * datatype: Array
-	  * required
-	  **/
-	  self.photoUrls = photoUrls;
-	 
-  	/**
-	  * datatype: Array
-	  **/
-	  self.tags = new Array();
-	 
-  	/**
-	  * pet status in the store
-	  * datatype: StatusEnum
-	  **/
-	  self.status = null;
-	 
-  
-  	self.constructFromObject = function(data) {
-	  	
-	  	self.id = data.id;
-	  	
-	  	self.category.constructFromObject(data.category);
-	  	
-	  	self.name = data.name;
-	  	
-	  	self.photoUrls = new Array();
-	  	
-	  	self.tags = new Array();
-	  	
-	  	self.status = data.status;
-	  	
-	}
-  
+  var self = this;
   
   /**
-   * @return {Long}
+   * datatype: Integer
+   **/
+  self.id = null;
+  
+  /**
+   * datatype: Category
+   **/
+  self.category = new Category();
+  
+  /**
+   * datatype: String
+   * required
+   **/
+  self.name = name;
+  
+  /**
+   * datatype: Array
+   * required
+   **/
+  self.photoUrls = photoUrls;
+  
+  /**
+   * datatype: Array
+   **/
+  self.tags = [];
+  
+  /**
+   * pet status in the store
+   * datatype: StatusEnum
+   **/
+  self.status = null;
+  
+  
+  self.constructFromObject = function(data) {
+    if (!data) {
+      return;
+    }
+    
+    self.id = data.id;
+    
+    self.category.constructFromObject(data.category);
+    
+    self.name = data.name;
+    
+    self.photoUrls = new Array();
+    
+    self.tags = new Array();
+    
+    self.status = data.status;
+    
+  }
+
+  
+  /**
+   * @return {Integer}
    **/
   self.getId = function() {
     return self.id;
   }
-  
+
   /**
-   * @param {Long} id
+   * @param {Integer} id
    **/
   self.setId = function (id) {
     self.id = id;
@@ -112,7 +123,7 @@ var Pet = function Pet(photoUrls, name) {
   self.getCategory = function() {
     return self.category;
   }
-  
+
   /**
    * @param {Category} category
    **/
@@ -126,7 +137,7 @@ var Pet = function Pet(photoUrls, name) {
   self.getName = function() {
     return self.name;
   }
-  
+
   /**
    * @param {String} name
    **/
@@ -140,7 +151,7 @@ var Pet = function Pet(photoUrls, name) {
   self.getPhotoUrls = function() {
     return self.photoUrls;
   }
-  
+
   /**
    * @param {Array} photoUrls
    **/
@@ -154,7 +165,7 @@ var Pet = function Pet(photoUrls, name) {
   self.getTags = function() {
     return self.tags;
   }
-  
+
   /**
    * @param {Array} tags
    **/
@@ -169,7 +180,7 @@ var Pet = function Pet(photoUrls, name) {
   self.getStatus = function() {
     return self.status;
   }
-  
+
   /**
    * set pet status in the store
    * @param {StatusEnum} status
@@ -180,6 +191,10 @@ var Pet = function Pet(photoUrls, name) {
   
 
   self.toJson = function () {
-  	return JSON.stringify(self);
+    return JSON.stringify(self);
   }
+}
+
+if (typeof module === 'object' && module.exports) {
+  module.exports = Pet;
 }
