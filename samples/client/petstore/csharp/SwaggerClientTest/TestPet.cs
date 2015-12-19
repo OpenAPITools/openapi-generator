@@ -114,7 +114,10 @@ namespace SwaggerClientTest.TestPet
 		[Test ()]
 		public void TestGetPetById ()
 		{
-			PetApi petApi = new PetApi ();
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			PetApi petApi = new PetApi (c1);
 			Pet response = petApi.GetPetById (petId);
 			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
 
