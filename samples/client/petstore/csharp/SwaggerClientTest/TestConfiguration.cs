@@ -107,5 +107,20 @@ namespace SwaggerClientTest.TestConfiguration
 			Assert.AreSame (p4.Configuration.ApiClient, a1);
 		}
 
+		[Test ()]
+		public void TestTimeout ()
+		{
+			Configuration c1 = new Configuration();
+			Assert.AreEqual(c1.Timeout, 100); // default vaue
+
+			c1.Timeout = 10;
+			Assert.AreEqual(c1.Timeout, 10);
+
+			Configuration c2 = new Configuration(timeout: 20);
+			Assert.AreEqual(c2.Timeout, 20);
+
+
+
+		}
 	}
 }
