@@ -111,16 +111,13 @@ namespace SwaggerClientTest.TestConfiguration
 		public void TestTimeout ()
 		{
 			Configuration c1 = new Configuration();
-			Assert.AreEqual(c1.Timeout, 100); // default vaue
+			Assert.AreEqual(100000, c1.Timeout); // default vaue
 
-			c1.Timeout = 10;
-			Assert.AreEqual(c1.Timeout, 10);
+			c1.Timeout = 50000;
+			Assert.AreEqual(50000, c1.Timeout);
 
-			Configuration c2 = new Configuration(timeout: 20);
-			Assert.AreEqual(c2.Timeout, 20);
-
-
-
+			Configuration c2 = new Configuration(timeout: 20000);
+			Assert.AreEqual(20000, c2.Timeout);
 		}
 	}
 }

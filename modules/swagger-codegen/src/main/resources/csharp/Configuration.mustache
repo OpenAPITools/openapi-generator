@@ -33,7 +33,7 @@ namespace {{packageName}}.Client
                              Dictionary<String, String> apiKeyPrefix = null,
                              string tempFolderPath = null,
                              string dateTimeFormat = null,
-                             int timeout = 100
+                             int timeout = 100000
                             )
         {
             if (apiClient == null)
@@ -82,7 +82,7 @@ namespace {{packageName}}.Client
         public static Configuration Default = new Configuration();
 
         /// <summary>
-        /// Gets or sets the timeout value of ApiClient. Default to 100 seconds.
+        /// Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
         /// </summary>
         /// <value>Timeout.</value>
         public int Timeout
