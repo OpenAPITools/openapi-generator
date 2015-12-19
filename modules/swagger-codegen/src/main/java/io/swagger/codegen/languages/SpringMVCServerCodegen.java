@@ -18,12 +18,13 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
     public static final String CONFIG_PACKAGE = "configPackage";
     protected String title = "Petstore Server";
     protected String configPackage = "";
+    protected String templateFileName = "api.mustache";
 
     public SpringMVCServerCodegen() {
         super();
         outputFolder = "generated-code/javaSpringMVC";
         modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
+        apiTemplateFiles.put(templateFileName, ".java");
         embeddedTemplateDir = templateDir = "JavaSpringMVC";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
@@ -51,6 +52,11 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         );
 
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
+
+        supportedLibraries.clear();
+        supportedLibraries.put(DEFAULT_LIBRARY, "Default Spring MVC server stub.");
+        supportedLibraries.put("j8-async", "Use async servlet feature and Java 8's default interface. Generating interface with service " +
+                "declaration is useful when using Maven plugin. Just provide a implementation with @Controller to instantiate service.");
     }
 
     public CodegenType getTag() {
@@ -168,6 +174,12 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                 }
             }
         }
+        if("j8-async".equals(getLibrary())) {
+            apiTemplateFiles.remove(this.templateFileName);
+            this.templateFileName = "api-j8-async.mustache";
+            apiTemplateFiles.put(this.templateFileName, ".java");
+        }
+
         return objs;
     }
 

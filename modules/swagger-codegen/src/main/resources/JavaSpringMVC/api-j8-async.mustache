@@ -1,0 +1,64 @@
+package {{apiPackage}};
+
+import {{modelPackage}}.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.util.concurrent.Callable;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
+import io.swagger.annotations.AuthorizationScope;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+import static org.springframework.http.MediaType.*;
+
+@Controller
+@RequestMapping(value = "/{{baseName}}", produces = {APPLICATION_JSON_VALUE})
+@Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+{{>generatedAnnotation}}
+{{#operations}}
+public interface {{classname}} {
+  {{#operation}}
+
+  @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+    {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+      {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+      {{/hasMore}}{{/scopes}}
+      }{{/isOAuth}}){{#hasMore}},
+    {{/hasMore}}{{/authMethods}}
+  }{{/hasAuthMethods}})
+  @ApiResponses(value = { {{#responses}}
+    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},{{/hasMore}}{{/responses}} })
+  @RequestMapping(value = "{{path}}", 
+    {{#hasProduces}}produces = { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
+    {{#hasConsumes}}consumes = { {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
+    method = RequestMethod.{{httpMethod}})
+  default Callable<ResponseEntity<{{>returnTypes}}>> {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}})
+      throws NotFoundException {
+      // do some magic!
+      return () -> new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+  }
+
+  {{/operation}}
+}
+{{/operations}}
