@@ -1,0 +1,98 @@
+package {{invokerPackage}}
+
+{{#operations}}
+import (
+    "strings"
+    "fmt"
+//    "log"
+    "github.com/dghubble/sling"
+{{#imports}}    "{{import}}"
+{{/imports}}
+)
+
+type {{classname}} struct {
+    basePath  string
+    apiClient ApiClient
+    sling *sling.Sling
+}
+
+func New{{classname}}() *{{classname}}{
+    return &{{classname}} {
+        basePath:   "{{basePath}}",
+    }
+}
+
+func New{{classname}}WithBasePath(basePath string) *{{classname}}{
+    return &{{classname}} {
+        basePath:   basePath,
+    }
+}
+
+{{#operation}}
+/**
+ * {{summary}}
+ * {{notes}}
+{{#allParams}} * @param {{paramName}} {{description}}
+{{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+ */
+func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
+    {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    //if {{paramName}} == nil {
+    //    return 0, fmt.Error("Missing the required parameter '{{paramName}}' when calling {{nickname}}")
+    //}
+    {{/required}}{{/allParams}}
+
+    _sling := a.sling.{{httpMethod}}(a.basePath)
+
+    // create path and map variables
+    path := "{{path}}"
+    {{#pathParams}}//path = regexp.MustCompile("{" + "{{paramName}}" + "}").ReplaceAllString(path, "$1")
+    //path = path.Replace("\\{" + "{{paramName}}" + "\\}", ApiClient.EscapeString({{{paramName}}}))
+    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%b", {{paramName}}), -1)
+    {{/pathParams}}
+
+    _sling = _sling.Path(path)
+
+    {{#hasQueryParams}}
+    type QueryParams struct {
+        {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+        {{/queryParams}}
+    }
+
+    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{paramName}}: {{baseName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
+    {{/hasQueryParams}}
+
+    {{#headerParams}}// header params "{{baseName}}"
+    _sling = _sling.Set("{{baseName}}", {{paramName}})
+    {{/headerParams}}
+
+    //contentTypes := []string { {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}} }
+
+    {{#hasFormParams}}
+    type FormParams struct {
+        {{#formParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+        {{/formParams}}
+    }
+    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{paramName}}: {{baseName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
+    {{/hasFormParams}}
+
+    {{#bodyParams}}// body params
+    _sling = _sling.BodyJSON({{paramName}})
+    //b, _ := json.Marshal(body)
+    //bodyParams["{{baseName}}"] = string(b)
+    {{/bodyParams}}
+
+    req, err := _sling.Request()
+
+    /*response, err := a.apiClient.CallApi(a.basePath, path, "{{httpMethod}}", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    //if err != nil {
+    //    log.Fatal(err)
+    //} */
+
+    //{{#returnType}}ApiClient.Deserialize(response, "{{returnContainer}}", "{{returnBaseType}}"){{/returnType}}
+    {{#returnType}}return req, err{{/returnType}}
+    {{^returnType}}return err{{/returnType}}
+}
+{{/operation}}
+{{/operations}}
