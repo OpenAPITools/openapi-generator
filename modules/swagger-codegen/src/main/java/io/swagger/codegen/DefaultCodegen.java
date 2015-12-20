@@ -1045,6 +1045,8 @@ public class DefaultCodegen {
         }
 
         property.baseType = getSwaggerType(p);
+        LOGGER.info("property.baseType=" + property.baseType);
+        LOGGER.info("property.datatype=" + property.datatype);
 
       	if (p instanceof ArrayProperty) {
         		property.isContainer = true;
