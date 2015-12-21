@@ -2,6 +2,7 @@ package {{invokerPackage}}
 
 {{#operations}}
 import (
+//    "encoding/json"
     "strings"
     "fmt"
 //    "log"
@@ -35,13 +36,8 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{#allParams}} * @param {{paramName}} {{description}}
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
+//func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
-    {{#allParams}}{{#required}}
-    // verify the required parameter '{{paramName}}' is set
-    //if {{paramName}} == nil {
-    //    return 0, fmt.Error("Missing the required parameter '{{paramName}}' when calling {{nickname}}")
-    //}
-    {{/required}}{{/allParams}}
 
     _sling := a.sling.{{httpMethod}}(a.basePath)
 
@@ -54,8 +50,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
     _sling = _sling.Path(path)
 
-    {{#hasQueryParams}}
-    type QueryParams struct {
+    {{#hasQueryParams}}type QueryParams struct {
         {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
         {{/queryParams}}
     }
@@ -69,8 +64,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
     //contentTypes := []string { {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}} }
 
-    {{#hasFormParams}}
-    type FormParams struct {
+    {{#hasFormParams}}type FormParams struct {
         {{#formParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
         {{/formParams}}
     }
@@ -83,16 +77,30 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     //bodyParams["{{baseName}}"] = string(b)
     {{/bodyParams}}
 
-    req, err := _sling.Request()
+    {{#returnType}}
+    var response {{returnType}}
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("{{operationId}} response: ", response, resp, err)
+    return response, err
+    {{/returnType}}{{^returnType}}
+    resp, err := _sling.Request()
+    fmt.Println("{{operationId}} response: void, ", resp, err)
+    return err
+    {{/returnType}}
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "{{httpMethod}}", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "{{httpMethod}}", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //{{#returnType}}ApiClient.Deserialize(response, "{{returnContainer}}", "{{returnBaseType}}"){{/returnType}}
-    {{#returnType}}return req, err{{/returnType}}
-    {{^returnType}}return err{{/returnType}}
+
+    //{{#returnType}}var response {{returnType}}
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err{{/returnType}}
+    //{{^returnType}}return err{{/returnType}}
 }
 {{/operation}}
 {{/operations}}

@@ -1,6 +1,7 @@
 package swagger
 
 import (
+//    "encoding/json"
     "strings"
     "fmt"
 //    "log"
@@ -30,8 +31,8 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
  * Returns a map of status codes to quantities
  * @return map[string]int32
  */
+//func (a StoreApi) getInventory () (map[string]int32, error) {
 func (a StoreApi) getInventory () (map[string]int32, error) {
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -51,16 +52,26 @@ func (a StoreApi) getInventory () (map[string]int32, error) {
 
     
 
-    req, err := _sling.Request()
+    
+    var response map[string]int32
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("getInventory response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "map", "map")
-    return req, err
-    
+
+    //var response map[string]int32
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Place an order for a pet
@@ -68,8 +79,8 @@ func (a StoreApi) getInventory () (map[string]int32, error) {
  * @param body order placed for purchasing the pet
  * @return Order
  */
+//func (a StoreApi) placeOrder (body Order) (Order, error) {
 func (a StoreApi) placeOrder (body Order) (Order, error) {
-    
 
     _sling := a.sling.Post(a.basePath)
 
@@ -93,16 +104,26 @@ func (a StoreApi) placeOrder (body Order) (Order, error) {
     //bodyParams["body"] = string(b)
     
 
-    req, err := _sling.Request()
+    
+    var response Order
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("placeOrder response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "", "Order")
-    return req, err
-    
+
+    //var response Order
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Find purchase order by ID
@@ -110,13 +131,8 @@ func (a StoreApi) placeOrder (body Order) (Order, error) {
  * @param orderId ID of pet that needs to be fetched
  * @return Order
  */
+//func (a StoreApi) getOrderById (orderId string) (Order, error) {
 func (a StoreApi) getOrderById (orderId string) (Order, error) {
-    
-    // verify the required parameter 'orderId' is set
-    //if orderId == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'orderId' when calling getOrderById")
-    //}
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -139,16 +155,26 @@ func (a StoreApi) getOrderById (orderId string) (Order, error) {
 
     
 
-    req, err := _sling.Request()
+    
+    var response Order
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("getOrderById response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "", "Order")
-    return req, err
-    
+
+    //var response Order
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Delete purchase order by ID
@@ -156,13 +182,8 @@ func (a StoreApi) getOrderById (orderId string) (Order, error) {
  * @param orderId ID of the order that needs to be deleted
  * @return void
  */
+//func (a StoreApi) deleteOrder (orderId string) (error) {
 func (a StoreApi) deleteOrder (orderId string) (error) {
-    
-    // verify the required parameter 'orderId' is set
-    //if orderId == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'orderId' when calling deleteOrder")
-    //}
-    
 
     _sling := a.sling.Delete(a.basePath)
 
@@ -185,14 +206,21 @@ func (a StoreApi) deleteOrder (orderId string) (error) {
 
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("deleteOrder response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
