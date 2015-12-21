@@ -1714,8 +1714,7 @@ public class DefaultCodegen {
      */
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type)
-            && type.indexOf(".") < 0;
+            && !languageSpecificPrimitives.contains(type);
     }
 
     protected List<Map<String, Object>> toExamples(Map<String, Object> examples) {
