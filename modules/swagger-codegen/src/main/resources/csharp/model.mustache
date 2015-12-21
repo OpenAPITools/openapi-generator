@@ -33,7 +33,7 @@ namespace {{packageName}}.Model
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue=true)]
         public {{{datatype}}} {{name}} { get; set; }
     {{/isEnum}}{{/vars}}
         /// <summary>
