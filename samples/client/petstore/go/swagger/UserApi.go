@@ -1,17 +1,13 @@
 package swagger
 
 import (
-//    "encoding/json"
     "strings"
     "fmt"
-//    "log"
     "github.com/dghubble/sling"
 )
 
 type UserApi struct {
     basePath  string
-    apiClient ApiClient
-    //sling *sling.Sling
 }
 
 func NewUserApi() *UserApi{

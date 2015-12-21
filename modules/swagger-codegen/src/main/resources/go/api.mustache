@@ -1,11 +1,9 @@
-package {{invokerPackage}}
+package {{packageName}}
 
 {{#operations}}
 import (
-//    "encoding/json"
     "strings"
     "fmt"
-//    "log"
     "github.com/dghubble/sling"
 {{#imports}}    "{{import}}"
 {{/imports}}
@@ -13,8 +11,6 @@ import (
 
 type {{classname}} struct {
     basePath  string
-    apiClient ApiClient
-    //sling *sling.Sling
 }
 
 func New{{classname}}() *{{classname}}{
