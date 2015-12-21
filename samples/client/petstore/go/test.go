@@ -2,16 +2,26 @@ package main
 
 import (
 	sw "./swagger"
+	"encoding/json"
 	"fmt"
 )
 
 func main() {
 
-	fmt.Println("hello world")
 	s := sw.NewPetApi()
-	//s.UpdatePetWithForm("2", "golang", "available")
 
-	// test Get
+	// test POST(body)
+	newPet := (sw.Pet{Id: 12830, Name: "gopher",
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"})
+
+	jsonNewPet, _ := json.Marshal(newPet)
+	fmt.Println("newPet:", string(jsonNewPet))
+	s.AddPet(newPet)
+
+	// test POST(form)
+	s.UpdatePetWithForm("12830", "golang", "available")
+
+	// test GET
 	resp, err := s.GetPetById(3)
 	fmt.Println("GetPetById: ", resp, err)
 

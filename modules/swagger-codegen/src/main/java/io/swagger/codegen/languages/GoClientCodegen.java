@@ -163,7 +163,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
         if(p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
@@ -175,6 +174,12 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
             return getSwaggerType(p) + "[string]" + getTypeDeclaration(inner);
         }
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String getSwaggerType(Property p) {
+        String swaggerType = super.getSwaggerType(p);
         String type = null;
         if(typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);

@@ -1,6 +1,7 @@
 package swagger
 
 import (
+    "time"
 )
 
 type Order struct {
