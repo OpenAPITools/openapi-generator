@@ -128,8 +128,8 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
 
         // camelize (lower first character) the variable name
-        // pet_id => petId
-        name = camelize(name, true);
+        // pet_id => PetId
+        name = camelize(name);
 
         // for reserved word or word starting with number, append _
         if(reservedWords.contains(name) || name.matches("^\\d.*"))
@@ -163,7 +163,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Property p) {
-        LOGGER.info("getTypeDeclaration=" + p.getName());
+        String swaggerType = getSwaggerType(p);
         if(p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
@@ -175,14 +175,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
             return getSwaggerType(p) + "[string]" + getTypeDeclaration(inner);
         }
-        LOGGER.info("super.getTypeDeclaration=" + super.getTypeDeclaration(p));
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        LOGGER.info("swaggerType=" + swaggerType);
         String type = null;
         if(typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -200,7 +192,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         if(reservedWords.contains(operationId))
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
 
-        return camelize(operationId, true);
+        return camelize(operationId);
     }
 
     @Override

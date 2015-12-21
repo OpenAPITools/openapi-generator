@@ -11,7 +11,7 @@ import (
 type UserApi struct {
     basePath  string
     apiClient ApiClient
-    sling *sling.Sling
+    //sling *sling.Sling
 }
 
 func NewUserApi() *UserApi{
@@ -29,399 +29,250 @@ func NewUserApiWithBasePath(basePath string) *UserApi{
 /**
  * Create user
  * This can only be done by the logged in user.
- * @param body Created user object
+ * @param Body Created user object
  * @return void
  */
-//func (a UserApi) createUser (body User) (error) {
-func (a UserApi) createUser (body User) (error) {
+//func (a UserApi) CreateUser (Body User) (error) {
+func (a UserApi) CreateUser (Body User) (error) {
 
-    _sling := a.sling.Post(a.basePath)
+    _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/user"
-    
+    path := "/v2/user"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
 
-    // body params
-    _sling = _sling.BodyJSON(body)
-    //b, _ := json.Marshal(body)
-    //bodyParams["body"] = string(b)
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("createUser response: void, ", resp, err)
+    fmt.Println("CreateUser response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Creates list of users with given input array
  * 
- * @param body List of user object
+ * @param Body List of user object
  * @return void
  */
-//func (a UserApi) createUsersWithArrayInput (body []User) (error) {
-func (a UserApi) createUsersWithArrayInput (body []User) (error) {
+//func (a UserApi) CreateUsersWithArrayInput (Body []User) (error) {
+func (a UserApi) CreateUsersWithArrayInput (Body []User) (error) {
 
-    _sling := a.sling.Post(a.basePath)
+    _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/user/createWithArray"
-    
+    path := "/v2/user/createWithArray"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
 
-    // body params
-    _sling = _sling.BodyJSON(body)
-    //b, _ := json.Marshal(body)
-    //bodyParams["body"] = string(b)
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("createUsersWithArrayInput response: void, ", resp, err)
+    fmt.Println("CreateUsersWithArrayInput response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Creates list of users with given input array
  * 
- * @param body List of user object
+ * @param Body List of user object
  * @return void
  */
-//func (a UserApi) createUsersWithListInput (body []User) (error) {
-func (a UserApi) createUsersWithListInput (body []User) (error) {
+//func (a UserApi) CreateUsersWithListInput (Body []User) (error) {
+func (a UserApi) CreateUsersWithListInput (Body []User) (error) {
 
-    _sling := a.sling.Post(a.basePath)
+    _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/user/createWithList"
-    
+    path := "/v2/user/createWithList"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
 
-    // body params
-    _sling = _sling.BodyJSON(body)
-    //b, _ := json.Marshal(body)
-    //bodyParams["body"] = string(b)
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("createUsersWithListInput response: void, ", resp, err)
+    fmt.Println("CreateUsersWithListInput response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Logs user into the system
  * 
- * @param username The user name for login
- * @param password The password for login in clear text
+ * @param Username The user name for login
+ * @param Password The password for login in clear text
  * @return string
  */
-//func (a UserApi) loginUser (username string, password string) (string, error) {
-func (a UserApi) loginUser (username string, password string) (string, error) {
+//func (a UserApi) LoginUser (Username string, Password string) (string, error) {
+func (a UserApi) LoginUser (Username string, Password string) (string, error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/user/login"
-    
+    path := "/v2/user/login"
 
     _sling = _sling.Path(path)
 
     type QueryParams struct {
-        username    string `url:"username,omitempty"`
-        password    string `url:"password,omitempty"`
+        Username    string `url:"username,omitempty"`
+        Password    string `url:"password,omitempty"`
         
+}
+    _sling = _sling.QueryStruct(&QueryParams{ Username: Username,Password: Password })
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
     }
 
-    _sling = _sling.QueryStruct(&QueryParams{ username: username,password: password })
-    
 
-    
 
-    //contentTypes := []string {  }
-
-    
-
-    
-
-    
-    var response string
+    response := new(string)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("loginUser response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "", "string")
-
-    //var response string
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("LoginUser response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Logs out current logged in user session
  * 
  * @return void
  */
-//func (a UserApi) logoutUser () (error) {
-func (a UserApi) logoutUser () (error) {
+//func (a UserApi) LogoutUser () (error) {
+func (a UserApi) LogoutUser () (error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/user/logout"
-    
+    path := "/v2/user/logout"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
 
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("logoutUser response: void, ", resp, err)
+    fmt.Println("LogoutUser response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Get user by user name
  * 
- * @param username The name that needs to be fetched. Use user1 for testing.
+ * @param Username The name that needs to be fetched. Use user1 for testing.
  * @return User
  */
-//func (a UserApi) getUserByName (username string) (User, error) {
-func (a UserApi) getUserByName (username string) (User, error) {
+//func (a UserApi) GetUserByName (Username string) (User, error) {
+func (a UserApi) GetUserByName (Username string) (User, error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/user/{username}"
-    //path = regexp.MustCompile("{" + "username" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "username" + "\\}", ApiClient.EscapeString(username))
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%b", username), -1)
-    
+    path := "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", Username), -1)
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
-
-    
-
-    
-    var response User
+    response := new(User)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("getUserByName response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "", "User")
-
-    //var response User
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("GetUserByName response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Updated user
  * This can only be done by the logged in user.
- * @param username name that need to be deleted
- * @param body Updated user object
+ * @param Username name that need to be deleted
+ * @param Body Updated user object
  * @return void
  */
-//func (a UserApi) updateUser (username string, body User) (error) {
-func (a UserApi) updateUser (username string, body User) (error) {
+//func (a UserApi) UpdateUser (Username string, Body User) (error) {
+func (a UserApi) UpdateUser (Username string, Body User) (error) {
 
-    _sling := a.sling.Put(a.basePath)
+    _sling := sling.New().Put(a.basePath)
 
     // create path and map variables
-    path := "/user/{username}"
-    //path = regexp.MustCompile("{" + "username" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "username" + "\\}", ApiClient.EscapeString(username))
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%b", username), -1)
-    
+    path := "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", Username), -1)
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
 
-    // body params
-    _sling = _sling.BodyJSON(body)
-    //b, _ := json.Marshal(body)
-    //bodyParams["body"] = string(b)
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("updateUser response: void, ", resp, err)
+    fmt.Println("UpdateUser response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Put", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Delete user
  * This can only be done by the logged in user.
- * @param username The name that needs to be deleted
+ * @param Username The name that needs to be deleted
  * @return void
  */
-//func (a UserApi) deleteUser (username string) (error) {
-func (a UserApi) deleteUser (username string) (error) {
+//func (a UserApi) DeleteUser (Username string) (error) {
+func (a UserApi) DeleteUser (Username string) (error) {
 
-    _sling := a.sling.Delete(a.basePath)
+    _sling := sling.New().Delete(a.basePath)
 
     // create path and map variables
-    path := "/user/{username}"
-    //path = regexp.MustCompile("{" + "username" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "username" + "\\}", ApiClient.EscapeString(username))
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%b", username), -1)
-    
+    path := "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", Username), -1)
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
 
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("deleteUser response: void, ", resp, err)
+    fmt.Println("DeleteUser response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }

@@ -657,7 +657,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         for (String nextImport : allImports) {
             Map<String, String> im = new LinkedHashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
-            LOGGER.info("mapping = " + mapping);
             if (mapping == null) {
                 mapping = config.toModelImport(nextImport);
             }
@@ -704,7 +703,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
         for (String nextImport : allImports) {
-            LOGGER.info("nextImport=" + nextImport);
             Map<String, String> im = new LinkedHashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
@@ -713,14 +711,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (mapping != null && !config.defaultIncludes().contains(mapping)) {
                 im.put("import", mapping);
                 imports.add(im);
-                LOGGER.info("config.importMaping added " + mapping);
             }
             // add instantiation types
             mapping = config.instantiationTypes().get(nextImport);
             if (mapping != null && !config.defaultIncludes().contains(mapping)) {
                 im.put("import", mapping);
                 imports.add(im);
-                LOGGER.info("config.instantiationTypes added " + mapping);
             }
         }
 
