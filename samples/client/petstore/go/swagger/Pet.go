@@ -4,11 +4,11 @@ import (
 )
 
 type Pet struct {
-    id  int64  `json:"id,omitempty"`
-    category  Category  `json:"category,omitempty"`
-    name  string  `json:"name,omitempty"`
-    photoUrls  []string  `json:"photoUrls,omitempty"`
-    tags  []Tag  `json:"tags,omitempty"`
-    status  string  `json:"status,omitempty"`
+    Id  int64  `json:"id,omitempty"`
+    Category  Category  `json:"category,omitempty"`
+    Name  string  `json:"name,omitempty"`
+    PhotoUrls  []string  `json:"photoUrls,omitempty"`
+    Tags  []Tag  `json:"tags,omitempty"`
+    Status  string  `json:"status,omitempty"`
     
 }

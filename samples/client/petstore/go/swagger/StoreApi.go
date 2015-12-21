@@ -11,7 +11,7 @@ import (
 type StoreApi struct {
     basePath  string
     apiClient ApiClient
-    sling *sling.Sling
+    //sling *sling.Sling
 }
 
 func NewStoreApi() *StoreApi{
@@ -31,196 +31,119 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
  * Returns a map of status codes to quantities
  * @return map[string]int32
  */
-//func (a StoreApi) getInventory () (map[string]int32, error) {
-func (a StoreApi) getInventory () (map[string]int32, error) {
+//func (a StoreApi) GetInventory () (map[string]int32, error) {
+func (a StoreApi) GetInventory () (map[string]int32, error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/store/inventory"
-    
+    path := "/v2/store/inventory"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
-
-    
-
-    
-    var response map[string]int32
+    response := new(map[string]int32)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("getInventory response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "map", "map")
-
-    //var response map[string]int32
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("GetInventory response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Place an order for a pet
  * 
- * @param body order placed for purchasing the pet
+ * @param Body order placed for purchasing the pet
  * @return Order
  */
-//func (a StoreApi) placeOrder (body Order) (Order, error) {
-func (a StoreApi) placeOrder (body Order) (Order, error) {
+//func (a StoreApi) PlaceOrder (Body Order) (Order, error) {
+func (a StoreApi) PlaceOrder (Body Order) (Order, error) {
 
-    _sling := a.sling.Post(a.basePath)
+    _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/store/order"
-    
+    path := "/v2/store/order"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
-
-    // body params
-    _sling = _sling.BodyJSON(body)
-    //b, _ := json.Marshal(body)
-    //bodyParams["body"] = string(b)
-    
-
-    
-    var response Order
+    response := new(Order)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("placeOrder response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "", "Order")
-
-    //var response Order
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("PlaceOrder response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Find purchase order by ID
  * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
- * @param orderId ID of pet that needs to be fetched
+ * @param OrderId ID of pet that needs to be fetched
  * @return Order
  */
-//func (a StoreApi) getOrderById (orderId string) (Order, error) {
-func (a StoreApi) getOrderById (orderId string) (Order, error) {
+//func (a StoreApi) GetOrderById (OrderId string) (Order, error) {
+func (a StoreApi) GetOrderById (OrderId string) (Order, error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/store/order/{orderId}"
-    //path = regexp.MustCompile("{" + "orderId" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "orderId" + "\\}", ApiClient.EscapeString(orderId))
-    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%b", orderId), -1)
-    
+    path := "/v2/store/order/{orderId}"
+    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", OrderId), -1)
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
-
-    
-
-    
-    var response Order
+    response := new(Order)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("getOrderById response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "", "Order")
-
-    //var response Order
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("GetOrderById response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Delete purchase order by ID
  * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
- * @param orderId ID of the order that needs to be deleted
+ * @param OrderId ID of the order that needs to be deleted
  * @return void
  */
-//func (a StoreApi) deleteOrder (orderId string) (error) {
-func (a StoreApi) deleteOrder (orderId string) (error) {
+//func (a StoreApi) DeleteOrder (OrderId string) (error) {
+func (a StoreApi) DeleteOrder (OrderId string) (error) {
 
-    _sling := a.sling.Delete(a.basePath)
+    _sling := sling.New().Delete(a.basePath)
 
     // create path and map variables
-    path := "/store/order/{orderId}"
-    //path = regexp.MustCompile("{" + "orderId" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "orderId" + "\\}", ApiClient.EscapeString(orderId))
-    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%b", orderId), -1)
-    
+    path := "/v2/store/order/{orderId}"
+    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", OrderId), -1)
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
 
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("deleteOrder response: void, ", resp, err)
+    fmt.Println("DeleteOrder response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }

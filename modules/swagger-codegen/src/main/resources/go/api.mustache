@@ -14,7 +14,7 @@ import (
 type {{classname}} struct {
     basePath  string
     apiClient ApiClient
-    sling *sling.Sling
+    //sling *sling.Sling
 }
 
 func New{{classname}}() *{{classname}}{
@@ -39,68 +39,49 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 //func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 
-    _sling := a.sling.{{httpMethod}}(a.basePath)
+    _sling := sling.New().{{httpMethod}}(a.basePath)
 
     // create path and map variables
-    path := "{{path}}"
-    {{#pathParams}}//path = regexp.MustCompile("{" + "{{paramName}}" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "{{paramName}}" + "\\}", ApiClient.EscapeString({{{paramName}}}))
-    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%b", {{paramName}}), -1)
-    {{/pathParams}}
+    path := "{{basePathWithoutHost}}{{path}}"
+{{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
+{{/pathParams}}
 
     _sling = _sling.Path(path)
 
-    {{#hasQueryParams}}type QueryParams struct {
+{{#hasQueryParams}}    type QueryParams struct {
         {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
         {{/queryParams}}
+}
+    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
+{{/hasQueryParams}}
+    // accept header
+    accepts := []string { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
     }
-
-    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{paramName}}: {{baseName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
-    {{/hasQueryParams}}
-
-    {{#headerParams}}// header params "{{baseName}}"
+{{#hasHeaderParams}}{{#headerParams}}    // header params "{{baseName}}"
     _sling = _sling.Set("{{baseName}}", {{paramName}})
-    {{/headerParams}}
-
-    //contentTypes := []string { {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}} }
-
-    {{#hasFormParams}}type FormParams struct {
-        {{#formParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
-        {{/formParams}}
+{{/headerParams}}{{/hasHeaderParams}}
+{{#hasFormParams}}    type FormParams struct {
+{{#formParams}}        {{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+{{/formParams}}
     }
-    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{paramName}}: {{baseName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
-    {{/hasFormParams}}
-
-    {{#bodyParams}}// body params
+    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
+{{/hasFormParams}}
+{{#hasBodyParams}}{{#bodyParams}}// body params
     _sling = _sling.BodyJSON({{paramName}})
-    //b, _ := json.Marshal(body)
-    //bodyParams["{{baseName}}"] = string(b)
-    {{/bodyParams}}
+{{/bodyParams}}{{/hasBodyParams}}
 
-    {{#returnType}}
-    var response {{returnType}}
+{{#returnType}}    response := new({{returnType}})
     resp, err := _sling.ReceiveSuccess(response)
     fmt.Println("{{operationId}} response: ", response, resp, err)
-    return response, err
-    {{/returnType}}{{^returnType}}
+    return *response, err
+{{/returnType}}{{^returnType}}
     resp, err := _sling.Request()
     fmt.Println("{{operationId}} response: void, ", resp, err)
     return err
-    {{/returnType}}
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "{{httpMethod}}", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //{{#returnType}}ApiClient.Deserialize(response, "{{returnContainer}}", "{{returnBaseType}}"){{/returnType}}
-
-    //{{#returnType}}var response {{returnType}}
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err{{/returnType}}
-    //{{^returnType}}return err{{/returnType}}
+{{/returnType}}
 }
 {{/operation}}
 {{/operations}}

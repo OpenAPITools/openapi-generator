@@ -4,13 +4,13 @@ import (
 )
 
 type User struct {
-    id  int64  `json:"id,omitempty"`
-    username  string  `json:"username,omitempty"`
-    firstName  string  `json:"firstName,omitempty"`
-    lastName  string  `json:"lastName,omitempty"`
-    email  string  `json:"email,omitempty"`
-    password  string  `json:"password,omitempty"`
-    phone  string  `json:"phone,omitempty"`
-    userStatus  int32  `json:"userStatus,omitempty"`
+    Id  int64  `json:"id,omitempty"`
+    Username  string  `json:"username,omitempty"`
+    FirstName  string  `json:"firstName,omitempty"`
+    LastName  string  `json:"lastName,omitempty"`
+    Email  string  `json:"email,omitempty"`
+    Password  string  `json:"password,omitempty"`
+    Phone  string  `json:"phone,omitempty"`
+    UserStatus  int32  `json:"userStatus,omitempty"`
     
 }

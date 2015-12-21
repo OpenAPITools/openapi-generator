@@ -6,13 +6,12 @@ import (
     "fmt"
 //    "log"
     "github.com/dghubble/sling"
-    "os"
 )
 
 type PetApi struct {
     basePath  string
     apiClient ApiClient
-    sling *sling.Sling
+    //sling *sling.Sling
 }
 
 func NewPetApi() *PetApi{
@@ -30,420 +29,271 @@ func NewPetApiWithBasePath(basePath string) *PetApi{
 /**
  * Update an existing pet
  * 
- * @param body Pet object that needs to be added to the store
+ * @param Body Pet object that needs to be added to the store
  * @return void
  */
-//func (a PetApi) updatePet (body Pet) (error) {
-func (a PetApi) updatePet (body Pet) (error) {
+//func (a PetApi) UpdatePet (Body Pet) (error) {
+func (a PetApi) UpdatePet (Body Pet) (error) {
 
-    _sling := a.sling.Put(a.basePath)
+    _sling := sling.New().Put(a.basePath)
 
     // create path and map variables
-    path := "/pet"
-    
+    path := "/v2/pet"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string { "application/json","application/xml" }
 
-    
 
-    // body params
-    _sling = _sling.BodyJSON(body)
-    //b, _ := json.Marshal(body)
-    //bodyParams["body"] = string(b)
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("updatePet response: void, ", resp, err)
+    fmt.Println("UpdatePet response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Put", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Add a new pet to the store
  * 
- * @param body Pet object that needs to be added to the store
+ * @param Body Pet object that needs to be added to the store
  * @return void
  */
-//func (a PetApi) addPet (body Pet) (error) {
-func (a PetApi) addPet (body Pet) (error) {
+//func (a PetApi) AddPet (Body Pet) (error) {
+func (a PetApi) AddPet (Body Pet) (error) {
 
-    _sling := a.sling.Post(a.basePath)
+    _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/pet"
-    
+    path := "/v2/pet"
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string { "application/json","application/xml" }
 
-    
 
-    // body params
-    _sling = _sling.BodyJSON(body)
-    //b, _ := json.Marshal(body)
-    //bodyParams["body"] = string(b)
-    
-
-    
     resp, err := _sling.Request()
-    fmt.Println("addPet response: void, ", resp, err)
+    fmt.Println("AddPet response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Finds Pets by status
  * Multiple status values can be provided with comma seperated strings
- * @param status Status values that need to be considered for filter
+ * @param Status Status values that need to be considered for filter
  * @return []Pet
  */
-//func (a PetApi) findPetsByStatus (status []string) ([]Pet, error) {
-func (a PetApi) findPetsByStatus (status []string) ([]Pet, error) {
+//func (a PetApi) FindPetsByStatus (Status []string) ([]Pet, error) {
+func (a PetApi) FindPetsByStatus (Status []string) ([]Pet, error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/pet/findByStatus"
-    
+    path := "/v2/pet/findByStatus"
 
     _sling = _sling.Path(path)
 
     type QueryParams struct {
-        status    []string `url:"status,omitempty"`
+        Status    []string `url:"status,omitempty"`
         
+}
+    _sling = _sling.QueryStruct(&QueryParams{ Status: Status })
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
     }
 
-    _sling = _sling.QueryStruct(&QueryParams{ status: status })
-    
 
-    
 
-    //contentTypes := []string {  }
-
-    
-
-    
-
-    
-    var response []Pet
+    response := new([]Pet)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("findPetsByStatus response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "array", "Pet")
-
-    //var response []Pet
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("FindPetsByStatus response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Finds Pets by tags
  * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
- * @param tags Tags to filter by
+ * @param Tags Tags to filter by
  * @return []Pet
  */
-//func (a PetApi) findPetsByTags (tags []string) ([]Pet, error) {
-func (a PetApi) findPetsByTags (tags []string) ([]Pet, error) {
+//func (a PetApi) FindPetsByTags (Tags []string) ([]Pet, error) {
+func (a PetApi) FindPetsByTags (Tags []string) ([]Pet, error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/pet/findByTags"
-    
+    path := "/v2/pet/findByTags"
 
     _sling = _sling.Path(path)
 
     type QueryParams struct {
-        tags    []string `url:"tags,omitempty"`
+        Tags    []string `url:"tags,omitempty"`
         
+}
+    _sling = _sling.QueryStruct(&QueryParams{ Tags: Tags })
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
     }
 
-    _sling = _sling.QueryStruct(&QueryParams{ tags: tags })
-    
 
-    
 
-    //contentTypes := []string {  }
-
-    
-
-    
-
-    
-    var response []Pet
+    response := new([]Pet)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("findPetsByTags response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "array", "Pet")
-
-    //var response []Pet
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("FindPetsByTags response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Find pet by ID
  * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
- * @param petId ID of pet that needs to be fetched
+ * @param PetId ID of pet that needs to be fetched
  * @return Pet
  */
-//func (a PetApi) getPetById (petId int64) (Pet, error) {
-func (a PetApi) getPetById (petId int64) (Pet, error) {
+//func (a PetApi) GetPetById (PetId int64) (Pet, error) {
+func (a PetApi) GetPetById (PetId int64) (Pet, error) {
 
-    _sling := a.sling.Get(a.basePath)
+    _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/pet/{petId}"
-    //path = regexp.MustCompile("{" + "petId" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "petId" + "\\}", ApiClient.EscapeString(petId))
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%b", petId), -1)
-    
+    path := "/v2/pet/{petId}"
+    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", PetId), -1)
 
     _sling = _sling.Path(path)
 
-    
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
-    
 
-    //contentTypes := []string {  }
 
-    
-
-    
-
-    
-    var response Pet
+    response := new(Pet)
     resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("getPetById response: ", response, resp, err)
-    return response, err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //ApiClient.Deserialize(response, "", "Pet")
-
-    //var response Pet
-    //err = json.Unmarshal([]byte(req), &response)
-    //return response, err
-    //
+    fmt.Println("GetPetById response: ", response, resp, err)
+    return *response, err
 }
 /**
  * Updates a pet in the store with form data
  * 
- * @param petId ID of pet that needs to be updated
- * @param name Updated name of the pet
- * @param status Updated status of the pet
+ * @param PetId ID of pet that needs to be updated
+ * @param Name Updated name of the pet
+ * @param Status Updated status of the pet
  * @return void
  */
-//func (a PetApi) updatePetWithForm (petId string, name string, status string) (error) {
-func (a PetApi) updatePetWithForm (petId string, name string, status string) (error) {
+//func (a PetApi) UpdatePetWithForm (PetId string, Name string, Status string) (error) {
+func (a PetApi) UpdatePetWithForm (PetId string, Name string, Status string) (error) {
 
-    _sling := a.sling.Post(a.basePath)
+    _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/pet/{petId}"
-    //path = regexp.MustCompile("{" + "petId" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "petId" + "\\}", ApiClient.EscapeString(petId))
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%b", petId), -1)
-    
+    path := "/v2/pet/{petId}"
+    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", PetId), -1)
 
     _sling = _sling.Path(path)
 
-    
-
-    
-
-    //contentTypes := []string { "application/x-www-form-urlencoded" }
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
     type FormParams struct {
-        name    string `url:"name,omitempty"`
-        status    string `url:"status,omitempty"`
-        
+        Name    string `url:"name,omitempty"`
+        Status    string `url:"status,omitempty"`
     }
-    _sling = _sling.BodyForm(&FormParams{ name: name,status: status })
-    
+    _sling = _sling.BodyForm(&FormParams{ Name: Name,Status: Status })
 
-    
 
-    
+
     resp, err := _sling.Request()
-    fmt.Println("updatePetWithForm response: void, ", resp, err)
+    fmt.Println("UpdatePetWithForm response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * Deletes a pet
  * 
- * @param petId Pet id to delete
- * @param apiKey 
+ * @param PetId Pet id to delete
+ * @param ApiKey 
  * @return void
  */
-//func (a PetApi) deletePet (petId int64, apiKey string) (error) {
-func (a PetApi) deletePet (petId int64, apiKey string) (error) {
+//func (a PetApi) DeletePet (PetId int64, ApiKey string) (error) {
+func (a PetApi) DeletePet (PetId int64, ApiKey string) (error) {
 
-    _sling := a.sling.Delete(a.basePath)
+    _sling := sling.New().Delete(a.basePath)
 
     // create path and map variables
-    path := "/pet/{petId}"
-    //path = regexp.MustCompile("{" + "petId" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "petId" + "\\}", ApiClient.EscapeString(petId))
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%b", petId), -1)
-    
+    path := "/v2/pet/{petId}"
+    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", PetId), -1)
 
     _sling = _sling.Path(path)
 
-    
-
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
     // header params "api_key"
-    _sling = _sling.Set("api_key", apiKey)
-    
+    _sling = _sling.Set("api_key", ApiKey)
 
-    //contentTypes := []string {  }
 
-    
 
-    
 
-    
     resp, err := _sling.Request()
-    fmt.Println("deletePet response: void, ", resp, err)
+    fmt.Println("DeletePet response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
 /**
  * uploads an image
  * 
- * @param petId ID of pet to update
- * @param additionalMetadata Additional data to pass to server
- * @param file file to upload
+ * @param PetId ID of pet to update
+ * @param AdditionalMetadata Additional data to pass to server
+ * @param File file to upload
  * @return void
  */
-//func (a PetApi) uploadFile (petId int64, additionalMetadata string, file *os.File) (error) {
-func (a PetApi) uploadFile (petId int64, additionalMetadata string, file *os.File) (error) {
+//func (a PetApi) UploadFile (PetId int64, AdditionalMetadata string, File *os.File) (error) {
+func (a PetApi) UploadFile (PetId int64, AdditionalMetadata string, File *os.File) (error) {
 
-    _sling := a.sling.Post(a.basePath)
+    _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/pet/{petId}/uploadImage"
-    //path = regexp.MustCompile("{" + "petId" + "}").ReplaceAllString(path, "$1")
-    //path = path.Replace("\\{" + "petId" + "\\}", ApiClient.EscapeString(petId))
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%b", petId), -1)
-    
+    path := "/v2/pet/{petId}/uploadImage"
+    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", PetId), -1)
 
     _sling = _sling.Path(path)
 
-    
-
-    
-
-    //contentTypes := []string { "multipart/form-data" }
+    // accept header
+    accepts := []string { "application/json", "application/xml" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
 
     type FormParams struct {
-        additionalMetadata    string `url:"additionalMetadata,omitempty"`
-        file    *os.File `url:"file,omitempty"`
-        
+        AdditionalMetadata    string `url:"additionalMetadata,omitempty"`
+        File    *os.File `url:"file,omitempty"`
     }
-    _sling = _sling.BodyForm(&FormParams{ additionalMetadata: additionalMetadata,file: file })
-    
+    _sling = _sling.BodyForm(&FormParams{ AdditionalMetadata: AdditionalMetadata,File: File })
 
-    
 
-    
+
     resp, err := _sling.Request()
-    fmt.Println("uploadFile response: void, ", resp, err)
+    fmt.Println("UploadFile response: void, ", resp, err)
     return err
-    
-
-    
-
-    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
-    //if err != nil {
-    //    log.Fatal(err)
-    //}
-
-    //
-
-    //
-    //return err
 }
