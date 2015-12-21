@@ -1,6 +1,7 @@
 package swagger
 
 import (
+//    "encoding/json"
     "strings"
     "fmt"
 //    "log"
@@ -31,8 +32,8 @@ func NewUserApiWithBasePath(basePath string) *UserApi{
  * @param body Created user object
  * @return void
  */
+//func (a UserApi) createUser (body User) (error) {
 func (a UserApi) createUser (body User) (error) {
-    
 
     _sling := a.sling.Post(a.basePath)
 
@@ -56,16 +57,23 @@ func (a UserApi) createUser (body User) (error) {
     //bodyParams["body"] = string(b)
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("createUser response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Creates list of users with given input array
@@ -73,8 +81,8 @@ func (a UserApi) createUser (body User) (error) {
  * @param body List of user object
  * @return void
  */
+//func (a UserApi) createUsersWithArrayInput (body []User) (error) {
 func (a UserApi) createUsersWithArrayInput (body []User) (error) {
-    
 
     _sling := a.sling.Post(a.basePath)
 
@@ -98,16 +106,23 @@ func (a UserApi) createUsersWithArrayInput (body []User) (error) {
     //bodyParams["body"] = string(b)
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("createUsersWithArrayInput response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Creates list of users with given input array
@@ -115,8 +130,8 @@ func (a UserApi) createUsersWithArrayInput (body []User) (error) {
  * @param body List of user object
  * @return void
  */
+//func (a UserApi) createUsersWithListInput (body []User) (error) {
 func (a UserApi) createUsersWithListInput (body []User) (error) {
-    
 
     _sling := a.sling.Post(a.basePath)
 
@@ -140,16 +155,23 @@ func (a UserApi) createUsersWithListInput (body []User) (error) {
     //bodyParams["body"] = string(b)
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("createUsersWithListInput response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Logs user into the system
@@ -158,8 +180,8 @@ func (a UserApi) createUsersWithListInput (body []User) (error) {
  * @param password The password for login in clear text
  * @return string
  */
+//func (a UserApi) loginUser (username string, password string) (string, error) {
 func (a UserApi) loginUser (username string, password string) (string, error) {
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -169,7 +191,6 @@ func (a UserApi) loginUser (username string, password string) (string, error) {
 
     _sling = _sling.Path(path)
 
-    
     type QueryParams struct {
         username    string `url:"username,omitempty"`
         password    string `url:"password,omitempty"`
@@ -187,24 +208,34 @@ func (a UserApi) loginUser (username string, password string) (string, error) {
 
     
 
-    req, err := _sling.Request()
+    
+    var response string
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("loginUser response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "", "string")
-    return req, err
-    
+
+    //var response string
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Logs out current logged in user session
  * 
  * @return void
  */
+//func (a UserApi) logoutUser () (error) {
 func (a UserApi) logoutUser () (error) {
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -224,16 +255,23 @@ func (a UserApi) logoutUser () (error) {
 
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("logoutUser response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Get user by user name
@@ -241,13 +279,8 @@ func (a UserApi) logoutUser () (error) {
  * @param username The name that needs to be fetched. Use user1 for testing.
  * @return User
  */
+//func (a UserApi) getUserByName (username string) (User, error) {
 func (a UserApi) getUserByName (username string) (User, error) {
-    
-    // verify the required parameter 'username' is set
-    //if username == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'username' when calling getUserByName")
-    //}
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -270,16 +303,26 @@ func (a UserApi) getUserByName (username string) (User, error) {
 
     
 
-    req, err := _sling.Request()
+    
+    var response User
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("getUserByName response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "", "User")
-    return req, err
-    
+
+    //var response User
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Updated user
@@ -288,13 +331,8 @@ func (a UserApi) getUserByName (username string) (User, error) {
  * @param body Updated user object
  * @return void
  */
+//func (a UserApi) updateUser (username string, body User) (error) {
 func (a UserApi) updateUser (username string, body User) (error) {
-    
-    // verify the required parameter 'username' is set
-    //if username == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'username' when calling updateUser")
-    //}
-    
 
     _sling := a.sling.Put(a.basePath)
 
@@ -321,16 +359,23 @@ func (a UserApi) updateUser (username string, body User) (error) {
     //bodyParams["body"] = string(b)
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("updateUser response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Put", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Put", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Delete user
@@ -338,13 +383,8 @@ func (a UserApi) updateUser (username string, body User) (error) {
  * @param username The name that needs to be deleted
  * @return void
  */
+//func (a UserApi) deleteUser (username string) (error) {
 func (a UserApi) deleteUser (username string) (error) {
-    
-    // verify the required parameter 'username' is set
-    //if username == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'username' when calling deleteUser")
-    //}
-    
 
     _sling := a.sling.Delete(a.basePath)
 
@@ -367,14 +407,21 @@ func (a UserApi) deleteUser (username string) (error) {
 
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("deleteUser response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }

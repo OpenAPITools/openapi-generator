@@ -1,6 +1,7 @@
 package swagger
 
 import (
+//    "encoding/json"
     "strings"
     "fmt"
 //    "log"
@@ -32,8 +33,8 @@ func NewPetApiWithBasePath(basePath string) *PetApi{
  * @param body Pet object that needs to be added to the store
  * @return void
  */
+//func (a PetApi) updatePet (body Pet) (error) {
 func (a PetApi) updatePet (body Pet) (error) {
-    
 
     _sling := a.sling.Put(a.basePath)
 
@@ -57,16 +58,23 @@ func (a PetApi) updatePet (body Pet) (error) {
     //bodyParams["body"] = string(b)
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("updatePet response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Put", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Put", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Add a new pet to the store
@@ -74,8 +82,8 @@ func (a PetApi) updatePet (body Pet) (error) {
  * @param body Pet object that needs to be added to the store
  * @return void
  */
+//func (a PetApi) addPet (body Pet) (error) {
 func (a PetApi) addPet (body Pet) (error) {
-    
 
     _sling := a.sling.Post(a.basePath)
 
@@ -99,16 +107,23 @@ func (a PetApi) addPet (body Pet) (error) {
     //bodyParams["body"] = string(b)
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("addPet response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Finds Pets by status
@@ -116,8 +131,8 @@ func (a PetApi) addPet (body Pet) (error) {
  * @param status Status values that need to be considered for filter
  * @return []Pet
  */
+//func (a PetApi) findPetsByStatus (status []string) ([]Pet, error) {
 func (a PetApi) findPetsByStatus (status []string) ([]Pet, error) {
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -127,7 +142,6 @@ func (a PetApi) findPetsByStatus (status []string) ([]Pet, error) {
 
     _sling = _sling.Path(path)
 
-    
     type QueryParams struct {
         status    []string `url:"status,omitempty"`
         
@@ -144,16 +158,26 @@ func (a PetApi) findPetsByStatus (status []string) ([]Pet, error) {
 
     
 
-    req, err := _sling.Request()
+    
+    var response []Pet
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("findPetsByStatus response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "array", "Pet")
-    return req, err
-    
+
+    //var response []Pet
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Finds Pets by tags
@@ -161,8 +185,8 @@ func (a PetApi) findPetsByStatus (status []string) ([]Pet, error) {
  * @param tags Tags to filter by
  * @return []Pet
  */
+//func (a PetApi) findPetsByTags (tags []string) ([]Pet, error) {
 func (a PetApi) findPetsByTags (tags []string) ([]Pet, error) {
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -172,7 +196,6 @@ func (a PetApi) findPetsByTags (tags []string) ([]Pet, error) {
 
     _sling = _sling.Path(path)
 
-    
     type QueryParams struct {
         tags    []string `url:"tags,omitempty"`
         
@@ -189,16 +212,26 @@ func (a PetApi) findPetsByTags (tags []string) ([]Pet, error) {
 
     
 
-    req, err := _sling.Request()
+    
+    var response []Pet
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("findPetsByTags response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "array", "Pet")
-    return req, err
-    
+
+    //var response []Pet
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Find pet by ID
@@ -206,13 +239,8 @@ func (a PetApi) findPetsByTags (tags []string) ([]Pet, error) {
  * @param petId ID of pet that needs to be fetched
  * @return Pet
  */
+//func (a PetApi) getPetById (petId int64) (Pet, error) {
 func (a PetApi) getPetById (petId int64) (Pet, error) {
-    
-    // verify the required parameter 'petId' is set
-    //if petId == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'petId' when calling getPetById")
-    //}
-    
 
     _sling := a.sling.Get(a.basePath)
 
@@ -235,16 +263,26 @@ func (a PetApi) getPetById (petId int64) (Pet, error) {
 
     
 
-    req, err := _sling.Request()
+    
+    var response Pet
+    resp, err := _sling.ReceiveSuccess(response)
+    fmt.Println("getPetById response: ", response, resp, err)
+    return response, err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Get", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //ApiClient.Deserialize(response, "", "Pet")
-    return req, err
-    
+
+    //var response Pet
+    //err = json.Unmarshal([]byte(req), &response)
+    //return response, err
+    //
 }
 /**
  * Updates a pet in the store with form data
@@ -254,13 +292,8 @@ func (a PetApi) getPetById (petId int64) (Pet, error) {
  * @param status Updated status of the pet
  * @return void
  */
+//func (a PetApi) updatePetWithForm (petId string, name string, status string) (error) {
 func (a PetApi) updatePetWithForm (petId string, name string, status string) (error) {
-    
-    // verify the required parameter 'petId' is set
-    //if petId == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'petId' when calling updatePetWithForm")
-    //}
-    
 
     _sling := a.sling.Post(a.basePath)
 
@@ -279,7 +312,6 @@ func (a PetApi) updatePetWithForm (petId string, name string, status string) (er
 
     //contentTypes := []string { "application/x-www-form-urlencoded" }
 
-    
     type FormParams struct {
         name    string `url:"name,omitempty"`
         status    string `url:"status,omitempty"`
@@ -290,16 +322,23 @@ func (a PetApi) updatePetWithForm (petId string, name string, status string) (er
 
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("updatePetWithForm response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * Deletes a pet
@@ -308,13 +347,8 @@ func (a PetApi) updatePetWithForm (petId string, name string, status string) (er
  * @param apiKey 
  * @return void
  */
+//func (a PetApi) deletePet (petId int64, apiKey string) (error) {
 func (a PetApi) deletePet (petId int64, apiKey string) (error) {
-    
-    // verify the required parameter 'petId' is set
-    //if petId == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'petId' when calling deletePet")
-    //}
-    
 
     _sling := a.sling.Delete(a.basePath)
 
@@ -339,16 +373,23 @@ func (a PetApi) deletePet (petId int64, apiKey string) (error) {
 
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("deletePet response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Delete", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
 /**
  * uploads an image
@@ -358,13 +399,8 @@ func (a PetApi) deletePet (petId int64, apiKey string) (error) {
  * @param file file to upload
  * @return void
  */
+//func (a PetApi) uploadFile (petId int64, additionalMetadata string, file *os.File) (error) {
 func (a PetApi) uploadFile (petId int64, additionalMetadata string, file *os.File) (error) {
-    
-    // verify the required parameter 'petId' is set
-    //if petId == nil {
-    //    return 0, fmt.Error("Missing the required parameter 'petId' when calling uploadFile")
-    //}
-    
 
     _sling := a.sling.Post(a.basePath)
 
@@ -383,7 +419,6 @@ func (a PetApi) uploadFile (petId int64, additionalMetadata string, file *os.Fil
 
     //contentTypes := []string { "multipart/form-data" }
 
-    
     type FormParams struct {
         additionalMetadata    string `url:"additionalMetadata,omitempty"`
         file    *os.File `url:"file,omitempty"`
@@ -394,14 +429,21 @@ func (a PetApi) uploadFile (petId int64, additionalMetadata string, file *os.Fil
 
     
 
-    req, err := _sling.Request()
+    
+    resp, err := _sling.Request()
+    fmt.Println("uploadFile response: void, ", resp, err)
+    return err
+    
 
-    /*response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
+    
+
+    //response, err := a.apiClient.CallApi(a.basePath, path, "Post", queryParams, headerParams, formParams, fileParams, bodyParams, contentTypes)
     //if err != nil {
     //    log.Fatal(err)
-    //} */
+    //}
 
     //
-    
-    return err
+
+    //
+    //return err
 }
