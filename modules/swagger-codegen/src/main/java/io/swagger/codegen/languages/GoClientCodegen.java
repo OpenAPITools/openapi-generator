@@ -16,10 +16,8 @@ import org.slf4j.LoggerFactory;
 public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
 
-    protected String invokerPackage = "swagger";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-go-client";
-    protected String artifactVersion = "1.0.0";
+    protected String packageName = "swagger";
+    protected String packageVersion = "1.0.0";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -39,8 +37,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".go");
         apiTemplateFiles.put("api.mustache", ".go");
         templateDir = "go";
-        apiPackage = invokerPackage;
-        modelPackage = invokerPackage;
 
         reservedWords = new HashSet<String> (
             Arrays.asList(
@@ -50,11 +46,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "const", "fallthrough", "if", "range", "type",
                 "continue", "for", "import", "return", "var")
         );
-
-        additionalProperties.put("invokerPackage", invokerPackage);
-        /*additionalProperties.put("groupId", groupId);
-        additionalProperties.put("artifactId", artifactId);
-        additionalProperties.put("artifactVersion", artifactVersion);*/
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
@@ -94,15 +85,47 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("Date", "time.Time");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
+        typeMapping.put("File", "*os.File");
         typeMapping.put("file", "*os.File");
-        //typeMapping.put("array", "array");
-        //typeMapping.put("map", "map");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
         importMapping.put("*os.File", "os");
 
+        cliOptions.clear();
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
+                .defaultValue("swagger"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
+                .defaultValue("1.0.0"));
+   
     }
+
+    @Override
+    public void processOpts() {
+        //super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+        else {
+            setPackageName("swagger");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        }
+        else {
+            setPackageVersion("1.0.0");
+        }
+
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+
+        modelPackage = packageName;
+        apiPackage = packageName;
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+    }    
 
     @Override
     public String escapeReservedWord(String name) {
@@ -111,11 +134,11 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + invokerPackage;
+        return outputFolder + File.separator + packageName;
     }
 
     public String modelFileFolder() {
-        return outputFolder + File.separator + invokerPackage;
+        return outputFolder + File.separator + packageName;
     }
 
     @Override
@@ -244,6 +267,14 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
             && !languageSpecificPrimitives.contains(type);
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
     }
 
 }

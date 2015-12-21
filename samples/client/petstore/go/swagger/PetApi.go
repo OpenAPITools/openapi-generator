@@ -1,18 +1,14 @@
 package swagger
 
 import (
-//    "encoding/json"
     "strings"
     "fmt"
-//    "log"
     "github.com/dghubble/sling"
     "os"
 )
 
 type PetApi struct {
     basePath  string
-    apiClient ApiClient
-    //sling *sling.Sling
 }
 
 func NewPetApi() *PetApi{
@@ -263,6 +259,35 @@ func (a PetApi) DeletePet (PetId int64, ApiKey string) (error) {
     _, err := _sling.ReceiveSuccess(nil)
     //fmt.Println("DeletePet response: void, ", resp, err)
     return err
+}
+/**
+ * downloads an image
+ * 
+ * @return *os.File
+ */
+//func (a PetApi) DownloadFile () (*os.File, error) {
+func (a PetApi) DownloadFile () (*os.File, error) {
+
+    _sling := sling.New().Get(a.basePath)
+
+    // create path and map variables
+    path := "/v2/pet/{petId}/downloadImage"
+
+    _sling = _sling.Path(path)
+
+    // accept header
+    accepts := []string { "application/octet-stream" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
+
+
+
+    response := new(*os.File)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("DownloadFile response: ", response, resp, err)
+    return *response, err
 }
 /**
  * uploads an image
