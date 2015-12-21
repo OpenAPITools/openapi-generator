@@ -25,7 +25,7 @@ import java.io.File;
 {{#operations}}
 public class {{classname}} {
   String basePath = "{{basePath}}";
-  ApiInvoker apiInvoker = ApiInvoker.getFInstance();
+  ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
     getInvoker().addDefaultHeader(key, value);
