@@ -6,6 +6,7 @@ import (
     "fmt"
 //    "log"
     "github.com/dghubble/sling"
+    "os"
 )
 
 type PetApi struct {
@@ -49,11 +50,13 @@ func (a PetApi) UpdatePet (Body Pet) (error) {
         break // only use the first Accept
     }
 
+// body params
+    _sling = _sling.BodyJSON(Body)
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("UpdatePet response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("UpdatePet response: void, ", resp, err)
     return err
 }
 /**
@@ -79,11 +82,13 @@ func (a PetApi) AddPet (Body Pet) (error) {
         break // only use the first Accept
     }
 
+// body params
+    _sling = _sling.BodyJSON(Body)
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("AddPet response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("AddPet response: void, ", resp, err)
     return err
 }
 /**
@@ -117,8 +122,8 @@ func (a PetApi) FindPetsByStatus (Status []string) ([]Pet, error) {
 
 
     response := new([]Pet)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("FindPetsByStatus response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("FindPetsByStatus response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -152,8 +157,8 @@ func (a PetApi) FindPetsByTags (Tags []string) ([]Pet, error) {
 
 
     response := new([]Pet)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("FindPetsByTags response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("FindPetsByTags response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -183,8 +188,8 @@ func (a PetApi) GetPetById (PetId int64) (Pet, error) {
 
 
     response := new(Pet)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("GetPetById response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("GetPetById response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -221,8 +226,8 @@ func (a PetApi) UpdatePetWithForm (PetId string, Name string, Status string) (er
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("UpdatePetWithForm response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("UpdatePetWithForm response: void, ", resp, err)
     return err
 }
 /**
@@ -255,8 +260,8 @@ func (a PetApi) DeletePet (PetId int64, ApiKey string) (error) {
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("DeletePet response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("DeletePet response: void, ", resp, err)
     return err
 }
 /**
@@ -293,7 +298,7 @@ func (a PetApi) UploadFile (PetId int64, AdditionalMetadata string, File *os.Fil
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("UploadFile response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("UploadFile response: void, ", resp, err)
     return err
 }

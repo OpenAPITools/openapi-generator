@@ -69,17 +69,17 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     }
     _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
 {{/hasFormParams}}
-{{#hasBodyParams}}{{#bodyParams}}// body params
+{{#hasBodyParam}}{{#bodyParams}}// body params
     _sling = _sling.BodyJSON({{paramName}})
-{{/bodyParams}}{{/hasBodyParams}}
+{{/bodyParams}}{{/hasBodyParam}}
 
 {{#returnType}}    response := new({{returnType}})
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("{{operationId}} response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("{{operationId}} response: ", response, resp, err)
     return *response, err
 {{/returnType}}{{^returnType}}
-    resp, err := _sling.Request()
-    fmt.Println("{{operationId}} response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("{{operationId}} response: void, ", resp, err)
     return err
 {{/returnType}}
 }

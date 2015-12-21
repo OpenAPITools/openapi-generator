@@ -49,11 +49,13 @@ func (a UserApi) CreateUser (Body User) (error) {
         break // only use the first Accept
     }
 
+// body params
+    _sling = _sling.BodyJSON(Body)
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("CreateUser response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("CreateUser response: void, ", resp, err)
     return err
 }
 /**
@@ -79,11 +81,13 @@ func (a UserApi) CreateUsersWithArrayInput (Body []User) (error) {
         break // only use the first Accept
     }
 
+// body params
+    _sling = _sling.BodyJSON(Body)
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("CreateUsersWithArrayInput response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("CreateUsersWithArrayInput response: void, ", resp, err)
     return err
 }
 /**
@@ -109,11 +113,13 @@ func (a UserApi) CreateUsersWithListInput (Body []User) (error) {
         break // only use the first Accept
     }
 
+// body params
+    _sling = _sling.BodyJSON(Body)
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("CreateUsersWithListInput response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("CreateUsersWithListInput response: void, ", resp, err)
     return err
 }
 /**
@@ -149,8 +155,8 @@ func (a UserApi) LoginUser (Username string, Password string) (string, error) {
 
 
     response := new(string)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("LoginUser response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("LoginUser response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -178,8 +184,8 @@ func (a UserApi) LogoutUser () (error) {
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("LogoutUser response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("LogoutUser response: void, ", resp, err)
     return err
 }
 /**
@@ -209,8 +215,8 @@ func (a UserApi) GetUserByName (Username string) (User, error) {
 
 
     response := new(User)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("GetUserByName response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("GetUserByName response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -238,11 +244,13 @@ func (a UserApi) UpdateUser (Username string, Body User) (error) {
         break // only use the first Accept
     }
 
+// body params
+    _sling = _sling.BodyJSON(Body)
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("UpdateUser response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("UpdateUser response: void, ", resp, err)
     return err
 }
 /**
@@ -272,7 +280,7 @@ func (a UserApi) DeleteUser (Username string) (error) {
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("DeleteUser response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("DeleteUser response: void, ", resp, err)
     return err
 }

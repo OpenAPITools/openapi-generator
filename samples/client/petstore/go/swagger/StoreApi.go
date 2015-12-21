@@ -51,8 +51,8 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
 
 
     response := new(map[string]int32)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("GetInventory response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("GetInventory response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -78,11 +78,13 @@ func (a StoreApi) PlaceOrder (Body Order) (Order, error) {
         break // only use the first Accept
     }
 
+// body params
+    _sling = _sling.BodyJSON(Body)
 
 
     response := new(Order)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("PlaceOrder response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("PlaceOrder response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -112,8 +114,8 @@ func (a StoreApi) GetOrderById (OrderId string) (Order, error) {
 
 
     response := new(Order)
-    resp, err := _sling.ReceiveSuccess(response)
-    fmt.Println("GetOrderById response: ", response, resp, err)
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("GetOrderById response: ", response, resp, err)
     return *response, err
 }
 /**
@@ -143,7 +145,7 @@ func (a StoreApi) DeleteOrder (OrderId string) (error) {
 
 
 
-    resp, err := _sling.Request()
-    fmt.Println("DeleteOrder response: void, ", resp, err)
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("DeleteOrder response: void, ", resp, err)
     return err
 }
