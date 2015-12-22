@@ -25,6 +25,7 @@ import java.util.TimeZone;
 
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.request.GetRequest;
 import {{invokerPackage}}.request.PostRequest;
 import {{invokerPackage}}.request.PutRequest;
@@ -174,6 +175,9 @@ public class ApiInvoker {
      {{#isApiKey}}
      INSTANCE.authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
      {{/isApiKey}}
+     {{#isBasic}}
+     INSTANCE.authentications.put("{{name}}", new HttpBasicAuth());
+     {{/isBasic}}
      {{/authMethods}}
      // Prevent the authentications from being modified.
      INSTANCE.authentications = Collections.unmodifiableMap(INSTANCE.authentications);
@@ -248,6 +252,31 @@ public class ApiInvoker {
     return authentications.get(authName);
   }
 
+  /**
+  * Helper method to set username for the first HTTP basic authentication.
+  */
+  public void setUsername(String username) {
+    for (Authentication auth : authentications.values()) {
+       if (auth instanceof HttpBasicAuth) {
+           ((HttpBasicAuth) auth).setUsername(username);
+           return;
+       }
+    }
+    throw new RuntimeException("No HTTP basic authentication configured!");
+  }
+
+  /**
+  * Helper method to set password for the first HTTP basic authentication.
+  */
+  public void setPassword(String password) {
+     for (Authentication auth : authentications.values()) {
+        if (auth instanceof HttpBasicAuth) {
+           ((HttpBasicAuth) auth).setPassword(password);
+           return;
+        }
+     }
+     throw new RuntimeException("No HTTP basic authentication configured!");
+  }
 
   /**
   * Helper method to set API key value for the first API key authentication.
