@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/swagger-api/swagger-codegen.png)](https://travis-ci.org/swagger-api/swagger-codegen)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project)
 
+:star::star::star: If you would like to contribute, please refer to [guidelines](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md) and a list of [open tasks](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22).:star::star::star:
+
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
 
@@ -117,6 +119,8 @@ You can build a client against the swagger sample [petstore](http://petstore.swa
 ./bin/java-petstore.sh
 ```
 
+(On Windows, run `./bin/windows/java-petstore.bat` instead)
+
 This will run the generator with this command:
 
 ```
@@ -212,11 +216,28 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar meta \
 
 This will write, in the folder `output/myLibrary`, all the files you need to get started, including a README.md. Once modified and compiled, you can load your library with the codegen and generate clients with your own, custom-rolled logic.
 
+You would then compile your library in the `output/myLibrary` folder with `mvn package` and execute the codegen like such:
+
+
+```
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.Codegen
+```
+
+Note the `myClientCodegen` is an option now, and you can use the usual arguments for generating your library:
+
+```
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar \
+  io.swagger.codegen.Codegen generate -l myClientCodegen\
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -o myClient
+```
+
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
 static code generation.
 There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a swagger specification.
 
+:exclamation: On Dec 7th 2015, a Javascript API client generator has been added by @jfiala.
 
 ### Generating a client from local files
 If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
@@ -276,7 +297,9 @@ FlashClientCodegen.java
 FlaskConnexionCodegen.java
 JavaClientCodegen.java
 JavaInflectorServerCodegen.java
+JavascriptClientCodegen.java
 JaxRSServerCodegen.java
+JMeterCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
 PerlClientCodegen.java
@@ -288,6 +311,7 @@ ScalaClientCodegen.java
 ScalatraServerCodegen.java
 SilexServerCodegen.java
 SinatraServerCodegen.java
+SlimFrameworkServerCodegen.java
 SpringMVCServerCodegen.java
 StaticDocCodegen.java
 StaticHtmlGenerator.java
@@ -353,9 +377,10 @@ CONFIG OPTIONS
 	    library template (sub-template) to use:
 	    <default> - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
 	    jersey2 - HTTP client: Jersey client 2.6
+	    feign - HTTP client: Netflix Feign 8.1.1.  JSON processing: Jackson 2.6.3
 	    okhttp-gson - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
 	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
-      retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
+        retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
 ```
 
 Your config file for java can look like
@@ -364,7 +389,8 @@ Your config file for java can look like
 {
   "groupId":"com.my.company",
   "artifactId":"MyClent",
-  "artifactVersion":"1.2.0"
+  "artifactVersion":"1.2.0",
+  "library":"feign"
 }
 ```
 
@@ -511,7 +537,7 @@ Then you will receieve a JSON response with the URL to download the zipped code.
 Guidelines for Contribution
 ---------------------------
 
-Please refer to this [page](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
+Please refer to this [page](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md)
 
 License
 -------

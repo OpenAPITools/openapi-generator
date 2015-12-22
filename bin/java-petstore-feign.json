@@ -1,0 +1,4 @@
+{
+    "library": "feign",
+    "artifactId": "swagger-petstore-feign"
+}

@@ -1,9 +1,9 @@
 #include "SWGHelpers.h"
 #include "SWGModelFactory.h"
 #include "SWGObject.h"
-#import <QDebug>
-#import <QJsonArray>
-#import <QJsonValue>
+#include <QDebug>
+#include <QJsonArray>
+#include <QJsonValue>
 
 namespace Swagger {
 

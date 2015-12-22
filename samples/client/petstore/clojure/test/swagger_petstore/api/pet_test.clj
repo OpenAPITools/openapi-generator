@@ -1,7 +1,14 @@
 (ns swagger-petstore.api.pet-test
   (:require [clojure.test :refer :all]
             [clojure.java.io :as io]
+            [swagger-petstore.core :refer [with-api-context]]
             [swagger-petstore.api.pet :refer :all]))
+
+(defn credentials-fixture [f]
+  (with-api-context {:auths {"api_key" "special-key"}}
+    (f)))
+
+(use-fixtures :once credentials-fixture)
 
 (defn- make-random-pet
   ([] (make-random-pet nil))
@@ -21,6 +28,18 @@
     (is (= id (:id fetched)))
     (is (identity (:category fetched)))
     (is (= (get-in pet [:category :name]) (get-in fetched [:category :name])))
+    (delete-pet id)))
+
+(deftest test-create-and-get-pet-with-http-info
+  (let [{:keys [id] :as pet} (make-random-pet)
+        _ (add-pet-with-http-info {:body pet})
+        {:keys [status headers data]} (get-pet-by-id-with-http-info id)]
+    (is (= 200 status))
+    (is (= "application/json" (:content-type headers)))
+    (is (identity data))
+    (is (= id (:id data)))
+    (is (identity (:category data)))
+    (is (= (get-in pet [:category :name]) (get-in data [:category :name])))
     (delete-pet id)))
 
 (deftest test-find-pets-by-status

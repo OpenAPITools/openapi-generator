@@ -18,62 +18,71 @@ namespace {{packageName}}.Client
     /// </summary>
     public class ApiClient
     {
-        private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
-  
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" /> class.
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default configuration and base path ({{basePath}}).
+        /// </summary>
+        public ApiClient()
+        {
+            Configuration = Configuration.Default;
+            RestClient = new RestClient("{{basePath}}");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default base path ({{basePath}}).
+        /// </summary>
+        /// <param name="config">An instance of Configuration.</param>
+        public ApiClient(Configuration config = null)
+        {
+            if (config == null)
+                Configuration = Configuration.Default;
+            else
+                Configuration = config;
+
+            RestClient = new RestClient("{{basePath}}");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiClient" /> class
+        /// with default configuration.
         /// </summary>
         /// <param name="basePath">The base path.</param>
-        public ApiClient(String basePath="{{basePath}}")
+        public ApiClient(String basePath = "{{basePath}}")
         {
-            BasePath = basePath;
-            RestClient = new RestClient(BasePath);
+           if (String.IsNullOrEmpty(basePath))
+                throw new ArgumentException("basePath cannot be empty");
+
+            RestClient = new RestClient(basePath);
+            Configuration = Configuration.Default;
         }
+
+        /// <summary>
+        /// Gets or sets the default API client for making HTTP calls.
+        /// </summary>
+        /// <value>The default API client.</value>
+        public static ApiClient Default = new ApiClient(Configuration.Default);
     
         /// <summary>
-        /// Gets or sets the base path.
+        /// Gets or sets the Configuration.
         /// </summary>
-        /// <value>The base path</value>
-        public string BasePath { get; set; }
-    
+        /// <value>An instance of the Configuration.</value>
+        public Configuration Configuration { get; set; }
+
         /// <summary>
         /// Gets or sets the RestClient.
         /// </summary>
         /// <value>An instance of the RestClient</value>
         public RestClient RestClient { get; set; }
     
-        /// <summary>
-        /// Gets the default header.
-        /// </summary>
-        public Dictionary<String, String> DefaultHeader
-        {
-            get { return _defaultHeaderMap; }
-        }
-
-        /// <summary>
-        /// Gets the status code of the previous request
-        /// </summary>
-        public int StatusCode { get; private set; }
-
-        /// <summary>
-        /// Gets the response headers of the previous request
-        /// </summary>
-        public Dictionary<String, String> ResponseHeaders { get; private set; } 
-    
         // Creates and sets up a RestRequest prior to a call.
         private RestRequest PrepareRequest(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
         {
             var request = new RestRequest(path, method);
    
-            UpdateParamsForAuth(queryParams, headerParams, authSettings);
-
-            // add default header, if any
-            foreach(var defaultHeader in _defaultHeaderMap)
-                request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-
             // add path parameter, if any
             foreach(var param in pathParams)
                 request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment); 
@@ -111,18 +120,15 @@ namespace {{packageName}}.Client
         /// <param name="formParams">Form parameters.</param>
         /// <param name="fileParams">File parameters.</param>
         /// <param name="pathParams">Path parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
         /// <returns>Object</returns>
         public Object CallApi(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
         {
             var request = PrepareRequest(
-                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             var response = RestClient.Execute(request);
-            StatusCode = (int) response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
             return (Object) response;
         }
 
@@ -137,30 +143,16 @@ namespace {{packageName}}.Client
         /// <param name="formParams">Form parameters.</param>
         /// <param name="fileParams">File parameters.</param>
         /// <param name="pathParams">Path parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
         /// <returns>The Task instance.</returns>
         public async System.Threading.Tasks.Task<Object> CallApiAsync(
             String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams, String[] authSettings)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
         {
             var request = PrepareRequest(
-                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams, authSettings);
+                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
             var response = await RestClient.ExecuteTaskAsync(request);
-            StatusCode = (int)response.StatusCode;
-            ResponseHeaders = response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString());
             return (Object)response;
-        }
-    
-        /// <summary>
-        /// Add default header.
-        /// </summary>
-        /// <param name="key">Header field name.</param>
-        /// <param name="value">Header field value.</param>
-        /// <returns></returns>
-        public void AddDefaultHeader(string key, string value)
-        {
-            _defaultHeaderMap.Add(key, value);
         }
     
         /// <summary>
@@ -188,7 +180,7 @@ namespace {{packageName}}.Client
         }
     
         /// <summary>
-        /// If parameter is DateTime, output in ISO8601 format.
+        /// If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with Configuration.DateTime.
         /// If parameter is a list, join the list with ",".
         /// Otherwise just return the string.
         /// </summary>
@@ -197,14 +189,21 @@ namespace {{packageName}}.Client
         public string ParameterToString(object obj)
         {
             if (obj is DateTime)
-                return ((DateTime)obj).ToString ("u");
-            else if (obj is IList) {
-                string flattenString = "";
-                string separator = ",";
-                foreach (var param in (IList)obj) {
-                    flattenString += param.ToString() + separator;
+                // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
+                // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
+                // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                // For example: 2009-06-15T13:45:30.0000000
+                return ((DateTime)obj).ToString (Configuration.DateTimeFormat);
+            else if (obj is IList)
+            {
+                var flattenedString = new StringBuilder();
+                foreach (var param in (IList)obj)
+                {
+                    if (flattenedString.Length > 0)
+                        flattenedString.Append(",");
+                    flattenedString.Append(param);
                 }
-                return flattenString.Remove(flattenString.Length - 1);;
+                return flattenedString.ToString();
             }
             else
                 return Convert.ToString (obj);
@@ -233,13 +232,16 @@ namespace {{packageName}}.Client
                     var filePath = String.IsNullOrEmpty(Configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : Configuration.TempFolderPath;
-                    var regex = new Regex(@"Content-Disposition:.*filename=['""]?([^'""\s]+)['""]?$");
-                    var match = regex.Match(headers.ToString());
-                    if (match.Success)
+                    var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
+                    foreach (var header in headers)
                     {
-                        string fileName = filePath + match.Value.Replace("\"", "").Replace("'", "");
-                        File.WriteAllBytes(fileName, data);
-                        return new FileStream(fileName, FileMode.Open);
+                        var match = regex.Match(header.ToString());
+                        if (match.Success)
+                        {
+                            string fileName = filePath + match.Groups[1].Value.Replace("\"", "").Replace("'", "");
+                            File.WriteAllBytes(fileName, data);
+                            return new FileStream(fileName, FileMode.Open);
+                        }
                     }
                 }
                 var stream = new MemoryStream(data);
@@ -285,61 +287,20 @@ namespace {{packageName}}.Client
         }
     
         /// <summary>
-        /// Get the API key with prefix.
-        /// </summary>
-        /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
-        /// <returns>API key with prefix.</returns>
-        public string GetApiKeyWithPrefix (string apiKeyIdentifier)
-        {
-            var apiKeyValue = "";
-            Configuration.ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
-            var apiKeyPrefix = "";
-            if (Configuration.ApiKeyPrefix.TryGetValue (apiKeyIdentifier, out apiKeyPrefix))
-                return apiKeyPrefix + " " + apiKeyValue;
-            else
-                return apiKeyValue;
-        }
-    
-        /// <summary>
-        /// Update parameters based on authentication.
-        /// </summary>
-        /// <param name="queryParams">Query parameters.</param>
-        /// <param name="headerParams">Header parameters.</param>
-        /// <param name="authSettings">Authentication settings.</param>
-        public void UpdateParamsForAuth(Dictionary<String, String> queryParams, Dictionary<String, String> headerParams, string[] authSettings)
-        {
-            if (authSettings == null || authSettings.Length == 0)
-                return;
-
-            foreach (string auth in authSettings)
-            {
-                // determine which one to use
-                switch(auth)
-                {
-                    {{#authMethods}}
-                    case "{{name}}":
-                        {{#isApiKey}}{{#isKeyInHeader}}headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}queryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}{{#isOAuth}}headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;{{/isOAuth}}
-                        break;
-                    {{/authMethods}}
-                    default:
-                        //TODO show warning about security definition not found
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
         /// Select the Accept header's value from the given accepts array:
         /// if JSON exists in the given array, use it;
         /// otherwise use all of them (joining into a string)
         /// </summary>
         /// <param name="accepts">The accepts array to select from.</param>
         /// <returns>The Accept header to use.</returns>
-        public String SelectHeaderAccept(String[] accepts) {
+        public String SelectHeaderAccept(String[] accepts)
+        {
             if (accepts.Length == 0)
                 return null;
+
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                 return "application/json";
+
             return String.Join(",", accepts);
         }
  
@@ -350,8 +311,7 @@ namespace {{packageName}}.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            var textByte = System.Text.Encoding.UTF8.GetBytes(text);
-            return System.Convert.ToBase64String(textByte);
+            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
         }
     
         /// <summary>
@@ -361,7 +321,8 @@ namespace {{packageName}}.Client
         /// <param name="source">Object to be casted</param>
         /// <param name="dest">Target type</param>
         /// <returns>Casted object</returns>
-        public static dynamic ConvertType(dynamic source, Type dest) {
+        public static dynamic ConvertType(dynamic source, Type dest)
+        {
             return Convert.ChangeType(source, dest);
         }
 

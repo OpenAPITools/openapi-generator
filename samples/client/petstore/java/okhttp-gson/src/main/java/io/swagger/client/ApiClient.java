@@ -104,9 +104,6 @@ public class ApiClient {
 
   private Map<String, Authentication> authentications;
 
-  private int statusCode;
-  private Map<String, List<String>> responseHeaders;
-
   private DateFormat dateFormat;
   private DateFormat datetimeFormat;
   private boolean lenientDatetimeFormat;
@@ -174,24 +171,6 @@ public class ApiClient {
   public ApiClient setJSON(JSON json) {
     this.json = json;
     return this;
-  }
-
-  /**
-   * Gets the status code of the previous request.
-   * NOTE: Status code of last async response is not recorded here, it is
-   * passed to the callback methods instead.
-   */
-  public int getStatusCode() {
-    return statusCode;
-  }
-
-  /**
-   * Gets the response headers of the previous request.
-   * NOTE: Headers of last async response is not recorded here, it is passed
-   * to callback methods instead.
-   */
-  public Map<String, List<String>> getResponseHeaders() {
-    return responseHeaders;
   }
 
   public boolean isVerifyingSsl() {
@@ -570,6 +549,17 @@ public class ApiClient {
   }
 
   /**
+   * Check if the given MIME is a JSON MIME.
+   * JSON MIME examples:
+   *   application/json
+   *   application/json; charset=UTF8
+   *   APPLICATION/JSON
+   */
+  public boolean isJsonMime(String mime) {
+    return mime != null && mime.matches("(?i)application\\/json(;.*)?");
+  }
+
+  /**
    * Select the Accept header's value from the given accepts array:
    *   if JSON exists in the given array, use it;
    *   otherwise use all of them (joining into a string)
@@ -579,8 +569,14 @@ public class ApiClient {
    *   null will be returned (not to set the Accept header explicitly).
    */
   public String selectHeaderAccept(String[] accepts) {
-    if (accepts.length == 0) return null;
-    if (StringUtil.containsIgnoreCase(accepts, "application/json")) return "application/json";
+    if (accepts.length == 0) {
+      return null;
+    }
+    for (String accept : accepts) {
+      if (isJsonMime(accept)) {
+        return accept;
+      }
+    }
     return StringUtil.join(accepts, ",");
   }
 
@@ -594,8 +590,14 @@ public class ApiClient {
    *   JSON will be used.
    */
   public String selectHeaderContentType(String[] contentTypes) {
-    if (contentTypes.length == 0) return "application/json";
-    if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
+    if (contentTypes.length == 0) {
+      return "application/json";
+    }
+    for (String contentType : contentTypes) {
+      if (isJsonMime(contentType)) {
+        return contentType;
+      }
+    }
     return contentTypes[0];
   }
 
@@ -617,6 +619,8 @@ public class ApiClient {
    * @param response HTTP response
    * @param returnType The type of the Java object
    * @return The deserialized Java object
+   * @throws ApiException If fail to deserialize response body, i.e. cannot read response body
+   *   or the Content-Type of the response is not supported.
    */
   public <T> T deserialize(Response response, Type returnType) throws ApiException {
     if (response == null || returnType == null)
@@ -644,7 +648,7 @@ public class ApiClient {
       // ensuring a default content type
       contentType = "application/json";
     }
-    if (contentType.startsWith("application/json")) {
+    if (isJsonMime(contentType)) {
       return json.deserialize(respBody, returnType);
     } else if (returnType.equals(String.class)) {
       // Expecting string, return the raw response body.
@@ -665,9 +669,10 @@ public class ApiClient {
    * @param obj The Java object
    * @param contentType The request Content-Type
    * @return The serialized string
+   * @throws ApiException If fail to serialize the given object
    */
   public String serialize(Object obj, String contentType) throws ApiException {
-    if (contentType.startsWith("application/json")) {
+    if (isJsonMime(contentType)) {
       if (obj != null)
         return json.serialize(obj);
       else
@@ -679,6 +684,7 @@ public class ApiClient {
 
   /**
    * Download file from the given response.
+   * @throws ApiException If fail to read file content from response and write to disk
    */
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
@@ -730,7 +736,7 @@ public class ApiClient {
   /**
    * @see #execute(Call, Type)
    */
-  public <T> T execute(Call call) throws ApiException {
+  public <T> ApiResponse<T> execute(Call call) throws ApiException {
     return execute(call, null);
   }
 
@@ -739,14 +745,16 @@ public class ApiClient {
    *
    * @param returnType The return type used to deserialize HTTP response body
    * @param <T> The return type corresponding to (same with) returnType
-   * @return The Java object deserialized from response body. Returns null if returnType is null.
+   * @return <code>ApiResponse</code> object containing response status, headers and
+   *   data, which is a Java object deserialized from response body and would be null
+   *   when returnType is null.
+   * @throws ApiException If fail to execute the call
    */
-  public <T> T execute(Call call, Type returnType) throws ApiException {
+  public <T> ApiResponse<T> execute(Call call, Type returnType) throws ApiException {
     try {
       Response response = call.execute();
-      this.statusCode = response.code();
-      this.responseHeaders = response.headers().toMultimap();
-      return handleResponse(response, returnType);
+      T data = handleResponse(response, returnType);
+      return new ApiResponse<T>(response.code(), response.headers().toMultimap(), data);
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -755,7 +763,7 @@ public class ApiClient {
   /**
    * #see executeAsync(Call, Type, ApiCallback)
    */
-  public <T> void executeAsync(Call call, ApiCallback<T> callback) throws ApiException {
+  public <T> void executeAsync(Call call, ApiCallback<T> callback) {
     executeAsync(call, null, callback);
   }
 
@@ -786,6 +794,12 @@ public class ApiClient {
     });
   }
 
+  /**
+   * Handle the given response, return the deserialized object when the response is successful.
+   *
+   * @throws ApiException If the response has a unsuccessful status code or
+   *   fail to deserialize the response body
+   */
   public <T> T handleResponse(Response response, Type returnType) throws ApiException {
     if (response.isSuccessful()) {
       if (returnType == null || response.code() == 204) {
@@ -819,8 +833,9 @@ public class ApiClient {
    * @param formParams The form parameters
    * @param authNames The authentications to apply
    * @return The HTTP call
+   * @throws ApiException If fail to serialize the request body object
    */
-  public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames) throws ApiException {
+  public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     final String url = buildUrl(path, queryParams);
@@ -829,7 +844,9 @@ public class ApiClient {
 
     String contentType = (String) headerParams.get("Content-Type");
     // ensuring a default content type
-    if (contentType == null) contentType = "application/json";
+    if (contentType == null) {
+      contentType = "application/json";
+    }
 
     RequestBody reqBody;
     if (!HttpMethod.permitsRequestBody(method)) {
@@ -850,7 +867,15 @@ public class ApiClient {
       reqBody = RequestBody.create(MediaType.parse(contentType), serialize(body, contentType));
     }
 
-    Request request = reqBuilder.method(method, reqBody).build();
+    Request request = null;
+
+    if(progressRequestListener != null && reqBody != null) {
+      ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, progressRequestListener);
+      request = reqBuilder.method(method, progressRequestBody).build();
+    } else {
+      request = reqBuilder.method(method, reqBody).build();
+    }
+
     return httpClient.newCall(request);
   }
 

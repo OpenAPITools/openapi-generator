@@ -7,36 +7,37 @@ require 'uri'
 
 module Petstore
   class ApiClient
-
-    attr_accessor :host
+    # The Configuration object holding settings to be used in the API client.
+    attr_accessor :config
 
     # Defines the headers to be used in HTTP requests of all API calls by default.
     #
     # @return [Hash]
     attr_accessor :default_headers
 
-    # Stores the HTTP response from the last API call using this API client.
-    attr_accessor :last_response
-
-    def initialize(host = nil)
-      @host = host || Configuration.base_url
-      @format = 'json'
+    def initialize(config = Configuration.default)
+      @config = config
       @user_agent = "ruby-swagger-#{VERSION}"
       @default_headers = {
-        'Content-Type' => "application/#{@format.downcase}",
+        'Content-Type' => "application/json",
         'User-Agent' => @user_agent
       }
     end
 
+    def self.default
+      @@default ||= ApiClient.new
+    end
+
+    # Call an API with given options.
+    #
+    # @return [Array<(Object, Fixnum, Hash)>] an array of 3 elements:
+    #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)
       response = request.run
 
-      # record as last response
-      @last_response = response
-
-      if Configuration.debugging
-        Configuration.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
+      if @config.debugging
+        @config.logger.debug "HTTP response body ~BEGIN~\n#{response.body}\n~END~\n"
       end
 
       unless response.success?
@@ -47,10 +48,11 @@ module Petstore
       end
 
       if opts[:return_type]
-        deserialize(response, opts[:return_type])
+        data = deserialize(response, opts[:return_type])
       else
-        nil
+        data = nil
       end
+      return data, response.code, response.headers
     end
 
     def build_request(http_method, path, opts = {})
@@ -69,22 +71,31 @@ module Petstore
         :method => http_method,
         :headers => header_params,
         :params => query_params,
-        :ssl_verifypeer => Configuration.verify_ssl,
-        :sslcert => Configuration.cert_file,
-        :sslkey => Configuration.key_file,
-        :cainfo => Configuration.ssl_ca_cert,
-        :verbose => Configuration.debugging
+        :ssl_verifypeer => @config.verify_ssl,
+        :sslcert => @config.cert_file,
+        :sslkey => @config.key_file,
+        :cainfo => @config.ssl_ca_cert,
+        :verbose => @config.debugging
       }
 
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
         req_opts.update :body => req_body
-        if Configuration.debugging
-          Configuration.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
+        if @config.debugging
+          @config.logger.debug "HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"
         end
       end
 
       Typhoeus::Request.new(url, req_opts)
+    end
+
+    # Check if the given MIME is a JSON MIME.
+    # JSON MIME examples:
+    #   application/json
+    #   application/json; charset=UTF8
+    #   APPLICATION/JSON
+    def json_mime?(mime)
+       !!(mime =~ /\Aapplication\/json(;.*)?\z/i)
     end
 
     # Deserialize the response to the given return type.
@@ -100,9 +111,7 @@ module Petstore
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'
 
-      unless content_type.start_with?('application/json')
-        fail "Content-Type is not supported: #{content_type}"
-      end
+      fail "Content-Type is not supported: #{content_type}" unless json_mime?(content_type)
 
       begin
         data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
@@ -162,7 +171,7 @@ module Petstore
     # @see Configuration#temp_folder_path
     # @return [File] the file downloaded
     def download_file(response)
-      tmp_file = Tempfile.new '', Configuration.temp_folder_path
+      tmp_file = Tempfile.new '', @config.temp_folder_path
       content_disposition = response.headers['Content-Disposition']
       if content_disposition
         filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
@@ -174,15 +183,15 @@ module Petstore
       tmp_file.close!
 
       File.open(path, 'w') { |file| file.write(response.body) }
-      Configuration.logger.info "File written to #{path}. Please move the file to a proper "\
-                                "folder for further processing and delete the temp afterwards"
+      @config.logger.info "File written to #{path}. Please move the file to a proper folder "\
+                          "for further processing and delete the temp afterwards"
       File.new(path)
     end
 
     def build_request_url(path)
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      URI.encode(host + path)
+      URI.encode(@config.base_url + path)
     end
 
     def build_request_body(header_params, form_params, body)
@@ -210,7 +219,7 @@ module Petstore
     # Update hearder and query params based on authentication settings.
     def update_params_for_auth!(header_params, query_params, auth_names)
       Array(auth_names).each do |auth_name|
-        auth_setting = Configuration.auth_settings[auth_name]
+        auth_setting = @config.auth_settings[auth_name]
         next unless auth_setting
         case auth_setting[:in]
         when 'header' then header_params[auth_setting[:key]] = auth_setting[:value]
@@ -229,26 +238,21 @@ module Petstore
     # @param [Array] accepts array for Accept
     # @return [String] the Accept header (e.g. application/json)
     def select_header_accept(accepts)
-      if accepts.empty?
-        return
-      elsif accepts.any?{ |s| s.casecmp('application/json') == 0 }
-        'application/json' # look for json data by default
-      else
-        accepts.join(',')
-      end
+      return nil if accepts.nil? || accepts.empty?
+      # use JSON when present, otherwise use all of the provided
+      json_accept = accepts.find { |s| json_mime?(s) }
+      return json_accept || accepts.join(',')
     end
 
     # Return Content-Type header based on an array of content types provided.
     # @param [Array] content_types array for Content-Type
     # @return [String] the Content-Type header  (e.g. application/json)
     def select_header_content_type(content_types)
-      if content_types.empty?
-        'application/json' # use application/json by default
-      elsif content_types.any?{ |s| s.casecmp('application/json')==0 }
-        'application/json' # use application/json if it's included
-      else
-        content_types[0] # otherwise, use the first one
-      end
+      # use application/json by default
+      return 'application/json' if content_types.nil? || content_types.empty?
+      # use JSON when present, otherwise use the first one
+      json_content_type = content_types.find { |s| json_mime?(s) }
+      return json_content_type || content_types.first
     end
 
     # Convert object (array, hash, object, etc) to JSON string.

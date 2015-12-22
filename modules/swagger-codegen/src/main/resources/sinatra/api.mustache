@@ -3,7 +3,7 @@ require 'json'
 {{#operations}}
 {{#operation}}
 
-MyApp.add_route('{{httpMethod}}', '{{path}}', {
+MyApp.add_route('{{httpMethod}}', '{{basePathWithoutHost}}{{path}}', {
   "resourcePath" => "/{{baseName}}",
   "summary" => "{{{summary}}}",
   "nickname" => "{{nickname}}", 

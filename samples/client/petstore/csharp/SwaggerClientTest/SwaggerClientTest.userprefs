@@ -1,8 +1,10 @@
-﻿<Properties StartupItem="SwaggerClientTest.csproj">
+<Properties StartupItem="SwaggerClientTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs">
     <Files>
-      <File FileName="TestPet.cs" Line="8" Column="25" />
+      <File FileName="TestConfiguration.cs" Line="17" Column="33" />
+      <File FileName="TestPet.cs" Line="81" Column="17" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="12" Column="18" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.NUnit.TestPad">

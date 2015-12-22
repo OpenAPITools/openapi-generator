@@ -4,6 +4,18 @@
 
 @implementation {{classname}}
 
+- (instancetype)init {
+  self = [super init];
+
+  if (self) {
+    // initalise property's default value, if any
+    {{#vars}}{{#defaultValue}}self.{{name}} = {{{defaultValue}}};
+    {{/defaultValue}}{{/vars}}
+  }
+
+  return self;
+}
+
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.

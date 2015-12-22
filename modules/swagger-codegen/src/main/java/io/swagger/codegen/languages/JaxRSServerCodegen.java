@@ -33,18 +33,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
-
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float")
-        );
     }
 
     public CodegenType getTag() {
@@ -109,6 +97,9 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
 
     @Override
     public void preprocessSwagger(Swagger swagger) {
+        if("/".equals(swagger.getBasePath())) {
+            swagger.setBasePath("");
+        }
         if(swagger != null && swagger.getPaths() != null) {
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);

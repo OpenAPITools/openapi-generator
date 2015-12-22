@@ -1,17 +1,18 @@
 package io.swagger.client.api;
 
+import com.sun.jersey.api.client.GenericType;
+
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
-import io.swagger.client.TypeRef;
 
 import java.util.Map;
 import io.swagger.client.model.Order;
 
 import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-19T13:52:16.052+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-22T10:21:47.360+01:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -37,9 +38,8 @@ public class StoreApi {
    * Returns a map of status codes to quantities
    * @return Map<String, Integer>
    */
-  public Map<String, Integer> getInventory () throws ApiException {
+  public Map<String, Integer> getInventory() throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
     // create path and map variables
     String path = "/store/inventory".replaceAll("\\{format\\}","json");
@@ -68,15 +68,9 @@ public class StoreApi {
     String[] authNames = new String[] { "api_key" };
 
     
-
+    GenericType<Map<String, Integer>> returnType = new GenericType<Map<String, Integer>>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
-    
-    TypeRef returnType = new TypeRef<Map<String, Integer>>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-
   }
   
   /**
@@ -85,9 +79,8 @@ public class StoreApi {
    * @param body order placed for purchasing the pet
    * @return Order
    */
-  public Order placeOrder (Order body) throws ApiException {
+  public Order placeOrder(Order body) throws ApiException {
     Object postBody = body;
-    byte[] postBinaryBody = null;
     
     // create path and map variables
     String path = "/store/order".replaceAll("\\{format\\}","json");
@@ -116,15 +109,9 @@ public class StoreApi {
     String[] authNames = new String[] {  };
 
     
-
+    GenericType<Order> returnType = new GenericType<Order>() {};
+    return apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
-    
-    TypeRef returnType = new TypeRef<Order>() {};
-    return apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-
   }
   
   /**
@@ -133,9 +120,8 @@ public class StoreApi {
    * @param orderId ID of pet that needs to be fetched
    * @return Order
    */
-  public Order getOrderById (String orderId) throws ApiException {
+  public Order getOrderById(String orderId) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
      // verify the required parameter 'orderId' is set
      if (orderId == null) {
@@ -170,15 +156,9 @@ public class StoreApi {
     String[] authNames = new String[] {  };
 
     
-
+    GenericType<Order> returnType = new GenericType<Order>() {};
+    return apiClient.invokeAPI(path, "GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     
-    
-    TypeRef returnType = new TypeRef<Order>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-
   }
   
   /**
@@ -187,9 +167,8 @@ public class StoreApi {
    * @param orderId ID of the order that needs to be deleted
    * @return void
    */
-  public void deleteOrder (String orderId) throws ApiException {
+  public void deleteOrder(String orderId) throws ApiException {
     Object postBody = null;
-    byte[] postBinaryBody = null;
     
      // verify the required parameter 'orderId' is set
      if (orderId == null) {
@@ -224,14 +203,8 @@ public class StoreApi {
     String[] authNames = new String[] {  };
 
     
-
+    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, null);
     
-    
-    apiClient.invokeAPI(path, "DELETE", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, null);
-    
-    
-
-
   }
   
 }
