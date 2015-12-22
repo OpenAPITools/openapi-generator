@@ -37,6 +37,15 @@ namespace IO.Swagger.Model
         public StatusEnum Status { get; set; }
     
         /// <summary>
+        /// Initializes a new instance of the <see cref="Order" /> class.
+        /// </summary>
+        public Order()
+        {
+           
+        }
+        
+    
+        /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=true)]
