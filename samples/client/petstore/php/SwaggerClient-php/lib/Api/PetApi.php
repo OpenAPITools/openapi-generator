@@ -152,7 +152,6 @@ class PetApi
         }
         
         // this endpoint requires OAuth (access token)
-
         if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }

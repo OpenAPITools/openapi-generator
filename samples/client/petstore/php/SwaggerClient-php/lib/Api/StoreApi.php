@@ -147,7 +147,6 @@ class StoreApi
         
         // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-
         if (strlen($apiKey) !== 0) {
             $headerParams['api_key'] = $apiKey;
         }
