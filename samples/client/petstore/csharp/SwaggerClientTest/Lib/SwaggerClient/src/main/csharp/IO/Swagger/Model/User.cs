@@ -18,6 +18,15 @@ namespace IO.Swagger.Model
     { 
     
         /// <summary>
+        /// Initializes a new instance of the <see cref="User" /> class.
+        /// </summary>
+        public User()
+        {
+           
+        }
+        
+    
+        /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=true)]
