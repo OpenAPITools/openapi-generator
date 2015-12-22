@@ -18,6 +18,7 @@ namespace {{packageName}}.Model
     [DataContract]
     public class {{classname}} : IEquatable<{{classname}}>{{#parent}}, {{{parent}}}{{/parent}}
     { {{#vars}}{{#isEnum}}
+    
         [JsonConverter(typeof(StringEnumConverter))]
         {{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
         {{>enumClass}}{{/items}}{{/items.isEnum}}{{/vars}}
@@ -46,20 +47,6 @@ namespace {{packageName}}.Model
         [DataMember(Name="{{baseName}}", EmitDefaultValue=true)]
         public {{{datatype}}} {{name}} { get; set; }
     {{/isEnum}}{{/vars}}
-        /// <summary>
-        /// Returns the string presentation of the object
-        /// </summary>
-        /// <returns>String presentation of the object</returns>
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.Append("class {{classname}} {\n");
-            {{#vars}}sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
-            {{/vars}}
-            sb.Append("}\n");
-            return sb.ToString();
-        }
-  
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
