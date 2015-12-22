@@ -94,6 +94,7 @@ public class OnlineGeneratorOptionsTest {
 
         final Maps.EntryTransformer<String, InvocationCounter, String> transformer =
                 new Maps.EntryTransformer<String, InvocationCounter, String>() {
+                    @Override
                     public String transformEntry(String key, InvocationCounter value) {
                         return value.getValue();
                     }

@@ -130,14 +130,17 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "ruby";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Ruby client library.";
     }
@@ -166,6 +169,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         return outputFolder + File.separator + libFolder + File.separator + gemName + File.separator + apiPackage.replace("/", File.separator);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + libFolder + File.separator + gemName + File.separator + modelPackage.replace("/", File.separator);
     }

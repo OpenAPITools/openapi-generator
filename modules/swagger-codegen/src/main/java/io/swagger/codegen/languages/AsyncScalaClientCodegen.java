@@ -111,14 +111,17 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "async-scala";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Asynchronous Scala client library.";
     }
@@ -133,6 +136,7 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
@@ -182,6 +186,7 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         }
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
             return "null";

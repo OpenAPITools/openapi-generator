@@ -435,6 +435,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return objs;
     }
 
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         if("retrofit".equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -458,6 +459,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return objs;
     }
 
+    @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
             && !languageSpecificPrimitives.contains(type);

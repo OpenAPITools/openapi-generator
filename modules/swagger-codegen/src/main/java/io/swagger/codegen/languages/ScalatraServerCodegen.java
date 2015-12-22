@@ -123,14 +123,17 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "scalatra";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Scala server application with Scalatra.";
     }
@@ -145,6 +148,7 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }

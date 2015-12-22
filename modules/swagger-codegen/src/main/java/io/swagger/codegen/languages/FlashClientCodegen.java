@@ -156,14 +156,17 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         return str.replaceAll("\\.", "_");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "flash";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Flash client library.";
     }
@@ -179,6 +182,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
                 + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + File.separatorChar + sourceFolder + File.separatorChar
                 + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
@@ -214,6 +218,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         return type;
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
             return "null";

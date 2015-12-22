@@ -88,14 +88,17 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "silex-PHP";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Silex server library.";
     }
@@ -110,6 +113,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
     }
@@ -148,6 +152,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         return toModelName(type);
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }
