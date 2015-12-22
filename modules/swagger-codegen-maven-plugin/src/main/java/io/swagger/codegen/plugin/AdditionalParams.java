@@ -10,7 +10,7 @@ public final class AdditionalParams {
     public static final String MODEL_PACKAGE_PARAM = "modelPackage";
     public static final String API_PACKAGE_PARAM = "apiPackage";
     public static final String INVOKER_PACKAGE_PARAM = "invokerPackage";
+    public static final String LIBRARY_PARAM = "library";
 
-    private AdditionalParams() {
-    }
+    private AdditionalParams() {}
 }
