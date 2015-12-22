@@ -98,8 +98,8 @@ ext {
 dependencies {
     compile "com.squareup.okhttp:okhttp:$okhttp_version"
     compile "com.squareup.retrofit:retrofit:$retrofit_version"
-    compile 'com.google.code.gson:gson:$gson_version'
-    compile 'com.squareup.retrofit:converter-gson:$retrofit_version'
+    compile "com.google.code.gson:gson:$gson_version"
+    compile "com.squareup.retrofit:converter-gson:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
     testCompile "junit:junit:$junit_version"

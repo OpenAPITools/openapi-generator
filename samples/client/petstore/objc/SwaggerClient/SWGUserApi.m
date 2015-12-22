@@ -331,11 +331,11 @@ static SWGUserApi* singletonAPI = nil;
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if(username != nil) {
+    if (username != nil) {
         
         queryParams[@"username"] = username;
     }
-    if(password != nil) {
+    if (password != nil) {
         
         queryParams[@"password"] = password;
     }

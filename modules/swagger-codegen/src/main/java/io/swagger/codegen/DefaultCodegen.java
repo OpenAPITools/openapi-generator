@@ -2,6 +2,7 @@ package io.swagger.codegen;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+
 import io.swagger.codegen.examples.ExampleGenerator;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.ComposedModel;
@@ -42,11 +43,13 @@ import io.swagger.models.properties.PropertyBuilder.PropertyId;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -445,7 +448,8 @@ public class DefaultCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue("true"));
-        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC)
+                .defaultValue("true"));
     }
 
     /**
@@ -572,6 +576,52 @@ public class DefaultCodegen {
             return "null";
         } else {
             return "null";
+        }
+    }
+    
+    /**
+     * Return the property initialized from a data object
+     * Useful for initialization with a plain object in Javascript
+     *
+     * @param name Name of the property object
+     * @param p Swagger property object
+     * @return string presentation of the default value of the property
+     */
+    public String toDefaultValueWithParam(String name, Property p) {
+        if (p instanceof StringProperty) {
+            return " = data." + name + ";";
+        } else if (p instanceof BooleanProperty) {
+            return " = data." + name + ";";
+        } else if (p instanceof DateProperty) {
+            return " = data." + name + ";";
+        } else if (p instanceof DateTimeProperty) {
+            return " = data." + name + ";";
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return " = data." + name + ";";
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return " = data." + name + ";";
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return " = data." + name + ";";
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+            return " = data." + name + ";";
+        } else {
+            return " = data." + name + ";";
         }
     }
 
@@ -788,6 +838,12 @@ public class DefaultCodegen {
             addVars(m, properties, required);
         } else {
             ModelImpl impl = (ModelImpl) model;
+            if(impl.getEnum() != null && impl.getEnum().size() > 0) {
+                m.isEnum = true;
+                m.allowableValues = impl.getEnum();
+                Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
+                m.dataType = getSwaggerType(p);
+            }
             if (impl.getAdditionalProperties() != null) {
                 MapProperty mapProperty = new MapProperty(impl.getAdditionalProperties());
                 addParentContainer(m, name, mapProperty);
@@ -835,6 +891,8 @@ public class DefaultCodegen {
         property.setter = "set" + getterAndSetterCapitalize(name);
         property.example = p.getExample();
         property.defaultValue = toDefaultValue(p);
+        property.defaultValueWithParam = toDefaultValueWithParam(name, p);
+        
         property.jsonSchema = Json.pretty(p);
         property.isReadOnly = p.getReadOnly();
 
@@ -1081,31 +1139,7 @@ public class DefaultCodegen {
         Set<String> imports = new HashSet<String>();
         op.vendorExtensions = operation.getVendorExtensions();
 
-        String operationId = operation.getOperationId();
-        if (operationId == null) {
-            String tmpPath = path;
-            tmpPath = tmpPath.replaceAll("\\{", "");
-            tmpPath = tmpPath.replaceAll("\\}", "");
-            String[] parts = (tmpPath + "/" + httpMethod).split("/");
-            StringBuilder builder = new StringBuilder();
-            if ("/".equals(tmpPath)) {
-                // must be root tmpPath
-                builder.append("root");
-            }
-            for (int i = 0; i < parts.length; i++) {
-                String part = parts[i];
-                if (part.length() > 0) {
-                    if (builder.toString().length() == 0) {
-                        part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
-                    } else {
-                        part = initialCaps(part);
-                    }
-                    builder.append(part);
-                }
-            }
-            operationId = builder.toString();
-            LOGGER.info("generated operationId " + operationId + "\tfor Path: " + httpMethod + " " + path);
-        }
+        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
         operationId = removeNonNameElementToCamelCase(operationId);
         op.path = path;
         op.operationId = toOperationId(operationId);
@@ -1491,6 +1525,21 @@ public class DefaultCodegen {
             if (model.complexType != null) {
                 imports.add(model.complexType);
             }
+            p.maxLength = qp.getMaxLength();
+            p.minLength = qp.getMinLength();
+            p.pattern = qp.getPattern();
+            
+            p.maximum = qp.getMaximum();
+            p.exclusiveMaximum = qp.isExclusiveMaximum();
+            p.minimum = qp.getMinimum();
+            p.exclusiveMinimum = qp.isExclusiveMinimum();
+            p.maxLength = qp.getMaxLength();
+            p.minLength = qp.getMinLength();
+            p.pattern = qp.getPattern();
+            p.maxItems = qp.getMaxItems();
+            p.minItems = qp.getMinItems();
+            p.uniqueItems = qp.isUniqueItems();
+            p.multipleOf = qp.getMultipleOf();
         } else {
             if (!(param instanceof BodyParameter)) {
                 LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
@@ -1621,6 +1670,43 @@ public class DefaultCodegen {
     }
 
     /**
+     * Get operationId from the operation object, and if it's blank, generate a new one from the given parameters.
+     *
+     * @param operation the operation object
+     * @param path the path of the operation
+     * @param httpMethod the HTTP method of the operation
+     * @return the (generated) operationId
+     */
+    protected String getOrGenerateOperationId(Operation operation, String path, String httpMethod) {
+        String operationId = operation.getOperationId();
+        if (StringUtils.isBlank(operationId)) {
+            String tmpPath = path;
+            tmpPath = tmpPath.replaceAll("\\{", "");
+            tmpPath = tmpPath.replaceAll("\\}", "");
+            String[] parts = (tmpPath + "/" + httpMethod).split("/");
+            StringBuilder builder = new StringBuilder();
+            if ("/".equals(tmpPath)) {
+                // must be root tmpPath
+                builder.append("root");
+            }
+            for (int i = 0; i < parts.length; i++) {
+                String part = parts[i];
+                if (part.length() > 0) {
+                    if (builder.toString().length() == 0) {
+                        part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
+                    } else {
+                        part = initialCaps(part);
+                    }
+                    builder.append(part);
+                }
+            }
+            operationId = builder.toString();
+            LOGGER.info("generated operationId " + operationId + "\tfor Path: " + httpMethod + " " + path);
+        }
+        return operationId;
+    }
+
+    /**
      * Check the type to see if it needs import the library/module/package
      *
      * @param type name of the type
@@ -1628,8 +1714,7 @@ public class DefaultCodegen {
      */
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type)
-            && type.indexOf(".") < 0;
+            && !languageSpecificPrimitives.contains(type);
     }
 
     protected List<Map<String, Object>> toExamples(Map<String, Object> examples) {
@@ -1744,6 +1829,16 @@ public class DefaultCodegen {
     }
 
     /**
+     * Dashize the given word.
+     *
+     * @param word The word
+     * @return The dashized version of the word, e.g. "my-name"
+     */
+    protected String dashize(String word) {
+        return underscore(word).replaceAll("[_ ]", "-");
+    }
+
+    /**
      * Generate the next name for the given name, i.e. append "2" to the base name if not ending with a number,
      * otherwise increase the number by 1. For example:
      *   status    => status2
@@ -1802,6 +1897,9 @@ public class DefaultCodegen {
                     m.vars.add(cp);
                 }
             }
+            
+            m.mandatory = mandatory;
+            
         } else {
             m.emptyVars = true;
             m.hasVars = false;

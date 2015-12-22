@@ -5,8 +5,8 @@ module {{moduleName}}
   class {{classname}}
     attr_accessor :api_client
 
-    def initialize(api_client = nil)
-      @api_client = api_client || Configuration.api_client
+    def initialize(api_client = ApiClient.default)
+      @api_client = api_client
     end
 {{#operation}}
 {{newline}}
@@ -16,13 +16,24 @@ module {{moduleName}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
-    def {{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
-      if Configuration.debugging
-        Configuration.logger.debug "Calling API: {{classname}}#{{nickname}} ..."
+    def {{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+      {{#returnType}}data, status_code, headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
+      {{#returnType}}return data{{/returnType}}{{^returnType}}return nil{{/returnType}}
+    end
+
+    # {{summary}}
+    # {{notes}}
+{{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
+{{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
+{{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
+{{/required}}{{/allParams}}    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Fixnum, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
+    def {{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: {{classname}}#{{operationId}} ..."
       end
       {{#allParams}}{{#required}}
       # verify the required parameter '{{paramName}}' is set
-      fail "Missing the required parameter '{{paramName}}' when calling {{nickname}}" if {{{paramName}}}.nil?{{#isEnum}}
+      fail "Missing the required parameter '{{paramName}}' when calling {{operationId}}" if {{{paramName}}}.nil?{{#isEnum}}
       unless [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?({{{paramName}}})
         fail "invalid value for '{{{paramName}}}', must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}"
       end{{/isEnum}}
@@ -63,26 +74,17 @@ module {{moduleName}}
       {{/bodyParam}}
 
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      {{#returnType}}result = @api_client.call_api(:{{httpMethod}}, path,
+      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
-        :auth_names => auth_names,
-        :return_type => '{{{returnType}}}')
-      if Configuration.debugging
-        Configuration.logger.debug "API called: {{classname}}#{{nickname}}. Result: #{result.inspect}"
+        :auth_names => auth_names{{#returnType}},
+        :return_type => '{{{returnType}}}'{{/returnType}})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
-      return result{{/returnType}}{{^returnType}}@api_client.call_api(:{{httpMethod}}, path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names)
-      if Configuration.debugging
-        Configuration.logger.debug "API called: {{classname}}#{{nickname}}"
-      end
-      return nil{{/returnType}}
+      return data, status_code, headers
     end
 {{/operation}}
   end

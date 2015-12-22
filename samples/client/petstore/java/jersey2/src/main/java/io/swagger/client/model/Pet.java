@@ -2,17 +2,18 @@ package io.swagger.client.model;
 
 import io.swagger.client.StringUtil;
 import io.swagger.client.model.Category;
-import java.util.*;
 import io.swagger.client.model.Tag;
+import java.util.*;
 
 
+import java.util.Objects;
 
 import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-17T11:17:50.535-05:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-29T00:18:01.946+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -20,6 +21,7 @@ public class Pet   {
   private String name = null;
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
+
 
 public enum StatusEnum {
   AVAILABLE("available"),
@@ -33,6 +35,7 @@ public enum StatusEnum {
   }
 
   @Override
+  @JsonValue
   public String toString() {
     return value;
   }
@@ -114,6 +117,28 @@ public enum StatusEnum {
   }
 
   
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(id, pet.id) &&
+        Objects.equals(category, pet.category) &&
+        Objects.equals(name, pet.name) &&
+        Objects.equals(photoUrls, pet.photoUrls) &&
+        Objects.equals(tags, pet.tags) &&
+        Objects.equals(status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
 
   @Override
   public String toString()  {

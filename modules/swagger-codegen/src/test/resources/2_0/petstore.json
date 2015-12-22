@@ -402,6 +402,23 @@
         ]
       }
     },
+    "/pet/{petId}/downloadImage" : {
+      "get" : {
+        "tags" : [ "pet" ],
+        "summary" : "downloads an image",
+        "description" : "",
+        "operationId" : "downloadFile",
+        "produces" : [ "application/octet-stream" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/File"
+            }
+          }
+        }
+      }
+    },
     "/store/inventory": {
       "get": {
         "tags": [
@@ -971,6 +988,65 @@
       },
       "xml": {
         "name": "Order"
+      }
+    },
+    "definitions" : {
+      "File": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "canonicalPath": {
+            "type": "string"
+          },
+          "parent": {
+            "type": "string"
+          },
+          "absolute": {
+            "type": "boolean",
+            "default": false
+          },
+          "absoluteFile": {
+            "$ref": "#/definitions/File"
+          },
+          "absolutePath": {
+            "type": "string"
+          },
+          "canonicalFile": {
+            "$ref": "#/definitions/File"
+          },
+          "freeSpace": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parentFile": {
+            "$ref": "#/definitions/File"
+          },
+          "totalSpace": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "usableSpace": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "directory": {
+            "type": "boolean",
+            "default": false
+          },
+          "file": {
+            "type": "boolean",
+            "default": false
+          },
+          "hidden": {
+            "type": "boolean",
+            "default": false
+          }
+        }
       }
     }
   }

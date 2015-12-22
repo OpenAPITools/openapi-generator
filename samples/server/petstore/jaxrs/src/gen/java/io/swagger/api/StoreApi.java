@@ -19,14 +19,16 @@ import java.io.InputStream;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
 @Path("/store")
 
 
 @io.swagger.annotations.Api(description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-11-05T22:31:25.130-08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-12-01T23:25:59.622+08:00")
 public class StoreApi  {
    private final StoreApiService delegate = StoreApiServiceFactory.getStoreApi();
 
@@ -40,9 +42,9 @@ public class StoreApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Integer.class, responseContainer = "Map") })
 
-    public Response getInventory()
+    public Response getInventory(@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getInventory();
+        return delegate.getInventory(securityContext);
     }
     @POST
     @Path("/order")
@@ -54,9 +56,9 @@ public class StoreApi  {
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
 
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ) Order body)
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ) Order body,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.placeOrder(body);
+        return delegate.placeOrder(body,securityContext);
     }
     @GET
     @Path("/order/{orderId}")
@@ -70,9 +72,9 @@ public class StoreApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Order.class) })
 
-    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") String orderId)
+    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") String orderId,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getOrderById(orderId);
+        return delegate.getOrderById(orderId,securityContext);
     }
     @DELETE
     @Path("/order/{orderId}")
@@ -84,9 +86,8 @@ public class StoreApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
 
-    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("orderId") String orderId)
+    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("orderId") String orderId,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.deleteOrder(orderId);
+        return delegate.deleteOrder(orderId,securityContext);
     }
 }
-

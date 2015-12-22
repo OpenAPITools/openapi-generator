@@ -7,9 +7,7 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.models.properties.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -34,6 +32,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String authorEmail = "apiteam@swagger.io";
     protected String license = "MIT";
     protected String gitRepoURL = "https://github.com/swagger-api/swagger-codegen";
+    protected String[] specialWords = {"new", "copy"};
 
     public ObjcClientCodegen() {
         super();
@@ -85,6 +84,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
         typeMapping.put("file", "NSURL");
+
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         reservedWords = new HashSet<String>(
@@ -342,11 +342,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        return null;
-    }
-
-    @Override
     public String apiFileFolder() {
         return outputFolder + File.separatorChar + apiPackage();
     }
@@ -375,6 +370,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
 
+        // if name starting with special word, escape with '_'
+        for(int i =0; i < specialWords.length; i++) {
+            if (name.matches("(?i:^" + specialWords[i] + ".*)"))
+                name = escapeSpecialWord(name);
+        }
+
         // camelize (lower first character) the variable name
         // e.g. `pet_id` to `petId`
         name = camelize(name, true);
@@ -383,6 +384,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
+
 
         return name;
     }
@@ -395,6 +397,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String escapeReservedWord(String name) {
         return "_" + name;
+    }
+
+    public String escapeSpecialWord(String name) {
+        return "var_" + name;
     }
 
     @Override
@@ -439,4 +445,55 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setLicense(String license) {
         this.license = license;
     }
+
+    /**
+     * Return the default value of the property
+     *
+     * @param p Swagger property object
+     * @return string presentation of the default value of the property
+     */
+    @Override
+    public String toDefaultValue(Property p) {
+        if (p instanceof StringProperty) {
+            StringProperty dp = (StringProperty) p;
+            if (dp.getDefault() != null) {
+                return "@\"" + dp.getDefault().toString() + "\"";
+            }
+        } else if (p instanceof BooleanProperty) {
+            BooleanProperty dp = (BooleanProperty) p;
+            if (dp.getDefault() != null) {
+                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+                    return "@0";
+                else
+                    return "@1";
+            }
+        } else if (p instanceof DateProperty) {
+            // TODO
+        } else if (p instanceof DateTimeProperty) {
+            // TODO
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return "@" + dp.getDefault().toString();
+            }
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return "@" + dp.getDefault().toString();
+            }
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return "@" + dp.getDefault().toString();
+            }
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return "@" + dp.getDefault().toString();
+            }
+        }
+
+        return null;
+    }
+
 }

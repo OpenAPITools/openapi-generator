@@ -10,10 +10,10 @@
 #include <QJsonObject>
 
 
-#include "SWGTag.h"
-#include <QList>
-#include "SWGCategory.h"
 #include <QString>
+#include "SWGCategory.h"
+#include <QList>
+#include "SWGTag.h"
 
 #include "SWGObject.h"
 

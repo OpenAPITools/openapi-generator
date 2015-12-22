@@ -1,10 +1,11 @@
 package {{package}};
 
+import com.sun.jersey.api.client.GenericType;
+
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
-import {{invokerPackage}}.TypeRef;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -41,13 +42,12 @@ public class {{classname}} {
 {{#allParams}}   * @param {{paramName}} {{description}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{^isBinary}}{{paramName}}{{/isBinary}}{{#isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-    byte[] {{localVariablePrefix}}postBinaryBody = {{#bodyParam}}{{#isBinary}}{{paramName}}{{/isBinary}}{{^isBinary}}null{{/isBinary}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
      // verify the required parameter '{{paramName}}' is set
      if ({{paramName}} == null) {
-        throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+        throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
      }
      {{/required}}{{/allParams}}
     // create path and map variables
@@ -83,22 +83,12 @@ public class {{classname}} {
 
     String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
-    {{#isResponseBinary}}
-    byte[] {{localVariablePrefix}}response = null;
-    {{localVariablePrefix}}response = {{localVariablePrefix}}apiClient.invokeBinaryAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams,{{localVariablePrefix}} postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames);
-    return {{localVariablePrefix}}response;
-    {{/isResponseBinary}}
-
-    {{^isResponseBinary}}
     {{#returnType}}
-    TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
-    return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
+    GenericType<{{{returnType}}}> {{localVariablePrefix}}returnType = new GenericType<{{{returnType}}}>() {};
+    return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
     {{/returnType}}{{^returnType}}
-    {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}postBinaryBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);
+    {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);
     {{/returnType}}
-    {{/isResponseBinary}}
-
-
   }
   {{/operation}}
 }

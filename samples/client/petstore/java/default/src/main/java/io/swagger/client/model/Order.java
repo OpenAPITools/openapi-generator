@@ -4,19 +4,22 @@ import io.swagger.client.StringUtil;
 import java.util.Date;
 
 
+import java.util.Objects;
 
 import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
+
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-19T13:52:16.052+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-22T10:21:47.360+01:00")
 public class Order   {
   
   private Long id = null;
   private Long petId = null;
   private Integer quantity = null;
   private Date shipDate = null;
+
 
 public enum StatusEnum {
   PLACED("placed"),
@@ -30,6 +33,7 @@ public enum StatusEnum {
   }
 
   @Override
+  @JsonValue
   public String toString() {
     return value;
   }
@@ -112,6 +116,28 @@ public enum StatusEnum {
   }
 
   
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(id, order.id) &&
+        Objects.equals(petId, order.petId) &&
+        Objects.equals(quantity, order.quantity) &&
+        Objects.equals(shipDate, order.shipDate) &&
+        Objects.equals(status, order.status) &&
+        Objects.equals(complete, order.complete);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
 
   @Override
   public String toString()  {

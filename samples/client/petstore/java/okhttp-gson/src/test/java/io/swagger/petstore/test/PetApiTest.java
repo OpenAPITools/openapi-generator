@@ -1,10 +1,6 @@
 package io.swagger.petstore.test;
 
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.Configuration;
-
-import io.swagger.client.ApiCallback;
+import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
@@ -72,6 +68,21 @@ public class PetApiTest {
     }
 
     @Test
+    public void testCreateAndGetPetWithHttpInfo() throws Exception {
+        Pet pet = createRandomPet();
+        api.addPetWithHttpInfo(pet);
+
+        ApiResponse<Pet> resp = api.getPetByIdWithHttpInfo(pet.getId());
+        assertEquals(200, resp.getStatusCode());
+        assertEquals("application/json", resp.getHeaders().get("Content-Type").get(0));
+        Pet fetched = resp.getData();
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
     public void testCreateAndGetPetAsync() throws Exception {
         Pet pet = createRandomPet();
         api.addPet(pet);
@@ -87,6 +98,16 @@ public class PetApiTest {
             @Override
             public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
                 result.put("pet", pet);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
             }
         });
         // the API call should be executed asynchronously, so result should be empty at the moment
@@ -122,6 +143,16 @@ public class PetApiTest {
             @Override
             public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
                 result.put("pet", pet);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
             }
         });
         // the API call should be executed asynchronously, so result should be empty at the moment
@@ -250,6 +281,33 @@ public class PetApiTest {
         writer.close();
 
         api.uploadFile(pet.getId(), "a test file", new File(file.getAbsolutePath()));
+    }
+
+    @Test
+    public void testEqualsAndHashCode() {
+        Pet pet1 = new Pet();
+        Pet pet2 = new Pet();
+        assertTrue(pet1.equals(pet2));
+        assertTrue(pet2.equals(pet1));
+        assertTrue(pet1.hashCode() == pet2.hashCode());
+        assertTrue(pet1.equals(pet1));
+        assertTrue(pet1.hashCode() == pet1.hashCode());
+
+        pet2.setName("really-happy");
+        pet2.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        assertFalse(pet1.equals(pet2));
+        assertFalse(pet2.equals(pet1));
+        assertFalse(pet1.hashCode() == (pet2.hashCode()));
+        assertTrue(pet2.equals(pet2));
+        assertTrue(pet2.hashCode() == pet2.hashCode());
+
+        pet1.setName("really-happy");
+        pet1.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        assertTrue(pet1.equals(pet2));
+        assertTrue(pet2.equals(pet1));
+        assertTrue(pet1.hashCode() == pet2.hashCode());
+        assertTrue(pet1.equals(pet1));
+        assertTrue(pet1.hashCode() == pet1.hashCode());
     }
 
     private Pet createRandomPet() {

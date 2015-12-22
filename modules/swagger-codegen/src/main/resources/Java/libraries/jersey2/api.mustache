@@ -4,7 +4,8 @@ import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
-import {{invokerPackage}}.TypeRef;
+
+import javax.ws.rs.core.GenericType;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -41,12 +42,12 @@ public class {{classname}} {
 {{#allParams}}   * @param {{paramName}} {{description}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {
-      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
     }
     {{/required}}{{/allParams}}
     // create path and map variables
@@ -83,7 +84,7 @@ public class {{classname}} {
     String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
     {{#returnType}}
-    TypeRef {{localVariablePrefix}}returnType = new TypeRef<{{{returnType}}}>() {};
+    GenericType<{{{returnType}}}> {{localVariablePrefix}}returnType = new GenericType<{{{returnType}}}>() {};
     return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
     {{/returnType}}{{^returnType}}
     {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, "{{httpMethod}}", {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, null);

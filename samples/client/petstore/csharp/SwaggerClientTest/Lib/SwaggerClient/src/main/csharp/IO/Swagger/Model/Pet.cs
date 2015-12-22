@@ -86,6 +86,25 @@ namespace IO.Swagger.Model
         }
   
         /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("class Pet {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
+            sb.Append("  Tags: ").Append(Tags).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
+            
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+  
+        /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>

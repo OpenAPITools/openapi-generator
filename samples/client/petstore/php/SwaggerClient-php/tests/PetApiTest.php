@@ -82,6 +82,10 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertNotEquals($apiClient3, $apiClient4);
     // customied pet api not using the old pet api's api client
     $this->assertNotEquals($pet_api2->getApiClient(), $pet_api3->getApiClient());
+
+    // test access token
+    $api_client->getConfig()->setAccessToken("testing_only");
+    $this->assertSame('testing_only', $api_client->getConfig()->getAccessToken());
   }
 
   // test getPetById with a Pet object (id 10005)
@@ -99,6 +103,25 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertSame($response->getCategory()->getName(), 'test php category');
     $this->assertSame($response->getTags()[0]->getId(), $pet_id);
     $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
+  }
+
+  // test getPetById with a Pet object (id 10005)
+  public function testGetPetByIdWithHttpInfo()
+  {
+    // initialize the API client without host
+    $pet_id = 10005;  // ID of pet that needs to be fetched
+    $pet_api = new Swagger\Client\Api\PetAPI();
+    $pet_api->getApiClient()->getConfig()->setApiKey('api_key', '111222333444555');
+    // return Pet (model)
+    list($response, $status_code, $response_headers) = $pet_api->getPetByIdWithHttpInfo($pet_id);
+    $this->assertSame($response->getId(), $pet_id);
+    $this->assertSame($response->getName(), 'PHP Unit Test');
+    $this->assertSame($response->getCategory()->getId(), $pet_id);
+    $this->assertSame($response->getCategory()->getName(), 'test php category');
+    $this->assertSame($response->getTags()[0]->getId(), $pet_id);
+    $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
+    $this->assertSame($status_code, 200);
+    $this->assertSame($response_headers['Content-Type'], 'application/json');
   }
 
   // test getPetByStatus and verify by the "id" of the response
@@ -145,7 +168,26 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     $this->assertSame($response->getName(), 'updatePet');
   }
 
-  // test updatePet and verify by the "id" of the response
+  // test updatePetWithFormWithHttpInfo and verify by the "name" of the response
+  public function testUpdatePetWithFormWithHttpInfo()
+  {
+    // initialize the API client
+    $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
+    $api_client = new Swagger\Client\ApiClient($config);
+    $pet_id = 10001;  // ID of pet that needs to be fetched
+    $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+    // update Pet (form)
+    list($update_response, $status_code, $http_headers) = $pet_api->updatePetWithFormWithHttpInfo($pet_id, 'update pet with form with http info');
+    // return nothing (void)
+    $this->assertNull($update_response);
+    $this->assertSame($status_code, 200);
+    $this->assertSame($http_headers['Content-Type'], 'application/json');
+    $response = $pet_api->getPetById($pet_id);
+    $this->assertSame($response->getId(), $pet_id);
+    $this->assertSame($response->getName(), 'update pet with form with http info');
+  }
+
+  // test updatePetWithForm and verify by the "name" and "status" of the response
   public function testUpdatePetWithForm()
   {
     // initialize the API client
