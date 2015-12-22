@@ -108,14 +108,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return str.replaceAll("\\.", "_");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "python";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Python client library.";
     }
@@ -130,6 +133,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return outputFolder + File.separatorChar + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separatorChar + modelPackage().replace('.', File.separatorChar);
     }

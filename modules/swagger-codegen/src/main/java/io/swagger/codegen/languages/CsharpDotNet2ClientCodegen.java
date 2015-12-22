@@ -135,14 +135,17 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         this.packageVersion = packageVersion;
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "CsharpDotNet2";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a C# .Net 2.0 client library.";
     }
@@ -157,6 +160,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }

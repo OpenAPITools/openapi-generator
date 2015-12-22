@@ -97,6 +97,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
+    @Override
     public String apiPackage() {
         return "controllers";
     }
@@ -107,6 +108,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      * @return the CodegenType for this generator
      * @see io.swagger.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -117,6 +119,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "nodejs";
     }
@@ -127,6 +130,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a nodejs server library using the swagger-tools project.  By default, " +
                 "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";

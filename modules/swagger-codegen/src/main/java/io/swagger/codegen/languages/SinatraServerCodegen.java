@@ -81,14 +81,17 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("swagger.mustache","","swagger.yaml"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "sinatra";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Sinatra server library.";
     }
@@ -135,6 +138,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
         return type;
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }

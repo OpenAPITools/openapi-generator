@@ -71,14 +71,17 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                 .defaultValue("true"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "android";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Android client library.";
     }
@@ -93,6 +96,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }

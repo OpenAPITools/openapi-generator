@@ -53,14 +53,17 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "spring-mvc";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java Spring-MVC Server application using the SpringFox integration.";
     }
@@ -126,6 +129,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         co.baseName = basePath;
     }
 
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {

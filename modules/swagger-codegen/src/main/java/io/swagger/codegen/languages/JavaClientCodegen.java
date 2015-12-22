@@ -530,6 +530,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         if("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -555,6 +556,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    @Override
     public void preprocessSwagger(Swagger swagger) {
         if (swagger != null && swagger.getPaths() != null) {
             for (String pathname : swagger.getPaths().keySet()) {
@@ -606,6 +608,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return accepts;
     }
 
+    @Override
     protected boolean needToImport(String type) {
         return super.needToImport(type) && type.indexOf(".") < 0;
     }

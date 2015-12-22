@@ -157,6 +157,7 @@ public class MetaGenerator extends AbstractGenerator {
                     String template = readTemplate(templateDir + File.separator + support.templateFile);
                     Template tmpl = Mustache.compiler()
                             .withLoader(new Mustache.TemplateLoader() {
+                                @Override
                                 public Reader getTemplate(String name) {
                                     return getTemplateReader(templateDir + File.separator + name + ".mustache");
                                 }

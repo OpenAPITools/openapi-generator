@@ -35,14 +35,17 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         additionalProperties.put("title", title);
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "jaxrs";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java JAXRS Server application.";
     }
@@ -144,6 +147,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         return objs;
     }
 
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -229,6 +233,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
+    @Override
     public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
     }

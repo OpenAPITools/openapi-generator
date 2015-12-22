@@ -45,14 +45,17 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   protected String sourceFolder = "Classes" + File.separator + "Swaggers";
   private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");
 
+  @Override
   public CodegenType getTag() {
     return CodegenType.CLIENT;
   }
 
+  @Override
   public String getName() {
     return "swift";
   }
 
+  @Override
   public String getHelp() {
     return "Generates a swift client library.";
   }

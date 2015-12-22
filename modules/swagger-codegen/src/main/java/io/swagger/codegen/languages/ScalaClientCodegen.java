@@ -112,14 +112,17 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "scala";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Scala client library.";
     }
@@ -134,6 +137,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
@@ -183,6 +187,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
             return "null";
