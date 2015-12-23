@@ -58,7 +58,7 @@ samples/client/petstore/silex/SwaggerServer/venodr/
 samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
 
-*/.settings
+.settings
 
 *.mustache~
 *.java~
