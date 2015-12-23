@@ -25,23 +25,8 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.parameters.QueryParameter;
 import io.swagger.models.parameters.SerializableParameter;
-import io.swagger.models.properties.AbstractNumericProperty;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.ByteArrayProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.PropertyBuilder;
+import io.swagger.models.properties.*;
 import io.swagger.models.properties.PropertyBuilder.PropertyId;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
 
 import org.apache.commons.lang.StringUtils;
@@ -423,6 +408,7 @@ public class DefaultCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Integer");
         typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("binary", "byte[]");
 
 
         instantiationTypes = new HashMap<String, String>();
@@ -636,6 +622,8 @@ public class DefaultCodegen {
             datatype = "string";
         } else if (p instanceof ByteArrayProperty) {
             datatype = "ByteArray";
+        } else if (p instanceof BinaryProperty) {
+            datatype = "binary";
         } else if (p instanceof BooleanProperty) {
             datatype = "boolean";
         } else if (p instanceof DateProperty) {
