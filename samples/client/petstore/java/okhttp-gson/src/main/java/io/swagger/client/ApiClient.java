@@ -479,7 +479,7 @@ public class ApiClient {
   }
 
   /**
-   * Sets the connect timeout.
+   * Sets the connect timeout (in milliseconds).
    * A value of 0 means no timeout, otherwise values must be between 1 and
    * {@link Integer#MAX_VALUE}.
    */
