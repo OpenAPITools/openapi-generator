@@ -185,6 +185,18 @@ public class ApiClientTest {
     }
 
     @Test
+    public void testGetAndSetConnectTimeout() {
+        assertEquals(0, apiClient.getConnectTimeout());
+        assertEquals(0, apiClient.getHttpClient().getConnectTimeout());
+
+        apiClient.setConnectTimeout(10000);
+        assertEquals(10000, apiClient.getConnectTimeout());
+        assertEquals(10000, apiClient.getHttpClient().getConnectTimeout());
+
+        apiClient.setConnectTimeout(0);
+    }
+
+    @Test
     public void testParameterToPairsWhenNameIsInvalid() throws Exception {
         List<Pair> pairs_a = apiClient.parameterToPairs("csv", null, new Integer(1));
         List<Pair> pairs_b = apiClient.parameterToPairs("csv", "", new Integer(1));
