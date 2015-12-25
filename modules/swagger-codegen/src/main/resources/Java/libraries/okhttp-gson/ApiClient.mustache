@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -468,6 +469,23 @@ public class ApiClient {
 
   public ApiClient setTempFolderPath(String tempFolderPath) {
     this.tempFolderPath = tempFolderPath;
+    return this;
+  }
+
+  /**
+   * Connect timeout (in milliseconds).
+   */
+  public int getConnectTimeout() {
+    return httpClient.getConnectTimeout();
+  }
+
+  /**
+   * Sets the connect timeout (in milliseconds).
+   * A value of 0 means no timeout, otherwise values must be between 1 and
+   * {@link Integer#MAX_VALUE}.
+   */
+  public ApiClient setConnectTimeout(int connectionTimeout) {
+    httpClient.setConnectTimeout(connectionTimeout, TimeUnit.MILLISECONDS);
     return this;
   }
 
