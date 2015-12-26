@@ -17,7 +17,7 @@ if [ ! -d "${APP_DIR}" ]; then
   APP_DIR=`cd "${APP_DIR}"; pwd`
 fi
 
-executable="../modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"
+executable="./modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"
 
 if [ ! -f "$executable" ]
 then
