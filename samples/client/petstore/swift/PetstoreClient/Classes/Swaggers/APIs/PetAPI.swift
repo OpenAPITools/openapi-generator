@@ -344,28 +344,6 @@ extension PetstoreClientAPI {
     
         /**
          
-         downloads an image
-         
-         - GET /pet/{petId}/downloadImage
-         - 
-         - examples: [{output=none}]
-
-         - returns: RequestBuilder<File> 
-         */
-        public class func downloadFile() -> RequestBuilder<File> {
-            let path = "/pet/{petId}/downloadImage"
-            let URLString = PetstoreClientAPI.basePath + path
-            
-            let nillableParameters: [String:AnyObject?] = [:]
-            let parameters = APIHelper.rejectNil(nillableParameters)
-
-            let requestBuilder: RequestBuilder<File>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
-
-            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
-        }
-    
-        /**
-         
          uploads an image
          
          - POST /pet/{petId}/uploadImage
