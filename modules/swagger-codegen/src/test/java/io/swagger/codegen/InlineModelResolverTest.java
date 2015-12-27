@@ -73,6 +73,7 @@ public class InlineModelResolverTest {
         ModelImpl model = (ModelImpl)swagger.getDefinitions().get("inline_response_200");
         assertTrue(model.getProperties().size() == 1);
         assertNotNull(model.getProperties().get("name"));
+        assertTrue(model.getProperties().get("name") instanceof StringProperty);
     }
 
     @Test
@@ -174,13 +175,30 @@ public class InlineModelResolverTest {
 
         ArrayModel am = (ArrayModel) schema;
         Property inner = am.getItems();
+        assertTrue(inner instanceof RefProperty);
 
-        ObjectProperty op = (ObjectProperty) inner;
-        Property name = op.getProperties().get("address");
-        assertTrue(name instanceof RefProperty);
+        RefProperty rp = (RefProperty) inner;
+        
+        assertEquals(rp.getType(), "ref");
+        assertEquals(rp.get$ref(), "#/definitions/body");
+        assertEquals(rp.getSimpleRef(), "body");
 
-        Model model = swagger.getDefinitions().get("hello_address");
-        assertNotNull(model);
+        Model inline = swagger.getDefinitions().get("body");
+        assertNotNull(inline);
+        assertTrue(inline instanceof ModelImpl);
+        ModelImpl impl = (ModelImpl) inline;
+        RefProperty rpAddress = (RefProperty) impl.getProperties().get("address");
+        assertNotNull(rpAddress);
+        assertEquals(rpAddress.getType(), "ref");
+        assertEquals(rpAddress.get$ref(), "#/definitions/hello_address");
+        assertEquals(rpAddress.getSimpleRef(), "hello_address");
+
+        Model inlineProp = swagger.getDefinitions().get("hello_address");
+        assertNotNull(inlineProp);
+        assertTrue(inlineProp instanceof ModelImpl);
+        ModelImpl implProp = (ModelImpl) inlineProp;
+        assertNotNull(implProp.getProperties().get("street"));
+        assertTrue(implProp.getProperties().get("street") instanceof StringProperty);
     }
 
     @Test
@@ -213,9 +231,17 @@ public class InlineModelResolverTest {
 
         assertNotNull(p);
 
-        ObjectProperty innerModel = (ObjectProperty) p;
-        assertTrue(innerModel.getProperties().size() == 1);
-        assertNotNull(innerModel.getProperties().get("name"));
+        RefProperty rp = (RefProperty) p;
+        assertEquals(rp.getType(), "ref");
+        assertEquals(rp.get$ref(), "#/definitions/inline_response_200");
+        assertEquals(rp.getSimpleRef(), "inline_response_200");
+
+        Model inline = swagger.getDefinitions().get("inline_response_200");
+        assertNotNull(inline);
+        assertTrue(inline instanceof ModelImpl);
+        ModelImpl impl = (ModelImpl) inline;
+        assertNotNull(impl.getProperties().get("name"));
+        assertTrue(impl.getProperties().get("name") instanceof StringProperty);
     }
 
     @Test
@@ -258,20 +284,15 @@ public class InlineModelResolverTest {
         new InlineModelResolver().flatten(swagger);
 
         Response response = swagger.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-
         Property property = response.getSchema();
-        assertTrue(property instanceof RefProperty);
+        assertTrue(property instanceof MapProperty);
+        assertTrue(swagger.getDefinitions().size() == 1);
 
         Model inline = swagger.getDefinitions().get("inline_response_200");
         assertTrue(inline instanceof ModelImpl);
         ModelImpl impl = (ModelImpl) inline;
-
-        Property innerProperty = impl.getAdditionalProperties();
-        assertTrue(innerProperty instanceof ObjectProperty);
-
-        ObjectProperty obj = (ObjectProperty) innerProperty;
-        Property name = obj.getProperties().get("name");
-        assertTrue(name instanceof StringProperty);
+        assertNotNull(impl.getProperties().get("name"));
+        assertTrue(impl.getProperties().get("name") instanceof StringProperty);
     }
 
     @Test
@@ -295,10 +316,17 @@ public class InlineModelResolverTest {
 
         ArrayProperty am = (ArrayProperty) response.getSchema();
         Property items = am.getItems();
-        assertTrue(items instanceof ObjectProperty);
-        ObjectProperty op = (ObjectProperty) items;
-        Property name = op.getProperties().get("name");
-        assertTrue(name instanceof StringProperty);
+        assertTrue(items instanceof RefProperty);
+        RefProperty rp = (RefProperty) items;
+        assertEquals(rp.getType(), "ref");
+        assertEquals(rp.get$ref(), "#/definitions/inline_response_200");
+        assertEquals(rp.getSimpleRef(), "inline_response_200");
+
+        Model inline = swagger.getDefinitions().get("inline_response_200");
+        assertTrue(inline instanceof ModelImpl);
+        ModelImpl impl = (ModelImpl) inline;
+        assertNotNull(impl.getProperties().get("name"));
+        assertTrue(impl.getProperties().get("name") instanceof StringProperty);
     }
 
     @Test
