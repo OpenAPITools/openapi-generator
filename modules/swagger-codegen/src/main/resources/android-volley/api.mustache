@@ -50,7 +50,7 @@ public class {{classname}} {
 {{#allParams}}   * @param {{paramName}} {{description}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  public void {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}final {{#returnBaseType}}Responses.{{returnBaseType}}{{#isListContainer}}List{{/isListContainer}}Response{{/returnBaseType}}{{^returnBaseType}}Response.Listener<String>{{/returnBaseType}} responseListener, final Response.ErrorListener errorListener) {
+  public void {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}final {{#returnBaseType}}Responses.{{returnBaseType}}{{#isListContainer}}List{{/isListContainer}}Response{{/returnBaseType}}{{^returnBaseType}}Responses.StringResponse{{/returnBaseType}} responseListener, final Response.ErrorListener errorListener) {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
 
   {{#allParams}}{{#required}}
