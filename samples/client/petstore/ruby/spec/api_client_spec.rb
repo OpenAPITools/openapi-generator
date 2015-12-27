@@ -59,7 +59,7 @@ describe Petstore::ApiClient do
         c.api_key['api_key'] = 'special-key2'
       end
       api_client2 = Petstore::ApiClient.new(config2)
-      
+
       auth_names = ['api_key', 'unknown']
 
       header_params = {}
@@ -82,13 +82,32 @@ describe Petstore::ApiClient do
       end
 
       api_client = Petstore::ApiClient.new
-      
+
       header_params = {}
       query_params = {}
       auth_names = ['api_key', 'unknown']
       api_client.update_params_for_auth! header_params, query_params, auth_names
       header_params.should == {'api_key' => 'special-key'}
       query_params.should == {}
+    end
+  end
+
+  describe "timeout in #build_request" do
+    let(:config) { Petstore::Configuration.new }
+    let(:api_client) { Petstore::ApiClient.new(config) }
+
+    it "defaults to 0" do
+      Petstore::Configuration.default.timeout.should == 0
+      config.timeout.should == 0
+
+      request = api_client.build_request(:get, '/test')
+      request.options[:timeout].should == 0
+    end
+
+    it "can be customized" do
+      config.timeout = 100
+      request = api_client.build_request(:get, '/test')
+      request.options[:timeout].should == 100
     end
   end
 

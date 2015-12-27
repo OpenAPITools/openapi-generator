@@ -71,6 +71,7 @@ module {{moduleName}}
         :method => http_method,
         :headers => header_params,
         :params => query_params,
+        :timeout => @config.timeout,
         :ssl_verifypeer => @config.verify_ssl,
         :sslcert => @config.cert_file,
         :sslkey => @config.key_file,
