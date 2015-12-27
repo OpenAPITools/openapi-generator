@@ -28,11 +28,11 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.0'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 23
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -57,6 +57,7 @@ ext {
     gson_version = "2.3.1"
     httpclient_version = "4.3.3"
     junit_version = "4.8.1"
+    volley_version = "1.0.19"
 }
 
 dependencies {
@@ -64,6 +65,7 @@ dependencies {
     compile "com.google.code.gson:gson:$gson_version"
     compile "org.apache.httpcomponents:httpcore:$httpclient_version"
     compile "org.apache.httpcomponents:httpmime:$httpclient_version"
+    compile "com.mcxiaoke.volley:library:${volley_version}@aar"
     testCompile "junit:junit:$junit_version"
 }
 
