@@ -60,6 +60,10 @@ module {{moduleName}}
     # @return [String]
     attr_accessor :temp_folder_path
 
+    # The time limit for HTTP request in seconds.
+    # Default to 0 (never times out).
+    attr_accessor :timeout
+
     ### TLS/SSL
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
@@ -93,6 +97,7 @@ module {{moduleName}}
       @base_path = '{{contextPath}}'
       @api_key = {}
       @api_key_prefix = {}
+      @timeout = 0
       @verify_ssl = true
       @cert_file = nil
       @key_file = nil
