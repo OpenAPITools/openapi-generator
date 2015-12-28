@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class ArrayMapObject < Petstore::BaseObject
+class ArrayMapObject < Petstore::Category
   attr_accessor :int_arr, :pet_arr, :int_map, :pet_map, :int_arr_map, :pet_arr_map
 
   def self.attribute_map
@@ -27,7 +27,7 @@ class ArrayMapObject < Petstore::BaseObject
 end
 
 
-describe Petstore::BaseObject do
+describe 'BaseObject' do
   describe 'array and map properties' do
     let(:obj) { ArrayMapObject.new }
 

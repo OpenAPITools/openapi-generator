@@ -5,7 +5,6 @@ require 'petstore/version'
 require 'petstore/configuration'
 
 # Models
-require 'petstore/models/base_object'
 require 'petstore/models/user'
 require 'petstore/models/category'
 require 'petstore/models/pet'
