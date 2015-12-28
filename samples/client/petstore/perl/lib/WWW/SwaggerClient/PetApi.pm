@@ -568,65 +568,6 @@ sub delete_pet {
 }
 
 #
-# download_file
-#
-# downloads an image
-# 
-{
-    my $params = {
-    };
-    __PACKAGE__->method_documentation->{ download_file } = { 
-    	summary => 'downloads an image',
-        params => $params,
-        returns => 'File',
-        };
-}
-# @return File
-#
-sub download_file {
-    my ($self, %args) = @_;
-
-    
-
-    # parse inputs
-    my $_resource_path = '/pet/{petId}/downloadImage';
-    $_resource_path =~ s/{format}/json/; # default format to json
-
-    my $_method = 'GET';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/octet-stream');
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
-
-    
-    
-    
-    
-    my $_body_data;
-    
-
-    # authentication setting, if any
-    my $auth_settings = [qw()];
-
-    # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
-        return;
-    }
-    my $_response_object = $self->{api_client}->deserialize('File', $response);
-    return $_response_object;
-    
-}
-
-#
 # upload_file
 #
 # uploads an image
