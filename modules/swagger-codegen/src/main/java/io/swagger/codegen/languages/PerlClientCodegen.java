@@ -97,7 +97,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiClient.pm"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Configuration.pm"));
-        //supportingFiles.add(new SupportingFile("BaseObject.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Object/BaseObject.pm"));
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiFactory.pm"));
         supportingFiles.add(new SupportingFile("Role.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Role.pm"));
         supportingFiles.add(new SupportingFile("AutoDoc.mustache", ("lib/WWW/" + moduleName + "/Role").replace('/', File.separatorChar), "AutoDoc.pm"));
