@@ -1602,7 +1602,7 @@ public class DefaultCodegen {
      */
     public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
         if (schemes == null) {
-            return null;
+        	return Collections.emptyList();
         }
 
         List<CodegenSecurity> secs = new ArrayList<CodegenSecurity>(schemes.size());
