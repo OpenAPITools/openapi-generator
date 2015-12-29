@@ -133,6 +133,7 @@ public class DefaultCodegen {
         if (input != null) {
             input = input.trim();
             String output = input.replaceAll("\n", "\\\\n");
+            output = output.replace("\r", "\\r");
             output = output.replace("\"", "\\\"");
             return output;
         }
