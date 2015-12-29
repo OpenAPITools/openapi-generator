@@ -1,6 +1,8 @@
+require 'date'
+
 module {{moduleName}}{{#models}}{{#model}}{{#description}}
   # {{{description}}}{{/description}}
-  class {{classname}} < BaseObject{{#vars}}{{#description}}
+  class {{classname}}{{#vars}}{{#description}}
     # {{{description}}}{{/description}}
     attr_accessor :{{{name}}}
 {{/vars}}
@@ -64,6 +66,8 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     def hash
       [{{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}].hash
     end
+
+{{> base_object}}
   end
 {{/model}}
 {{/models}}
