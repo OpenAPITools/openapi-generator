@@ -178,6 +178,18 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
             apiTemplateFiles.remove(this.templateFileName);
             this.templateFileName = "api-j8-async.mustache";
             apiTemplateFiles.put(this.templateFileName, ".java");
+
+            int originalPomFileIdx = -1;
+            for (int i = 0; i < supportingFiles.size(); i++) {
+                if ("pom.xml".equals(supportingFiles.get(i).destinationFilename)) {
+                    originalPomFileIdx = i;
+                    break;
+                }
+            }
+            if (originalPomFileIdx > -1) {
+                supportingFiles.remove(originalPomFileIdx);
+            }
+            supportingFiles.add(new SupportingFile("pom-j8-async.mustache", "", "pom.xml"));
         }
 
         return objs;
