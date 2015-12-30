@@ -432,6 +432,24 @@ and specify the `classname` when running the generator:
 
 Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.
 
+### Bringing your own models
+
+Sometimes you don't want a model generated.  In this case, you can simply specify an import mapping to tell
+the codegen what _not_ to create.  When doing this, every location that references a specific model will
+refer back to your classes.  Note, this may not apply to all languages...
+
+To specify an import mapping, use the `--import-mappings` argument and specify the model-to-import logic as such:
+
+```
+--import-mappings Pet=my.models.MyPet
+```
+
+Or for multiple mappings:
+
+```
+Pet=my.models.MyPet,Order=my.models.MyOrder
+```
+
 ### Validating your swagger spec
 
 You have options.  The easiest is to use our [online validator](https://github.com/swagger-api/validator-badge) which not only will let you validate your spec, but with the debug flag, you can see what's wrong with your spec.  For example:
