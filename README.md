@@ -61,7 +61,20 @@ Swagger Codegen Version    | Release Date | Swagger Spec compatibility | Notes
 
 
 ### Prerequisites
-You need the following installed and available in your $PATH:
+If you're looking for the latest stable version, you can grab it directly from maven central (you'll need the java 7 runtime):
+
+```
+wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.1.4/swagger-codegen-cli-2.1.4.jar swagger-codegen-cli.jar
+
+java -jar swagger-codegen-cli.jar help
+```
+
+On a mac, it's even easier with `brew`:
+```
+brew install swagger-codegen
+```
+
+To build from source, you need the following installed and available in your $PATH:
 
 * [Java 7](http://java.oracle.com)
 
