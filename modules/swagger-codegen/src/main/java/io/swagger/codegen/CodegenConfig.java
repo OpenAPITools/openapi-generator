@@ -109,6 +109,10 @@ public interface CodegenConfig {
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
+    void postProcessModelProperty(CodegenModel model, CodegenProperty property);
+
+    void postProcessParameter(CodegenParameter parameter);
+
     String apiFilename(String templateName, String tag);
 
     boolean shouldOverwrite(String filename);

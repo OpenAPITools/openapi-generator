@@ -1,44 +1,20 @@
 package io.swagger.codegen.languages;
 
 import com.google.common.base.Strings;
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.*;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
-import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import io.swagger.models.properties.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.*;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
@@ -55,6 +31,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean fullJavaUtil = false;
     protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
+    protected boolean serializeBigDecimalAsString = false;
 
     public JavaClientCodegen() {
         super();
@@ -100,6 +77,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC,
+                BooleanProperty.TYPE));
+        cliOptions.add(new CliOption(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING_DESC,
                 BooleanProperty.TYPE));
         cliOptions.add(new CliOption(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util",
                 BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -181,6 +160,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
+        if(additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
+            this.setSerializeBigDecimalAsString(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
+        }
+
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
@@ -211,6 +194,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         this.sanitizeConfig();
+
+
+        // optional jackson mappings for BigDecimal support
+        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
+        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -472,6 +460,26 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        if(serializeBigDecimalAsString) {
+            if (property.baseType.equals("BigDecimal")) {
+                // we serialize BigDecimal as `string` to avoid precision loss
+                property.vendorExtensions.put("extraAnnotation", "@JsonSerialize(using = ToStringSerializer.class)");
+
+                // this requires some more imports to be added for this model...
+                model.imports.add("ToStringSerializer");
+                model.imports.add("JsonSerialize");
+            }
+        }
+        return;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        return;
+    }
+
+    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
@@ -702,6 +710,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.localVariablePrefix = localVariablePrefix;
     }
 
+    public void setSerializeBigDecimalAsString(boolean s) {
+        this.serializeBigDecimalAsString = s;
+    }
 
     public Boolean getSerializableModel() {
         return serializableModel;
