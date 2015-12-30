@@ -166,6 +166,16 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         if("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");
         }
+
+        String host = swagger.getHost();
+        String port = "8080";
+        if(host != null) {
+            String[] parts = host.split(":");
+            if(parts.length > 1) {
+                port = parts[1];
+            }
+        }
+        this.additionalProperties.put("serverPort", port);
         if(swagger != null && swagger.getPaths() != null) {
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
