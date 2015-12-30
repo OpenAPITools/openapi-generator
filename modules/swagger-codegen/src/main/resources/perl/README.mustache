@@ -20,7 +20,7 @@ WWW::{{moduleName}}::ApiFactory for non-Moosey usage.
 # SYNOPSIS
 
 The Perl Swagger Codegen project builds a library of Perl modules to interact with 
-a web service defined by a Swagger specification. See below for how to build the 
+a web service defined by a OpenAPI Specification. See below for how to build the 
 library.
 
 This module provides an interface to the generated library. All the classes, 
@@ -56,7 +56,7 @@ For documentation of all these methods, see AUTOMATIC DOCUMENTATION below.
 
 ## Configuring authentication
 
-In the normal case, the Swagger spec will describe what parameters are
+In the normal case, the OpenAPI Spec will describe what parameters are
 required and where to put them. You just need to supply the tokens.
 
     my $tokens = {
@@ -203,7 +203,7 @@ output formats are supported:
 The `-c` option allows you to load and inspect your own application. A dummy
 namespace is used if you don't supply your own class.
 
-# DOCUMENTATION FROM THE SWAGGER SPEC
+# DOCUMENTATION FROM THE OpenAPI Spec
 
 Additional documentation for each class and method may be provided by the Swagger 
 spec. If so, this is available via the `class_documentation()` and 
