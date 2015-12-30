@@ -171,7 +171,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         String port = "8080";
         if(host != null) {
             String[] parts = host.split(":");
-            if(parts.length > 0) {
+            if(parts.length > 1) {
                 port = parts[1];
             }
         }
