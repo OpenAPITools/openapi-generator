@@ -67,7 +67,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
 
-        // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");

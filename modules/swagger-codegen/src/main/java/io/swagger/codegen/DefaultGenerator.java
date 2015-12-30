@@ -563,7 +563,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
                     // NOTE: Use only the first security requirement for now.
                     // See the "security" field of "Swagger Object":
-                    //  https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#swagger-object
+                    //  https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#swagger-object
                     //  "there is a logical OR between the security requirements"
                     if (securities.size() > 1) {
                         LOGGER.warn("More than 1 security requirements are found, using only the first one");
