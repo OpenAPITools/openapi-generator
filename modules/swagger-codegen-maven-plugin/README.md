@@ -37,7 +37,7 @@ mvn clean compile
 
 ### General Configuration parameters
 
-- `inputSpec` - swagger spec file path
+- `inputSpec` - OpenAPI Spec file path
 - `language` - target generation language
 - `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`)
 - `templateDirectory` - directory with mustache templates
