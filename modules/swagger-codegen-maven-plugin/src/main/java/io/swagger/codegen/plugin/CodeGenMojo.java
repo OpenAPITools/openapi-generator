@@ -101,6 +101,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String configurationFile;
 
     /**
+     * Sets the library
+     */
+    @Parameter(name = "library", required = false)
+    private String library;
+
+    /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
@@ -139,7 +145,9 @@ public class CodeGenMojo extends AbstractMojo {
                 System.setProperty(key, value);
             }
         }
-
+        if (null != library) {
+            config.setLibrary(library);
+        }
         if (null != templateDirectory) {
             config.additionalProperties().put(TEMPLATE_DIR_PARAM, templateDirectory.getAbsolutePath());
         }
