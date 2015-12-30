@@ -147,7 +147,6 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
-
         if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
             this.setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
         }
@@ -199,6 +198,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
+
+        // imports for pojos
+        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
+        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
+        importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
+        importMapping.put("Objects", "java.util.Objects");
+        importMapping.put("StringUtil", invokerPackage + ".StringUtil");
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -469,6 +476,18 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // this requires some more imports to be added for this model...
                 model.imports.add("ToStringSerializer");
                 model.imports.add("JsonSerialize");
+            }
+        }
+        if(model.isEnum == null || model.isEnum) {
+            // needed by all pojos, but not enums
+            model.imports.add("ApiModelProperty");
+            model.imports.add("ApiModel");
+            model.imports.add("JsonProperty");
+            model.imports.add("Objects");
+            model.imports.add("StringUtil");
+
+            if(model.hasEnums != null || model.hasEnums == true) {
+                model.imports.add("JsonValue");
             }
         }
         return;

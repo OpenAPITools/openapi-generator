@@ -697,6 +697,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(key));
             models.add(mo);
+
             allImports.addAll(cm.imports);
         }
         objs.put("models", models);
