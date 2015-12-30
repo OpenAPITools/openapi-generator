@@ -9,8 +9,10 @@ import java.io.File;
 import java.util.*;
 
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
+    protected String dateLibrary = "default";
     protected String title = "Swagger Server";
 
+    public static final String DATE_LIBRARY = "dateLibrary";
     public JaxRSServerCodegen() {
         super.processOpts();
 
@@ -24,7 +26,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-        embeddedTemplateDir = templateDir = "JavaJaxRS";
         apiPackage = System.getProperty("swagger.codegen.jaxrs.apipackage", "io.swagger.api");
         modelPackage = System.getProperty("swagger.codegen.jaxrs.modelpackage", "io.swagger.model");
 
@@ -33,6 +34,34 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
+
+        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "jersey1_18";
+
+        for(int i = 0; i < cliOptions.size(); i++) {
+            if(CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
+                cliOptions.remove(i);
+                break;
+            }
+        }
+
+        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
+        Map<String, String> dateOptions = new HashMap<String, String>();
+        dateOptions.put("java8", "Java 8 native");
+        dateOptions.put("joda", "Joda");
+        dateLibrary.setEnum(dateOptions);
+
+        cliOptions.add(dateLibrary);
+
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        library.setDefault(DEFAULT_LIBRARY);
+
+        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
+
+        supportedLibraries.put(DEFAULT_LIBRARY, "Jersey core 1.18.1");
+//        supportedLibraries.put("jersey2", "Jersey2 core library 2.x");
+        library.setEnum(supportedLibraries);
+
+        cliOptions.add(library);
     }
 
     @Override
@@ -54,6 +83,10 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     public void processOpts() {
         super.processOpts();
 
+//        if("jersey2".equals(getLibrary())) {
+//            embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "jersey2";
+//        }
+
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -68,6 +101,36 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("web.mustache",
                 ("src/main/webapp/WEB-INF"), "web.xml"));
 
+        if (additionalProperties.containsKey("dateLibrary")) {
+            setDateLibrary(additionalProperties.get("dateLibrary").toString());
+            additionalProperties.put(dateLibrary, "true");
+        }
+
+        if("joda".equals(dateLibrary)) {
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "DateTime");
+
+            importMapping.put("LocalDate", "org.joda.time.LocalDate");
+            importMapping.put("DateTime", "org.joda.time.DateTime");
+
+            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
+        }
+        else if ("java8".equals(dateLibrary)) {
+            additionalProperties.put("java8", "true");
+            additionalProperties.put("javaVersion", "1.8");
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "LocalDateTime");
+            importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+
+            supportingFiles.add(new SupportingFile("LocalDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
+        }
     }
 
     @Override
@@ -236,5 +299,9 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     @Override
     public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
+    }
+
+    public void setDateLibrary(String library) {
+        this.dateLibrary = library;
     }
 }
