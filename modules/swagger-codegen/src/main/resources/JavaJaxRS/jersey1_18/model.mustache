@@ -1,14 +1,10 @@
 package {{package}};
 
-import {{invokerPackage}}.StringUtil;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{#serializableModel}}
-import java.io.Serializable;{{/serializableModel}}
-
+{{#serializableModel}}import java.io.Serializable;{{/serializableModel}}
 {{#models}}
-
 {{#model}}{{#description}}
 /**
  * {{description}}
