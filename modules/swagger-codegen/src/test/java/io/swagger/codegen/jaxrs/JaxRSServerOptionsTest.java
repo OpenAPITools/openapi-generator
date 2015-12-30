@@ -49,6 +49,8 @@ public class JaxRSServerOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setFullJavaUtil(Boolean.valueOf(JaxRSServerOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;
+            clientCodegen.setDateLibrary("joda");
+            times = 1;
         }};
     }
 }
