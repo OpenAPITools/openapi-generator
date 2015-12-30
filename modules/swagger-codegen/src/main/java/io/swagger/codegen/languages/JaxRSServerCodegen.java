@@ -122,7 +122,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             additionalProperties.put("java8", "true");
             additionalProperties.put("javaVersion", "1.8");
             typeMapping.put("date", "LocalDate");
-            typeMapping.put("date-time", "LocalDateTime");
+            typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
 
