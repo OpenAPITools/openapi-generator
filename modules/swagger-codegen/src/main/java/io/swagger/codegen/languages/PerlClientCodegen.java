@@ -7,6 +7,7 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CliOption;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
@@ -73,8 +74,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase).").defaultValue("SwaggerClient"));
         cliOptions.add(new CliOption(MODULE_VERSION, "Perl module version.").defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC, BooleanProperty.TYPE));
+        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC,
+                BooleanProperty.TYPE));
 
     }
 
