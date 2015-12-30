@@ -73,6 +73,8 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
                         "src/main/swagger",
                         "swagger.yaml")
         );
+        supportingFiles.add(new SupportingFile("StringUtil.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
     }
 
     @Override
@@ -116,22 +118,6 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         }
         opList.add(co);
         co.baseName = basePath;
-    }
-
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            for (CodegenProperty var : cm.vars) {
-                // handle default value for enum, e.g. available => StatusEnum.available
-                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
-                    var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
-                }
-            }
-        }
-        return objs;
     }
 
     @Override
