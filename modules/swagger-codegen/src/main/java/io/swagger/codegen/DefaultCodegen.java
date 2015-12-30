@@ -120,6 +120,12 @@ public class DefaultCodegen {
         return objs;
     }
 
+    // override to post-process any model properties
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property){}
+
+    // override to post-process any parameters
+    public void postProcessParameter(CodegenParameter parameter){}
+
     //override with any special handling of the entire swagger spec
     public void preprocessSwagger(Swagger swagger) {
     }
@@ -620,7 +626,9 @@ public class DefaultCodegen {
      **/
     public String getSwaggerType(Property p) {
         String datatype = null;
-        if (p instanceof StringProperty) {
+        if (p instanceof StringProperty && "number".equals(p.getFormat())) {
+            datatype = "BigDecimal";
+        } else if (p instanceof StringProperty) {
             datatype = "string";
         } else if (p instanceof ByteArrayProperty) {
             datatype = "ByteArray";
@@ -842,6 +850,12 @@ public class DefaultCodegen {
                 addParentContainer(m, name, mapProperty);
             }
             addVars(m, impl.getProperties(), impl.getRequired());
+        }
+
+        if(m.vars != null) {
+            for(CodegenProperty prop : m.vars) {
+                postProcessModelProperty(m, prop);
+            }
         }
         return m;
     }
@@ -1595,6 +1609,8 @@ public class DefaultCodegen {
             }
             p.paramName = toParamName(bp.getName());
         }
+
+        postProcessParameter(p);
         return p;
     }
 
