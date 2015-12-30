@@ -308,7 +308,7 @@ public class DefaultCodegen {
      * Return the parameter name by removing invalid characters and proper escaping if
      * it's a reserved word.
      * 
-     * @param property Codegen property object
+     * @param name Codegen property object
      * @return the sanitized parameter name
      */
     public String toParamName(String name) {
@@ -333,8 +333,9 @@ public class DefaultCodegen {
      * Return the escaped name of the reserved word
      * 
      * @param name the name to be escaped
-     * @throws Runtime exception as reserved word is not allowed (default behavior)
      * @return the escaped reserved word
+     *
+     * throws Runtime exception as reserved word is not allowed (default behavior)
      */
     public String escapeReservedWord(String name) {
         throw new RuntimeException("reserved word " + name + " not allowed");
@@ -370,9 +371,8 @@ public class DefaultCodegen {
      * between Swagger type and the corresponding import statement for the language. This will 
      * also add some language specified CLI options, if any.
      *
-     * @param path the path of the operation
-     * @param operation Swagger operation object
-     * @return string presentation of the example path
+     *
+     * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
         defaultIncludes = new HashSet<String>(
@@ -763,6 +763,9 @@ public class DefaultCodegen {
         m.classVarName = toVarName(name);
         m.modelJson = Json.pretty(model);
         m.externalDocs = model.getExternalDocs();
+        m.vendorExtensions = model.getVendorExtensions();
+
+
         if (model instanceof ArrayModel) {
             ArrayModel am = (ArrayModel) model;
             ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
@@ -881,9 +884,9 @@ public class DefaultCodegen {
         property.example = p.getExample();
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
-        
         property.jsonSchema = Json.pretty(p);
         property.isReadOnly = p.getReadOnly();
+        property.vendorExtensions = p.getVendorExtensions();
 
         String type = getSwaggerType(p);
         if (p instanceof AbstractNumericProperty) {
@@ -1428,7 +1431,7 @@ public class DefaultCodegen {
      * Convert Swagger Parameter object to Codegen Parameter object
      *
      * @param param Swagger parameter object
-     * @param a set of imports for library/package/module
+     * @param imports set of imports for library/package/module
      * @return Codegen Parameter object
      */
     public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
@@ -2013,6 +2016,7 @@ public class DefaultCodegen {
     /**
      * All library templates supported.
      * (key: library name, value: library description)
+     * @return the supported libraries
      */
     public Map<String, String> supportedLibraries() {
         return supportedLibraries;
