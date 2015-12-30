@@ -2,10 +2,7 @@ package io.swagger.codegen;
 
 import io.swagger.models.ExternalDocs;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CodegenModel {
     public String parent;
@@ -21,4 +18,6 @@ public class CodegenModel {
     public Set<String> imports = new HashSet<String>();
     public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum;
     public ExternalDocs externalDocs;
+
+    public Map<String, Object> vendorExtensions;
 }

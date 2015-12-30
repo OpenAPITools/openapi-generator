@@ -38,6 +38,7 @@ public class CodegenProperty {
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
+    public Map<String, Object> vendorExtensions;
 
     @Override
     public boolean equals(Object obj) {
@@ -136,6 +137,9 @@ public class CodegenProperty {
             return false;
         }
         if (this.allowableValues != other.allowableValues && (this.allowableValues == null || !this.allowableValues.equals(other.allowableValues))) {
+            return false;
+        }
+        if (this.vendorExtensions != other.vendorExtensions && (this.vendorExtensions == null || !this.vendorExtensions.equals(other.vendorExtensions))) {
             return false;
         }
         return true;
