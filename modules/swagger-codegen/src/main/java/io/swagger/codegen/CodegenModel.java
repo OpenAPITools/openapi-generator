@@ -15,7 +15,7 @@ public class CodegenModel {
     // list of all required parameters
     public Set<String> mandatory = new HashSet<String>();
     
-    public Set<String> imports = new HashSet<String>();
+    public Set<String> imports = new TreeSet<String>();
     public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum;
     public ExternalDocs externalDocs;
 
