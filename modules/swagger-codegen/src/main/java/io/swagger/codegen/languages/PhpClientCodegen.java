@@ -76,7 +76,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         String primitives = "'" + StringUtils.join(languageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
 
-        // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
