@@ -2,17 +2,9 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
+import java.util.*;
 
 public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -149,8 +141,6 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                         }
                     }
                 }
-                System.out.println(operation.operationId);
-                io.swagger.util.Json.prettyPrint(operation);
 
                 if (operation.returnType == null) {
                     operation.returnType = "Void";
