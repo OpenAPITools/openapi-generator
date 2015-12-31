@@ -1,17 +1,16 @@
 package io.swagger.client.model;
 
-import io.swagger.client.StringUtil;
-
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.*;
 
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-29T11:35:06.891+08:00")
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-31T12:19:27.559+08:00")
 public class User   {
   
   private Long id = null;
@@ -26,6 +25,7 @@ public class User   {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -38,6 +38,7 @@ public class User   {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
@@ -50,6 +51,7 @@ public class User   {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -62,6 +64,7 @@ public class User   {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
@@ -74,6 +77,7 @@ public class User   {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
@@ -86,6 +90,7 @@ public class User   {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
@@ -98,6 +103,7 @@ public class User   {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
@@ -111,6 +117,7 @@ public class User   {
   /**
    * User Status
    **/
+  
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
