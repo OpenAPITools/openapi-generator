@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Bootstrap extends HttpServlet {
+    private static final long serialVersionUID = 1400930071893332856L;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         ServletContext context = config.getServletContext();

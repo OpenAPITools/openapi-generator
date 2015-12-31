@@ -17,6 +17,7 @@
 package io.swagger.generator.exception;
 
 public class BadRequestException extends ApiException {
+    private static final long serialVersionUID = -5540416398447252055L;
     private int code;
 
     public BadRequestException(int code, String msg) {
