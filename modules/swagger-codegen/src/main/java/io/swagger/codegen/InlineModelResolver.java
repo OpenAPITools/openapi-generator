@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class InlineModelResolver {
-    private Swagger swagger = null;
-    private boolean skipMatches = false;
+    private Swagger swagger;
+    private boolean skipMatches;
     static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     Map<String, Model> addedModels = new HashMap<String, Model>();
@@ -118,8 +118,8 @@ public class InlineModelResolver {
                                             ap.setItems(new RefProperty(modelName));
                                             addGenerated(modelName, innerModel);
                                             swagger.addDefinition(modelName, innerModel);
-                                        }   
-                                    }   
+                                        }
+                                    }
                                 } else if (property instanceof MapProperty) {
                                     MapProperty mp = (MapProperty) property;
 
