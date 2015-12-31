@@ -28,8 +28,7 @@ public class ApiInvoker {
         try {
             if ("List".equals(containerType)) {
                 JavaType typeInfo = JsonUtil.getJsonMapper().getTypeFactory().constructCollectionType(List.class, cls);
-                List response = (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
-                return response;
+                return (List<?>) JsonUtil.getJsonMapper().readValue(json, typeInfo);
             } else if (String.class.equals(cls)) {
                 if (json != null && json.startsWith("\"") && json.endsWith("\"") && json.length() > 1) {
                     return json.substring(1, json.length() - 2);
