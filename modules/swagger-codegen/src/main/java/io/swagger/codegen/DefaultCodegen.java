@@ -71,9 +71,9 @@ public class DefaultCodegen {
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
-    protected boolean supportsInheritance = false;
+    protected boolean supportsInheritance;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-    protected String library = null;
+    protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
 

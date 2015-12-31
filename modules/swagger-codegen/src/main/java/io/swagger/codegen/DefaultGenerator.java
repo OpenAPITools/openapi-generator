@@ -22,8 +22,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
 
     protected CodegenConfig config;
-    protected ClientOptInput opts = null;
-    protected Swagger swagger = null;
+    protected ClientOptInput opts;
+    protected Swagger swagger;
 
     @Override
     public Generator opts(ClientOptInput opts) {

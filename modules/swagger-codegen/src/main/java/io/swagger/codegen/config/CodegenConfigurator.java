@@ -41,8 +41,8 @@ public class CodegenConfigurator {
     private String lang;
     private String inputSpec;
     private String outputDir;
-    private boolean verbose = false;
-    private boolean skipOverwrite = false;
+    private boolean verbose;
+    private boolean skipOverwrite;
     private String templateDir;
     private String auth;
     private String apiPackage;

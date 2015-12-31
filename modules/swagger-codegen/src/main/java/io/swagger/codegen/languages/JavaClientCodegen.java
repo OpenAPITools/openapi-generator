@@ -28,7 +28,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String projectFolder = "src" + File.separator + "main";
     protected String sourceFolder = projectFolder + File.separator + "java";
     protected String localVariablePrefix = "";
-    protected boolean fullJavaUtil = false;
+    protected boolean fullJavaUtil;
     protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
