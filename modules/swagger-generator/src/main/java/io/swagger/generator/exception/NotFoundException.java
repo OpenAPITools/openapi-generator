@@ -17,6 +17,7 @@
 package io.swagger.generator.exception;
 
 public class NotFoundException extends ApiException {
+    private static final long serialVersionUID = -1223255119112336573L;
     private int code;
 
     public NotFoundException(int code, String msg) {
