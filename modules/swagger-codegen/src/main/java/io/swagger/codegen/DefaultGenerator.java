@@ -702,23 +702,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         objs.put("models", models);
 
-        List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+        Set<String> importSet = new TreeSet<String>();
         for (String nextImport : allImports) {
-            Map<String, String> im = new LinkedHashMap<String, String>();
+            Map<String, String> im = new HashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
                 mapping = config.toModelImport(nextImport);
             }
             if (mapping != null && !config.defaultIncludes().contains(mapping)) {
-                im.put("import", mapping);
-                imports.add(im);
+                importSet.add(mapping);
             }
             // add instantiation types
             mapping = config.instantiationTypes().get(nextImport);
             if (mapping != null && !config.defaultIncludes().contains(mapping)) {
-                im.put("import", mapping);
-                imports.add(im);
+                importSet.add(mapping);
             }
+        }
+
+        List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+        for(String s: importSet) {
+            Map<String, String> item = new HashMap<String, String>();
+            item.put("import", s);
+            imports.add(item);
         }
 
         objs.put("imports", imports);
