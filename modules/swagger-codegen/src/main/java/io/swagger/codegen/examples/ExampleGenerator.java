@@ -88,10 +88,9 @@ public class ExampleGenerator {
         } else if (property instanceof ArrayProperty) {
             Property innerType = ((ArrayProperty) property).getItems();
             if (innerType != null) {
-                Object[] output = new Object[]{
+                return new Object[]{
                         resolvePropertyToExample(mediaType, innerType, processedModels)
                 };
-                return output;
             }
         } else if (property instanceof DateProperty) {
             return new java.util.Date(System.currentTimeMillis());

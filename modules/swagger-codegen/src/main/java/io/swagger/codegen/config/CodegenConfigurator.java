@@ -390,8 +390,7 @@ public class CodegenConfigurator {
 
         if (isNotEmpty(configFile)) {
             try {
-                CodegenConfigurator result = Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
-                return result;
+                return Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
             } catch (IOException e) {
                 LOG.error("Unable to deserialize config file: " + configFile, e);
             }
