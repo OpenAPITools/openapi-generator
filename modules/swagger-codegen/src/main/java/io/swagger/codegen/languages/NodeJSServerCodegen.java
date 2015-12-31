@@ -1,14 +1,21 @@
 package io.swagger.codegen.languages;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+
 import io.swagger.codegen.*;
 import io.swagger.models.Swagger;
 import io.swagger.util.Yaml;
 
 import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -242,7 +249,15 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         Swagger swagger = (Swagger)objs.get("swagger");
         if(swagger != null) {
             try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
+                SimpleModule module = new SimpleModule();
+                module.addSerializer(Double.class, new JsonSerializer<Double>() {
+                    @Override
+                    public void serialize(Double val, JsonGenerator jgen,
+                                   SerializerProvider provider) throws IOException, JsonProcessingException {
+                        jgen.writeNumber(new BigDecimal(val));
+                    }
+                });
+                objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
