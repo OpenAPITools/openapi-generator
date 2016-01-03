@@ -10,7 +10,7 @@ public class JaxRSServerOptionsProvider extends JavaOptionsProvider {
     public static final String JODA_DATE_LIBRARY = "joda";
     public static final String IMPL_FOLDER_VALUE = "src/main/java/impl";	
 
-	@Override
+    @Override
     public boolean isServer() {
         return true;
     }
