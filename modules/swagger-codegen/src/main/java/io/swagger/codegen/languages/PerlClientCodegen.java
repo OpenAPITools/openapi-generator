@@ -7,6 +7,7 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CliOption;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
@@ -64,7 +65,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
         typeMapping.put("date", "DateTime");
-        typeMapping.put("dateTime", "DateTime");
+        typeMapping.put("DateTime", "DateTime");
         typeMapping.put("password", "string");
         typeMapping.put("array", "ARRAY");
         typeMapping.put("map", "HASH");
@@ -73,8 +74,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase).").defaultValue("SwaggerClient"));
         cliOptions.add(new CliOption(MODULE_VERSION, "Perl module version.").defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC, BooleanProperty.TYPE));
+        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC,
+                BooleanProperty.TYPE));
 
     }
 
@@ -97,21 +100,24 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiClient.pm"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Configuration.pm"));
-        supportingFiles.add(new SupportingFile("BaseObject.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Object/BaseObject.pm"));
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiFactory.pm"));
         supportingFiles.add(new SupportingFile("Role.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Role.pm"));
         supportingFiles.add(new SupportingFile("AutoDoc.mustache", ("lib/WWW/" + moduleName + "/Role").replace('/', File.separatorChar), "AutoDoc.pm"));
-        supportingFiles.add(new SupportingFile("autodoc.script.mustache", ("bin/").replace('/', File.separatorChar), "autodoc"));
+        supportingFiles.add(new SupportingFile("autodoc.script.mustache", "bin", "autodoc"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "perl";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Perl client library.";
     }
@@ -126,6 +132,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + "/lib/WWW/" + moduleName + apiPackage()).replace('/', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/lib/WWW/" + moduleName + modelPackage()).replace('/', File.separatorChar);
     }
@@ -162,6 +169,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return type;
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }

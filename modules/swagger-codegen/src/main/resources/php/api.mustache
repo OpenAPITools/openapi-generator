@@ -213,7 +213,7 @@ use \{{invokerPackage}}\ObjectSerializer;
             {{/returnType}}
         } catch (ApiException $e) {
             switch ($e->getCode()) { {{#responses}}{{#dataType}}
-            case {{code}}:
+            {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;{{/dataType}}{{/responses}}

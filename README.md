@@ -8,7 +8,7 @@
 ## Overview
 This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
 
-Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additional information about the Swagger project, including additional libraries with support for other languages and more.
+Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the Swagger project, including additional libraries with support for other languages and more.
 
 # Table of contents
 
@@ -32,7 +32,7 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
     - [Where is Javascript???](#where-is-javascript)
     - [Generating a client from local files](#generating-a-client-from-local-files)
     - [Customizing the generator](#customizing-the-generator)
-    - [Validating your swagger spec](#validating-your-swagger-spec)
+    - [Validating your OpenAPI Spec](#validating-your-swagger-spec)
     - [Generating dynamic html api documentation](#generating-dynamic-html-api-documentation)
     - [Generating static html api documentation](#generating-static-html-api-documentation)
     - [To build a server stub](#to-build-a-server-stub)
@@ -50,9 +50,9 @@ Check out [Swagger-Spec](https://github.com/swagger-api/swagger-spec) for additi
 
 
 ## Compatibility
-The Swagger Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the swagger specification:
+The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the OpenAPI Specification:
 
-Swagger Codegen Version    | Release Date | Swagger Spec compatibility | Notes
+Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
 2.1.5-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
 2.1.4 (**current stable**) | 2015-10-25   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.4](https://github.com/swagger-api/swagger-codegen/tree/v2.1.4)
@@ -61,7 +61,20 @@ Swagger Codegen Version    | Release Date | Swagger Spec compatibility | Notes
 
 
 ### Prerequisites
-You need the following installed and available in your $PATH:
+If you're looking for the latest stable version, you can grab it directly from maven central (you'll need the java 7 runtime):
+
+```
+wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.1.4/swagger-codegen-cli-2.1.4.jar swagger-codegen-cli.jar
+
+java -jar swagger-codegen-cli.jar help
+```
+
+On a mac, it's even easier with `brew`:
+```
+brew install swagger-codegen
+```
+
+To build from source, you need the following installed and available in your $PATH:
 
 * [Java 7](http://java.oracle.com)
 
@@ -164,7 +177,7 @@ OPTIONS
             name=value,name=value
 
         -i <spec file>, --input-spec <spec file>
-            location of the swagger spec, as URL or file (required)
+            location of the OpenAPI Spec, as URL or file (required)
 
         -l <language>, --lang <language>
             client language to generate (maybe class name in classpath,
@@ -235,12 +248,12 @@ java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modul
 ### Where is Javascript???
 See our [javascript library](http://github.com/swagger-api/swagger-js)--it's completely dynamic and doesn't require
 static code generation.
-There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a swagger specification.
+There is a third-party component called [swagger-js-codegen](https://github.com/wcandillon/swagger-js-codegen) that can generate angularjs or nodejs source code from a OpenAPI Specification.
 
 :exclamation: On Dec 7th 2015, a Javascript API client generator has been added by @jfiala.
 
 ### Generating a client from local files
-If you don't want to call your server, you can save the swagger spec files into a directory and pass an argument
+If you don't want to call your server, you can save the OpenAPI Spec files into a directory and pass an argument
 to the code generator like this:
 
 ```
@@ -419,7 +432,25 @@ and specify the `classname` when running the generator:
 
 Your subclass will now be loaded and overrides the `PREFIX` value in the superclass.
 
-### Validating your swagger spec
+### Bringing your own models
+
+Sometimes you don't want a model generated.  In this case, you can simply specify an import mapping to tell
+the codegen what _not_ to create.  When doing this, every location that references a specific model will
+refer back to your classes.  Note, this may not apply to all languages...
+
+To specify an import mapping, use the `--import-mappings` argument and specify the model-to-import logic as such:
+
+```
+--import-mappings Pet=my.models.MyPet
+```
+
+Or for multiple mappings:
+
+```
+Pet=my.models.MyPet,Order=my.models.MyOrder
+```
+
+### Validating your OpenAPI Spec
 
 You have options.  The easiest is to use our [online validator](https://github.com/swagger-api/validator-badge) which not only will let you validate your spec, but with the debug flag, you can see what's wrong with your spec.  For example:
 

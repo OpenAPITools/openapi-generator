@@ -76,7 +76,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         String primitives = "'" + StringUtils.join(languageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
 
-        // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
@@ -85,14 +85,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "\\DateTime");
-        typeMapping.put("datetime", "\\DateTime");
+        typeMapping.put("Date", "\\DateTime");
+        typeMapping.put("DateTime", "\\DateTime");
         typeMapping.put("file", "\\SplFileObject");
         typeMapping.put("map", "map");
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
-        typeMapping.put("DateTime", "\\DateTime");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -139,14 +138,17 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
                     .replaceAll(regLastPathSeparator+ "$", "");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "php";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a PHP client library.";
     }
@@ -223,6 +225,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
     }

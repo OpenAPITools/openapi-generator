@@ -45,14 +45,17 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         );
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "inflector";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java Inflector Server application.";
     }
@@ -70,6 +73,8 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
                         "src/main/swagger",
                         "swagger.yaml")
         );
+        supportingFiles.add(new SupportingFile("StringUtil.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
     }
 
     @Override
@@ -116,21 +121,6 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            for (CodegenProperty var : cm.vars) {
-                // handle default value for enum, e.g. available => StatusEnum.available
-                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
-                    var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
-                }
-            }
-        }
-        return objs;
-    }
-
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -188,6 +178,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         return camelize(name)+ "Controller";
     }
 
+    @Override
     public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename);
     }

@@ -133,14 +133,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(LICENSE, "License to use in the podspec file.").defaultValue("MIT"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "objc";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Objective-C client library.";
     }
@@ -356,6 +359,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return classPrefix + camelize(name) + "Api";
     }
 
+    @Override
     public String toApiFilename(String name) {
         return classPrefix + camelize(name) + "Api";
     }
@@ -395,6 +399,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toVarName(name);
     }
 
+    @Override
     public String escapeReservedWord(String name) {
         return "_" + name;
     }

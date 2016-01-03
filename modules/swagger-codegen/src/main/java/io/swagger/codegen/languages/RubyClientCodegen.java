@@ -19,8 +19,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String GEM_NAME = "gemName";
     public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
-    protected String gemName = null;
-    protected String moduleName = null;
+    protected String gemName;
+    protected String moduleName;
     protected String gemVersion = "1.0.0";
     protected String libFolder = "lib";
 
@@ -127,17 +127,19 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
         String modelFolder = gemFolder + File.separator + modelPackage.replace("/", File.separator);
-        supportingFiles.add(new SupportingFile("base_object.mustache", modelFolder, "base_object.rb"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "ruby";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Ruby client library.";
     }
@@ -166,6 +168,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         return outputFolder + File.separator + libFolder + File.separator + gemName + File.separator + apiPackage.replace("/", File.separator);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + libFolder + File.separator + gemName + File.separator + modelPackage.replace("/", File.separator);
     }

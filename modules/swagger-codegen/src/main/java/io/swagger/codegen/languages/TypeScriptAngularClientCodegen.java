@@ -10,6 +10,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 		return "typescript-angular";
 	}
 
+	@Override
 	public String getHelp() {
 		return "Generates a TypeScript AngularJS client library.";
 	}

@@ -110,14 +110,17 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile("error-body.mustache", sourceFolder, PREFIX + "Error.cpp"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "tizen";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Samsung Tizen C++ client library.";
     }
@@ -250,6 +253,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         return PREFIX + initialCaps(name) + "Api";
     }
 
+    @Override
     public String toApiFilename(String name) {
         return PREFIX + initialCaps(name) + "Api";
     }
@@ -261,6 +265,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         return "p" + paramName;
     }
 
+    @Override
     public String escapeReservedWord(String name) {
         return "_" + name;
     }

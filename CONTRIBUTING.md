@@ -4,7 +4,7 @@
 
  - Before submitting an issue, search the [open issue](https://github.com/swagger-api/swagger-codegen/issues) and [closed issue](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aissue+is%3Aclosed) to ensure no one else has reported something similar before.
  - The issue should contain details on how to repeat the issue, e.g. 
-   - the Swagger spec for reproducing the issue (:bulb: use [Gist](https://gist.github.com) to share). If the Swagger spec cannot be shared publicly, it will be hard for the community to help
+   - the OpenAPI Spec for reproducing the issue (:bulb: use [Gist](https://gist.github.com) to share). If the OpenAPI Spec cannot be shared publicly, it will be hard for the community to help
    - version of Swagger Codegen
    - language (`-l` in the command line, e.g. java, csharp, php)
  - You can also make a suggestion or ask a question by opening an "issue"
@@ -56,7 +56,7 @@ To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all t
 
 ### Tips
 - Smaller changes are easier to review
-- [Optional] For bug fixes, provide a Swagger spec to repeat the issue so that the reviewer can use it to confirm the fix
+- [Optional] For bug fixes, provide a OpenAPI Spec to repeat the issue so that the reviewer can use it to confirm the fix
 - Add test case(s) to cover the change
 - Document the fix in the code to make the code more readable
 - Make sure test cases passed after the change (one way is to leverage https://travis-ci.org/ to run the CI tests)

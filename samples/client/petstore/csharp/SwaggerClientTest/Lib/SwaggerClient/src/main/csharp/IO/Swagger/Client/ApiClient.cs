@@ -196,13 +196,14 @@ namespace IO.Swagger.Client
                 return ((DateTime)obj).ToString (Configuration.DateTimeFormat);
             else if (obj is IList)
             {
-                string flattenString = "";
-                string separator = ",";
+                var flattenedString = new StringBuilder();
                 foreach (var param in (IList)obj)
                 {
-                    flattenString += param.ToString() + separator;
+                    if (flattenedString.Length > 0)
+                        flattenedString.Append(",");
+                    flattenedString.Append(param);
                 }
-                return flattenString.Remove(flattenString.Length - 1);;
+                return flattenedString.ToString();
             }
             else
                 return Convert.ToString (obj);
@@ -231,13 +232,16 @@ namespace IO.Swagger.Client
                     var filePath = String.IsNullOrEmpty(Configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : Configuration.TempFolderPath;
-                    var regex = new Regex(@"Content-Disposition:.*filename=['""]?([^'""\s]+)['""]?$");
-                    var match = regex.Match(headers.ToString());
-                    if (match.Success)
+                    var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
+                    foreach (var header in headers)
                     {
-                        string fileName = filePath + match.Value.Replace("\"", "").Replace("'", "");
-                        File.WriteAllBytes(fileName, data);
-                        return new FileStream(fileName, FileMode.Open);
+                        var match = regex.Match(header.ToString());
+                        if (match.Success)
+                        {
+                            string fileName = filePath + match.Groups[1].Value.Replace("\"", "").Replace("'", "");
+                            File.WriteAllBytes(fileName, data);
+                            return new FileStream(fileName, FileMode.Open);
+                        }
                     }
                 }
                 var stream = new MemoryStream(data);
