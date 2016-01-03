@@ -314,6 +314,7 @@ class StoreApi
         
         
         // path params
+        
         if ($order_id !== null) {
             $resourcePath = str_replace(
                 "{" . "orderId" . "}",
@@ -407,6 +408,7 @@ class StoreApi
         
         
         // path params
+        
         if ($order_id !== null) {
             $resourcePath = str_replace(
                 "{" . "orderId" . "}",
