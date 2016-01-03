@@ -139,14 +139,29 @@ use \{{invokerPackage}}\ObjectSerializer;
         $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
   
         {{#queryParams}}// query params
+        {{#collectionFormat}}
+        if (is_array(${{paramName}})) {
+            ${{paramName}} = $this->apiClient->getSerializer()->serializeCollection(${{paramName}}, '{{collectionFormat}}', true);
+        }
+        {{/collectionFormat}}
         if (${{paramName}} !== null) {
             $queryParams['{{baseName}}'] = $this->apiClient->getSerializer()->toQueryValue(${{paramName}});
         }{{/queryParams}}
         {{#headerParams}}// header params
+        {{#collectionFormat}}
+        if (is_array(${{paramName}})) {
+            ${{paramName}} = $this->apiClient->getSerializer()->serializeCollection(${{paramName}}, '{{collectionFormat}}');
+        }
+        {{/collectionFormat}}
         if (${{paramName}} !== null) {
             $headerParams['{{baseName}}'] = $this->apiClient->getSerializer()->toHeaderValue(${{paramName}});
         }{{/headerParams}}
         {{#pathParams}}// path params
+        {{#collectionFormat}}
+        if (is_array(${{paramName}})) {
+            ${{paramName}} = $this->apiClient->getSerializer()->serializeCollection(${{paramName}}, '{{collectionFormat}}');
+        }
+        {{/collectionFormat}}
         if (${{paramName}} !== null) {
             $resourcePath = str_replace(
                 "{" . "{{baseName}}" . "}",
