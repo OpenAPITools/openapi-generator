@@ -50,14 +50,17 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         importMapping = new HashMap<String, String>();
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }
 
+    @Override
     public String getName() {
         return "html";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a static HTML file.";
     }

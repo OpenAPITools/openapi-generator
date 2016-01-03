@@ -13,9 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class InlineModelResolver {
-    private Swagger swagger = null;
-    private boolean skipMatches = false;
+    private Swagger swagger;
+    private boolean skipMatches;
+    static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     Map<String, Model> addedModels = new HashMap<String, Model>();
     Map<String, String> generatedSignature = new HashMap<String, String>();
@@ -60,8 +64,19 @@ public class InlineModelResolver {
                                         Property inner = am.getItems();
 
                                         if(inner instanceof ObjectProperty) {
+                                            String modelName = uniqueName(bp.getName());
                                             ObjectProperty op = (ObjectProperty) inner;
                                             flattenProperties(op.getProperties(), pathname);
+
+                                            Model innerModel = modelFromProperty(op, modelName);
+                                            String existing = matchGenerated(innerModel);
+                                            if (existing != null) {
+                                                am.setItems(new RefProperty(existing));
+                                            } else {
+                                                am.setItems(new RefProperty(modelName));
+                                                addGenerated(modelName, innerModel);
+                                                swagger.addDefinition(modelName, innerModel);
+                                            }
                                         }
                                     }
                                 }
@@ -88,36 +103,38 @@ public class InlineModelResolver {
                                     }
                                 } else if (property instanceof ArrayProperty) {
                                     ArrayProperty ap = (ArrayProperty) property;
-                                    if(ap.getItems() instanceof ObjectProperty) {
-                                        ObjectProperty op = (ObjectProperty) ap.getItems();
-                                        Map<String, Property> props = op.getProperties();
-                                        flattenProperties(props, "path");
-                                    }
-                                } else if (property instanceof MapProperty) {
-                                    MapProperty op = (MapProperty) property;
+                                    Property inner = ap.getItems();
 
-                                    Property innerProperty = op.getAdditionalProperties();
-                                    if(innerProperty instanceof ObjectProperty) {
-                                        ModelImpl innerModel = new ModelImpl();
-                                        // TODO: model props
-                                        innerModel.setTitle(property.getTitle());
-                                        property.getVendorExtensions();
-                                        property.getRequired();
-                                        property.getReadOnly();
-                                        property.getAccess();
-                                        innerModel.setDescription(property.getDescription());
-                                        innerModel.setExample(property.getExample());
-                                        innerModel.setName(property.getName());
-                                        innerModel.setXml(property.getXml());
-
-                                        innerModel.setAdditionalProperties(innerProperty);
-
+                                    if(inner instanceof ObjectProperty) {
                                         String modelName = uniqueName("inline_response_" + key);
+                                        ObjectProperty op = (ObjectProperty) inner;
+                                        flattenProperties(op.getProperties(), pathname);
+
+                                        Model innerModel = modelFromProperty(op, modelName);
                                         String existing = matchGenerated(innerModel);
                                         if (existing != null) {
-                                            response.setSchema(new RefProperty(existing));
+                                            ap.setItems(new RefProperty(existing));
                                         } else {
-                                            response.setSchema(new RefProperty(modelName));
+                                            ap.setItems(new RefProperty(modelName));
+                                            addGenerated(modelName, innerModel);
+                                            swagger.addDefinition(modelName, innerModel);
+                                        }
+                                    }
+                                } else if (property instanceof MapProperty) {
+                                    MapProperty mp = (MapProperty) property;
+
+                                    Property innerProperty = mp.getAdditionalProperties();
+                                    if(innerProperty instanceof ObjectProperty) {
+                                        String modelName = uniqueName("inline_response_" + key);
+                                        ObjectProperty op = (ObjectProperty) innerProperty;
+                                        flattenProperties(op.getProperties(), pathname);
+
+                                        Model innerModel = modelFromProperty(op, modelName);
+                                        String existing = matchGenerated(innerModel);
+                                        if (existing != null) {
+                                            mp.setAdditionalProperties(new RefProperty(existing));
+                                        } else {
+                                            mp.setAdditionalProperties(new RefProperty(modelName));
                                             addGenerated(modelName, innerModel);
                                             swagger.addDefinition(modelName, innerModel);
                                         }
@@ -222,6 +239,49 @@ public class InlineModelResolver {
                     addGenerated(modelName, model);
                     swagger.addDefinition(modelName, model);
                 }
+            } else if (property instanceof ArrayProperty) {
+                ArrayProperty ap = (ArrayProperty) property;
+                Property inner = ap.getItems();
+
+                if (inner instanceof ObjectProperty) {
+                    String modelName = uniqueName(path + "_" + key);
+
+                    ObjectProperty op = (ObjectProperty) inner;
+                    flattenProperties(op.getProperties(), path);
+
+                    Model innerModel = modelFromProperty(op, modelName);
+                    String existing = matchGenerated(innerModel);
+
+                    if (existing != null) {
+                        ap.setItems(new RefProperty(existing));
+                    } else {
+                        ap.setItems(new RefProperty(modelName));
+                        addGenerated(modelName, innerModel);
+                        swagger.addDefinition(modelName, innerModel);
+                    }
+                }
+            } else if (property instanceof MapProperty) {
+                MapProperty mp = (MapProperty) property;
+                Property inner = mp.getAdditionalProperties();
+
+                if (inner instanceof ObjectProperty) {
+                    String modelName = uniqueName(path + "_" + key);
+
+                    ObjectProperty op = (ObjectProperty) inner;
+                    flattenProperties(op.getProperties(), path);
+
+                    Model innerModel = modelFromProperty(op, modelName);
+                    String existing = matchGenerated(innerModel);
+
+                    if (existing != null) {
+                        mp.setAdditionalProperties(new RefProperty(existing));
+                    } else {
+                        mp.setAdditionalProperties(new RefProperty(modelName));
+                        addGenerated(modelName, innerModel);
+                        swagger.addDefinition(modelName, innerModel);
+                    }
+                }
+            } else {
             }
         }
         if (propsToUpdate.size() > 0) {
@@ -325,4 +385,5 @@ public class InlineModelResolver {
     public void setSkipMatches(boolean skipMatches) {
         this.skipMatches = skipMatches;
     }
+
 }

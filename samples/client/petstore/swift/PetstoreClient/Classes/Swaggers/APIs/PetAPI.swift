@@ -71,20 +71,20 @@ extension PetstoreClientAPI {
          - OAuth:
            - type: oauth2
            - name: petstore_auth
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -93,21 +93,21 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -116,7 +116,7 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
          
          - parameter status: (query) Status values that need to be considered for filter
 
@@ -145,20 +145,20 @@ extension PetstoreClientAPI {
          - OAuth:
            - type: oauth2
            - name: petstore_auth
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -167,21 +167,21 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -190,7 +190,7 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
          
          - parameter tags: (query) Tags to filter by
 
@@ -219,20 +219,20 @@ extension PetstoreClientAPI {
          - API Key:
            - type: apiKey api_key 
            - name: api_key
-         - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+         - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -241,21 +241,21 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-         - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+         - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -264,7 +264,7 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
          
          - parameter petId: (path) ID of pet that needs to be fetched
 

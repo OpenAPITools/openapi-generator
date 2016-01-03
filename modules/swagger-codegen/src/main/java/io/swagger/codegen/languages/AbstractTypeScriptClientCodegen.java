@@ -60,6 +60,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 		return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
 	}
 
+	@Override
 	public String modelFileFolder() {
 		return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
 	}

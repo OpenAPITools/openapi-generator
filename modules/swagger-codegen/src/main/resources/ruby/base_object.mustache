@@ -1,9 +1,3 @@
-require 'date'
-
-module {{moduleName}}
-  # base class containing fundamental method such as to_hash, build_from_hash and more
-  class BaseObject
-
     # build the object from hash
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
@@ -94,6 +88,3 @@ module {{moduleName}}
         value
       end
     end
-
-  end
-end

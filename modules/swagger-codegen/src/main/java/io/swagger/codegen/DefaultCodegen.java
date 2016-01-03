@@ -25,23 +25,8 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.parameters.QueryParameter;
 import io.swagger.models.parameters.SerializableParameter;
-import io.swagger.models.properties.AbstractNumericProperty;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.ByteArrayProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.PropertyBuilder;
+import io.swagger.models.properties.*;
 import io.swagger.models.properties.PropertyBuilder.PropertyId;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
 
 import org.apache.commons.lang.StringUtils;
@@ -86,9 +71,9 @@ public class DefaultCodegen {
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
-    protected boolean supportsInheritance = false;
+    protected boolean supportsInheritance;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-    protected String library = null;
+    protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
 
@@ -135,6 +120,12 @@ public class DefaultCodegen {
         return objs;
     }
 
+    // override to post-process any model properties
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property){}
+
+    // override to post-process any parameters
+    public void postProcessParameter(CodegenParameter parameter){}
+
     //override with any special handling of the entire swagger spec
     public void preprocessSwagger(Swagger swagger) {
     }
@@ -148,6 +139,7 @@ public class DefaultCodegen {
         if (input != null) {
             input = input.trim();
             String output = input.replaceAll("\n", "\\\\n");
+            output = output.replace("\r", "\\r");
             output = output.replace("\"", "\\\"");
             return output;
         }
@@ -322,7 +314,7 @@ public class DefaultCodegen {
      * Return the parameter name by removing invalid characters and proper escaping if
      * it's a reserved word.
      * 
-     * @param property Codegen property object
+     * @param name Codegen property object
      * @return the sanitized parameter name
      */
     public String toParamName(String name) {
@@ -347,8 +339,9 @@ public class DefaultCodegen {
      * Return the escaped name of the reserved word
      * 
      * @param name the name to be escaped
-     * @throws Runtime exception as reserved word is not allowed (default behavior)
      * @return the escaped reserved word
+     *
+     * throws Runtime exception as reserved word is not allowed (default behavior)
      */
     public String escapeReservedWord(String name) {
         throw new RuntimeException("reserved word " + name + " not allowed");
@@ -384,9 +377,8 @@ public class DefaultCodegen {
      * between Swagger type and the corresponding import statement for the language. This will 
      * also add some language specified CLI options, if any.
      *
-     * @param path the path of the operation
-     * @param operation Swagger operation object
-     * @return string presentation of the example path
+     *
+     * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
         defaultIncludes = new HashSet<String>(
@@ -423,6 +415,7 @@ public class DefaultCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Integer");
         typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("binary", "byte[]");
 
 
         instantiationTypes = new HashMap<String, String>();
@@ -447,9 +440,10 @@ public class DefaultCodegen {
         importMapping.put("LocalTime", "org.joda.time.*");
 
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
-                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue("true"));
-        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC)
-                .defaultValue("true"));
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC, BooleanProperty.TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants.ENSURE_UNIQUE_PARAMS_DESC,
+                BooleanProperty.TYPE).defaultValue(Boolean.TRUE.toString()));
     }
 
     /**
@@ -632,10 +626,14 @@ public class DefaultCodegen {
      **/
     public String getSwaggerType(Property p) {
         String datatype = null;
-        if (p instanceof StringProperty) {
+        if (p instanceof StringProperty && "number".equals(p.getFormat())) {
+            datatype = "BigDecimal";
+        } else if (p instanceof StringProperty) {
             datatype = "string";
         } else if (p instanceof ByteArrayProperty) {
             datatype = "ByteArray";
+        } else if (p instanceof BinaryProperty) {
+            datatype = "binary";
         } else if (p instanceof BooleanProperty) {
             datatype = "boolean";
         } else if (p instanceof DateProperty) {
@@ -774,6 +772,9 @@ public class DefaultCodegen {
         m.classVarName = toVarName(name);
         m.modelJson = Json.pretty(model);
         m.externalDocs = model.getExternalDocs();
+        m.vendorExtensions = model.getVendorExtensions();
+
+
         if (model instanceof ArrayModel) {
             ArrayModel am = (ArrayModel) model;
             ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
@@ -838,11 +839,23 @@ public class DefaultCodegen {
             addVars(m, properties, required);
         } else {
             ModelImpl impl = (ModelImpl) model;
+            if(impl.getEnum() != null && impl.getEnum().size() > 0) {
+                m.isEnum = true;
+                m.allowableValues = impl.getEnum();
+                Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
+                m.dataType = getSwaggerType(p);
+            }
             if (impl.getAdditionalProperties() != null) {
                 MapProperty mapProperty = new MapProperty(impl.getAdditionalProperties());
                 addParentContainer(m, name, mapProperty);
             }
             addVars(m, impl.getProperties(), impl.getRequired());
+        }
+
+        if(m.vars != null) {
+            for(CodegenProperty prop : m.vars) {
+                postProcessModelProperty(m, prop);
+            }
         }
         return m;
     }
@@ -886,9 +899,9 @@ public class DefaultCodegen {
         property.example = p.getExample();
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
-        
         property.jsonSchema = Json.pretty(p);
         property.isReadOnly = p.getReadOnly();
+        property.vendorExtensions = p.getVendorExtensions();
 
         String type = getSwaggerType(p);
         if (p instanceof AbstractNumericProperty) {
@@ -1433,7 +1446,7 @@ public class DefaultCodegen {
      * Convert Swagger Parameter object to Codegen Parameter object
      *
      * @param param Swagger parameter object
-     * @param a set of imports for library/package/module
+     * @param imports set of imports for library/package/module
      * @return Codegen Parameter object
      */
     public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
@@ -1596,6 +1609,8 @@ public class DefaultCodegen {
             }
             p.paramName = toParamName(bp.getName());
         }
+
+        postProcessParameter(p);
         return p;
     }
 
@@ -1607,7 +1622,7 @@ public class DefaultCodegen {
      */
     public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
         if (schemes == null) {
-            return null;
+        	return Collections.emptyList();
         }
 
         List<CodegenSecurity> secs = new ArrayList<CodegenSecurity>(schemes.size());
@@ -1708,8 +1723,7 @@ public class DefaultCodegen {
      */
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
-            && !languageSpecificPrimitives.contains(type)
-            && type.indexOf(".") < 0;
+            && !languageSpecificPrimitives.contains(type);
     }
 
     protected List<Map<String, Object>> toExamples(Map<String, Object> examples) {
@@ -1821,6 +1835,16 @@ public class DefaultCodegen {
         word = word.replace('-', '_');
         word = word.toLowerCase();
         return word;
+    }
+
+    /**
+     * Dashize the given word.
+     *
+     * @param word The word
+     * @return The dashized version of the word, e.g. "my-name"
+     */
+    protected String dashize(String word) {
+        return underscore(word).replaceAll("[_ ]", "-");
     }
 
     /**
@@ -2009,6 +2033,7 @@ public class DefaultCodegen {
     /**
      * All library templates supported.
      * (key: library name, value: library description)
+     * @return the supported libraries
      */
     public Map<String, String> supportedLibraries() {
         return supportedLibraries;

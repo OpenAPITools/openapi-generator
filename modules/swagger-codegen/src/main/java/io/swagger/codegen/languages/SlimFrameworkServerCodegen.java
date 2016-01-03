@@ -67,7 +67,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
 
-        // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
@@ -90,14 +90,17 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "slim";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Slim Framework server library.";
     }
@@ -112,6 +115,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
     }
@@ -162,6 +166,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         return super.getTypeDeclaration(name);
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }

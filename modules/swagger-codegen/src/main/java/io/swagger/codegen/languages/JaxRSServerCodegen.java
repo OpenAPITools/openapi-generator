@@ -5,12 +5,15 @@ import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 
+import java.io.File;
 import java.util.*;
 
 public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
+    protected String dateLibrary = "default";
     protected String title = "Swagger Server";
     protected String implFolder = "src/main/java";
 
+    public static final String DATE_LIBRARY = "dateLibrary";
     public JaxRSServerCodegen() {
         super();
 
@@ -24,23 +27,52 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-        embeddedTemplateDir = templateDir = "JavaJaxRS";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
 
         additionalProperties.put("title", title);
         
+        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "jersey1_18";
+
+        for(int i = 0; i < cliOptions.size(); i++) {
+            if(CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
+                cliOptions.remove(i);
+                break;
+            }
+        }
+
+        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
+        Map<String, String> dateOptions = new HashMap<String, String>();
+        dateOptions.put("java8", "Java 8 native");
+        dateOptions.put("joda", "Joda");
+        dateLibrary.setEnum(dateOptions);
+
+        cliOptions.add(dateLibrary);
+
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        library.setDefault(DEFAULT_LIBRARY);
+
+        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
+
+        supportedLibraries.put(DEFAULT_LIBRARY, "Jersey core 1.18.1");
+//        supportedLibraries.put("jersey2", "Jersey2 core library 2.x");
+        library.setEnum(supportedLibraries);
+
+        cliOptions.add(library);
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "jaxrs";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java JAXRS Server application.";
     }
@@ -52,6 +84,10 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         if(additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
         	implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
+
+//        if("jersey2".equals(getLibrary())) {
+//            embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "jersey2";
+//        }
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -66,7 +102,39 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
         supportingFiles.add(new SupportingFile("web.mustache",
                 ("src/main/webapp/WEB-INF"), "web.xml"));
+        supportingFiles.add(new SupportingFile("StringUtil.mustache",
+                (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
 
+        if (additionalProperties.containsKey("dateLibrary")) {
+            setDateLibrary(additionalProperties.get("dateLibrary").toString());
+            additionalProperties.put(dateLibrary, "true");
+        }
+
+        if("joda".equals(dateLibrary)) {
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "DateTime");
+
+            importMapping.put("LocalDate", "org.joda.time.LocalDate");
+            importMapping.put("DateTime", "org.joda.time.DateTime");
+
+            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
+        }
+        else if ("java8".equals(dateLibrary)) {
+            additionalProperties.put("java8", "true");
+            additionalProperties.put("javaVersion", "1.8");
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "LocalDateTime");
+            importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+
+            supportingFiles.add(new SupportingFile("LocalDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
+        }
     }
 
     @Override
@@ -102,6 +170,16 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         if("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");
         }
+
+        String host = swagger.getHost();
+        String port = "8080";
+        if(host != null) {
+            String[] parts = host.split(":");
+            if(parts.length > 1) {
+                port = parts[1];
+            }
+        }
+        this.additionalProperties.put("serverPort", port);
         if(swagger != null && swagger.getPaths() != null) {
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
@@ -131,21 +209,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            for (CodegenProperty var : cm.vars) {
-                // handle default value for enum, e.g. available => StatusEnum.available
-                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
-                    var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
-                }
-            }
-        }
-        return objs;
-    }
-
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -224,7 +287,12 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
+    @Override
     public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
+    }
+
+    public void setDateLibrary(String library) {
+        this.dateLibrary = library;
     }
 }

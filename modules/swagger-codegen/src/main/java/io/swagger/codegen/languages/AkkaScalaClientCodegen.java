@@ -154,14 +154,17 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "akka-scala";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Scala client library base on Akka/Spray.";
     }
@@ -176,6 +179,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
@@ -321,6 +325,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         }
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         if (!p.getRequired()) {
             return "None";

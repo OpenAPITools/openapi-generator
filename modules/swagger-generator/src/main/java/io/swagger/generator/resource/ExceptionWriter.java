@@ -13,6 +13,7 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class ExceptionWriter implements ExceptionMapper<Exception> {
+    @Override
     public Response toResponse(Exception exception) {
         if (exception instanceof javax.ws.rs.WebApplicationException) {
             javax.ws.rs.WebApplicationException e = (javax.ws.rs.WebApplicationException) exception;

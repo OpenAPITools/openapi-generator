@@ -9,8 +9,9 @@ import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.*;
 
 
+
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-29T00:18:01.946+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-29T11:35:06.891+08:00")
 public class User   {
   
   private Long id = null;
@@ -146,19 +147,31 @@ public class User   {
   }
 
   @Override
-  public String toString()  {
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
     
-    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-    sb.append("    username: ").append(StringUtil.toIndentedString(username)).append("\n");
-    sb.append("    firstName: ").append(StringUtil.toIndentedString(firstName)).append("\n");
-    sb.append("    lastName: ").append(StringUtil.toIndentedString(lastName)).append("\n");
-    sb.append("    email: ").append(StringUtil.toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(StringUtil.toIndentedString(password)).append("\n");
-    sb.append("    phone: ").append(StringUtil.toIndentedString(phone)).append("\n");
-    sb.append("    userStatus: ").append(StringUtil.toIndentedString(userStatus)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
+    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
+    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+    sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

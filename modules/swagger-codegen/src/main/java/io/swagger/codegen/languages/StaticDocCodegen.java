@@ -50,14 +50,17 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("map", "HashMap");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }
 
+    @Override
     public String getName() {
         return "dynamic-html";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a dynamic HTML site.";
     }
@@ -72,6 +75,7 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
         return outputFolder + File.separator + sourceFolder + File.separator + "operations";
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + "models";
     }

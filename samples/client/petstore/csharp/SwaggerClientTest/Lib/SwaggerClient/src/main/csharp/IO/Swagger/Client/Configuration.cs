@@ -32,7 +32,8 @@ namespace IO.Swagger.Client
                              Dictionary<String, String> apiKey = null,
                              Dictionary<String, String> apiKeyPrefix = null,
                              string tempFolderPath = null,
-                             string dateTimeFormat = null
+                             string dateTimeFormat = null,
+                             int timeout = 100000
                             )
         {
             if (apiClient == null)
@@ -44,14 +45,16 @@ namespace IO.Swagger.Client
             Password = password;
             AccessToken = accessToken;
 
-			if (apiKey != null)
+            if (defaultHeader != null)
+                DefaultHeader = defaultHeader;
+            if (apiKey != null)
                 ApiKey = apiKey;
-			if (apiKeyPrefix != null)
-			    ApiKeyPrefix = apiKeyPrefix;
+            if (apiKeyPrefix != null)
+                ApiKeyPrefix = apiKeyPrefix;
 
             TempFolderPath = tempFolderPath;
             DateTimeFormat = dateTimeFormat;
-
+            Timeout = timeout;
         }
 
         /// <summary>
@@ -79,19 +82,38 @@ namespace IO.Swagger.Client
         public static Configuration Default = new Configuration();
 
         /// <summary>
+        /// Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
+        /// </summary>
+        /// <value>Timeout.</value>
+        public int Timeout
+        {
+            get { return ApiClient.RestClient.Timeout; }
+
+            set 
+            {
+                ApiClient.RestClient.Timeout = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the default API client for making HTTP calls.
         /// </summary>
         /// <value>The API client.</value>
         public ApiClient ApiClient;
 
-        private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
+        private Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
         
         /// <summary>
-        /// Gets the default header.
+        /// Gets or sets the default header.
         /// </summary>
         public Dictionary<String, String> DefaultHeader
         {
             get { return _defaultHeaderMap; }
+
+            set
+            {
+                _defaultHeaderMap = value;
+            }
         }
 
         /// <summary>
