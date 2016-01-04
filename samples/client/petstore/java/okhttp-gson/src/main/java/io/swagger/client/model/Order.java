@@ -1,14 +1,12 @@
 package io.swagger.client.model;
 
-import io.swagger.client.StringUtil;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.Objects;
 
 import com.google.gson.annotations.SerializedName;
 
-
-import java.util.Objects;
-
-import io.swagger.annotations.*;
 
 
 

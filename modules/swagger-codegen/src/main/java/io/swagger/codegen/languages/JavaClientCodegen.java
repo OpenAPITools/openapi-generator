@@ -482,12 +482,15 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             // needed by all pojos, but not enums
             model.imports.add("ApiModelProperty");
             model.imports.add("ApiModel");
-            model.imports.add("JsonProperty");
             model.imports.add("Objects");
-            model.imports.add("StringUtil");
 
-            if(model.hasEnums != null || model.hasEnums == true) {
-                model.imports.add("JsonValue");
+            final String lib = getLibrary();
+            if(StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+                model.imports.add("JsonProperty");
+
+                if(model.hasEnums != null || model.hasEnums == true) {
+                  model.imports.add("JsonValue");
+                }
             }
         }
         return;

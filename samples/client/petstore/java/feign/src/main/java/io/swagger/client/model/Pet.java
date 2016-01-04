@@ -1,20 +1,19 @@
 package io.swagger.client.model;
 
-import io.swagger.client.StringUtil;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Category;
-import java.util.*;
 import io.swagger.client.model.Tag;
-
-
+import java.util.*;
 import java.util.Objects;
 
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.*;
 
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-29T11:53:36.016+08:00")
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-31T12:27:43.581+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -24,29 +23,30 @@ public class Pet   {
   private List<Tag> tags = new ArrayList<Tag>();
 
 
-public enum StatusEnum {
-  AVAILABLE("available"),
-  PENDING("pending"),
-  SOLD("sold");
+  public enum StatusEnum {
+    AVAILABLE("available"),
+    PENDING("pending"),
+    SOLD("sold");
 
-  private String value;
+    private String value;
 
-  StatusEnum(String value) {
-    this.value = value;
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return value;
+    }
   }
-
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
-}
 
   private StatusEnum status = null;
 
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -59,6 +59,7 @@ public enum StatusEnum {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
@@ -71,6 +72,7 @@ public enum StatusEnum {
   
   /**
    **/
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   public String getName() {
@@ -83,6 +85,7 @@ public enum StatusEnum {
   
   /**
    **/
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
@@ -95,6 +98,7 @@ public enum StatusEnum {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
@@ -108,6 +112,7 @@ public enum StatusEnum {
   /**
    * pet status in the store
    **/
+  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
