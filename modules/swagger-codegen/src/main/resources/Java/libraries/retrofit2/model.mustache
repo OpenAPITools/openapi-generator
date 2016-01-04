@@ -1,17 +1,11 @@
 package {{package}};
 
-import {{invokerPackage}}.StringUtil;
 {{#imports}}import {{import}};
 {{/imports}}
 
 import com.google.gson.annotations.SerializedName;
 
-{{#serializableModel}}
-import java.io.Serializable;{{/serializableModel}}
-import java.util.Objects;
-
-import io.swagger.annotations.*;
-
+{{#serializableModel}}import java.io.Serializable;{{/serializableModel}}
 {{#models}}
 
 {{#model}}{{#description}}
