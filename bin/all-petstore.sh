@@ -19,7 +19,7 @@ fi
 
 cd $APP_DIR
 ./bin/akka-scala-petstore.sh
-./bin/android-java-petstore.sh
+./bin/android-petstore.sh
 ./bin/clojure-petstore.sh
 ./bin/csharp-petstore.sh
 ./bin/dynamic-html.sh
