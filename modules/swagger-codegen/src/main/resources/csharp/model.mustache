@@ -16,7 +16,7 @@ namespace {{packageName}}.Model
     /// {{description}}
     /// </summary>
     [DataContract]
-    public class {{classname}} : IEquatable<{{classname}}>{{#parent}}, {{{parent}}}{{/parent}}
+    public class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
