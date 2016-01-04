@@ -56,6 +56,7 @@ ext {
     swagger_annotations_version = "1.5.0"
     gson_version = "2.3.1"
     httpclient_version = "4.3.3"
+    volley_version = "1.0.19"
     junit_version = "4.8.1"
 }
 
@@ -64,6 +65,7 @@ dependencies {
     compile "com.google.code.gson:gson:$gson_version"
     compile "org.apache.httpcomponents:httpcore:$httpclient_version"
     compile "org.apache.httpcomponents:httpmime:$httpclient_version"
+    compile "com.mcxiaoke.volley:library:${volley_version}@aar"
     testCompile "junit:junit:$junit_version"
 }
 
