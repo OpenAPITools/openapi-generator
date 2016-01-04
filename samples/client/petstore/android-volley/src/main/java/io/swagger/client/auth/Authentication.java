@@ -1,6 +1,6 @@
-package {{invokerPackage}}.auth;
+package io.swagger.client.auth;
 
-import {{invokerPackage}}.Pair;
+import io.swagger.client.Pair;
 
 import java.util.Map;
 import java.util.List;
