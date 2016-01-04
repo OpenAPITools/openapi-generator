@@ -301,6 +301,11 @@ class PetApi
         $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
   
         // query params
+        
+        if (is_array($status)) {
+            $status = $this->apiClient->getSerializer()->serializeCollection($status, 'multi', true);
+        }
+        
         if ($status !== null) {
             $queryParams['status'] = $this->apiClient->getSerializer()->toQueryValue($status);
         }
@@ -391,6 +396,11 @@ class PetApi
         $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
   
         // query params
+        
+        if (is_array($tags)) {
+            $tags = $this->apiClient->getSerializer()->serializeCollection($tags, 'multi', true);
+        }
+        
         if ($tags !== null) {
             $queryParams['tags'] = $this->apiClient->getSerializer()->toQueryValue($tags);
         }
@@ -487,6 +497,7 @@ class PetApi
         
         
         // path params
+        
         if ($pet_id !== null) {
             $resourcePath = str_replace(
                 "{" . "petId" . "}",
@@ -591,6 +602,7 @@ class PetApi
         
         
         // path params
+        
         if ($pet_id !== null) {
             $resourcePath = str_replace(
                 "{" . "petId" . "}",
@@ -694,10 +706,12 @@ class PetApi
   
         
         // header params
+        
         if ($api_key !== null) {
             $headerParams['api_key'] = $this->apiClient->getSerializer()->toHeaderValue($api_key);
         }
         // path params
+        
         if ($pet_id !== null) {
             $resourcePath = str_replace(
                 "{" . "petId" . "}",
@@ -792,6 +806,7 @@ class PetApi
         
         
         // path params
+        
         if ($pet_id !== null) {
             $resourcePath = str_replace(
                 "{" . "petId" . "}",
