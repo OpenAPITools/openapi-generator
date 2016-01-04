@@ -24,6 +24,11 @@ import org.slf4j.LoggerFactory;
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     protected boolean optionalMethodArgumentFlag = true;
+    protected String packageTitle = "Swagger Library";
+    protected String packageProductName = "SwaggerLibrary";
+    protected String packageDescription = "A library generated from a Swagger doc";
+    protected String packageCompany = "Swagger";
+    protected String packageCopyright = "No Copyright";
     protected String packageName = "IO.Swagger";
     protected String packageVersion = "1.0.0";
     protected String clientPackage = "IO.Swagger.Client";
@@ -117,6 +122,13 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
         additionalProperties.put("clientPackage", clientPackage);
 
+        // Add properties used by AssemblyInfo.mustache
+        additionalProperties.put("packageTitle", packageTitle);
+        additionalProperties.put("packageProductName", packageProductName);
+        additionalProperties.put("packageDescription", packageDescription);
+        additionalProperties.put("packageCompany", packageCompany);
+        additionalProperties.put("packageCopyright", packageCopyright);
+
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_METHOD_ARGUMENT)) {
             setOptionalMethodArgumentFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.OPTIONAL_METHOD_ARGUMENT).toString()));
@@ -135,6 +147,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
         supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
+        supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", "src" + File.separator + "Properties", "AssemblyInfo.cs"));
 
     }
 
