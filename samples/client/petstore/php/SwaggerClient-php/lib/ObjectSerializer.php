@@ -162,6 +162,39 @@ class ObjectSerializer
     }
 
     /**
+     * Serialize an array to a string.
+     *
+     * @param array  $collection       collection to serialize to a string
+     * @param string $collectionFormat the format use for serialization (csv,
+     * ssv, tsv, pipes, multi)
+     *
+     * @return string
+     */
+    public function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti=false)
+    {
+        if ($allowCollectionFormatMulti && ('multi' === $collectionFormat)) {
+            // http_build_query() almost does the job for us. We just
+            // need to fix the result of multidimensional arrays.
+            return preg_replace('/%5B[0-9]+%5D=/', '=', http_build_query($collection, '', '&'));
+        }
+        switch ($collectionFormat) {
+            case 'pipes':
+                return implode('|', $collection);
+
+            case 'tsv':
+                return implode("\t", $collection);
+
+            case 'ssv':
+                return implode(' ', $collection);
+
+            case 'csv':
+                // Deliberate fall through. CSV is default format.
+            default:
+                return implode(',', $collection);
+        }
+    }
+
+    /**
      * Deserialize a JSON string into an object
      *
      * @param mixed  $data       object or primitive to be deserialized
@@ -193,7 +226,7 @@ class ObjectSerializer
             $deserialized = $values;
         } elseif ($class === '\DateTime') {
             $deserialized = new \DateTime($data);
-        } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
+        } elseif (in_array($class, array('void', 'bool', 'string', 'double', 'byte', 'mixed', 'integer', 'float', 'int', 'DateTime', 'number', 'boolean', 'object'))) {
             settype($data, $class);
             $deserialized = $data;
         } elseif ($class === '\SplFileObject') {

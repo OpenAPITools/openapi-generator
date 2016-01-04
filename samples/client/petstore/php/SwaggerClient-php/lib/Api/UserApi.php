@@ -371,9 +371,11 @@ class UserApi
         $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
   
         // query params
+        
         if ($username !== null) {
             $queryParams['username'] = $this->apiClient->getSerializer()->toQueryValue($username);
         }// query params
+        
         if ($password !== null) {
             $queryParams['password'] = $this->apiClient->getSerializer()->toQueryValue($password);
         }
@@ -537,6 +539,7 @@ class UserApi
         
         
         // path params
+        
         if ($username !== null) {
             $resourcePath = str_replace(
                 "{" . "username" . "}",
@@ -632,6 +635,7 @@ class UserApi
         
         
         // path params
+        
         if ($username !== null) {
             $resourcePath = str_replace(
                 "{" . "username" . "}",
@@ -721,6 +725,7 @@ class UserApi
         
         
         // path params
+        
         if ($username !== null) {
             $resourcePath = str_replace(
                 "{" . "username" . "}",
