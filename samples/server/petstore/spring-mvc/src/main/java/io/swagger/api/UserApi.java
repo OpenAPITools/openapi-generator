@@ -32,7 +32,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-20T10:58:42.063-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-01-05T15:01:20.501+08:00")
 public class UserApi {
   
 
@@ -45,7 +45,7 @@ public class UserApi {
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUser(
 
-@ApiParam(value = "Created user object"  ) User body
+@ApiParam(value = "Created user object"  ) @RequestBody User body
 )
       throws NotFoundException {
       // do some magic!
@@ -63,7 +63,7 @@ public class UserApi {
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object"  ) List<User> body
+@ApiParam(value = "List of user object"  ) @RequestBody List<User> body
 )
       throws NotFoundException {
       // do some magic!
@@ -81,7 +81,7 @@ public class UserApi {
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUsersWithListInput(
 
-@ApiParam(value = "List of user object"  ) List<User> body
+@ApiParam(value = "List of user object"  ) @RequestBody List<User> body
 )
       throws NotFoundException {
       // do some magic!
@@ -162,7 +162,7 @@ public class UserApi {
 ,
     
 
-@ApiParam(value = "Updated user object"  ) User body
+@ApiParam(value = "Updated user object"  ) @RequestBody User body
 )
       throws NotFoundException {
       // do some magic!

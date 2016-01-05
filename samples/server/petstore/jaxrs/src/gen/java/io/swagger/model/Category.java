@@ -1,15 +1,17 @@
 package io.swagger.model;
 
-
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-12-01T23:25:59.622+08:00")
-public class Category  {
+
+
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-05T15:00:28.637+08:00")
+public class Category   {
   
   private Long id = null;
   private String name = null;
@@ -17,6 +19,7 @@ public class Category  {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -29,6 +32,7 @@ public class Category  {
   
   /**
    **/
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
@@ -59,13 +63,25 @@ public class Category  {
   }
 
   @Override
-  public String toString()  {
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Category {\n");
     
-    sb.append("  id: ").append(id).append("\n");
-    sb.append("  name: ").append(name).append("\n");
-    sb.append("}\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("}");
     return sb.toString();
   }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+
