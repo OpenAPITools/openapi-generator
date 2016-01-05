@@ -43,7 +43,7 @@
         <servlet-class>io.swagger.generator.Bootstrap</servlet-class>
         <init-param>
             <param-name>generator.host</param-name>
-            <param-value>localhost:8001</param-value>
+            <param-value>localhost:8080</param-value>
         </init-param>
         <init-param>
             <param-name>generator.protocol</param-name>
