@@ -45,6 +45,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
     put:
       tags:
       - "pet"
@@ -75,6 +77,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /pet/findByStatus:
     get:
       tags:
@@ -108,6 +112,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /pet/findByTags:
     get:
       tags:
@@ -141,6 +147,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /pet/{petId}:
     get:
       tags:
@@ -173,6 +181,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
     post:
       tags:
       - "pet"
@@ -207,6 +217,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "application/x-www-form-urlencoded"
+      x-accepts: "application/json"
     delete:
       tags:
       - "pet"
@@ -235,6 +247,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /pet/{petId}/uploadImage:
     post:
       tags:
@@ -271,6 +285,8 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
+      x-contentType: "multipart/form-data"
+      x-accepts: "application/json"
   /store/inventory:
     get:
       tags:
@@ -292,6 +308,8 @@ paths:
               format: "int32"
       security:
       - api_key: []
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /store/order:
     post:
       tags:
@@ -316,6 +334,8 @@ paths:
             $ref: "#/definitions/Order"
         400:
           description: "Invalid Order"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /store/order/{orderId}:
     get:
       tags:
@@ -342,6 +362,8 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
     delete:
       tags:
       - "store"
@@ -363,6 +385,8 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /user:
     post:
       tags:
@@ -383,6 +407,8 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /user/createWithArray:
     post:
       tags:
@@ -405,6 +431,8 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /user/createWithList:
     post:
       tags:
@@ -427,6 +455,8 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /user/login:
     get:
       tags:
@@ -455,6 +485,8 @@ paths:
             type: "string"
         400:
           description: "Invalid username/password supplied"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /user/logout:
     get:
       tags:
@@ -469,6 +501,8 @@ paths:
       responses:
         default:
           description: "successful operation"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /user/{username}:
     get:
       tags:
@@ -504,6 +538,8 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
     put:
       tags:
       - "user"
@@ -530,6 +566,8 @@ paths:
           description: "Invalid user supplied"
         404:
           description: "User not found"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
     delete:
       tags:
       - "user"
@@ -550,6 +588,8 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
 securityDefinitions:
   api_key:
     type: "apiKey"
