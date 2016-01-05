@@ -278,7 +278,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/android-java</module>
+                <module>samples/client/petstore/android/default</module>
             </modules>
         </profile>
         <profile>
@@ -446,7 +446,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/android-java</module>
+                <module>samples/client/petstore/android/default</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/default</module>
                 <module>samples/client/petstore/java/jersey2</module>
