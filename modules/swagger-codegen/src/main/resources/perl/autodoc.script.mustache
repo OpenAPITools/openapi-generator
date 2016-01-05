@@ -15,14 +15,14 @@ my $my_app = $options{c} || 'My::App';
 if ($options{c}) {
 	eval <<LOAD;
 use $my_app;
-apply_all_roles($my_app, "WWW::{{moduleName}}::Role::AutoDoc");
+apply_all_roles($my_app, "{{moduleName}}::Role::AutoDoc");
 LOAD
 	die $@ if $@;
 }
 else {
 	package My::App;
 	use Moose;
-	with ('WWW::{{moduleName}}::Role', 'WWW::{{moduleName}}::Role::AutoDoc');
+	with ('{{moduleName}}::Role', '{{moduleName}}::Role::AutoDoc');
 }
 
 package main;

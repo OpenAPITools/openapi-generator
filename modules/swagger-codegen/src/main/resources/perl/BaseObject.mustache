@@ -68,7 +68,7 @@ sub _deserialize {
     } elsif ( grep( /^$type$/, ('int', 'double', 'string', 'boolean'))) {
         return $data;
     } else { # hash(model)
-        my $_instance = eval "WWW::{{moduleName}}::Object::$type->new()";
+        my $_instance = eval "{{moduleName}}::Object::$type->new()";
         return $_instance->from_hash($data);
     }
 }
