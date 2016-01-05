@@ -27,12 +27,16 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String sourceFolder = projectFolder + "/java";
     protected Boolean useAndroidMavenGradlePlugin = true;
 
+    // requestPackage and authPackage are used by the "volley" template/library
+    protected String requestPackage = "io.swagger.client.request";
+    protected String authPackage = "io.swagger.client.auth";
+
     public AndroidClientCodegen() {
         super();
         outputFolder = "generated-code/android";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        embeddedTemplateDir = templateDir = "android-java";
+        embeddedTemplateDir = templateDir = "android";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
@@ -70,6 +74,12 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(CliOption.newBoolean(USE_ANDROID_MAVEN_GRADLE_PLUGIN, "A flag to toggle android-maven gradle plugin.")
                 .defaultValue(Boolean.TRUE.toString()));
+
+        supportedLibraries.put("<default>", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1");
+        supportedLibraries.put("volley", "HTTP client: Volley 1.0.19");
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        library.setEnum(supportedLibraries);
+        cliOptions.add(library);
     }
 
     @Override
@@ -236,22 +246,67 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
         }
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
 
+        if (StringUtils.isEmpty(getLibrary())) {
+            addSupportingFilesForDefault();
+        } else if ("volley".equals(getLibrary())) {
+            addSupportingFilesForVolley();
+        }
+    }
+
+    private void addSupportingFilesForDefault() {
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
         supportingFiles.add(new SupportingFile("httpPatch.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "HttpPatch.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
         supportingFiles.add(new SupportingFile("jsonUtil.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
         supportingFiles.add(new SupportingFile("apiException.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
         supportingFiles.add(new SupportingFile("Pair.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Pair.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+    }
+
+    private void addSupportingFilesForVolley() {
+        // supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
+        supportingFiles.add(new SupportingFile("responses.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Responses.java"));
+        // supportingFiles.add(new SupportingFile("httpPatch.mustache",
+        //        (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
+        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
+        supportingFiles.add(new SupportingFile("apiException.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+        supportingFiles.add(new SupportingFile("request/getrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "GetRequest.java"));
+        supportingFiles.add(new SupportingFile("request/postrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PostRequest.java"));
+        supportingFiles.add(new SupportingFile("request/putrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PutRequest.java"));
+        supportingFiles.add(new SupportingFile("request/deleterequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "DeleteRequest.java"));
+        supportingFiles.add(new SupportingFile("request/patchrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PatchRequest.java"));
+        supportingFiles.add(new SupportingFile("auth/apikeyauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "ApiKeyAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "HttpBasicAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/authentication.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "Authentication.java"));
     }
 
     public Boolean getUseAndroidMavenGradlePlugin() {
