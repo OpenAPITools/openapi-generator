@@ -58,7 +58,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                         "assert", "else", "if", "pass", "yield", "break", "except", "import",
                         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try"));
+                        "return", "def", "for", "lambda", "try", "self"));
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
