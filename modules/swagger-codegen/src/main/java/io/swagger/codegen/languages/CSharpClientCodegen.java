@@ -94,11 +94,10 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "C# package name (convention: Camel.Case).")
                 .defaultValue("IO.Swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "C# package version.").defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
-                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC, BooleanProperty.TYPE));
-        cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_METHOD_ARGUMENT, "C# Optional method argument, " +
-                "e.g. void square(int x=10) (.net 4.0+ only).", BooleanProperty.TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_METHOD_ARGUMENT, "C# Optional method argument, " +
+                "e.g. void square(int x=10) (.net 4.0+ only)."));
     }
 
     @Override

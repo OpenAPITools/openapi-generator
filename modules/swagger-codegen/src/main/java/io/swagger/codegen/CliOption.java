@@ -1,6 +1,7 @@
 package io.swagger.codegen;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.StringProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -76,6 +77,14 @@ public class CliOption {
 
     public void setEnum(Map<String, String> enumValues) {
         this.enumValues = enumValues;
+    }
+
+    public static CliOption newBoolean(String opt, String description) {
+        return new CliOption(opt, description, BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString());
+    }
+
+    public static CliOption newString(String opt, String description) {
+        return new CliOption(opt, description, StringProperty.TYPE);
     }
 
     @JsonIgnore
