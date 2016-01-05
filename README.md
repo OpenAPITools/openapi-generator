@@ -44,6 +44,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Java JAX-RS](#java-jax-rs)
       - [Java Spring MVC](#java-spring-mvc)
     - [To build the codegen library](#to-build-the-codegen-library)
+  - [Workflow Integration](#workflow-integration)
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [License](#license)
@@ -555,6 +556,11 @@ mvn package
 ```
 
 Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to either repackage the library OR specify a path to your scripts
+
+## Workflow integration
+
+You can use the [swagger-codegen-maven-plugin](modules/swagger-codegen-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
+
 
 ## Online generators
 
