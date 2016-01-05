@@ -32,11 +32,13 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2015-10-20T10:58:42.063-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-01-05T15:01:20.501+08:00")
 public class StoreApi {
   
 
-  @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map")
+  @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
+    @Authorization(value = "api_key")
+  })
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/inventory", 
@@ -61,7 +63,7 @@ public class StoreApi {
     method = RequestMethod.POST)
   public ResponseEntity<Order> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet"  ) Order body
+@ApiParam(value = "order placed for purchasing the pet"  ) @RequestBody Order body
 )
       throws NotFoundException {
       // do some magic!
