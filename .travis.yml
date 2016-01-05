@@ -6,5 +6,7 @@ script:
   - mvn verify -Psamples
   - docker build -t $DOCKER_IMAGE_NAME ./modules/swagger-generator
   - if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi && docker push $DOCKER_IMAGE_NAME
+before_install:
+  - gem install bundler
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-generator
