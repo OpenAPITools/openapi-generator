@@ -1,4 +1,4 @@
-FROM java:8
+FROM java:8-jdk
 
 WORKDIR /generator
 COPY target/lib/jetty-runner* /generator/jetty-runner.jar
