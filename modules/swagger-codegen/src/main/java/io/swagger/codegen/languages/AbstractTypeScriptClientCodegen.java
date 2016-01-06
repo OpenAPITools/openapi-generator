@@ -17,7 +17,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	public AbstractTypeScriptClientCodegen() {
 	    super();
 		supportsInheritance = true;
-		reservedWords = new HashSet<String>(Arrays.asList("abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
+		reservedWords = new HashSet<String>(Arrays.asList(
+                    // local variable names used in API methods (endpoints)
+                    "path", "queryParameters", "headerParams", "formParams", "useFormData", "deferred",
+                    "requestOptions", 
+                    // Typescript reserved words
+                    "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
 		languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
 				"String",
