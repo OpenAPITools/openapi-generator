@@ -1792,6 +1792,20 @@ public class DefaultCodegen {
             opList = new ArrayList<CodegenOperation>();
             operations.put(tag, opList);
         }
+        // check for operationId uniqueness
+
+        String uniqueName = co.operationId;
+        int counter = 0;
+        for(CodegenOperation op : opList) {
+            if(uniqueName.equals(op.operationId)) {
+                uniqueName = co.operationId + "_" + counter;
+                counter ++;
+            }
+        }
+        if(!co.operationId.equals(uniqueName)) {
+            LOGGER.warn("generated unique operationId `" + uniqueName + "`");
+        }
+        co.operationId = uniqueName;
         opList.add(co);
         co.baseName = tag;
     }
