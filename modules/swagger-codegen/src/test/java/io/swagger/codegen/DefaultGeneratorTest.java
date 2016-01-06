@@ -9,22 +9,16 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.fail;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertNull;
+import static org.testng.Assert.*;
 
 /**
  * Tests for DefaultGenerator logic
@@ -182,6 +176,30 @@ public class DefaultGeneratorTest {
         assertTrue(pom.exists());
     }
 
+    @Test
+    public void testGenerateUniqueOperationIds() {
+        final File output = folder.getRoot();
+
+        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/duplicateOperationIds.yaml");
+        CodegenConfig codegenConfig = new JavaClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput);
+
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        Set<String> opIds = new HashSet<String>();
+        for(String path : paths.keySet()) {
+            List<CodegenOperation> ops = paths.get(path);
+            for(CodegenOperation op : ops) {
+                assertFalse(opIds.contains(op.operationId));
+                opIds.add(op.operationId);
+            }
+        }
+    }
+
     private void changeContent(File file) throws IOException {
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), UTF_8));
         out.write(TEST_SKIP_OVERWRITE);
@@ -198,5 +216,4 @@ public class DefaultGeneratorTest {
         }
         return null;
     }
-
 }
