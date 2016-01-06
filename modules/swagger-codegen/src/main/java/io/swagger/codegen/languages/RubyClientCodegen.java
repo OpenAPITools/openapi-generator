@@ -38,11 +38,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
+                    // local variable names used in API methods (endpoints)
+                    "path", "query_params", "header_params", "_header_accept", "_header_accept_result",
+                    "_header_content_type", "form_params", "post_body", "auth_names",
+                    // ruby reserved keywords
+                    "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
+                    "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
+                    "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
+                    "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
+                    "if", "not", "return", "undef", "yield")
         );
 
         languageSpecificPrimitives.add("int");

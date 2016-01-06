@@ -2,9 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs">
     <Files>
-      <File FileName="TestConfiguration.cs" Line="17" Column="33" />
-      <File FileName="TestPet.cs" Line="81" Column="17" />
-      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="12" Column="18" />
+      <File FileName="TestConfiguration.cs" Line="1" Column="1" />
+      <File FileName="TestPet.cs" Line="1" Column="1" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="15" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
