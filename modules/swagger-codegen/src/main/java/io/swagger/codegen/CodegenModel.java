@@ -5,7 +5,7 @@ import io.swagger.models.ExternalDocs;
 import java.util.*;
 
 public class CodegenModel {
-    public String parent;
+    public String parent, parentSchema;
     public String name, classname, description, classVarName, modelJson, dataType;
     public String unescapedDescription;
     public String defaultValue;

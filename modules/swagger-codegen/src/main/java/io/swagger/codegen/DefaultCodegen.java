@@ -789,10 +789,11 @@ public class DefaultCodegen {
             final RefModel parent = (RefModel) composed.getParent();
             if (parent != null) {
                 final String parentRef = parent.getSimpleRef();
-                m.parent = parentRef;
-                addImport(m, toModelName(parent.getSimpleRef()));
+                m.parentSchema = parentRef;
+                m.parent = toModelName(parent.getSimpleRef());
+                addImport(m, m.parent);
                 if (!supportsInheritance && allDefinitions != null) {
-                    final Model parentModel = allDefinitions.get(parentRef);
+                    final Model parentModel = allDefinitions.get(m.parentSchema);
                     if (parentModel instanceof ModelImpl) {
                         final ModelImpl _parent = (ModelImpl) parentModel;
                         if (_parent.getProperties() != null) {
