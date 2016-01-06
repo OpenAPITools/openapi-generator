@@ -153,7 +153,7 @@
     </repositories>
     <properties>
         <swagger-annotations-version>1.5.3</swagger-annotations-version>
-        <jackson-version>2.1.5-SNAPSHOT</jackson-version>
+        <jackson-version>2.1.5</jackson-version>
         <junit-version>4.8.1</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>
