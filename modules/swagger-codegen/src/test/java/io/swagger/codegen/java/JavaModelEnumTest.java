@@ -80,7 +80,7 @@ public class JavaModelEnumTest {
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.parent, "parentModel");
+        Assert.assertEquals(cm.parent, "ParentModel");
         Assert.assertTrue(cm.imports.contains("ParentModel"));
 
         // Assert that only the unshared/uninherited enum remains
