@@ -44,6 +44,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
+                        // used as internal variables, can collide with parameter names
+                        "path", "queryParams", "headerParams", "formParams", "postBody", "accepts", "accept", "contentTypes",
+                        "contentType", "authNames",
+
+                        // language reserved words
                         "abstract", "continue", "for", "new", "switch", "assert",
                         "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
                         "this", "break", "double", "implements", "protected", "throw", "byte", "else",
