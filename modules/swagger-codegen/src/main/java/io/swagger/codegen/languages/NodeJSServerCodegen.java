@@ -11,6 +11,7 @@ import com.google.common.collect.Multimap;
 
 import io.swagger.codegen.*;
 import io.swagger.models.Swagger;
+import io.swagger.models.Info;
 import io.swagger.util.Yaml;
 
 import java.io.File;
