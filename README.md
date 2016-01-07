@@ -23,6 +23,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Docker](#docker)
       - [Build and run](#build-and-run-using-docker)
       - [Build a Node.js server stub](#build-a-nodejs-server-stub)
+      - [Public Docker image](#public-docker-image)
     - [Homebrew](#homebrew)
   - Generators
     - [To generate a sample client library](#to-generate-a-sample-client-library)
@@ -116,6 +117,10 @@ cd swagger-codegen
   -l nodejs \
   -o samples/server/petstore/nodejs
  ```
+
+#### Public Docker image
+
+https://hub.docker.com/r/swaggerapi/swagger-generator/
 
 ### Homebrew
 To install, run `brew install swagger-codegen`
@@ -580,7 +585,7 @@ Please refer to this [page](https://github.com/swagger-api/swagger-codegen/blob/
 License
 -------
 
-Copyright 2015 SmartBear Software
+Copyright 2016 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
