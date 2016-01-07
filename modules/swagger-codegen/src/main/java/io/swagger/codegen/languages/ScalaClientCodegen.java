@@ -49,11 +49,16 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
-                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
-                        "false", "final", "finally", "for", "forSome", "if", "implicit",
-                        "import", "lazy", "match", "new", "null", "object", "override", "package",
-                        "private", "protected", "return", "sealed", "super", "this", "throw",
-                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
+                    // local variable names used in API methods (endpoints)
+                    "path", "contentTypes", "contentType", "queryParams", "headerParams",
+                    "formParams", "postBody", "mp", "basePath", "apiInvoker",
+
+                    // scala reserved words
+                    "abstract", "case", "catch", "class", "def", "do", "else", "extends",
+                    "false", "final", "finally", "for", "forSome", "if", "implicit",
+                    "import", "lazy", "match", "new", "null", "object", "override", "package",
+                    "private", "protected", "return", "sealed", "super", "this", "throw",
+                    "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
