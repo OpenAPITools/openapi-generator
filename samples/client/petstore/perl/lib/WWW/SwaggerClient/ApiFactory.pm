@@ -13,7 +13,7 @@ use WWW::SwaggerClient::ApiClient;
 
 =head1 Name
 
-	WWW::SwaggerClient::ApiFactory - constructs APIs to retrieve SwaggerClient objects
+	WWW::SwaggerClient::ApiFactory - constructs APIs to retrieve WWW::SwaggerClient objects
 
 =head1 Synopsis
 
@@ -64,7 +64,7 @@ sub new {
 	
 	$which is a nickname for the class: 
 	
-		WWW::FooBarClient::BazApi has nickname 'Baz'
+		FooBarClient::BazApi has nickname 'Baz'
 		
 =cut
 

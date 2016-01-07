@@ -55,6 +55,8 @@ samples/client/petstore/php/SwaggerClient-php/vendor/
 samples/client/petstore/silex/SwaggerServer/composer.lock
 samples/client/petstore/silex/SwaggerServer/venodr/
 
+samples/client/petstore/perl/deep_module_test/
+
 samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
 

@@ -319,17 +319,17 @@ sub update_params_for_auth {
         if (!defined($auth)) {
             # TODO show warning about auth setting not defined
         }
+        elsif ($auth eq 'petstore_auth') {
+            
+            if ($WWW::SwaggerClient::Configuration::access_token) {
+                $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
+            }
+        }
         elsif ($auth eq 'api_key') {
             
             my $api_key = $self->get_api_key_with_prefix('api_key');
             if ($api_key) {
                 $header_params->{'api_key'} = $api_key;
-            }
-        }
-        elsif ($auth eq 'petstore_auth') {
-            
-            if ($WWW::SwaggerClient::Configuration::access_token) {
-                $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
             }
         }
         
@@ -341,7 +341,7 @@ sub update_params_for_auth {
 
 # The endpoint API class has not found any settings for auth. This may be deliberate, 
 # in which case update_params_for_auth() will be a no-op. But it may also be that the 
-# swagger spec does not describe the intended authorization. So we check in the config for any 
+# OpenAPI Spec does not describe the intended authorization. So we check in the config for any 
 # auth tokens and if we find any, we use them for all endpoints; 
 sub _global_auth_setup {
 	my ($self, $header_params, $query_params) = @_; 
