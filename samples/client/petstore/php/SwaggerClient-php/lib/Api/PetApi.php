@@ -122,8 +122,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "PUT";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -137,6 +135,9 @@ class PetApi
         
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         // body params
         $_tempBody = null;
@@ -159,7 +160,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'PUT',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -205,8 +206,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "POST";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -220,6 +219,9 @@ class PetApi
         
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         // body params
         $_tempBody = null;
@@ -242,7 +244,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -288,8 +290,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet/findByStatus";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "GET";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -311,6 +311,9 @@ class PetApi
         }
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -329,7 +332,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet[]'
             );
@@ -383,8 +386,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet/findByTags";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "GET";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -406,6 +407,9 @@ class PetApi
         }
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -424,7 +428,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet[]'
             );
@@ -482,8 +486,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet/{petId}";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "GET";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -505,6 +507,9 @@ class PetApi
                 $resourcePath
             );
         }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -525,7 +530,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet'
             );
@@ -587,8 +592,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet/{petId}";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "POST";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -610,6 +613,9 @@ class PetApi
                 $resourcePath
             );
         }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         // form params
         if ($name !== null) {
             
@@ -640,7 +646,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -692,8 +698,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet/{petId}";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "DELETE";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -719,6 +723,9 @@ class PetApi
                 $resourcePath
             );
         }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -737,7 +744,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'DELETE',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -791,8 +798,6 @@ class PetApi
   
         // parse inputs
         $resourcePath = "/pet/{petId}/uploadImage";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "POST";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -814,6 +819,9 @@ class PetApi
                 $resourcePath
             );
         }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         // form params
         if ($additional_metadata !== null) {
             
@@ -850,7 +858,7 @@ class PetApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
