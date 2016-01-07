@@ -281,10 +281,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
-        supportingFiles.add(new SupportingFile("responses.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Responses.java"));
-        // supportingFiles.add(new SupportingFile("httpPatch.mustache",
-        //        (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
         supportingFiles.add(new SupportingFile("jsonUtil.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
         supportingFiles.add(new SupportingFile("apiException.mustache",
