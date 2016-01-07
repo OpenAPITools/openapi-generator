@@ -20,7 +20,8 @@ import org.apache.commons.lang.StringUtils;
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
-    protected String moduleName = "SwaggerClient";
+    protected String moduleName = "WWW::SwaggerClient";
+    protected String modulePathPart = moduleName.replaceAll("::",String.valueOf(File.separatorChar));
     protected String moduleVersion = "1.0.0";
 
     public PerlClientCodegen() {
@@ -72,7 +73,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase).").defaultValue("SwaggerClient"));
+        cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase or Long::Module).").defaultValue("SwaggerClient"));
         cliOptions.add(new CliOption(MODULE_VERSION, "Perl module version.").defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
@@ -94,15 +95,16 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(MODULE_NAME)) {
             setModuleName((String) additionalProperties.get(MODULE_NAME));
+            setModulePathPart(moduleName.replaceAll("::",String.valueOf(File.separatorChar)));
         } else {
             additionalProperties.put(MODULE_NAME, moduleName);
         }
 
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiClient.pm"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Configuration.pm"));
-        supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiFactory.pm"));
-        supportingFiles.add(new SupportingFile("Role.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Role.pm"));
-        supportingFiles.add(new SupportingFile("AutoDoc.mustache", ("lib/WWW/" + moduleName + "/Role").replace('/', File.separatorChar), "AutoDoc.pm"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "ApiClient.pm"));
+        supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "Configuration.pm"));
+        supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "ApiFactory.pm"));
+        supportingFiles.add(new SupportingFile("Role.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "Role.pm"));
+        supportingFiles.add(new SupportingFile("AutoDoc.mustache", ("lib/" + modulePathPart + "/Role").replace('/', File.separatorChar), "AutoDoc.pm"));
         supportingFiles.add(new SupportingFile("autodoc.script.mustache", "bin", "autodoc"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
@@ -129,12 +131,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/lib/WWW/" + moduleName + apiPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/lib/" + modulePathPart + apiPackage()).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/lib/WWW/" + moduleName + modelPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/lib/" + modulePathPart + modelPackage()).replace('/', File.separatorChar);
     }
 
     @Override
@@ -249,6 +251,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
+    }
+
+    public void setModulePathPart(String modulePathPart) {
+        this.modulePathPart = modulePathPart;
     }
 
     public void setModuleVersion(String moduleVersion) {
