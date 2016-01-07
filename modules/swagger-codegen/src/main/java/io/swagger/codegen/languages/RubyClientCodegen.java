@@ -19,10 +19,24 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String GEM_NAME = "gemName";
     public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
+    public static final String GEM_LICENSE = "gemLicense";
+    public static final String GEM_HOMEPAGE = "gemHomepage";
+    public static final String GEM_SUMMARY = "gemSummary";
+    public static final String GEM_DESCRIPTION = "gemDescription";
+    public static final String GEM_AUTHOR = "gemAuthor";
+    public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+
     protected String gemName;
     protected String moduleName;
     protected String gemVersion = "1.0.0";
     protected String libFolder = "lib";
+    protected String gemLicense = "Apache-2.0";
+    protected String gemHomepage = "http://swagger.io";
+    protected String gemSummary = "A ruby wrapper for the swagger APIs";
+    protected String gemDescription = "This gem maps to a swagger API";
+    protected String gemAuthor = "";
+    protected String gemAuthorEmail = "";
+
 
     public RubyClientCodegen() {
         super();
@@ -87,6 +101,23 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding" +
                 " to gem name).").defaultValue("SwaggerClient"));
         cliOptions.add(new CliOption(GEM_VERSION, "gem version.").defaultValue("1.0.0"));
+
+        cliOptions.add(new CliOption(GEM_LICENSE, "gem license. ").
+                defaultValue("Apache-2.0"));
+
+        cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
+                defaultValue("http://swagger.io"));
+
+        cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
+                defaultValue("A ruby wrapper for the swagger APIs"));
+
+        cliOptions.add(new CliOption(GEM_DESCRIPTION, "gem description. ").
+                defaultValue("This gem maps to a swagger API"));
+
+        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported)."));
+
+        cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
+
     }
 
     @Override
@@ -114,10 +145,35 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(GEM_VERSION)) {
             setGemVersion((String) additionalProperties.get(GEM_VERSION));
-        } else {
+        }else {
             // not set, pass the default value to template
             additionalProperties.put(GEM_VERSION, gemVersion);
         }
+
+        if (additionalProperties.containsKey(GEM_LICENSE)) {
+            setGemLicense((String) additionalProperties.get(GEM_LICENSE));
+        }
+
+        if (additionalProperties.containsKey(GEM_HOMEPAGE)) {
+            setGemHomepage((String) additionalProperties.get(GEM_HOMEPAGE));
+        }
+
+        if (additionalProperties.containsKey(GEM_SUMMARY)) {
+            setGemSummary((String) additionalProperties.get(GEM_SUMMARY));
+        }
+
+        if (additionalProperties.containsKey(GEM_DESCRIPTION)) {
+            setGemDescription((String) additionalProperties.get(GEM_DESCRIPTION));
+        }
+
+        if (additionalProperties.containsKey(GEM_AUTHOR)) {
+            setGemAuthor((String) additionalProperties.get(GEM_AUTHOR));
+        }
+
+        if (additionalProperties.containsKey(GEM_AUTHOR_EMAIL)) {
+            setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
+        }
+
 
         // use constant model/api package (folder path)
         setModelPackage("models");
@@ -132,6 +188,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
         String modelFolder = gemFolder + File.separator + modelPackage.replace("/", File.separator);
     }
+
 
     @Override
     public CodegenType getTag() {
@@ -353,5 +410,29 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setGemVersion(String gemVersion) {
         this.gemVersion = gemVersion;
+    }
+
+    public void setGemDescription(String gemDescription) {
+        this.gemDescription = gemDescription;
+    }
+
+    public void setGemSummary(String gemSummary) {
+        this.gemSummary = gemSummary;
+    }
+
+    public void setGemLicense(String gemLicense) {
+        this.gemLicense = gemLicense;
+    }
+
+    public void setGemHomepage(String gemHomepage) {
+        this.gemHomepage = gemHomepage;
+    }
+
+    public void setGemAuthor(String gemAuthor) {
+        this.gemAuthor = gemAuthor;
+    }
+
+    public void setGemAuthorEmail(String gemAuthorEmail) {
+        this.gemAuthorEmail = gemAuthorEmail;
     }
 }
