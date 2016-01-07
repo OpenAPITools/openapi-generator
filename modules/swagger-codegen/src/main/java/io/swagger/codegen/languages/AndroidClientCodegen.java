@@ -42,13 +42,19 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
-                        "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while")
+                    // local variable names used in API methods (endpoints)
+                    "postBody", "path", "queryParams", "headerParams", "formParams",
+                    "contentTypes", "contentType", "response", "builder", "httpEntity",
+                    "authNames", "basePath", "apiInvoker",
+
+                    // android reserved words
+                    "abstract", "continue", "for", "new", "switch", "assert",
+                    "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
+                    "this", "break", "double", "implements", "protected", "throw", "byte", "else",
+                    "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
+                    "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
+                    "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
+                    "native", "super", "while")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
