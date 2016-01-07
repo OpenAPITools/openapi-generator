@@ -259,6 +259,16 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         this.additionalProperties.put("serverPort", port);
+        
+        if (swagger.getInfo() != null) {
+            Info info = swagger.getInfo();
+            if (projectName == null &&  info.getTitle() != null) {
+                // when projectName is not specified, generate it from info.title
+                //used in package.json
+                projectName = dashize(info.getTitle());
+                this.additionalProperties.put("projectName", projectName);
+            }
+        }
     }
 
         @Override
