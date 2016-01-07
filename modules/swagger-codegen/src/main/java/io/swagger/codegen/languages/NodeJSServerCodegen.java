@@ -263,9 +263,9 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
-            if (projectName == null &&  info.getTitle() != null) {
-                // when projectName is not specified, generate it from info.title
-                //used in package.json
+            if (info.getTitle() != null) {
+                // when info.title is defined, use it for projectName
+                // used in package.json
                 projectName = dashize(info.getTitle());
                 this.additionalProperties.put("projectName", projectName);
             }
