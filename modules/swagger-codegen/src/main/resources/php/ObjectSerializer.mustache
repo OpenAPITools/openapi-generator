@@ -199,11 +199,11 @@ class ObjectSerializer
      *
      * @param mixed  $data       object or primitive to be deserialized
      * @param string $class      class name is passed as a string
-     * @param string $httpHeader HTTP headers
+     * @param string $httpHeaders HTTP headers
      *
      * @return object an instance of $class
      */
-    public function deserialize($data, $class, $httpHeader=null)
+    public function deserialize($data, $class, $httpHeaders=null)
     {
         if (null === $data) {
             $deserialized = null;
@@ -231,7 +231,7 @@ class ObjectSerializer
             $deserialized = $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
-            if (array_key_exists('Content-Disposition', $httpHeader) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeader['Content-Disposition'], $match)) {
+            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
                 $filename = Configuration::getDefaultConfiguration()->getTempFolderPath().$match[1];
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
