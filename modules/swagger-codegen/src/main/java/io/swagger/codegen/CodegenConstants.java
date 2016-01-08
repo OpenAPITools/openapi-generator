@@ -54,4 +54,9 @@ public class CodegenConstants {
     public static final String POD_VERSION = "podVersion";
 
     public static final String OPTIONAL_METHOD_ARGUMENT = "optionalMethodArgument";
+    public static final String OPTIONAL_METHOD_ARGUMENT_DESC = "Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).";
+
+    public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
+    public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs (Default: true).";
+
 }
