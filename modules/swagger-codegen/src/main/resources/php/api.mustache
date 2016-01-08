@@ -126,8 +126,6 @@ use \{{invokerPackage}}\ObjectSerializer;
   
         // parse inputs
         $resourcePath = "{{path}}";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "{{httpMethod}}";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -169,6 +167,9 @@ use \{{invokerPackage}}\ObjectSerializer;
                 $resourcePath
             );
         }{{/pathParams}}
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         {{#formParams}}// form params
         if (${{paramName}} !== null) {
             {{#isFile}}
@@ -213,7 +214,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, '{{httpMethod}}',
                 $queryParams, $httpBody,
                 $headerParams{{#returnType}}, '{{returnType}}'{{/returnType}}
             );

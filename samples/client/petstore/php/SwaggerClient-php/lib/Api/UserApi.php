@@ -122,8 +122,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "POST";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -137,6 +135,9 @@ class UserApi
         
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         // body params
         $_tempBody = null;
@@ -154,7 +155,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -200,8 +201,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user/createWithArray";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "POST";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -215,6 +214,9 @@ class UserApi
         
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         // body params
         $_tempBody = null;
@@ -232,7 +234,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -278,8 +280,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user/createWithList";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "POST";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -293,6 +293,9 @@ class UserApi
         
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         // body params
         $_tempBody = null;
@@ -310,7 +313,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -358,8 +361,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user/login";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "GET";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -381,6 +382,9 @@ class UserApi
         }
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -394,7 +398,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams, 'string'
             );
@@ -446,8 +450,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user/logout";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "GET";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -461,6 +463,9 @@ class UserApi
         
         
         
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -474,7 +479,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -524,8 +529,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user/{username}";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "GET";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -547,6 +550,9 @@ class UserApi
                 $resourcePath
             );
         }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -560,7 +566,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\User'
             );
@@ -620,8 +626,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user/{username}";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "PUT";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -643,6 +647,9 @@ class UserApi
                 $resourcePath
             );
         }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         // body params
         $_tempBody = null;
@@ -660,7 +667,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'PUT',
                 $queryParams, $httpBody,
                 $headerParams
             );
@@ -710,8 +717,6 @@ class UserApi
   
         // parse inputs
         $resourcePath = "/user/{username}";
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-        $method = "DELETE";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -733,6 +738,9 @@ class UserApi
                 $resourcePath
             );
         }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
         
         
   
@@ -746,7 +754,7 @@ class UserApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, $method,
+                $resourcePath, 'DELETE',
                 $queryParams, $httpBody,
                 $headerParams
             );
