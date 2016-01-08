@@ -22,6 +22,7 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
                 .put(CodegenConstants.OPTIONAL_METHOD_ARGUMENT, "true")
+                .put(CodegenConstants.OPTIONAL_ASSEMBLY_INFO, "true")
                 .build();
     }
 
