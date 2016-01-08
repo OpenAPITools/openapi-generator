@@ -231,7 +231,7 @@ class ObjectSerializer
             $deserialized = $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
-            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeader['Content-Disposition'], $match)) {
+            if (array_key_exists('Content-Disposition', $httpHeader) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeader['Content-Disposition'], $match)) {
                 $filename = Configuration::getDefaultConfiguration()->getTempFolderPath().$match[1];
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
