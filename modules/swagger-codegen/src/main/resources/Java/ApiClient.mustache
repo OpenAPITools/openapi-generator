@@ -59,8 +59,6 @@ public class ApiClient {
   private DateFormat dateFormat;
 
   public ApiClient() {
-    httpClient = buildHttpClient(debugging);
-
     mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -68,6 +66,8 @@ public class ApiClient {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.registerModule(new JodaModule());
+
+    httpClient = buildHttpClient(debugging);
 
     // Use RFC3339 format for date and datetime.
     // See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
