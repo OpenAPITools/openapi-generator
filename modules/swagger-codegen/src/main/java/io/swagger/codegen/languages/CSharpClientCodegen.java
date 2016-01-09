@@ -25,6 +25,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
+    protected boolean useDateTimeOffsetFlag = false;
     protected String packageTitle = "Swagger Library";
     protected String packageProductName = "SwaggerLibrary";
     protected String packageDescription = "A library generated from a Swagger doc";
@@ -76,6 +77,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                         "List",
                         "Dictionary",
                         "DateTime?",
+                        "DateTimeOffset?",
                         "String",
                         "Boolean",
                         "Double",
@@ -114,6 +116,8 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                 "e.g. void square(int x=10) (.net 4.0+ only)."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_ASSEMBLY_INFO,
                 CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(sourceFolder));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DATETIME_OFFSET, CodegenConstants.USE_DATETIME_OFFSET_DESC));
     }
 
     @Override
@@ -126,6 +130,14 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)){
+            setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        }
+        else
+        {
+            additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
             apiPackage = packageName + ".Api";
@@ -134,6 +146,13 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
+
+        // Use DateTimeOffset
+        if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET))
+        {
+            useDateTimeOffset(Boolean.valueOf(additionalProperties.get(CodegenConstants.USE_DATETIME_OFFSET).toString()));
+        }
+        additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
 
         additionalProperties.put("clientPackage", clientPackage);
 
@@ -320,12 +339,25 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         this.optionalMethodArgumentFlag = flag;
     }
 
+    public void useDateTimeOffset(boolean flag) {
+        this.useDateTimeOffsetFlag = flag;
+        if (flag)
+            typeMapping.put("datetime", "DateTimeOffset?");
+        else
+            typeMapping.put("datetime", "DateTime?");
+    }
+
+
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
 
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
+    }
+
+    public void setSourceFolder(String sourceFolder) {
+        this.sourceFolder = sourceFolder;
     }
 
     @Override
