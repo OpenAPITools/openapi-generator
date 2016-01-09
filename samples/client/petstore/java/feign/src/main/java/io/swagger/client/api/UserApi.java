@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.*;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:18.888+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-09T15:18:34.525Z")
 public interface UserApi extends ApiClient.Api {
 
 

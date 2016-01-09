@@ -1,30 +1,104 @@
 package io.swagger.client;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import feign.Feign;
+import feign.RequestInterceptor;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
+import io.swagger.client.auth.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:18.888+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-09T15:18:34.525Z")
 public class ApiClient {
   public interface Api {}
 
   private ObjectMapper objectMapper;
   private String basePath = "http://petstore.swagger.io/v2";
+  private Map<String, RequestInterceptor> apiAuthorizations;
+  private Feign.Builder feignBuilder;
 
   public ApiClient() {
     objectMapper = createObjectMapper();
+    apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    feignBuilder = Feign.builder()
+                .encoder(new FormAwareEncoder(new JacksonEncoder(objectMapper)))
+                .decoder(new JacksonDecoder(objectMapper))
+                .logger(new Slf4jLogger());
+  }
+
+  public ApiClient(String[] authNames) {
+    this();
+    for(String authName : authNames) { 
+      RequestInterceptor auth;
+      if (authName == "petstore_auth") { 
+        auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+      } else if (authName == "api_key") { 
+        auth = new ApiKeyAuth("header", "api_key");
+      } else {
+        throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+      }
+      addAuthorization(authName, auth);
+    }
+  }
+
+  /**
+   * Basic constructor for single auth name
+   * @param authName
+   */
+  public ApiClient(String authName) {
+    this(new String[]{authName});
+  }
+
+  /**
+   * Helper constructor for single api key
+   * @param authName
+   * @param apiKey
+   */
+  public ApiClient(String authName, String apiKey) {
+    this(authName);
+    this.setApiKey(apiKey);
+  }
+
+  /**
+   * Helper constructor for single basic auth or password oauth2
+   * @param authName
+   * @param username
+   * @param password
+   */
+  public ApiClient(String authName, String username, String password) {
+    this(authName);
+    this.setCredentials(username,  password);
   }
 
   public String getBasePath() {
     return basePath;
   }
 
+  public Map<String, RequestInterceptor> getApiAuthorizations() {
+    return apiAuthorizations;
+  }
+
+  public void setApiAuthorizations(Map<String, RequestInterceptor> apiAuthorizations) {
+    this.apiAuthorizations = apiAuthorizations;
+  }
+
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    return this;
+  }
+
+  public Feign.Builder getFeignBuilder() {
+    return feignBuilder;
+  }
+
+  public ApiClient setFeignBuilder(Feign.Builder feignBuilder) {
+    this.feignBuilder = feignBuilder;
     return this;
   }
 
@@ -45,13 +119,7 @@ public class ApiClient {
    *    XYZResponse response = api.someMethod(...);
    */
   public <T extends Api> T buildClient(Class<T> clientClass) {
-        return Feign.builder()
-                .encoder(new FormAwareEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonDecoder(objectMapper))
-// enable for basic auth:
-//                .requestInterceptor(new feign.auth.BasicAuthRequestInterceptor(username, password))
-                .logger(new Slf4jLogger())
-                .target(clientClass, basePath);
+    return feignBuilder.target(clientClass, basePath);
   }
 
   /**
@@ -83,4 +151,53 @@ public class ApiClient {
     if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
     return contentTypes[0];
   }
+
+  /**
+   * Helper method to configure the first api key found
+   * @param apiKey
+   */
+  public void setApiKey(String apiKey) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof ApiKeyAuth) {
+        ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
+        keyAuth.setApiKey(apiKey);
+        return ;
+      }
+    }
+    throw new RuntimeException("No API key authentication configured!");
+  }
+
+  /**
+   * Helper method to configure the username/password for basic auth or password OAuth
+   * @param username
+   * @param password
+   */
+  public void setCredentials(String username, String password) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBasicAuth) {
+        HttpBasicAuth basicAuth = (HttpBasicAuth) apiAuthorization;
+        basicAuth.setCredentials(username, password);
+        return;
+      }
+    }
+    throw new RuntimeException("No Basic authentication configured!");
+  }
+
+  public RequestInterceptor getAuthorization(String authName) {
+    return apiAuthorizations.get(authName);
+  }
+
+  /**
+   * Adds an authorization to be used by the client
+   * @param authName
+   * @param authorization
+   */
+  public void addAuthorization(String authName, RequestInterceptor authorization) {
+    if (apiAuthorizations.containsKey(authName)) {
+      throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
+    }
+    apiAuthorizations.put(authName, authorization);
+    feignBuilder.requestInterceptor(authorization);
+  }
+
 }
