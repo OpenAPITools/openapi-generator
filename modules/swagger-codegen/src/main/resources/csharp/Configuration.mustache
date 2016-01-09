@@ -24,6 +24,7 @@ namespace {{packageName}}.Client
         /// <param name="apiKeyPrefix">Dictionary of API key prefix</param>
         /// <param name="tempFolderPath">Temp folder path</param>
         /// <param name="dateTimeFormat">DateTime format string</param>
+        /// <param name="timeout">HTTP connection timeout (in milliseconds)</param>
         public Configuration(ApiClient apiClient = null,
                              Dictionary<String, String> defaultHeader = null,
                              string username = null,
