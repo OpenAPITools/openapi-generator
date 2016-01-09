@@ -27,10 +27,10 @@ namespace IO.Swagger.Client
         public T Data { get; private set; }
   
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiResponse"/> class.
+        /// Initializes a new instance of the <see cref="ApiResponse&lt;T&gt;" /> class.
         /// </summary>
         /// <param name="statusCode">HTTP status code.</param>
-        /// <param name="message">Error message.</param>
+        /// <param name="headers">HTTP headers.</param>
         /// <param name="data">Data (parsed HTTP body)</param>
         public ApiResponse(int statusCode, IDictionary<string, string> headers, T data)
         {

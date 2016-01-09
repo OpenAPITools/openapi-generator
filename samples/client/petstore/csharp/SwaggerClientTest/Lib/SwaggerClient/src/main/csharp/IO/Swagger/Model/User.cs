@@ -127,7 +127,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if User instances are equal
         /// </summary>
-        /// <param name="obj">Instance of User to be compared</param>
+        /// <param name="other">Instance of User to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(User other)
         {
