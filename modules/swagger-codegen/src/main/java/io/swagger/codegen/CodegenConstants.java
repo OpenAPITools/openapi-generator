@@ -46,6 +46,9 @@ public class CodegenConstants {
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG = "sortParamsByRequiredFlag";
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG_DESC = "Sort method arguments to place required parameters before optional parameters.";
 
+    public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
+    public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
+	
     public static final String ENSURE_UNIQUE_PARAMS = "ensureUniqueParams";
     public static final String ENSURE_UNIQUE_PARAMS_DESC = "Whether to ensure parameter names are unique in an operation (rename parameters that are not).";
 

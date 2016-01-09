@@ -48,7 +48,7 @@ namespace SwaggerClientTest.TestApiClient
 		{
 			ApiClient api = new ApiClient ();
             // test datetime with a time zone
-            DateTime dateWithTz = DateTime.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
+            DateTimeOffset dateWithTz = DateTimeOffset.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
             Assert.AreEqual("2008-04-10T13:30:00.0000000-04:00", api.ParameterToString(dateWithTz));
         }
 
