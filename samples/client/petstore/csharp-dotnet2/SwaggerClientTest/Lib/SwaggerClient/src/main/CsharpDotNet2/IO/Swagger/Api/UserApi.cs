@@ -8,6 +8,9 @@ using IO.Swagger.Model;
 namespace IO.Swagger.Api
 {
     
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// </summary>
     public interface IUserApi
     {
         
@@ -120,7 +123,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Gets or sets the API client.
         /// </summary>
-        /// <value>An instance of the ApiClient</param>
+        /// <value>An instance of the ApiClient</value>
         public ApiClient ApiClient {get; set;}
     
         
