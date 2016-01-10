@@ -111,7 +111,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if Order instances are equal
         /// </summary>
-        /// <param name="obj">Instance of Order to be compared</param>
+        /// <param name="other">Instance of Order to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(Order other)
         {
