@@ -77,9 +77,10 @@ namespace IO.Swagger.Client
     
         // Creates and sets up a RestRequest prior to a call.
         private RestRequest PrepareRequest(
-            String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+            String path, RestSharp.Method method, Dictionary<String, String> queryParams, Object postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
+            String contentType)
         {
             var request = new RestRequest(path, method);
    
@@ -103,8 +104,17 @@ namespace IO.Swagger.Client
             foreach(var param in fileParams)
                 request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
 
-            if (postBody != null) // http body (model) parameter
-                request.AddParameter("application/json", postBody, ParameterType.RequestBody);
+            if (postBody != null) // http body (model or byte[]) parameter
+            {
+                if (postBody.GetType() == typeof(String))
+                {
+                    request.AddParameter("application/json", postBody, ParameterType.RequestBody);
+                }
+                else if (postBody.GetType() == typeof(byte[]))
+                {
+                    request.AddParameter(contentType, postBody, ParameterType.RequestBody);
+                }
+            }
     
             return request;
         }
@@ -120,14 +130,18 @@ namespace IO.Swagger.Client
         /// <param name="formParams">Form parameters.</param>
         /// <param name="fileParams">File parameters.</param>
         /// <param name="pathParams">Path parameters.</param>
+        /// <param name="contentType">Content Type of the request</param>
         /// <returns>Object</returns>
         public Object CallApi(
-            String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+            String path, RestSharp.Method method, Dictionary<String, String> queryParams, Object postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
+            String contentType)
         {
             var request = PrepareRequest(
-                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+                path, method, queryParams, postBody, headerParams, formParams, fileParams,
+                pathParams, contentType);
+
             var response = RestClient.Execute(request);
             return (Object) response;
         }
@@ -143,14 +157,17 @@ namespace IO.Swagger.Client
         /// <param name="formParams">Form parameters.</param>
         /// <param name="fileParams">File parameters.</param>
         /// <param name="pathParams">Path parameters.</param>
+        /// <param name="contentType">Content type.</param>
         /// <returns>The Task instance.</returns>
         public async System.Threading.Tasks.Task<Object> CallApiAsync(
-            String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+            String path, RestSharp.Method method, Dictionary<String, String> queryParams, Object postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
-            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams)
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
+            String contentType)
         {
             var request = PrepareRequest(
-                path, method, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+                path, method, queryParams, postBody, headerParams, formParams, fileParams,
+                pathParams, contentType);
             var response = await RestClient.ExecuteTaskAsync(request);
             return (Object)response;
         }
@@ -230,6 +247,10 @@ namespace IO.Swagger.Client
             {
                 return content;
             }
+            else if (type == typeof(byte[])) // return byte array
+            {
+                return data;
+            }
 
             if (type == typeof(Stream))
             {
@@ -276,11 +297,11 @@ namespace IO.Swagger.Client
         }
     
         /// <summary>
-        /// Serialize an object into JSON string.
+        /// Serialize an input (model) into JSON string
         /// </summary>
         /// <param name="obj">Object.</param>
         /// <returns>JSON string.</returns>
-        public string Serialize(object obj)
+        public String Serialize(object obj)
         {
             try
             {
@@ -292,6 +313,24 @@ namespace IO.Swagger.Client
             }
         }
     
+        /// <summary>
+        /// Select the Content-Type header's value from the given content-type array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use the first one defined in 'consumes'
+        /// </summary>
+        /// <param name="contentTypes">The Content-Type array to select from.</param>
+        /// <returns>The Content-Type header to use.</returns>
+        public String SelectHeaderContentType(String[] contentTypes)
+        {
+            if (contentTypes.Length == 0)
+                return null;
+
+            if (contentTypes.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                return "application/json";
+
+            return contentTypes[0]; // use the first content type specified in 'consumes'
+        }
+
         /// <summary>
         /// Select the Accept header's value from the given accepts array:
         /// if JSON exists in the given array, use it;
