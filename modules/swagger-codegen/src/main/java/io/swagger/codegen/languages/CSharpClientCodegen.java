@@ -92,6 +92,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
         typeMapping.put("boolean", "bool?");
         typeMapping.put("integer", "int?");
         typeMapping.put("float", "float?");
