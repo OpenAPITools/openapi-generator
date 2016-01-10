@@ -78,7 +78,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if Tag instances are equal
         /// </summary>
-        /// <param name="obj">Instance of Tag to be compared</param>
+        /// <param name="other">Instance of Tag to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(Tag other)
         {
