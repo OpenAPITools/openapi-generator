@@ -80,6 +80,23 @@ class ObjectSerializer
     }
 
     /**
+     * Sanitize filename by removing path.
+     * e.g. ../../sun.gif becomes sun.gif 
+     *
+     * @param string $filename filename to be sanitized
+     *
+     * @return string the sanitized filename
+     */
+    public function sanitizeFilename($filename)
+    {
+        if (preg_match("/.*[\/\\\\](.*)$/", $filename, $match)) {
+            return $match[1];
+        } else {
+            return $filename;
+        }
+    }
+
+    /**
      * Take value and turn it into a string suitable for inclusion in
      * the path, by url-encoding.
      *
@@ -232,7 +249,7 @@ class ObjectSerializer
         } elseif ($class === '\SplFileObject') {
             // determine file name
             if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
-                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath().$match[1];
+                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . sanitizeFilename($match[1]);
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }
