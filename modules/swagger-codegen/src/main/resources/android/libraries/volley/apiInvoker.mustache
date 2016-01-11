@@ -1,10 +1,14 @@
 package {{invokerPackage}};
 
-import android.content.Context;
-
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.ResponseDelivery;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.HttpStack;
+import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.NoCache;
 import com.google.gson.JsonParseException;
 
 import org.apache.http.Consts;
@@ -36,7 +40,6 @@ public class ApiInvoker {
   private static ApiInvoker INSTANCE;
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
 
-  private Context context;
   private RequestQueue mRequestQueue;
 
   private Map<String, Authentication> authentications;
@@ -165,8 +168,16 @@ public class ApiInvoker {
     return params;
   }
 
-  public static void initializeInstance(Context context) {
-     INSTANCE = new ApiInvoker(context);
+  public static void initializeInstance() {
+     initializeInstance(null, null, 0, null);
+  }
+
+  public static void initializeInstance(Cache cache) {
+     initializeInstance(cache, null, 0, null);
+  }
+
+  public static void initializeInstance(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery) {
+     INSTANCE = new ApiInvoker(cache, network, threadPoolSize, delivery);
      setUserAgent("Android-Volley-Swagger");
 
      // Setup authentications (key: authentication name, value: authentication).
@@ -182,13 +193,19 @@ public class ApiInvoker {
      // Prevent the authentications from being modified.
      INSTANCE.authentications = Collections.unmodifiableMap(INSTANCE.authentications);
   }
-  private ApiInvoker(Context context) {
-     this.context = context;
-     initConnectionManager();
-  }
 
-  public ApiInvoker() {
-    initConnectionManager();
+  private ApiInvoker(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery) {
+     if(cache == null) cache = new NoCache();
+     if(network == null) {
+        HttpStack stack = new HurlStack();
+        network = new BasicNetwork(stack);
+     }
+
+     if(delivery == null) {
+        initConnectionRequest(cache, network);
+     } else {
+        initConnectionRequest(cache, network, threadPoolSize, delivery);
+     }
   }
 
   public static ApiInvoker getInstance() {
@@ -433,7 +450,17 @@ public class ApiInvoker {
        }
   }
 
-  private void initConnectionManager() {
-    mRequestQueue = Volley.newRequestQueue(context);
+  private void initConnectionRequest(Cache cache, Network network) {
+     mRequestQueue = new RequestQueue(cache, network);
+     mRequestQueue.start();
+  }
+
+  private void initConnectionRequest(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery) {
+     mRequestQueue = new RequestQueue(cache, network, threadPoolSize, delivery);
+     mRequestQueue.start();
+  }
+
+  public void stopQueue() {
+     mRequestQueue.stop();
   }
 }
