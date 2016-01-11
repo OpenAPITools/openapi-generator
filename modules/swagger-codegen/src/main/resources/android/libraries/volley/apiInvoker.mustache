@@ -2,6 +2,7 @@ package {{invokerPackage}};
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ResponseDelivery;
@@ -9,6 +10,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.NoCache;
+import com.android.volley.toolbox.RequestFuture;
 import com.google.gson.JsonParseException;
 
 import org.apache.http.Consts;
@@ -26,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.ApiKeyAuth;
@@ -334,7 +339,21 @@ public class ApiInvoker {
     }
   }
 
+  public String invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames) throws ApiException, InterruptedException, ExecutionException, TimeoutException {
+     RequestFuture<String> future = RequestFuture.newFuture();
+     Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, future, future);
+     if(request != null) {
+        mRequestQueue.add(request);
+        return future.get(30, TimeUnit.SECONDS);
+     } else return "no data";
+  }
+
   public void invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
+     Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, stringRequest, errorListener);
+     if (request != null) mRequestQueue.add(request);
+  }
+
+  public Request<String> createRequest(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
     StringBuilder b = new StringBuilder();
     b.append("?");
 
@@ -391,13 +410,13 @@ public class ApiInvoker {
       }
       formParamStr = formParamBuilder.toString();
     }
+    Request request = null;
 
     if ("GET".equals(method)) {
-      GetRequest request = new GetRequest(url, headers, null, stringRequest, errorListener);
-      mRequestQueue.add(request);
+      request = new GetRequest(url, headers, null, stringRequest, errorListener);
     }
     else if ("POST".equals(method)) {
-       PostRequest request = null;
+       request = null;
        if (formParamStr != null) {
           request = new PostRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
        } else if (body != null) {
@@ -407,10 +426,9 @@ public class ApiInvoker {
              request = new PostRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
           }
        }
-       if(request != null) mRequestQueue.add(request);
     }
     else if ("PUT".equals(method)) {
-       PutRequest request = null;
+       request = null;
        if (formParamStr != null) {
           request = new PutRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
        } else if (body != null) {
@@ -420,10 +438,9 @@ public class ApiInvoker {
              request = new PutRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
           }
        }
-       if(request != null) mRequestQueue.add(request);
     }
     else if ("DELETE".equals(method)) {
-       DeleteRequest request = null;
+       request = null;
           if (formParamStr != null) {
            request = new DeleteRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
           } else if (body != null) {
@@ -433,10 +450,9 @@ public class ApiInvoker {
              request = new DeleteRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
           }
        }
-       if(request != null) mRequestQueue.add(request);
     }
     else if ("PATCH".equals(method)) {
-                PatchRequest request = null;
+       request = null;
           if (formParamStr != null) {
              request = new PatchRequest(url, headers, contentType, new StringEntity(formParamStr, "UTF-8"), stringRequest, errorListener);
           } else if (body != null) {
@@ -446,8 +462,8 @@ public class ApiInvoker {
                 request = new PatchRequest(url, headers, contentType, new StringEntity(serialize(body), "UTF-8"), stringRequest, errorListener);
              }
              }
-          if(request != null) mRequestQueue.add(request);
        }
+    return request;
   }
 
   private void initConnectionRequest(Cache cache, Network network) {
