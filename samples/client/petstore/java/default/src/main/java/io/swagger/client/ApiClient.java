@@ -41,12 +41,14 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:16.440+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-08T18:50:38.131+08:00")
 public class ApiClient {
-  private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private boolean debugging = false;
   private String basePath = "http://petstore.swagger.io/v2";
+  private boolean debugging = false;
+  private int connectionTimeout = 0;
+
+  private Client httpClient;
   private ObjectMapper mapper;
 
   private Map<String, Authentication> authentications;
@@ -64,7 +66,9 @@ public class ApiClient {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.registerModule(new JodaModule());
-  
+
+    httpClient = buildHttpClient(debugging);
+
     // Use RFC3339 format for date and datetime.
     // See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
     this.dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
@@ -79,8 +83,8 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -223,8 +227,28 @@ public class ApiClient {
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
+    // Rebuild HTTP Client according to the new "debugging" value.
+    this.httpClient = buildHttpClient(debugging);
     return this;
   }
+
+  /**
+   * Connect timeout (in milliseconds).
+   */
+  public int getConnectTimeout() {
+    return connectionTimeout;
+  }
+
+  /**
+   * Set the connect timeout (in milliseconds).
+   * A value of 0 means no timeout, otherwise values must be between 1 and
+   * {@link Integer#MAX_VALUE}.
+   */
+   public ApiClient setConnectTimeout(int connectionTimeout) {
+     this.connectionTimeout = connectionTimeout;
+     httpClient.setConnectTimeout(connectionTimeout);
+     return this;
+   }
 
   /**
    * Get the date format used to parse/format date parameters.
@@ -435,8 +459,6 @@ public class ApiClient {
 
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    Client client = getClient();
-
     StringBuilder b = new StringBuilder();
     b.append("?");
     if (queryParams != null){
@@ -454,9 +476,9 @@ public class ApiClient {
 
     Builder builder;
     if (accept == null)
-      builder = client.resource(basePath + path + querystring).getRequestBuilder();
+      builder = httpClient.resource(basePath + path + querystring).getRequestBuilder();
     else
-      builder = client.resource(basePath + path + querystring).accept(accept);
+      builder = httpClient.resource(basePath + path + querystring).accept(accept);
 
     for (String key : headerParams.keySet()) {
       builder = builder.header(key, headerParams.get(key));
@@ -570,19 +592,17 @@ public class ApiClient {
   }
 
   /**
-   * Get an existing client or create a new client to handle HTTP request.
+   * Build the Client used to make HTTP requests.
    */
-  private Client getClient() {
-    if(!hostMap.containsKey(basePath)) {
-      // Add the JSON serialization support to Jersey
-      JacksonJsonProvider jsonProvider = new JacksonJsonProvider(mapper);
-      DefaultClientConfig conf = new DefaultClientConfig();
-      conf.getSingletons().add(jsonProvider);
-      Client client = Client.create(conf);
-      if (debugging)
-        client.addFilter(new LoggingFilter());
-      hostMap.put(basePath, client);
+  private Client buildHttpClient(boolean debugging) {
+    // Add the JSON serialization support to Jersey
+    JacksonJsonProvider jsonProvider = new JacksonJsonProvider(mapper);
+    DefaultClientConfig conf = new DefaultClientConfig();
+    conf.getSingletons().add(jsonProvider);
+    Client client = Client.create(conf);
+    if (debugging) {
+      client.addFilter(new LoggingFilter());
     }
-    return hostMap.get(basePath);
+    return client;
   }
 }
