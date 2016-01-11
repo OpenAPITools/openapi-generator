@@ -10,13 +10,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class AbstractGenerator {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractGenerator.class);
 
     @SuppressWarnings("static-method")
     public File writeToFile(String filename, String contents) throws IOException {
-        System.out.println("writing file " + filename);
+    	LOG.debug("writing file " + filename);
         File output = new File(filename);
 
         if (output.getParent() != null && !new File(output.getParent()).exists()) {
@@ -37,10 +42,10 @@ public abstract class AbstractGenerator {
             if (reader == null) {
                 throw new RuntimeException("no file found");
             }
-            java.util.Scanner s = new java.util.Scanner(reader).useDelimiter("\\A");
+            Scanner s = new Scanner(reader).useDelimiter("\\A");
             return s.hasNext() ? s.next() : "";
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         throw new RuntimeException("can't load template " + name);
     }
@@ -53,7 +58,7 @@ public abstract class AbstractGenerator {
             }
             return new InputStreamReader(is);
         } catch (Exception e) {
-            e.printStackTrace();
+        	LOG.error(e.getMessage());
         }
         throw new RuntimeException("can't load template " + name);
     }

@@ -20,7 +20,13 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
+	
+    private static final Logger LOG = LoggerFactory.getLogger(NodeJSServerCodegen.class);
+
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
@@ -284,7 +290,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 });
                 objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
         }
         for (Map<String, Object> operations : getOperations(objs)) {

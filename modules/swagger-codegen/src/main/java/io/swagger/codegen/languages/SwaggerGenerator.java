@@ -1,16 +1,22 @@
 package io.swagger.codegen.languages;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Swagger;
 import io.swagger.util.Json;
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
 
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
+
+	private static final Logger LOG = LoggerFactory.getLogger(SwaggerGenerator.class);
+
     public SwaggerGenerator() {
         super();
         embeddedTemplateDir = templateDir = "swagger";
@@ -41,9 +47,9 @@ public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
         try {
             String outputFile = outputFolder + File.separator + "swagger.json";
             FileUtils.writeStringToFile(new File(outputFile), swaggerString);
-            System.out.println("wrote file to " + outputFile);
+            LOG.debug("wrote file to " + outputFile);
         } catch (Exception e) {
-            e.printStackTrace();
+        	LOG.error(e.getMessage(), e);
         }
     }
 }
