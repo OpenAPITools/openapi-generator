@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+
+import config.ConfigParser;
 import io.swagger.codegen.*;
 import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
@@ -14,7 +16,13 @@ import io.swagger.util.Yaml;
 import java.io.File;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConfig {
+	
+    private static final Logger LOG = LoggerFactory.getLogger(FlaskConnexionCodegen.class);
+
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
 
@@ -289,7 +297,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+            	LOG.error(e.getMessage(), e);
             }
         }
         for (Map<String, Object> operations : getOperations(objs)) {

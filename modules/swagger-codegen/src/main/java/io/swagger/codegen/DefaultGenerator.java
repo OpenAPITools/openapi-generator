@@ -240,7 +240,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
         if (System.getProperty("debugModels") != null) {
-            System.out.println("############ Model info ############");
+        	LOGGER.debug("############ Model info ############");
             Json.prettyPrint(allModels);
         }
 
@@ -340,7 +340,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
         if (System.getProperty("debugOperations") != null) {
-            System.out.println("############ Operation info ############");
+        	LOGGER.debug("############ Operation info ############");
             Json.prettyPrint(allOperations);
         }
 
@@ -379,7 +379,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.postProcessSupportingFileData(bundle);
 
         if (System.getProperty("debugSupportingFiles") != null) {
-            System.out.println("############ Supporting file info ############");
+        	LOGGER.debug("############ Supporting file info ############");
             Json.prettyPrint(bundle);
         }
 
@@ -439,10 +439,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             File outputFile = new File(outputFilename);
                             OutputStream out = new FileOutputStream(outputFile, false);
                             if (in != null) {
-                                System.out.println("writing file " + outputFile);
+                            	LOGGER.info("writing file " + outputFile);
                                 IOUtils.copy(in, out);
                             } else {
-                                System.out.println("can't open " + templateFile + " for input"); // FIXME: use LOGGER instead of standart output
+                                if (in == null) {
+                                	LOGGER.error("can't open " + templateFile + " for input");
+                                }
                             }
                             files.add(outputFile);
                         }

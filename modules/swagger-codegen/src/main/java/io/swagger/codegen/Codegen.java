@@ -1,15 +1,5 @@
 package io.swagger.codegen;
 
-import config.Config;
-import config.ConfigParser;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,12 +7,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import config.Config;
+import config.ConfigParser;
+import io.swagger.models.Swagger;
+import io.swagger.parser.SwaggerParser;
+
 /**
  * @deprecated use instead {@link io.swagger.codegen.DefaultGenerator}
  * or cli interface from https://github.com/swagger-api/swagger-codegen/pull/547
  */
 @Deprecated
 public class Codegen extends DefaultGenerator {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Codegen.class);
+	
     static Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
     static String configString;
     static String debugInfoOptions = "\nThe following additional debug options are available for all codegen targets:" +
@@ -111,7 +117,7 @@ public class Codegen extends DefaultGenerator {
                     .swagger(swagger);
             new Codegen().opts(clientOptInput).generate();
         } catch (Exception e) {
-            e.printStackTrace();
+        	LOG.error(e.getMessage(), e);
         }
     }
 
@@ -136,9 +142,9 @@ public class Codegen extends DefaultGenerator {
         } else {
             // see if it's a class
             try {
-                System.out.println("loading class " + name);
+            	LOG.debug("loading class " + name);
                 Class<?> customClass = Class.forName(name);
-                System.out.println("loaded");
+                LOG.debug("loaded");
                 return (CodegenConfig) customClass.newInstance();
             } catch (Exception e) {
                 throw new RuntimeException("can't load class " + name);
