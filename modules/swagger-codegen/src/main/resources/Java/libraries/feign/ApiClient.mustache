@@ -3,6 +3,9 @@ package {{invokerPackage}};
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -13,6 +16,7 @@ import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
 import {{invokerPackage}}.auth.*;
+import {{invokerPackage}}.auth.OAuth.AccessTokenListener;
 
 {{>generatedAnnotation}}
 public class ApiClient {
@@ -77,8 +81,30 @@ public class ApiClient {
     this.setCredentials(username,  password);
   }
 
+  /**
+   * Helper constructor for single password oauth2
+   * @param authName
+   * @param clientId
+   * @param secret
+   * @param username
+   * @param password
+   */
+   public ApiClient(String authName, String clientId, String secret, String username, String password) {
+     this(authName);
+     this.getTokenEndPoint()
+            .setClientId(clientId)
+            .setClientSecret(secret)
+            .setUsername(username)
+            .setPassword(password);
+   }
+
   public String getBasePath() {
     return basePath;
+  }
+
+  public ApiClient setBasePath(String basePath) {
+    this.basePath = basePath;
+    return this;
   }
 
   public Map<String, RequestInterceptor> getApiAuthorizations() {
@@ -87,11 +113,6 @@ public class ApiClient {
 
   public void setApiAuthorizations(Map<String, RequestInterceptor> apiAuthorizations) {
     this.apiAuthorizations = apiAuthorizations;
-  }
-
-  public ApiClient setBasePath(String basePath) {
-    this.basePath = basePath;
-    return this;
   }
 
   public Feign.Builder getFeignBuilder() {
@@ -180,8 +201,92 @@ public class ApiClient {
         basicAuth.setCredentials(username, password);
         return;
       }
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.getTokenRequestBuilder().setUsername(username).setPassword(password);
+        return;
+      }
     }
-    throw new RuntimeException("No Basic authentication configured!");
+    throw new RuntimeException("No Basic authentication or OAuth configured!");
+  }
+
+  /**
+   * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+   * @return
+   */
+  public TokenRequestBuilder getTokenEndPoint() {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        return oauth.getTokenRequestBuilder();
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+   * @return
+   */
+  public AuthenticationRequestBuilder getAuthorizationEndPoint() {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        return oauth.getAuthenticationRequestBuilder();
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+   * @param accessToken
+   * @param expiresIn : validity period in seconds
+   */
+  public void setAccessToken(String accessToken, Long expiresIn) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.setAccessToken(accessToken, expiresIn);
+        return;
+      }
+    }
+  }
+
+  /**
+   * Helper method to configure the oauth accessCode/implicit flow parameters
+   * @param clientId
+   * @param clientSecret
+   * @param redirectURI
+   */
+  public void configureAuthorizationFlow(String clientId, String clientSecret, String redirectURI) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.getTokenRequestBuilder()
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setRedirectURI(redirectURI);
+        oauth.getAuthenticationRequestBuilder()
+                .setClientId(clientId)
+                .setRedirectURI(redirectURI);
+        return;
+      }
+    }
+  }
+
+  /**
+   * Configures a listener which is notified when a new access token is received.
+   * @param accessTokenListener
+   */
+  public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof OAuth) {
+        OAuth oauth = (OAuth) apiAuthorization;
+        oauth.registerAccessTokenListener(accessTokenListener);
+        return;
+      }
+    }
   }
 
   public RequestInterceptor getAuthorization(String authName) {
