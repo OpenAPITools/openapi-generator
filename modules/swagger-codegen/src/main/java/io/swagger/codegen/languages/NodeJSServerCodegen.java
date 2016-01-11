@@ -246,9 +246,6 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void preprocessSwagger(Swagger swagger) {
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
-        }
 
         String host = swagger.getHost();
         String port = "8080";
