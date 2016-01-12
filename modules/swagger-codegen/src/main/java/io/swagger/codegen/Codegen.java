@@ -27,7 +27,7 @@ import io.swagger.parser.SwaggerParser;
 @Deprecated
 public class Codegen extends DefaultGenerator {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(Codegen.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Codegen.class);
 	
     static Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
     static String configString;
@@ -117,7 +117,7 @@ public class Codegen extends DefaultGenerator {
                     .swagger(swagger);
             new Codegen().opts(clientOptInput).generate();
         } catch (Exception e) {
-        	LOG.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -142,9 +142,9 @@ public class Codegen extends DefaultGenerator {
         } else {
             // see if it's a class
             try {
-            	LOG.debug("loading class " + name);
+                LOGGER.debug("loading class " + name);
                 Class<?> customClass = Class.forName(name);
-                LOG.debug("loaded");
+                LOGGER.debug("loaded");
                 return (CodegenConfig) customClass.newInstance();
             } catch (Exception e) {
                 throw new RuntimeException("can't load class " + name);

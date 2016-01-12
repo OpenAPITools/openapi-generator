@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConfig {
 	
-    private static final Logger LOG = LoggerFactory.getLogger(FlaskConnexionCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlaskConnexionCodegen.class);
 
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
@@ -297,7 +297,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-            	LOG.error(e.getMessage(), e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         for (Map<String, Object> operations : getOperations(objs)) {

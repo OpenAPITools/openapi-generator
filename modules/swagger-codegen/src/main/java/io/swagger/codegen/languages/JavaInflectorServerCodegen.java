@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
     
 	protected String title = "Swagger Inflector";
 
@@ -170,7 +170,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-            	LOG.error(e.getMessage(), e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return super.postProcessSupportingFileData(objs);
