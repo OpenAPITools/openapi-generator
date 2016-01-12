@@ -15,7 +15,7 @@ import io.swagger.util.Yaml;
 
 public class SwaggerYamlGenerator extends DefaultCodegen implements CodegenConfig {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(SwaggerYamlGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerYamlGenerator.class);
 
     public SwaggerYamlGenerator() {
         super();
@@ -46,9 +46,9 @@ public class SwaggerYamlGenerator extends DefaultCodegen implements CodegenConfi
             String swaggerString = Yaml.mapper().writeValueAsString(swagger);
             String outputFile = outputFolder + File.separator + "swagger.yaml";
             FileUtils.writeStringToFile(new File(outputFile), swaggerString);
-            LOG.debug("wrote file to " + outputFile);
+            LOGGER.debug("wrote file to " + outputFile);
         } catch (Exception e) {
-        	LOG.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 }

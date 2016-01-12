@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
 	
-    private static final Logger LOG = LoggerFactory.getLogger(NodeJSServerCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -290,7 +290,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 });
                 objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                LOG.error(e.getMessage(), e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         for (Map<String, Object> operations : getOperations(objs)) {

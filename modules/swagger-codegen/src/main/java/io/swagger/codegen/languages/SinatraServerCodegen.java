@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
 	
-    private static final Logger LOG = LoggerFactory.getLogger(SinatraServerCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SinatraServerCodegen.class);
 
     protected String gemName;
     protected String moduleName;
@@ -237,7 +237,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                LOG.error(e.getMessage(), e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return super.postProcessSupportingFileData(objs);

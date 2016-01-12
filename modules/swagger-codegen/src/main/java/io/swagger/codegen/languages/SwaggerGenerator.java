@@ -15,7 +15,7 @@ import io.swagger.util.Json;
 
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SwaggerGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerGenerator.class);
 
     public SwaggerGenerator() {
         super();
@@ -47,9 +47,9 @@ public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
         try {
             String outputFile = outputFolder + File.separator + "swagger.json";
             FileUtils.writeStringToFile(new File(outputFile), swaggerString);
-            LOG.debug("wrote file to " + outputFile);
+            LOGGER.debug("wrote file to " + outputFile);
         } catch (Exception e) {
-        	LOG.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 }
