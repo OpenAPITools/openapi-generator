@@ -186,14 +186,15 @@ public class ApiClientTest {
 
     @Test
     public void testGetAndSetConnectTimeout() {
-        assertEquals(0, apiClient.getConnectTimeout());
-        assertEquals(0, apiClient.getHttpClient().getConnectTimeout());
-
-        apiClient.setConnectTimeout(10000);
+        // connect timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getConnectTimeout());
         assertEquals(10000, apiClient.getHttpClient().getConnectTimeout());
 
         apiClient.setConnectTimeout(0);
+        assertEquals(0, apiClient.getConnectTimeout());
+        assertEquals(0, apiClient.getHttpClient().getConnectTimeout());
+
+        apiClient.setConnectTimeout(10000);
     }
 
     @Test
