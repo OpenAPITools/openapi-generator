@@ -15,7 +15,7 @@ import io.swagger.util.Yaml;
 
 public class SwaggerYamlGenerator extends DefaultCodegen implements CodegenConfig {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerYamlGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerYamlGenerator.class);
 
     public SwaggerYamlGenerator() {
         super();
