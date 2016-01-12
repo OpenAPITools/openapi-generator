@@ -15,7 +15,7 @@ import io.swagger.util.Json;
 
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerGenerator.class);
 
     public SwaggerGenerator() {
         super();

@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
-    
-	protected String title = "Swagger Inflector";
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+
+    protected String title = "Swagger Inflector";
 
     public JavaInflectorServerCodegen() {
         super();
