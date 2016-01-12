@@ -27,7 +27,7 @@ import io.swagger.parser.SwaggerParser;
 @Deprecated
 public class Codegen extends DefaultGenerator {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(Codegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Codegen.class);
 	
     static Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
     static String configString;

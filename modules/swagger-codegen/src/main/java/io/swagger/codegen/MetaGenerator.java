@@ -28,7 +28,7 @@ import java.util.ServiceLoader;
 @Deprecated
 public class MetaGenerator extends AbstractGenerator {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MetaGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MetaGenerator.class);
 
     static Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
     static String configString;
