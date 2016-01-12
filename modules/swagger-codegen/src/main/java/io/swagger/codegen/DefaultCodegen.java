@@ -1090,7 +1090,7 @@ public class DefaultCodegen {
         		ArrayProperty ap = (ArrayProperty) p;
         		CodegenProperty cp = fromProperty(property.name, ap.getItems());
         		if (cp == null) {
-        			 LOGGER.warn("skipping invalid property " + Json.pretty(p));
+        			LOGGER.warn("skipping invalid property " + Json.pretty(p));
         		} else {
           			property.baseType = getSwaggerType(p);
           			if (!languageSpecificPrimitives.contains(cp.baseType)) {
