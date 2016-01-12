@@ -170,23 +170,28 @@ module Petstore
     # from the "Content-Disposition" header if provided, otherwise a random filename.
     #
     # @see Configuration#temp_folder_path
-    # @return [File] the file downloaded
+    # @return [Tempfile] the file downloaded
     def download_file(response)
-      tmp_file = Tempfile.new '', @config.temp_folder_path
       content_disposition = response.headers['Content-Disposition']
       if content_disposition
         filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-        path = File.join File.dirname(tmp_file), filename
+        prefix = File.basename(filename)
       else
-        path = tmp_file.path
+        prefix = 'download-'
       end
-      # close and delete temp file
-      tmp_file.close!
+      prefix = prefix + '-' unless prefix.end_with?('-')
 
-      File.open(path, 'w') { |file| file.write(response.body) }
-      @config.logger.info "File written to #{path}. Please move the file to a proper folder "\
-                          "for further processing and delete the temp afterwards"
-      File.new(path)
+      tempfile = nil
+      encoding = response.body.encoding
+      Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding) do |file|
+        file.write(response.body)
+        tempfile = file
+      end
+      @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                          "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                          "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                          "explicitly with `tempfile.delete`"
+      tempfile
     end
 
     def build_request_url(path)

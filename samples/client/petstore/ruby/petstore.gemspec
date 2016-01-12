@@ -6,12 +6,13 @@ Gem::Specification.new do |s|
   s.name        = "petstore"
   s.version     = Petstore::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Zeke Sikelianos", "Tony Tam"]
-  s.email       = ["zeke@wordnik.com", "fehguy@gmail.com"]
-  s.homepage    = "http://swagger.io"
-  s.summary     = %q{A ruby wrapper for the swagger APIs}
-  s.description = %q{This gem maps to a swagger API}
-  s.license     = "Apache-2.0"
+  s.authors     = [""]
+  s.email       = [""]
+  s.homepage    = ""
+  s.summary     = ""
+  s.description = ""
+  s.license     = ""
+
 
   s.add_runtime_dependency 'typhoeus', '~> 0.2', '>= 0.2.1'
   s.add_runtime_dependency 'json', '~> 1.4', '>= 1.4.6'
