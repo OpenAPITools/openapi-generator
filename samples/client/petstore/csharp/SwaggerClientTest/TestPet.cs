@@ -15,7 +15,10 @@ namespace SwaggerClientTest.TestPet
 	{
 		public long petId = 11088;
 
-		[SetUp] public void Init()
+		/// <summary>
+		/// Create a Pet object
+		/// </summary>
+		private Pet createPet()
 		{
 			// create pet
 			Pet p = new Pet();
@@ -35,6 +38,24 @@ namespace SwaggerClientTest.TestPet
 			p.Tags = tags;
 			p.Category = category;
 			p.PhotoUrls = photoUrls;
+
+			return p;
+		}
+
+		/// <summary>
+		/// Convert string to byte array
+		/// </summary>
+		private byte[] GetBytes(string str)
+		{
+			byte[] bytes = new byte[str.Length * sizeof(char)];
+			System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+			return bytes;
+		}
+
+		[SetUp] public void Init()
+		{
+			// create pet
+			Pet p = createPet();
 
 			// add pet before testing
 			PetApi petApi = new PetApi("http://petstore.swagger.io/v2/");
@@ -135,6 +156,35 @@ namespace SwaggerClientTest.TestPet
 			Assert.AreEqual (56, response.Category.Id);
 			Assert.AreEqual ("sample category name2", response.Category.Name);
 
+		}
+
+		/// <summary>
+		/// Test GetPetByIdWithByteArray
+		/// </summary>
+		[Test ()]
+		public void TestGetPetByIdWithByteArray ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			PetApi petApi = new PetApi (c1);
+			byte[] response = petApi.GetPetByIdWithByteArray (petId);
+			Assert.IsInstanceOf<byte[]> (response, "Response is byte array");
+		}
+
+		/// <summary>
+		/// Test AddPetUsingByteArray
+		/// </summary>
+		[Test ()]
+		public void TestAddPetUsingByteArray ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			PetApi petApi = new PetApi (c1);
+			Pet p = createPet ();
+			byte[] petByteArray = GetBytes ((string)petApi.Configuration.ApiClient.Serialize (p));
+			petApi.AddPetUsingByteArray (petByteArray);
 		}
 
 		/// <summary>

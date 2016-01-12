@@ -14,6 +14,26 @@ namespace SwaggerClientTest.TestApiClient
             Configuration.Default.DateTimeFormat = "o";
         }
 
+		/// <summary>
+		/// Test SelectHeaderContentType
+		/// </summary>
+		[Test ()]
+		public void TestSelectHeaderContentType ()
+		{	
+			ApiClient api = new ApiClient ();
+			String[] contentTypes = new String[] { "application/json", "application/xml" };
+			Assert.AreEqual("application/json", api.SelectHeaderContentType (contentTypes));
+
+			contentTypes = new String[] { "application/xml" };
+			Assert.AreEqual("application/xml", api.SelectHeaderContentType (contentTypes));
+
+			contentTypes = new String[] {};
+			Assert.IsNull(api.SelectHeaderContentType (contentTypes));	
+		}
+
+		/// <summary>
+		/// Test ParameterToString
+		/// </summary>
         [Test ()]
 		public void TestParameterToString ()
 		{	
