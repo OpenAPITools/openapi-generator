@@ -37,6 +37,10 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.useDateTimeOffset(true);
             times = 1;
+            clientCodegen.setOptionalProjectFileFlag(true);
+            times = 1;
+            clientCodegen.setPackageGuid(CSharpClientOptionsProvider.PACKAGE_GUID_VALUE);
+            times = 1;
         }};
     }
 }
