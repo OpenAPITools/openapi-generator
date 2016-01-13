@@ -62,4 +62,10 @@ public class CodegenConstants {
     public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
     public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs (Default: true).";
 
+    public static final String OPTIONAL_PROJECT_FILE = "optionalProjectFile";
+    public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate {PackageName}.csproj (Default: true).";
+    
+    public static final String OPTIONAL_PROJECT_GUID = "packageGuid";
+    public static final String OPTIONAL_PROJECT_GUID_DESC = "The GUID that will be associated with the C# project";
+    
 }
