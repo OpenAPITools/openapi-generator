@@ -11,6 +11,8 @@ import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.internal.http.HttpMethod;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 
 import java.lang.reflect.Type;
 
@@ -116,6 +118,8 @@ public class ApiClient {
   private OkHttpClient httpClient;
   private JSON json;
 
+  private HttpLoggingInterceptor loggingInterceptor;
+
   public ApiClient() {
     httpClient = new OkHttpClient();
 
@@ -141,8 +145,8 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -451,6 +455,16 @@ public class ApiClient {
    * @param debugging To enable (true) or disable (false) debugging
    */
   public ApiClient setDebugging(boolean debugging) {
+    if (debugging != this.debugging) {
+      if (debugging) {
+        loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(Level.BODY);
+        httpClient.interceptors().add(loggingInterceptor);
+      } else {
+        httpClient.interceptors().remove(loggingInterceptor);
+        loggingInterceptor = null;
+      }
+    }
     this.debugging = debugging;
     return this;
   }

@@ -13,7 +13,7 @@ import java.util.*;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:18.888+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-11T21:48:33.457Z")
 public class Pet   {
   
   private Long id = null;
@@ -133,12 +133,14 @@ public class Pet   {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(id, pet.id) &&
+
+    return true && Objects.equals(id, pet.id) &&
         Objects.equals(category, pet.category) &&
         Objects.equals(name, pet.name) &&
         Objects.equals(photoUrls, pet.photoUrls) &&
         Objects.equals(tags, pet.tags) &&
-        Objects.equals(status, pet.status);
+        Objects.equals(status, pet.status)
+    ;
   }
 
   @Override

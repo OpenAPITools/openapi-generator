@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:18.888+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-11T21:48:33.457Z")
 public class Order   {
   
   private Long id = null;
@@ -131,12 +131,14 @@ public class Order   {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(id, order.id) &&
+
+    return true && Objects.equals(id, order.id) &&
         Objects.equals(petId, order.petId) &&
         Objects.equals(quantity, order.quantity) &&
         Objects.equals(shipDate, order.shipDate) &&
         Objects.equals(status, order.status) &&
-        Objects.equals(complete, order.complete);
+        Objects.equals(complete, order.complete)
+    ;
   }
 
   @Override

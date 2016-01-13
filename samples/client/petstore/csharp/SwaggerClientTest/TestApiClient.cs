@@ -14,6 +14,26 @@ namespace SwaggerClientTest.TestApiClient
             Configuration.Default.DateTimeFormat = "o";
         }
 
+		/// <summary>
+		/// Test SelectHeaderContentType
+		/// </summary>
+		[Test ()]
+		public void TestSelectHeaderContentType ()
+		{	
+			ApiClient api = new ApiClient ();
+			String[] contentTypes = new String[] { "application/json", "application/xml" };
+			Assert.AreEqual("application/json", api.SelectHeaderContentType (contentTypes));
+
+			contentTypes = new String[] { "application/xml" };
+			Assert.AreEqual("application/xml", api.SelectHeaderContentType (contentTypes));
+
+			contentTypes = new String[] {};
+			Assert.IsNull(api.SelectHeaderContentType (contentTypes));	
+		}
+
+		/// <summary>
+		/// Test ParameterToString
+		/// </summary>
         [Test ()]
 		public void TestParameterToString ()
 		{	
@@ -48,7 +68,7 @@ namespace SwaggerClientTest.TestApiClient
 		{
 			ApiClient api = new ApiClient ();
             // test datetime with a time zone
-            DateTime dateWithTz = DateTime.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
+            DateTimeOffset dateWithTz = DateTimeOffset.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
             Assert.AreEqual("2008-04-10T13:30:00.0000000-04:00", api.ParameterToString(dateWithTz));
         }
 

@@ -112,6 +112,24 @@ describe Petstore::ApiClient do
   end
 
   describe "#deserialize" do
+    it "handles Array<Integer>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '[12, 34]')
+      data = api_client.deserialize(response, 'Array<Integer>')
+      data.should be_a(Array)
+      data.should == [12, 34]
+    end
+
+    it "handles Array<Array<Integer>>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '[[12, 34], [56]]')
+      data = api_client.deserialize(response, 'Array<Array<Integer>>')
+      data.should be_a(Array)
+      data.should == [[12, 34], [56]]
+    end
+
     it "handles Hash<String, String>" do
       api_client = Petstore::ApiClient.new
       headers = {'Content-Type' => 'application/json'}
@@ -126,6 +144,21 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '{"pet": {"id": 1}}')
       data = api_client.deserialize(response, 'Hash<String, Pet>')
+      data.should be_a(Hash)
+      data.keys.should == [:pet]
+      pet = data[:pet]
+      pet.should be_a(Petstore::Pet)
+      pet.id.should == 1
+    end
+
+    it "handles Hash<String, Hash<String, Pet>>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '{"data": {"pet": {"id": 1}}}')
+      result = api_client.deserialize(response, 'Hash<String, Hash<String, Pet>>')
+      result.should be_a(Hash)
+      result.keys.should == [:data]
+      data = result[:data]
       data.should be_a(Hash)
       data.keys.should == [:pet]
       pet = data[:pet]

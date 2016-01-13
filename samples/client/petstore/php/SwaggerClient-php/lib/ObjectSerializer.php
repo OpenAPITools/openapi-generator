@@ -11,7 +11,7 @@
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 /**
- *  Copyright 2015 SmartBear Software
+ *  Copyright 2016 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -77,6 +77,23 @@ class ObjectSerializer
         }
 
         return $sanitized;
+    }
+
+    /**
+     * Sanitize filename by removing path.
+     * e.g. ../../sun.gif becomes sun.gif 
+     *
+     * @param string $filename filename to be sanitized
+     *
+     * @return string the sanitized filename
+     */
+    public function sanitizeFilename($filename)
+    {
+        if (preg_match("/.*[\/\\\\](.*)$/", $filename, $match)) {
+            return $match[1];
+        } else {
+            return $filename;
+        }
     }
 
     /**
@@ -199,11 +216,11 @@ class ObjectSerializer
      *
      * @param mixed  $data       object or primitive to be deserialized
      * @param string $class      class name is passed as a string
-     * @param string $httpHeader HTTP headers
+     * @param string $httpHeaders HTTP headers
      *
      * @return object an instance of $class
      */
-    public function deserialize($data, $class, $httpHeader=null)
+    public function deserialize($data, $class, $httpHeaders=null)
     {
         if (null === $data) {
             $deserialized = null;
@@ -231,8 +248,8 @@ class ObjectSerializer
             $deserialized = $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
-            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeader['Content-Disposition'], $match)) {
-                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath().$match[1];
+            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
+                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . sanitizeFilename($match[1]);
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }

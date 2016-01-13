@@ -12,7 +12,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.MultiPart;
@@ -41,14 +43,15 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:17.660+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-08T18:51:26.068+08:00")
 public class ApiClient {
-  private Client client;
-  private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private boolean debugging = false;
   private String basePath = "http://petstore.swagger.io/v2";
-  private JSON json = new JSON();
+  private boolean debugging = false;
+  private int connectionTimeout = 0;
+
+  private Client httpClient;
+  private JSON json;
 
   private Map<String, Authentication> authentications;
 
@@ -58,6 +61,9 @@ public class ApiClient {
   private DateFormat dateFormat;
 
   public ApiClient() {
+    json = new JSON();
+    httpClient = buildHttpClient(debugging);
+
     // Use RFC3339 format for date and datetime.
     // See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
     this.dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
@@ -70,12 +76,10 @@ public class ApiClient {
     // Set default User-Agent.
     setUserAgent("Java-Swagger");
 
-    buildClient();
-
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -225,9 +229,28 @@ public class ApiClient {
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
-    buildClient();
+    // Rebuild HTTP Client according to the new "debugging" value.
+    this.httpClient = buildHttpClient(debugging);
     return this;
   }
+
+  /**
+  * Connect timeout (in milliseconds).
+  */
+  public int getConnectTimeout() {
+    return connectionTimeout;
+  }
+
+  /**
+   * Set the connect timeout (in milliseconds).
+   * A value of 0 means no timeout, otherwise values must be between 1 and
+   * {@link Integer#MAX_VALUE}.
+   */
+   public ApiClient setConnectTimeout(int connectionTimeout) {
+     this.connectionTimeout = connectionTimeout;
+     httpClient.property(ClientProperties.CONNECT_TIMEOUT, connectionTimeout);
+     return this;
+   }
 
   /**
    * Get the date format used to parse/format date parameters.
@@ -471,7 +494,7 @@ public class ApiClient {
   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    WebTarget target = client.target(this.basePath).path(path);
+    WebTarget target = httpClient.target(this.basePath).path(path);
 
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
@@ -544,15 +567,18 @@ public class ApiClient {
     }
   }
 
-  private void buildClient() {
+  /**
+   * Build the Client used to make HTTP requests.
+   */
+  private Client buildHttpClient(boolean debugging) {
     final ClientConfig clientConfig = new ClientConfig();
     clientConfig.register(MultiPartFeature.class);
     clientConfig.register(json);
-    clientConfig.register(org.glassfish.jersey.jackson.JacksonFeature.class);
+    clientConfig.register(JacksonFeature.class);
     if (debugging) {
       clientConfig.register(LoggingFilter.class);
     }
-    this.client = ClientBuilder.newClient(clientConfig);
+    return ClientBuilder.newClient(clientConfig);
   }
 
   private Map<String, List<String>> buildResponseHeaders(Response response) {

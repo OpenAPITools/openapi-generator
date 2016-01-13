@@ -78,7 +78,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if Category instances are equal
         /// </summary>
-        /// <param name="obj">Instance of Category to be compared</param>
+        /// <param name="other">Instance of Category to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(Category other)
         {
