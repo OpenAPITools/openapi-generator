@@ -23,6 +23,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Docker](#docker)
       - [Build and run](#build-and-run-using-docker)
       - [Build a Node.js server stub](#build-a-nodejs-server-stub)
+      - [Public Docker image](#public-docker-image)
     - [Homebrew](#homebrew)
   - Generators
     - [To generate a sample client library](#to-generate-a-sample-client-library)
@@ -32,7 +33,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Where is Javascript???](#where-is-javascript)
     - [Generating a client from local files](#generating-a-client-from-local-files)
     - [Customizing the generator](#customizing-the-generator)
-    - [Validating your OpenAPI Spec](#validating-your-swagger-spec)
+    - [Validating your OpenAPI Spec](#validating-your-openapi-spec)
     - [Generating dynamic html api documentation](#generating-dynamic-html-api-documentation)
     - [Generating static html api documentation](#generating-static-html-api-documentation)
     - [To build a server stub](#to-build-a-server-stub)
@@ -56,7 +57,7 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
 2.1.6-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
-2.1.5 (**current stable**) | 2015-01-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.5](https://github.com/swagger-api/swagger-codegen/tree/v2.1.4)
+2.1.5 (**current stable**) | 2015-01-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.5](https://github.com/swagger-api/swagger-codegen/tree/v2.1.5)
 2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
@@ -77,16 +78,16 @@ brew install swagger-codegen
 
 To build from source, you need the following installed and available in your $PATH:
 
-* [Java 7](http://java.oracle.com)
+* [Java 7 or 8](http://java.oracle.com)
 
 * [Apache maven 3.0.3 or greater](http://maven.apache.org/)
 
 #### OS X Users
-Don't forget to install Java 7. You probably have 1.6 or 1.8.
+Don't forget to install Java 7 or 8. You probably have 1.6.
 
 Export JAVA_HOME in order to use the supported Java version:
 ```
-export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
 ```
 
@@ -116,6 +117,10 @@ cd swagger-codegen
   -l nodejs \
   -o samples/server/petstore/nodejs
  ```
+
+#### Public Docker image
+
+https://hub.docker.com/r/swaggerapi/swagger-generator/
 
 ### Homebrew
 To install, run `brew install swagger-codegen`
@@ -580,7 +585,7 @@ Please refer to this [page](https://github.com/swagger-api/swagger-codegen/blob/
 License
 -------
 
-Copyright 2015 SmartBear Software
+Copyright 2016 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

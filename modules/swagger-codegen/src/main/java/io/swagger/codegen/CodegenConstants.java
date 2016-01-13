@@ -46,6 +46,9 @@ public class CodegenConstants {
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG = "sortParamsByRequiredFlag";
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG_DESC = "Sort method arguments to place required parameters before optional parameters.";
 
+    public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
+    public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
+	
     public static final String ENSURE_UNIQUE_PARAMS = "ensureUniqueParams";
     public static final String ENSURE_UNIQUE_PARAMS_DESC = "Whether to ensure parameter names are unique in an operation (rename parameters that are not).";
 
@@ -54,4 +57,9 @@ public class CodegenConstants {
     public static final String POD_VERSION = "podVersion";
 
     public static final String OPTIONAL_METHOD_ARGUMENT = "optionalMethodArgument";
+    public static final String OPTIONAL_METHOD_ARGUMENT_DESC = "Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).";
+
+    public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
+    public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs (Default: true).";
+
 }

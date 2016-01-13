@@ -23,7 +23,9 @@ import org.slf4j.LoggerFactory;
 
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
+    protected boolean useDateTimeOffsetFlag = false;
     protected String packageTitle = "Swagger Library";
     protected String packageProductName = "SwaggerLibrary";
     protected String packageDescription = "A library generated from a Swagger doc";
@@ -75,6 +77,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                         "List",
                         "Dictionary",
                         "DateTime?",
+                        "DateTimeOffset?",
                         "String",
                         "Boolean",
                         "Double",
@@ -89,6 +92,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
         typeMapping.put("boolean", "bool?");
         typeMapping.put("integer", "int?");
         typeMapping.put("float", "float?");
@@ -111,6 +115,10 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_METHOD_ARGUMENT, "C# Optional method argument, " +
                 "e.g. void square(int x=10) (.net 4.0+ only)."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_ASSEMBLY_INFO,
+                CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(sourceFolder));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DATETIME_OFFSET, CodegenConstants.USE_DATETIME_OFFSET_DESC));
     }
 
     @Override
@@ -123,6 +131,14 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)){
+            setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        }
+        else
+        {
+            additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
             apiPackage = packageName + ".Api";
@@ -131,6 +147,13 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
+
+        // Use DateTimeOffset
+        if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET))
+        {
+            useDateTimeOffset(Boolean.valueOf(additionalProperties.get(CodegenConstants.USE_DATETIME_OFFSET).toString()));
+        }
+        additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
 
         additionalProperties.put("clientPackage", clientPackage);
 
@@ -147,6 +170,11 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put("optionalMethodArgument", optionalMethodArgumentFlag);
         
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_ASSEMBLY_INFO)) {
+            setOptionalAssemblyInfoFlag(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.OPTIONAL_ASSEMBLY_INFO).toString()));
+        }
+
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
@@ -158,8 +186,13 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
         supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
         supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
+        supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
+        supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor" + java.io.File.separator, "packages.config"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
-        supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", "src" + File.separator + "Properties", "AssemblyInfo.cs"));
+
+        if (optionalAssemblyInfoFlag) {
+            supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", "src" + File.separator + "Properties", "AssemblyInfo.cs"));
+        }
 
     }
 
@@ -301,9 +334,22 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         return camelize(sanitizeName(operationId));
     }
 
+    public void setOptionalAssemblyInfoFlag(boolean flag) {
+        this.optionalAssemblyInfoFlag = flag;
+    }
+
     public void setOptionalMethodArgumentFlag(boolean flag) {
         this.optionalMethodArgumentFlag = flag;
     }
+
+    public void useDateTimeOffset(boolean flag) {
+        this.useDateTimeOffsetFlag = flag;
+        if (flag)
+            typeMapping.put("datetime", "DateTimeOffset?");
+        else
+            typeMapping.put("datetime", "DateTime?");
+    }
+
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -311,6 +357,10 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
+    }
+
+    public void setSourceFolder(String sourceFolder) {
+        this.sourceFolder = sourceFolder;
     }
 
     @Override

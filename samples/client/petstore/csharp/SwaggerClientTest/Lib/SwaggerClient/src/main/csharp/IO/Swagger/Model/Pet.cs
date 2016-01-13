@@ -111,7 +111,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if Pet instances are equal
         /// </summary>
-        /// <param name="obj">Instance of Pet to be compared</param>
+        /// <param name="other">Instance of Pet to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(Pet other)
         {

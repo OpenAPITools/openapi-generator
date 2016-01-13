@@ -40,8 +40,13 @@ API_CLIENT = Petstore::ApiClient.new(Petstore::Configuration.new)
 
 # always delete and then re-create the pet object with 10002
 def prepare_pet(pet_api)
-  # remove the pet
-  pet_api.delete_pet(10002)
+  begin
+    # remove the pet
+    pet_api.delete_pet(10002)
+  rescue Petstore::ApiError => e
+    # ignore ApiError 404 (Not Found)
+    raise e if e.code != 404
+  end
   # recreate the pet
   category = Petstore::Category.new('id' => 20002, 'name' => 'category test')
   tag = Petstore::Tag.new('id' => 30002, 'name' => 'tag test')

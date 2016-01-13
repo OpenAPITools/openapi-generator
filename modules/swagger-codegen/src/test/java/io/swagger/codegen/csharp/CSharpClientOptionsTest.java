@@ -31,6 +31,12 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPackageVersion(CSharpClientOptionsProvider.PACKAGE_VERSION_VALUE);
             times = 1;
+            clientCodegen.setOptionalAssemblyInfoFlag(true);
+            times = 1;
+            clientCodegen.setSourceFolder(CSharpClientOptionsProvider.SOURCE_FOLDER_VALUE);
+            times = 1;
+            clientCodegen.useDateTimeOffset(true);
+            times = 1;
         }};
     }
 }
