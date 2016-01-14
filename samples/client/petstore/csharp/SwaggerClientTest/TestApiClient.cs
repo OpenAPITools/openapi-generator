@@ -95,6 +95,22 @@ namespace SwaggerClientTest.TestApiClient
             DateTime dateUtc = DateTime.Parse("2009-06-15 20:45:30Z", null, System.Globalization.DateTimeStyles.RoundtripKind);
             Assert.AreEqual("15/06/09 20:45:30", api.ParameterToString(dateUtc));
         }
+
+		[Test ()]
+		public void TestSanitizeFilename ()
+		{
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("sun.gif"));
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("../sun.gif"));
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("/var/tmp/sun.gif"));
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("./sun.gif"));
+			        
+			Assert.AreEqual("sun", ApiClient.SanitizeFilename("sun"));
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("..\\sun.gif"));
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("\\var\\tmp\\sun.gif"));
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("c:\\var\\tmp\\sun.gif"));
+			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename(".\\sun.gif"));
+
+		}
     }
 }
 

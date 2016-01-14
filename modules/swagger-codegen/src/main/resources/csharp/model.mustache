@@ -108,7 +108,7 @@ namespace {{packageName}}.Model
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
                 if (this.{{name}} != null)
-                    hash = hash * 57 + this.{{name}}.GetHashCode();
+                    hash = hash * 59 + this.{{name}}.GetHashCode();
                 {{/vars}}
                 return hash;
             }

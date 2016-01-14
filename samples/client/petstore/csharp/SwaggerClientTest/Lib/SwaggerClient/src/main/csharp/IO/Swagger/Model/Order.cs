@@ -165,22 +165,22 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 
                 if (this.Id != null)
-                    hash = hash * 57 + this.Id.GetHashCode();
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
                 if (this.PetId != null)
-                    hash = hash * 57 + this.PetId.GetHashCode();
+                    hash = hash * 59 + this.PetId.GetHashCode();
                 
                 if (this.Quantity != null)
-                    hash = hash * 57 + this.Quantity.GetHashCode();
+                    hash = hash * 59 + this.Quantity.GetHashCode();
                 
                 if (this.ShipDate != null)
-                    hash = hash * 57 + this.ShipDate.GetHashCode();
+                    hash = hash * 59 + this.ShipDate.GetHashCode();
                 
                 if (this.Status != null)
-                    hash = hash * 57 + this.Status.GetHashCode();
+                    hash = hash * 59 + this.Status.GetHashCode();
                 
                 if (this.Complete != null)
-                    hash = hash * 57 + this.Complete.GetHashCode();
+                    hash = hash * 59 + this.Complete.GetHashCode();
                 
                 return hash;
             }
