@@ -26,7 +26,7 @@ namespace API.Client {
         export enum StatusEnum { 
             placed = <any> 'placed',
             approved = <any> 'approved',
-            delivered = <any> 'delivered',
+            delivered = <any> 'delivered'
         }
     }
 }

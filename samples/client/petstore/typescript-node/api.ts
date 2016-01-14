@@ -43,7 +43,7 @@ export namespace Pet {
     export enum StatusEnum { 
         available = <any> 'available',
         pending = <any> 'pending',
-        sold = <any> 'sold',
+        sold = <any> 'sold'
     }
 }
 export class Tag {
@@ -67,7 +67,7 @@ export namespace Order {
     export enum StatusEnum { 
         placed = <any> 'placed',
         approved = <any> 'approved',
-        delivered = <any> 'delivered',
+        delivered = <any> 'delivered'
     }
 }
 
