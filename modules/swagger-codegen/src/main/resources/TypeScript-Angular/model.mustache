@@ -28,7 +28,7 @@ namespace {{package}} {
 {{#isEnum}}
 
         export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
-            {{.}} = <any> '{{.}}',{{/values}}{{/allowableValues}}
+            {{.}} = <any> '{{.}}'{{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
         }
 {{/isEnum}}
 {{/vars}}
