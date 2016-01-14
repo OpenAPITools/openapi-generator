@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the pet?testing_byte_array=true API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-14T20:53:59.204Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-14T21:37:36.074Z")
 public class PettestingByteArraytrueApi  {
    private final PettestingByteArraytrueApiService delegate = PettestingByteArraytrueApiServiceFactory.getPettestingByteArraytrueApi();
 
