@@ -175,7 +175,7 @@ module Petstore
       content_disposition = response.headers['Content-Disposition']
       if content_disposition
         filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-        prefix = File.basename(filename)
+        prefix = sanitize_filename(filename)
       else
         prefix = 'download-'
       end
@@ -192,6 +192,15 @@ module Petstore
                           "will be deleted automatically with GC. It's also recommended to delete the temp file "\
                           "explicitly with `tempfile.delete`"
       tempfile
+    end
+
+    # Sanitize filename by removing path.
+    # e.g. ../../sun.gif becomes sun.gif
+    #
+    # @param [String] filename the filename to be sanitized
+    # @return [String] the sanitized filename
+    def sanitize_filename(filename)
+      filename.gsub /.*[\/\\]/, ''
     end
 
     def build_request_url(path)
