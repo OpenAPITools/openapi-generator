@@ -255,6 +255,28 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType("int", $get_response['pending']);
     }
   
+    // test byte array response
+    public function testGetPetByIdWithByteArray()
+    {
+        // initialize the API client
+        $config = new Swagger\Client\Configuration();
+        $config->setHost('http://petstore.swagger.io/v2');
+        $api_client = new Swagger\Client\APIClient($config);
+        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        // test getPetByIdWithByteArray 
+        $pet_id = 10005;
+        $bytes = $pet_api->getPetByIdWithByteArray($pet_id);
+        $json = json_decode(call_user_func_array('pack', array_merge(array('C*'), $bytes )), true);
+
+        $this->assertInternalType("array", $bytes);
+
+        $this->assertSame($json['id'], $pet_id);
+        $this->assertSame($json['name'], 'PHP Unit Test');
+        $this->assertSame($json['category']['id'], $pet_id);
+        $this->assertSame($json['category']['name'], 'test php category');
+        $this->assertSame($json['tags'][0]['id'], $pet_id);
+        $this->assertSame($json['tags'][0]['name'], 'test php tag');
+    }
 }
 
 ?>
