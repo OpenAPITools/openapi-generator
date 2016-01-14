@@ -28,7 +28,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-05T15:00:28.637+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-14T20:53:59.204Z")
 public class PetApi  {
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
 
@@ -169,13 +169,31 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet" })
+    }, tags={ "pet",  })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
 
     public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId,@ApiParam(value = "Additional data to pass to server")@FormParam("additionalMetadata")  String additionalMetadata,  @FormDataParam("file") InputStream inputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFile(petId,additionalMetadata,fileDetail,securityContext);
+        return delegate.uploadFile(petId,additionalMetadata,inputStream, fileDetail,securityContext);
+    }
+    @GET
+    @Path("/{petId}?testing_byte_array=true")
+    
+    @Produces({ "application/json", "application/xml" })
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test byte array return by 'Find pet by ID'", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = byte[].class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "api_key")
+    }, tags={ "pet" })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = byte[].class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = byte[].class),
+        
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = byte[].class) })
+
+    public Response getPetByIdWithByteArray(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("petId") Long petId,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.getPetByIdWithByteArray(petId,securityContext);
     }
 }
