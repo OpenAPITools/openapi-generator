@@ -206,7 +206,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     }
   
     // test addPet and verify by the "id" and "name" of the response
-    public function testAddPet()
+    public function testAddPetUsingByteArray()
     {
         // initialize the API client
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
@@ -217,7 +217,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $new_pet->setName("PHP Unit Test");
         $pet_api = new Swagger\Client\Api\PetAPI($api_client);
         // add a new pet (model)
-        $add_response = $pet_api->addPet($new_pet);
+        $add_response = $pet_api->addPetUsingByteArray(unpack('C*', $new_pet));
         // return nothing (void)
         $this->assertSame($add_response, NULL);
         // verify added Pet
@@ -225,6 +225,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response->getId(), $new_pet_id);
         $this->assertSame($response->getName(), 'PHP Unit Test');
     }
+
+
   
     // test upload file
     public function testUploadFile()
