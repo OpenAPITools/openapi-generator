@@ -1329,6 +1329,7 @@ public class DefaultCodegen {
                     cookieParams.add(p.copy());
                 } else if (param instanceof BodyParameter) {
                     p.isBodyParam = new Boolean(true);
+                    p.isBinary = p.dataType.toLowerCase().startsWith("byte");
                     bodyParam = p;
                     bodyParams.add(p.copy());
                 } else if (param instanceof FormParameter) {
@@ -1422,7 +1423,7 @@ public class DefaultCodegen {
                 }
             }
             r.dataType = cm.datatype;
-            r.isBinary = cm.datatype.equals("byte[]");
+            r.isBinary = cm.datatype.toLowerCase().startsWith("byte");
             if (cm.isContainer != null) {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
@@ -1567,12 +1568,7 @@ public class DefaultCodegen {
                     CodegenProperty cp = fromProperty("property", prop);
                     if (cp != null) {
                         p.dataType = cp.datatype;
-                        if (p.dataType.equals("byte[]")) {
-                            p.isBinary = true;
-                        }
-                        else {
-                            p.isBinary = false;
-                        }
+                        p.isBinary = cp.datatype.toLowerCase().startsWith("byte");
                     }
                 }
             } else if (model instanceof ArrayModel) {

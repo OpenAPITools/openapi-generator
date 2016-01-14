@@ -188,7 +188,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         {{#bodyParams}}// body params
         $_tempBody = null;
         if (isset(${{paramName}})) {
-            $_tempBody = ${{paramName}};
+            {{^isBinary}}$_tempBody = ${{paramName}};{{/isBinary}}{{#isBinary}}$_tempBody = call_user_func_array('pack', array_merge(array('C*'), ${{paramName}}));{{/isBinary}}
         }{{/bodyParams}}
   
         // for model (json/xml)
