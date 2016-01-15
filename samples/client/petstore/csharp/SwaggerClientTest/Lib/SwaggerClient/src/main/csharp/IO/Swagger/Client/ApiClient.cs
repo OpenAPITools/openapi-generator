@@ -265,7 +265,7 @@ namespace IO.Swagger.Client
                         var match = regex.Match(header.ToString());
                         if (match.Success)
                         {
-                            string fileName = filePath + match.Groups[1].Value.Replace("\"", "").Replace("'", "");
+                            string fileName = filePath + SanitizeFilename(match.Groups[1].Value.Replace("\"", "").Replace("'", ""));
                             File.WriteAllBytes(fileName, data);
                             return new FileStream(fileName, FileMode.Open);
                         }
@@ -426,6 +426,23 @@ namespace IO.Swagger.Client
             return sb.ToString();
         }
 
-  
+        /// <summary>
+        /// Sanitize filename by removing the path
+        /// </summary>
+        /// <param name="filename">Filename</param>
+        /// <returns>Filename</returns>
+        public static string SanitizeFilename(string filename)
+        {
+            Match match = Regex.Match(filename, @".*[/\\](.*)$");
+
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+            else
+            {
+                return filename;
+            }
+        }
     }
 }

@@ -92,7 +92,8 @@ namespace IO.Swagger.Client
 
             set 
             {
-                ApiClient.RestClient.Timeout = value;
+                if (ApiClient != null)
+                    ApiClient.RestClient.Timeout = value;
             }
         }
 
