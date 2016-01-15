@@ -267,6 +267,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     return codegenProperty;
   }
 
+    @SuppressWarnings("static-method")
     public String toSwiftyEnumName(String value) {
         // Prevent from breaking properly cased identifier
         if (value.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
@@ -286,7 +287,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-    path = normalizePath(path);
+    path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
     List<Parameter> parameters = operation.getParameters();
     parameters = Lists.newArrayList(Iterators.filter(parameters.iterator(), new Predicate<Parameter>() {
       @Override

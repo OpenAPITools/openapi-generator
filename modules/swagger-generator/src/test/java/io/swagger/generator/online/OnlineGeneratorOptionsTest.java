@@ -2,8 +2,6 @@ package io.swagger.generator.online;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertNotNull;
-
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.options.AkkaScalaClientOptionsProvider;
@@ -43,7 +41,6 @@ import io.swagger.generator.model.GeneratorInput;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.FileUtils;
@@ -67,7 +64,7 @@ public class OnlineGeneratorOptionsTest {
     private static final String OPTIONS_PROVIDER = "optionsProvider";
 
     @DataProvider(name = OPTIONS_PROVIDER)
-    private Object[][] listOptions() {
+    private static Object[][] listOptions() {
         return new Object[][]{{new AkkaScalaClientOptionsProvider()}, {new AndroidClientOptionsProvider()},
                 {new AsyncScalaClientOptionsProvider()}, {new CSharpClientOptionsProvider()},
                 {new CsharpDotNet2ClientOptionsProvider()}, {new DartClientOptionsProvider()},
@@ -122,7 +119,7 @@ public class OnlineGeneratorOptionsTest {
         }
     }
 
-    private HashMap<String, InvocationCounter> convertOptions(OptionsProvider provider) {
+    private static HashMap<String, InvocationCounter> convertOptions(OptionsProvider provider) {
         HashMap<String, InvocationCounter> options = new HashMap<String, InvocationCounter>();
         for (Map.Entry<String, String> entry : provider.createOptions().entrySet()) {
             options.put(entry.getKey(), new InvocationCounter(entry.getValue()));
@@ -159,7 +156,7 @@ public class OnlineGeneratorOptionsTest {
     }
 
     @Test(dataProvider = OPTIONS_PROVIDER)
-    public void getOptionsTest(OptionsProvider provider) throws ApiException {
+    public static void getOptionsTest(OptionsProvider provider) throws ApiException {
         final Map<String, CliOption> opts = Generator.getOptions(provider.getLanguage());
 
         final Function cliOptionWrapper = new Function<CliOption, CliOptionProxy>() {

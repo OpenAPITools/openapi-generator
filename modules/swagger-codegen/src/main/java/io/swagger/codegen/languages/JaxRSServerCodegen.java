@@ -8,7 +8,7 @@ import io.swagger.models.Swagger;
 import java.io.File;
 import java.util.*;
 
-public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConfig {
+public class JaxRSServerCodegen extends JavaClientCodegen {
     protected String dateLibrary = "default";
     protected String title = "Swagger Server";
     protected String implFolder = "src/main/java";
@@ -180,7 +180,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             }
         }
         this.additionalProperties.put("serverPort", port);
-        if(swagger != null && swagger.getPaths() != null) {
+        if( swagger.getPaths() != null) {
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
                 if(path.getOperations() != null) {
@@ -256,7 +256,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return camelize(name) + "Api";
     }
 

@@ -106,38 +106,48 @@ public class DefaultCodegen {
     }
 
     // override with any special post-processing
+    @SuppressWarnings("static-method")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return objs;
     }
 
     // override with any special post-processing
+    @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         return objs;
     }
 
     // override with any special post-processing
+    @SuppressWarnings("static-method")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         return objs;
     }
 
     // override to post-process any model properties
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property){}
+    @SuppressWarnings("unused")
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property){
+    }
 
     // override to post-process any parameters
-    public void postProcessParameter(CodegenParameter parameter){}
+    @SuppressWarnings("unused")
+    public void postProcessParameter(CodegenParameter parameter){
+    }
 
     //override with any special handling of the entire swagger spec
+    @SuppressWarnings("unused")
     public void preprocessSwagger(Swagger swagger) {
     }
 
     // override with any special handling of the entire swagger spec
+    @SuppressWarnings("unused")
     public void processSwagger(Swagger swagger) {
     }
 
     // override with any special text escaping logic
+    @SuppressWarnings("static-method")
     public String escapeText(String input) {
-        if (input != null) {
-            input = input.trim();
+        if (input != null) { 
+            input = input.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             String output = input.replaceAll("\n", "\\\\n");
             output = output.replace("\r", "\\r");
             output = output.replace("\"", "\\\"");
@@ -286,6 +296,7 @@ public class DefaultCodegen {
      * @param operationId operation ID
      * @return the sanitized method name
      */
+    @SuppressWarnings("static-method")
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
@@ -318,7 +329,7 @@ public class DefaultCodegen {
      * @return the sanitized parameter name
      */
     public String toParamName(String name) {
-        name = removeNonNameElementToCamelCase(name);
+        name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         }
@@ -331,6 +342,7 @@ public class DefaultCodegen {
      * @param property Codegen property object
      * @return the Enum name
      */
+    @SuppressWarnings("static-method")
     public String toEnumName(CodegenProperty property) {
         return StringUtils.capitalize(property.name) + "Enum";
     }
@@ -343,6 +355,7 @@ public class DefaultCodegen {
      *
      * throws Runtime exception as reserved word is not allowed (default behavior)
      */
+    @SuppressWarnings("static-method")
     public String escapeReservedWord(String name) {
         throw new RuntimeException("reserved word " + name + " not allowed");
     }
@@ -452,6 +465,7 @@ public class DefaultCodegen {
      * @param operation Swagger operation object
      * @return string presentation of the example path
      */
+    @SuppressWarnings("static-method")
     public String generateExamplePath(String path, Operation operation) {
         StringBuilder sb = new StringBuilder();
         sb.append(path);
@@ -534,6 +548,7 @@ public class DefaultCodegen {
      * @param p Swagger property object
      * @return string presentation of the default value of the property
      */
+    @SuppressWarnings("static-method")
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
             return "null";
@@ -580,6 +595,7 @@ public class DefaultCodegen {
      * @param p Swagger property object
      * @return string presentation of the default value of the property
      */
+    @SuppressWarnings("static-method")
     public String toDefaultValueWithParam(String name, Property p) {
         if (p instanceof StringProperty) {
             return " = data." + name + ";";
@@ -623,6 +639,7 @@ public class DefaultCodegen {
      * @param p Swagger property object
      * @return string presentation of the type
      **/
+    @SuppressWarnings("static-method")
     public String getSwaggerType(Property p) {
         String datatype = null;
         if (p instanceof StringProperty && "number".equals(p.getFormat())) {
@@ -677,6 +694,7 @@ public class DefaultCodegen {
      * @param name string to be snake-cased
      * @return snake-cased string
      */
+    @SuppressWarnings("static-method")
     public String snakeCase(String name) {
         return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
     }
@@ -687,6 +705,7 @@ public class DefaultCodegen {
      * @param name string to be capitalized
      * @return capitalized string
      */
+    @SuppressWarnings("static-method")
     public String initialCaps(String name) {
         return StringUtils.capitalize(name);
     }
@@ -697,6 +716,7 @@ public class DefaultCodegen {
      * @param name name
      * @return a string presentation of the type
      */
+    @SuppressWarnings("static-method")
     public String getTypeDeclaration(String name) {
         return name;
     }
@@ -1102,7 +1122,7 @@ public class DefaultCodegen {
         }
     }
 
-    private Response findMethodResponse(Map<String, Response> responses) {
+    private static Response findMethodResponse(Map<String, Response> responses) {
 
         String code = null;
         for (String responseCode : responses.keySet()) {
@@ -1575,7 +1595,6 @@ public class DefaultCodegen {
                 // to use the built-in model parsing, we unwrap the ArrayModel
                 // and get a single property from it
                 ArrayModel impl = (ArrayModel) model;
-                CodegenModel cm = fromModel(bp.getName(), impl);
                 // get the single property
                 ArrayProperty ap = new ArrayProperty().items(impl.getItems());
                 ap.setRequired(param.getRequired());
@@ -1616,6 +1635,7 @@ public class DefaultCodegen {
      * @param schemes a map of Swagger SecuritySchemeDefinition object
      * @return a list of Codegen Security objects
      */
+    @SuppressWarnings("static-method")
     public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
         if (schemes == null) {
         	return Collections.emptyList();
@@ -1722,6 +1742,7 @@ public class DefaultCodegen {
             && !languageSpecificPrimitives.contains(type);
     }
 
+    @SuppressWarnings("static-method")
     protected List<Map<String, Object>> toExamples(Map<String, Object> examples) {
         if (examples == null) {
             return null;
@@ -1745,7 +1766,7 @@ public class DefaultCodegen {
         }
     }
 
-    private List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
+    private static List<CodegenParameter> addHasMore(List<CodegenParameter> objs) {
         if (objs != null) {
             for (int i = 0; i < objs.size(); i++) {
                 if (i > 0) {
@@ -1759,7 +1780,7 @@ public class DefaultCodegen {
         return objs;
     }
 
-    private Map<String, Object> addHasMore(Map<String, Object> objs) {
+    private static Map<String, Object> addHasMore(Map<String, Object> objs) {
         if (objs != null) {
             for (int i = 0; i < objs.size() - 1; i++) {
                 if (i > 0) {
@@ -1782,6 +1803,7 @@ public class DefaultCodegen {
      * @param co Codegen Operation object
      * @param operations map of Codegen operations
      */
+    @SuppressWarnings("static-method")
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(tag);
         if (opList == null) {
@@ -1805,8 +1827,6 @@ public class DefaultCodegen {
         opList.add(co);
         co.baseName = tag;
     }
-
-
 
     private void addParentContainer(CodegenModel m, String name, Property property) {
         final CodegenProperty tmp = fromProperty(name, property);
@@ -1836,7 +1856,7 @@ public class DefaultCodegen {
         String secondPattern = "([a-z\\d])([A-Z])";
         String replacementPattern = "$1_$2";
         // Replace package separator with slash.
-        word = word.replaceAll("\\.", "/");
+        word = word.replaceAll("\\.", "/"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // Replace $ with two underscores for inner classes.
         word = word.replaceAll("\\$", "__");
         // Replace capital letter with _ plus lowercase letter.
@@ -1853,6 +1873,7 @@ public class DefaultCodegen {
      * @param word The word
      * @return The dashized version of the word, e.g. "my-name"
      */
+    @SuppressWarnings("static-method")
     protected String dashize(String word) {
         return underscore(word).replaceAll("[_ ]", "-");
     }
@@ -1867,7 +1888,7 @@ public class DefaultCodegen {
      * @param name The base name
      * @return The next name for the base name
      */
-    private String generateNextName(String name) {
+    private static String generateNextName(String name) {
         Pattern pattern = Pattern.compile("\\d+\\z");
         Matcher matcher = pattern.matcher(name);
         if (matcher.find()) {
@@ -1932,9 +1953,10 @@ public class DefaultCodegen {
      * @param name string to be camelize
      * @return camelized string
      */
+    @SuppressWarnings("static-method")
     public String removeNonNameElementToCamelCase(String name) {
         String nonNameElementPattern = "[-_:;#]";
-        name = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() {
+        name = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() { // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             @Nullable
             @Override
             public String apply(String input) {
@@ -1971,7 +1993,7 @@ public class DefaultCodegen {
         Pattern p = Pattern.compile("\\/(.?)");
         Matcher m = p.matcher(word);
         while (m.find()) {
-            word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/);
+            word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             m = p.matcher(word);
         }
 
@@ -2062,6 +2084,7 @@ public class DefaultCodegen {
         return library;
     }
 
+    @SuppressWarnings("static-method")
     protected CliOption buildLibraryCliOption(Map<String, String> supportedLibraries) {
         StringBuilder sb = new StringBuilder("library template (sub-template) to use:");
         for (String lib : supportedLibraries.keySet()) {
@@ -2076,6 +2099,7 @@ public class DefaultCodegen {
      * @param name string to be sanitize
      * @return sanitized string
      */
+    @SuppressWarnings("static-method")
     public String sanitizeName(String name) {
         // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
         // character with _ or empty character. Below aims to spell out different cases we've
@@ -2089,7 +2113,7 @@ public class DefaultCodegen {
     	}
 
         // input[] => input
-        name = name.replaceAll("\\[\\]", "");
+        name = name.replaceAll("\\[\\]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // input[a][b] => input_a_b
         name = name.replaceAll("\\[", "_");
@@ -2111,6 +2135,5 @@ public class DefaultCodegen {
         // remove everything else other than word, number and _
         // $php_variable => php_variable
         return name.replaceAll("[^a-zA-Z0-9_]", "");
-
     }
 }

@@ -99,7 +99,7 @@ public class CodeGenMojo extends AbstractMojo {
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
-    private Map configOptions;
+    private Map<?, ?> configOptions;
 
     /**
      * Add the output directory to the project as a source root, so that the

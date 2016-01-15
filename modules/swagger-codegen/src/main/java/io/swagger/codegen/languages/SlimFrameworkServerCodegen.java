@@ -177,8 +177,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style

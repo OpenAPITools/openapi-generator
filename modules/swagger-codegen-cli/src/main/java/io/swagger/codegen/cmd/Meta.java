@@ -93,7 +93,7 @@ public class Meta implements Runnable {
      * @param data      - map with additional params needed to process templates
      * @return converter object to pass to lambdaj
      */
-    private Converter<SupportingFile, File> processFiles(final File targetDir, final Map<String, Object> data) {
+    private static Converter<SupportingFile, File> processFiles(final File targetDir, final Map<String, Object> data) {
         return new Converter<SupportingFile, File>() {
             private DefaultGenerator generator = new DefaultGenerator();
 
@@ -133,7 +133,7 @@ public class Meta implements Runnable {
      * @param generator - class with reader getter
      * @return loader for template
      */
-    private Mustache.TemplateLoader loader(final DefaultGenerator generator) {
+    private static Mustache.TemplateLoader loader(final DefaultGenerator generator) {
         return new Mustache.TemplateLoader() {
             @Override
             public Reader getTemplate(String name) {
@@ -149,7 +149,7 @@ public class Meta implements Runnable {
      * @param packageName - package name to convert
      * @return relative path
      */
-    private String asPath(String packageName) {
+    private static String asPath(String packageName) {
         return packageName.replace(".", File.separator);
     }
 }

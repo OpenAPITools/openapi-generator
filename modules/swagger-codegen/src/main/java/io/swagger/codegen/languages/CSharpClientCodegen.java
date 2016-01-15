@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
+    @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
@@ -229,7 +230,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toVarName(String name) {
         // sanitize name 
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {

@@ -186,7 +186,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
-        String modelFolder = gemFolder + File.separator + modelPackage.replace("/", File.separator);
     }
 
 
@@ -208,6 +207,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Generate Ruby module name from the gem name, e.g. use "SwaggerClient" for "swagger_client".
      */
+    @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
         return camelize(gemName.replaceAll("[^\\w]+", "_"));
     }
@@ -215,6 +215,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Generate Ruby gem name from the module name, e.g. use "swagger_client" for "SwaggerClient".
      */
+    @SuppressWarnings("static-method")
     public String generateGemName(String moduleName) {
         return underscore(moduleName.replaceAll("[^\\w]+", ""));
     }
@@ -306,7 +307,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -333,7 +334,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
@@ -360,7 +361,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(name) + "_api";

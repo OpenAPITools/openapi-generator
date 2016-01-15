@@ -12,7 +12,9 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
+@SuppressWarnings("static-method")
 public class JaxrsJodaModelTest {
+    
     @Test(description = "convert a simple java model with Joda types")
     public void simpleModelTest() {
         final Model model = new ModelImpl()

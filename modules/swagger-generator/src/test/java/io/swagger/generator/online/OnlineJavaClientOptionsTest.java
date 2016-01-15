@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
+@SuppressWarnings("static-method")
 public class OnlineJavaClientOptionsTest {
 
     @Test

@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
+    @SuppressWarnings("hiding")
     static Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
@@ -116,9 +117,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String toPackagePath(String packageName, String basePath) {
-        packageName = packageName.replace(invokerPackage, "");
+        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar;
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
         String regFirstPathSeparator;
@@ -313,7 +314,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
           // return the name in camelCase style
@@ -343,7 +344,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelName(String name) {
         // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
-        name = name.replaceAll("[^\\w\\\\]+", "_");
+        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");

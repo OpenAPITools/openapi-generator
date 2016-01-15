@@ -168,7 +168,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
@@ -218,15 +218,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Property p) {
         if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return "{}";
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return "[]";
         }
-
         return super.toDefaultValue(p);
     }
 
