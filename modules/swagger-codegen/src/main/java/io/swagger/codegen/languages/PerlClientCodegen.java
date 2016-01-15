@@ -96,7 +96,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(MODULE_NAME)) {
             setModuleName((String) additionalProperties.get(MODULE_NAME));
-            setModulePathPart(moduleName.replaceAll("::",String.valueOf(File.separatorChar)));
+            setModulePathPart(moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator)));
         } else {
             additionalProperties.put(MODULE_NAME, moduleName);
         }
