@@ -1,0 +1,56 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+
+{{#models}}
+
+{{#model}}{{#description}}
+/**
+ * {{description}}
+ **/{{/description}}
+@XmlRootElement(name="{{classname}}")
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
+  {{#vars}}
+  {{#isEnum}}
+  public enum {{datatypeWithEnum}} {
+    {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
+  };
+  {{#required}}@NotNull{{/required}}
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
+  {{#required}}@NotNull{{/required}}
+  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
+
+  {{#vars}}
+  /**{{#description}}
+   * {{{description}}}{{/description}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   **/
+  @JsonProperty("{{name}}")
+  public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }
+  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+
+  {{/vars}}
+
+  @Override
+  public String toString()  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("  " + super.toString()).append("\n");{{/parent}}
+    {{#vars}}sb.append("  {{name}}: ").append({{name}}).append("\n");
+    {{/vars}}sb.append("}\n");
+    return sb.toString();
+  }
+}
+{{/model}}
+{{/models}}

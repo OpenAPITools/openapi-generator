@@ -1,0 +1,23 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{modelPackage}}.*;
+import java.util.*;
+import javax.ws.rs.*;
+
+@Path("/{{baseName}}")
+public interface {{classname}}  {
+{{#operations}}
+{{#operation}}
+    @{{httpMethod}}
+    {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
+    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+    {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}});
+{{/operation}}
+}
+{{/operations}}
+
