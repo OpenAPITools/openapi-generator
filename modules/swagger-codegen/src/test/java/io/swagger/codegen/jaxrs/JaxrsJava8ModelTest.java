@@ -2,7 +2,7 @@ package io.swagger.codegen.jaxrs;
 
 import io.swagger.codegen.CodegenModel;
 
-import io.swagger.codegen.languages.JaxRSServerCodegen;
+import io.swagger.codegen.languages.JavaJaxRSJersey1ServerCodegen;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.DateProperty;
@@ -26,7 +26,7 @@ public class JaxrsJava8ModelTest {
                 .required("id")
                 .required("name");
 
-        final JaxRSServerCodegen codegen = new JaxRSServerCodegen();
+        final JavaJaxRSJersey1ServerCodegen codegen = new JavaJaxRSJersey1ServerCodegen();
         codegen.setDateLibrary("java8");
         codegen.processOpts();
         final CodegenModel cm = codegen.fromModel("sample", model);

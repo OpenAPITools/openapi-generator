@@ -8,11 +8,14 @@ import io.swagger.models.Swagger;
 import java.io.File;
 import java.util.*;
 
-public class JaxRSServerCodegen extends JavaClientCodegen {
+public class JavaJaxRSJersey1ServerCodegen extends JavaClientCodegen {
+    protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
+    protected String dateLibrary = "default";
     protected String title = "Swagger Server";
     protected String implFolder = "src/main/java";
 
-    public JaxRSServerCodegen() {
+    public static final String DATE_LIBRARY = "dateLibrary";
+    public JavaJaxRSJersey1ServerCodegen() {
         super();
 
         sourceFolder = "src/gen/java";
@@ -30,7 +33,7 @@ public class JaxRSServerCodegen extends JavaClientCodegen {
 
         additionalProperties.put("title", title);
         
-        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "jersey1_18";
+        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "jersey1_18";
 
         for(int i = 0; i < cliOptions.size(); i++) {
             if(CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
