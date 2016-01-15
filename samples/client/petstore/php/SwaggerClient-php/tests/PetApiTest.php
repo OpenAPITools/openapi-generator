@@ -204,17 +204,17 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response->getName(), 'update pet with form');
         $this->assertSame($response->getStatus(), 'sold');
     }
-  
+
     // test addPet and verify by the "id" and "name" of the response
     public function testAddPet()
     {
         // initialize the API client
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
-        $new_pet_id = 10001;
+        $new_pet_id = 10005;
         $new_pet = new Swagger\Client\Model\Pet;
         $new_pet->setId($new_pet_id);
-        $new_pet->setName("PHP Unit Test");
+        $new_pet->setName("PHP Unit Test 2");
         $pet_api = new Swagger\Client\Api\PetAPI($api_client);
         // add a new pet (model)
         $add_response = $pet_api->addPet($new_pet);
@@ -223,8 +223,46 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         // verify added Pet
         $response = $pet_api->getPetById($new_pet_id);
         $this->assertSame($response->getId(), $new_pet_id);
-        $this->assertSame($response->getName(), 'PHP Unit Test');
+        $this->assertSame($response->getName(), 'PHP Unit Test 2');
     }
+  
+    // test addPetUsingByteArray and verify by the "id" and "name" of the response
+    public function testAddPetUsingByteArray()
+    {
+        // initialize the API client
+        $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
+        $api_client = new Swagger\Client\ApiClient($config);
+
+        $new_pet_id = 10005;
+        $new_pet = new Swagger\Client\Model\Pet;
+        $new_pet->setId($new_pet_id);
+        $new_pet->setName("PHP Unit Test 3");
+        // new tag
+        $tag= new Swagger\Client\Model\Tag;
+        $tag->setId($new_pet_id); // use the same id as pet
+        $tag->setName("test php tag");
+        // new category
+        $category = new Swagger\Client\Model\Category;
+        $category->setId($new_pet_id); // use the same id as pet
+        $category->setName("test php category");
+  
+        $new_pet->setTags(array($tag));
+        $new_pet->setCategory($category);
+
+        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        // add a new pet (model)
+        $object_serializer = new Swagger\Client\ObjectSerializer();
+        $pet_json_string = json_encode($object_serializer->sanitizeForSerialization($new_pet));
+        $add_response = $pet_api->addPetUsingByteArray(unpack('C*', $pet_json_string));
+        // return nothing (void)
+        $this->assertSame($add_response, NULL);
+        // verify added Pet
+        $response = $pet_api->getPetById($new_pet_id);
+        $this->assertSame($response->getId(), $new_pet_id);
+        $this->assertSame($response->getName(), 'PHP Unit Test 3');
+    }
+
+
   
     // test upload file
     public function testUploadFile()
@@ -255,6 +293,29 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType("int", $get_response['pending']);
     }
   
+    // test byte array response
+    public function testGetPetByIdWithByteArray()
+    {
+        // initialize the API client
+        $config = new Swagger\Client\Configuration();
+        $config->setHost('http://petstore.swagger.io/v2');
+        $api_client = new Swagger\Client\APIClient($config);
+        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        // test getPetByIdWithByteArray 
+        $pet_id = 10005;
+        $bytes = $pet_api->getPetByIdWithByteArray($pet_id);
+        $json = json_decode(call_user_func_array('pack', array_merge(array('C*'), $bytes )), true);
+
+        $this->assertInternalType("array", $bytes);
+
+        $this->assertSame($json['id'], $pet_id);
+        // not testing name as it's tested by addPetUsingByteArray
+        //$this->assertSame($json['name'], 'PHP Unit Test');
+        $this->assertSame($json['category']['id'], $pet_id);
+        $this->assertSame($json['category']['name'], 'test php category');
+        $this->assertSame($json['tags'][0]['id'], $pet_id);
+        $this->assertSame($json['tags'][0]['name'], 'test php tag');
+    }
 }
 
 ?>
