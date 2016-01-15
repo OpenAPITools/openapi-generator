@@ -14,6 +14,7 @@ import io.swagger.models.properties.Property;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.regex.Matcher;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,7 +22,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
     protected String moduleName = "WWW::SwaggerClient";
-    protected String modulePathPart = moduleName.replaceAll("::",String.valueOf(File.separatorChar));
+    protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
     protected String moduleVersion = "1.0.0";
 
     public PerlClientCodegen() {

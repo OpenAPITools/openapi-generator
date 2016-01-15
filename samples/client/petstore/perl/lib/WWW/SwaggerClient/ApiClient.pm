@@ -319,17 +319,17 @@ sub update_params_for_auth {
         if (!defined($auth)) {
             # TODO show warning about auth setting not defined
         }
-        elsif ($auth eq 'petstore_auth') {
-            
-            if ($WWW::SwaggerClient::Configuration::access_token) {
-                $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
-            }
-        }
         elsif ($auth eq 'api_key') {
             
             my $api_key = $self->get_api_key_with_prefix('api_key');
             if ($api_key) {
                 $header_params->{'api_key'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'petstore_auth') {
+            
+            if ($WWW::SwaggerClient::Configuration::access_token) {
+                $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
             }
         }
         
