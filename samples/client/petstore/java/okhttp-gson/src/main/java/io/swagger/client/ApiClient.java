@@ -581,6 +581,17 @@ public class ApiClient {
   }
 
   /**
+   * Sanitize filename by removing path.
+   * e.g. ../../sun.gif becomes sun.gif
+   *
+   * @param filename The filename to be sanitized
+   * @return The sanitized filename
+   */
+  public String sanitizeFilename(String filename) {
+    return filename.replaceAll(".*[/\\\\]", "");
+  }
+
+  /**
    * Check if the given MIME is a JSON MIME.
    * JSON MIME examples:
    *   application/json
@@ -737,8 +748,9 @@ public class ApiClient {
       // Get filename from the Content-Disposition header.
       Pattern pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
       Matcher matcher = pattern.matcher(contentDisposition);
-      if (matcher.find())
-        filename = matcher.group(1);
+      if (matcher.find()) {
+        filename = sanitizeFilename(matcher.group(1));
+      }
     }
 
     String prefix = null;
