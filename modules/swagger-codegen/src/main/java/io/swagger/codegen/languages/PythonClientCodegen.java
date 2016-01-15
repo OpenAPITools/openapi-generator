@@ -176,7 +176,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
@@ -209,7 +209,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
@@ -291,6 +291,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      * (PEP 0008) Python packages should also have short, all-lowercase names,
      * although the use of underscores is discouraged.
      */
+    @SuppressWarnings("static-method")
     public String generatePackageName(String packageName) {
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }

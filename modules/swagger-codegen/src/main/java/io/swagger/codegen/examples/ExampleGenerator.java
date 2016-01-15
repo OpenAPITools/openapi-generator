@@ -42,7 +42,7 @@ public class ExampleGenerator {
         if (examples == null) {
             if (mediaTypes == null) {
                 // assume application/json for this
-                mediaTypes = Arrays.asList("application/json");
+                mediaTypes = Arrays.asList("application/json"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             }
             for (String mediaType : mediaTypes) {
                 Map<String, String> kv = new HashMap<String, String>();
@@ -127,7 +127,7 @@ public class ExampleGenerator {
                 return resolveModelToExample(simpleName, mediaType, model, processedModels);
             }
         } else if (property instanceof UUIDProperty) {
-            return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+            return "046b6c7f-0b8a-43b9-b35d-6489e6daee91"; 
         }
 
         return "";
@@ -142,16 +142,14 @@ public class ExampleGenerator {
             ModelImpl impl = (ModelImpl) model;
             Map<String, Object> values = new HashMap<String, Object>();
 
-            if (impl != null && impl.getProperties() != null) {
+            if (impl.getProperties() != null) {
                 for (String propertyName : impl.getProperties().keySet()) {
                     Property property = impl.getProperties().get(propertyName);
                     values.put(propertyName, resolvePropertyToExample(mediaType, property, processedModels));
                 }
             }
-
             return values;
         }
-
         return "";
     }
 }

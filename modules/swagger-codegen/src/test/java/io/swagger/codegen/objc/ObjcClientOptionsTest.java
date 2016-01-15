@@ -22,6 +22,7 @@ public class ObjcClientOptionsTest extends AbstractOptionsTest {
         return clientCodegen;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{

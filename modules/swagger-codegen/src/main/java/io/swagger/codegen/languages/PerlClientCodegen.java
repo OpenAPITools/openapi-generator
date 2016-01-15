@@ -7,7 +7,6 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CliOption;
 import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
@@ -182,14 +181,13 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name);
+        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
         if (name.matches("^\\d.*")) {
             name = "_" + name;
         }
-
         return name;
     }
 
@@ -220,7 +218,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. phone_number_api.rb => PhoneNumberApi.rb
         return camelize(name) + "Api";

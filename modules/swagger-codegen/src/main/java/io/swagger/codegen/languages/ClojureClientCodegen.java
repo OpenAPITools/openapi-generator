@@ -172,7 +172,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toVarName(String name) {
-        name = name.replaceAll("[^a-zA-Z0-9_-]+", "");
+        name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         name = dashize(name);
         return name;
     }
@@ -196,6 +196,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         return operations;
     }
 
+    @SuppressWarnings("static-method")
     protected String namespaceToFolder(String ns) {
         return ns.replace(".", File.separator).replace("-", "_");
     }

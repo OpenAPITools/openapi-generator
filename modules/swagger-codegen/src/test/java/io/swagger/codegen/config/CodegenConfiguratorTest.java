@@ -45,6 +45,7 @@ public class CodegenConfiguratorTest {
     @Tested
     CodegenConfigurator configurator;
 
+    @SuppressWarnings("unused")
     @Test
     public void testVerbose() throws Exception {
 

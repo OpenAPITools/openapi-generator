@@ -190,14 +190,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p);
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
+        if (p instanceof ArrayProperty || p instanceof MapProperty) {
             return getSwaggerType(p);
         }
         return super.getTypeDeclaration(p);
@@ -253,12 +246,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
             return "0";
         } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return "new Dictionary()";
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return "new Array()";
         } else {
             return "null";
@@ -268,8 +257,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
-
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+ 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase();
@@ -320,7 +309,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return camelize(name) + "Api";
@@ -373,7 +362,4 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
-
 }
-
-

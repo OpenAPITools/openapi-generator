@@ -41,7 +41,7 @@ public class OptionUtilsTest {
         }
     }
 
-    private void doCommaSeparatedListTest(String csvStr, List<String> expectedResults) {
+    private static void doCommaSeparatedListTest(String csvStr, List<String> expectedResults) {
         final List<String> result = OptionUtils.splitCommaSeparatedList(csvStr);
         assertNotNull(result);
         assertEquals(result.size(), expectedResults.size());

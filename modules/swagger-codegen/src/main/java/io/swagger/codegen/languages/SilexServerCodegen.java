@@ -162,7 +162,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name);
+        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning

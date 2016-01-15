@@ -128,12 +128,8 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toInstantiationType(Property p) {
         if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return instantiationTypes.get("map");
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -217,12 +213,8 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         } else if (p instanceof DecimalProperty) {
             return "new Long()";
         } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return "new HashMap()";
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return "new ArrayList()";
         }
         // else

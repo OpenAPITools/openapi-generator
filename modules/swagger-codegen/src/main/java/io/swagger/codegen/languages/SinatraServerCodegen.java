@@ -2,7 +2,6 @@ package io.swagger.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -17,8 +16,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 
 public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemName;
@@ -146,7 +143,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -198,7 +195,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(name) + "_api";

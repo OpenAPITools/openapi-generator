@@ -11,7 +11,7 @@ import io.swagger.util.Yaml;
 
 import java.util.*;
 
-public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
+public class JavaInflectorServerCodegen extends JavaClientCodegen {
     protected String title = "Swagger Inflector";
 
     public JavaInflectorServerCodegen() {
@@ -174,7 +174,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         if (name.length() == 0) {
             return "DefaultController";
         }
-        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
+        name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return camelize(name)+ "Controller";
     }
 
