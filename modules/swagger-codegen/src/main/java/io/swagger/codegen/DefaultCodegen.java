@@ -651,6 +651,8 @@ public class DefaultCodegen {
             datatype = "map";
         } else if (p instanceof DecimalProperty) {
             datatype = "number";
+        } else if ( p instanceof UUIDProperty) {
+            datatype = "UUID";
         } else if (p instanceof RefProperty) {
             try {
                 RefProperty r = (RefProperty) p;
