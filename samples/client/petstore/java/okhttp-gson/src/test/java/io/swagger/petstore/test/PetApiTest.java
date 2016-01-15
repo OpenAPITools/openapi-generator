@@ -1,5 +1,7 @@
 package io.swagger.petstore.test;
 
+import com.google.gson.reflect.TypeToken;
+
 import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
@@ -8,6 +10,7 @@ import io.swagger.client.model.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,6 +64,23 @@ public class PetApiTest {
         api.addPet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testCreateAndGetPetWithByteArray() throws Exception {
+        Pet pet = createRandomPet();
+        System.out.println(serializeJson(pet, api.getApiClient()));
+        byte[] bytes = serializeJson(pet, api.getApiClient()).getBytes();
+        api.addPetUsingByteArray(bytes);
+
+        byte[] fetchedBytes = api.getPetByIdWithByteArray(pet.getId());
+        System.out.println(new String(fetchedBytes));
+        Type type = new TypeToken<Pet>(){}.getType();
+        Pet fetched = deserializeJson(new String(fetchedBytes), type, api.getApiClient());
         assertNotNull(fetched);
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
@@ -324,5 +344,13 @@ public class PetApiTest {
         pet.setPhotoUrls(photos);
 
         return pet;
+    }
+
+    private String serializeJson(Object o, ApiClient apiClient) {
+        return apiClient.getJSON().serialize(o);
+    }
+
+    private <T> T deserializeJson(String json, Type type, ApiClient apiClient) {
+        return (T) apiClient.getJSON().deserialize(json, type);
     }
 }

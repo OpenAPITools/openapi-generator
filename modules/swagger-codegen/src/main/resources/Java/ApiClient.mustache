@@ -452,34 +452,51 @@ public class ApiClient {
     }
   }
 
-  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  /**
+   * Build full URL by concatenating base path, the given sub path and query parameters.
+   *
+   * @param path The sub path
+   * @param queryParams The query parameters
+   * @return The full URL
+   */
+  private String buildUrl(String path, List<Pair> queryParams) {
+    final StringBuilder url = new StringBuilder();
+    url.append(basePath).append(path);
 
-    if (body != null && !formParams.isEmpty()){
+    if (queryParams != null && !queryParams.isEmpty()) {
+      // support (constant) query string in `path`, e.g. "/posts?draft=1"
+      String prefix = path.contains("?") ? "&" : "?";
+      for (Pair param : queryParams) {
+        if (param.getValue() != null) {
+          if (prefix != null) {
+            url.append(prefix);
+            prefix = null;
+          } else {
+            url.append("&");
+          }
+          String value = parameterToString(param.getValue());
+          url.append(escapeString(param.getName())).append("=").append(escapeString(value));
+        }
+      }
+    }
+
+    return url.toString();
+  }
+
+  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+    if (body != null && !formParams.isEmpty()) {
       throw new ApiException(500, "Cannot have body and form params");
     }
 
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    StringBuilder b = new StringBuilder();
-    b.append("?");
-    if (queryParams != null){
-      for (Pair queryParam : queryParams){
-        if (!queryParam.getName().isEmpty()) {
-          b.append(escapeString(queryParam.getName()));
-          b.append("=");
-          b.append(escapeString(queryParam.getValue()));
-          b.append("&");
-        }
-      }
-    }
-
-    String querystring = b.substring(0, b.length() - 1);
-
+    final String url = buildUrl(path, queryParams);
     Builder builder;
-    if (accept == null)
-      builder = httpClient.resource(basePath + path + querystring).getRequestBuilder();
-    else
-      builder = httpClient.resource(basePath + path + querystring).accept(accept);
+    if (accept == null) {
+      builder = httpClient.resource(url).getRequestBuilder();
+    } else {
+      builder = httpClient.resource(url).accept(accept);
+    }
 
     for (String key : headerParams.keySet()) {
       builder = builder.header(key, headerParams.get(key));
