@@ -264,17 +264,16 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
         }
 
+        if(additionalProperties.containsKey(DATE_LIBRARY)) {
+            this.dateLibrary = additionalProperties.get(DATE_LIBRARY).toString();
+        }
+
         if("joda".equals(dateLibrary)) {
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "DateTime");
 
             importMapping.put("LocalDate", "org.joda.time.LocalDate");
             importMapping.put("DateTime", "org.joda.time.DateTime");
-
-            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
-                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
-                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
         }
         else if ("java8".equals(dateLibrary)) {
             additionalProperties.put("java8", "true");
@@ -283,11 +282,6 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
-
-            supportingFiles.add(new SupportingFile("LocalDateTimeProvider.mustache",
-                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache",
-                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
         }
     }
 

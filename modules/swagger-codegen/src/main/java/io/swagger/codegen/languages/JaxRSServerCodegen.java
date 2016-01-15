@@ -99,6 +99,19 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
             additionalProperties.put(dateLibrary, "true");
         }
+
+        if("joda".equals(dateLibrary)) {
+            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
+        }
+        else if ("java8".equals(dateLibrary)) {
+            supportingFiles.add(new SupportingFile("LocalDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
+        }
     }
 
     @Override
