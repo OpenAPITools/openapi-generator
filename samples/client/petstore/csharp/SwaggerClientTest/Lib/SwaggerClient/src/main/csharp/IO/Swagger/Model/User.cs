@@ -191,28 +191,28 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 
                 if (this.Id != null)
-                    hash = hash * 57 + this.Id.GetHashCode();
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
                 if (this.Username != null)
-                    hash = hash * 57 + this.Username.GetHashCode();
+                    hash = hash * 59 + this.Username.GetHashCode();
                 
                 if (this.FirstName != null)
-                    hash = hash * 57 + this.FirstName.GetHashCode();
+                    hash = hash * 59 + this.FirstName.GetHashCode();
                 
                 if (this.LastName != null)
-                    hash = hash * 57 + this.LastName.GetHashCode();
+                    hash = hash * 59 + this.LastName.GetHashCode();
                 
                 if (this.Email != null)
-                    hash = hash * 57 + this.Email.GetHashCode();
+                    hash = hash * 59 + this.Email.GetHashCode();
                 
                 if (this.Password != null)
-                    hash = hash * 57 + this.Password.GetHashCode();
+                    hash = hash * 59 + this.Password.GetHashCode();
                 
                 if (this.Phone != null)
-                    hash = hash * 57 + this.Phone.GetHashCode();
+                    hash = hash * 59 + this.Phone.GetHashCode();
                 
                 if (this.UserStatus != null)
-                    hash = hash * 57 + this.UserStatus.GetHashCode();
+                    hash = hash * 59 + this.UserStatus.GetHashCode();
                 
                 return hash;
             }
