@@ -258,4 +258,20 @@ describe Petstore::ApiClient do
     end
   end
 
+  describe "#sanitize_filename" do
+    let(:api_client) { Petstore::ApiClient.new }
+
+    it "works" do
+      api_client.sanitize_filename('sun').should == 'sun'
+      api_client.sanitize_filename('sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('../sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('/var/tmp/sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('./sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('..\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('\var\tmp\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('c:\var\tmp\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('.\sun.gif').should == 'sun.gif'
+    end
+  end
+
 end

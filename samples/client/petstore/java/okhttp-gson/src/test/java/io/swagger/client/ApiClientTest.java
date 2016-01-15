@@ -277,4 +277,17 @@ public class ApiClientTest {
             assertEquals(values.size(), pairValueSplit.length);
         }
     }
+
+    @Test
+    public void testSanitizeFilename() {
+        assertEquals("sun", apiClient.sanitizeFilename("sun"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("../sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("/var/tmp/sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("./sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("..\\sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("\\var\\tmp\\sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("c:\\var\\tmp\\sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename(".\\sun.gif"));
+    }
 }
