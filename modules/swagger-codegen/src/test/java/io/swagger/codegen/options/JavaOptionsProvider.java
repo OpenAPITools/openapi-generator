@@ -39,6 +39,7 @@ public class JavaOptionsProvider implements OptionsProvider {
                 .put(JavaClientCodegen.FULL_JAVA_UTIL, FULL_JAVA_UTIL_VALUE)
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
                 .put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true")
+                .put(JavaClientCodegen.DATE_LIBRARY, "joda")
                 .build();
     }
 
