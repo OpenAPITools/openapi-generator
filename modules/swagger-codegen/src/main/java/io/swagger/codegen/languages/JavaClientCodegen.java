@@ -20,7 +20,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
+    public static final String DATE_LIBRARY = "dateLibrary";
 
+    protected String dateLibrary = "default";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
@@ -97,6 +99,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         library.setEnum(supportedLibraries);
         library.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(library);
+
+        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
+        Map<String, String> dateOptions = new HashMap<String, String>();
+        dateOptions.put("java8", "Java 8 native");
+        dateOptions.put("joda", "Joda");
+        dateLibrary.setEnum(dateOptions);
+
+        cliOptions.add(dateLibrary);
     }
 
     @Override
@@ -251,6 +261,26 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
         } else if("jersey2".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+        }
+
+        if(additionalProperties.containsKey(DATE_LIBRARY)) {
+            this.dateLibrary = additionalProperties.get(DATE_LIBRARY).toString();
+        }
+
+        if("joda".equals(dateLibrary)) {
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "DateTime");
+
+            importMapping.put("LocalDate", "org.joda.time.LocalDate");
+            importMapping.put("DateTime", "org.joda.time.DateTime");
+        }
+        else if ("java8".equals(dateLibrary)) {
+            additionalProperties.put("java8", "true");
+            additionalProperties.put("javaVersion", "1.8");
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "LocalDateTime");
+            importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         }
     }
 
@@ -759,5 +789,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setFullJavaUtil(boolean fullJavaUtil) {
         this.fullJavaUtil = fullJavaUtil;
+    }
+
+    public void setDateLibrary(String library) {
+        this.dateLibrary = library;
     }
 }
