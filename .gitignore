@@ -67,3 +67,6 @@ samples/client/petstore/python/.venv/
 *.pm~
 *.xml~
 *.t~
+
+samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/
+samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/
