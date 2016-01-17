@@ -59,6 +59,7 @@ samples/client/petstore/perl/deep_module_test/
 
 samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
+samples/client/petstore/python/dev-requirements.txt.log
 
 .settings
 
