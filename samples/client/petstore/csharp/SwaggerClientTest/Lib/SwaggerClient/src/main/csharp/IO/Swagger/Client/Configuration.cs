@@ -38,8 +38,8 @@ namespace IO.Swagger.Client
                             )
         {
             if (apiClient == null)
-                ApiClient = ApiClient.Default;
-            else 
+                ApiClient = ApiClient.Default == null ? new ApiClient() : ApiClient.Default;
+            else
                 ApiClient = apiClient;
 
             Username = username;
