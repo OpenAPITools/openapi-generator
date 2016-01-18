@@ -10,11 +10,9 @@ import java.util.*;
 
 public class JavaJaxRSJersey1ServerCodegen extends JavaClientCodegen {
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
-    protected String dateLibrary = "default";
     protected String title = "Swagger Server";
     protected String implFolder = "src/main/java";
 
-    public static final String DATE_LIBRARY = "dateLibrary";
     public JavaJaxRSJersey1ServerCodegen() {
         super();
 
@@ -156,7 +154,7 @@ public class JavaJaxRSJersey1ServerCodegen extends JavaClientCodegen {
             }
         }
         this.additionalProperties.put("serverPort", port);
-        if(swagger.getPaths() != null) {
+        if(swagger != null && swagger.getPaths() != null) {
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
                 if(path.getOperations() != null) {
@@ -232,7 +230,7 @@ public class JavaJaxRSJersey1ServerCodegen extends JavaClientCodegen {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        name = sanitizeName(name); 
+        name = sanitizeName(name);
         return camelize(name) + "Api";
     }
 
