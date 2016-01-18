@@ -71,7 +71,7 @@ class ObjectSerializer
                     $values[$data::$attributeMap[$property]] = self::sanitizeForSerialization($data->$getter());
                 }
             }
-            $sanitized = $values;
+            $sanitized = (object)$values;
         } else {
             $sanitized = (string)$data;
         }
