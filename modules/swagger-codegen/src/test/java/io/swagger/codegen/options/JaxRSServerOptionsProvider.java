@@ -1,7 +1,6 @@
 package io.swagger.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-import io.swagger.codegen.languages.JavaJaxRSJersey1ServerCodegen;
 import io.swagger.codegen.CodegenConstants;
 
 import java.util.Map;
@@ -28,7 +27,9 @@ public class JaxRSServerOptionsProvider extends JavaOptionsProvider {
         builder.putAll(options)
                 .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE);
                 .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE)
-                .put(JavaJaxRSJersey1ServerCodegen.DATE_LIBRARY, "joda");
+               // .put(JavaJaxRSJersey1ServerCodegen.DATE_LIBRARY, "joda") //java.lang.IllegalArgumentException: Multiple entries with same key: dateLibrary=joda and dateLibrary=joda
+
+                ;
 
         return builder.build();
     }
