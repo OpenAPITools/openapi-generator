@@ -42,9 +42,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "php";
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
+        modelTestTemplateFiles.put("model_test.mustache", ".php");
+        apiTestTemplateFiles.put("api_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php";
         apiPackage = invokerPackage + "\\Api";
         modelPackage = invokerPackage + "\\Model";
+        testPackage = invokerPackage + "\\Tests";
 
         reservedWords = new HashSet<String>(
                 Arrays.asList(
@@ -238,6 +241,16 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+    }
+
+    @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
@@ -363,6 +376,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        // should be the same as the model name
+        return toModelName(name) + "Test";
     }
 
     @Override
