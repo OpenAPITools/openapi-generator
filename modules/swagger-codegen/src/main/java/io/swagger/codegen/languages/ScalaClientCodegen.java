@@ -96,6 +96,9 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(

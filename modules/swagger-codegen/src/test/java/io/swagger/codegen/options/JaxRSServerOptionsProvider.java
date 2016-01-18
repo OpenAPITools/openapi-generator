@@ -1,7 +1,6 @@
 package io.swagger.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-import io.swagger.codegen.languages.JaxRSServerCodegen;
 import io.swagger.codegen.CodegenConstants;
 
 import java.util.Map;
@@ -26,8 +25,7 @@ public class JaxRSServerOptionsProvider extends JavaOptionsProvider {
 
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         builder.putAll(options)
-                .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE)
-                .put(JaxRSServerCodegen.DATE_LIBRARY, "joda");
+                .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE);
 
         return builder.build();
     }

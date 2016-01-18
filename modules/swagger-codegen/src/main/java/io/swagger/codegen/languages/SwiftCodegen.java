@@ -120,6 +120,9 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("double", "Double");
     typeMapping.put("object", "String");
     typeMapping.put("file", "NSURL");
+    //TODO binary should be mapped to byte array
+    // mapped to String as a workaround
+    typeMapping.put("binary", "String");
 
     importMapping = new HashMap<String, String>();
 

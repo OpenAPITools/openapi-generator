@@ -63,6 +63,9 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("DateTime", "Date");
         typeMapping.put("object", "Object");
         typeMapping.put("file", "File");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("File", "flash.filesystem.File");
