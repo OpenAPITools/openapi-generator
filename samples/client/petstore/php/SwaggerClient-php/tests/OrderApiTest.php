@@ -45,8 +45,7 @@ class OrderApiTest extends \PHPUnit_Framework_TestCase
   "complete": false
 }
 ORDER;
-        $serializer = new Swagger\Client\ObjectSerializer;
-        $order = $serializer->deserialize(json_decode($order_json), 'Swagger\Client\Model\Order');
+        $order = \Swagger\Client\ObjectSerializer::deserialize(json_decode($order_json), 'Swagger\Client\Model\Order');
         
         $this->assertInstanceOf('Swagger\Client\Model\Order', $order);
         $this->assertSame(10, $order->getId());
@@ -70,8 +69,7 @@ ORDER;
   "complete": false
 }]]
 ORDER;
-        $serializer = new Swagger\Client\ObjectSerializer;
-        $order = $serializer->deserialize(json_decode($order_json), 'Swagger\Client\Model\Order[][]');
+        $order = \Swagger\Client\ObjectSerializer::deserialize(json_decode($order_json), 'Swagger\Client\Model\Order[][]');
 
         $this->assertArrayHasKey(0, $order); 
         $this->assertArrayHasKey(0, $order[0]);
@@ -102,8 +100,7 @@ ORDER;
   }
 }
 ORDER;
-        $serializer = new Swagger\Client\ObjectSerializer;
-        $order = $serializer->deserialize(json_decode($order_json), 'map[string,map[string,\Swagger\Client\Model\Order]]');
+        $order = \Swagger\Client\ObjectSerializer::deserialize(json_decode($order_json), 'map[string,map[string,\Swagger\Client\Model\Order]]');
 
         $this->assertArrayHasKey('test', $order); 
         $this->assertArrayHasKey('test2', $order['test']);
