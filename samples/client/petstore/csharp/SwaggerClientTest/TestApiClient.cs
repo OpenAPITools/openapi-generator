@@ -123,7 +123,7 @@ namespace SwaggerClientTest.TestApiClient
 			PetApi p3 = new PetApi (c1);
 
 			ApiClient a1 = new ApiClient();
-			Configuration c2 = new Configuration (a1); // using default ApiClient
+			Configuration c2 = new Configuration (a1); // using "a1" as the ApiClient
 			PetApi p4 = new PetApi (c2);
 
 
@@ -131,9 +131,11 @@ namespace SwaggerClientTest.TestApiClient
 			Assert.AreSame(p1.Configuration.ApiClient, p2.Configuration.ApiClient);
 			Assert.AreSame(p1.Configuration.ApiClient, Configuration.Default.ApiClient);
 
+			// ensure both using the same default ApiClient
 			Assert.AreSame(p3.Configuration.ApiClient, c1.ApiClient);
 			Assert.AreSame(p3.Configuration.ApiClient, Configuration.Default.ApiClient);
 
+			// ensure it's not using the default ApiClient
 			Assert.AreSame(p4.Configuration.ApiClient, c2.ApiClient);
 			Assert.AreNotSame(p4.Configuration.ApiClient, Configuration.Default.ApiClient);
 
