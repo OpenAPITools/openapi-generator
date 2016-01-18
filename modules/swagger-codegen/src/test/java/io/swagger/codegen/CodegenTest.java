@@ -189,7 +189,7 @@ public class CodegenTest {
 
     }
 
-    private Swagger parseAndPrepareSwagger(String path) {
+    private static Swagger parseAndPrepareSwagger(String path) {
         Swagger swagger = new SwaggerParser().read(path);
         // resolve inline models
         new InlineModelResolver().flatten(swagger);

@@ -159,7 +159,7 @@ public class OnlineGeneratorOptionsTest {
     public static void getOptionsTest(OptionsProvider provider) throws ApiException {
         final Map<String, CliOption> opts = Generator.getOptions(provider.getLanguage());
 
-        final Function cliOptionWrapper = new Function<CliOption, CliOptionProxy>() {
+        final Function<CliOption, CliOptionProxy> cliOptionWrapper = new Function<CliOption, CliOptionProxy>() {
             @Nullable
             @Override
             public CliOptionProxy apply(@Nullable CliOption option) {
@@ -167,13 +167,13 @@ public class OnlineGeneratorOptionsTest {
             }
         };
 
-        final List<CliOptionProxy> actual = Lists.transform(new ArrayList(opts.values()), cliOptionWrapper);
+        final List<CliOptionProxy> actual = Lists.transform(new ArrayList<CliOption>(opts.values()), cliOptionWrapper);
         final List<CliOptionProxy> expected = Lists.transform(
                 CodegenConfigLoader.forName(provider.getLanguage()).cliOptions(), cliOptionWrapper);
         assertEquals(actual, expected);
     }
 
-    private static class CliOptionProxy {
+    protected static class CliOptionProxy {
         private final CliOption wrapped;
 
         public CliOptionProxy(CliOption wrapped){
