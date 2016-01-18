@@ -63,8 +63,11 @@ public class DefaultCodegen {
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
+    protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -180,6 +183,10 @@ public class DefaultCodegen {
         return importMapping;
     }
 
+    public String testPackage() {
+        return testPackage;
+    }
+
     public String modelPackage() {
         return modelPackage;
     }
@@ -204,6 +211,14 @@ public class DefaultCodegen {
         }
     }
 
+    public Map<String, String> apiTestTemplateFiles() {
+        return apiTestTemplateFiles;
+    }
+
+    public Map<String, String> modelTestTemplateFiles() {
+        return modelTestTemplateFiles;
+    }
+
     public Map<String, String> apiTemplateFiles() {
         return apiTemplateFiles;
     }
@@ -218,6 +233,14 @@ public class DefaultCodegen {
 
     public String modelFileFolder() {
         return outputFolder + "/" + modelPackage().replace('.', '/');
+    }
+
+    public String apiTestFileFolder() {
+        return outputFolder + "/" + testPackage().replace('.', '/');
+    }
+
+    public String modelTestFileFolder() {
+        return outputFolder + "/" + testPackage().replace('.', '/');
     }
 
     public Map<String, Object> additionalProperties() {
@@ -271,6 +294,16 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the file name of the Api
+     * 
+     * @param name the file name of the Api
+     * @return the file name of the Api
+     */
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + "Test";
+    }
+
+    /**
      * Return the variable name in the Api
      * 
      * @param name the varible name of the Api
@@ -288,6 +321,16 @@ public class DefaultCodegen {
      */
     public String toModelFilename(String name) {
         return initialCaps(name);
+    }
+
+    /**
+     * Return the capitalized file name of the model
+     * 
+     * @param name the model name
+     * @return the file name of the model
+     */
+    public String toModelTestFilename(String name) {
+        return initialCaps(name) + "Test";
     }
 
     /**
@@ -2048,6 +2091,11 @@ public class DefaultCodegen {
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         return apiFileFolder() + '/' + toApiFilename(tag) + suffix;
+    }
+
+    public String apiTestFilename(String templateName, String tag) {
+        String suffix = apiTestTemplateFiles().get(templateName);
+        return apiTestFileFolder() + '/' + toApiTestFilename(tag) + suffix;
     }
 
     public boolean shouldOverwrite(String filename) {
