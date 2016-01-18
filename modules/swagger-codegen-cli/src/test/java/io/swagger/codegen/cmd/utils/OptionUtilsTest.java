@@ -10,6 +10,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+@SuppressWarnings("static-method")
 public class OptionUtilsTest {
 
     @Test
@@ -30,7 +31,7 @@ public class OptionUtilsTest {
         doTupleListTest(null, new ArrayList<Pair<String, String>>());
     }
 
-    private void doTupleListTest(String input, List<Pair<String, String>> expectedResults) {
+    private static void doTupleListTest(String input, List<Pair<String, String>> expectedResults) {
         final List<Pair<String, String>> result = OptionUtils.parseCommaSeparatedTuples(input);
         assertNotNull(result);
         assertEquals(result.size(), expectedResults.size());
