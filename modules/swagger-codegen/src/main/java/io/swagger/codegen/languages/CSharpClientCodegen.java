@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
-    @SuppressWarnings("unused")
+    @SuppressWarnings({ "unused", "hiding" })
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalMethodArgumentFlag = true;

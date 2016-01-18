@@ -39,7 +39,7 @@ public class XmlExampleGenerator {
     public XmlExampleGenerator(Map<String, Model> examples) {
         this.examples = examples;
         if (examples == null) {
-            examples = new HashMap<String, Model>(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            this.examples = new HashMap<String, Model>(); 
         }
     }
 
