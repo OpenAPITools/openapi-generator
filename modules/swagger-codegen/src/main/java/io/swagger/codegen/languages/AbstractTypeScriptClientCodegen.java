@@ -9,10 +9,6 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
-	@Override
-	public CodegenType getTag() {
-		return CodegenType.CLIENT;
-	}
 
 	public AbstractTypeScriptClientCodegen() {
 	    super();
@@ -55,6 +51,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "string");  
+	}
+	
+	@Override
+	public CodegenType getTag() {
+	    return CodegenType.CLIENT;
 	}
 
 	@Override

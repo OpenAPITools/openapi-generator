@@ -19,7 +19,7 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
-    Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
+    protected Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
 
     protected CodegenConfig config;
     protected ClientOptInput opts;
@@ -392,16 +392,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             }
                             File outputFile = new File(outputFilename);
                             OutputStream out = new FileOutputStream(outputFile, false);
-                            if (in != null && out != null) {
+                            if (in != null) {
                                 System.out.println("writing file " + outputFile);
                                 IOUtils.copy(in, out);
                             } else {
-                                if (in == null) {
-                                    System.out.println("can't open " + templateFile + " for input");
-                                }
-                                if (out == null) {
-                                    System.out.println("can't open " + outputFile + " for output");
-                                }
+                                System.out.println("can't open " + templateFile + " for input"); // FIXME: use LOGGER instead of standart output
                             }
                             files.add(outputFile);
                         }
