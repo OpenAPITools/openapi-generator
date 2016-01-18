@@ -316,6 +316,16 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($json['tags'][0]['id'], $pet_id);
         $this->assertSame($json['tags'][0]['name'], 'test php tag');
     }
+
+    // test empty object serialization
+    public function testEmptyPetSerialization()
+    {
+        $new_pet = new Swagger\Client\Model\Pet;
+        // the empty object should be serialised to {}
+        $this->assertSame("{}", "$new_pet");
+
+    }
+
 }
 
 ?>
