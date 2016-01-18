@@ -76,6 +76,9 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("map", "HashMap");
         typeMapping.put("number", "Long");
         typeMapping.put("object", PREFIX + "Object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         importMapping = new HashMap<String, String>();
 

@@ -57,6 +57,9 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
         typeMapping.put("String", "string");
         typeMapping.put("List", "array");
         typeMapping.put("map", "map");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "string");
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();

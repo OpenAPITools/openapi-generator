@@ -50,7 +50,7 @@ is $get_pet->tags->[0]->id, '11', 'stored and retrieved: got the proper tag id';
 
 # API method docs 
 is_deeply(	[sort keys %{$api->pet_api->method_documentation}], 
-			[ 'add_pet', 'delete_pet', 'find_pets_by_status', 'find_pets_by_tags', 'get_pet_by_id', 'update_pet', 'update_pet_with_form', 'upload_file'], 
+			[ 'add_pet', 'add_pet_using_byte_array', 'delete_pet', 'find_pets_by_status', 'find_pets_by_tags', 'get_pet_by_id', 'get_pet_by_id_with_byte_array', 'update_pet', 'update_pet_with_form', 'upload_file'], 
 			"Pet API method_documentation has the correct keys");
 is $api->pet_api->method_documentation->{get_pet_by_id}->{params}->{pet_id}->{description}, 
 	'ID of pet that needs to be fetched', 'get_pet_by_id parameter pet_id description is correct';
