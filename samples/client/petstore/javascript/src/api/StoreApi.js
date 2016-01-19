@@ -4,7 +4,7 @@
     define(['../ApiClient', '../model/Order'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient.js'), require('../model/Order.js'));
+    module.exports = factory(require('../ApiClient'), require('../model/Order'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
@@ -18,7 +18,7 @@
   var StoreApi = function StoreApi(apiClient) {
     this.apiClient = apiClient || ApiClient.default;
 
-  	var self = this;
+    var self = this;
     
     
     /**
