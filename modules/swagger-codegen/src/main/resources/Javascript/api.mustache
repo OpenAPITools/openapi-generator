@@ -4,7 +4,7 @@
     define(['../ApiClient'{{#imports}}, '../model/{{import}}'{{/imports}}], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient.js'){{#imports}}, require('../model/{{import}}.js'){{/imports}});
+    module.exports = factory(require('../ApiClient'){{#imports}}, require('../model/{{import}}'){{/imports}});
   } else {
     // Browser globals (root is window)
     if (!root.{{moduleName}}) {
@@ -18,7 +18,7 @@
   var {{classname}} = function {{classname}}(apiClient) {
     this.apiClient = apiClient || ApiClient.default;
 
-  	var self = this;
+    var self = this;
     {{#operations}}
     {{#operation}}
     /**
