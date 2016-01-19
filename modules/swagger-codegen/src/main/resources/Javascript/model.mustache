@@ -4,7 +4,7 @@
     define([undefined{{#imports}}, './{{import}}'{{/imports}}], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined{{#imports}}, require('./{{import}}.js'){{/imports}});
+    module.exports = factory(undefined{{#imports}}, require('./{{import}}'){{/imports}});
   } else {
     // Browser globals (root is window)
     if (!root.{{moduleName}}) {
