@@ -61,7 +61,7 @@ namespace IO.Swagger.Client
         /// Gets or sets the default API client for making HTTP calls.
         /// </summary>
         /// <value>The default API client.</value>
-        [Obsolete("ApiClient.Default is deprecated, please use 'Configuraiton.Default.ApiClient' instead.")]
+        [Obsolete("ApiClient.Default is deprecated, please use 'Configuration.Default.ApiClient' instead.")]
         public static ApiClient Default;
     
         /// <summary>
