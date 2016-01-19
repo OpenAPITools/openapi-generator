@@ -34,6 +34,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen {
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
+                        "byte[]",
                         "String",
                         "boolean",
                         "Boolean",
