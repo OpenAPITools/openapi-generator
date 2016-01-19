@@ -142,6 +142,22 @@ $app->POST('/pet/{petId}/uploadImage', function(Application $app, Request $reque
             });
 
             
+
+$app->GET('/pet/{petId}?testing_byte_array=true', function(Application $app, Request $request, $pet_id) {
+            
+            
+            return new Response('How about implementing getPetByIdWithByteArray as a GET method ?');
+            });
+
+            
+
+$app->POST('/pet?testing_byte_array=true', function(Application $app, Request $request) {
+            
+            
+            return new Response('How about implementing addPetUsingByteArray as a POST method ?');
+            });
+
+            
         
     
         
