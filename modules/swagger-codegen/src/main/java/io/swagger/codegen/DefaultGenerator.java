@@ -311,6 +311,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         files.add(new File(filename));
                     }
 
+                    // to generate api test files
                     for (String templateName : config.apiTestTemplateFiles().keySet()) {
                         String filename = config.apiTestFilename(templateName, tag);
                         if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
