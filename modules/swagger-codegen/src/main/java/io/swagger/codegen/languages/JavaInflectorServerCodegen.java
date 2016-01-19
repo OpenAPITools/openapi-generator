@@ -35,6 +35,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
+                        "byte[]",
                         "String",
                         "boolean",
                         "Boolean",
