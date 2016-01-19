@@ -72,7 +72,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_updatePet() {
-        //$body = null
 
     }
     
@@ -83,7 +82,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_addPet() {
-        //$body = null
 
     }
     
@@ -94,7 +92,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_findPetsByStatus() {
-        //$status = null
 
     }
     
@@ -105,7 +102,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_findPetsByTags() {
-        //$tags = null
 
     }
     
@@ -116,7 +112,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_getPetById() {
-        //$pet_id
 
     }
     
@@ -127,7 +122,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_updatePetWithForm() {
-        //$pet_id, $name = null, $status = null
 
     }
     
@@ -138,7 +132,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_deletePet() {
-        //$pet_id, $api_key = null
 
     }
     
@@ -149,7 +142,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_uploadFile() {
-        //$pet_id, $additional_metadata = null, $file = null
 
     }
     
@@ -160,7 +152,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_getPetByIdWithByteArray() {
-        //$pet_id
 
     }
     
@@ -171,7 +162,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_addPetUsingByteArray() {
-        //$body = null
 
     }
     

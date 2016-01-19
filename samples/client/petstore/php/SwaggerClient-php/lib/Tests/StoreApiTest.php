@@ -72,7 +72,6 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_getInventory() {
-        //
 
     }
     
@@ -83,7 +82,6 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_placeOrder() {
-        //$body = null
 
     }
     
@@ -94,7 +92,6 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_getOrderById() {
-        //$order_id
 
     }
     
@@ -105,7 +102,6 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_deleteOrder() {
-        //$order_id
 
     }
     
