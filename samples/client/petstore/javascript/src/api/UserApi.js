@@ -1,498 +1,361 @@
-// require files in Node.js environment
-var $, User;
-if (typeof module === 'object' && module.exports) {
-  $ = require('jquery');
-  User = require('../model/User.js');
-}
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['../ApiClient', '../model/User'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient.js'), require('../model/User.js'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.SwaggerPetstore) {
+      root.SwaggerPetstore = {};
+    }
+    root.SwaggerPetstore.UserApi = factory(root.SwaggerPetstore.ApiClient, root.SwaggerPetstore.User);
+  }
+}(this, function(ApiClient, User) {
+  'use strict';
 
-// export module for AMD
-if ( typeof define === "function" && define.amd ) {     
-	define(['jquery', 'User'], function($, User) {
-        return UserApi;
-	 });
-}
+  var UserApi = function UserApi(apiClient) {
+    this.apiClient = apiClient || ApiClient.default;
 
-var UserApi = function UserApi() {
-	var self = this;
-  
-  
-  /**
-   * Create user
-   * This can only be done by the logged in user.
-   * @param {User}  body Created user object
-   * @param {function} callback the callback function
-   * @return void
-   */
-  self.createUser = function(body, callback) {
-    var postBody = JSON.stringify(body);
-    var postBinaryBody = null;
+  	var self = this;
     
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
+    
+    /**
+     * Create user
+     * This can only be done by the logged in user.
+     * @param {User}  body Created user object
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     */
+    self.createUser = function(body, callback) {
+      var postBody = body;
+      
+
+      
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+
+      var handleResponse = null;
+      if (callback) {
+        handleResponse = function(error, data, response) {
+          callback(error, data, response);
+        };
+      }
+
+      return this.apiClient.callApi(
+        '/user', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
+      
     }
     
-    var path = basePath + replaceAll(replaceAll("/user", "\\{format\\}","json"));
-
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
-
-    
-    
-    
-
-    path += createQueryString(queryParams);
-
-    var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
-      if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
-      }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
+    /**
+     * Creates list of users with given input array
+     * 
+     * @param {Array}  body List of user object
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     */
+    self.createUsersWithArrayInput = function(body, callback) {
+      var postBody = body;
       
-      if (callback) {
-        callback(response, textStatus, jqXHR);
-      }
+
       
-    });
- 
-    return request;
-  }
-  
-  /**
-   * Creates list of users with given input array
-   * 
-   * @param {Array}  body List of user object
-   * @param {function} callback the callback function
-   * @return void
-   */
-  self.createUsersWithArrayInput = function(body, callback) {
-    var postBody = JSON.stringify(body);
-    var postBinaryBody = null;
-    
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+
+      var handleResponse = null;
+      if (callback) {
+        handleResponse = function(error, data, response) {
+          callback(error, data, response);
+        };
+      }
+
+      return this.apiClient.callApi(
+        '/user/createWithArray', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
+      
     }
     
-    var path = basePath + replaceAll(replaceAll("/user/createWithArray", "\\{format\\}","json"));
-
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
-
-    
-    
-    
-
-    path += createQueryString(queryParams);
-
-    var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
-      if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
-      }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
+    /**
+     * Creates list of users with given input array
+     * 
+     * @param {Array}  body List of user object
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     */
+    self.createUsersWithListInput = function(body, callback) {
+      var postBody = body;
       
-      if (callback) {
-        callback(response, textStatus, jqXHR);
-      }
+
       
-    });
- 
-    return request;
-  }
-  
-  /**
-   * Creates list of users with given input array
-   * 
-   * @param {Array}  body List of user object
-   * @param {function} callback the callback function
-   * @return void
-   */
-  self.createUsersWithListInput = function(body, callback) {
-    var postBody = JSON.stringify(body);
-    var postBinaryBody = null;
-    
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+
+      var handleResponse = null;
+      if (callback) {
+        handleResponse = function(error, data, response) {
+          callback(error, data, response);
+        };
+      }
+
+      return this.apiClient.callApi(
+        '/user/createWithList', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
+      
     }
     
-    var path = basePath + replaceAll(replaceAll("/user/createWithList", "\\{format\\}","json"));
-
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
-
-    
-    
-    
-
-    path += createQueryString(queryParams);
-
-    var options = {type: "POST", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
-      if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
-      }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
+    /**
+     * Logs user into the system
+     * 
+     * @param {String}  username The user name for login
+     * @param {String}  password The password for login in clear text
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     *   data is of type: String
+     */
+    self.loginUser = function(username, password, callback) {
+      var postBody = null;
       
-      if (callback) {
-        callback(response, textStatus, jqXHR);
-      }
+
       
-    });
- 
-    return request;
-  }
-  
-  /**
-   * Logs user into the system
-   * 
-   * @param {String}  username The user name for login
-   * @param {String}  password The password for login in clear text
-   * @param {function} callback the callback function
-   * @return String
-   */
-  self.loginUser = function(username, password, callback) {
-    var postBody = null;
-    var postBinaryBody = null;
-    
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
+      var pathParams = {
+      };
+      var queryParams = {
+        'username': username,
+        'password': password
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+
+      var handleResponse = null;
+      if (callback) {
+        handleResponse = function(error, data, response) {
+          callback(error, data, response);
+        };
+      }
+
+      return this.apiClient.callApi(
+        '/user/login', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
+      
     }
     
-    var path = basePath + replaceAll(replaceAll("/user/login", "\\{format\\}","json"));
+    /**
+     * Logs out current logged in user session
+     * 
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     */
+    self.logoutUser = function(callback) {
+      var postBody = null;
+      
 
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
+      
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
 
-    
-    queryParams.username = username;
-    
-    queryParams.password = password;
-    
-    
-    
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
 
-    path += createQueryString(queryParams);
-
-    var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
+      var handleResponse = null;
       if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
+        handleResponse = function(error, data, response) {
+          callback(error, data, response);
+        };
       }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
+
+      return this.apiClient.callApi(
+        '/user/logout', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
       
-      /**
-        * @returns String
-        */
-      var myResponse = response;
-      
-      if (callback) {
-        callback(myResponse, textStatus, jqXHR);
-      }
-      
-    });
- 
-    return request;
-  }
-  
-  /**
-   * Logs out current logged in user session
-   * 
-   * @param {function} callback the callback function
-   * @return void
-   */
-  self.logoutUser = function(callback) {
-    var postBody = null;
-    var postBinaryBody = null;
-    
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
     }
     
-    var path = basePath + replaceAll(replaceAll("/user/logout", "\\{format\\}","json"));
-
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
-
-    
-    
-    
-
-    path += createQueryString(queryParams);
-
-    var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
-      if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
-      }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
+    /**
+     * Get user by user name
+     * 
+     * @param {String}  username The name that needs to be fetched. Use user1 for testing.
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     *   data is of type: User
+     */
+    self.getUserByName = function(username, callback) {
+      var postBody = null;
       
-      if (callback) {
-        callback(response, textStatus, jqXHR);
+      // verify the required parameter 'username' is set
+      if (username == null) {
+        throw "Missing the required parameter 'username' when calling getUserByName";
       }
       
-    });
- 
-    return request;
-  }
-  
-  /**
-   * Get user by user name
-   * 
-   * @param {String}  username The name that needs to be fetched. Use user1 for testing.
-   * @param {function} callback the callback function
-   * @return User
-   */
-  self.getUserByName = function(username, callback) {
-    var postBody = null;
-    var postBinaryBody = null;
-    
-     // verify the required parameter 'username' is set
-     if (username == null) {
-        //throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
-        var errorRequiredMsg = "Missing the required parameter 'username' when calling getUserByName";
-        throw errorRequiredMsg;
-     }
-     
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
+
+      
+      var pathParams = {
+        'username': username
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+
+      var handleResponse = null;
+      if (callback) {
+        handleResponse = function(error, data, response) {
+          if (!error && data) {
+            var result = new User();
+            result.constructFromObject(data);
+            callback(error, result, response);
+          } else {
+            callback(error, data, response);
+          }
+        };
+      }
+
+      return this.apiClient.callApi(
+        '/user/{username}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
+      
     }
     
-    var path = basePath + replaceAll(replaceAll("/user/{username}", "\\{format\\}","json")
-, "\\{" + "username" + "\\}", encodeURIComponent(username.toString()));
-
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
-
-    
-    
-    
-
-    path += createQueryString(queryParams);
-
-    var options = {type: "GET", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
-      if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
-      }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * @param {String}  username name that need to be deleted
+     * @param {User}  body Updated user object
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     */
+    self.updateUser = function(username, body, callback) {
+      var postBody = body;
       
-      /**
-        * @returns User
-        */
-      
-      var myResponse = new User();
-      myResponse.constructFromObject(response);
-      if (callback) {
-        callback(myResponse, textStatus, jqXHR);
+      // verify the required parameter 'username' is set
+      if (username == null) {
+        throw "Missing the required parameter 'username' when calling updateUser";
       }
       
-    });
- 
-    return request;
-  }
-  
-  /**
-   * Updated user
-   * This can only be done by the logged in user.
-   * @param {String}  username name that need to be deleted
-   * @param {User}  body Updated user object
-   * @param {function} callback the callback function
-   * @return void
-   */
-  self.updateUser = function(username, body, callback) {
-    var postBody = JSON.stringify(body);
-    var postBinaryBody = null;
-    
-     // verify the required parameter 'username' is set
-     if (username == null) {
-        //throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
-        var errorRequiredMsg = "Missing the required parameter 'username' when calling updateUser";
-        throw errorRequiredMsg;
-     }
-     
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
+
+      
+      var pathParams = {
+        'username': username
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+
+      var handleResponse = null;
+      if (callback) {
+        handleResponse = function(error, data, response) {
+          callback(error, data, response);
+        };
+      }
+
+      return this.apiClient.callApi(
+        '/user/{username}', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
+      
     }
     
-    var path = basePath + replaceAll(replaceAll("/user/{username}", "\\{format\\}","json")
-, "\\{" + "username" + "\\}", encodeURIComponent(username.toString()));
-
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
-
-    
-    
-    
-
-    path += createQueryString(queryParams);
-
-    var options = {type: "PUT", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
-      if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
-      }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
+    /**
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param {String}  username The name that needs to be deleted
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     */
+    self.deleteUser = function(username, callback) {
+      var postBody = null;
       
-      if (callback) {
-        callback(response, textStatus, jqXHR);
+      // verify the required parameter 'username' is set
+      if (username == null) {
+        throw "Missing the required parameter 'username' when calling deleteUser";
       }
       
-    });
- 
-    return request;
-  }
-  
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param {String}  username The name that needs to be deleted
-   * @param {function} callback the callback function
-   * @return void
-   */
-  self.deleteUser = function(username, callback) {
-    var postBody = null;
-    var postBinaryBody = null;
-    
-     // verify the required parameter 'username' is set
-     if (username == null) {
-        //throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
-        var errorRequiredMsg = "Missing the required parameter 'username' when calling deleteUser";
-        throw errorRequiredMsg;
-     }
-     
-    // create path and map variables
-    var basePath = 'http://petstore.swagger.io/v2';
-    // if basePath ends with a /, remove it as path starts with a leading /
-    if (basePath.substring(basePath.length-1, basePath.length)=='/') {
-    	basePath = basePath.substring(0, basePath.length-1);
+
+      
+      var pathParams = {
+        'username': username
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+
+      var handleResponse = null;
+      if (callback) {
+        handleResponse = function(error, data, response) {
+          callback(error, data, response);
+        };
+      }
+
+      return this.apiClient.callApi(
+        '/user/{username}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        contentTypes, accepts, handleResponse
+      );
+      
     }
     
-    var path = basePath + replaceAll(replaceAll("/user/{username}", "\\{format\\}","json")
-, "\\{" + "username" + "\\}", encodeURIComponent(username.toString()));
-
-    var queryParams = {};
-    var headerParams =  {};
-    var formParams =  {};
-
     
-    
-    
+  };
 
-    path += createQueryString(queryParams);
-
-    var options = {type: "DELETE", async: true, contentType: "application/json", dataType: "json", data: postBody};
-    var request = $.ajax(path, options);
-
-    request.fail(function(jqXHR, textStatus, errorThrown){
-      if (callback) {
-        var error = errorThrown || textStatus || jqXHR.statusText || 'error';
-        callback(null, textStatus, jqXHR, error);
-      }
-    });
-		
-    request.done(function(response, textStatus, jqXHR){
-      
-      if (callback) {
-        callback(response, textStatus, jqXHR);
-      }
-      
-    });
- 
-    return request;
-  }
-  
-  
-
- 	function replaceAll (haystack, needle, replace) {
-		var result= haystack;
-		if (needle !=null && replace!=null) {
-			result= haystack.replace(new RegExp(needle, 'g'), replace);
-		}
-		return result;
-	}
-
- 	function createQueryString (queryParams) {
-		var queryString ='';
-		var i = 0;
-		for (var queryParamName in queryParams) {
-			if (i==0) {
-				queryString += '?' ;
-			} else {
-				queryString += '&' ;
-			}
-			
-			queryString +=  queryParamName + '=' + encodeURIComponent(queryParams[queryParamName]);
-			i++;
-		}
-		
-		return queryString;
-	}
-}
-
-// export module for Node.js
-if (typeof module === 'object' && module.exports) {
-  module.exports = UserApi;
-}
+  return UserApi;
+}));
