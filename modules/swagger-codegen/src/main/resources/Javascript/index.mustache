@@ -1,10 +1,17 @@
-if (typeof module === 'object' && module.exports) {
-  var {{moduleName}} = {};
-  {{#models}}
-  {{moduleName}}.{{importPath}} = require('./model/{{importPath}}.js');
-  {{/models}}
-  {{#apiInfo}}{{#apis}}
-  {{moduleName}}.{{importPath}} = require('./api/{{importPath}}.js');
-  {{/apis}}{{/apiInfo}}
-  module.exports = {{moduleName}};
-}
+(function(factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['./ApiClient'{{#models}}, './model/{{importPath}}'{{/models}}{{#apiInfo}}{{#apis}}, './api/{{importPath}}'{{/apis}}{{/apiInfo}}], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('./ApiClient.js'){{#models}}, require('./model/{{importPath}}.js'){{/models}}{{#apiInfo}}{{#apis}}, require('./api/{{importPath}}.js'){{/apis}}{{/apiInfo}});
+  }
+}(function(ApiClient{{#models}}, {{importPath}}{{/models}}{{#apiInfo}}{{#apis}}, {{importPath}}{{/apis}}{{/apiInfo}}) {
+  'use strict';
+
+  return {
+    ApiClient: ApiClient{{#models}},
+    {{importPath}}: {{importPath}}{{/models}}{{#apiInfo}}{{#apis}},
+    {{importPath}}: {{importPath}}{{/apis}}{{/apiInfo}}
+  };
+}));
