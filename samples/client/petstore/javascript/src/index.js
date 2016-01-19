@@ -4,7 +4,7 @@
     define(['./ApiClient', './model/User', './model/Category', './model/Pet', './model/Tag', './model/Order', './api/UserApi', './api/StoreApi', './api/PetApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient.js'), require('./model/User.js'), require('./model/Category.js'), require('./model/Pet.js'), require('./model/Tag.js'), require('./model/Order.js'), require('./api/UserApi.js'), require('./api/StoreApi.js'), require('./api/PetApi.js'));
+    module.exports = factory(require('./ApiClient'), require('./model/User'), require('./model/Category'), require('./model/Pet'), require('./model/Tag'), require('./model/Order'), require('./api/UserApi'), require('./api/StoreApi'), require('./api/PetApi'));
   }
 }(function(ApiClient, User, Category, Pet, Tag, Order, UserApi, StoreApi, PetApi) {
   'use strict';
