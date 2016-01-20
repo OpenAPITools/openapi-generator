@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     protected boolean optionalAssemblyInfoFlag = true;
-    protected boolean optionalProjectFileFlag = true;
+    protected boolean optionalProjectFileFlag = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
@@ -122,7 +122,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(sourceFolder));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DATETIME_OFFSET, CodegenConstants.USE_DATETIME_OFFSET_DESC));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_PROJECT_FILE,
-                CodegenConstants.OPTIONAL_PROJECT_FILE_DESC).defaultValue(Boolean.TRUE.toString()));
+                CodegenConstants.OPTIONAL_PROJECT_FILE_DESC).defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_PROJECT_GUID, CodegenConstants.OPTIONAL_PROJECT_GUID_DESC)
                 .defaultValue(this.packageGuid));      
     }
@@ -169,6 +169,12 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("packageDescription", packageDescription);
         additionalProperties.put("packageCompany", packageCompany);
         additionalProperties.put("packageCopyright", packageCopyright);
+        
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE))
+        {
+            setOptionalProjectFileFlag(Boolean.valueOf(
+                additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_FILE).toString()));
+        }
         
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID))
         {
