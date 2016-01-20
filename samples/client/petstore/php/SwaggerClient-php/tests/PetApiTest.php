@@ -155,7 +155,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $pet_api = new Swagger\Client\Api\PetAPI($api_client);
         // return Pet (model)
         $response = $pet_api->findPetsByTags("test php tag");
-        var_dump($response);
         $this->assertGreaterThan(0, count($response)); // at least one object returned
         $this->assertSame(get_class($response[0]), "Swagger\\Client\\Model\\Pet"); // verify the object is Pet
         // loop through result to ensure status is "available" 
