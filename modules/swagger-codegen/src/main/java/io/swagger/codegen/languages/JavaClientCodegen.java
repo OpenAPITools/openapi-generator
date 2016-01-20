@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
@@ -187,6 +188,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
+
+        importMapping.put("List", "java.util.List");
 
         if (fullJavaUtil) {
             typeMapping.put("array", "java.util.List");
@@ -511,6 +514,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
+        if ("array".equals(property.containerType)) {
+          model.imports.add("ArrayList");
+        } else if ("map".equals(property.containerType)) {
+          model.imports.add("HashMap");
+        }
+
         if(model.isEnum == null || model.isEnum) {
             // needed by all pojos, but not enums
             model.imports.add("ApiModelProperty");
@@ -597,6 +606,17 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        // Remove imports of List, ArrayList, Map and HashMap as they are
+        // imported in the template already.
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
+        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext();) {
+            String _import = itr.next().get("import");
+            if (pattern.matcher(_import).matches()) {
+              itr.remove();
+            }
+        }
+
         if("retrofit".equals(getLibrary()) || "retrofit2".equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {

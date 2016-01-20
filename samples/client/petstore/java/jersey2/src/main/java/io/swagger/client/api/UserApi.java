@@ -8,9 +8,11 @@ import io.swagger.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import io.swagger.client.model.User;
-import java.util.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:17.660+08:00")
 public class UserApi {

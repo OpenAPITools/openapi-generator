@@ -7,9 +7,11 @@ import retrofit.http.*;
 import com.squareup.okhttp.RequestBody;
 
 import io.swagger.client.model.User;
-import java.util.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface UserApi {
   
