@@ -438,6 +438,7 @@
                 <module>samples/client/petstore/android/default</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
