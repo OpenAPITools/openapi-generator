@@ -130,6 +130,11 @@
       request.send(bodyParam);
     }
 
+    var accept = this.jsonPreferredMime(accepts);
+    if (accept) {
+      request.accept(accept);
+    }
+
     request.end(function(error, response) {
       if (callback) {
         var data = response && response.body;
