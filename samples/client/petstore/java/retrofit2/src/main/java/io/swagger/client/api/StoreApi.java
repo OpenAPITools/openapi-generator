@@ -6,10 +6,12 @@ import retrofit.Call;
 import retrofit.http.*;
 import com.squareup.okhttp.RequestBody;
 
-import java.util.Map;
 import io.swagger.client.model.Order;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface StoreApi {
   
