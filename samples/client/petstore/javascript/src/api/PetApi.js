@@ -377,7 +377,7 @@
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param {Integer}  petId ID of pet that needs to be fetched
      * @param {function} callback the callback function, accepting three arguments: error, data, response
-     *   data is of type: Object
+     *   data is of type: String
      */
     self.getPetByIdWithByteArray = function(petId, callback) {
       var postBody = null;
@@ -420,7 +420,7 @@
     /**
      * Fake endpoint to test byte array in body parameter for adding a new pet to the store
      * 
-     * @param {Object}  body Pet object in the form of byte array
+     * @param {String}  body Pet object in the form of byte array
      * @param {function} callback the callback function, accepting three arguments: error, data, response
      */
     self.addPetUsingByteArray = function(body, callback) {
