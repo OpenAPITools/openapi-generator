@@ -2,8 +2,12 @@
 package io.swagger.codegen.languages;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.WordUtils;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.models.Operation;
 
 // TODO: create an abstract JavaJAXRSServerCodegen that both Jersey1 & CXF will extends.
 public class JavaJaxRSCXFServerCodegen extends JavaJaxRSJersey1ServerCodegen
@@ -28,22 +32,18 @@ public class JavaJaxRSCXFServerCodegen extends JavaJaxRSJersey1ServerCodegen
 		modelTemplateFiles.put("entityModel.mustache", ".java");
 
 		supportingFiles.clear();
-	}
-
-	@Override
-	public String toApiName(String name)
-	{
-		String computedName = name;
-		computedName = computedName.replace('-', ' ');
-		computedName = WordUtils.capitalize(computedName);
-		computedName = computedName.replaceAll("\\s", "");
-		computedName = super.toApiName(computedName);
-		return computedName;
-	}
+	} 
 
 	@Override
 	public String getName()
 	{
 		return "cxf";
 	}
+	
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);        
+        co.subresourceOperation = !co.path.isEmpty();
+    }
 }

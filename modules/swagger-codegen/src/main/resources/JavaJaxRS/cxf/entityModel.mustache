@@ -3,9 +3,6 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 {{#models}}
@@ -21,9 +18,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   public enum {{datatypeWithEnum}} {
     {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
   };
-  {{#required}}@NotNull{{/required}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
-  {{#required}}@NotNull{{/required}}
   private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
 
   {{#vars}}
