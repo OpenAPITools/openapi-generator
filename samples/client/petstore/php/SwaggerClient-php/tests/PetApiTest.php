@@ -26,6 +26,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $new_pet = new Swagger\Client\Model\Pet;
         $new_pet->setId($new_pet_id);
         $new_pet->setName("PHP Unit Test");
+        $new_pet->setPhotoUrls(array("http://test_php_unit_test.com"));
         // new tag
         $tag= new Swagger\Client\Model\Tag;
         $tag->setId($new_pet_id); // use the same id as pet
@@ -99,6 +100,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $response = $pet_api->getPetById($pet_id);
         $this->assertSame($response->getId(), $pet_id);
         $this->assertSame($response->getName(), 'PHP Unit Test');
+        $this->assertSame($response->getPhotoUrls()[0], 'http://test_php_unit_test.com');
         $this->assertSame($response->getCategory()->getId(), $pet_id);
         $this->assertSame($response->getCategory()->getName(), 'test php category');
         $this->assertSame($response->getTags()[0]->getId(), $pet_id);
@@ -144,6 +146,27 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(count($response), 0); // confirm no object returned
     }
   
+    // test getPetsByTags and verify by the "id" of the response
+    public function testFindPetsByTags()
+    {
+        // initialize the API client
+        $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
+        $api_client = new Swagger\Client\ApiClient($config);
+        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        // return Pet (model)
+        $response = $pet_api->findPetsByTags("test php tag");
+        var_dump($response);
+        $this->assertGreaterThan(0, count($response)); // at least one object returned
+        $this->assertSame(get_class($response[0]), "Swagger\\Client\\Model\\Pet"); // verify the object is Pet
+        // loop through result to ensure status is "available" 
+        foreach ($response as $_pet) {
+            $this->assertSame($_pet['tags'][0]['name'], "test php tag");
+        }
+        // test invalid status 
+        $response = $pet_api->findPetsByTags("unknown_and_incorrect_tag");
+        $this->assertSame(count($response), 0); // confirm no object returned
+    }
+
     // test updatePet (model/json)and verify by the "id" of the response
     public function testUpdatePet()
     {
