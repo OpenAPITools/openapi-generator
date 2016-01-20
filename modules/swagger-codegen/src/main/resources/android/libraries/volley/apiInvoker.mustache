@@ -196,6 +196,9 @@ public class ApiInvoker {
      {{#isBasic}}
      INSTANCE.authentications.put("{{name}}", new HttpBasicAuth());
      {{/isBasic}}
+     {{#isOAuth}}
+     INSTANCE.authentications.put("{{name}}", new OAuth());
+     {{/isOAuth}}
      {{/authMethods}}
      // Prevent the authentications from being modified.
      INSTANCE.authentications = Collections.unmodifiableMap(INSTANCE.authentications);
