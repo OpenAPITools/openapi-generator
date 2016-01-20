@@ -46,7 +46,7 @@ public class JaxRSServerOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setSerializableModel(Boolean.valueOf(JaxRSServerOptionsProvider.SERIALIZABLE_MODEL_VALUE));
             times = 1;
-            clientCodegen.setLibrary(JaxRSServerOptionsProvider.LIBRARY_VALUE);
+            clientCodegen.setLibrary(JaxRSServerOptionsProvider.DEFAULT_LIBRARY_VALUE);
             times = 1;
             clientCodegen.setFullJavaUtil(Boolean.valueOf(JaxRSServerOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;
