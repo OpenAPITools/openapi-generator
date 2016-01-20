@@ -264,7 +264,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("basePath", basePath);
                     operation.put("basePathWithoutHost", basePathWithoutHost);
                     operation.put("contextPath", contextPath);
-                    operation.put("baseName", tag);
+                   // operation.put("baseName", tag); FIXME ask @hiveship if this modification cause a problem
+                    operation.put("baseName", basePathWithoutHost);
                     operation.put("modelPackage", config.modelPackage());
                     operation.putAll(config.additionalProperties());
                     operation.put("classname", config.toApiName(tag));
