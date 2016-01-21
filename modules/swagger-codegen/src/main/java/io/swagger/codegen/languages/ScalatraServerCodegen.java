@@ -67,6 +67,9 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
 
         typeMapping.put("integer", "Int");
         typeMapping.put("long", "Long");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         additionalProperties.put("appName", "Swagger Sample");
         additionalProperties.put("appName", "Swagger Sample");
