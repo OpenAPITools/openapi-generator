@@ -1,7 +1,7 @@
 package io.swagger.codegen.jaxrs;
 
 import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.languages.JavaJaxRSJersey1ServerCodegen;
+import io.swagger.codegen.languages.JavaJerseyCodegen;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.DateProperty;
@@ -25,7 +25,7 @@ public class JaxrsJodaModelTest {
                 .required("id")
                 .required("name");
 
-        final JavaJaxRSJersey1ServerCodegen codegen = new JavaJaxRSJersey1ServerCodegen();
+        final JavaJerseyCodegen codegen = new JavaJerseyCodegen();
         codegen.setDateLibrary("joda");
         codegen.processOpts();
         final CodegenModel cm = codegen.fromModel("sample", model);

@@ -2,7 +2,7 @@ package io.swagger.codegen.jaxrs;
 
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.java.JavaClientOptionsTest;
-import io.swagger.codegen.languages.JavaJaxRSJersey1ServerCodegen;
+import io.swagger.codegen.languages.JavaJerseyCodegen;
 import io.swagger.codegen.options.JaxRSServerOptionsProvider;
 
 import mockit.Expectations;
@@ -11,7 +11,7 @@ import mockit.Tested;
 public class JaxRSServerOptionsTest extends JavaClientOptionsTest {
 
     @Tested
-    private JavaJaxRSJersey1ServerCodegen clientCodegen;
+    private JavaJerseyCodegen clientCodegen;
 
     public JaxRSServerOptionsTest() {
         super(new JaxRSServerOptionsProvider());
