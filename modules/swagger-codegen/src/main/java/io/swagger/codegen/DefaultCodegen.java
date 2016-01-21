@@ -294,7 +294,7 @@ public class DefaultCodegen {
     }
 
     /**
-     * Return the file name of the Api
+     * Return the file name of the Api Test
      * 
      * @param name the file name of the Api
      * @return the file name of the Api
@@ -324,7 +324,7 @@ public class DefaultCodegen {
     }
 
     /**
-     * Return the capitalized file name of the model
+     * Return the capitalized file name of the model test
      * 
      * @param name the model name
      * @return the file name of the model
@@ -332,7 +332,7 @@ public class DefaultCodegen {
     public String toModelTestFilename(String name) {
         return initialCaps(name) + "Test";
     }
-
+    
     /**
      * Return the operation ID (method name)
      * 
