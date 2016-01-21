@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:17.660+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-15T19:00:52.199+08:00")
 public class User   {
   
   private Long id = null;
@@ -130,7 +130,7 @@ public class User   {
   
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -138,14 +138,16 @@ public class User   {
       return false;
     }
     User user = (User) o;
-    return Objects.equals(id, user.id) &&
+
+    return true && Objects.equals(id, user.id) &&
         Objects.equals(username, user.username) &&
         Objects.equals(firstName, user.firstName) &&
         Objects.equals(lastName, user.lastName) &&
         Objects.equals(email, user.email) &&
         Objects.equals(password, user.password) &&
         Objects.equals(phone, user.phone) &&
-        Objects.equals(userStatus, user.userStatus);
+        Objects.equals(userStatus, user.userStatus)
+    ;
   }
 
   @Override
@@ -174,7 +176,7 @@ public class User   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
