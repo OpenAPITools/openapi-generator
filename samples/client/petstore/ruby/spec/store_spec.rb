@@ -3,12 +3,16 @@ require 'spec_helper'
 describe "Store" do
   before do
     @api = Petstore::StoreApi.new(API_CLIENT)
-    prepare_store @api
+    @order_id = prepare_store(@api)
+  end
+
+  after do
+    @api.delete_order(@order_id)
   end
 
   it "should fetch an order" do
-    item = @api.get_order_by_id(10002)
-    item.id.should == 10002
+    item = @api.get_order_by_id(@order_id)
+    item.id.should == @order_id
   end
 
   it "should featch the inventory" do
