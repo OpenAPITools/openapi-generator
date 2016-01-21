@@ -106,6 +106,9 @@ module Petstore
       body = response.body
       return nil if body.nil? || body.empty?
 
+      # handle binary response (byte array)
+      return body.bytes if return_type == 'Byte Array'
+
       # handle file downloading - save response body into a tmp file and return the File instance
       return download_file(response) if return_type == 'File'
 
