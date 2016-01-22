@@ -167,8 +167,8 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
      */
     @Override
     public String getHelp() {
-        return "Generates a python server library using the connexion project.  By default, " +
-                "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
+        return "Generates a Python server library using the Connexion project. By default, " +
+               "it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable.";
     }
 
     @Override
