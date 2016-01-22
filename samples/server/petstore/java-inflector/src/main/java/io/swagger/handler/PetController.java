@@ -13,7 +13,7 @@ import io.swagger.model.*;
 import io.swagger.model.Pet;
 import java.io.File;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-01-05T14:57:33.884+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-01-19T23:33:17.124+08:00")
 public class PetController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
@@ -65,6 +65,12 @@ public class PetController  {
 
   /*
     public ResponseContext uploadFile(RequestContext request , Long petId, String additionalMetadata, FormDataContentDisposition fileDetail) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext getPetByIdWithByteArray(RequestContext request , Long petId) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

@@ -31,6 +31,7 @@ For a list of variables available in the template, please refer to this [page](h
 Code change should conform to the programming style guide of the respective langauages:
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - Java: https://google.github.io/styleguide/javaguide.html
+- JavaScript - https://github.com/airbnb/javascript
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
 - Python: https://www.python.org/dev/peps/pep-0008/

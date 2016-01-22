@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:16.440+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-15T19:19:23.415+08:00")
 public class Order   {
   
   private Long id = null;
@@ -123,7 +123,7 @@ public class Order   {
   
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -131,12 +131,14 @@ public class Order   {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(id, order.id) &&
+
+    return true && Objects.equals(id, order.id) &&
         Objects.equals(petId, order.petId) &&
         Objects.equals(quantity, order.quantity) &&
         Objects.equals(shipDate, order.shipDate) &&
         Objects.equals(status, order.status) &&
-        Objects.equals(complete, order.complete);
+        Objects.equals(complete, order.complete)
+    ;
   }
 
   @Override
@@ -163,7 +165,7 @@ public class Order   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
