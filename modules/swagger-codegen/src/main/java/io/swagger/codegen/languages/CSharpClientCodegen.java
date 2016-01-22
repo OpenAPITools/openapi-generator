@@ -123,8 +123,7 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DATETIME_OFFSET, CodegenConstants.USE_DATETIME_OFFSET_DESC));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC).defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_PROJECT_GUID, CodegenConstants.OPTIONAL_PROJECT_GUID_DESC)
-                .defaultValue(this.packageGuid));      
+        cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_PROJECT_GUID, CodegenConstants.OPTIONAL_PROJECT_GUID_DESC));      
     }
 
     @Override
