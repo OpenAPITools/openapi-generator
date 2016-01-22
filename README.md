@@ -6,7 +6,7 @@
 :star::star::star: If you would like to contribute, please refer to [guidelines](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md) and a list of [open tasks](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22).:star::star::star:
 
 ## Overview
-This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
+This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.
 
 Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the Swagger project, including additional libraries with support for other languages and more.
 
@@ -351,7 +351,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/client/petstore/java \
   -c path/to/config.json
 ```
-Supported config options can be different per language. Running `config-help -l {lang}` will show available options.  **These options are applied 
+Supported config options can be different per language. Running `config-help -l {lang}` will show available options.  **These options are applied
 by passing them with `-D{optionName}={optionValue}**.
 
 ```
@@ -512,7 +512,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
-  -l flaskConnexion \
+  -l python-flask \
   -o samples/server/petstore/flaskConnexion
 ```
 
@@ -553,7 +553,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 
 ### To build the codegen library
 
-This will create the swagger-codegen library from source.  
+This will create the swagger-codegen library from source.
 
 ```
 mvn package
