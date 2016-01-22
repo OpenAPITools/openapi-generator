@@ -67,3 +67,4 @@ samples/client/petstore/python/.venv/
 *.pm~
 *.xml~
 *.t~
+.vagrant/
