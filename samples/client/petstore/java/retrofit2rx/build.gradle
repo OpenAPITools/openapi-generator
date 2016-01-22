@@ -1,0 +1,62 @@
+group = 'io.swagger'
+version = '1.0.0'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+install {
+	repositories.mavenInstaller {
+		pom.artifactId = 'swagger-petstore-retrofit2'
+	}
+}
+
+task execute(type:JavaExec) {
+   main = System.getProperty('mainClass')
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+
+ext {
+    okhttp_version = "2.5.0"
+    oltu_version = "1.0.0"
+    retrofit_version = "2.0.0-beta2"
+    gson_version = "2.4"
+    swagger_annotations_version = "1.5.0"
+    junit_version = "4.12"
+    rx_java_version = "1.0.15"
+}
+
+dependencies {
+    compile "com.squareup.okhttp:okhttp:$okhttp_version"
+
+    compile "com.squareup.retrofit:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit:adapter-rxjava:$retrofit_version"
+    compile "io.reactivex:rxjava:$rx_java_version"
+
+
+    compile "com.google.code.gson:gson:$gson_version"
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+
+    testCompile "junit:junit:$junit_version"
+}
