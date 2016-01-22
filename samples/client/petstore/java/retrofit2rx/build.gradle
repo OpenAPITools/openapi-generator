@@ -76,7 +76,7 @@ if(hasProperty('target') && target == 'android') {
 
 	install {
 	    repositories.mavenInstaller {
-	        pom.artifactId = 'swagger-petstore-retrofit2'
+			pom.artifactId = 'swagger-petstore-retrofit2-rx'
 	    }
 	}
 

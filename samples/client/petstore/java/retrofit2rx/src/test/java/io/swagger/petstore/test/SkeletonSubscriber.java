@@ -6,7 +6,7 @@ import rx.Subscriber;
 /**
  * Skeleton subscriber for tests that will fail when onError() is called unexpectedly.
  */
-public abstract class SkeletonSubscriber<T> extends Subscriber<T>{
+public abstract class SkeletonSubscriber<T> extends Subscriber<T> {
 
     public static <T> SkeletonSubscriber<T> failTestOnError() {
         return new SkeletonSubscriber<T>() {

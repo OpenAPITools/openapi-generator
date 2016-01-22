@@ -1,4 +1,4 @@
-# swagger-petstore-retrofit2
+# swagger-petstore-retrofit2-rx
 
 ## Requirements
 
@@ -25,7 +25,7 @@ After the client libarary is installed/deployed, you can use it in your Maven pr
 ```xml
 <dependency>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-petstore-retrofit2</artifactId>
+    <artifactId>swagger-petstore-retrofit2-rx</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
