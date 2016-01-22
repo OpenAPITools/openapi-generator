@@ -71,7 +71,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "byte")
             );
 
-	    instantiationTypes.clear();
+        instantiationTypes.clear();
         /*instantiationTypes.put("array", "GoArray");
         instantiationTypes.put("map", "GoMap");*/
 
@@ -87,6 +87,9 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
         typeMapping.put("file", "*os.File");
+        // map binary to string as a workaround
+        // the correct solution is to use []byte
+        typeMapping.put("binary", "string");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
