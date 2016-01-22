@@ -279,7 +279,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelImport(String name) {
-        return name;
+        return toModelName(name);
     }
 
     @Override
@@ -308,17 +308,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return "[]";
         } else if (p instanceof MapProperty) {
             return "{}";
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString()+"l";
-            }
-           return "null";
-
-           // added for Javascript
         } else if (p instanceof RefProperty) {
             RefProperty rp = (RefProperty)p;
-            return "new " +rp.getSimpleRef()  + "()";
+            return "new " + getTypeDeclaration(p) + "()";
         }
 
         return super.toDefaultValue(p);
