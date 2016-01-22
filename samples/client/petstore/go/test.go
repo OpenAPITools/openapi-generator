@@ -22,7 +22,7 @@ func main() {
 	s.UpdatePetWithForm("12830", "golang", "available")
 
 	// test GET
-	resp, err := s.GetPetById(3)
+	resp, err := s.GetPetById(12830)
 	fmt.Println("GetPetById: ", resp, err)
 
 }
