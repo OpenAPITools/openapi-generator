@@ -28,7 +28,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String getHelp() {
-        return "Generates a Go client library.";
+        return "Generates a Go client library (beta).";
     }
 
     public GoClientCodegen() {
