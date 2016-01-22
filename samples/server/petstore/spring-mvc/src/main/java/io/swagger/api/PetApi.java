@@ -32,7 +32,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-01-05T15:01:20.501+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-01-19T23:33:00.911+08:00")
 public class PetApi {
   
 
@@ -242,6 +242,28 @@ public class PetApi {
       throws NotFoundException {
       // do some magic!
       return new ResponseEntity<Void>(HttpStatus.OK);
+  }
+
+  
+
+  @ApiOperation(value = "Fake endpoint to test byte array return by 'Find pet by ID'", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = byte[].class, authorizations = {
+    @Authorization(value = "api_key")
+  })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 200, message = "successful operation"),
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Pet not found") })
+  @RequestMapping(value = "/{petId}?testing_byte_array=true", 
+    produces = { "application/json", "application/xml" }, 
+    
+    method = RequestMethod.GET)
+  public ResponseEntity<byte[]> getPetByIdWithByteArray(
+@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("petId") Long petId
+
+)
+      throws NotFoundException {
+      // do some magic!
+      return new ResponseEntity<byte[]>(HttpStatus.OK);
   }
 
   

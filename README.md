@@ -237,16 +237,15 @@ This will write, in the folder `output/myLibrary`, all the files you need to get
 
 You would then compile your library in the `output/myLibrary` folder with `mvn package` and execute the codegen like such:
 
-
 ```
-java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.Codegen
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.SwaggerCodegen
 ```
 
 Note the `myClientCodegen` is an option now, and you can use the usual arguments for generating your library:
 
 ```
 java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar \
-  io.swagger.codegen.Codegen generate -l myClientCodegen\
+  io.swagger.codegen.SwaggerCodegen generate -l myClientCodegen\
   -i http://petstore.swagger.io/v2/swagger.json \
   -o myClient
 ```

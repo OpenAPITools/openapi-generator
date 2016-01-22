@@ -48,6 +48,7 @@ atlassian-ide-plugin.xml
 packages/
 .pub
 .packages
+.vagrant/
 
 samples/client/petstore/php/SwaggerClient-php/composer.lock
 samples/client/petstore/php/SwaggerClient-php/vendor/
@@ -59,6 +60,7 @@ samples/client/petstore/perl/deep_module_test/
 
 samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
+samples/client/petstore/python/dev-requirements.txt.log
 
 .settings
 
@@ -67,4 +69,6 @@ samples/client/petstore/python/.venv/
 *.pm~
 *.xml~
 *.t~
-.vagrant/
+
+samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/
+samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/

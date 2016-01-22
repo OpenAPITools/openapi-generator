@@ -223,14 +223,14 @@ use \{{invokerPackage}}\ObjectSerializer;
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader), $statusCode, $httpHeader);
+            return array(\{{invokerPackage}}\ObjectSerializer::deserialize($response, '{{returnType}}', $httpHeader), $statusCode, $httpHeader);
             {{/returnType}}{{^returnType}}
             return array(null, $statusCode, $httpHeader);
             {{/returnType}}
         } catch (ApiException $e) {
             switch ($e->getCode()) { {{#responses}}{{#dataType}}
             {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
+                $data = \{{invokerPackage}}\ObjectSerializer::deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;{{/dataType}}{{/responses}}
             }
