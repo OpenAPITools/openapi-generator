@@ -7,21 +7,14 @@ import io.swagger.client.model.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.*;
 
-import rx.Notification;
-import rx.Observable;
-
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
-import rx.Subscriber;
-import rx.functions.Action1;
-import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.*;
 
@@ -36,14 +29,22 @@ public class PetApiTest {
     @Test
     public void testCreateAndGetPet() throws Exception {
         final Pet pet = createRandomPet();
-        api.addPet(pet).subscribe(aVoid -> {
-            api.getPetById(pet.getId()).subscribe(fetched -> {
-                assertNotNull(fetched);
-                assertEquals(pet.getId(), fetched.getId());
-                assertNotNull(fetched.getCategory());
-                assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
-            });
+        api.addPet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                    @Override
+                    public void onNext(Pet fetched) {
+                        assertNotNull(fetched);
+                        assertEquals(pet.getId(), fetched.getId());
+                        assertNotNull(fetched.getCategory());
+                        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+                    }
+                });
+
+            }
         });
+
     }
 
     @Test
@@ -51,14 +52,22 @@ public class PetApiTest {
         final Pet pet = createRandomPet();
         pet.setName("programmer");
 
-        api.updatePet(pet).subscribe(aVoid -> {
-            api.getPetById(pet.getId()).subscribe(fetched -> {
-                assertNotNull(fetched);
-                assertEquals(pet.getId(), fetched.getId());
-                assertNotNull(fetched.getCategory());
-                assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
-            });
+        api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                    @Override
+                    public void onNext(Pet fetched) {
+                        assertNotNull(fetched);
+                        assertEquals(pet.getId(), fetched.getId());
+                        assertNotNull(fetched.getCategory());
+                        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+                    }
+                });
+
+            }
         });
+
     }
 
     @Test
@@ -67,21 +76,29 @@ public class PetApiTest {
         pet.setName("programmer");
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        api.updatePet(pet).subscribe(aVoid -> {
-            api.findPetsByStatus(Arrays.asList(new String[]{"available"})).subscribe(pets -> {
-                assertNotNull(pets);
+        api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.findPetsByStatus(Arrays.asList(new String[]{"available"})).subscribe(new SkeletonSubscriber<List<Pet>>() {
+                    @Override
+                    public void onNext(List<Pet> pets) {
+                        assertNotNull(pets);
 
-                boolean found = false;
-                for (Pet fetched : pets) {
-                    if (fetched.getId().equals(pet.getId())) {
-                        found = true;
-                        break;
+                        boolean found = false;
+                        for (Pet fetched : pets) {
+                            if (fetched.getId().equals(pet.getId())) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        assertTrue(found);
                     }
-                }
+                });
 
-                assertTrue(found);
-            });
+            }
         });
+
     }
 
     @Test
@@ -96,55 +113,79 @@ public class PetApiTest {
         tags.add(tag1);
         pet.setTags(tags);
 
-        api.updatePet(pet).subscribe(aVoid -> {
-            api.findPetsByTags(Arrays.asList(new String[]{"friendly"})).subscribe(pets -> {
-                assertNotNull(pets);
+        api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.findPetsByTags(Arrays.asList(new String[]{"friendly"})).subscribe(new SkeletonSubscriber<List<Pet>>() {
+                    @Override
+                    public void onNext(List<Pet> pets) {
+                        assertNotNull(pets);
 
-                boolean found = false;
-                for (Pet fetched : pets) {
-                    if (fetched.getId().equals(pet.getId())) {
-                        found = true;
-                        break;
+                        boolean found = false;
+                        for (Pet fetched : pets) {
+                            if (fetched.getId().equals(pet.getId())) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        assertTrue(found);
                     }
-                }
-                assertTrue(found);
-            });
+                });
+
+            }
         });
+
     }
 
     @Test
     public void testUpdatePetWithForm() throws Exception {
         final Pet pet = createRandomPet();
         pet.setName("frank");
-        api.addPet(pet).subscribe(aVoid1 -> {
-            api.getPetById(pet.getId()).subscribe(fetched -> {
+        api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
+        api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+            @Override
+            public void onNext(final Pet fetched) {
                 api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null)
-                        .subscribe(aVoid -> {
-                            api.getPetById(fetched.getId()).subscribe(updated -> {
-                                assertEquals(updated.getName(), "furt");
-                            });
+                        .subscribe(new SkeletonSubscriber<Void>() {
+                            @Override
+                            public void onCompleted() {
+                                api.getPetById(fetched.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                                    @Override
+                                    public void onNext(Pet updated) {
+                                        assertEquals(updated.getName(), "furt");
+                                    }
+                                });
+
+                            }
                         });
-            });
+            }
         });
+
+
     }
 
     @Test
     public void testDeletePet() throws Exception {
         Pet pet = createRandomPet();
-        api.addPet(pet).subscribe(aVoid -> {
-        });
+        api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
 
-        api.getPetById(pet.getId()).subscribe(fetched -> {
-            api.deletePet(fetched.getId(), null).subscribe(aVoid -> {
-                api.getPetById(fetched.getId()).subscribe(
-                        deletedPet -> {
-                            fail("Should not have found deleted pet.");
-                        },
-                        exception -> {
-                            // expected, because the pet has been deleted.
-                        });
+        api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+            @Override
+            public void onNext(Pet fetched) {
 
-            });
+                api.deletePet(fetched.getId(), null).subscribe(SkeletonSubscriber.failTestOnError());
+                api.getPetById(fetched.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                    @Override
+                    public void onNext(Pet deletedPet) {
+                        fail("Should not have found deleted pet.");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // expected, because the pet has been deleted.
+                    }
+                });
+            }
         });
     }
 
@@ -157,15 +198,14 @@ public class PetApiTest {
         writer.close();
 
         Pet pet = createRandomPet();
-        api.addPet(pet).subscribe(aVoid -> {
-            RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
-            api.uploadFile(pet.getId(), "a test file", body).subscribe(
-                    aVoid1 -> {
-                        // intentionally left blank.
-                    },
-                    error -> {
-                        // this also yields a 400 for other tests, so I guess it's okay...
-                    });
+        api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
+
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
+        api.uploadFile(pet.getId(), "a test file", body).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onError(Throwable e) {
+                // this also yields a 400 for other tests, so I guess it's okay...
+            }
         });
     }
 

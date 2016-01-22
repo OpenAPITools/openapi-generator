@@ -100,8 +100,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
     </plugins>
@@ -137,16 +137,18 @@
       <artifactId>okhttp</artifactId>
       <version>${okhttp-version}</version>
     </dependency>
-    <dependency>
-      <groupId>io.reactivex</groupId>
-      <artifactId>rxjava</artifactId>
-      <version>${rxjava-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.retrofit</groupId>
-      <artifactId>adapter-rxjava</artifactId>
-      <version>${retrofit-version}</version>
-    </dependency>
+      
+          <dependency>
+              <groupId>io.reactivex</groupId>
+              <artifactId>rxjava</artifactId>
+              <version>${rxjava-version}</version>
+          </dependency>
+          <dependency>
+              <groupId>com.squareup.retrofit</groupId>
+              <artifactId>adapter-rxjava</artifactId>
+              <version>${retrofit-version}</version>
+          </dependency>
+      
 
     <!-- test dependencies -->
     <dependency>

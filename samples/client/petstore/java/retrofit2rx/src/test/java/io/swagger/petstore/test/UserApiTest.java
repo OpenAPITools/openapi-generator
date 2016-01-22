@@ -8,8 +8,13 @@ import io.swagger.client.model.*;
 import java.util.Arrays;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
 
+/**
+ * NOTE: This serves as a sample and test case for the generator, which is why this is java-7 code.
+ * Much looks much nicer with no anonymous classes.
+ */
 public class UserApiTest {
     UserApi api = null;
 
@@ -20,40 +25,52 @@ public class UserApiTest {
 
     @Test
     public void testCreateUser() throws Exception {
-        User user = createUser();
+        final User user = createUser();
 
-        api.createUser(user).subscribe(aVoid -> {
-            api.getUserByName(user.getUsername()).subscribe(fetched -> {
-                assertEquals(user.getId(), fetched.getId());
-            });
+        api.createUser(user).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.getUserByName(user.getUsername()).subscribe(new SkeletonSubscriber<User>() {
+                    @Override
+                    public void onNext(User fetched) {
+                        assertEquals(user.getId(), fetched.getId());
+                    }
+                });
+            }
         });
     }
 
     @Test
     public void testCreateUsersWithArray() throws Exception {
-        User user1 = createUser();
+        final User user1 = createUser();
         user1.setUsername("abc123");
         User user2 = createUser();
         user2.setUsername("123abc");
 
-        api.createUsersWithArrayInput(Arrays.asList(new User[]{user1, user2})).subscribe(aVoid -> {});
+        api.createUsersWithArrayInput(Arrays.asList(new User[]{user1, user2})).subscribe(SkeletonSubscriber.failTestOnError());
 
-        api.getUserByName(user1.getUsername()).subscribe(fetched -> {
-            assertEquals(user1.getId(), fetched.getId());
+        api.getUserByName(user1.getUsername()).subscribe(new SkeletonSubscriber<User>() {
+            @Override
+            public void onNext(User fetched) {
+                assertEquals(user1.getId(), fetched.getId());
+            }
         });
     }
 
     @Test
     public void testCreateUsersWithList() throws Exception {
-        User user1 = createUser();
+        final User user1 = createUser();
         user1.setUsername("abc123");
         User user2 = createUser();
         user2.setUsername("123abc");
 
-        api.createUsersWithListInput(Arrays.asList(new User[]{user1, user2})).subscribe(aVoid -> {});
+        api.createUsersWithListInput(Arrays.asList(new User[]{user1, user2})).subscribe(SkeletonSubscriber.failTestOnError());
 
-        api.getUserByName(user1.getUsername()).subscribe(fetched -> {
-            assertEquals(user1.getId(), fetched.getId());
+        api.getUserByName(user1.getUsername()).subscribe(new SkeletonSubscriber<User>() {
+            @Override
+            public void onNext(User fetched) {
+                assertEquals(user1.getId(), fetched.getId());
+            }
         });
     }
 
@@ -62,8 +79,11 @@ public class UserApiTest {
         User user = createUser();
         api.createUser(user);
 
-        api.loginUser(user.getUsername(), user.getPassword()).subscribe(token -> {
-            assertTrue(token.startsWith("logged in user session:"));
+        api.loginUser(user.getUsername(), user.getPassword()).subscribe(new SkeletonSubscriber<String>() {
+            @Override
+            public void onNext(String token) {
+                assertTrue(token.startsWith("logged in user session:"));
+            }
         });
     }
 
