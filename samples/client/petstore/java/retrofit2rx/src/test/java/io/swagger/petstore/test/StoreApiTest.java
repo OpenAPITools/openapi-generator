@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.*;
 
 import retrofit.Response;
+
 import static org.junit.Assert.*;
 
 public class StoreApiTest {
@@ -21,40 +22,56 @@ public class StoreApiTest {
 
     @Test
     public void testGetInventory() throws Exception {
-        api.getInventory().subscribe(inventory -> {
-            assertTrue(inventory.keySet().size() > 0);
+        api.getInventory().subscribe(new SkeletonSubscriber<Map<String, Integer>>() {
+            @Override
+            public void onNext(Map<String, Integer> inventory) {
+                assertTrue(inventory.keySet().size() > 0);
+            }
         });
+
     }
 
     @Test
     public void testPlaceOrder() throws Exception {
-        Order order = createOrder();
-        api.placeOrder(order).subscribe(placed -> {});
-        api.getOrderById(String.valueOf(order.getId())).subscribe(fetched -> {
-            assertEquals(order.getId(), fetched.getId());
-            assertEquals(order.getPetId(), fetched.getPetId());
-            assertEquals(order.getQuantity(), fetched.getQuantity());
+        final Order order = createOrder();
+        api.placeOrder(order).subscribe(SkeletonSubscriber.failTestOnError());
+        api.getOrderById(String.valueOf(order.getId())).subscribe(new SkeletonSubscriber<Order>() {
+            @Override
+            public void onNext(Order fetched) {
+                assertEquals(order.getId(), fetched.getId());
+                assertEquals(order.getPetId(), fetched.getPetId());
+                assertEquals(order.getQuantity(), fetched.getQuantity());
+            }
         });
     }
 
     @Test
     public void testDeleteOrder() throws Exception {
-        Order order = createOrder();
-        api.placeOrder(order).subscribe(order1 -> {
+        final Order order = createOrder();
+        api.placeOrder(order).subscribe(SkeletonSubscriber.failTestOnError());
+
+        api.getOrderById(String.valueOf(order.getId())).subscribe(new SkeletonSubscriber<Order>() {
+            @Override
+            public void onNext(Order fetched) {
+                assertEquals(fetched.getId(), order.getId());
+            }
         });
 
-        api.getOrderById(String.valueOf(order.getId())).subscribe(fetched -> {
-            assertEquals(fetched.getId(), order.getId());
-        });
 
-        api.deleteOrder(String.valueOf(order.getId())).subscribe(aVoid -> {
-        });
-        api.getOrderById(String.valueOf(order.getId())).subscribe(
-                order1 -> {
-                    throw new RuntimeException("Should not have found deleted order.");
-                },
-                error -> {}
-        );
+        api.deleteOrder(String.valueOf(order.getId())).subscribe(SkeletonSubscriber.failTestOnError());
+        api.getOrderById(String.valueOf(order.getId()))
+                .subscribe(new SkeletonSubscriber<Order>() {
+                               @Override
+                               public void onNext(Order order) {
+                                   throw new RuntimeException("Should not have found deleted order.");
+                               }
+
+                               @Override
+                               public void onError(Throwable e) {
+                                   // should not find deleted order.
+                               }
+                           }
+                );
     }
 
     private Order createOrder() {
