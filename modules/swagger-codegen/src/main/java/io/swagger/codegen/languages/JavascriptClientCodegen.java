@@ -13,7 +13,6 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.*;
 import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
@@ -229,7 +228,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
         if("_".equals(name)) {
           name = "_u";
@@ -260,7 +259,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
@@ -280,7 +279,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelImport(String name) {
-        return name;
+        return toModelName(name);
     }
 
     @Override
@@ -291,8 +290,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
-          //  ArrayProperty ap = (ArrayProperty) p;
-          // Property inner = ap.getItems();
+        //    ArrayProperty ap = (ArrayProperty) p;
+       //     Property inner = ap.getItems();
             return getSwaggerType(p); // TODO: + "/* <" + getTypeDeclaration(inner) + "> */";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
@@ -309,39 +308,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return "[]";
         } else if (p instanceof MapProperty) {
             return "{}";
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString()+"l";
-            }
-           return "null";
-
-           // added for Javascript
         } else if (p instanceof RefProperty) {
-            RefProperty rp = (RefProperty)p;
-            return "new " +rp.getSimpleRef()  + "()";
+            return "new " + getTypeDeclaration(p) + "()";
         }
 
         return super.toDefaultValue(p);
     }
 
-
     @Override
     public String toDefaultValueWithParam(String name, Property p) {
-        if (p instanceof ArrayProperty) {
-            return  " = new Array();";
-        } else if (p instanceof MapProperty) {
-            return " = {}";
-        } else if (p instanceof LongProperty) {
-            return " = data." + name + ";";
-
-           // added for Javascript
-        } else if (p instanceof RefProperty) {
+        if (p instanceof RefProperty) {
             return ".constructFromObject(data." + name + ");";
         }
+
         return super.toDefaultValueWithParam(name, p);
     }
-
 
     @Override
     public String getSwaggerType(Property p) {
@@ -383,7 +364,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
             final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-            codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
 
         return codegenModel;
@@ -530,12 +511,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
-    private static String sanitizePackageName(String packageName) {
-        packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    private static String sanitizePackageName(String packageName) { // FIXME parameter should not be assigned. Also declare it as "final"
+        packageName = packageName.trim();
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
         if(Strings.isNullOrEmpty(packageName)) {
             return "invalidPackageName";
         }
         return packageName;
     }
+
 }

@@ -892,4 +892,210 @@ public class PetApi {
     return call;
   }
   
+  /* Build call for getPetByIdWithByteArray */
+  private Call getPetByIdWithByteArrayCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object postBody = null;
+    
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+       throw new ApiException("Missing the required parameter 'petId' when calling getPetByIdWithByteArray(Async)");
+    }
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+
+    List<Pair> queryParams = new ArrayList<Pair>();
+
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+    if (accept != null) headerParams.put("Accept", accept);
+
+    final String[] contentTypes = {
+      
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+    headerParams.put("Content-Type", contentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] authNames = new String[] { "api_key" };
+    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+  }
+
+  /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return byte[]
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public byte[] getPetByIdWithByteArray(Long petId) throws ApiException {
+    ApiResponse<byte[]> resp = getPetByIdWithByteArrayWithHttpInfo(petId);
+    return resp.getData();
+  }
+
+  /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return ApiResponse<byte[]>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<byte[]> getPetByIdWithByteArrayWithHttpInfo(Long petId) throws ApiException {
+    Call call = getPetByIdWithByteArrayCall(petId, null, null);
+    Type returnType = new TypeToken<byte[]>(){}.getType();
+    return apiClient.execute(call, returnType);
+  }
+
+  /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39; (asynchronously)
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call getPetByIdWithByteArrayAsync(Long petId, final ApiCallback<byte[]> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = getPetByIdWithByteArrayCall(petId, progressListener, progressRequestListener);
+    Type returnType = new TypeToken<byte[]>(){}.getType();
+    apiClient.executeAsync(call, returnType, callback);
+    return call;
+  }
+  
+  /* Build call for addPetUsingByteArray */
+  private Call addPetUsingByteArrayCall(byte[] body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object postBody = body;
+    
+
+    // create path and map variables
+    String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
+
+    List<Pair> queryParams = new ArrayList<Pair>();
+
+    Map<String, String> headerParams = new HashMap<String, String>();
+
+    Map<String, Object> formParams = new HashMap<String, Object>();
+
+    final String[] accepts = {
+      "application/json", "application/xml"
+    };
+    final String accept = apiClient.selectHeaderAccept(accepts);
+    if (accept != null) headerParams.put("Accept", accept);
+
+    final String[] contentTypes = {
+      "application/json", "application/xml"
+    };
+    final String contentType = apiClient.selectHeaderContentType(contentTypes);
+    headerParams.put("Content-Type", contentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] authNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+  }
+
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * 
+   * @param body Pet object in the form of byte array
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public void addPetUsingByteArray(byte[] body) throws ApiException {
+    addPetUsingByteArrayWithHttpInfo(body);
+  }
+
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * 
+   * @param body Pet object in the form of byte array
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> addPetUsingByteArrayWithHttpInfo(byte[] body) throws ApiException {
+    Call call = addPetUsingByteArrayCall(body, null, null);
+    return apiClient.execute(call);
+  }
+
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store (asynchronously)
+   * 
+   * @param body Pet object in the form of byte array
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call addPetUsingByteArrayAsync(byte[] body, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        } 
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = addPetUsingByteArrayCall(body, progressListener, progressRequestListener);
+    apiClient.executeAsync(call, callback);
+    return call;
+  }
+  
 }
