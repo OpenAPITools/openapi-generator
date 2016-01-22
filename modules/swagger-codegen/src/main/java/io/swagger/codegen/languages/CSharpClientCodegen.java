@@ -192,15 +192,27 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             setOptionalAssemblyInfoFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.OPTIONAL_ASSEMBLY_INFO).toString()));
         }
-
+        
+        String packageFolder = sourceFolder + File.separator + packageName.replace(".", java.io.File.separator);
+        String clientPackageDir = sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator);
+        
+        //Compute the relative path to the bin directory where the external assemblies live
+        //This is necessary to properly generate the project file
+        int packageDepth = packageFolder.length() - packageFolder.replace(java.io.File.separator, "").length();
+        String binRelativePath = "..\\";
+        for (int i=0; i < packageDepth; i = i+1)
+            binRelativePath += "..\\";
+        binRelativePath += "bin\\";
+        additionalProperties.put("binRelativePath", binRelativePath);
+        
         supportingFiles.add(new SupportingFile("Configuration.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "Configuration.cs"));
+                clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiClient.cs"));
+                clientPackageDir, "ApiClient.cs"));
         supportingFiles.add(new SupportingFile("ApiException.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiException.cs"));
+                clientPackageDir, "ApiException.cs"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiResponse.cs"));
+                clientPackageDir, "ApiResponse.cs"));
 				
         supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
         supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
@@ -209,7 +221,6 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor" + java.io.File.separator, "packages.config"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
 
-        String packageFolder = sourceFolder + File.separator + packageName.replace(".", java.io.File.separator);
         if (optionalAssemblyInfoFlag) {
             supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
         }
