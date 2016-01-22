@@ -181,6 +181,9 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
 
     @Override
     public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename);
+        return super.shouldOverwrite(filename)  &&
+        !filename.endsWith("pom.xml") &&
+        !filename.endsWith("README.md") &&
+        !filename.endsWith("inflector.yaml");
     }
 }
