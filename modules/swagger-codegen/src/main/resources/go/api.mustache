@@ -1,0 +1,83 @@
+package {{packageName}}
+
+{{#operations}}
+import (
+    "strings"
+    "fmt"
+    "github.com/dghubble/sling"
+{{#imports}}    "{{import}}"
+{{/imports}}
+)
+
+type {{classname}} struct {
+    basePath  string
+}
+
+func New{{classname}}() *{{classname}}{
+    return &{{classname}} {
+        basePath:   "{{basePath}}",
+    }
+}
+
+func New{{classname}}WithBasePath(basePath string) *{{classname}}{
+    return &{{classname}} {
+        basePath:   basePath,
+    }
+}
+
+{{#operation}}
+/**
+ * {{summary}}
+ * {{notes}}
+{{#allParams}} * @param {{paramName}} {{description}}
+{{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+ */
+//func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
+func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
+
+    _sling := sling.New().{{httpMethod}}(a.basePath)
+
+    // create path and map variables
+    path := "{{basePathWithoutHost}}{{path}}"
+{{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
+{{/pathParams}}
+
+    _sling = _sling.Path(path)
+
+{{#hasQueryParams}}    type QueryParams struct {
+        {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+        {{/queryParams}}
+}
+    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
+{{/hasQueryParams}}
+    // accept header
+    accepts := []string { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
+{{#hasHeaderParams}}{{#headerParams}}    // header params "{{baseName}}"
+    _sling = _sling.Set("{{baseName}}", {{paramName}})
+{{/headerParams}}{{/hasHeaderParams}}
+{{#hasFormParams}}    type FormParams struct {
+{{#formParams}}        {{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+{{/formParams}}
+    }
+    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
+{{/hasFormParams}}
+{{#hasBodyParam}}{{#bodyParams}}// body params
+    _sling = _sling.BodyJSON({{paramName}})
+{{/bodyParams}}{{/hasBodyParam}}
+
+{{#returnType}}    response := new({{returnType}})
+    _, err := _sling.ReceiveSuccess(response)
+    //fmt.Println("{{operationId}} response: ", response, resp, err)
+    return *response, err
+{{/returnType}}{{^returnType}}
+    _, err := _sling.ReceiveSuccess(nil)
+    //fmt.Println("{{operationId}} response: void, ", resp, err)
+    return err
+{{/returnType}}
+}
+{{/operation}}
+{{/operations}}
