@@ -40,6 +40,7 @@ describe('PetApi', function() {
 
         expect(fetched).to.be.ok();
         expect(fetched.id).to.be(pet.id);
+        expect(fetched.getPhotoUrls()).to.eql(pet.getPhotoUrls());
         expect(fetched.getCategory()).to.be.ok();
         expect(fetched.getCategory().getName()).to.be(pet.getCategory().getName());
 

@@ -95,9 +95,9 @@ var StatusEnum = function StatusEnum() {
       
       self.name = data.name;
       
-      self.photoUrls = new Array();
+      self.photoUrls = data.photoUrls;
       
-      self.tags = new Array();
+      self.tags = data.tags;
       
       self.status = data.status;
       
