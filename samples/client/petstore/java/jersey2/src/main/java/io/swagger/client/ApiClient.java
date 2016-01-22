@@ -43,7 +43,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-08T18:51:26.068+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-15T19:00:52.199+08:00")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io/v2";
@@ -494,7 +494,9 @@ public class ApiClient {
   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    WebTarget target = httpClient.target(this.basePath).path(path);
+    // Not using `.target(this.basePath).path(path)` below,
+    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
+    WebTarget target = httpClient.target(this.basePath + path);
 
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
