@@ -219,12 +219,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toInstantiationType(Property p) {
         if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return instantiationTypes.get("map");
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -312,7 +308,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String type) {
-        type = type.replaceAll("[^0-9a-zA-Z_]", "_");
+        type = type.replaceAll("[^0-9a-zA-Z_]", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // language build-in classes
         if (typeMapping.keySet().contains(type) ||
@@ -372,7 +368,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all upper case, do noting
         if (name.matches("^[A-Z_]$")) {
@@ -409,6 +405,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "_" + name;
     }
 
+    @SuppressWarnings("static-method")
     public String escapeSpecialWord(String name) {
         return "var_" + name;
     }

@@ -13,7 +13,6 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.*;
 import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
@@ -32,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
+    @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     private static final String PROJECT_NAME = "projectName";
@@ -228,7 +228,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
         if("_".equals(name)) {
           name = "_u";
@@ -259,7 +259,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name);
+        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
@@ -290,8 +290,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+        //    ArrayProperty ap = (ArrayProperty) p;
+       //     Property inner = ap.getItems();
             return getSwaggerType(p); // TODO: + "/* <" + getTypeDeclaration(inner) + "> */";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
@@ -309,7 +309,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         } else if (p instanceof MapProperty) {
             return "{}";
         } else if (p instanceof RefProperty) {
-            RefProperty rp = (RefProperty)p;
             return "new " + getTypeDeclaration(p) + "()";
         }
 
@@ -319,7 +318,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toDefaultValueWithParam(String name, Property p) {
         if (p instanceof RefProperty) {
-            RefProperty rp = (RefProperty) p;
             return ".constructFromObject(data." + name + ");";
         }
 
@@ -366,7 +364,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
             final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-            codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
 
         return codegenModel;
@@ -449,14 +447,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             && !languageSpecificPrimitives.contains(type);
     }
 
-    private String findCommonPrefixOfVars(List<String> vars) {
+    private static String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
         // exclude trailing characters that should be part of a valid variable
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 
-    private String toEnumVarName(String value) {
+    private static String toEnumVarName(String value) {
         String var = value.replaceAll("\\W+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;
@@ -465,7 +463,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
     }
 
-    private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
         // the parent and child models, look for enums that match, and remove
@@ -513,7 +511,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
-    private String sanitizePackageName(String packageName) {
+    private static String sanitizePackageName(String packageName) { // FIXME parameter should not be assigned. Also declare it as "final"
         packageName = packageName.trim();
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
         if(Strings.isNullOrEmpty(packageName)) {

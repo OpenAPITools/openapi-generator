@@ -18,7 +18,7 @@ public class AuthParser {
             for (String part : parts) {
                 String[] kvPair = part.split(":");
                 if (kvPair.length == 2) {
-                    auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0]), URLDecoder.decode(kvPair[1]), "header"));
+                    auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0]), URLDecoder.decode(kvPair[1]), "header")); // FIXME replace the deprecated method by decode(string, encoding). Which encoding is used ? Default UTF-8 ?
                 }
             }
         }

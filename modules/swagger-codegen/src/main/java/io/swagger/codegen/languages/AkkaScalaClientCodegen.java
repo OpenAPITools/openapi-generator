@@ -63,7 +63,9 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
      * unmarshalling problems and any other RuntimeException will be considered as ApiErrors.
      */
     protected boolean onlyOneSuccess = true;
-    Logger LOGGER = LoggerFactory.getLogger(AkkaScalaClientCodegen.class);
+    
+    @SuppressWarnings("hiding")
+    protected Logger LOGGER = LoggerFactory.getLogger(AkkaScalaClientCodegen.class);
 
     public AkkaScalaClientCodegen() {
         super();

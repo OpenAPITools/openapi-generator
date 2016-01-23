@@ -1,12 +1,9 @@
 package io.swagger.generator.util;
 
-import java.util.List;
-
 public class ValidationException extends Exception {
     private static final long serialVersionUID = 6861195361018260380L;
     private int code;
     private String msg;
-    private List<ValidationMessage> errors;
 
     public ValidationException(String msg) {
         super(msg);

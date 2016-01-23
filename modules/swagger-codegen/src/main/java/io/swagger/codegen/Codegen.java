@@ -11,7 +11,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,9 +31,8 @@ public class Codegen extends DefaultGenerator {
             "\n -DdebugOperations prints operations passed to the template engine" +
             "\n -DdebugSupportingFiles prints additional data passed to the template engine";
 
+    @SuppressWarnings("deprecation")
     public static void main(String[] args) {
-
-        StringBuilder sb = new StringBuilder();
 
         Options options = new Options();
         options.addOption("h", "help", false, "shows this message");
@@ -139,7 +137,7 @@ public class Codegen extends DefaultGenerator {
             // see if it's a class
             try {
                 System.out.println("loading class " + name);
-                Class customClass = Class.forName(name);
+                Class<?> customClass = Class.forName(name);
                 System.out.println("loaded");
                 return (CodegenConfig) customClass.newInstance();
             } catch (Exception e) {
