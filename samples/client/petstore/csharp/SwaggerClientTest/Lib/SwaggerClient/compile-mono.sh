@@ -7,7 +7,7 @@ mcs -sdk:45 -r:vendor/Newtonsoft.Json.8.0.2/lib/net45/Newtonsoft.Json.dll,\
 vendor/RestSharp.105.2.3/lib/net45/RestSharp.dll,\
 System.Runtime.Serialization.dll \
 -target:library \
--out:bin/{{packageName}}.dll \
+-out:bin/IO.Swagger.dll \
 -recurse:'src/*.cs' \
--doc:bin/{{packageName}}.xml \
+-doc:bin/IO.Swagger.xml \
 -platform:anycpu
