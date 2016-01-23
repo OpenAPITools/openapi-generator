@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+@SuppressWarnings("static-method")
 public class JavaModelTest {
 
     @Test(description = "convert a simple java model")

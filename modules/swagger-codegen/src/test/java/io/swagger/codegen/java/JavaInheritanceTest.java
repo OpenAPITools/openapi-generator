@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 public class JavaInheritanceTest {
 
+    @SuppressWarnings("static-method")
     @Test(description = "convert a composed model")
     public void javaInheritanceTest() {
         final Model model = new ComposedModel().parent(new RefModel("Base"))

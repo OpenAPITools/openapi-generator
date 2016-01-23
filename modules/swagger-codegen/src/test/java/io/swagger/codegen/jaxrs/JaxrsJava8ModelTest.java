@@ -1,6 +1,7 @@
 package io.swagger.codegen.jaxrs;
 
 import io.swagger.codegen.CodegenModel;
+
 import io.swagger.codegen.languages.JaxRSServerCodegen;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
@@ -12,7 +13,9 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
+@SuppressWarnings("static-method")
 public class JaxrsJava8ModelTest {
+    
     @Test(description = "convert a simple java model with java8 types")
     public void simpleModelTest() {
         final Model model = new ModelImpl()

@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.*;
 
 public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
+    @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
@@ -322,7 +323,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if("_".equals(name)) {
           name = "_u";
@@ -353,7 +354,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
@@ -647,7 +648,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private String getAccept(Operation operation) {
+    private static String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
         if (operation.getProduces() != null && !operation.getProduces().isEmpty()) {
@@ -678,14 +679,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return super.needToImport(type) && type.indexOf(".") < 0;
     }
 
-    private String findCommonPrefixOfVars(List<String> vars) {
+    private static String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
         // exclude trailing characters that should be part of a valid variable
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 
-    private String toEnumVarName(String value) {
+    private static String toEnumVarName(String value) {
         String var = value.replaceAll("\\W+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;
@@ -694,7 +695,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
         // the parent and child models, look for enums that match, and remove
@@ -778,8 +779,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.serializableModel = serializableModel;
     }
 
-    private String sanitizePackageName(String packageName) {
-        packageName = packageName.trim();
+    private static String sanitizePackageName(String packageName) {
+        packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
         if(Strings.isNullOrEmpty(packageName)) {
             return "invalidPackageName";

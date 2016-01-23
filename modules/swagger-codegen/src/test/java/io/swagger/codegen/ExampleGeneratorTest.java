@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("static-method")
 public class ExampleGeneratorTest {
 
     @Test(description = "check handling of recursive models")

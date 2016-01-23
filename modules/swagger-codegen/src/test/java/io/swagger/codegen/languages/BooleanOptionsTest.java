@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@SuppressWarnings("static-method")
 public class BooleanOptionsTest {
     private static final String OPTIONS_PROVIDER = "Codegen";
 

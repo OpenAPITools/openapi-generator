@@ -18,6 +18,7 @@ import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class PhpModelTest {
 
     @Test(description = "convert a simple php model")

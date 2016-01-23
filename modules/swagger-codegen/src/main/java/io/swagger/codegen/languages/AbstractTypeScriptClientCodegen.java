@@ -9,10 +9,6 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
-	@Override
-	public CodegenType getTag() {
-		return CodegenType.CLIENT;
-	}
 
 	public AbstractTypeScriptClientCodegen() {
 	    super();
@@ -56,6 +52,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // mapped to String as a workaround
         typeMapping.put("binary", "string");  
 	}
+	
+	@Override
+	public CodegenType getTag() {
+	    return CodegenType.CLIENT;
+	}
 
 	@Override
 	public String escapeReservedWord(String name) {
@@ -75,7 +76,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	@Override
 	public String toVarName(String name) {
 		// replace - with _ e.g. created-at => created_at
-		name = name.replaceAll("-", "_");
+		name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
 		// if it's all uppper case, do nothing
 		if (name.matches("^[A-Z_]*$"))
