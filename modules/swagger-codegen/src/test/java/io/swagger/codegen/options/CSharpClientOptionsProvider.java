@@ -26,6 +26,8 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.OPTIONAL_ASSEMBLY_INFO, "true")
                 .put(CodegenConstants.USE_DATETIME_OFFSET, "true")
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
+                .put(CodegenConstants.USE_COLLECTION, "false")
+                .put(CodegenConstants.RETURN_ICOLLECTION, "false")
                 .build();
     }
 
