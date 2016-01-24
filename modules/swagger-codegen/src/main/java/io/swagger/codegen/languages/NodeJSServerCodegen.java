@@ -129,7 +129,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getName() {
-        return "nodejs";
+        return "nodejs-server";
     }
 
     /**
