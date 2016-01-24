@@ -54,7 +54,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // mapped to String as a workaround
         typeMapping.put("binary", "string");
 
-        cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("CamelCase"));
 
 
