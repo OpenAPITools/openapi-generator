@@ -25,8 +25,10 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     @SuppressWarnings({ "unused", "hiding" })
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     protected boolean optionalAssemblyInfoFlag = true;
+    protected boolean optionalProjectFileFlag = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
+    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
     protected String packageTitle = "Swagger Library";
     protected String packageProductName = "SwaggerLibrary";
     protected String packageDescription = "A library generated from a Swagger doc";
@@ -120,6 +122,9 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(sourceFolder));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DATETIME_OFFSET, CodegenConstants.USE_DATETIME_OFFSET_DESC));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_PROJECT_FILE,
+                CodegenConstants.OPTIONAL_PROJECT_FILE_DESC).defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_PROJECT_GUID, CodegenConstants.OPTIONAL_PROJECT_GUID_DESC));      
     }
 
     @Override
@@ -164,7 +169,19 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("packageDescription", packageDescription);
         additionalProperties.put("packageCompany", packageCompany);
         additionalProperties.put("packageCopyright", packageCopyright);
-
+        
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE))
+        {
+            setOptionalProjectFileFlag(Boolean.valueOf(
+                additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_FILE).toString()));
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID))
+        {
+            setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
+        }
+		additionalProperties.put("packageGuid", packageGuid);
+		
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_METHOD_ARGUMENT)) {
             setOptionalMethodArgumentFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.OPTIONAL_METHOD_ARGUMENT).toString()));
@@ -175,15 +192,28 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             setOptionalAssemblyInfoFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.OPTIONAL_ASSEMBLY_INFO).toString()));
         }
-
+        
+        String packageFolder = sourceFolder + File.separator + packageName.replace(".", java.io.File.separator);
+        String clientPackageDir = sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator);
+        
+        //Compute the relative path to the bin directory where the external assemblies live
+        //This is necessary to properly generate the project file
+        int packageDepth = packageFolder.length() - packageFolder.replace(java.io.File.separator, "").length();
+        String binRelativePath = "..\\";
+        for (int i=0; i < packageDepth; i = i+1)
+            binRelativePath += "..\\";
+        binRelativePath += "bin\\";
+        additionalProperties.put("binRelativePath", binRelativePath);
+        
         supportingFiles.add(new SupportingFile("Configuration.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "Configuration.cs"));
+                clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiClient.cs"));
+                clientPackageDir, "ApiClient.cs"));
         supportingFiles.add(new SupportingFile("ApiException.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiException.cs"));
+                clientPackageDir, "ApiException.cs"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache",
-                sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiResponse.cs"));
+                clientPackageDir, "ApiResponse.cs"));
+				
         supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
         supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
         supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
@@ -192,9 +222,11 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
 
         if (optionalAssemblyInfoFlag) {
-            supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", "src" + File.separator + "Properties", "AssemblyInfo.cs"));
+            supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
         }
-
+        if (optionalProjectFileFlag) {
+            supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, clientPackage + ".csproj"));
+        }
     }
 
     @Override
@@ -339,6 +371,10 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         this.optionalAssemblyInfoFlag = flag;
     }
 
+    public void setOptionalProjectFileFlag(boolean flag) {
+        this.optionalProjectFileFlag = flag;
+    }
+	
     public void setOptionalMethodArgumentFlag(boolean flag) {
         this.optionalMethodArgumentFlag = flag;
     }
@@ -351,7 +387,10 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             typeMapping.put("datetime", "DateTime?");
     }
 
-
+    public void setPackageGuid(String packageGuid) {
+        this.packageGuid = packageGuid;
+    }
+    
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
