@@ -42,6 +42,10 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPackageGuid(CSharpClientOptionsProvider.PACKAGE_GUID_VALUE);
             times = 1;
+            clientCodegen.setUseCollection(false);
+            times = 1;
+            clientCodegen.setReturnICollection(false);
+            times = 1;
         }};
     }
 }
