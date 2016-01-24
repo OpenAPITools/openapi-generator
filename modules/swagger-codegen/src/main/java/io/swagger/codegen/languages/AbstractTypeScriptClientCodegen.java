@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
+    protected String modelPropertyNaming= "camelCase";
+
 	public AbstractTypeScriptClientCodegen() {
 	    super();
 		supportsInheritance = true;
@@ -50,8 +52,22 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	    typeMapping.put("DateTime", "Date");
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
-        typeMapping.put("binary", "string");  
+        typeMapping.put("binary", "string");
+
+        cliOptions.clear();
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("CamelCase"));
+
+
 	}
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+    }
+
 	
 	@Override
 	public CodegenType getTag() {
@@ -74,7 +90,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	}
 
 	@Override
-	public String toVarName(String name) {
+	public String toParamName(String name) {
 		// replace - with _ e.g. created-at => created_at
 		name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -94,9 +110,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	}
 
 	@Override
-	public String toParamName(String name) {
+	public String toVarName(String name) {
 		// should be the same as variable name
-		return toVarName(name);
+		return getNameUsingModelPropertyNaming(name);
 	}
 
 	@Override
@@ -146,19 +162,47 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 		return type;
 	}
 
-        @Override
-        public String toOperationId(String operationId) {
-            // throw exception if method name is empty
-            if (StringUtils.isEmpty(operationId)) {
-                throw new RuntimeException("Empty method name (operationId) not allowed");
-            }
-    
-            // method name cannot use reserved keyword, e.g. return
-            // append _ at the beginning, e.g. _return
-            if (reservedWords.contains(operationId)) {
-                return escapeReservedWord(camelize(sanitizeName(operationId), true));
-            }
-    
-            return camelize(sanitizeName(operationId), true);
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
         }
+
+        // method name cannot use reserved keyword, e.g. return
+        // append _ at the beginning, e.g. _return
+        if (reservedWords.contains(operationId)) {
+            return escapeReservedWord(camelize(sanitizeName(operationId), true));
+        }
+
+        return camelize(sanitizeName(operationId), true);
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        if ("original".equals(naming) || "camelCase".equals(naming) || 
+            "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+            this.modelPropertyNaming = naming;
+        } else {
+            throw new IllegalArgumentException("Invalid model property naming '" + 
+              naming + "'. Must be 'original', 'camelCase', " + 
+              "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:    return name;
+            case camelCase:   return camelize(name, true);
+            case PascalCase:  return camelize(name);
+            case snake_case:  return underscore(name);
+            default:            throw new IllegalArgumentException("Invalid model property naming '" + 
+                                    name + "'. Must be 'original', 'camelCase', " + 
+                                    "'PascalCase' or 'snake_case'"); 
+        }
+
+    }
 }
