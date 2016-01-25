@@ -106,8 +106,8 @@ module Petstore
       body = response.body
       return nil if body.nil? || body.empty?
 
-      # handle binary response (byte array)
-      return body.bytes if return_type == 'Byte Array'
+      # return response body directly for String return type
+      return body if return_type == 'String'
 
       # handle file downloading - save response body into a tmp file and return the File instance
       return download_file(response) if return_type == 'File'
@@ -277,7 +277,7 @@ module Petstore
     # @param [Object] model object to be converted into JSON string
     # @return [String] JSON string representation of the object
     def object_to_http_body(model)
-      return if model.nil?
+      return model if model.nil? || model.is_a?(String)
       _body = nil
       if model.is_a?(Array)
         _body = model.map{|m| object_to_hash(m) }

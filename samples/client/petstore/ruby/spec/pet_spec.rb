@@ -94,17 +94,15 @@ describe "Pet" do
       end
     end
 
-    it "should create and get pet with byte array" do
+    it "should create and get pet with byte array (binary, string)" do
       pet = @pet_api.get_pet_by_id(@pet_id)
       pet.id = @pet_id + 1
-      bytes = serialize_json(pet).bytes
-      @pet_api.add_pet_using_byte_array(body: bytes)
+      str = serialize_json(pet)
+      @pet_api.add_pet_using_byte_array(body: str)
 
-      fetchedBytes = @pet_api.get_pet_by_id_with_byte_array(pet.id)
-      fetchedBytes.should be_a(Array)
-      fetchedBytes[0].should be_a(Fixnum)
-
-      fetched = deserialize_json(fetchedBytes.pack('C*'), 'Pet')
+      fetched_str = @pet_api.get_pet_by_id_with_byte_array(pet.id)
+      fetched_str.should be_a(String)
+      fetched = deserialize_json(fetched_str, 'Pet')
       fetched.should be_a(Petstore::Pet)
       fetched.id.should == pet.id
       fetched.category.should be_a(Petstore::Category)

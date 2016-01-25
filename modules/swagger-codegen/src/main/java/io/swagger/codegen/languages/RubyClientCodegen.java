@@ -86,7 +86,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
         typeMapping.put("file", "File");
-        typeMapping.put("binary", "Byte Array");
+        typeMapping.put("binary", "String");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
