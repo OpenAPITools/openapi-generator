@@ -16,12 +16,12 @@
 
 package io.swagger.generator.exception;
 
+import org.apache.http.HttpStatus;
+
 public class NotFoundException extends ApiException {
     private static final long serialVersionUID = -1223255119112336573L;
-    private int code;
 
-    public NotFoundException(int code, String msg) {
-        super(code, msg);
-        this.code = code;
+    public NotFoundException(String msg) {
+        super(HttpStatus.SC_NOT_FOUND, msg);
     }
 }

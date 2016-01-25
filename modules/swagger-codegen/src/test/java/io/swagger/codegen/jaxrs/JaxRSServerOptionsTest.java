@@ -22,6 +22,7 @@ public class JaxRSServerOptionsTest extends JavaClientOptionsTest {
         return clientCodegen;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{

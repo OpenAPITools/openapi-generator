@@ -22,6 +22,7 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
         return clientCodegen;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
@@ -36,6 +37,10 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setSourceFolder(CSharpClientOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
             clientCodegen.useDateTimeOffset(true);
+            times = 1;
+            clientCodegen.setOptionalProjectFileFlag(true);
+            times = 1;
+            clientCodegen.setPackageGuid(CSharpClientOptionsProvider.PACKAGE_GUID_VALUE);
             times = 1;
         }};
     }

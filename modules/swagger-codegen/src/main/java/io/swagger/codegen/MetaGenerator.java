@@ -2,7 +2,6 @@ package io.swagger.codegen;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.models.Swagger;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -57,8 +56,6 @@ public class MetaGenerator extends AbstractGenerator {
     }
 
     protected void generate(String[] args) {
-        StringBuilder sb = new StringBuilder();
-        String targetLanguage = null;
         String outputFolder = null;
         String name = null;
         String targetPackage = "io.swagger.codegen";
@@ -71,12 +68,9 @@ public class MetaGenerator extends AbstractGenerator {
         options.addOption("n", "name", true, "the human-readable name of the generator");
         options.addOption("p", "package", true, "the package to put the main class into (defaults to io.swagger.codegen");
 
-        ClientOptInput clientOptInput = new ClientOptInput();
-        Swagger swagger = null;
         CommandLine cmd = null;
         try {
             CommandLineParser parser = new BasicParser();
-
             cmd = parser.parse(options, args);
             if (cmd.hasOption("h")) {
                 usage(options);
@@ -85,12 +79,11 @@ public class MetaGenerator extends AbstractGenerator {
             if (cmd.hasOption("n")) {
                 name = cmd.getOptionValue("n");
             } else {
-                System.out.println("name is required");
+                System.out.println("name is required"); //FIXME replace by LOGGER
                 usage(options);
                 return;
             }
             if (cmd.hasOption("l")) {
-                targetLanguage = cmd.getOptionValue("l");
             }
             if (cmd.hasOption("p")) {
                 targetPackage = cmd.getOptionValue("p");
@@ -98,7 +91,7 @@ public class MetaGenerator extends AbstractGenerator {
             if (cmd.hasOption("o")) {
                 outputFolder = cmd.getOptionValue("o");
             } else {
-                System.out.println("output folder is required");
+                System.out.println("output folder is required"); // FIXME replace by LOGGER
                 usage(options);
                 return;
             }
@@ -161,8 +154,6 @@ public class MetaGenerator extends AbstractGenerator {
                                 public Reader getTemplate(String name) {
                                     return getTemplateReader(templateDir + File.separator + name + ".mustache");
                                 }
-
-                                ;
                             })
                             .defaultValue("")
                             .compile(template);
