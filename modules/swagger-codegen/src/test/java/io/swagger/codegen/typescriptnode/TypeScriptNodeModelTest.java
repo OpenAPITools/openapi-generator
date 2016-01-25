@@ -17,6 +17,7 @@ import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class TypeScriptNodeModelTest {
 
     @Test(description = "convert a simple TypeScript Node model")
