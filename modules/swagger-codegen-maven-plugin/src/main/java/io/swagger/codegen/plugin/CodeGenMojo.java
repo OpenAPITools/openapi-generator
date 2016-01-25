@@ -154,22 +154,15 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         if (configOptions != null) {
-            for (CliOption langCliOption : config.cliOptions()) {
-                if (configOptions.containsKey(langCliOption.getOpt())) {
-                    config.additionalProperties().put(langCliOption.getOpt(),
-                            configOptions.get(langCliOption.getOpt()));
-                }
-            }
+        	for(Map.Entry<?, ?> configEntry : configOptions.entrySet()) {
+        		config.additionalProperties().put(configEntry.getKey().toString(), configEntry.getValue());
+        	}
         }
 
         if (null != configurationFile) {
             Config genConfig = ConfigParser.read(configurationFile);
             if (null != genConfig) {
-                for (CliOption langCliOption : config.cliOptions()) {
-                    if (genConfig.hasOption(langCliOption.getOpt())) {
-                        config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
-                    }
-                }
+            	config.additionalProperties().putAll(genConfig.getOptions());
             } else {
             	throw new RuntimeException("Unable to read configuration file");
             }
