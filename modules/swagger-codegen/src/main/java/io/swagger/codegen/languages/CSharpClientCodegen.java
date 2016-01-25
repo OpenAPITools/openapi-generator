@@ -7,6 +7,7 @@ import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
 import io.swagger.models.properties.*;
 import io.swagger.codegen.CliOption;
 
@@ -28,6 +29,8 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean optionalProjectFileFlag = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
+    protected boolean useCollection = false;
+    protected boolean returnICollection = false;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
     protected String packageTitle = "Swagger Library";
     protected String packageProductName = "SwaggerLibrary";
@@ -77,6 +80,8 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                         "long?",
                         "float?",
                         "byte[]",
+                        "ICollection",
+                        "Collection",
                         "List",
                         "Dictionary",
                         "DateTime?",
@@ -90,7 +95,9 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
+
         instantiationTypes.put("array", "List");
+        instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
 
         typeMapping = new HashMap<String, String>();
@@ -122,6 +129,11 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(sourceFolder));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_DATETIME_OFFSET, CodegenConstants.USE_DATETIME_OFFSET_DESC));
+
+        cliOptions.add( CliOption.newBoolean(CodegenConstants.USE_COLLECTION, CodegenConstants.USE_COLLECTION_DESC)
+                 .defaultValue(Boolean.FALSE.toString()) );
+        cliOptions.add( CliOption.newBoolean(CodegenConstants.RETURN_ICOLLECTION, CodegenConstants.RETURN_ICOLLECTION_DESC)
+                .defaultValue(Boolean.FALSE.toString()) );
         cliOptions.add(CliOption.newBoolean(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC).defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_PROJECT_GUID, CodegenConstants.OPTIONAL_PROJECT_GUID_DESC));      
@@ -192,6 +204,15 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
             setOptionalAssemblyInfoFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.OPTIONAL_ASSEMBLY_INFO).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)){
+            setUseCollection(Boolean.valueOf(additionalProperties.get(CodegenConstants.USE_COLLECTION).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.RETURN_ICOLLECTION)){
+            setReturnICollection(Boolean.valueOf(additionalProperties.get(CodegenConstants.RETURN_ICOLLECTION).toString()));
+        }
+
         
         String packageFolder = sourceFolder + File.separator + packageName.replace(".", java.io.File.separator);
         String clientPackageDir = sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator);
@@ -321,6 +342,32 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         return toModelName(name);
     }
 
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        super.postProcessOperations(objs);
+        if(objs != null) {
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            if (operations != null) {
+                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                for (CodegenOperation operation : ops) {
+                    if (operation.returnType != null) {
+                        operation.returnContainer = operation.returnType;
+                        if( this.returnICollection && (
+                                operation.returnType.startsWith("List")||
+                                operation.returnType.startsWith("Collection")) ) {
+                            // NOTE: ICollection works for both List<T> and Collection<T>
+                            int genericStart = operation.returnType.indexOf("<");
+                            if(genericStart > 0) {
+                                operation.returnType = "ICollection" + operation.returnType.substring(genericStart);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return objs;
+    }
 
     @Override
     public String getTypeDeclaration(Property p) {
@@ -377,6 +424,21 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 	
     public void setOptionalMethodArgumentFlag(boolean flag) {
         this.optionalMethodArgumentFlag = flag;
+    }
+
+    public void setReturnICollection(boolean returnICollection) {
+        this.returnICollection = returnICollection;
+    }
+
+    public void setUseCollection(boolean useCollection) {
+        this.useCollection = useCollection;
+        if(useCollection){
+            typeMapping.put("array", "Collection");
+            typeMapping.put("list", "Collection");
+
+            instantiationTypes.put("array", "Collection");
+            instantiationTypes.put("list", "Collection");
+        }
     }
 
     public void useDateTimeOffset(boolean flag) {

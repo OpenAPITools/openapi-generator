@@ -62,6 +62,12 @@ public class CodegenConstants {
     public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
     public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs (Default: true).";
 
+    public static final String USE_COLLECTION = "useCollection";
+    public static final String USE_COLLECTION_DESC = "Deserialize array types to Collection<T> instead of List<T>.";
+
+    public static final String RETURN_ICOLLECTION = "returnICollection";
+    public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
+    
     public static final String OPTIONAL_PROJECT_FILE = "optionalProjectFile";
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate {PackageName}.csproj (Default: false).";
     
