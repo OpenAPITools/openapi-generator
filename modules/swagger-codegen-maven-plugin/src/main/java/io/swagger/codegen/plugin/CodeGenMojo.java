@@ -30,7 +30,9 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static io.swagger.codegen.plugin.AdditionalParams.*;
 
@@ -152,17 +154,20 @@ public class CodeGenMojo extends AbstractMojo {
         if (null != invokerPackage) {
             config.additionalProperties().put(INVOKER_PACKAGE_PARAM, invokerPackage);
         }
-
+        
+        Set<String> definedOptions = new HashSet<String>();
+        for (CliOption langCliOption : config.cliOptions()) {
+        	definedOptions.add(langCliOption.getOpt());
+        }
+        
         if (configOptions != null) {
-            for(Map.Entry<?, ?> configEntry : configOptions.entrySet()) {
-                config.additionalProperties().put(configEntry.getKey().toString(), configEntry.getValue());
-            }
+        	addAdditionalProperties(config, definedOptions, configOptions);
         }
 
         if (null != configurationFile) {
             Config genConfig = ConfigParser.read(configurationFile);
             if (null != genConfig) {
-                config.additionalProperties().putAll(genConfig.getOptions());
+            	addAdditionalProperties(config, definedOptions, genConfig.getOptions());
             } else {
             	throw new RuntimeException("Unable to read configuration file");
             }
@@ -192,5 +197,14 @@ public class CodeGenMojo extends AbstractMojo {
         if (addCompileSourceRoot) {
             project.addCompileSourceRoot(output.toString());
         }
+    }
+    
+    private void addAdditionalProperties(CodegenConfig config, Set<String> definedOptions, Map<?,?> configOptions) {
+    	for(Map.Entry<?, ?> configEntry : configOptions.entrySet()) {
+    		config.additionalProperties().put(configEntry.getKey().toString(), configEntry.getValue());
+    		if(!definedOptions.contains(configEntry.getKey())) {
+    			getLog().warn("Additional property: " + configEntry.getKey() + " is not defined for this language.");
+    		}
+    	}
     }
 }
