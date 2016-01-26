@@ -28,6 +28,8 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
         new Expectations(clientCodegen) {{
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
+            clientCodegen.setModelPropertyNaming(TypeScriptAngularClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+            times = 1;
         }};
     }
 }

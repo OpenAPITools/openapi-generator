@@ -1073,6 +1073,113 @@ export class PetApi {
 
         return deferred.promise;
     }
+    /**
+     * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+     * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+     * @param petId ID of pet that needs to be fetched
+     */
+    public getPetByIdWithByteArray (petId: number) : Promise<{ response: http.ClientResponse; body: string;  }> {
+        const path = this.basePath + '/pet/{petId}?testing_byte_array=true'
+            .replace('{' + 'petId' + '}', String(petId));
+        let queryParameters: any = {};
+        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let formParams: any = {};
+
+
+        // verify required parameter 'petId' is set
+        if (!petId) {
+            throw new Error('Missing required parameter petId when calling getPetByIdWithByteArray');
+        }
+
+        let useFormData = false;
+
+        let deferred = promise.defer<{ response: http.ClientResponse; body: string;  }>();
+
+        let requestOptions: request.Options = {
+            method: 'GET',
+            qs: queryParameters,
+            headers: headerParams,
+            uri: path,
+            json: true,
+        }
+
+        this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
+
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
+        }
+
+        request(requestOptions, (error, response, body) => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    deferred.resolve({ response: response, body: body });
+                } else {
+                    deferred.reject({ response: response, body: body });
+                }
+            }
+        });
+
+        return deferred.promise;
+    }
+    /**
+     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+     * 
+     * @param body Pet object in the form of byte array
+     */
+    public addPetUsingByteArray (body?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+        const path = this.basePath + '/pet?testing_byte_array=true';
+        let queryParameters: any = {};
+        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let formParams: any = {};
+
+
+        let useFormData = false;
+
+        let deferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
+
+        let requestOptions: request.Options = {
+            method: 'POST',
+            qs: queryParameters,
+            headers: headerParams,
+            uri: path,
+            json: true,
+            body: body,
+        }
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.default.applyToRequest(requestOptions);
+
+        if (Object.keys(formParams).length) {
+            if (useFormData) {
+                (<any>requestOptions).formData = formParams;
+            } else {
+                requestOptions.form = formParams;
+            }
+        }
+
+        request(requestOptions, (error, response, body) => {
+            if (error) {
+                deferred.reject(error);
+            } else {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    deferred.resolve({ response: response, body: body });
+                } else {
+                    deferred.reject({ response: response, body: body });
+                }
+            }
+        });
+
+        return deferred.promise;
+    }
 }
 export class StoreApi {
     protected basePath = 'http://petstore.swagger.io/v2';
