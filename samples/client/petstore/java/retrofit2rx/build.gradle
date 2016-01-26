@@ -1,5 +1,5 @@
-group = '{{groupId}}'
-version = '{{artifactVersion}}'
+group = 'io.swagger'
+version = '1.0.0'
 
 buildscript {
     repositories {
@@ -71,12 +71,12 @@ if(hasProperty('target') && target == 'android') {
 	apply plugin: 'java'
 	apply plugin: 'maven'
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+	sourceCompatibility = JavaVersion.VERSION_1_7
+	targetCompatibility = JavaVersion.VERSION_1_7
 
 	install {
 	    repositories.mavenInstaller {
-	        pom.artifactId = '{{artifactId}}'
+			pom.artifactId = 'swagger-petstore-retrofit2-rx'
 	    }
 	}
 
@@ -93,10 +93,8 @@ ext {
     gson_version = "2.4"
     swagger_annotations_version = "1.5.0"
     junit_version = "4.12"
-{{#useRxJava}}
     rx_java_version = "1.0.15"
-{{/useRxJava}}
-{{^useRxJava}}{{/useRxJava}}
+
 }
 
 dependencies {
@@ -104,11 +102,9 @@ dependencies {
 
     compile "com.squareup.retrofit:retrofit:$retrofit_version"
     compile "com.squareup.retrofit:converter-gson:$retrofit_version"
-{{#useRxJava}}
     compile "com.squareup.retrofit:adapter-rxjava:$retrofit_version"
     compile "io.reactivex:rxjava:$rx_java_version"
-{{/useRxJava}}
-{{^useRxJava}}{{/useRxJava}}
+
 
     compile "com.google.code.gson:gson:$gson_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"

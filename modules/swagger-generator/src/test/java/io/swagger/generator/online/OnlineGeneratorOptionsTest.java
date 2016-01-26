@@ -1,64 +1,31 @@
 package io.swagger.generator.online;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConfigLoader;
-import io.swagger.codegen.options.AkkaScalaClientOptionsProvider;
-import io.swagger.codegen.options.AndroidClientOptionsProvider;
-import io.swagger.codegen.options.AsyncScalaClientOptionsProvider;
-import io.swagger.codegen.options.CSharpClientOptionsProvider;
-import io.swagger.codegen.options.CsharpDotNet2ClientOptionsProvider;
-import io.swagger.codegen.options.DartClientOptionsProvider;
-import io.swagger.codegen.options.FlashClienOptionsProvider;
-import io.swagger.codegen.options.JavaInflectorServerOptionsProvider;
-import io.swagger.codegen.options.JavaOptionsProvider;
-import io.swagger.codegen.options.JaxRSServerOptionsProvider;
-import io.swagger.codegen.options.NodeJSServerOptionsProvider;
-import io.swagger.codegen.options.ObjcClientOptionsProvider;
-import io.swagger.codegen.options.OptionsProvider;
-import io.swagger.codegen.options.PerlClientOptionsProvider;
-import io.swagger.codegen.options.PhpClientOptionsProvider;
-import io.swagger.codegen.options.PythonClientOptionsProvider;
-import io.swagger.codegen.options.Qt5CPPOptionsProvider;
-import io.swagger.codegen.options.RubyClientOptionsProvider;
-import io.swagger.codegen.options.ScalaClientOptionsProvider;
-import io.swagger.codegen.options.ScalatraServerOptionsProvider;
-import io.swagger.codegen.options.SilexServerOptionsProvider;
-import io.swagger.codegen.options.SinatraServerOptionsProvider;
-import io.swagger.codegen.options.SlimFrameworkServerOptionsProvider;
-import io.swagger.codegen.options.SpringMVCServerOptionsProvider;
-import io.swagger.codegen.options.StaticDocOptionsProvider;
-import io.swagger.codegen.options.StaticHtmlOptionsProvider;
-import io.swagger.codegen.options.SwaggerOptionsProvider;
-import io.swagger.codegen.options.SwaggerYamlOptionsProvider;
-import io.swagger.codegen.options.SwiftOptionsProvider;
-import io.swagger.codegen.options.TizenClientOptionsProvider;
-import io.swagger.codegen.options.TypeScriptAngularClientOptionsProvider;
-import io.swagger.codegen.options.TypeScriptNodeClientOptionsProvider;
-import io.swagger.generator.exception.ApiException;
-import io.swagger.generator.model.GeneratorInput;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfigLoader;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.languages.JavaClientCodegen;
+import io.swagger.codegen.options.*;
+import io.swagger.generator.exception.ApiException;
+import io.swagger.generator.model.GeneratorInput;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-import javax.annotation.Nullable;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 public class OnlineGeneratorOptionsTest {
     private static final String OPTIONS_PROVIDER = "optionsProvider";
@@ -69,7 +36,16 @@ public class OnlineGeneratorOptionsTest {
                 {new AsyncScalaClientOptionsProvider()}, {new CSharpClientOptionsProvider()},
                 {new CsharpDotNet2ClientOptionsProvider()}, {new DartClientOptionsProvider()},
                 {new FlashClienOptionsProvider()}, {new JavaInflectorServerOptionsProvider()},
-                {new JavaOptionsProvider()}, {new JaxRSServerOptionsProvider()},
+                {
+                        new JavaOptionsProvider(),
+                        new JavaOptionsProvider(ImmutableMap.of(CodegenConstants.LIBRARY, JavaClientCodegen.RETROFIT_2)
+                        ),
+                        new JavaOptionsProvider(ImmutableMap.of(
+                                CodegenConstants.LIBRARY, JavaClientCodegen.RETROFIT_2,
+                                JavaClientCodegen.USE_RX_JAVA, "true")
+                        )
+                },
+                {new JaxRSServerOptionsProvider()},
                 {new NodeJSServerOptionsProvider()}, {new ObjcClientOptionsProvider()},
                 {new PerlClientOptionsProvider()}, {new PhpClientOptionsProvider()},
                 {new PythonClientOptionsProvider()}, {new Qt5CPPOptionsProvider()},
