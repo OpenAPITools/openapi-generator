@@ -1,4 +1,4 @@
-package io.swagger.codegen.cmd.utils;
+package io.swagger.codegen.utils;
 
 import org.apache.commons.lang3.tuple.Pair;
 
