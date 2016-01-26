@@ -408,7 +408,7 @@ Your config file for Java can look like
 ```json
 {
   "groupId":"com.my.company",
-  "artifactId":"MyClent",
+  "artifactId":"MyClient",
   "artifactVersion":"1.2.0",
   "library":"feign"
 }
