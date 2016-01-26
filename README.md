@@ -534,13 +534,22 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/scalatra
 ```
 
-### Java JAX-RS
+### Java JAX-RS (Jersey v1.18)
 
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l jaxrs \
-  -o samples/server/petstore/jaxrs
+  -o samples/server/petstore/jaxrs-jersey
+```
+
+### Java JAX-RS (Apache CXF 3)
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l jaxrs-cxf \
+  -o samples/server/petstore/jaxrs-cxf
 ```
 
 ### Java Spring MVC
