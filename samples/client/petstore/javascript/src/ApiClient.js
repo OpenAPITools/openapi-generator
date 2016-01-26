@@ -16,7 +16,15 @@
   'use strict';
 
   var ApiClient = function ApiClient() {
+    /**
+     * The base path to put in front of every API call's (relative) path.
+     */
     this.basePath = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
+
+    /**
+     * The default HTTP headers to be included for all API calls.
+     */
+    this.defaultHeaders = {};
   };
 
   ApiClient.prototype.paramToString = function paramToString(param) {
@@ -77,6 +85,26 @@
   };
 
   /**
+   * Check if the given parameter value is like file content.
+   */
+  ApiClient.prototype.isFileParam = function isFileParam(param) {
+    // Buffer or fs.ReadStream in Node.js
+    if (typeof module === 'object' && module.exports &&
+        (param instanceof Buffer || param instanceof require('fs').ReadStream)) {
+      return true;
+    }
+    // Blob in browser
+    if (typeof Blob === 'function' && param instanceof Blob) {
+      return true;
+    }
+    // File in browser (it seems File object is also instance of Blob, but keep this for safe)
+    if (typeof File === 'function' && param instanceof File) {
+      return true;
+    }
+    return false;
+  };
+
+  /**
    * Normalize parameters values:
    *   remove nils,
    *   keep files and arrays,
@@ -87,7 +115,7 @@
     for (var key in params) {
       if (params.hasOwnProperty(key) && params[key] != null) {
         var value = params[key];
-        if (value instanceof Blob || Array.isArray(value)) {
+        if (this.isFileParam(value) || Array.isArray(value)) {
           newParams[key] = value;
         } else {
           newParams[key] = this.paramToString(value);
@@ -107,10 +135,14 @@
     request.query(this.normalizeParams(queryParams));
 
     // set header parameters
-    request.set(this.normalizeParams(headerParams));
+    request.set(this.defaultHeaders).set(this.normalizeParams(headerParams));
 
-    var contentType = this.jsonPreferredMime(contentTypes) || 'application/json';
-    request.type(contentType);
+    var contentType = this.jsonPreferredMime(contentTypes);
+    if (contentType) {
+      request.type(contentType);
+    } else if (!request.header['Content-Type']) {
+      request.type('application/json');
+    }
 
     if (contentType === 'application/x-www-form-urlencoded') {
       request.send(this.normalizeParams(formParams));
@@ -118,7 +150,7 @@
       var _formParams = this.normalizeParams(formParams);
       for (var key in _formParams) {
         if (_formParams.hasOwnProperty(key)) {
-          if (_formParams[key] instanceof Blob) {
+          if (this.isFileParam(_formParams[key])) {
             // file field
             request.attach(key, _formParams[key]);
           } else {
