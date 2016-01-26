@@ -25,7 +25,8 @@ public class JaxRSServerOptionsProvider extends JavaOptionsProvider {
 
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         builder.putAll(options)
-                .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE);
+            .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE)
+            .put("title", "Test title");
 
         return builder.build();
     }
