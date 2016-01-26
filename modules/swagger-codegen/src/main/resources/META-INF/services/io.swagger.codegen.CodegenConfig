@@ -6,11 +6,10 @@ io.swagger.codegen.languages.FlashClientCodegen
 io.swagger.codegen.languages.FlaskConnexionCodegen
 io.swagger.codegen.languages.GoClientCodegen
 io.swagger.codegen.languages.JavaClientCodegen
-io.swagger.codegen.languages.JavascriptClientCodegen
-io.swagger.codegen.languages.JavaClientCodegen
-io.swagger.codegen.languages.JavaJerseyCodegen
-io.swagger.codegen.languages.JavaCXFCodegen
+io.swagger.codegen.languages.JavaJerseyServerCodegen
+io.swagger.codegen.languages.JavaCXFServerCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
+io.swagger.codegen.languages.JavascriptClientCodegen
 io.swagger.codegen.languages.JMeterCodegen
 io.swagger.codegen.languages.NodeJSServerCodegen
 io.swagger.codegen.languages.ObjcClientCodegen
