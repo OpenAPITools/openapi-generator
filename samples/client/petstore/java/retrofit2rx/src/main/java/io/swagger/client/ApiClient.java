@@ -1,4 +1,4 @@
-package {{invokerPackage}};
+package io.swagger.client;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -13,7 +13,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 import retrofit.Converter;
 import retrofit.Retrofit;
 import retrofit.GsonConverterFactory;
-{{#useRxJava}}import retrofit.RxJavaCallAdapterFactory;{{/useRxJava}}
+import retrofit.RxJavaCallAdapterFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,11 +24,11 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 
 
-import {{invokerPackage}}.auth.HttpBasicAuth;
-import {{invokerPackage}}.auth.ApiKeyAuth;
-import {{invokerPackage}}.auth.OAuth;
-import {{invokerPackage}}.auth.OAuth.AccessTokenListener;
-import {{invokerPackage}}.auth.OAuthFlow;
+import io.swagger.client.auth.HttpBasicAuth;
+import io.swagger.client.auth.ApiKeyAuth;
+import io.swagger.client.auth.OAuth;
+import io.swagger.client.auth.OAuth.AccessTokenListener;
+import io.swagger.client.auth.OAuthFlow;
 
 
 public class ApiClient {
@@ -44,17 +44,16 @@ public class ApiClient {
 
     public ApiClient(String[] authNames) {
         this();
-        for(String authName : authNames) { {{#hasAuthMethods}}
+        for(String authName : authNames) { 
             Interceptor auth;
-            {{#authMethods}}if (authName == "{{name}}") { {{#isBasic}}
-                auth = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
-                auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
-                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");{{/isOAuth}}
-            } else {{/authMethods}}{
+            if (authName == "petstore_auth") { 
+                auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else if (authName == "api_key") { 
+                auth = new ApiKeyAuth("header", "api_key");
+            } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
-            addAuthorization(authName, auth);{{/hasAuthMethods}}{{^hasAuthMethods}}
-            throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");{{/hasAuthMethods}}
+            addAuthorization(authName, auth);
         }
     }
 
@@ -111,7 +110,7 @@ public class ApiClient {
 
         okClient = new OkHttpClient();
         
-        String baseUrl = "{{basePath}}";
+        String baseUrl = "http://petstore.swagger.io/v2";
         if(!baseUrl.endsWith("/"))
         	baseUrl = baseUrl + "/";
 
@@ -119,7 +118,7 @@ public class ApiClient {
                 .Builder()
                 .baseUrl(baseUrl)
                 .client(okClient)
-                {{#useRxJava}}.addCallAdapterFactory(RxJavaCallAdapterFactory.create()){{/useRxJava}}
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
 
