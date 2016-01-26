@@ -493,7 +493,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (allDefinitions != null && codegenModel != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-            codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            codegenModel = JavaClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
 
         return codegenModel;
