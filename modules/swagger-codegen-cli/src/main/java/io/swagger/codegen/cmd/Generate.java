@@ -5,7 +5,7 @@ import io.airlift.airline.Option;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
-import io.swagger.codegen.cmd.utils.OptionUtils;
+import io.swagger.codegen.utils.OptionUtils;
 import io.swagger.codegen.config.CodegenConfigurator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
