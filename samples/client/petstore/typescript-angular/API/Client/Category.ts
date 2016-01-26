@@ -5,9 +5,9 @@ namespace API.Client {
 
     export interface Category {
 
-        id?: number;
+        "id"?: number;
 
-        name?: string;
+        "name"?: string;
     }
 
 }
