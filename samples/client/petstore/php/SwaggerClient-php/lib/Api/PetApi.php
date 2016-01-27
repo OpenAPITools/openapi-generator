@@ -1036,7 +1036,7 @@ class PetApi
         // body params
         $_tempBody = null;
         if (isset($body)) {
-            $_tempBody = call_user_func_array('pack', array_merge(array('C*'), $body));
+            $_tempBody = $body;
         }
   
         // for model (json/xml)
