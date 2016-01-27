@@ -77,7 +77,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         "Bool",
         "Void",
         "String",
-        "Character")
+        "Character",
+        "AnyObject")
     );
     defaultIncludes = new HashSet<String>(
       Arrays.asList(
@@ -118,7 +119,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("float", "Float");
     typeMapping.put("number", "Double");
     typeMapping.put("double", "Double");
-    typeMapping.put("object", "String");
+    typeMapping.put("object", "AnyObject");
     typeMapping.put("file", "NSURL");
 
     importMapping = new HashMap<String, String>();
