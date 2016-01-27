@@ -5,24 +5,24 @@ namespace API.Client {
 
     export interface User {
 
-        id?: number;
+        "id"?: number;
 
-        username?: string;
+        "username"?: string;
 
-        firstName?: string;
+        "firstName"?: string;
 
-        lastName?: string;
+        "lastName"?: string;
 
-        email?: string;
+        "email"?: string;
 
-        password?: string;
+        "password"?: string;
 
-        phone?: string;
+        "phone"?: string;
 
         /**
          * User Status
          */
-        userStatus?: number;
+        "userStatus"?: number;
     }
 
 }

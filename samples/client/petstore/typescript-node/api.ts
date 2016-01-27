@@ -9,34 +9,34 @@ import http = require('http');
 /* tslint:disable:no-unused-variable */
 
 export class User {
-    id: number;
-    username: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    phone: string;
+    "id": number;
+    "username": string;
+    "firstName": string;
+    "lastName": string;
+    "email": string;
+    "password": string;
+    "phone": string;
     /**
     * User Status
     */
-    userStatus: number;
+    "userStatus": number;
 }
 
 export class Category {
-    id: number;
-    name: string;
+    "id": number;
+    "name": string;
 }
 
 export class Pet {
-    id: number;
-    category: Category;
-    name: string;
-    photoUrls: Array<string>;
-    tags: Array<Tag>;
+    "id": number;
+    "category": Category;
+    "name": string;
+    "photoUrls": Array<string>;
+    "tags": Array<Tag>;
     /**
     * pet status in the store
     */
-    status: Pet.StatusEnum;
+    "status": Pet.StatusEnum;
 }
 
 export namespace Pet {
@@ -47,20 +47,20 @@ export namespace Pet {
     }
 }
 export class Tag {
-    id: number;
-    name: string;
+    "id": number;
+    "name": string;
 }
 
 export class Order {
-    id: number;
-    petId: number;
-    quantity: number;
-    shipDate: Date;
+    "id": number;
+    "petId": number;
+    "quantity": number;
+    "shipDate": Date;
     /**
     * Order Status
     */
-    status: Order.StatusEnum;
-    complete: boolean;
+    "status": Order.StatusEnum;
+    "complete": boolean;
 }
 
 export namespace Order {
