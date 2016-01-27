@@ -113,7 +113,7 @@ cd swagger-codegen
 #### Run Docker in Vagrant
 Prerequisite: install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
  ```
-git clone git@github.com:wizardbyron/swagger-codegen.git
+git clone http://github.com/swagger-api/swagger-codegen.git
 cd swagger-codegen
 vagrant up
 vagrant ssh
