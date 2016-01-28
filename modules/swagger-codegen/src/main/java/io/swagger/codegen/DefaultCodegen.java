@@ -689,7 +689,7 @@ public class DefaultCodegen {
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype from RefProperty:" + p + ". Datatype default to Object");
                 datatype = "Object";
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         } else {
             if (p != null) {
@@ -1090,7 +1090,7 @@ public class DefaultCodegen {
         		ArrayProperty ap = (ArrayProperty) p;
         		CodegenProperty cp = fromProperty(property.name, ap.getItems());
         		if (cp == null) {
-        			 LOGGER.warn("skipping invalid property " + Json.pretty(p));
+        			LOGGER.warn("skipping invalid property " + Json.pretty(p));
         		} else {
           			property.baseType = getSwaggerType(p);
           			if (!languageSpecificPrimitives.contains(cp.baseType)) {

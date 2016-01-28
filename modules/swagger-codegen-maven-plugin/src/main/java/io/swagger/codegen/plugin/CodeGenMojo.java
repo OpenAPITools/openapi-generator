@@ -19,8 +19,10 @@ package io.swagger.codegen.plugin;
 import config.Config;
 import config.ConfigParser;
 import io.swagger.codegen.*;
+import io.swagger.codegen.utils.OptionUtils;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -31,6 +33,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -161,6 +164,20 @@ public class CodeGenMojo extends AbstractMojo {
         }
         
         if (configOptions != null) {
+            if(configOptions.containsKey("import-mappings")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("import-mappings").toString());
+                config.importMapping().putAll(mappings);
+            }
+
+            if(configOptions.containsKey("type-mappings")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("type-mappings").toString());
+                config.typeMapping().putAll(mappings);
+            }
+
+            if(configOptions.containsKey("instantiation-types")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("instantiation-types").toString());
+                config.instantiationTypes().putAll(mappings);
+            }
         	addAdditionalProperties(config, definedOptions, configOptions);
         }
 
@@ -206,5 +223,17 @@ public class CodeGenMojo extends AbstractMojo {
     			getLog().warn("Additional property: " + configEntry.getKey() + " is not defined for this language.");
     		}
     	}
+    }
+
+    private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
+        final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
+
+        Map<String, String> result = new HashMap<String, String>();
+
+        for (Pair<String, String> pair : pairs) {
+            result.put(pair.getLeft(), pair.getRight());
+        }
+
+        return result;
     }
 }

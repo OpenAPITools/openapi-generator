@@ -66,4 +66,55 @@ describe('ApiClient', function() {
       expect(apiClient.isJsonMime('application/jsonp')).to.be(false);
     });
   });
+
+  describe('#defaultHeaders', function() {
+    it('should initialize default headers to be an empty object', function() {
+      expect(apiClient.defaultHeaders).to.eql({});
+    });
+
+    it('should put default headers in request', function() {
+      var newClient = new SwaggerPetstore.ApiClient;
+      newClient.defaultHeaders['Content-Type'] = 'text/plain'
+      newClient.defaultHeaders['api_key'] = 'special-key'
+
+      var expected = {'Content-Type': 'text/plain', 'api_key': 'special-key'};
+      expect(newClient.defaultHeaders).to.eql(expected);
+      var req = makeDumbRequest(newClient);
+      req.unset('User-Agent');
+      expect(req.header).to.eql(expected);
+    });
+
+    it('should override default headers with provided header params', function() {
+      var newClient = new SwaggerPetstore.ApiClient;
+      newClient.defaultHeaders['Content-Type'] = 'text/plain'
+      newClient.defaultHeaders['api_key'] = 'special-key'
+
+      var headerParams = {'Content-Type': 'application/json', 'Authorization': 'Bearer test-token'}
+      var expected = {
+        'Content-Type': 'application/json',
+        'api_key': 'special-key',
+        'Authorization': 'Bearer test-token'
+      };
+      var req = makeDumbRequest(newClient, {headerParams: headerParams});
+      req.unset('User-Agent');
+      expect(req.header).to.eql(expected);
+    });
+  });
 });
+
+function makeDumbRequest(apiClient, opts) {
+  opts = opts || {};
+  var path = opts.path || '/store/inventory';
+  var httpMethod = opts.httpMethod || 'GET';
+  var pathParams = opts.pathParams || {};
+  var queryParams = opts.queryParams || {};
+  var headerParams = opts.headerParams || {};
+  var formParams = opts.formParams || {};
+  var bodyParam = opts.bodyParam;
+  var contentTypes = opts.contentTypes || [];
+  var accepts = opts.accepts || [];
+  var callback = opts.callback;
+  return apiClient.callApi(path, httpMethod, pathParams, queryParams,
+    headerParams, formParams, bodyParam, contentTypes, accepts, callback
+  );
+}
