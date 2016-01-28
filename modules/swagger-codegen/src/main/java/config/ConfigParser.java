@@ -16,7 +16,7 @@ public class ConfigParser {
 
     public static Config read(String location) {
 
-        LOGGER.debug("reading config from " + location);
+        LOGGER.info("reading config from " + location);
 
         ObjectMapper mapper = new ObjectMapper();
 
