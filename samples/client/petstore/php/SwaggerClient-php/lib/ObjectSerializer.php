@@ -153,7 +153,7 @@ class ObjectSerializer
      */
     public function toFormValue($value)
     {
-        if ($value instanceof SplFileObject) {
+        if ($value instanceof \SplFileObject) {
             return $value->getRealPath();
         } else {
             return $this->toString($value);

@@ -8,8 +8,11 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +27,9 @@ import java.util.ServiceLoader;
  */
 @Deprecated
 public class MetaGenerator extends AbstractGenerator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MetaGenerator.class);
+
     static Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
     static String configString;
 
@@ -99,7 +105,7 @@ public class MetaGenerator extends AbstractGenerator {
             usage(options);
             return;
         }
-        System.out.println("writing to folder " + outputFolder);
+        LOGGER.info("writing to folder " + outputFolder);
         File outputFolderLocation = new File(outputFolder);
         if (!outputFolderLocation.exists()) {
             outputFolderLocation.mkdirs();
@@ -163,11 +169,11 @@ public class MetaGenerator extends AbstractGenerator {
                 } else {
                     String template = readTemplate(templateDir + File.separator + support.templateFile);
                     FileUtils.writeStringToFile(new File(outputFilename), template);
-                    System.out.println("copying file to " + outputFilename);
+                    LOGGER.info("copying file to " + outputFilename);
                     files.add(new File(outputFilename));
                 }
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }
