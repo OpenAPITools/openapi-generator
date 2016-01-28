@@ -258,7 +258,7 @@ public class ApiClient {
   }
 
   /**
-  * Connect timeout (in milliseconds).
+   * Connect timeout (in milliseconds).
    */
   public int getConnectTimeout() {
     return connectionTimeout;
@@ -269,9 +269,9 @@ public class ApiClient {
    * A value of 0 means no timeout, otherwise values must be between 1 and
    * {@link Integer#MAX_VALUE}.
    */
-   public ApiClient setConnectTimeout(int connectionTimeout) {
-     this.connectionTimeout = connectionTimeout;
-     httpClient.property(ClientProperties.CONNECT_TIMEOUT, connectionTimeout);
+  public ApiClient setConnectTimeout(int connectionTimeout) {
+    this.connectionTimeout = connectionTimeout;
+    httpClient.property(ClientProperties.CONNECT_TIMEOUT, connectionTimeout);
     return this;
   }
 
