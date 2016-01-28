@@ -51,7 +51,7 @@ public class JavaClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSerializableModel(Boolean.valueOf(JavaOptionsProvider.SERIALIZABLE_MODEL_VALUE));
             times = 1;
-            clientCodegen.setLibrary(JavaOptionsProvider.LIBRARY_VALUE);
+            clientCodegen.setLibrary(JavaOptionsProvider.DEFAULT_LIBRARY_VALUE);
             times = 1;
             clientCodegen.setFullJavaUtil(Boolean.valueOf(JavaOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;

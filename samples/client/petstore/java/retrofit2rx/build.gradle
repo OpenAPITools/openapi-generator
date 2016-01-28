@@ -1,0 +1,114 @@
+group = 'io.swagger'
+version = '1.0.0'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+
+if(hasProperty('target') && target == 'android') {
+
+	apply plugin: 'com.android.library'
+	apply plugin: 'com.github.dcendents.android-maven'
+
+	android {
+	    compileSdkVersion 22
+	    buildToolsVersion '22.0.0'
+	    defaultConfig {
+	        minSdkVersion 14
+	        targetSdkVersion 22
+	    }
+	    compileOptions {
+	        sourceCompatibility JavaVersion.VERSION_1_7
+	        targetCompatibility JavaVersion.VERSION_1_7
+	    }
+
+	    // Rename the aar correctly
+	    libraryVariants.all { variant ->
+	        variant.outputs.each { output ->
+	            def outputFile = output.outputFile
+	            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+	                def fileName = "${project.name}-${variant.baseName}-${version}.aar"
+	                output.outputFile = new File(outputFile.parent, fileName)
+	            }
+	        }
+	    }
+	}
+
+	afterEvaluate {
+	    android.libraryVariants.all { variant ->
+	        def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
+	        task.description = "Create jar artifact for ${variant.name}"
+	        task.dependsOn variant.javaCompile
+	        task.from variant.javaCompile.destinationDir
+	        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
+	        task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+	        artifacts.add('archives', task);
+	    }
+	}
+
+	task sourcesJar(type: Jar) {
+	    from android.sourceSets.main.java.srcDirs
+	    classifier = 'sources'
+	}
+
+	artifacts {
+	    archives sourcesJar
+	}
+
+} else {
+
+	apply plugin: 'java'
+	apply plugin: 'maven'
+
+	sourceCompatibility = JavaVersion.VERSION_1_7
+	targetCompatibility = JavaVersion.VERSION_1_7
+
+	install {
+	    repositories.mavenInstaller {
+			pom.artifactId = 'swagger-petstore-retrofit2-rx'
+	    }
+	}
+
+	task execute(type:JavaExec) {
+	   main = System.getProperty('mainClass')
+	   classpath = sourceSets.main.runtimeClasspath
+	}
+}
+
+ext {
+    okhttp_version = "2.5.0"
+    oltu_version = "1.0.0"
+    retrofit_version = "2.0.0-beta2"
+    gson_version = "2.4"
+    swagger_annotations_version = "1.5.0"
+    junit_version = "4.12"
+    rx_java_version = "1.0.15"
+
+}
+
+dependencies {
+    compile "com.squareup.okhttp:okhttp:$okhttp_version"
+
+    compile "com.squareup.retrofit:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit:adapter-rxjava:$retrofit_version"
+    compile "io.reactivex:rxjava:$rx_java_version"
+
+
+    compile "com.google.code.gson:gson:$gson_version"
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+
+    testCompile "junit:junit:$junit_version"
+}
