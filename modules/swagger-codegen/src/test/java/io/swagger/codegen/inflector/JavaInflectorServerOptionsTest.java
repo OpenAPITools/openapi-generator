@@ -45,7 +45,7 @@ public class JavaInflectorServerOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setSerializableModel(Boolean.valueOf(JavaInflectorServerOptionsProvider.SERIALIZABLE_MODEL_VALUE));
             times = 1;
-            clientCodegen.setLibrary(JavaInflectorServerOptionsProvider.LIBRARY_VALUE);
+            clientCodegen.setLibrary(JavaInflectorServerOptionsProvider.DEFAULT_LIBRARY_VALUE);
             times = 1;
             clientCodegen.setFullJavaUtil(Boolean.valueOf(JavaInflectorServerOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;

@@ -1,0 +1,22 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+
+@Path("{{contextPath}}")
+public interface {{classname}}  {
+{{#operations}}
+{{#operation}}
+    @{{httpMethod}}
+    {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
+    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+    {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}});
+{{/operation}}
+}
+{{/operations}}
+
