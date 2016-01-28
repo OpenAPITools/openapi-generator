@@ -53,6 +53,12 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     typeMapping.put("map", "Object");
     typeMapping.put("DateTime", "Date");
 
+    importMapping = new HashMap<String, String>();
+    defaultIncludes = new HashSet<String>(Arrays.asList(
+      "Object",
+      "Array"
+    ));
+
     outputFolder = "generated-code/javascript-closure-angular";
     modelTemplateFiles.put("model.mustache", ".js");
     apiTemplateFiles.put("api.mustache", ".js");
