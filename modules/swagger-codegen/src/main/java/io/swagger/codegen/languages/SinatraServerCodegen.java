@@ -17,7 +17,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(SinatraServerCodegen.class);
+
     protected String gemName;
     protected String moduleName;
     protected String gemVersion = "1.0.0";
@@ -230,7 +237,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return super.postProcessSupportingFileData(objs);
