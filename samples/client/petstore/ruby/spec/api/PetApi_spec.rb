@@ -158,7 +158,7 @@ describe 'PetApi' do
   # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
   # @param pet_id ID of pet that needs to be fetched
   # @param [Hash] opts the optional parameters
-  # @return [binary]
+  # @return [String]
   describe 'get_pet_by_id_with_byte_array test' do
     it "should work" do
       # assertion here
@@ -173,7 +173,7 @@ describe 'PetApi' do
   # Fake endpoint to test byte array in body parameter for adding a new pet to the store
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [binary] :body Pet object in the form of byte array
+  # @option opts [String] :body Pet object in the form of byte array
   # @return [nil]
   describe 'add_pet_using_byte_array test' do
     it "should work" do
