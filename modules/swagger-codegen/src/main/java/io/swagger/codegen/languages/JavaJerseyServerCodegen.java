@@ -47,6 +47,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         cliOptions.add(library);
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
+        cliOptions.add(new CliOption("title", "a title describing the application"));
     }
 
     @Override
