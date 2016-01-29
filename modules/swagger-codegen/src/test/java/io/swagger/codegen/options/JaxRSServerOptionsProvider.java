@@ -25,9 +25,9 @@ public class JaxRSServerOptionsProvider extends JavaOptionsProvider {
 
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         builder.putAll(options)
-                .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE)
-                //.put(JavaJaxRSJersey1ServerCodegen.DATE_LIBRARY, "joda") //java.lang.IllegalArgumentException: Multiple entries with same key: dateLibrary=joda and dateLibrary=joda
-                ;
+            .put(CodegenConstants.IMPL_FOLDER, IMPL_FOLDER_VALUE)
+            //.put(JavaJaxRSJersey1ServerCodegen.DATE_LIBRARY, "joda") //java.lang.IllegalArgumentException: Multiple entries with same key: dateLibrary=joda and dateLibrary=joda
+            .put("title", "Test title");
 
         return builder.build();
     }
