@@ -1,0 +1,2 @@
+{{#isFormParam}}{{#notFile}}@FormParam("{{paramName}}")  {{{dataType}}} {{paramName}}{{/notFile}}{{#isFile}}  @FormDataParam("file") InputStream inputStream,
+      @FormDataParam("file") FormDataContentDisposition fileDetail{{/isFile}}{{/isFormParam}}

@@ -1,0 +1,25 @@
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile         'com.fasterxml.jackson.core:jackson-annotations:2.7.0'
+    providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.11.Final'
+    providedCompile 'org.jboss.resteasy:jaxrs-api:3.0.11.Final'
+    providedCompile 'org.jboss.resteasy:resteasy-validator-provider-11:3.0.11.Final'
+    providedCompile 'javax.annotation:javax.annotation-api:1.2'
+    providedCompile 'org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec:1.0.0.Final'
+
+    testCompile     'junit:junit:4.12',
+                    'org.hamcrest:hamcrest-core:1.3'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/gen/java'
+        }
+    }
+}
