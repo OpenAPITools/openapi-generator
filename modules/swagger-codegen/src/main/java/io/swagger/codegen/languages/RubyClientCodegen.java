@@ -29,6 +29,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemName;
     protected String moduleName;
     protected String gemVersion = "1.0.0";
+    protected String specFolder = "spec";
     protected String libFolder = "lib";
     protected String gemLicense = "Apache-2.0";
     protected String gemHomepage = "http://swagger.io";
@@ -46,6 +47,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".rb");
         apiTemplateFiles.put("api.mustache", ".rb");
         embeddedTemplateDir = templateDir = "ruby";
+
+        modelTestTemplateFiles.put("model_test.mustache", ".rb");
+        apiTestTemplateFiles.put("api_test.mustache", ".rb");
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();
@@ -237,6 +241,16 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + specFolder + File.separator + apiPackage.replace("/", File.separator);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + specFolder + File.separator + modelPackage.replace("/", File.separator);
+    }
+
+    @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
@@ -366,6 +380,16 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(name) + "_api";
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + "_spec";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelName(name) + "_spec";
     }
 
     @Override

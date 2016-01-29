@@ -419,25 +419,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        if("retrofit".equals(getLibrary())) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-            if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-                for (CodegenOperation operation : ops) {
-                    if (operation.hasConsumes == Boolean.TRUE) {
-                        Map<String, String> firstType = operation.consumes.get(0);
-                        if (firstType != null) {
-                            if ("multipart/form-data".equals(firstType.get("mediaType"))) {
-                                operation.isMultipart = Boolean.TRUE;
-                            }
-                        }
-                    }
-                    if (operation.returnType == null) {
-                        operation.returnType = "Void";
-                    }
-                }
-            }
-        }
         return objs;
     }
 

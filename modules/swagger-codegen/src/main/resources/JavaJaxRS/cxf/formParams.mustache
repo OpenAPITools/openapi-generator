@@ -1,0 +1,2 @@
+{{#isFormParam}}{{#notFile}}@Multipart(value = "{{paramName}}"{{^required}}, required = false{{/required}})  {{{dataType}}} {{paramName}}{{/notFile}}{{#isFile}} @Multipart(value = "{{paramName}}"{{^required}}, required = false{{/required}}) InputStream {{paramName}}InputStream,
+   @Multipart(value = "{{paramName}}" {{^required}}, required = false{{/required}}) Attachment {{paramName}}Detail{{/isFile}}{{/isFormParam}}
