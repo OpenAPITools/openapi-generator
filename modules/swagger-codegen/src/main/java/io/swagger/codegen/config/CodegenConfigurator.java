@@ -36,7 +36,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  */
 public class CodegenConfigurator {
 
-    public static final Logger LOG = LoggerFactory.getLogger(CodegenConfigurator.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
     private String lang;
     private String inputSpec;
@@ -349,7 +349,7 @@ public class CodegenConfigurator {
         if (!verbose) {
             return;
         }
-        LOG.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
+        LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
                 "\n - [debugSwagger] prints the swagger specification as interpreted by the codegen" +
                 "\n - [debugModels] prints models passed to the template engine" +
                 "\n - [debugOperations] prints operations passed to the template engine" +
@@ -392,7 +392,7 @@ public class CodegenConfigurator {
             try {
                 return Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
             } catch (IOException e) {
-                LOG.error("Unable to deserialize config file: " + configFile, e);
+                LOGGER.error("Unable to deserialize config file: " + configFile, e);
             }
         }
         return null;

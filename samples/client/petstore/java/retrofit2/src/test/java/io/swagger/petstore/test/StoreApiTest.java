@@ -1,5 +1,7 @@
 package io.swagger.petstore.test;
 
+import io.swagger.TestUtils;
+
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
@@ -47,12 +49,12 @@ public class StoreApiTest {
         api.deleteOrder(String.valueOf(order.getId())).execute();
 
         api.getOrderById(String.valueOf(order.getId())).execute();
-        //also in retrofit 1 should return an error but don't, check server api impl.       
+        //also in retrofit 1 should return an error but don't, check server api impl.
     }
 
     private Order createOrder() {
         Order order = new Order();
-        order.setId(new Long(System.currentTimeMillis()));
+        order.setId(new Long(TestUtils.nextId()));
         order.setPetId(new Long(200));
         order.setQuantity(new Integer(13));
         order.setShipDate(new java.util.Date());

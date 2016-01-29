@@ -14,7 +14,7 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:16.440+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-15T19:19:23.415+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -126,7 +126,7 @@ public class Pet   {
   
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -134,12 +134,14 @@ public class Pet   {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(id, pet.id) &&
+
+    return true && Objects.equals(id, pet.id) &&
         Objects.equals(category, pet.category) &&
         Objects.equals(name, pet.name) &&
         Objects.equals(photoUrls, pet.photoUrls) &&
         Objects.equals(tags, pet.tags) &&
-        Objects.equals(status, pet.status);
+        Objects.equals(status, pet.status)
+    ;
   }
 
   @Override
@@ -166,7 +168,7 @@ public class Pet   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

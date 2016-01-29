@@ -200,13 +200,13 @@ public class DefaultGeneratorTest {
         }
     }
 
-    private void changeContent(File file) throws IOException {
+    private static void changeContent(File file) throws IOException {
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), UTF_8));
         out.write(TEST_SKIP_OVERWRITE);
         out.close();
     }
 
-    private CodegenOperation findCodegenOperationByOperationId(Map<String, List<CodegenOperation>> paths, String operationId) {
+    private static CodegenOperation findCodegenOperationByOperationId(Map<String, List<CodegenOperation>> paths, String operationId) {
         for (List<CodegenOperation> ops : paths.values()) {
             for (CodegenOperation co : ops) {
                 if (operationId.equals(co.operationId)) {

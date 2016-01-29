@@ -19,7 +19,7 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
-    Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
+    protected Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
 
     protected CodegenConfig config;
     protected ClientOptInput opts;
@@ -240,7 +240,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
         if (System.getProperty("debugModels") != null) {
-            System.out.println("############ Model info ############");
+            LOGGER.info("############ Model info ############");
             Json.prettyPrint(allModels);
         }
 
@@ -340,7 +340,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
         if (System.getProperty("debugOperations") != null) {
-            System.out.println("############ Operation info ############");
+            LOGGER.info("############ Operation info ############");
             Json.prettyPrint(allOperations);
         }
 
@@ -379,7 +379,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.postProcessSupportingFileData(bundle);
 
         if (System.getProperty("debugSupportingFiles") != null) {
-            System.out.println("############ Supporting file info ############");
+            LOGGER.info("############ Supporting file info ############");
             Json.prettyPrint(bundle);
         }
 
@@ -438,18 +438,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             }
                             File outputFile = new File(outputFilename);
                             OutputStream out = new FileOutputStream(outputFile, false);
-                            if (in != null && out != null) {
-                                System.out.println("writing file " + outputFile);
+                            if (in != null) {
+                            	LOGGER.info("writing file " + outputFile);
                                 IOUtils.copy(in, out);
                             } else {
                                 if (in == null) {
-                                    System.out.println("can't open " + templateFile + " for input");
-                                }
-                                if (out == null) {
-                                    System.out.println("can't open " + outputFile + " for output");
+                                    LOGGER.error("can't open " + templateFile + " for input");
                                 }
                             }
-
                             files.add(outputFile);
                         }
                     }
@@ -458,13 +454,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
             }
         }
-
         config.processSwagger(swagger);
-
         return files;
     }
 
-    private void processMimeTypes(List<String> mimeTypeList, Map<String, Object> operation, String source) {
+    private static void processMimeTypes(List<String> mimeTypeList, Map<String, Object> operation, String source) {
         if (mimeTypeList != null && mimeTypeList.size() > 0) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             int count = 0;
@@ -485,7 +479,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
+    private static List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
     	List<String> sortedModelKeys = new ArrayList<String>(definitions.keySet());
     	Comparator<String> cmp = new Comparator<String>() {
 			@Override
@@ -558,7 +552,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, Path path) {
         if (operation != null) {
             if (System.getProperty("debugOperations") != null) {
-                LOGGER.debug("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
+                LOGGER.info("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation
+                        + "\n");
             }
             List<String> tags = operation.getTags();
             if (tags == null) {
@@ -655,10 +650,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private String generateParameterId(Parameter parameter) {
+    private static String generateParameterId(Parameter parameter) {
         return parameter.getName() + ":" + parameter.getIn();
     }
 
+    @SuppressWarnings("static-method")
     protected String sanitizeTag(String tag) {
         // remove spaces and make strong case
         String[] parts = tag.split(" ");
@@ -671,6 +667,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return buf.toString().replaceAll("[^a-zA-Z ]", "");
     }
 
+    @SuppressWarnings("static-method")
     public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
         Map<String, Object> operations = new HashMap<String, Object>();
         Map<String, Object> objs = new HashMap<String, Object>();
@@ -731,6 +728,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return operations;
     }
 
+    @SuppressWarnings("static-method")
     public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions, Map<String, Model> allDefinitions) {
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("package", config.modelPackage());
@@ -750,7 +748,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         Set<String> importSet = new TreeSet<String>();
         for (String nextImport : allImports) {
-            Map<String, String> im = new HashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
                 mapping = config.toModelImport(nextImport);

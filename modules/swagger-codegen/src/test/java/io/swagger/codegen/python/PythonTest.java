@@ -11,6 +11,7 @@ import io.swagger.parser.SwaggerParser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class PythonTest {
 
     @Test(description = "convert a python model with dots")

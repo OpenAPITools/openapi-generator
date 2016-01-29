@@ -11,7 +11,13 @@ import io.swagger.util.Yaml;
 
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+
     protected String title = "Swagger Inflector";
 
     public JavaInflectorServerCodegen() {
@@ -164,7 +170,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return super.postProcessSupportingFileData(objs);
@@ -175,12 +181,15 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         if (name.length() == 0) {
             return "DefaultController";
         }
-        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
+        name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return camelize(name)+ "Controller";
     }
 
     @Override
     public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename);
+        return super.shouldOverwrite(filename)  &&
+        !filename.endsWith("pom.xml") &&
+        !filename.endsWith("README.md") &&
+        !filename.endsWith("inflector.yaml");
     }
 }

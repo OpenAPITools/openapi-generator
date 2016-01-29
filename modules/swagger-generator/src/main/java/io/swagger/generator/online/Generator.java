@@ -34,7 +34,7 @@ public class Generator {
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
-            throw new BadRequestException(400, String.format("Unsupported target %s supplied. %s", language, e));
+            throw new BadRequestException(String.format("Unsupported target %s supplied. %s", language, e));
         }
         Map<String, CliOption> map = new LinkedHashMap<String, CliOption>();
         for (CliOption option : config.cliOptions()) {
@@ -69,7 +69,7 @@ public class Generator {
     private static String generate(String language, GeneratorInput opts, Type type) throws ApiException {
         LOGGER.debug(String.format("generate %s for %s", type.getTypeName(), language));
         if (opts == null) {
-            throw new BadRequestException(400, "No options were supplied");
+            throw new BadRequestException("No options were supplied");
         }
         JsonNode node = opts.getSpec();
         if(node != null && "{}".equals(node.toString())) {
@@ -81,13 +81,13 @@ public class Generator {
             if (opts.getSwaggerUrl() != null) {
                 swagger = new SwaggerParser().read(opts.getSwaggerUrl());
             } else {
-                throw new BadRequestException(400, "No swagger specification was supplied");
+                throw new BadRequestException("No swagger specification was supplied");
             }
         } else {
             swagger = new SwaggerParser().read(node, true);
         }
         if (swagger == null) {
-            throw new BadRequestException(400, "The swagger specification supplied was not valid");
+            throw new BadRequestException("The swagger specification supplied was not valid");
         }
 
         ClientOptInput clientOptInput = new ClientOptInput();
@@ -104,7 +104,7 @@ public class Generator {
         try {
             codegenConfig = CodegenConfigLoader.forName(language);
         } catch(RuntimeException e) {
-            throw new BadRequestException(400, "Unsupported target " + language + " supplied");
+            throw new BadRequestException("Unsupported target " + language + " supplied");
         }
 
         if (opts.getOptions() != null) {
@@ -122,12 +122,12 @@ public class Generator {
             List<File> files = new Codegen().opts(clientOptInput).generate();
             if (files.size() > 0) {
                 List<File> filesToAdd = new ArrayList<File>();
-                System.out.println("adding to " + outputFolder);
+                LOGGER.debug("adding to " + outputFolder);
                 filesToAdd.add(new File(outputFolder));
                 ZipUtil zip = new ZipUtil();
                 zip.compressFiles(filesToAdd, outputFilename);
             } else {
-                throw new BadRequestException(400, "A target generation was attempted, but no files were created!");
+                throw new BadRequestException("A target generation was attempted, but no files were created!");
             }
             for(File file: files) {
                 try {
@@ -144,16 +144,16 @@ public class Generator {
                 LOGGER.error("unable to delete output folder " + outputFolder);
             }
         } catch (Exception e) {
-            throw new BadRequestException(500, "Unable to build target: " + e.getMessage());
+            throw new BadRequestException("Unable to build target: " + e.getMessage());
         }
         return outputFilename;
     }
 
-    public static InputOption clientOptions(String language) {
+    public static InputOption clientOptions(@SuppressWarnings("unused") String language) {
         return null;
     }
 
-    public static InputOption serverOptions(String language) {
+    public static InputOption serverOptions(@SuppressWarnings("unused") String language) {
         return null;
     }
 

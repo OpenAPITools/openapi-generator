@@ -1,10 +1,8 @@
 package io.swagger.codegen;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.swagger.models.*;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
-import io.swagger.models.parameters.RefParameter;
 import io.swagger.models.properties.*;
 import io.swagger.util.Json;
 
@@ -174,9 +172,7 @@ public class InlineModelResolver {
                             m.setItems(new RefProperty(existing));
                         }
                     }
-                } else if (model instanceof ComposedModel) {
-                    ComposedModel m = (ComposedModel) model;
-                }
+                } 
             }
         }
     }
@@ -199,7 +195,7 @@ public class InlineModelResolver {
     public String uniqueName(String key) {
         int count = 0;
         boolean done = false;
-        key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", "");
+        key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         while (!done) {
             String name = key;
             if (count > 0) {
@@ -295,53 +291,26 @@ public class InlineModelResolver {
         }
     }
 
-    public Model modelFromProperty(ArrayProperty object, String path) {
-        String access = object.getAccess();
+    @SuppressWarnings("static-method")
+    public Model modelFromProperty(ArrayProperty object, @SuppressWarnings("unused") String path) {
         String description = object.getDescription();
         String example = object.getExample();
-        String name = object.getName();
-        Integer position = object.getPosition();
-        Boolean readOnly = object.getReadOnly();
-        Boolean required = object.getRequired();
-        String title = object.getTitle();
-        Map<String, Object> extensions = object.getVendorExtensions();
-        Xml xml = object.getXml();
-
-//        object.getItems()
-//        Map<String, Property> properties = object.getProperties();
-
         Property inner = object.getItems();
         if (inner instanceof ObjectProperty) {
             ArrayModel model = new ArrayModel();
             model.setDescription(description);
             model.setExample(example);
-//          model.setName(name);
-//          model.setXml(xml);
-
             model.setItems(object.getItems());
             return model;
         }
-
-//        if(properties != null) {
-//            flattenProperties(properties, path);
-//            model.setProperties(properties);
-//        }
-
         return null;
     }
 
     public Model modelFromProperty(ObjectProperty object, String path) {
-        String access = object.getAccess();
         String description = object.getDescription();
         String example = object.getExample();
         String name = object.getName();
-        Integer position = object.getPosition();
-        Boolean readOnly = object.getReadOnly();
-        Boolean required = object.getRequired();
-        String title = object.getTitle();
-        Map<String, Object> extensions = object.getVendorExtensions();
         Xml xml = object.getXml();
-
         Map<String, Property> properties = object.getProperties();
 
         ModelImpl model = new ModelImpl();
@@ -358,17 +327,10 @@ public class InlineModelResolver {
         return model;
     }
 
-    public Model modelFromProperty(MapProperty object, String path) {
-        String access = object.getAccess();
+    @SuppressWarnings("static-method")
+    public Model modelFromProperty(MapProperty object, @SuppressWarnings("unused") String path) {
         String description = object.getDescription();
         String example = object.getExample();
-        String name = object.getName();
-        Integer position = object.getPosition();
-        Boolean readOnly = object.getReadOnly();
-        Boolean required = object.getRequired();
-        String title = object.getTitle();
-        Map<String, Object> extensions = object.getVendorExtensions();
-        Xml xml = object.getXml();
 
         ArrayModel model = new ArrayModel();
         model.setDescription(description);
