@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 wget -nc https://nuget.org/nuget.exe;
 mozroots --import --sync
 mono nuget.exe install vendor/packages.config -o vendor;

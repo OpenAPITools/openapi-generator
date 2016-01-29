@@ -221,7 +221,7 @@ namespace SwaggerClientTest.TestPet
 		{
 		    Assembly _assembly = Assembly.GetExecutingAssembly();
 		    Stream _imageStream = _assembly.GetManifestResourceStream("SwaggerClientTest.swagger-logo.png");
-            PetApi petApi = new PetApi ();			
+            PetApi petApi = new PetApi ();
 			// test file upload with form parameters
 			petApi.UploadFile(petId, "new form name", _imageStream);
 

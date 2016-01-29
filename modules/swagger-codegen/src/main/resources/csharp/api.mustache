@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using RestSharp;
 using {{packageName}}.Client;
@@ -239,7 +240,7 @@ namespace {{packageName}}.Api
     
             {{#returnType}}return new ApiResponse<{{{returnType}}}>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                ({{{returnType}}}) Configuration.ApiClient.Deserialize(response, typeof({{{returnType}}})));{{/returnType}}
+                ({{{returnType}}}) Configuration.ApiClient.Deserialize(response, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));{{/returnType}}
             {{^returnType}}return new ApiResponse<Object>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);{{/returnType}}
@@ -344,7 +345,7 @@ namespace {{packageName}}.Api
 
             {{#returnType}}return new ApiResponse<{{{returnType}}}>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                ({{{returnType}}}) Configuration.ApiClient.Deserialize(response, typeof({{{returnType}}})));{{/returnType}}
+                ({{{returnType}}}) Configuration.ApiClient.Deserialize(response, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));{{/returnType}}
             {{^returnType}}return new ApiResponse<Object>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);{{/returnType}}
