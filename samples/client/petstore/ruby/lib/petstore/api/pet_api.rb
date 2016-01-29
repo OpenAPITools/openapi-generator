@@ -51,7 +51,6 @@ module Petstore
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:PUT, path,
         :header_params => header_params,
@@ -108,7 +107,6 @@ module Petstore
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, path,
         :header_params => header_params,
@@ -166,7 +164,6 @@ module Petstore
       # http body (model)
       post_body = nil
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, path,
         :header_params => header_params,
@@ -225,7 +222,6 @@ module Petstore
       # http body (model)
       post_body = nil
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, path,
         :header_params => header_params,
@@ -286,7 +282,6 @@ module Petstore
       # http body (model)
       post_body = nil
       
-
       auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, path,
         :header_params => header_params,
@@ -353,7 +348,6 @@ module Petstore
       # http body (model)
       post_body = nil
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, path,
         :header_params => header_params,
@@ -416,7 +410,6 @@ module Petstore
       # http body (model)
       post_body = nil
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:DELETE, path,
         :header_params => header_params,
@@ -482,7 +475,6 @@ module Petstore
       # http body (model)
       post_body = nil
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, path,
         :header_params => header_params,
@@ -500,7 +492,7 @@ module Petstore
     # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
-    # @return [binary]
+    # @return [String]
     def get_pet_by_id_with_byte_array(pet_id, opts = {})
       data, status_code, headers = get_pet_by_id_with_byte_array_with_http_info(pet_id, opts)
       return data
@@ -510,7 +502,7 @@ module Petstore
     # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
     # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
-    # @return [Array<(binary, Fixnum, Hash)>] binary data, response status code and response headers
+    # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
     def get_pet_by_id_with_byte_array_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: PetApi#get_pet_by_id_with_byte_array ..."
@@ -542,7 +534,6 @@ module Petstore
       # http body (model)
       post_body = nil
       
-
       auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, path,
         :header_params => header_params,
@@ -550,7 +541,7 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'binary')
+        :return_type => 'String')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#get_pet_by_id_with_byte_array\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -560,7 +551,7 @@ module Petstore
     # Fake endpoint to test byte array in body parameter for adding a new pet to the store
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [binary] :body Pet object in the form of byte array
+    # @option opts [String] :body Pet object in the form of byte array
     # @return [nil]
     def add_pet_using_byte_array(opts = {})
       add_pet_using_byte_array_with_http_info(opts)
@@ -570,7 +561,7 @@ module Petstore
     # Fake endpoint to test byte array in body parameter for adding a new pet to the store
     # 
     # @param [Hash] opts the optional parameters
-    # @option opts [binary] :body Pet object in the form of byte array
+    # @option opts [String] :body Pet object in the form of byte array
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def add_pet_using_byte_array_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -600,7 +591,6 @@ module Petstore
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
-
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, path,
         :header_params => header_params,
@@ -615,7 +605,3 @@ module Petstore
     end
   end
 end
-
-
-
-
