@@ -19,8 +19,10 @@ package io.swagger.codegen.plugin;
 import config.Config;
 import config.ConfigParser;
 import io.swagger.codegen.*;
+import io.swagger.codegen.utils.OptionUtils;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -30,6 +32,7 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.swagger.codegen.plugin.AdditionalParams.*;
@@ -99,7 +102,7 @@ public class CodeGenMojo extends AbstractMojo {
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
-    private Map configOptions;
+    private Map<?, ?> configOptions;
 
     /**
      * Add the output directory to the project as a source root, so that the
@@ -160,6 +163,20 @@ public class CodeGenMojo extends AbstractMojo {
                             configOptions.get(langCliOption.getOpt()));
                 }
             }
+            if(configOptions.containsKey("import-mappings")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.get("import-mappings").toString());
+                config.importMapping().putAll(mappings);
+            }
+
+            if(configOptions.containsKey("type-mappings")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.get("type-mappings").toString());
+                config.typeMapping().putAll(mappings);
+            }
+
+            if(configOptions.containsKey("instantiation-types")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.get("instantiation-types").toString());
+                config.instantiationTypes().putAll(mappings);
+            }
         }
 
         if (null != configurationFile) {
@@ -199,5 +216,17 @@ public class CodeGenMojo extends AbstractMojo {
         if (addCompileSourceRoot) {
             project.addCompileSourceRoot(output.toString());
         }
+    }
+
+    private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
+        final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
+
+        Map<String, String> result = new HashMap<String, String>();
+
+        for (Pair<String, String> pair : pairs) {
+            result.put(pair.getLeft(), pair.getRight());
+        }
+
+        return result;
     }
 }

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static org.testng.AssertJUnit.*;
 
+@SuppressWarnings("static-method")
 public class InlineModelResolverTest {
     @Test
     public void resolveInlineModelTest() throws Exception {

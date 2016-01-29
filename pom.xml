@@ -343,6 +343,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-retrofit2-rx</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/retrofit2rx</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-client-feign</id>
             <activation>
                 <property>
@@ -438,10 +450,12 @@
                 <module>samples/client/petstore/android/default</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
+                <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>

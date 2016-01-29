@@ -38,7 +38,7 @@ public class CodegenOperation {
      *
      * @return true if parameter exists, false otherwise
      */
-    private boolean nonempty(List<CodegenParameter> params) {
+    private static boolean nonempty(List<CodegenParameter> params) {
         return params != null && params.size() > 0;
     }
 

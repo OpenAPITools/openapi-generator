@@ -48,6 +48,7 @@ atlassian-ide-plugin.xml
 packages/
 .pub
 .packages
+.vagrant/
 
 samples/client/petstore/php/SwaggerClient-php/composer.lock
 samples/client/petstore/php/SwaggerClient-php/vendor/

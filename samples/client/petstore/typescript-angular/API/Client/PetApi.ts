@@ -289,5 +289,63 @@ namespace API.Client {
 
             return this.$http(httpRequestParams);
         }
+        /**
+         * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+         * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+         * @param petId ID of pet that needs to be fetched
+         */
+        public getPetByIdWithByteArray (petId: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<string> {
+            const path = this.basePath + '/pet/{petId}?testing_byte_array=true'
+                .replace('{' + 'petId' + '}', String(petId));
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling getPetByIdWithByteArray');
+            }
+            let httpRequestParams: any = {
+                method: 'GET',
+                url: path,
+                json: true,
+                
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
+         * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+         * 
+         * @param body Pet object in the form of byte array
+         */
+        public addPetUsingByteArray (body?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const path = this.basePath + '/pet?testing_byte_array=true';
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let httpRequestParams: any = {
+                method: 'POST',
+                url: path,
+                json: true,
+                data: body,
+                
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
     }
 }

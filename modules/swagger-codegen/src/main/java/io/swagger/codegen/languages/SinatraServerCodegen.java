@@ -2,7 +2,6 @@ package io.swagger.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -19,8 +18,13 @@ import java.util.HashSet;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(SinatraServerCodegen.class);
+
     protected String gemName;
     protected String moduleName;
     protected String gemVersion = "1.0.0";
@@ -149,7 +153,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -201,7 +205,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(name) + "_api";
@@ -233,7 +237,7 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return super.postProcessSupportingFileData(objs);

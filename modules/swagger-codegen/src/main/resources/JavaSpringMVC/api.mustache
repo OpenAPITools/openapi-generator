@@ -8,7 +8,6 @@ import {{modelPackage}}.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
@@ -44,8 +43,8 @@ public class {{classname}} {
       }{{/isOAuth}}){{#hasMore}},
     {{/hasMore}}{{/authMethods}}
   }{{/hasAuthMethods}})
-  @ApiResponses(value = { {{#responses}}
-    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},{{/hasMore}}{{/responses}} })
+  @io.swagger.annotations.ApiResponses(value = { {{#responses}}
+    @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},{{/hasMore}}{{/responses}} })
   @RequestMapping(value = "{{path}}", 
     {{#hasProduces}}produces = { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
     {{#hasConsumes}}consumes = { {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}

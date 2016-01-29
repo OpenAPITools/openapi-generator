@@ -1,25 +1,21 @@
 if (typeof module === 'object' && module.exports) {
   var expect = require('expect.js');
-  var requireApiWithMocks = require('../helper.js').requireApiWithMocks;
-  var PetApi = requireApiWithMocks('PetApi');
-  var Pet = require('../../src/model/Pet');
-  var Category = require('../../src/model/Category');
-  var Tag = require('../../src/model/Tag');
+  var SwaggerPetstore = require('../../src/index');
 }
 
 var api;
 
 beforeEach(function() {
-  api = new PetApi();
+  api = new SwaggerPetstore.PetApi();
 });
 
 var createRandomPet = function() {
   var id = new Date().getTime();
-  var pet = new Pet();
+  var pet = new SwaggerPetstore.Pet();
   pet.setId(id);
   pet.setName("gorilla" + id);
 
-  var category = new Category();
+  var category = new SwaggerPetstore.Category();
   category.setName("really-happy");
   pet.setCategory(category);
 
@@ -31,23 +27,26 @@ var createRandomPet = function() {
 };
 
 describe('PetApi', function() {
-  it('should create and get pet', function (done) {
+  it('should create and get pet', function(done) {
     var pet = createRandomPet();
-    api.addPet(pet).then(function() {
-      api.getPetById(pet.id, function(fetched, textStatus, jqXHR, error) {
-        if (error) throw error;
+    api.addPet(pet, function(error) {
+      if (error) throw error;
 
-        expect(textStatus).to.be('success');
+      api.getPetById(pet.id, function(error, fetched, response) {
+        if (error) throw error;
+        expect(response.status).to.be(200);
+        expect(response.ok).to.be(true);
+        expect(response.get('Content-Type')).to.be('application/json');
+
         expect(fetched).to.be.ok();
         expect(fetched.id).to.be(pet.id);
+        expect(fetched.getPhotoUrls()).to.eql(pet.getPhotoUrls());
         expect(fetched.getCategory()).to.be.ok();
         expect(fetched.getCategory().getName()).to.be(pet.getCategory().getName());
 
         api.deletePet(pet.id);
         done();
       });
-    }, function(jqXHR, textStatus, errorThrown) {
-      throw errorThrown || textStatus;
     });
   });
 });

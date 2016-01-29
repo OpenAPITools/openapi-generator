@@ -1,12 +1,13 @@
 # Swagger Code Generator
 
-[![Build Status](https://travis-ci.org/swagger-api/swagger-codegen.png)](https://travis-ci.org/swagger-api/swagger-codegen)
+[![Build Status](https://travis-ci.org/swagger-api/swagger-codegen.svg)](https://travis-ci.org/swagger-api/swagger-codegen)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project)
+[![PR Stats](http://issuestats.com/github/swagger-api/swagger-codegen/badge/pr)](http://issuestats.com/github/swagger-api/swagger-codegen) [![Issue Stats](http://issuestats.com/github/swagger-api/swagger-codegen/badge/issue)](http://issuestats.com/github/swagger-api/swagger-codegen)
 
 :star::star::star: If you would like to contribute, please refer to [guidelines](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md) and a list of [open tasks](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22).:star::star::star:
 
 ## Overview
-This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.  
+This is the swagger codegen project, which allows generation of client libraries automatically from a Swagger-compliant server.
 
 Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the Swagger project, including additional libraries with support for other languages and more.
 
@@ -22,7 +23,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Building](#building)
     - [Docker](#docker)
       - [Build and run](#build-and-run-using-docker)
-      - [Build a Node.js server stub](#build-a-nodejs-server-stub)
+      - [Run docker in Vagrant](#run-docker-in-vagrant)
       - [Public Docker image](#public-docker-image)
     - [Homebrew](#homebrew)
   - Generators
@@ -103,19 +104,21 @@ mvn package
 
 ```
 git clone https://github.com/swagger-api/swagger-codegen
-
 cd swagger-codegen
-
 ./run-in-docker.sh mvn package
  ```
 
-#### Build a Node.js server stub
 
+
+#### Run Docker in Vagrant
+Prerequisite: install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
  ```
-./run-in-docker.sh generate \
-  -i http://petstore.swagger.io/v2/swagger.json \
-  -l nodejs \
-  -o samples/server/petstore/nodejs
+git clone http://github.com/swagger-api/swagger-codegen.git
+cd swagger-codegen
+vagrant up
+vagrant ssh
+cd /vagrant
+sudo ./run-in-docker.sh mvn package
  ```
 
 #### Public Docker image
@@ -351,7 +354,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/client/petstore/java \
   -c path/to/config.json
 ```
-Supported config options can be different per language. Running `config-help -l {lang}` will show available options.  **These options are applied 
+Supported config options can be different per language. Running `config-help -l {lang}` will show available options.  **These options are applied
 by passing them with `-D{optionName}={optionValue}**.
 
 ```
@@ -402,12 +405,12 @@ CONFIG OPTIONS
         retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
 ```
 
-Your config file for java can look like
+Your config file for Java can look like
 
-```
+```json
 {
   "groupId":"com.my.company",
-  "artifactId":"MyClent",
+  "artifactId":"MyClient",
   "artifactVersion":"1.2.0",
   "library":"feign"
 }
@@ -418,15 +421,15 @@ For all the unspecified options default values will be used.
 Another way to override default options is to extend the config class for the specific language.
 To change, for example, the prefix for the Objective-C generated files, simply subclass the ObjcClientCodegen.java:
 
-```
+```java
 package com.mycompany.swagger.codegen;
 
 import io.swagger.codegen.languages.*;
 
 public class MyObjcCodegen extends ObjcClientCodegen {
-  static {
-    PREFIX = "HELO";
-  }
+    static {
+        PREFIX = "HELO";
+    }
 }
 ```
 
@@ -512,7 +515,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
-  -l flaskConnexion \
+  -l python-flask \
   -o samples/server/petstore/flaskConnexion
 ```
 
@@ -533,13 +536,22 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/scalatra
 ```
 
-### Java JAX-RS
+### Java JAX-RS (Jersey v1.18)
 
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l jaxrs \
-  -o samples/server/petstore/jaxrs
+  -o samples/server/petstore/jaxrs-jersey
+```
+
+### Java JAX-RS (Apache CXF 3)
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l jaxrs-cxf \
+  -o samples/server/petstore/jaxrs-cxf
 ```
 
 ### Java Spring MVC
@@ -553,7 +565,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 
 ### To build the codegen library
 
-This will create the swagger-codegen library from source.  
+This will create the swagger-codegen library from source.
 
 ```
 mvn package

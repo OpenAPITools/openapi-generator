@@ -5,7 +5,7 @@ import io.airlift.airline.Option;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
-import io.swagger.codegen.cmd.utils.OptionUtils;
+import io.swagger.codegen.utils.OptionUtils;
 import io.swagger.codegen.config.CodegenConfigurator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -230,15 +230,15 @@ public class Generate implements Runnable {
         }
     }
 
-    private Set<String> createSetFromCsvList(String csvProperty) {
+    private static Set<String> createSetFromCsvList(String csvProperty) {
         final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
         return new HashSet<String>(values);
     }
 
-    private Map createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
+    private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
         final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
 
-        Map result = new HashMap();
+        Map<String, String> result = new HashMap<String, String>();
 
         for (Pair<String, String> pair : pairs) {
             result.put(pair.getLeft(), pair.getRight());

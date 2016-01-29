@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class SpringMVCServerOptionsProvider extends JavaOptionsProvider {
     public static final String CONFIG_PACKAGE_VALUE = "configPackage";
-    public static final String LIBRARY_VALUE = "j8-async";
+    public static final String LIBRARY_VALUE = "j8-async"; //FIXME hidding value from super class
 
     @Override
     public String getLanguage() {

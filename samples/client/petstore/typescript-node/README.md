@@ -19,4 +19,4 @@ npm run clean
 
 ## Author
 
-mads@maetzke-tandrup.dk
+mads@maetzke-tandrup.dk, Swagger-Codegen community

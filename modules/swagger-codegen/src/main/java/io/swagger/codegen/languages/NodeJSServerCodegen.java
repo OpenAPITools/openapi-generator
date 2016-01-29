@@ -20,7 +20,13 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSServerCodegen.class);
+
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
@@ -212,7 +218,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @SuppressWarnings("unchecked")
-    private List<Map<String, Object>> getOperations(Map<String, Object> objs) {
+    private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
@@ -222,7 +228,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         return result;
     }
 
-    private List<Map<String, Object>> sortOperationsByPath(List<CodegenOperation> ops) {
+    private static List<Map<String, Object>> sortOperationsByPath(List<CodegenOperation> ops) {
         Multimap<String, CodegenOperation> opsByPath = ArrayListMultimap.create();
 
         for (CodegenOperation op : ops) {
@@ -284,7 +290,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 });
                 objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         for (Map<String, Object> operations : getOperations(objs)) {
