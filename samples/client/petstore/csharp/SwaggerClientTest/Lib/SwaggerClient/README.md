@@ -10,7 +10,8 @@ NOTE: The DLLs included in the package may not be the latest version. We recommn
 ```
 Install-Package RestSharp
 Install-Package Newtonsoft.Json
-``` 
+```
+
 ## Installation
 Run the following command to generate the DLL
 - [Mac/Linux] compile-mono.sh
