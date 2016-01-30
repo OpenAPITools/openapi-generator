@@ -25,12 +25,12 @@
     /**
      * datatype: Integer
      **/
-    self.id = null;
+    self['id'] = null;
     
     /**
      * datatype: String
      **/
-    self.name = null;
+    self['name'] = null;
     
 
     self.constructFromObject = function(data) {
@@ -38,9 +38,9 @@
         return;
       }
       
-      self.id = data.id;
+      self['id'] = data['id'];
       
-      self.name = data.name;
+      self['name'] = data['name'];
       
     }
 
@@ -49,32 +49,32 @@
      * @return {Integer}
      **/
     self.getId = function() {
-      return self.id;
+      return self['id'];
     }
 
     /**
      * @param {Integer} id
      **/
-    self.setId = function (id) {
-      self.id = id;
+    self.setId = function(id) {
+      self['id'] = id;
     }
     
     /**
      * @return {String}
      **/
     self.getName = function() {
-      return self.name;
+      return self['name'];
     }
 
     /**
      * @param {String} name
      **/
-    self.setName = function (name) {
-      self.name = name;
+    self.setName = function(name) {
+      self['name'] = name;
     }
     
 
-    self.toJson = function () {
+    self.toJson = function() {
       return JSON.stringify(self);
     }
   };

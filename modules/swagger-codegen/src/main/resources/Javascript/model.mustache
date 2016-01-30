@@ -32,7 +32,7 @@
      * minimum: {{minimum}}{{/minimum}}{{#maximum}}
      * maximum: {{maximum}}{{/maximum}}
      **/
-    self.{{name}} = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
+    self['{{baseName}}'] = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
     {{/vars}}
 
     self.constructFromObject = function(data) {
@@ -40,7 +40,7 @@
         return;
       }
       {{#vars}}
-      self.{{name}}{{{defaultValueWithParam}}}
+      self['{{baseName}}']{{{defaultValueWithParam}}}
       {{/vars}}
     }
 
@@ -52,19 +52,19 @@
      * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
      **/
     self.{{getter}} = function() {
-      return self.{{name}};
+      return self['{{baseName}}'];
     }
 
     /**{{#description}}
      * set {{{description}}}{{/description}}
      * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
      **/
-    self.{{setter}} = function ({{name}}) {
-      self.{{name}} = {{name}};
+    self.{{setter}} = function({{name}}) {
+      self['{{baseName}}'] = {{name}};
     }
     {{/vars}}
 
-    self.toJson = function () {
+    self.toJson = function() {
       return JSON.stringify(self);
     }
   };

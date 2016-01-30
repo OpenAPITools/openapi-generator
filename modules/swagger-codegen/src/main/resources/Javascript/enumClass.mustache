@@ -1,18 +1,18 @@
 
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('{{datatypeWithEnum}}', ['jquery'], function($) {
+if ( typeof define === "function" && define.amd ) {
+	define('{{datatypeWithEnum}}', [], function() {
         return {{datatypeWithEnum}};
 	 });
 }
 
 var {{datatypeWithEnum}} = function {{datatypeWithEnum}}() {
 	var self = this;
-	
+
 {{#allowableValues}}{{#enumVars}}
 	/**
-	 * @const 
-	 */ 
+	 * @const
+	 */
 	self.{{name}} = "{{value}}"{{^-last}},
 	{{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
 
