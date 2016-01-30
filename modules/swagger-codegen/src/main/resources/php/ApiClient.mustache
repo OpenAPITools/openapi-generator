@@ -230,7 +230,7 @@ class ApiClient
             throw new ApiException("API call to $url timed out: ".serialize($response_info), 0, null, null);
         } elseif ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
             // return raw body if response is a file
-            if ($responseType == '\SplFileObject' || $responseType == 'ByteArray') {
+            if ($responseType == '\SplFileObject' || $responseType == 'string') {
                 return array($http_body, $response_info['http_code'], $http_header);
             }
 
