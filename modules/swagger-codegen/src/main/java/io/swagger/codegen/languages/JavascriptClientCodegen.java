@@ -318,10 +318,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toDefaultValueWithParam(String name, Property p) {
         if (p instanceof RefProperty) {
-            return ".constructFromObject(data." + name + ");";
+            return ".constructFromObject(data['" + name + "']);";
+        } else {
+          return " = data['" + name + "'];";
         }
-
-        return super.toDefaultValueWithParam(name, p);
     }
 
     @Override

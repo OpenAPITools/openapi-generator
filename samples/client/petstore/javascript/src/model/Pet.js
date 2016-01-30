@@ -18,29 +18,29 @@
   
   
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('StatusEnum', ['jquery'], function($) {
+if ( typeof define === "function" && define.amd ) {
+	define('StatusEnum', [], function() {
         return StatusEnum;
 	 });
 }
 
 var StatusEnum = function StatusEnum() {
 	var self = this;
-	
+
 
 	/**
-	 * @const 
-	 */ 
+	 * @const
+	 */
 	self.AVAILABLE = "available",
 	
 	/**
-	 * @const 
-	 */ 
+	 * @const
+	 */
 	self.PENDING = "pending",
 	
 	/**
-	 * @const 
-	 */ 
+	 * @const
+	 */
 	self.SOLD = "sold";
 
 }
@@ -53,35 +53,35 @@ var StatusEnum = function StatusEnum() {
     /**
      * datatype: Integer
      **/
-    self.id = null;
+    self['id'] = null;
     
     /**
      * datatype: Category
      **/
-    self.category = new Category();
+    self['category'] = new Category();
     
     /**
      * datatype: String
      * required
      **/
-    self.name = name;
+    self['name'] = name;
     
     /**
      * datatype: Array
      * required
      **/
-    self.photoUrls = photoUrls;
+    self['photoUrls'] = photoUrls;
     
     /**
      * datatype: Array
      **/
-    self.tags = [];
+    self['tags'] = [];
     
     /**
      * pet status in the store
      * datatype: StatusEnum
      **/
-    self.status = null;
+    self['status'] = null;
     
 
     self.constructFromObject = function(data) {
@@ -89,17 +89,17 @@ var StatusEnum = function StatusEnum() {
         return;
       }
       
-      self.id = data.id;
+      self['id'] = data['id'];
       
-      self.category.constructFromObject(data.category);
+      self['category'].constructFromObject(data['category']);
       
-      self.name = data.name;
+      self['name'] = data['name'];
       
-      self.photoUrls = data.photoUrls;
+      self['photoUrls'] = data['photoUrls'];
       
-      self.tags = data.tags;
+      self['tags'] = data['tags'];
       
-      self.status = data.status;
+      self['status'] = data['status'];
       
     }
 
@@ -108,70 +108,70 @@ var StatusEnum = function StatusEnum() {
      * @return {Integer}
      **/
     self.getId = function() {
-      return self.id;
+      return self['id'];
     }
 
     /**
      * @param {Integer} id
      **/
-    self.setId = function (id) {
-      self.id = id;
+    self.setId = function(id) {
+      self['id'] = id;
     }
     
     /**
      * @return {Category}
      **/
     self.getCategory = function() {
-      return self.category;
+      return self['category'];
     }
 
     /**
      * @param {Category} category
      **/
-    self.setCategory = function (category) {
-      self.category = category;
+    self.setCategory = function(category) {
+      self['category'] = category;
     }
     
     /**
      * @return {String}
      **/
     self.getName = function() {
-      return self.name;
+      return self['name'];
     }
 
     /**
      * @param {String} name
      **/
-    self.setName = function (name) {
-      self.name = name;
+    self.setName = function(name) {
+      self['name'] = name;
     }
     
     /**
      * @return {Array}
      **/
     self.getPhotoUrls = function() {
-      return self.photoUrls;
+      return self['photoUrls'];
     }
 
     /**
      * @param {Array} photoUrls
      **/
-    self.setPhotoUrls = function (photoUrls) {
-      self.photoUrls = photoUrls;
+    self.setPhotoUrls = function(photoUrls) {
+      self['photoUrls'] = photoUrls;
     }
     
     /**
      * @return {Array}
      **/
     self.getTags = function() {
-      return self.tags;
+      return self['tags'];
     }
 
     /**
      * @param {Array} tags
      **/
-    self.setTags = function (tags) {
-      self.tags = tags;
+    self.setTags = function(tags) {
+      self['tags'] = tags;
     }
     
     /**
@@ -179,19 +179,19 @@ var StatusEnum = function StatusEnum() {
      * @return {StatusEnum}
      **/
     self.getStatus = function() {
-      return self.status;
+      return self['status'];
     }
 
     /**
      * set pet status in the store
      * @param {StatusEnum} status
      **/
-    self.setStatus = function (status) {
-      self.status = status;
+    self.setStatus = function(status) {
+      self['status'] = status;
     }
     
 
-    self.toJson = function () {
+    self.toJson = function() {
       return JSON.stringify(self);
     }
   };
