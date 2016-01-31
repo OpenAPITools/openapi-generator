@@ -53,6 +53,9 @@ namespace IO.Swagger.Test
         public void GetInventoryTest()
         {
             // TODO: add unit test for the method 'GetInventory'
+            
+            var response = instance.GetInventory();
+            Assert.IsInstanceOf<Dictionary<string, int?>> (response, "response is Dictionary<string, int?>"); 
         }
         
         /// <summary>
@@ -62,6 +65,10 @@ namespace IO.Swagger.Test
         public void PlaceOrderTest()
         {
             // TODO: add unit test for the method 'PlaceOrder'
+            Order body = null; // TODO: replace null with proper value
+            
+            var response = instance.PlaceOrder(body);
+            Assert.IsInstanceOf<Order> (response, "response is Order"); 
         }
         
         /// <summary>
@@ -71,6 +78,10 @@ namespace IO.Swagger.Test
         public void GetOrderByIdTest()
         {
             // TODO: add unit test for the method 'GetOrderById'
+            string orderId = null; // TODO: replace null with proper value
+            
+            var response = instance.GetOrderById(orderId);
+            Assert.IsInstanceOf<Order> (response, "response is Order"); 
         }
         
         /// <summary>
@@ -80,6 +91,10 @@ namespace IO.Swagger.Test
         public void DeleteOrderTest()
         {
             // TODO: add unit test for the method 'DeleteOrder'
+            string orderId = null; // TODO: replace null with proper value
+            
+            instance.DeleteOrder(orderId);
+             
         }
         
     }
