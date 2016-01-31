@@ -72,3 +72,4 @@ samples/client/petstore/python/dev-requirements.txt.log
 
 samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/
 samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/
+**/.gradle/
