@@ -32,7 +32,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
    * @return the friendly name for the generator
    */
   public String getName() {
-    return "haskell";
+    return "haskell-servant";
   }
 
   /**
