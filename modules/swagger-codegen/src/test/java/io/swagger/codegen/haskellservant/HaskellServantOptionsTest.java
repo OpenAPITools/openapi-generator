@@ -1,4 +1,4 @@
-package io.swagger.codegen.haskell;
+package io.swagger.codegen.haskellservant;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;

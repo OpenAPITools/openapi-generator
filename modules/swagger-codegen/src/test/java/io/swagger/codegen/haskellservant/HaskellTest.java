@@ -1,4 +1,4 @@
-package io.swagger.codegen.haskell;
+package io.swagger.codegen.haskellservant;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
