@@ -23,6 +23,7 @@ cd $APP_DIR
 ./bin/clojure-petstore.sh
 ./bin/csharp-petstore.sh
 ./bin/dynamic-html.sh
+./bin/haskell-petstore.sh
 ./bin/html-petstore.sh
 ./bin/java-petstore.sh
 ./bin/java-petstore-jersey2.sh
