@@ -121,6 +121,9 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
             importMapping.put("LocalDate", "org.joda.time.LocalDate");
             importMapping.put("DateTime", "org.joda.time.DateTime");
 
+            supportingFiles.add(new SupportingFile("JacksonConfig.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "JacksonConfig.java"));
+
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
