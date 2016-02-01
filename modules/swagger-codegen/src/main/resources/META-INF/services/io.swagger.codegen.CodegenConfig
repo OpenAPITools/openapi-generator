@@ -1,4 +1,5 @@
 io.swagger.codegen.languages.AndroidClientCodegen
+io.swagger.codegen.languages.AspNet5ServerCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
 io.swagger.codegen.languages.CSharpClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
