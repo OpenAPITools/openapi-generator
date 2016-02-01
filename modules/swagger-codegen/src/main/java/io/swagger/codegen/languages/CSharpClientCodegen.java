@@ -41,7 +41,6 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     protected String packageVersion = "1.0.0";
     protected String clientPackage = "IO.Swagger.Client";
     protected String sourceFolder = "src" + File.separator + "main" + File.separator + "csharp";
-    protected String testFolder = "Test";
 
     public CSharpClientCodegen() {
         super();
