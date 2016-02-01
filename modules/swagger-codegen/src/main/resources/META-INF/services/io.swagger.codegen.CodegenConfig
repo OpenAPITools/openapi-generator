@@ -35,3 +35,4 @@ io.swagger.codegen.languages.TypeScriptNodeClientCodegen
 io.swagger.codegen.languages.AkkaScalaClientCodegen
 io.swagger.codegen.languages.CsharpDotNet2ClientCodegen
 io.swagger.codegen.languages.ClojureClientCodegen
+io.swagger.codegen.languages.HaskellServantCodegen
