@@ -15,10 +15,10 @@ import java.util.List;
 
 import org.junit.*;
 
-import retrofit.Response;
+import retrofit2.Response;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static org.junit.Assert.*;
 
@@ -141,7 +141,7 @@ public class PetApiTest {
         writer.write("Hello world!");
         writer.close();
 
-        api.uploadFile(pet.getId(), "a test file", RequestBody.create(MediaType.parse("text/plain"), file)).execute();
+        api.uploadFile(pet.getId(), null, RequestBody.create(MediaType.parse("text/plain"), file)).execute();
     }
 
     @Test

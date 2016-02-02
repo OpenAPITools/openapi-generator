@@ -13,8 +13,8 @@ import java.util.List;
 
 import org.junit.*;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static org.junit.Assert.*;
 

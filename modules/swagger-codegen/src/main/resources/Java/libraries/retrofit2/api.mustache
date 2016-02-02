@@ -3,10 +3,10 @@ package {{package}};
 import {{invokerPackage}}.CollectionFormats.*;
 
 {{#useRxJava}}import rx.Observable;{{/useRxJava}}
-{{^useRxJava}}import retrofit.Call;{{/useRxJava}}
-import retrofit.http.*;
+{{^useRxJava}}import retrofit2.Call;{{/useRxJava}}
+import retrofit2.http.*;
 
-import com.squareup.okhttp.RequestBody;
+import okhttp3.RequestBody;
 
 {{#imports}}import {{import}};
 {{/imports}}
