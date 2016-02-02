@@ -89,8 +89,9 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         }
 
         supportingFiles.clear();
-//        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiException.mustache",
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
