@@ -16,11 +16,11 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.apache.oltu.oauth2.common.token.BasicOAuthToken;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Request.Builder;
-import com.squareup.okhttp.Response;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Request.Builder;
+import okhttp3.Response;
 
 public class OAuth implements Interceptor {
 
@@ -90,9 +90,9 @@ public class OAuth implements Interceptor {
 
         String requestAccessToken = new String(getAccessToken());
         try {
-            oAuthRequest = new OAuthBearerClientRequest(request.urlString())
-            .setAccessToken(requestAccessToken)
-            .buildHeaderMessage();
+            oAuthRequest = new OAuthBearerClientRequest(request.url().toString())
+                .setAccessToken(requestAccessToken)
+                .buildHeaderMessage();
         } catch (OAuthSystemException e) {
             throw new IOException(e);
         }
