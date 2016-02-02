@@ -14,6 +14,8 @@ module Api.PetApi (
     , updatePetWithForm
     , deletePet
     , uploadFile
+    , getPetByIdWithByteArray
+    , addPetUsingByteArray
     , proxyPetApi
     , PetApi
     ) where
@@ -30,6 +32,7 @@ import qualified Data.Text as T
 import Utils
 import Test.QuickCheck
 import Model.Pet
+import Model.Binary
 
 
 
@@ -62,6 +65,8 @@ instance Arbitrary FormadditionalMetadatafile where
     arbitrary = FormadditionalMetadatafile <$> arbitrary <*> arbitrary
 
 
+
+
 type PetApi = "pet" :> ReqBody '[JSON] Pet :> Put '[JSON] () -- updatePet
     :<|> "pet" :> ReqBody '[JSON] Pet :> Post '[JSON] () -- addPet
     :<|> "pet" :> "findByStatus" :> QueryParam "status" [String] :> Get '[JSON] [Pet] -- findPetsByStatus
@@ -70,6 +75,8 @@ type PetApi = "pet" :> ReqBody '[JSON] Pet :> Put '[JSON] () -- updatePet
     :<|> "pet" :> Capture "petId" String :> ReqBody '[FormUrlEncoded] Formnamestatus :> Post '[JSON] () -- updatePetWithForm
     :<|> "pet" :> Capture "petId" Integer :> Header "api_key" String :> Delete '[JSON] () -- deletePet
     :<|> "pet" :> Capture "petId" Integer :> "uploadImage" :> ReqBody '[FormUrlEncoded] FormadditionalMetadatafile :> Post '[JSON] () -- uploadFile
+    :<|> "pet" :> Capture "petId" Integer?testing_byte_array=true :> Get '[JSON] Binary -- getPetByIdWithByteArray
+    :<|> "pet?testing_byte_array=true" :> ReqBody '[JSON] Binary :> Post '[JSON] () -- addPetUsingByteArray
 
 proxyPetApi :: Proxy PetApi
 proxyPetApi = Proxy
@@ -101,4 +108,6 @@ updatePet
     :<|> updatePetWithForm
     :<|> deletePet
     :<|> uploadFile
+    :<|> getPetByIdWithByteArray
+    :<|> addPetUsingByteArray
     = client proxyPetApi $ BaseUrl Http host port

@@ -74,7 +74,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * Template Location.  This is the location which templates will be read from.  The generator
      * will use the resource stream to attempt to read the templates.
      */
-    embeddedTemplateDir = templateDir = "haskell";
+    embeddedTemplateDir = templateDir = "haskell-servant";
 
     /**
      * Api Package.  Optional, if needed, this can be used in templates
