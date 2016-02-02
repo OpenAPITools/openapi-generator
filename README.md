@@ -45,6 +45,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Scala Scalatra](#scala-scalatra)
       - [Java JAX-RS](#java-jax-rs)
       - [Java Spring MVC](#java-spring-mvc)
+      - [Haskell Servant](#haskell-servant)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Workflow Integration](#workflow-integration)
   - [Online Generators](#online-generators)
@@ -306,10 +307,10 @@ There are different aspects of customizing the code generator beyond just creati
 
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
+AbstractJavaJAXRSServerCodegen.java
 AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
-AndroidVolleyClientCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
 ClojureClientCodegen.java
@@ -317,11 +318,14 @@ CsharpDotNet2ClientCodegen.java
 DartClientCodegen.java
 FlashClientCodegen.java
 FlaskConnexionCodegen.java
+GoClientCodegen.java
+HaskellServantCodegen.java
+JMeterCodegen.java
+JavaCXFServerCodegen.java
 JavaClientCodegen.java
 JavaInflectorServerCodegen.java
+JavaJerseyServerCodegen.java
 JavascriptClientCodegen.java
-JaxRSServerCodegen.java
-JMeterCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
 PerlClientCodegen.java
@@ -561,6 +565,15 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l spring-mvc \
   -o samples/server/petstore/spring-mvc
+```
+
+### Haskell Servant
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l haskell-servant \
+  -o samples/server/petstore/haskell-servant
 ```
 
 ### To build the codegen library
