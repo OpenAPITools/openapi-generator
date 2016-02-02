@@ -9,8 +9,8 @@ module Apis (
     ) where
 
 import Api.UserApi (UserApi)
-import Api.StoreApi (StoreApi)
 import Api.PetApi (PetApi)
+import Api.StoreApi (StoreApi)
 
 import Data.Proxy
 import Servant.API
@@ -18,7 +18,7 @@ import Test.QuickCheck
 import qualified Data.Map as Map
 import Utils
 
-type API = UserApi :<|> StoreApi :<|> PetApi
+type API = UserApi :<|> PetApi :<|> StoreApi
 
 api :: Proxy API
 api = Proxy

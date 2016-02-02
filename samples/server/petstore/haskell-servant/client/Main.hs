@@ -21,8 +21,8 @@ import Model.Pet
 import Model.Tag
 import Model.Order
 import Api.UserApi
-import Api.StoreApi
 import Api.PetApi
+import Api.StoreApi
 
 -- userClient :: IO ()
 -- userClient = do 
