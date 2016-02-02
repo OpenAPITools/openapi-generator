@@ -51,6 +51,9 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         apiPackage = "IO.Swagger.Api";
         modelPackage = "IO.Swagger.Model";
 
+        modelTestTemplateFiles.put("model_test.mustache", ".cs");
+        apiTestTemplateFiles.put("api_test.mustache", ".cs");
+
         reservedWords = new HashSet<String>(
                 Arrays.asList(
                     // local variable names in API methods (endpoints)
@@ -270,6 +273,16 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
         return "_" + name;
     }
 
+     @Override
+     public String apiTestFileFolder() {
+         return outputFolder + ".Test";
+     }
+ 
+     @Override
+     public String modelTestFileFolder() {
+         return outputFolder + ".Test";
+     }
+
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
@@ -340,6 +353,16 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + "Tests";
+    }
+ 
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelName(name) + "Tests";
     }
 
     @Override
