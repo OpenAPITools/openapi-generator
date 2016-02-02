@@ -1,0 +1,65 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
+using RestSharp;
+using NUnit.Framework;
+
+using {{packageName}}.Client;
+using {{packageName}}.Api;
+{{#hasImport}}using {{packageName}}.Model;
+{{/hasImport}}
+
+namespace {{packageName}}.Test
+{
+    [TestFixture]
+    public class {{classname}}Tests
+    {
+        private {{classname}} instance;
+
+        /// <summary>
+        /// Setup before each unit test
+        /// </summary>
+        [SetUp]
+        public void Init()
+        {
+           instance = new {{classname}}();
+        }
+
+        /// <summary>
+        /// Clean up after each unit test
+        /// </summary>
+        [TearDown]
+        public void Cleanup()
+        {
+
+        }
+
+        /// <summary>
+        /// Test an instance of {{classname}}
+        /// </summary>
+        [Test]
+        public void {{operationId}}InstanceTest()
+        {
+            Assert.IsInstanceOf<{{classname}}> (instance, "instance is a {{classname}}");
+        }
+
+        {{#operations}}{{#operation}}
+        /// <summary>
+        /// Test {{operationId}}
+        /// </summary>
+        [Test]
+        public void {{operationId}}Test()
+        {
+            // TODO: add unit test for the method '{{operationId}}'
+            {{#allParams}}{{{dataType}}} {{paramName}} = null; // TODO: replace null with proper value
+            {{/allParams}}
+            {{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            {{#returnType}}Assert.IsInstanceOf<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}} 
+        }
+        {{/operation}}{{/operations}}
+    }
+
+}
