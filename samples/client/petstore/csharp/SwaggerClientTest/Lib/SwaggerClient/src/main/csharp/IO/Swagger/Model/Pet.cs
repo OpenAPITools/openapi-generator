@@ -15,7 +15,7 @@ namespace IO.Swagger.Model
     /// 
     /// </summary>
     [DataContract]
-    public class Pet :  IEquatable<Pet>
+    public partial class Pet :  IEquatable<Pet>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
