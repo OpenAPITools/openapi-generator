@@ -28,10 +28,11 @@ goog.require('{{import}}');
 {{/description}}
  * @constructor
  * @param {!angular.$http} $http
+ * @param {!Object} $httpParamSerializer
  * @param {!angular.$injector} $injector
  * @struct
  */
-{{package}}.{{classname}} = function($http, $injector) {
+{{package}}.{{classname}} = function($http, $httpParamSerializer, $injector) {
   /** @private {!string} */
   this.basePath_ = $injector.has('{{classname}}BasePath') ?
                    /** @type {!string} */ ($injector.get('{{classname}}BasePath')) :
@@ -45,8 +46,11 @@ goog.require('{{import}}');
 
   /** @private {!angular.$http} */
   this.http_ = $http;
+
+  /** @private {!Object} */
+  this.httpParamSerializer_ = $injector.get('$httpParamSerializer');
 }
-{{package}}.{{classname}}.$inject = ['$http', '$injector'];
+{{package}}.{{classname}}.$inject = ['$http', '$httpParamSerializer', '$injector'];
 {{#operation}}
 
 /**
@@ -57,87 +61,64 @@ goog.require('{{import}}');
  * @return {!angular.$q.Promise{{#returnType}}<!{{{returnType}}}>{{/returnType}}}
  */
 {{package}}.{{classname}}.prototype.{{nickname}} = function({{#allParams}}{{^required}}opt_{{/required}}{{paramName}}, {{/allParams}}opt_extraHttpRequestParams) {
-  /** @const {!string} */
+  /** @const {string} */
   var path = this.basePath_ + '{{path}}'{{#pathParams}}
       .replace('{' + '{{baseName}}' + '}', String({{^required}}opt_{{/required}}{{paramName}})){{/pathParams}};
-{{#required}}
 
-  // verify required parameter '{{paramName}}' is set
-  if (!{{paramName}}) {
-      throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
+  /** @type {!Object} */
+  var queryParameters = {};
+
+  /** @type {!Object} */
+  var headerParams = angular.extend({}, this.defaultHeaders);
+{{#hasFormParams}}
+  /** @type {!Object} */
+  var formParams = {};
+
+{{/hasFormParams}}
+{{#allParams}}
+{{#required}}
+  // verify required parameter '{{^required}}opt_{{/required}}{{paramName}}' is set
+  if (!{{^required}}opt_{{/required}}{{paramName}}) {
+    throw new Error('Missing required parameter {{^required}}opt_{{/required}}{{paramName}} when calling {{nickname}}');
   }
 {{/required}}
-
-  /** @type {!Object<string,string>} */
-  var queryParameters = {};
+{{/allParams}}
 {{#queryParams}}
   if ({{^required}}opt_{{/required}}{{paramName}} !== undefined) {
-    queryParameters['{{baseName}}'] = String({{^required}}opt_{{/required}}{{paramName}});
+    queryParameters['{{baseName}}'] = {{^required}}opt_{{/required}}{{paramName}};
   }
-{{/queryParams}}
 
-  /** @type {!Object<string,string>} */
-  var headerParams = angular.copy(this.defaultHeaders_);
+{{/queryParams}}
 {{#headerParams}}
-  if ({{^required}}opt_{{/required}}{{paramName}} !== undefined) {
-    headerParams['{{baseName}}'] = {{^required}}opt_{{/required}}{{paramName}};
-  }
+  headerParams['{{baseName}}'] = {{^required}}opt_{{/required}}{{paramName}};
+
 {{/headerParams}}
 {{#hasFormParams}}
+  headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
 
-  /** @type {!FormData} */
-  var formParams = new FormData();
 {{/hasFormParams}}
 {{#formParams}}
-  if ({{^required}}opt_{{/required}}{{paramName}} !== undefined) {
-    var {{paramName}}_ = /** @type {?} */ ({{^required}}opt_{{/required}}{{paramName}});
-    if ({{paramName}}_ instanceof Blob) {
-      formParams.append('{{baseName}}', {{paramName}}_);
-    } else if (typeof {{paramName}}_ === 'string') {
-      formParams.append('{{baseName}}', {{paramName}}_);
-    } else {
-      throw new Error('Forms parameter {{^required}}opt_{{/required}}{{paramName}} is required to be a string or a Blob (https://developer.mozilla.org/en-US/docs/Web/API/Blob/Blob)');
-    }
-  }
-{{/formParams}}
-{{#allParams}}
-{{/allParams}}
+  formParams['{{baseName}}'] = {{^required}}opt_{{/required}}{{paramName}};
 
-  /** @type {!angular.$http.Config} */
-  var httpRequestConfig = /** @type {!angular.$http.Config} */ ({
-      url: path,
-      json: {{#hasFormParams}}false{{/hasFormParams}}{{^hasFormParams}}true{{/hasFormParams}},{{#bodyParam}}
-      data: {{paramName}},{{/bodyParam}}{{#hasFormParams}}
-      data: formParams,{{/hasFormParams}}
-      params: queryParameters,
-      headers: headerParams
-  });
+{{/formParams}}
+  /** @type {!Object} */
+  var httpRequestParams = {
+    method: '{{httpMethod}}',
+    url: path,
+    json: {{#hasFormParams}}false{{/hasFormParams}}{{^hasFormParams}}true{{/hasFormParams}},
+    {{#bodyParam}}data: {{^required}}opt_{{/required}}{{paramName}},
+    {{/bodyParam}}
+    {{#hasFormParams}}data: this.httpParamSerializer_(formParams),
+    {{/hasFormParams}}
+    params: queryParameters,
+    headers: headerParams
+  };
 
   if (opt_extraHttpRequestParams) {
-    // If an opt_extraHttpRequestParams object is passed in, override values
-    // set the generated config with the passed in values.
-    httpRequestConfig = angular.merge(httpRequestConfig, opt_extraHttpRequestParams);
+    httpRequestParams = angular.extend(httpRequestParams, opt_extraHttpRequestParams);
   }
 
-  // This whole block is to work around a limitation in closure compiler. It
-  // would be better to call the $http service directly as a function, but that
-  // isn't permitted since it has methods attached to it. Manually confirmed to
-  // compile down to just a single method even with only SIMPLE optimization on.
-  // https://github.com/google/closure-compiler/blob/90769b826df65eabfb0211517b0d6d85c0c1c60b/contrib/externs/angular-1.4.js#L1393
-  switch ('{{httpMethod}}') {
-    case 'GET':
-      return this.http_.get(path, httpRequestConfig);
-    case 'HEAD':
-      return this.http_.head(path, httpRequestConfig);
-    case 'POST':
-      return this.http_.post(path, {}, httpRequestConfig);
-    case 'PUT':
-      return this.http_.put(path, {}, httpRequestConfig);
-    case 'DELETE':
-      return this.http_.delete(path, httpRequestConfig);
-    case 'PATCH':
-      return this.http_.patch(path, {}, httpRequestConfig);
-  }
+  return this.http_(httpRequestParams);
 }
 {{/operation}}
 {{/operations}}
