@@ -13,7 +13,7 @@ namespace IO.Swagger.Models
     /// <summary>
     /// 
     /// </summary>
-    public class Order :  IEquatable<Order>
+    public partial class Order :  IEquatable<Order>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
