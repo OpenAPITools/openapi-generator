@@ -13,7 +13,7 @@ namespace IO.Swagger.Models
     /// <summary>
     /// 
     /// </summary>
-    public class Tag :  IEquatable<Tag>
+    public partial class Tag :  IEquatable<Tag>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag" /> class.

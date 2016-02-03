@@ -13,7 +13,7 @@ namespace IO.Swagger.Models
     /// <summary>
     /// 
     /// </summary>
-    public class User :  IEquatable<User>
+    public partial class User :  IEquatable<User>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
