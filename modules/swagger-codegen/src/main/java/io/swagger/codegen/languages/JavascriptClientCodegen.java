@@ -164,11 +164,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
-            if (projectName == null &&  info.getTitle() != null) {
+            if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
                 projectName = dashize(info.getTitle());
             }
-            if (projectVersion == null) {
+            if (StringUtils.isBlank(projectVersion)) {
                 // when projectVersion is not specified, use info.version
                 projectVersion = info.getVersion();
             }
@@ -185,13 +185,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // default values
-        if (projectName == null) {
+        if (StringUtils.isBlank(projectName)) {
             projectName = "swagger-js-client";
         }
-        if (moduleName == null) {
+        if (StringUtils.isBlank(moduleName)) {
             moduleName = camelize(underscore(projectName));
         }
-        if (projectVersion == null) {
+        if (StringUtils.isBlank(projectVersion)) {
             projectVersion = "1.0.0";
         }
         if (projectDescription == null) {
