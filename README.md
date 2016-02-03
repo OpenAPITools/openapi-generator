@@ -121,7 +121,7 @@ cd swagger-codegen
 vagrant up
 vagrant ssh
 cd /vagrant
-sudo ./run-in-docker.sh mvn package
+./run-in-docker.sh mvn package
  ```
 
 #### Public Docker image
