@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.junit.*;
 
-import retrofit.Response;
+import retrofit2.Response;
 import static org.junit.Assert.*;
 
 public class StoreApiTest {
