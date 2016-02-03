@@ -594,7 +594,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l aspnet5-webapi \
-  -o samples/server/petstore/aspnet5-webapi
+  -o samples/server/petstore/aspnet5
 ```
 
 ### To build the codegen library
