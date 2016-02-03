@@ -1,7 +1,7 @@
 apply plugin: 'war'
 
-project.version = "{{artifactVersion}}"
-project.group = "{{groupId}}"
+project.version = "1.0.0"
+project.group = "io.swagger"
 
 repositories {
     mavenCentral()

@@ -219,10 +219,19 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+                if (operation.hasConsumes == Boolean.TRUE) {
+                    Map<String, String> firstType = operation.consumes.get(0);
+                    if (firstType != null) {
+                        if ("multipart/form-data".equals(firstType.get("mediaType"))) {
+                            operation.isMultipart = Boolean.TRUE;
+                        }
+                    }
+                }
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     for (CodegenResponse resp : responses) {
