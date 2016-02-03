@@ -313,7 +313,7 @@ AbstractJavaJAXRSServerCodegen.java
 AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
-AspNet5WebApiServerCodegen.java
+AspNet5ServerCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
 ClojureClientCodegen.java
@@ -580,7 +580,8 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 
 ### Haskell Servant
-=======
+
+```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l haskell-servant \
