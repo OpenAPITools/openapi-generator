@@ -36,7 +36,7 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
 
         additionalProperties.put("title", title);
 
-        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy3_0_11";
+        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy";
 
         for (int i = 0; i < cliOptions.size(); i++) {
             if (CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
