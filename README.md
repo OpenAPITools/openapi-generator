@@ -39,6 +39,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Generating static html api documentation](#generating-static-html-api-documentation)
     - [To build a server stub](#to-build-a-server-stub)
       - [Node.js](#nodejs)
+      - [PHP Slim](#php-slim)
       - [PHP Silex](#php-silex)
       - [Python Flask (Connexion)](#python-flask-connexion)
       - [Ruby Sinatra](#ruby-sinatra)
@@ -504,6 +505,15 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l nodejs \
   -o samples/server/petstore/nodejs
+```
+
+### PHP Slim
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l slim \
+  -o samples/server/petstore/slim
 ```
 
 ### PHP Silex
