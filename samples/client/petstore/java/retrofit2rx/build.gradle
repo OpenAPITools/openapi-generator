@@ -1,3 +1,6 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
 group = 'io.swagger'
 version = '1.0.0'
 
@@ -71,12 +74,12 @@ if(hasProperty('target') && target == 'android') {
 	apply plugin: 'java'
 	apply plugin: 'maven'
 
-	sourceCompatibility = JavaVersion.VERSION_1_7
-	targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 
 	install {
 	    repositories.mavenInstaller {
-			pom.artifactId = 'swagger-petstore-retrofit2-rx'
+	        pom.artifactId = 'swagger-petstore-retrofit2-rx'
 	    }
 	}
 
@@ -87,22 +90,22 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    okhttp_version = "2.5.0"
+    okhttp_version = "3.0.1"
     oltu_version = "1.0.0"
-    retrofit_version = "2.0.0-beta2"
+    retrofit_version = "2.0.0-beta3"
     gson_version = "2.4"
     swagger_annotations_version = "1.5.0"
     junit_version = "4.12"
-    rx_java_version = "1.0.15"
+    rx_java_version = "1.0.16"
 
 }
 
 dependencies {
-    compile "com.squareup.okhttp:okhttp:$okhttp_version"
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
 
-    compile "com.squareup.retrofit:retrofit:$retrofit_version"
-    compile "com.squareup.retrofit:converter-gson:$retrofit_version"
-    compile "com.squareup.retrofit:adapter-rxjava:$retrofit_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
     compile "io.reactivex:rxjava:$rx_java_version"
 
 
