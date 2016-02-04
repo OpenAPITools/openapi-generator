@@ -1366,6 +1366,8 @@ public class DefaultCodegen {
                 } else if (param instanceof FormParameter) {
                     if ("file".equalsIgnoreCase(((FormParameter) param).getType())) {
                         p.isFile = true;
+                    } else if("file".equals(p.baseType)){
+                    	p.isFile = true;
                     } else {
                         p.notFile = true;
                     }
