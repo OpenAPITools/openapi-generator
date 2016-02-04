@@ -100,7 +100,7 @@
       var pathParams = {
       };
       var queryParams = {
-        'status': status
+        'status': this.buildCollectionParam(status, 'multi')
       };
       var headerParams = {
       };
@@ -134,7 +134,7 @@
       var pathParams = {
       };
       var queryParams = {
-        'tags': tags
+        'tags': this.buildCollectionParam(tags, 'multi')
       };
       var headerParams = {
       };
