@@ -6,7 +6,7 @@
       <File FileName="TestConfiguration.cs" Line="1" Column="1" />
       <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="1" Column="1" />
       <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Client/ApiClient.cs" Line="1" Column="1" />
-      <File FileName="TestApiClient.cs" Line="1" Column="1" />
+      <File FileName="TestApiClient.cs" Line="8" Column="2" />
       <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Client/Configuration.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

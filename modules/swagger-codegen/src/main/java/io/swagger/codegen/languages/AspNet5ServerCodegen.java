@@ -311,6 +311,8 @@ public class AspNet5ServerCodegen extends DefaultCodegen implements CodegenConfi
     // TODO: Create a base C# abstract type to avoid duplication of language functionality
     @Override
     public String toModelName(String name) {
+        name = sanitizeName(name);
+
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
