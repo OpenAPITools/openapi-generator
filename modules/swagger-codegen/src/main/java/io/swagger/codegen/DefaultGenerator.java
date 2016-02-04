@@ -129,6 +129,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (info.getVersion() != null) {
                 config.additionalProperties().put("version", info.getVersion());
             }
+            if (info.getTermsOfService() != null) {
+                config.additionalProperties().put("termsOfService", info.getTermsOfService());
+            }
         }
 
         StringBuilder hostBuilder = new StringBuilder();
