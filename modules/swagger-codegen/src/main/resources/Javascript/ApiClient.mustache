@@ -31,6 +31,8 @@
     if (param == null) {
       // return empty string for null and undefined
       return '';
+    } else if (param instanceof Date) {
+      return param.toJSON();
     } else {
       return param.toString();
     }
@@ -129,6 +131,31 @@
       }
     }
     return newParams;
+  };
+
+  /**
+   * Build parameter value according to the given collection format.
+   * @param {String} collectionFormat one of 'csv', 'ssv', 'tsv', 'pipes' and 'multi'
+   */
+  ApiClient.prototype.buildCollectionParam = function buildCollectionParam(param, collectionFormat) {
+    if (param == null) {
+      return null;
+    }
+    switch (collectionFormat) {
+      case 'csv':
+        return param.map(this.paramToString).join(',');
+      case 'ssv':
+        return param.map(this.paramToString).join(' ');
+      case 'tsv':
+        return param.map(this.paramToString).join('\t');
+      case 'pipes':
+        return param.map(this.paramToString).join('|');
+      case 'multi':
+        // return the array directly as Superagent will handle it as expected
+        return param.map(this.paramToString);
+      default:
+        throw new Error('Unknown collection format: ' + collectionFormat);
+    }
   };
 
   ApiClient.prototype.deserialize = function deserialize(response, returnType) {
