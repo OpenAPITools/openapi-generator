@@ -1,46 +1,46 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined, './Category', './Tag'], factory);
+    define([undefined, '../ApiClient', './Category', './Tag'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined, require('./Category'), require('./Tag'));
+    module.exports = factory(undefined, require('../ApiClient'), require('./Category'), require('./Tag'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    factory(root.SwaggerPetstore, root.SwaggerPetstore.Category, root.SwaggerPetstore.Tag);
+    factory(root.SwaggerPetstore, root.SwaggerPetstore.ApiClient, root.SwaggerPetstore.Category, root.SwaggerPetstore.Tag);
   }
-}(this, function(module, Category, Tag) {
+}(this, function(module, ApiClient, Category, Tag) {
   'use strict';
 
   
   
 //export module
-if ( typeof define === "function" && define.amd ) {     
-	define('StatusEnum', ['jquery'], function($) {
+if ( typeof define === "function" && define.amd ) {
+	define('StatusEnum', [], function() {
         return StatusEnum;
 	 });
 }
 
 var StatusEnum = function StatusEnum() {
 	var self = this;
-	
+
 
 	/**
-	 * @const 
-	 */ 
+	 * @const
+	 */
 	self.AVAILABLE = "available",
 	
 	/**
-	 * @const 
-	 */ 
+	 * @const
+	 */
 	self.PENDING = "pending",
 	
 	/**
-	 * @const 
-	 */ 
+	 * @const
+	 */
 	self.SOLD = "sold";
 
 }
@@ -53,54 +53,55 @@ var StatusEnum = function StatusEnum() {
     /**
      * datatype: Integer
      **/
-    self.id = null;
+    self['id'] = null;
     
     /**
      * datatype: Category
      **/
-    self.category = new Category();
+    self['category'] = new Category();
     
     /**
      * datatype: String
      * required
      **/
-    self.name = name;
+    self['name'] = name;
     
     /**
-     * datatype: Array
+     * datatype: [String]
      * required
      **/
-    self.photoUrls = photoUrls;
+    self['photoUrls'] = photoUrls;
     
     /**
-     * datatype: Array
+     * datatype: [Tag]
      **/
-    self.tags = [];
+    self['tags'] = [];
     
     /**
      * pet status in the store
      * datatype: StatusEnum
      **/
-    self.status = null;
+    self['status'] = null;
     
 
     self.constructFromObject = function(data) {
       if (!data) {
-        return;
+        return this;
       }
       
-      self.id = data.id;
+      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
       
-      self.category.constructFromObject(data.category);
+      self['category'].constructFromObject(data['category']);
       
-      self.name = data.name;
+      self['name'] = ApiClient.convertToType(data['name'], 'String');
       
-      self.photoUrls = data.photoUrls;
+      self['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
       
-      self.tags = data.tags;
+      self['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
       
-      self.status = data.status;
+      self['status'] = ApiClient.convertToType(data['status'], 'String');
       
+      return this;
     }
 
     
@@ -108,70 +109,70 @@ var StatusEnum = function StatusEnum() {
      * @return {Integer}
      **/
     self.getId = function() {
-      return self.id;
+      return self['id'];
     }
 
     /**
      * @param {Integer} id
      **/
-    self.setId = function (id) {
-      self.id = id;
+    self.setId = function(id) {
+      self['id'] = id;
     }
     
     /**
      * @return {Category}
      **/
     self.getCategory = function() {
-      return self.category;
+      return self['category'];
     }
 
     /**
      * @param {Category} category
      **/
-    self.setCategory = function (category) {
-      self.category = category;
+    self.setCategory = function(category) {
+      self['category'] = category;
     }
     
     /**
      * @return {String}
      **/
     self.getName = function() {
-      return self.name;
+      return self['name'];
     }
 
     /**
      * @param {String} name
      **/
-    self.setName = function (name) {
-      self.name = name;
+    self.setName = function(name) {
+      self['name'] = name;
     }
     
     /**
-     * @return {Array}
+     * @return {[String]}
      **/
     self.getPhotoUrls = function() {
-      return self.photoUrls;
+      return self['photoUrls'];
     }
 
     /**
-     * @param {Array} photoUrls
+     * @param {[String]} photoUrls
      **/
-    self.setPhotoUrls = function (photoUrls) {
-      self.photoUrls = photoUrls;
+    self.setPhotoUrls = function(photoUrls) {
+      self['photoUrls'] = photoUrls;
     }
     
     /**
-     * @return {Array}
+     * @return {[Tag]}
      **/
     self.getTags = function() {
-      return self.tags;
+      return self['tags'];
     }
 
     /**
-     * @param {Array} tags
+     * @param {[Tag]} tags
      **/
-    self.setTags = function (tags) {
-      self.tags = tags;
+    self.setTags = function(tags) {
+      self['tags'] = tags;
     }
     
     /**
@@ -179,19 +180,19 @@ var StatusEnum = function StatusEnum() {
      * @return {StatusEnum}
      **/
     self.getStatus = function() {
-      return self.status;
+      return self['status'];
     }
 
     /**
      * set pet status in the store
      * @param {StatusEnum} status
      **/
-    self.setStatus = function (status) {
-      self.status = status;
+    self.setStatus = function(status) {
+      self['status'] = status;
     }
     
 
-    self.toJson = function () {
+    self.toJson = function() {
       return JSON.stringify(self);
     }
   };
