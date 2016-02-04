@@ -88,9 +88,15 @@
    * Check if the given parameter value is like file content.
    */
   ApiClient.prototype.isFileParam = function isFileParam(param) {
-    // Buffer or fs.ReadStream in Node.js
-    if (typeof module === 'object' && module.exports &&
-        (param instanceof Buffer || param instanceof require('fs').ReadStream)) {
+    // fs.ReadStream in Node.js (but not in runtime like browserify)
+    if (typeof window === 'undefined' &&
+        typeof require === 'function' &&
+        require('fs') &&
+        param instanceof require('fs').ReadStream) {
+      return true;
+    }
+    // Buffer in Node.js
+    if (typeof Buffer === 'function' && param instanceof Buffer) {
       return true;
     }
     // Blob in browser
