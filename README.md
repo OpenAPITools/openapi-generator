@@ -313,6 +313,7 @@ AbstractJavaJAXRSServerCodegen.java
 AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
+AspNet5ServerCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
 ClojureClientCodegen.java
@@ -585,6 +586,15 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
   -l haskell-servant \
   -o samples/server/petstore/haskell-servant
+```
+
+### ASP.NET 5 Web API
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l aspnet5-webapi \
+  -o samples/server/petstore/aspnet5
 ```
 
 ### To build the codegen library
