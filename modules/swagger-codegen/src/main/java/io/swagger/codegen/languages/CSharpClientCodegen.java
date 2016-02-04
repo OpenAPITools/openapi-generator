@@ -552,4 +552,51 @@ public class CSharpClientCodegen extends DefaultCodegen implements CodegenConfig
 
         return null;
     }
+
+    /**
+     * Return the example value of the property
+     *
+     * @param p Swagger property object
+     * @return string presentation of the example value of the property
+     */
+    @Override
+    public String toExampleValue(Property p) {
+        if (p instanceof StringProperty) {
+            StringProperty dp = (StringProperty) p;
+            if (dp.getExample() != null) {
+                return "\"" + dp.getExample().toString() + "\"";
+            }
+        } else if (p instanceof BooleanProperty) {
+            BooleanProperty dp = (BooleanProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+        } else if (p instanceof DateProperty) {
+            // TODO
+        } else if (p instanceof DateTimeProperty) {
+            // TODO
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+        }
+
+        return null;
+    }
 }
