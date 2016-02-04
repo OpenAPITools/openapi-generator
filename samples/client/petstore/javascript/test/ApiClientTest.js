@@ -36,6 +36,38 @@ describe('ApiClient', function() {
     });
   });
 
+  describe('#buildCollectionParam', function() {
+    var param;
+
+    beforeEach(function() {
+      param = ['aa', 'bb', 123];
+    });
+
+    it('works for csv', function() {
+      expect(apiClient.buildCollectionParam(param, 'csv')).to.be('aa,bb,123');
+    });
+
+    it('works for ssv', function() {
+      expect(apiClient.buildCollectionParam(param, 'ssv')).to.be('aa bb 123');
+    });
+
+    it('works for tsv', function() {
+      expect(apiClient.buildCollectionParam(param, 'tsv')).to.be('aa\tbb\t123');
+    });
+
+    it('works for pipes', function() {
+      expect(apiClient.buildCollectionParam(param, 'pipes')).to.be('aa|bb|123');
+    });
+
+    it('works for multi', function() {
+      expect(apiClient.buildCollectionParam(param, 'multi')).to.eql(['aa', 'bb', '123']);
+    });
+
+    it('fails for invalid collection format', function() {
+      expect(function() { apiClient.buildCollectionParam(param, 'INVALID'); }).to.throwError();
+    });
+  });
+
   describe('#buildUrl', function() {
     it('should work without path parameters in the path', function() {
       expect(apiClient.buildUrl('/abc', {})).to

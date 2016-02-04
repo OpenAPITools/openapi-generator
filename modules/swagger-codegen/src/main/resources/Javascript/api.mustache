@@ -42,13 +42,13 @@
         '<baseName>': <paramName><#hasMore>,</hasMore></pathParams>
       };
       var queryParams = {<#queryParams>
-        '<baseName>': <paramName><#hasMore>,</hasMore></queryParams>
+        '<baseName>': <#collectionFormat>this.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></queryParams>
       };
       var headerParams = {<#headerParams>
         '<baseName>': <paramName><#hasMore>,</hasMore></headerParams>
       };
       var formParams = {<#formParams>
-        '<baseName>': <paramName><#hasMore>,</hasMore></formParams>
+        '<baseName>': <#collectionFormat>this.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></formParams>
       };
 
       var contentTypes = [<#consumes>'<mediaType>'<#hasMore>, </hasMore></consumes>];
