@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined, './Category', './Tag'], factory);
+    define([undefined, '../ApiClient', './Category', './Tag'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined, require('./Category'), require('./Tag'));
+    module.exports = factory(undefined, require('../ApiClient'), require('./Category'), require('./Tag'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    factory(root.SwaggerPetstore, root.SwaggerPetstore.Category, root.SwaggerPetstore.Tag);
+    factory(root.SwaggerPetstore, root.SwaggerPetstore.ApiClient, root.SwaggerPetstore.Category, root.SwaggerPetstore.Tag);
   }
-}(this, function(module, Category, Tag) {
+}(this, function(module, ApiClient, Category, Tag) {
   'use strict';
 
   
@@ -67,13 +67,13 @@ var StatusEnum = function StatusEnum() {
     self['name'] = name;
     
     /**
-     * datatype: Array
+     * datatype: [String]
      * required
      **/
     self['photoUrls'] = photoUrls;
     
     /**
-     * datatype: Array
+     * datatype: [Tag]
      **/
     self['tags'] = [];
     
@@ -86,21 +86,22 @@ var StatusEnum = function StatusEnum() {
 
     self.constructFromObject = function(data) {
       if (!data) {
-        return;
+        return this;
       }
       
-      self['id'] = data['id'];
+      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
       
       self['category'].constructFromObject(data['category']);
       
-      self['name'] = data['name'];
+      self['name'] = ApiClient.convertToType(data['name'], 'String');
       
-      self['photoUrls'] = data['photoUrls'];
+      self['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
       
-      self['tags'] = data['tags'];
+      self['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
       
-      self['status'] = data['status'];
+      self['status'] = ApiClient.convertToType(data['status'], 'String');
       
+      return this;
     }
 
     
@@ -147,28 +148,28 @@ var StatusEnum = function StatusEnum() {
     }
     
     /**
-     * @return {Array}
+     * @return {[String]}
      **/
     self.getPhotoUrls = function() {
       return self['photoUrls'];
     }
 
     /**
-     * @param {Array} photoUrls
+     * @param {[String]} photoUrls
      **/
     self.setPhotoUrls = function(photoUrls) {
       self['photoUrls'] = photoUrls;
     }
     
     /**
-     * @return {Array}
+     * @return {[Tag]}
      **/
     self.getTags = function() {
       return self['tags'];
     }
 
     /**
-     * @param {Array} tags
+     * @param {[Tag]} tags
      **/
     self.setTags = function(tags) {
       self['tags'] = tags;

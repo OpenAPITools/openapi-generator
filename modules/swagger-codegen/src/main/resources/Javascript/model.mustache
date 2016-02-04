@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined{{#imports}}, './{{import}}'{{/imports}}], factory);
+    define([undefined, '../ApiClient'{{#imports}}, './{{import}}'{{/imports}}], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined{{#imports}}, require('./{{import}}'){{/imports}});
+    module.exports = factory(undefined, require('../ApiClient'){{#imports}}, require('./{{import}}'){{/imports}});
   } else {
     // Browser globals (root is window)
     if (!root.{{moduleName}}) {
       root.{{moduleName}} = {};
     }
-    factory(root.{{moduleName}}{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
+    factory(root.{{moduleName}}, root.{{moduleName}}.ApiClient{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
   }
-}(this, function(module{{#imports}}, {{import}}{{/imports}}) {
+}(this, function(module, ApiClient{{#imports}}, {{import}}{{/imports}}) {
   'use strict';
 
   {{#models}}{{#model}}
@@ -37,11 +37,12 @@
 
     self.constructFromObject = function(data) {
       if (!data) {
-        return;
+        return this;
       }
       {{#vars}}
       self['{{baseName}}']{{{defaultValueWithParam}}}
       {{/vars}}
+      return this;
     }
 
     {{#vars}}

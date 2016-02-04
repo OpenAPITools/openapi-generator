@@ -290,14 +290,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
-        //    ArrayProperty ap = (ArrayProperty) p;
-       //     Property inner = ap.getItems();
-            return getSwaggerType(p); // TODO: + "/* <" + getTypeDeclaration(inner) + "> */";
+            ArrayProperty ap = (ArrayProperty) p;
+            Property inner = ap.getItems();
+            return "[" + getTypeDeclaration(inner) + "]";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
     }
@@ -320,8 +319,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (p instanceof RefProperty) {
             return ".constructFromObject(data['" + name + "']);";
         } else {
-          return " = data['" + name + "'];";
+          String type = normalizeType(getTypeDeclaration(p));
+          return " = ApiClient.convertToType(data['" + name + "'], " + type + ");";
         }
+    }
+
+    /**
+     * Normalize type by wrapping primitive types with single quotes.
+     */
+    public String normalizeType(String type) {
+      return type.replaceAll("\\b(Boolean|Integer|Number|String|Date)\\b", "'$1'");
     }
 
     @Override
@@ -355,6 +362,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         return camelize(sanitizeName(operationId), true);
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
+      CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+      if (op.returnType != null) {
+        op.returnType = normalizeType(op.returnType);
+      }
+      return op;
     }
 
     @Override
@@ -414,11 +430,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 allowableValues.put("enumVars", enumVars);
             }
         }
-        return objs;
-    }
-
-    @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         return objs;
     }
 

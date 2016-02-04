@@ -53,28 +53,12 @@
 
       var contentTypes = [<#consumes>'<mediaType>'<#hasMore>, </hasMore></consumes>];
       var accepts = [<#produces>'<mediaType>'<#hasMore>, </hasMore></produces>];
-
-      var handleResponse = null;
-      if (callback) {
-        handleResponse = function(error, data, response) {<#returnType><#returnTypeIsPrimitive>
-          callback(error, data, response);</returnTypeIsPrimitive><^returnTypeIsPrimitive><#isListContainer>
-          // TODO: support deserializing array of models
-          callback(error, data, response);</isListContainer><^isListContainer>
-          if (!error && data) {
-            var result = new <&returnType>();
-            result.constructFromObject(data);
-            callback(error, result, response);
-          } else {
-            callback(error, data, response);
-          }</isListContainer></returnTypeIsPrimitive></returnType><^returnType>
-          callback(error, data, response);</returnType>
-        };
-      }
+      var returnType = <#returnType><&returnType></returnType><^returnType>null</returnType>;
 
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, handleResponse
+        contentTypes, accepts, returnType, callback
       );
       <={{ }}=>
     }
