@@ -586,6 +586,51 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the example value of the property
+     *
+     * @param p Swagger property object
+     * @return string presentation of the example value of the property
+     */
+    @SuppressWarnings("static-method") 
+    public String toExampleValue(Property p) {
+        if (p instanceof StringProperty) {
+            return "null";
+        } else if (p instanceof BooleanProperty) {
+            return "null";
+        } else if (p instanceof DateProperty) {
+            return "null";
+        } else if (p instanceof DateTimeProperty) {
+            return "null";
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else {
+            return "null";
+        }
+    }
+
+    /**
      * Return the default value of the property
      *
      * @param p Swagger property object
@@ -927,7 +972,7 @@ public class DefaultCodegen {
         property.unescapedDescription = p.getDescription();
         property.getter = "get" + getterAndSetterCapitalize(name);
         property.setter = "set" + getterAndSetterCapitalize(name);
-        property.example = p.getExample();
+        property.example = toExampleValue(p);
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
