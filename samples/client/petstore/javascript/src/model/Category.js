@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined], factory);
+    define([undefined, '../ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined);
+    module.exports = factory(undefined, require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    factory(root.SwaggerPetstore);
+    factory(root.SwaggerPetstore, root.SwaggerPetstore.ApiClient);
   }
-}(this, function(module) {
+}(this, function(module, ApiClient) {
   'use strict';
 
   
@@ -35,13 +35,14 @@
 
     self.constructFromObject = function(data) {
       if (!data) {
-        return;
+        return this;
       }
       
-      self['id'] = data['id'];
+      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
       
-      self['name'] = data['name'];
+      self['name'] = ApiClient.convertToType(data['name'], 'String');
       
+      return this;
     }
 
     

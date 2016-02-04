@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined], factory);
+    define([undefined, '../ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined);
+    module.exports = factory(undefined, require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    factory(root.SwaggerPetstore);
+    factory(root.SwaggerPetstore, root.SwaggerPetstore.ApiClient);
   }
-}(this, function(module) {
+}(this, function(module, ApiClient) {
   'use strict';
 
   
@@ -66,25 +66,26 @@
 
     self.constructFromObject = function(data) {
       if (!data) {
-        return;
+        return this;
       }
       
-      self['id'] = data['id'];
+      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
       
-      self['username'] = data['username'];
+      self['username'] = ApiClient.convertToType(data['username'], 'String');
       
-      self['firstName'] = data['firstName'];
+      self['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
       
-      self['lastName'] = data['lastName'];
+      self['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
       
-      self['email'] = data['email'];
+      self['email'] = ApiClient.convertToType(data['email'], 'String');
       
-      self['password'] = data['password'];
+      self['password'] = ApiClient.convertToType(data['password'], 'String');
       
-      self['phone'] = data['phone'];
+      self['phone'] = ApiClient.convertToType(data['phone'], 'String');
       
-      self['userStatus'] = data['userStatus'];
+      self['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
       
+      return this;
     }
 
     

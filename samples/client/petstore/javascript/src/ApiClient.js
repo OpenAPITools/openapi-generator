@@ -131,9 +131,23 @@
     return newParams;
   };
 
+  ApiClient.prototype.deserialize = function deserialize(response, returnType) {
+    if (response == null || returnType == null) {
+      return null;
+    }
+    // Rely on Superagent for parsing response body.
+    // See http://visionmedia.github.io/superagent/#parsing-response-bodies
+    var data = response.body;
+    if (data == null) {
+      return null;
+    }
+    return ApiClient.convertToType(data, returnType);
+  };
+
   ApiClient.prototype.callApi = function callApi(path, httpMethod, pathParams,
       queryParams, headerParams, formParams, bodyParam, contentTypes, accepts,
-      callback) {
+      returnType, callback) {
+    var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
 
@@ -175,12 +189,70 @@
 
     request.end(function(error, response) {
       if (callback) {
-        var data = response && response.body;
+        var data = null;
+        if (!error) {
+          data = _this.deserialize(response, returnType);
+        }
         callback(error, data, response);
       }
     });
 
     return request;
+  };
+
+  ApiClient.parseDate = function parseDate(str) {
+    str = str.replace(/T/i, ' ');
+    return new Date(str);
+  };
+
+  ApiClient.convertToType = function convertToType(data, type) {
+    switch (type) {
+      case 'Boolean':
+        return Boolean(data);
+      case 'Integer':
+        return parseInt(data, 10);
+      case 'Number':
+        return parseFloat(data);
+      case 'String':
+        return String(data);
+      case 'Date':
+        return this.parseDate(String(data));
+      default:
+        if (typeof type === 'function') {
+          // for model type like: User
+          var model = new type();
+          model.constructFromObject(data);
+          return model;
+        } else if (Array.isArray(type)) {
+          // for array type like: ['String']
+          var itemType = type[0];
+          return data.map(function(item) {
+            return ApiClient.convertToType(item, itemType);
+          });
+        } else if (typeof type === 'object') {
+          // for plain object type like: {'String': 'Integer'}
+          var keyType, valueType;
+          for (var k in type) {
+            if (type.hasOwnProperty(k)) {
+              keyType = k;
+              valueType = type[k];
+              break;
+            }
+          }
+          var result = {};
+          for (var k in data) {
+            if (data.hasOwnProperty(k)) {
+              var key = ApiClient.convertToType(k, keyType);
+              var value = ApiClient.convertToType(data[k], valueType);
+              result[key] = value;
+            }
+          }
+          return result;
+        } else {
+          // for unknown type, return the data directly
+          return data;
+        }
+    }
   };
 
   ApiClient.default = new ApiClient();
