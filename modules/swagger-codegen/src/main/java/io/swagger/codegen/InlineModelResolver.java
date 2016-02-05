@@ -5,14 +5,13 @@ import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.*;
 import io.swagger.util.Json;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class InlineModelResolver {
     private Swagger swagger;
@@ -294,7 +293,12 @@ public class InlineModelResolver {
     @SuppressWarnings("static-method")
     public Model modelFromProperty(ArrayProperty object, @SuppressWarnings("unused") String path) {
         String description = object.getDescription();
-        String example = object.getExample();
+        String example = null;
+
+        Object obj = object.getExample();
+        if(obj != null) {
+            example = obj.toString();
+        }
         Property inner = object.getItems();
         if (inner instanceof ObjectProperty) {
             ArrayModel model = new ArrayModel();
@@ -308,7 +312,12 @@ public class InlineModelResolver {
 
     public Model modelFromProperty(ObjectProperty object, String path) {
         String description = object.getDescription();
-        String example = object.getExample();
+        String example = null;
+
+        Object obj = object.getExample();
+        if(obj != null) {
+            example = obj.toString();
+        }
         String name = object.getName();
         Xml xml = object.getXml();
         Map<String, Property> properties = object.getProperties();
@@ -330,7 +339,12 @@ public class InlineModelResolver {
     @SuppressWarnings("static-method")
     public Model modelFromProperty(MapProperty object, @SuppressWarnings("unused") String path) {
         String description = object.getDescription();
-        String example = object.getExample();
+        String example = null;
+
+        Object obj = object.getExample();
+        if(obj != null) {
+            example = obj.toString();
+        }
 
         ArrayModel model = new ArrayModel();
         model.setDescription(description);
