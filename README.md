@@ -593,7 +593,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
-  -l aspnet5-webapi \
+  -l aspnet5 \
   -o samples/server/petstore/aspnet5
 ```
 
