@@ -386,10 +386,10 @@ class ApiClient(object):
         :param files: File parameters.
         :return: Form parameters with files.
         """
-        params = {}
+        params = []
 
         if post_params:
-            params.update(post_params)
+            params = post_params
 
         if files:
             for k, v in iteritems(files):
@@ -402,7 +402,7 @@ class ApiClient(object):
                         filedata = f.read()
                         mimetype = mimetypes.\
                             guess_type(filename)[0] or 'application/octet-stream'
-                        params[k] = tuple([filename, filedata, mimetype])
+                        params.append(tuple[k, tuple([filename, filedata, mimetype])])
 
         return params
 
