@@ -2,19 +2,6 @@ package io.swagger.common {
 import io.swagger.event.ApiClientEvent;
 import io.swagger.event.Response;
 
-import flash.events.EventDispatcher;
-import flash.utils.*;
-import mx.rpc.AsyncToken;
-import mx.rpc.events.ResultEvent;
-import mx.rpc.events.FaultEvent;
-import mx.utils.ObjectUtil;
-import mx.rpc.http.HTTPService;
-import mx.messaging.messages.HTTPRequestMessage;
-import mx.messaging.ChannelSet;
-import mx.messaging.channels.DirectHTTPChannel;
-import asaxb.xml.bind.ASAXBContext;
-import asaxb.xml.bind.Unmarshaller;
-
 public class ApiInvoker extends EventDispatcher {
 
     private static const DELETE_DATA_DUMMY:String = "dummyDataRequiredForDeleteOverride";
@@ -112,7 +99,7 @@ public class ApiInvoker extends EventDispatcher {
         var qualifiedClassName:String = objDescriptor.@name;
         qualifiedClassName = qualifiedClassName.replace("::", ".");
         var className:String = qualifiedClassName.substring(qualifiedClassName.lastIndexOf(".") + 1);
-        className = className.toLowerCase() + className.substring(1);
+        className = className().toLowerCase() + className.substring(1);
         writer.xml.setName(className);
 
         for each(property in objDescriptor.elements("variable")) {
@@ -191,7 +178,7 @@ public class ApiInvoker extends EventDispatcher {
             httpService.useProxy = true;
 
             var channelSet:ChannelSet = new ChannelSet();
-            var httpChannel:DirectHTTPChannel = new DirectHTTPChannel("");
+            var httpChannel:HTTPChannel = new HTTPChannel();
             httpChannel.uri = ApiUrlHelper.getProxyUrl(_proxyHostName, _proxyPath);
             channelSet.addChannel(httpChannel);
             httpService.channelSet = channelSet;
@@ -201,11 +188,6 @@ public class ApiInvoker extends EventDispatcher {
     }
 
     private function onApiRequestResult(event:ResultEvent):void {
-        
-        // I put this in comments. Here, it's trying to parse XML and it fails if it's not XML.
-        // Therefore, it's better to have the raw result that we can parse as we want. 
-        // TODO: Create different parser (JSON, XML, etc.)
-        /*
         var completionListener:Function = event.token.completionListener;
         var result:Object = event.result;
         var resultType:Class = event.token.returnType;
@@ -232,9 +214,6 @@ public class ApiInvoker extends EventDispatcher {
         }
 
         var response:Response = new Response(true, resultObject);
-        */
-
-        var response:Response = new Response(true, event.result);
         response.requestId = event.token.requestId;
         var successEventType:String = event.token.completionEventType != null ? event.token.completionEventType : ApiClientEvent.SUCCESS_EVENT;
 
