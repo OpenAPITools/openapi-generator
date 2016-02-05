@@ -402,7 +402,7 @@ class ApiClient(object):
                         filedata = f.read()
                         mimetype = mimetypes.\
                             guess_type(filename)[0] or 'application/octet-stream'
-                        params.append(tuple[k, tuple([filename, filedata, mimetype])])
+                        params.append(tuple([k, tuple([filename, filedata, mimetype])]))
 
         return params
 
