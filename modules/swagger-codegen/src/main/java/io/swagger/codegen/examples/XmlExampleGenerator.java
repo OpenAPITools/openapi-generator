@@ -170,37 +170,37 @@ public class XmlExampleGenerator {
     protected String getExample(Property property) {
         if (property instanceof DateTimeProperty) {
             if (property.getExample() != null) {
-                return property.getExample();
+                return property.getExample().toString();
             } else {
                 return dtFormat.format(new Date());
             }
         } else if (property instanceof StringProperty) {
             if (property.getExample() != null) {
-                return property.getExample();
+                return property.getExample().toString();
             } else {
                 return "string";
             }
         } else if (property instanceof DateProperty) {
             if (property.getExample() != null) {
-                return property.getExample();
+                return property.getExample().toString();
             } else {
                 return dateFormat.format(new Date());
             }
         } else if (property instanceof IntegerProperty) {
             if (property.getExample() != null) {
-                return property.getExample();
+                return property.getExample().toString();
             } else {
                 return "0";
             }
         } else if (property instanceof BooleanProperty) {
             if (property.getExample() != null) {
-                return property.getExample();
+                return property.getExample().toString();
             } else {
                 return "true";
             }
         } else if (property instanceof LongProperty) {
             if (property.getExample() != null) {
-                return property.getExample();
+                return property.getExample().toString();
             } else {
                 return "123456";
             }
