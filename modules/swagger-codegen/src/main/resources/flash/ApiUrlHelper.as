@@ -31,7 +31,7 @@ internal class ApiUrlHelper {
     }
 
     internal static function getProxyUrl(hostName: String, proxyPath: String): String{
-        if (hostName..charAt(hostName.length) == "/") //remove trailing slash
+        if (hostName(hostName.length - 1) == "/") //remove trailing slash
         {
             hostName = hostName.substring(0, hostName.length - 1);
         }
