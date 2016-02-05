@@ -536,7 +536,7 @@
         <swagger-parser-version>1.0.17</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
-        <swagger-core-version>1.5.6</swagger-core-version>
+        <swagger-core-version>1.5.7</swagger-core-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
