@@ -23,7 +23,6 @@
    * {{description}}
    **/{{/description}}
   var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
-    var self = this;
     {{#vars}}
     /**{{#description}}
      * {{{description}}}{{/description}}
@@ -32,43 +31,43 @@
      * minimum: {{minimum}}{{/minimum}}{{#maximum}}
      * maximum: {{maximum}}{{/maximum}}
      **/
-    self['{{baseName}}'] = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
+    this['{{baseName}}'] = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
     {{/vars}}
+  };
 
-    self.constructFromObject = function(data) {
-      if (!data) {
-        return this;
-      }
-      {{#vars}}
-      self['{{baseName}}']{{{defaultValueWithParam}}}
-      {{/vars}}
+  {{classname}}.prototype.constructFromObject = function(data) {
+    if (!data) {
       return this;
     }
-
     {{#vars}}
-    /**{{#description}}
-     * get {{{description}}}{{/description}}{{#minimum}}
-     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-     * maximum: {{maximum}}{{/maximum}}
-     * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
-     **/
-    self.{{getter}} = function() {
-      return self['{{baseName}}'];
-    }
-
-    /**{{#description}}
-     * set {{{description}}}{{/description}}
-     * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
-     **/
-    self.{{setter}} = function({{name}}) {
-      self['{{baseName}}'] = {{name}};
-    }
+    this['{{baseName}}']{{{defaultValueWithParam}}}
     {{/vars}}
+    return this;
+  }
 
-    self.toJson = function() {
-      return JSON.stringify(self);
-    }
-  };
+  {{#vars}}
+  /**{{#description}}
+   * get {{{description}}}{{/description}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
+   **/
+  {{classname}}.prototype.{{getter}} = function() {
+    return this['{{baseName}}'];
+  }
+
+  /**{{#description}}
+   * set {{{description}}}{{/description}}
+   * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
+   **/
+  {{classname}}.prototype.{{setter}} = function({{name}}) {
+    this['{{baseName}}'] = {{name}};
+  }
+  {{/vars}}
+
+  {{classname}}.prototype.toJson = function() {
+    return JSON.stringify(this);
+  }
 
   if (module) {
     module.{{classname}} = {{classname}};
