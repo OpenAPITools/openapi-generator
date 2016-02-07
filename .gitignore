@@ -58,6 +58,8 @@ samples/client/petstore/silex/SwaggerServer/venodr/
 samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
 
+samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+
 .settings
 
 *.mustache~
