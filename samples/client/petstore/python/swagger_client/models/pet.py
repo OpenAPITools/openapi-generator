@@ -214,8 +214,9 @@ class Pet(object):
                 ))
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda k, v: (k, v.to_dict()) if hasattr(v, "to_dict") else (k, v),
-                    value.iteritems()
+                    lambda item: (item[0], item[1].to_dict())
+                    if hasattr(item[1], "to_dict") else item,
+                    value.items()
                 ))
             elif hasattr(value, "to_dict"):
                 result[attr] = value.to_dict()
