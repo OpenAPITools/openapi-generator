@@ -3,9 +3,7 @@ package io.swagger.codegen.aspnet5;
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.languages.AspNet5ServerCodegen;
-import io.swagger.codegen.languages.CSharpClientCodegen;
 import io.swagger.codegen.options.AspNet5ServerOptionsProvider;
-import io.swagger.codegen.options.CSharpClientOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
