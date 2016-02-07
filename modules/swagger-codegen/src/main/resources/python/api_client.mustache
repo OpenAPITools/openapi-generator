@@ -395,8 +395,8 @@ class ApiClient(object):
             for k, v in iteritems(files):
                 if not v:
                     continue
-                all_files = v if type(v) is list else [v]
-                for n in all_files:
+                file_names = v if type(v) is list else [v]
+                for n in file_names:
                     with open(n, 'rb') as f:
                         filename = os.path.basename(f.name)
                         filedata = f.read()
