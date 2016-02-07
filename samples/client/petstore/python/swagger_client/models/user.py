@@ -258,7 +258,7 @@ class User(object):
                 ))
             elif isinstance(value, dict):
                 result[attr] = dict(map(
-                    lambda (k, v): (k, v.to_dict()) if hasattr(v, "to_dict") else (k, v),
+                    lambda k, v: (k, v.to_dict()) if hasattr(v, "to_dict") else (k, v),
                     value.iteritems()
                 ))
             elif hasattr(value, "to_dict"):
