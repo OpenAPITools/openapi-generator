@@ -110,7 +110,7 @@ class Category(object):
                 result[attr] = dict(map(
                     lambda (k, v): (k, v.to_dict()) if hasattr(v, "to_dict") else (k, v),
                     value.iteritems()
-                    ))
+                ))
             elif hasattr(value, "to_dict"):
                 result[attr] = value.to_dict()
             else:
