@@ -218,7 +218,12 @@ public class InlineModelResolver {
         Map<String, Model> modelsToAdd = new HashMap<String, Model>();
         for (String key : properties.keySet()) {
             Property property = properties.get(key);
-            if (property instanceof ObjectProperty && ((ObjectProperty)property).getProperties().size() > 0) {
+            if(property instanceof ObjectProperty && ((ObjectProperty)property).getProperties() == null) {
+                MapProperty mp = new MapProperty();
+                mp.setAdditionalProperties(new StringProperty());
+                properties.put(key, mp);
+            }
+            else if (property instanceof ObjectProperty && ((ObjectProperty)property).getProperties().size() > 0) {
                 String modelName = uniqueName(path + "_" + key);
 
                 ObjectProperty op = (ObjectProperty) property;
@@ -276,7 +281,6 @@ public class InlineModelResolver {
                         swagger.addDefinition(modelName, innerModel);
                     }
                 }
-            } else {
             }
         }
         if (propsToUpdate.size() > 0) {
