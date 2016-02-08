@@ -59,6 +59,8 @@ samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
 
 samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
 
 .settings
 
