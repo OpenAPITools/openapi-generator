@@ -23,6 +23,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PROJECT_DESCRIPTION = "projectDescription";
     private static final String PROJECT_VERSION = "projectVersion";
     private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
+    private static final String USE_PROMISES = "usePromises";
 
     protected String projectName;
     protected String moduleName;
@@ -31,7 +32,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     protected String sourceFolder = "src";
     protected String localVariablePrefix = "";
-
+    protected boolean usePromises = false;
+    
     public JavascriptClientCodegen() {
         super();
         outputFolder = "generated-code/js";
@@ -40,7 +42,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         templateDir = "Javascript";
         apiPackage = "api";
         modelPackage = "model";
-
+        
         // reference: http://www.w3schools.com/js/js_reserved.asp
         reservedWords = new HashSet<String>(
                 Arrays.asList(
@@ -80,6 +82,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "version of the project (Default: using info.version or \"1.0.0\")"));
         cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
                 "name of the license the project uses (Default: using info.license.name)"));
+        cliOptions.add(new CliOption(USE_PROMISES,
+                "use Promises as return values from the client API, instead of superagent callbacks (Default: false)"));
     }
 
     @Override
@@ -146,7 +150,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             sourceFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
         }
-
+        if (additionalProperties.containsKey(USE_PROMISES)) {
+            usePromises = Boolean.parseBoolean((String)additionalProperties.get(USE_PROMISES));
+        }
+        
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
@@ -189,6 +196,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(PROJECT_VERSION, projectVersion);
         additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
+        additionalProperties.put(USE_PROMISES, usePromises);
 
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("index.mustache", sourceFolder, "index.js"));
