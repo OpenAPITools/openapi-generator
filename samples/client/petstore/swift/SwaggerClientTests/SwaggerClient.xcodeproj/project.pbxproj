@@ -13,7 +13,9 @@
 		6D4EFB9A1C692C6300B96B06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4EFB981C692C6300B96B06 /* Main.storyboard */; };
 		6D4EFB9C1C692C6300B96B06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D4EFB9B1C692C6300B96B06 /* Assets.xcassets */; };
 		6D4EFB9F1C692C6300B96B06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4EFB9D1C692C6300B96B06 /* LaunchScreen.storyboard */; };
-		6D4EFBAA1C692C6300B96B06 /* SwaggerClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBA91C692C6300B96B06 /* SwaggerClientTests.swift */; };
+		6D4EFBB51C693BE200B96B06 /* PetAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */; };
+		6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */; };
+		6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,8 +37,10 @@
 		6D4EFB9E1C692C6300B96B06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D4EFBA01C692C6300B96B06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D4EFBA51C692C6300B96B06 /* SwaggerClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwaggerClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D4EFBA91C692C6300B96B06 /* SwaggerClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwaggerClientTests.swift; sourceTree = "<group>"; };
 		6D4EFBAB1C692C6300B96B06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PetAPITests.swift; sourceTree = "<group>"; };
+		6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreAPITests.swift; sourceTree = "<group>"; };
+		6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPITests.swift; sourceTree = "<group>"; };
 		8A9666BD47569881BB2CE936 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C07EC0A94AA0F86D60668B32 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB0055390ED4A7AE7901DEDD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -114,8 +118,10 @@
 		6D4EFBA81C692C6300B96B06 /* SwaggerClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				6D4EFBA91C692C6300B96B06 /* SwaggerClientTests.swift */,
 				6D4EFBAB1C692C6300B96B06 /* Info.plist */,
+				6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */,
+				6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */,
+				6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */,
 			);
 			path = SwaggerClientTests;
 			sourceTree = "<group>";
@@ -281,7 +287,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D4EFBAA1C692C6300B96B06 /* SwaggerClientTests.swift in Sources */,
+				6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */,
+				6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */,
+				6D4EFBB51C693BE200B96B06 /* PetAPITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
