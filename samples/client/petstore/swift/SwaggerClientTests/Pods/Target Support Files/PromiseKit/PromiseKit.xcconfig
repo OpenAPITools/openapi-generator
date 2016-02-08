@@ -1,0 +1,7 @@
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/PromiseKit" "${PODS_ROOT}/Headers/Public"
+OTHER_LDFLAGS = -framework "Foundation" -framework "QuartzCore" -framework "UIKit"
+OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES
+SWIFT_INSTALL_OBJC_HEADER = NO
