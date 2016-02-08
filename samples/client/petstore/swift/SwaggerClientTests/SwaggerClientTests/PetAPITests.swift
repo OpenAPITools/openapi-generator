@@ -25,25 +25,60 @@ class PetAPITests: XCTestCase {
         super.tearDown()
     }
     
-    func testxxx() {
-        let expectation = self.expectationWithDescription("testLogin")
-        PetstoreClientAPI.UserAPI.loginUser(username: "swiftTester", password: "swift").execute().then { response -> Void in
-            expectation.fulfill()
+    func test1CreatePet() {
+        let expectation = self.expectationWithDescription("testCreatePet")
+        let newPet = Pet()
+        let category = PetstoreClient.Category()
+        category.id = 1234
+        category.name = "eyeColor"
+        newPet.category = category
+        newPet.id = 1000
+        newPet.name = "Fluffy"
+        newPet.status = .Available
+        PetstoreClientAPI.PetAPI.addPet(body: newPet).execute().then { response -> Void in
+                expectation.fulfill()
             }.always {
                 // Noop for now
             }.error { errorType -> Void in
-                // The server isn't returning JSON - and currently the alamofire implementation
-                // always parses responses as JSON, so making an exception for this here
-                // Error Domain=NSCocoaErrorDomain Code=3840 "Invalid value around character 0."
-                // UserInfo={NSDebugDescription=Invalid value around character 0.}
-                let error = errorType as NSError
-                if error.code == 3840 {
-                    expectation.fulfill()
-                } else {
-                    XCTFail("error logging in")
-                }
+                XCTFail("error creating pet")
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
     
+    func test2GetPet() {
+        let expectation = self.expectationWithDescription("testGetPet")
+        PetstoreClientAPI.PetAPI.getPetById(petId: 1000).execute().then { response -> Void in
+                let pet = response.body
+                XCTAssert(pet.id == 1000, "invalid id")
+                XCTAssert(pet.name == "Fluffy", "invalid name")
+                expectation.fulfill()
+            }.always {
+                // Noop for now
+            }.error { errorType -> Void in
+                XCTFail("error creating pet")
+        }
+        self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
+    }
+    
+    func test3DeletePet() {
+        let expectation = self.expectationWithDescription("testDeletePet")
+        PetstoreClientAPI.PetAPI.deletePet(petId: 1000).execute().always { response -> Void in
+                // expectation.fulfill()
+            }.always {
+                // Noop for now
+            }.error { errorType -> Void in
+                // The server gives us no data back so alamofire parsing fails - at least
+                // verify that is the error we get here
+                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+                // length.}
+                let error = errorType as NSError
+                if error.code == -6006 {
+                    expectation.fulfill()
+                } else {
+                    XCTFail("error logging out")
+                }
+        }
+        self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
+    }
 }

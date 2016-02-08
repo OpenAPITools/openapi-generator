@@ -68,7 +68,7 @@ class UserAPITests: XCTestCase {
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
     
-    func testCreateUser() {
+    func test1CreateUser() {
         let expectation = self.expectationWithDescription("testCreateUser")
         let newUser = User()
         newUser.email = "test@test.com"
@@ -99,26 +99,43 @@ class UserAPITests: XCTestCase {
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
     
-    func testGetUser() {
+    func test2GetUser() {
         let expectation = self.expectationWithDescription("testGetUser")
         PetstoreClientAPI.UserAPI.getUserByName(username: "test@test.com").execute().then { response -> Void in
                 let user = response.body
-                if (user.userStatus == 0 &&
-                    user.email == "test@test.com" &&
-                    user.firstName == "Test" &&
-                    user.lastName == "Tester" &&
-                    user.id == 1000 &&
-                    user.password == "test!" &&
-                    user.phone == "867-5309") {
-                    
-                    expectation.fulfill()
-                } else {
-                    XCTFail("invalid user object")
-                }
+                XCTAssert(user.userStatus == 0, "invalid userStatus")
+                XCTAssert(user.email == "test@test.com", "invalid email")
+                XCTAssert(user.firstName == "Test", "invalid firstName")
+                XCTAssert(user.lastName == "Tester", "invalid lastName")
+                XCTAssert(user.password == "test!", "invalid password")
+                XCTAssert(user.phone == "867-5309", "invalid phone")
+                expectation.fulfill()
             }.always {
                 // Noop for now
             }.error { errorType -> Void in
                 XCTFail("error getting user")
+        }
+        self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
+    }
+    
+    func test3DeleteUser() {
+        let expectation = self.expectationWithDescription("testDeleteUser")
+        PetstoreClientAPI.UserAPI.deleteUser(username: "test@test.com").execute().then { response -> Void in
+                expectation.fulfill()
+            }.always {
+                // Noop for now
+            }.error { errorType -> Void in
+                // The server gives us no data back so alamofire parsing fails - at least
+                // verify that is the error we get here
+                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+                // length.}
+                let error = errorType as NSError
+                if error.code == -6006 {
+                    expectation.fulfill()
+                } else {
+                    XCTFail("error logging out")
+                }
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
