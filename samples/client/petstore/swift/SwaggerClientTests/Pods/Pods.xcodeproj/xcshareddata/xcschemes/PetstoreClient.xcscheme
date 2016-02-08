@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '4A19A333BD680B246281C6BF'
+               BlueprintIdentifier = 'BE9CED22B96F40CDD4BA4C58'
                BlueprintName = 'PetstoreClient'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'PetstoreClient.framework'>
