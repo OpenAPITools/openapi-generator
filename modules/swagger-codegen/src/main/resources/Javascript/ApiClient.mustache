@@ -214,6 +214,20 @@
       request.accept(accept);
     }
 
+    {{#usePromises}}
+    return new Promise( function(resolve,reject) {
+      request.end(function(error, response) {
+        if (error) {
+          reject(error);
+        }
+        else {
+          var data = _this.deserialize(response, returnType);
+          resolve(data);
+        }
+      });
+    });
+    {{/usePromises}}
+    {{^usePromises}}
     request.end(function(error, response) {
       if (callback) {
         var data = null;
@@ -225,6 +239,7 @@
     });
 
     return request;
+    {{/usePromises}}
   };
 
   ApiClient.parseDate = function parseDate(str) {
