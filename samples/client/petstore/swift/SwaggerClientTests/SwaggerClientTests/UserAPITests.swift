@@ -68,4 +68,59 @@ class UserAPITests: XCTestCase {
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
     
+    func testCreateUser() {
+        let expectation = self.expectationWithDescription("testCreateUser")
+        let newUser = User()
+        newUser.email = "test@test.com"
+        newUser.firstName = "Test"
+        newUser.lastName = "Tester"
+        newUser.id = 1000
+        newUser.password = "test!"
+        newUser.phone = "867-5309"
+        newUser.username = "test@test.com"
+        newUser.userStatus = 0
+        PetstoreClientAPI.UserAPI.createUser(body: newUser).execute().then { response -> Void in
+                expectation.fulfill()
+            }.always {
+                // Noop for now
+            }.error { errorType -> Void in
+                // The server gives us no data back so alamofire parsing fails - at least
+                // verify that is the error we get here
+                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+                // length.}
+                let error = errorType as NSError
+                if error.code == -6006 {
+                    expectation.fulfill()
+                } else {
+                    XCTFail("error creating user")
+                }
+        }
+        self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
+    }
+    
+    func testGetUser() {
+        let expectation = self.expectationWithDescription("testGetUser")
+        PetstoreClientAPI.UserAPI.getUserByName(username: "test@test.com").execute().then { response -> Void in
+                let user = response.body
+                if (user.userStatus == 0 &&
+                    user.email == "test@test.com" &&
+                    user.firstName == "Test" &&
+                    user.lastName == "Tester" &&
+                    user.id == 1000 &&
+                    user.password == "test!" &&
+                    user.phone == "867-5309") {
+                    
+                    expectation.fulfill()
+                } else {
+                    XCTFail("invalid user object")
+                }
+            }.always {
+                // Noop for now
+            }.error { errorType -> Void in
+                XCTFail("error getting user")
+        }
+        self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
+    }
+
 }
