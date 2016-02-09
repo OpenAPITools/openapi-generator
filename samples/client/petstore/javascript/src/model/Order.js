@@ -48,152 +48,151 @@ var StatusEnum = function StatusEnum() {
 
   
   var Order = function Order() { 
-    var self = this;
     
     /**
      * datatype: Integer
      **/
-    self['id'] = null;
+    this['id'] = null;
     
     /**
      * datatype: Integer
      **/
-    self['petId'] = null;
+    this['petId'] = null;
     
     /**
      * datatype: Integer
      **/
-    self['quantity'] = null;
+    this['quantity'] = null;
     
     /**
      * datatype: Date
      **/
-    self['shipDate'] = null;
+    this['shipDate'] = null;
     
     /**
      * Order Status
      * datatype: StatusEnum
      **/
-    self['status'] = null;
+    this['status'] = null;
     
     /**
      * datatype: Boolean
      **/
-    self['complete'] = null;
+    this['complete'] = null;
     
+  };
 
-    self.constructFromObject = function(data) {
-      if (!data) {
-        return this;
-      }
-      
-      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
-      
-      self['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
-      
-      self['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
-      
-      self['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
-      
-      self['status'] = ApiClient.convertToType(data['status'], 'String');
-      
-      self['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
-      
+  Order.prototype.constructFromObject = function(data) {
+    if (!data) {
       return this;
     }
-
     
-    /**
-     * @return {Integer}
-     **/
-    self.getId = function() {
-      return self['id'];
-    }
-
-    /**
-     * @param {Integer} id
-     **/
-    self.setId = function(id) {
-      self['id'] = id;
-    }
+    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     
-    /**
-     * @return {Integer}
-     **/
-    self.getPetId = function() {
-      return self['petId'];
-    }
-
-    /**
-     * @param {Integer} petId
-     **/
-    self.setPetId = function(petId) {
-      self['petId'] = petId;
-    }
+    this['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
     
-    /**
-     * @return {Integer}
-     **/
-    self.getQuantity = function() {
-      return self['quantity'];
-    }
-
-    /**
-     * @param {Integer} quantity
-     **/
-    self.setQuantity = function(quantity) {
-      self['quantity'] = quantity;
-    }
+    this['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
     
-    /**
-     * @return {Date}
-     **/
-    self.getShipDate = function() {
-      return self['shipDate'];
-    }
-
-    /**
-     * @param {Date} shipDate
-     **/
-    self.setShipDate = function(shipDate) {
-      self['shipDate'] = shipDate;
-    }
+    this['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
     
-    /**
-     * get Order Status
-     * @return {StatusEnum}
-     **/
-    self.getStatus = function() {
-      return self['status'];
-    }
-
-    /**
-     * set Order Status
-     * @param {StatusEnum} status
-     **/
-    self.setStatus = function(status) {
-      self['status'] = status;
-    }
+    this['status'] = ApiClient.convertToType(data['status'], 'String');
     
-    /**
-     * @return {Boolean}
-     **/
-    self.getComplete = function() {
-      return self['complete'];
-    }
-
-    /**
-     * @param {Boolean} complete
-     **/
-    self.setComplete = function(complete) {
-      self['complete'] = complete;
-    }
+    this['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
     
+    return this;
+  }
 
-    self.toJson = function() {
-      return JSON.stringify(self);
-    }
-  };
+  
+  /**
+   * @return {Integer}
+   **/
+  Order.prototype.getId = function() {
+    return this['id'];
+  }
+
+  /**
+   * @param {Integer} id
+   **/
+  Order.prototype.setId = function(id) {
+    this['id'] = id;
+  }
+  
+  /**
+   * @return {Integer}
+   **/
+  Order.prototype.getPetId = function() {
+    return this['petId'];
+  }
+
+  /**
+   * @param {Integer} petId
+   **/
+  Order.prototype.setPetId = function(petId) {
+    this['petId'] = petId;
+  }
+  
+  /**
+   * @return {Integer}
+   **/
+  Order.prototype.getQuantity = function() {
+    return this['quantity'];
+  }
+
+  /**
+   * @param {Integer} quantity
+   **/
+  Order.prototype.setQuantity = function(quantity) {
+    this['quantity'] = quantity;
+  }
+  
+  /**
+   * @return {Date}
+   **/
+  Order.prototype.getShipDate = function() {
+    return this['shipDate'];
+  }
+
+  /**
+   * @param {Date} shipDate
+   **/
+  Order.prototype.setShipDate = function(shipDate) {
+    this['shipDate'] = shipDate;
+  }
+  
+  /**
+   * get Order Status
+   * @return {StatusEnum}
+   **/
+  Order.prototype.getStatus = function() {
+    return this['status'];
+  }
+
+  /**
+   * set Order Status
+   * @param {StatusEnum} status
+   **/
+  Order.prototype.setStatus = function(status) {
+    this['status'] = status;
+  }
+  
+  /**
+   * @return {Boolean}
+   **/
+  Order.prototype.getComplete = function() {
+    return this['complete'];
+  }
+
+  /**
+   * @param {Boolean} complete
+   **/
+  Order.prototype.setComplete = function(complete) {
+    this['complete'] = complete;
+  }
+  
+
+  Order.prototype.toJson = function() {
+    return JSON.stringify(this);
+  }
 
   if (module) {
     module.Order = Order;

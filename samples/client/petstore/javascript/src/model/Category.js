@@ -20,65 +20,64 @@
 
   
   var Category = function Category() { 
-    var self = this;
     
     /**
      * datatype: Integer
      **/
-    self['id'] = null;
+    this['id'] = null;
     
     /**
      * datatype: String
      **/
-    self['name'] = null;
+    this['name'] = null;
     
+  };
 
-    self.constructFromObject = function(data) {
-      if (!data) {
-        return this;
-      }
-      
-      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
-      
-      self['name'] = ApiClient.convertToType(data['name'], 'String');
-      
+  Category.prototype.constructFromObject = function(data) {
+    if (!data) {
       return this;
     }
-
     
-    /**
-     * @return {Integer}
-     **/
-    self.getId = function() {
-      return self['id'];
-    }
-
-    /**
-     * @param {Integer} id
-     **/
-    self.setId = function(id) {
-      self['id'] = id;
-    }
+    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     
-    /**
-     * @return {String}
-     **/
-    self.getName = function() {
-      return self['name'];
-    }
-
-    /**
-     * @param {String} name
-     **/
-    self.setName = function(name) {
-      self['name'] = name;
-    }
+    this['name'] = ApiClient.convertToType(data['name'], 'String');
     
+    return this;
+  }
 
-    self.toJson = function() {
-      return JSON.stringify(self);
-    }
-  };
+  
+  /**
+   * @return {Integer}
+   **/
+  Category.prototype.getId = function() {
+    return this['id'];
+  }
+
+  /**
+   * @param {Integer} id
+   **/
+  Category.prototype.setId = function(id) {
+    this['id'] = id;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  Category.prototype.getName = function() {
+    return this['name'];
+  }
+
+  /**
+   * @param {String} name
+   **/
+  Category.prototype.setName = function(name) {
+    this['name'] = name;
+  }
+  
+
+  Category.prototype.toJson = function() {
+    return JSON.stringify(this);
+  }
 
   if (module) {
     module.Category = Category;
