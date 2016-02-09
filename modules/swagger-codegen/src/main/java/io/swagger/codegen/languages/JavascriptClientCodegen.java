@@ -44,6 +44,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PROJECT_VERSION = "projectVersion";
     private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
     private static final String USE_PROMISES = "usePromises";
+    private static final String OMIT_MODEL_METHODS = "omitModelMethods";
 
     protected String projectName;
     protected String moduleName;
@@ -53,6 +54,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String sourceFolder = "src";
     protected String localVariablePrefix = "";
     protected boolean usePromises = false;
+    protected boolean omitModelMethods = false;
     
     public JavascriptClientCodegen() {
         super();
@@ -104,6 +106,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "name of the license the project uses (Default: using info.license.name)"));
         cliOptions.add(new CliOption(USE_PROMISES,
                 "use Promises as return values from the client API, instead of superagent callbacks")
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(OMIT_MODEL_METHODS,
+                "omits generation of getters and setters for model classes")
                 .defaultValue(Boolean.FALSE.toString()));
     }
 
@@ -174,7 +179,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(USE_PROMISES)) {
             usePromises = Boolean.parseBoolean((String)additionalProperties.get(USE_PROMISES));
         }
-        
+        if (additionalProperties.containsKey(OMIT_MODEL_METHODS)) {
+            omitModelMethods =  Boolean.parseBoolean((String)additionalProperties.get(OMIT_MODEL_METHODS));
+        }
+
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
@@ -218,6 +226,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         additionalProperties.put(USE_PROMISES, usePromises);
+        additionalProperties.put(OMIT_MODEL_METHODS, omitModelMethods);
 
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("index.mustache", sourceFolder, "index.js"));
