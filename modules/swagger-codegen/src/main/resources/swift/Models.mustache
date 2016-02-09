@@ -121,7 +121,7 @@ class Decoders {
                     // treat as a java date
                     return NSDate(timeIntervalSince1970: Double(sourceInt / 1000) )
                 }
-                fatalError("formatter failed to parse \(sourceString)")
+                fatalError("formatter failed to parse \(source)")
             } {{#models}}{{#model}}
 
 			// Decoder for [{{{classname}}}]
