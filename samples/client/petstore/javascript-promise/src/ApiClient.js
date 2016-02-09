@@ -7,10 +7,10 @@
     module.exports = factory(require('superagent'));
   } else {
     // Browser globals (root is window)
-    if (!root.{{moduleName}}) {
-      root.{{moduleName}} = {};
+    if (!root.SwaggerPetstore) {
+      root.SwaggerPetstore = {};
     }
-    root.{{moduleName}}.ApiClient = factory(root.superagent);
+    root.SwaggerPetstore.ApiClient = factory(root.superagent);
   }
 }(this, function(superagent) {
   'use strict';
@@ -19,7 +19,7 @@
     /**
      * The base path to put in front of every API call's (relative) path.
      */
-    this.basePath = '{{basePath}}'.replace(/\/+$/, '');
+    this.basePath = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
 
     /**
      * The default HTTP headers to be included for all API calls.
@@ -173,7 +173,7 @@
 
   ApiClient.prototype.callApi = function callApi(path, httpMethod, pathParams,
       queryParams, headerParams, formParams, bodyParam, contentTypes, accepts,
-      returnType{{^usePromises}}, callback{{/usePromises}}) {
+      returnType) {
     var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
@@ -214,7 +214,7 @@
       request.accept(accept);
     }
 
-    {{#usePromises}}
+    
     return new Promise( function(resolve,reject) {
       request.end(function(error, response) {
         if (error) {
@@ -226,20 +226,8 @@
         }
       });
     });
-    {{/usePromises}}
-    {{^usePromises}}
-    request.end(function(error, response) {
-      if (callback) {
-        var data = null;
-        if (!error) {
-          data = _this.deserialize(response, returnType);
-        }
-        callback(error, data, response);
-      }
-    });
-
-    return request;
-    {{/usePromises}}
+    
+    
   };
 
   ApiClient.parseDate = function parseDate(str) {

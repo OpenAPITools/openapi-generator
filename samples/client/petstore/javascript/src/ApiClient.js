@@ -214,6 +214,8 @@
       request.accept(accept);
     }
 
+    
+    
     request.end(function(error, response) {
       if (callback) {
         var data = null;
@@ -225,6 +227,7 @@
     });
 
     return request;
+    
   };
 
   ApiClient.parseDate = function parseDate(str) {

@@ -1,18 +1,38 @@
 package io.swagger.codegen.languages;
 
 import com.google.common.base.Strings;
-import io.swagger.codegen.*;
-import io.swagger.models.*;
+
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.models.Info;
+import io.swagger.models.License;
+import io.swagger.models.Model;
+import io.swagger.models.Operation;
+import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -23,6 +43,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PROJECT_DESCRIPTION = "projectDescription";
     private static final String PROJECT_VERSION = "projectVersion";
     private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
+    private static final String USE_PROMISES = "usePromises";
 
     protected String projectName;
     protected String moduleName;
@@ -31,7 +52,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     protected String sourceFolder = "src";
     protected String localVariablePrefix = "";
-
+    protected boolean usePromises = false;
+    
     public JavascriptClientCodegen() {
         super();
         outputFolder = "generated-code/js";
@@ -40,7 +62,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         templateDir = "Javascript";
         apiPackage = "api";
         modelPackage = "model";
-
+        
         // reference: http://www.w3schools.com/js/js_reserved.asp
         reservedWords = new HashSet<String>(
                 Arrays.asList(
@@ -80,6 +102,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "version of the project (Default: using info.version or \"1.0.0\")"));
         cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
                 "name of the license the project uses (Default: using info.license.name)"));
+        cliOptions.add(new CliOption(USE_PROMISES,
+                "use Promises as return values from the client API, instead of superagent callbacks")
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -146,7 +171,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             sourceFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
         }
-
+        if (additionalProperties.containsKey(USE_PROMISES)) {
+            usePromises = Boolean.parseBoolean((String)additionalProperties.get(USE_PROMISES));
+        }
+        
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
@@ -189,6 +217,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(PROJECT_VERSION, projectVersion);
         additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
+        additionalProperties.put(USE_PROMISES, usePromises);
 
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("index.mustache", sourceFolder, "index.js"));
