@@ -69,21 +69,37 @@
       return this;
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['id']) {
+      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    }
     
-    this['username'] = ApiClient.convertToType(data['username'], 'String');
+    if (data['username']) {
+      this['username'] = ApiClient.convertToType(data['username'], 'String');
+    }
     
-    this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
+    if (data['firstName']) {
+      this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
+    }
     
-    this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+    if (data['lastName']) {
+      this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+    }
     
-    this['email'] = ApiClient.convertToType(data['email'], 'String');
+    if (data['email']) {
+      this['email'] = ApiClient.convertToType(data['email'], 'String');
+    }
     
-    this['password'] = ApiClient.convertToType(data['password'], 'String');
+    if (data['password']) {
+      this['password'] = ApiClient.convertToType(data['password'], 'String');
+    }
     
-    this['phone'] = ApiClient.convertToType(data['phone'], 'String');
+    if (data['phone']) {
+      this['phone'] = ApiClient.convertToType(data['phone'], 'String');
+    }
     
-    this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
+    if (data['userStatus']) {
+      this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
+    }
     
     return this;
   }

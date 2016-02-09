@@ -87,17 +87,29 @@ var StatusEnum = function StatusEnum() {
       return this;
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['id']) {
+      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    }
     
-    this['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
+    if (data['petId']) {
+      this['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
+    }
     
-    this['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
+    if (data['quantity']) {
+      this['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
+    }
     
-    this['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
+    if (data['shipDate']) {
+      this['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
+    }
     
-    this['status'] = ApiClient.convertToType(data['status'], 'String');
+    if (data['status']) {
+      this['status'] = ApiClient.convertToType(data['status'], 'String');
+    }
     
-    this['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
+    if (data['complete']) {
+      this['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
+    }
     
     return this;
   }
