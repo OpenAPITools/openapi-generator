@@ -71,6 +71,7 @@ public class DefaultCodegen {
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
@@ -247,6 +248,10 @@ public class DefaultCodegen {
         return additionalProperties;
     }
 
+    public Map<String, Object> vendorExtensions() {
+        return vendorExtensions;
+    }
+    
     public List<SupportingFile> supportingFiles() {
         return supportingFiles;
     }
