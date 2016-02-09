@@ -83,7 +83,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
                 "name of the license the project uses (Default: using info.license.name)"));
         cliOptions.add(new CliOption(USE_PROMISES,
-                "use Promises as return values from the client API, instead of superagent callbacks (Default: false)"));
+                "use Promises as return values from the client API, instead of superagent callbacks")
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
