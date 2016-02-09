@@ -24,10 +24,10 @@
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     
      *   data is of type: {'String': 'Integer'}
      */
-    self.getInventory = function(callback) {
+    self.getInventory = function() {
       var postBody = null;
       
 
@@ -48,7 +48,7 @@
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        contentTypes, accepts, returnType
       );
       
     }
@@ -57,10 +57,10 @@
      * Place an order for a pet
      * 
      * @param {Order}  body order placed for purchasing the pet
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     
      *   data is of type: Order
      */
-    self.placeOrder = function(body, callback) {
+    self.placeOrder = function(body) {
       var postBody = body;
       
 
@@ -81,7 +81,7 @@
       return this.apiClient.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        contentTypes, accepts, returnType
       );
       
     }
@@ -90,10 +90,10 @@
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
      * @param {String}  orderId ID of pet that needs to be fetched
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     
      *   data is of type: Order
      */
-    self.getOrderById = function(orderId, callback) {
+    self.getOrderById = function(orderId) {
       var postBody = null;
       
       // verify the required parameter 'orderId' is set
@@ -120,7 +120,7 @@
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        contentTypes, accepts, returnType
       );
       
     }
@@ -129,9 +129,9 @@
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param {String}  orderId ID of the order that needs to be deleted
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     
      */
-    self.deleteOrder = function(orderId, callback) {
+    self.deleteOrder = function(orderId) {
       var postBody = null;
       
       // verify the required parameter 'orderId' is set
@@ -158,7 +158,7 @@
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        contentTypes, accepts, returnType
       );
       
     }

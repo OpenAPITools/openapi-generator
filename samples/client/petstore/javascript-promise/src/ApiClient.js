@@ -173,7 +173,7 @@
 
   ApiClient.prototype.callApi = function callApi(path, httpMethod, pathParams,
       queryParams, headerParams, formParams, bodyParam, contentTypes, accepts,
-      returnType, callback) {
+      returnType) {
     var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
