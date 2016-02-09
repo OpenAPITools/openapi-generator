@@ -40,7 +40,9 @@
       return this;
     }
     {{#vars}}
-    this['{{baseName}}']{{{defaultValueWithParam}}}
+    if (data['{{baseName}}']) {
+      this['{{baseName}}']{{{defaultValueWithParam}}}
+    }
     {{/vars}}
     return this;
   }
