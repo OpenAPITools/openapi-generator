@@ -48,154 +48,153 @@ var StatusEnum = function StatusEnum() {
 
   
   var Pet = function Pet(photoUrls, name) { 
-    var self = this;
     
     /**
      * datatype: Integer
      **/
-    self['id'] = null;
+    this['id'] = null;
     
     /**
      * datatype: Category
      **/
-    self['category'] = new Category();
+    this['category'] = new Category();
     
     /**
      * datatype: String
      * required
      **/
-    self['name'] = name;
+    this['name'] = name;
     
     /**
      * datatype: [String]
      * required
      **/
-    self['photoUrls'] = photoUrls;
+    this['photoUrls'] = photoUrls;
     
     /**
      * datatype: [Tag]
      **/
-    self['tags'] = [];
+    this['tags'] = [];
     
     /**
      * pet status in the store
      * datatype: StatusEnum
      **/
-    self['status'] = null;
+    this['status'] = null;
     
+  };
 
-    self.constructFromObject = function(data) {
-      if (!data) {
-        return this;
-      }
-      
-      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
-      
-      self['category'].constructFromObject(data['category']);
-      
-      self['name'] = ApiClient.convertToType(data['name'], 'String');
-      
-      self['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
-      
-      self['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
-      
-      self['status'] = ApiClient.convertToType(data['status'], 'String');
-      
+  Pet.prototype.constructFromObject = function(data) {
+    if (!data) {
       return this;
     }
-
     
-    /**
-     * @return {Integer}
-     **/
-    self.getId = function() {
-      return self['id'];
-    }
-
-    /**
-     * @param {Integer} id
-     **/
-    self.setId = function(id) {
-      self['id'] = id;
-    }
+    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     
-    /**
-     * @return {Category}
-     **/
-    self.getCategory = function() {
-      return self['category'];
-    }
-
-    /**
-     * @param {Category} category
-     **/
-    self.setCategory = function(category) {
-      self['category'] = category;
-    }
+    this['category'].constructFromObject(data['category']);
     
-    /**
-     * @return {String}
-     **/
-    self.getName = function() {
-      return self['name'];
-    }
-
-    /**
-     * @param {String} name
-     **/
-    self.setName = function(name) {
-      self['name'] = name;
-    }
+    this['name'] = ApiClient.convertToType(data['name'], 'String');
     
-    /**
-     * @return {[String]}
-     **/
-    self.getPhotoUrls = function() {
-      return self['photoUrls'];
-    }
-
-    /**
-     * @param {[String]} photoUrls
-     **/
-    self.setPhotoUrls = function(photoUrls) {
-      self['photoUrls'] = photoUrls;
-    }
+    this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
     
-    /**
-     * @return {[Tag]}
-     **/
-    self.getTags = function() {
-      return self['tags'];
-    }
-
-    /**
-     * @param {[Tag]} tags
-     **/
-    self.setTags = function(tags) {
-      self['tags'] = tags;
-    }
+    this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
     
-    /**
-     * get pet status in the store
-     * @return {StatusEnum}
-     **/
-    self.getStatus = function() {
-      return self['status'];
-    }
-
-    /**
-     * set pet status in the store
-     * @param {StatusEnum} status
-     **/
-    self.setStatus = function(status) {
-      self['status'] = status;
-    }
+    this['status'] = ApiClient.convertToType(data['status'], 'String');
     
+    return this;
+  }
 
-    self.toJson = function() {
-      return JSON.stringify(self);
-    }
-  };
+  
+  /**
+   * @return {Integer}
+   **/
+  Pet.prototype.getId = function() {
+    return this['id'];
+  }
+
+  /**
+   * @param {Integer} id
+   **/
+  Pet.prototype.setId = function(id) {
+    this['id'] = id;
+  }
+  
+  /**
+   * @return {Category}
+   **/
+  Pet.prototype.getCategory = function() {
+    return this['category'];
+  }
+
+  /**
+   * @param {Category} category
+   **/
+  Pet.prototype.setCategory = function(category) {
+    this['category'] = category;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  Pet.prototype.getName = function() {
+    return this['name'];
+  }
+
+  /**
+   * @param {String} name
+   **/
+  Pet.prototype.setName = function(name) {
+    this['name'] = name;
+  }
+  
+  /**
+   * @return {[String]}
+   **/
+  Pet.prototype.getPhotoUrls = function() {
+    return this['photoUrls'];
+  }
+
+  /**
+   * @param {[String]} photoUrls
+   **/
+  Pet.prototype.setPhotoUrls = function(photoUrls) {
+    this['photoUrls'] = photoUrls;
+  }
+  
+  /**
+   * @return {[Tag]}
+   **/
+  Pet.prototype.getTags = function() {
+    return this['tags'];
+  }
+
+  /**
+   * @param {[Tag]} tags
+   **/
+  Pet.prototype.setTags = function(tags) {
+    this['tags'] = tags;
+  }
+  
+  /**
+   * get pet status in the store
+   * @return {StatusEnum}
+   **/
+  Pet.prototype.getStatus = function() {
+    return this['status'];
+  }
+
+  /**
+   * set pet status in the store
+   * @param {StatusEnum} status
+   **/
+  Pet.prototype.setStatus = function(status) {
+    this['status'] = status;
+  }
+  
+
+  Pet.prototype.toJson = function() {
+    return JSON.stringify(this);
+  }
 
   if (module) {
     module.Pet = Pet;

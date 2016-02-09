@@ -20,194 +20,193 @@
 
   
   var User = function User() { 
-    var self = this;
     
     /**
      * datatype: Integer
      **/
-    self['id'] = null;
+    this['id'] = null;
     
     /**
      * datatype: String
      **/
-    self['username'] = null;
+    this['username'] = null;
     
     /**
      * datatype: String
      **/
-    self['firstName'] = null;
+    this['firstName'] = null;
     
     /**
      * datatype: String
      **/
-    self['lastName'] = null;
+    this['lastName'] = null;
     
     /**
      * datatype: String
      **/
-    self['email'] = null;
+    this['email'] = null;
     
     /**
      * datatype: String
      **/
-    self['password'] = null;
+    this['password'] = null;
     
     /**
      * datatype: String
      **/
-    self['phone'] = null;
+    this['phone'] = null;
     
     /**
      * User Status
      * datatype: Integer
      **/
-    self['userStatus'] = null;
+    this['userStatus'] = null;
     
+  };
 
-    self.constructFromObject = function(data) {
-      if (!data) {
-        return this;
-      }
-      
-      self['id'] = ApiClient.convertToType(data['id'], 'Integer');
-      
-      self['username'] = ApiClient.convertToType(data['username'], 'String');
-      
-      self['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
-      
-      self['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
-      
-      self['email'] = ApiClient.convertToType(data['email'], 'String');
-      
-      self['password'] = ApiClient.convertToType(data['password'], 'String');
-      
-      self['phone'] = ApiClient.convertToType(data['phone'], 'String');
-      
-      self['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
-      
+  User.prototype.constructFromObject = function(data) {
+    if (!data) {
       return this;
     }
-
     
-    /**
-     * @return {Integer}
-     **/
-    self.getId = function() {
-      return self['id'];
-    }
-
-    /**
-     * @param {Integer} id
-     **/
-    self.setId = function(id) {
-      self['id'] = id;
-    }
+    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     
-    /**
-     * @return {String}
-     **/
-    self.getUsername = function() {
-      return self['username'];
-    }
-
-    /**
-     * @param {String} username
-     **/
-    self.setUsername = function(username) {
-      self['username'] = username;
-    }
+    this['username'] = ApiClient.convertToType(data['username'], 'String');
     
-    /**
-     * @return {String}
-     **/
-    self.getFirstName = function() {
-      return self['firstName'];
-    }
-
-    /**
-     * @param {String} firstName
-     **/
-    self.setFirstName = function(firstName) {
-      self['firstName'] = firstName;
-    }
+    this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
     
-    /**
-     * @return {String}
-     **/
-    self.getLastName = function() {
-      return self['lastName'];
-    }
-
-    /**
-     * @param {String} lastName
-     **/
-    self.setLastName = function(lastName) {
-      self['lastName'] = lastName;
-    }
+    this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
     
-    /**
-     * @return {String}
-     **/
-    self.getEmail = function() {
-      return self['email'];
-    }
-
-    /**
-     * @param {String} email
-     **/
-    self.setEmail = function(email) {
-      self['email'] = email;
-    }
+    this['email'] = ApiClient.convertToType(data['email'], 'String');
     
-    /**
-     * @return {String}
-     **/
-    self.getPassword = function() {
-      return self['password'];
-    }
-
-    /**
-     * @param {String} password
-     **/
-    self.setPassword = function(password) {
-      self['password'] = password;
-    }
+    this['password'] = ApiClient.convertToType(data['password'], 'String');
     
-    /**
-     * @return {String}
-     **/
-    self.getPhone = function() {
-      return self['phone'];
-    }
-
-    /**
-     * @param {String} phone
-     **/
-    self.setPhone = function(phone) {
-      self['phone'] = phone;
-    }
+    this['phone'] = ApiClient.convertToType(data['phone'], 'String');
     
-    /**
-     * get User Status
-     * @return {Integer}
-     **/
-    self.getUserStatus = function() {
-      return self['userStatus'];
-    }
-
-    /**
-     * set User Status
-     * @param {Integer} userStatus
-     **/
-    self.setUserStatus = function(userStatus) {
-      self['userStatus'] = userStatus;
-    }
+    this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
     
+    return this;
+  }
 
-    self.toJson = function() {
-      return JSON.stringify(self);
-    }
-  };
+  
+  /**
+   * @return {Integer}
+   **/
+  User.prototype.getId = function() {
+    return this['id'];
+  }
+
+  /**
+   * @param {Integer} id
+   **/
+  User.prototype.setId = function(id) {
+    this['id'] = id;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  User.prototype.getUsername = function() {
+    return this['username'];
+  }
+
+  /**
+   * @param {String} username
+   **/
+  User.prototype.setUsername = function(username) {
+    this['username'] = username;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  User.prototype.getFirstName = function() {
+    return this['firstName'];
+  }
+
+  /**
+   * @param {String} firstName
+   **/
+  User.prototype.setFirstName = function(firstName) {
+    this['firstName'] = firstName;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  User.prototype.getLastName = function() {
+    return this['lastName'];
+  }
+
+  /**
+   * @param {String} lastName
+   **/
+  User.prototype.setLastName = function(lastName) {
+    this['lastName'] = lastName;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  User.prototype.getEmail = function() {
+    return this['email'];
+  }
+
+  /**
+   * @param {String} email
+   **/
+  User.prototype.setEmail = function(email) {
+    this['email'] = email;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  User.prototype.getPassword = function() {
+    return this['password'];
+  }
+
+  /**
+   * @param {String} password
+   **/
+  User.prototype.setPassword = function(password) {
+    this['password'] = password;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  User.prototype.getPhone = function() {
+    return this['phone'];
+  }
+
+  /**
+   * @param {String} phone
+   **/
+  User.prototype.setPhone = function(phone) {
+    this['phone'] = phone;
+  }
+  
+  /**
+   * get User Status
+   * @return {Integer}
+   **/
+  User.prototype.getUserStatus = function() {
+    return this['userStatus'];
+  }
+
+  /**
+   * set User Status
+   * @param {Integer} userStatus
+   **/
+  User.prototype.setUserStatus = function(userStatus) {
+    this['userStatus'] = userStatus;
+  }
+  
+
+  User.prototype.toJson = function() {
+    return JSON.stringify(this);
+  }
 
   if (module) {
     module.User = User;
