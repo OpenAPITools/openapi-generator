@@ -126,7 +126,7 @@ class Decoders {
             Decoders.addDecoder(clazz: {{{classname}}}.self) { (source: AnyObject) -> {{{classname}}} in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = {{classname}}(){{#vars}}{{#isEnum}}
-                instance.{{name}} = (sourceDictionary["{{name}}"] as? String).map { {{classname}}.{{datatypeWithEnum}}(rawValue: $0)! }{{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}} {{/isEnum}}{{^isEnum}}
+                instance.{{name}} = {{classname}}.{{datatypeWithEnum}}(rawValue: (sourceDictionary["{{name}}"] as? String) ?? ""){{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}} {{/isEnum}}{{^isEnum}}
                 instance.{{name}} = Decoders.decode{{^unwrapRequired}}Optional{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}Optional{{/required}}{{/unwrapRequired}}(clazz: {{{baseType}}}.self, source: sourceDictionary["{{name}}"]{{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}}){{/isEnum}}{{/vars}}
                 return instance
             }{{/model}}
