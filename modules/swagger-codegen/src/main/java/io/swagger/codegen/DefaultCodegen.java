@@ -593,6 +593,9 @@ public class DefaultCodegen {
      */
     @SuppressWarnings("static-method") 
     public String toExampleValue(Property p) {
+        if(p.getExample() != null) {
+            return p.getExample().toString();
+        }
         if (p instanceof StringProperty) {
             return "null";
         } else if (p instanceof BooleanProperty) {
