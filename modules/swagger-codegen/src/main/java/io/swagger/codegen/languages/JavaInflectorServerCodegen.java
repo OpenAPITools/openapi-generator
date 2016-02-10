@@ -8,11 +8,10 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.util.Yaml;
-
-import java.util.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
 
@@ -72,10 +71,10 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         super.processOpts();
 
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
-        supportingFiles.add(new SupportingFile("inflector.mustache", "", "inflector.yaml"));
+        writeOptional(new SupportingFile("pom.mustache", "", "pom.xml"));
+        writeOptional(new SupportingFile("README.mustache", "", "README.md"));
+        writeOptional(new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
+        writeOptional(new SupportingFile("inflector.mustache", "", "inflector.yaml"));
         supportingFiles.add(new SupportingFile("swagger.mustache",
                         "src/main/swagger",
                         "swagger.yaml")

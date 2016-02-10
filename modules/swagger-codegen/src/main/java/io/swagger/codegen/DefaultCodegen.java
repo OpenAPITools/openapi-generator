@@ -2207,4 +2207,23 @@ public class DefaultCodegen {
         // $php_variable => php_variable
         return name.replaceAll("[^a-zA-Z0-9_]", "");
     }
+
+    /**
+     * only write if the file doesn't exist
+     *
+     * @param supportingFile
+     */
+    public void writeOptional(SupportingFile supportingFile) {
+        String folder = supportingFile.folder;
+        if(!"".equals(folder)) {
+            folder += File.separator + supportingFile.destinationFilename;
+        }
+        else {
+            folder = supportingFile.destinationFilename;
+        }
+        if(!new File(folder).exists()) {
+            System.out.println("writing file " + folder);
+            supportingFiles.add(supportingFile);
+        }
+    }
 }
