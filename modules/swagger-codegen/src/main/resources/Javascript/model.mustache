@@ -35,16 +35,17 @@
     {{/vars}}
   };
 
-  {{classname}}.prototype.constructFromObject = function(data) {
+  {{classname}}.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
     }
+    var _this = new {{classname}}();
     {{#vars}}
     if (data['{{baseName}}']) {
-      this['{{baseName}}']{{{defaultValueWithParam}}}
+      _this['{{baseName}}']{{{defaultValueWithParam}}}
     }
     {{/vars}}
-    return this;
+    return _this;
   }
 
   {{^omitModelMethods}}
