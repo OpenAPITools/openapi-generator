@@ -24,7 +24,7 @@ import javax.ws.rs.core.SecurityContext;
 public class {{classname}}ServiceImpl extends {{classname}}Service {
     {{#operation}}
     @Override
-    public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}},{{/allParams}}SecurityContext securityContext)
+    public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}, {{/allParams}}SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
