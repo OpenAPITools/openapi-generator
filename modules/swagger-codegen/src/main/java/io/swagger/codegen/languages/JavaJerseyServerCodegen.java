@@ -63,8 +63,15 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void processOpts()
-    {
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if("null".equals(property.example)) {
+            property.example = null;
+        }
+    }
+
+    @Override
+    public void processOpts() {
         super.processOpts();
 
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER) ) {
