@@ -2222,7 +2222,6 @@ public class DefaultCodegen {
             folder = supportingFile.destinationFilename;
         }
         if(!new File(folder).exists()) {
-            System.out.println("writing file " + folder);
             supportingFiles.add(supportingFile);
         }
     }
