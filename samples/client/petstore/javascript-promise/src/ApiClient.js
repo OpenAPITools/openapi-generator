@@ -250,8 +250,7 @@
       default:
         if (typeof type === 'function') {
           // for model type like: User
-          var model = new type();
-          model.constructFromObject(data);
+          var model = type.constructFromObject(data);
           return model;
         } else if (Array.isArray(type)) {
           // for array type like: ['String']

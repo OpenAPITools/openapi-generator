@@ -82,38 +82,40 @@ var StatusEnum = function StatusEnum() {
     
   };
 
-  Order.prototype.constructFromObject = function(data) {
+  Order.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
     }
+    var _this = new Order();
     
     if (data['id']) {
-      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
     if (data['petId']) {
-      this['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
+      _this['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
     }
     
     if (data['quantity']) {
-      this['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
+      _this['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
     }
     
     if (data['shipDate']) {
-      this['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
+      _this['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
     }
     
     if (data['status']) {
-      this['status'] = ApiClient.convertToType(data['status'], 'String');
+      _this['status'] = ApiClient.convertToType(data['status'], 'String');
     }
     
     if (data['complete']) {
-      this['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
+      _this['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
     }
     
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -200,6 +202,7 @@ var StatusEnum = function StatusEnum() {
   Order.prototype.setComplete = function(complete) {
     this['complete'] = complete;
   }
+  
   
 
   Order.prototype.toJson = function() {
