@@ -89,17 +89,29 @@ var StatusEnum = function StatusEnum() {
       return this;
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['id']) {
+      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    }
     
-    this['category'].constructFromObject(data['category']);
+    if (data['category']) {
+      this['category'].constructFromObject(data['category']);
+    }
     
-    this['name'] = ApiClient.convertToType(data['name'], 'String');
+    if (data['name']) {
+      this['name'] = ApiClient.convertToType(data['name'], 'String');
+    }
     
-    this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
+    if (data['photoUrls']) {
+      this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
+    }
     
-    this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+    if (data['tags']) {
+      this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+    }
     
-    this['status'] = ApiClient.convertToType(data['status'], 'String');
+    if (data['status']) {
+      this['status'] = ApiClient.convertToType(data['status'], 'String');
+    }
     
     return this;
   }
