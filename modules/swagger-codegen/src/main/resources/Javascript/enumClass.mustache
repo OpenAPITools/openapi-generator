@@ -6,14 +6,12 @@ if ( typeof define === "function" && define.amd ) {
 	 });
 }
 
-var {{datatypeWithEnum}} = function {{datatypeWithEnum}}() {
-	var self = this;
-
+var {{datatypeWithEnum}} = {
 {{#allowableValues}}{{#enumVars}}
 	/**
 	 * @const
 	 */
-	self.{{name}} = "{{value}}"{{^-last}},
-	{{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
+	{{name}}: "{{value}}"{{^-last}},
+	{{/-last}}{{/enumVars}}{{/allowableValues}}
 
 }

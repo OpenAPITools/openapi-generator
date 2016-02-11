@@ -105,6 +105,7 @@
   }
 
   
+  
   /**
    * @return {Integer}
    **/
@@ -218,6 +219,7 @@
   User.prototype.setUserStatus = function(userStatus) {
     this['userStatus'] = userStatus;
   }
+  
   
 
   User.prototype.toJson = function() {

@@ -24,24 +24,22 @@ if ( typeof define === "function" && define.amd ) {
 	 });
 }
 
-var StatusEnum = function StatusEnum() {
-	var self = this;
-
+var StatusEnum = {
 
 	/**
 	 * @const
 	 */
-	self.PLACED = "placed",
+	PLACED: "placed",
 	
 	/**
 	 * @const
 	 */
-	self.APPROVED = "approved",
+	APPROVED: "approved",
 	
 	/**
 	 * @const
 	 */
-	self.DELIVERED = "delivered";
+	DELIVERED: "delivered"
 
 }
 
@@ -114,6 +112,7 @@ var StatusEnum = function StatusEnum() {
     return this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -200,6 +199,7 @@ var StatusEnum = function StatusEnum() {
   Order.prototype.setComplete = function(complete) {
     this['complete'] = complete;
   }
+  
   
 
   Order.prototype.toJson = function() {
