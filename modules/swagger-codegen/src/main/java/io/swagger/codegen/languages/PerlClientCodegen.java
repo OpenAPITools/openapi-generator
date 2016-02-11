@@ -30,6 +30,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separatorChar + "perl";
         modelTemplateFiles.put("object.mustache", ".pm");
         apiTemplateFiles.put("api.mustache", ".pm");
+        modelTestTemplateFiles.put("object_test.mustache", ".t");
+        apiTestTemplateFiles.put("api_test.mustache", ".t");
         embeddedTemplateDir = templateDir = "perl";
 
 
@@ -142,6 +144,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + "/lib/" + modulePathPart + modelPackage()).replace('/', File.separatorChar);
     }
 
+
+    @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + "/t").replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + "/t").replace('/', File.separatorChar);
+    }
+
     @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
@@ -216,6 +229,16 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + "Test";
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "Test";
     }
 
     @Override
