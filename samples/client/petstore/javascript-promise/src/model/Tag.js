@@ -38,9 +38,13 @@
       return this;
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['id']) {
+      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    }
     
-    this['name'] = ApiClient.convertToType(data['name'], 'String');
+    if (data['name']) {
+      this['name'] = ApiClient.convertToType(data['name'], 'String');
+    }
     
     return this;
   }
