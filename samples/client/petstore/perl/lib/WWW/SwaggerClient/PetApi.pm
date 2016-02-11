@@ -679,10 +679,10 @@ sub upload_file {
     __PACKAGE__->method_documentation->{ get_pet_by_id_with_byte_array } = { 
     	summary => 'Fake endpoint to test byte array return by &#39;Find pet by ID&#39;',
         params => $params,
-        returns => 'binary',
+        returns => 'string',
         };
 }
-# @return binary
+# @return string
 #
 sub get_pet_by_id_with_byte_array {
     my ($self, %args) = @_;
@@ -732,7 +732,7 @@ sub get_pet_by_id_with_byte_array {
     if (!$response) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('binary', $response);
+    my $_response_object = $self->{api_client}->deserialize('string', $response);
     return $_response_object;
     
 }
@@ -742,11 +742,11 @@ sub get_pet_by_id_with_byte_array {
 #
 # Fake endpoint to test byte array in body parameter for adding a new pet to the store
 # 
-# @param binary $body Pet object in the form of byte array (optional)
+# @param string $body Pet object in the form of byte array (optional)
 {
     my $params = {
     'body' => {
-        data_type => 'binary',
+        data_type => 'string',
         description => 'Pet object in the form of byte array',
         required => '0',
     },
