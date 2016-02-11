@@ -294,6 +294,21 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
+  public String toOperationId(String operationId) {
+    // throw exception if method name is empty
+    if (StringUtils.isEmpty(operationId)) {
+      throw new RuntimeException("Empty method name (operationId) not allowed");
+    }
+
+    // method name cannot use reserved keyword, e.g. return
+    if (reservedWords.contains(operationId)) {
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+    }
+
+    return camelize(sanitizeName(operationId), true);
+  }
+
+  @Override
   public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
     path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
     List<Parameter> parameters = operation.getParameters();
