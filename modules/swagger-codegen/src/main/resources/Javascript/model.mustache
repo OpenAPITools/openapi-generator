@@ -45,6 +45,7 @@
     return this;
   }
 
+  {{^omitModelMethods}}
   {{#vars}}
   /**{{#description}}
    * get {{{description}}}{{/description}}{{#minimum}}
@@ -64,6 +65,7 @@
     this['{{baseName}}'] = {{name}};
   }
   {{/vars}}
+  {{/omitModelMethods}}
 
   {{classname}}.prototype.toJson = function() {
     return JSON.stringify(this);
