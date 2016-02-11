@@ -50,6 +50,7 @@
   }
 
   
+  
   /**
    * @return {Integer}
    **/
@@ -77,6 +78,7 @@
   Category.prototype.setName = function(name) {
     this['name'] = name;
   }
+  
   
 
   Category.prototype.toJson = function() {

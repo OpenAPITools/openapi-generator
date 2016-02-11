@@ -50,6 +50,7 @@
   }
 
   
+  
   /**
    * @return {Integer}
    **/
@@ -77,6 +78,7 @@
   Tag.prototype.setName = function(name) {
     this['name'] = name;
   }
+  
   
 
   Tag.prototype.toJson = function() {
