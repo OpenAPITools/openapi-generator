@@ -69,6 +69,8 @@ public class DefaultCodegen {
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> apiDocTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -228,6 +230,14 @@ public class DefaultCodegen {
         }
     }
 
+    public Map<String, String> apiDocTemplateFiles() {
+        return apiDocTemplateFiles;
+    }
+
+    public Map<String, String> modelDocTemplateFiles() {
+        return modelDocTemplateFiles;
+    }
+
     public Map<String, String> apiTestTemplateFiles() {
         return apiTestTemplateFiles;
     }
@@ -258,6 +268,14 @@ public class DefaultCodegen {
 
     public String modelTestFileFolder() {
         return outputFolder + "/" + testPackage().replace('.', '/');
+    }
+
+    public String apiDocFileFolder() {
+        return outputFolder;
+    }
+
+    public String modelDocFileFolder() {
+        return outputFolder;
     }
 
     public Map<String, Object> additionalProperties() {
@@ -323,6 +341,16 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the file name of the Api Documentation 
+     * 
+     * @param name the file name of the Api
+     * @return the file name of the Api
+     */
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
+    }
+
+    /**
      * Return the file name of the Api Test
      *
      * @param name the file name of the Api
@@ -362,6 +390,16 @@ public class DefaultCodegen {
         return initialCaps(name) + "Test";
     }
 
+    /**
+     * Return the capitalized file name of the model documentation
+     * 
+     * @param name the model name
+     * @return the file name of the model
+     */
+    public String toModelDocFilename(String name) {
+        return initialCaps(name);
+    }
+    
     /**
      * Return the operation ID (method name)
      *
@@ -2194,6 +2232,19 @@ public class DefaultCodegen {
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         return apiFileFolder() + '/' + toApiFilename(tag) + suffix;
+    }
+
+    /**
+     * Return the full path and API documentation file
+     *
+     * @param templateName template name
+     * @param tag tag
+     *
+     * @return the API documentation file name with full path
+     */
+    public String apiDocFilename(String templateName, String tag) {
+        String suffix = apiDocTemplateFiles().get(templateName);
+        return apiDocFileFolder() + '/' + toApiDocFilename(tag) + suffix;
     }
 
     /**
