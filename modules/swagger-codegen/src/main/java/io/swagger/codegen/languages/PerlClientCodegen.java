@@ -34,6 +34,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTemplateFiles.put("api.mustache", ".pm");
         modelTestTemplateFiles.put("object_test.mustache", ".t");
         apiTestTemplateFiles.put("api_test.mustache", ".t");
+        modelDocTemplateFiles.put("object_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "perl";
 
 
@@ -147,7 +149,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + "/lib/" + modulePathPart + modelPackage()).replace('/', File.separatorChar);
     }
 
-
     @Override
     public String apiTestFileFolder() {
         return (outputFolder + "/t").replace('/', File.separatorChar);
@@ -156,6 +157,16 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelTestFileFolder() {
         return (outputFolder + "/t").replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder).replace('/', File.separatorChar);
     }
 
     @Override
@@ -252,8 +263,18 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toModelDocFilename(String name) {
+        return toModelFilename(name);
+    }
+
+    @Override
     public String toApiTestFilename(String name) {
         return toApiFilename(name) + "Test";
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiFilename(name);
     }
 
     @Override
