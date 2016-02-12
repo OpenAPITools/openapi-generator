@@ -1,0 +1,153 @@
+{{#operations}}
+#import "{{classname}}.h"
+#import "{{classPrefix}}QueryParamCollection.h"
+{{#imports}}#import "{{import}}.h"
+{{/imports}}
+{{newline}}
+
+@interface {{classname}} ()
+
+@property (nonatomic, strong, readwrite) {{classPrefix}}ApiSessionManager *sessionManager;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *defaultHeaders;
+
+@end
+
+@implementation {{classname}}
+
+#pragma mark - Initialize methods
+
+- (id) initWithSessionManager:({{classPrefix}}ApiSessionManager *)sessionManager {
+    self = [super init];
+    if (self) {
+        _sessionManager = sessionManager;
+        _defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    
+    return self;
+}
+
+#pragma mark -
+
+-(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self.defaultHeaders setValue:value forKey:key];
+}
+
+#pragma mark - Api Methods
+
+{{#operation}}
+///
+/// {{{summary}}}
+/// {{{notes}}}
+/// {{#allParams}} @param {{paramName}} {{{description}}}
+///
+/// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+///
+-(NSURLSessionTask*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
+        {{/allParams}}
+        {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock { {{/returnBaseType}}
+        {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock { {{/returnBaseType}}
+
+    {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `{{paramName}}` when calling `{{nickname}}`"];
+    }
+    {{/required}}{{/allParams}}
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"{{path}}"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    {{#pathParams}}if ({{paramName}} != nil) {
+        pathParams[@"{{baseName}}"] = {{paramName}};
+    }
+    {{/pathParams}}
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    {{#queryParams}}if ({{paramName}} != nil) {
+        {{#collectionFormat}}
+        queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
+        {{/collectionFormat}}
+        {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
+    }
+    {{/queryParams}}
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    {{#headerParams}}if ({{paramName}} != nil) {
+        headerParams[@"{{baseName}}"] = {{paramName}};
+    }
+    {{/headerParams}}
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [{{classPrefix}}ApiSessionManager selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [{{classPrefix}}ApiSessionManager selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
+
+    // Authentication setting
+    NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    {{#bodyParam}}
+    bodyParam = {{paramName}};
+    {{/bodyParam}}{{^bodyParam}}
+    {{#formParams}}
+    {{#notFile}}
+    if ({{paramName}}) {
+        formParams[@"{{baseName}}"] = {{paramName}};
+    }
+    {{/notFile}}{{#isFile}}
+    files[@"{{paramName}}"] = {{paramName}};
+    {{/isFile}}
+    {{/formParams}}
+    {{/bodyParam}}
+
+    {{#requiredParamCount}}
+    {{#requiredParams}}
+    if ({{paramName}} == nil) {
+        // error
+    }
+    {{/requiredParams}}
+    {{/requiredParamCount}}
+    return [self.sessionManager requestWithCompletionBlock: resourcePath
+                                                    method: @"{{httpMethod}}"
+                                                pathParams: pathParams
+                                                queryParams: queryParams
+                                                formParams: formParams
+                                                     files: files
+                                                      body: bodyParam
+                                              headerParams: headerParams
+                                              authSettings: authSettings
+                                        requestContentType: requestContentType
+                                       responseContentType: responseContentType
+                                              responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
+                                           completionBlock: ^(id data, NSError *error) {
+                  {{^returnType}}completionBlock(error);{{/returnType}}
+                  {{#returnType}}completionBlock(({{{ returnType }}})data, error);{{/returnType}}
+              }
+          ];
+}
+
+{{/operation}}
+
+{{newline}}
+{{/operations}}
+@end
