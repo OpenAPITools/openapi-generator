@@ -14,10 +14,7 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-
   
   var Tag = function Tag() { 
     
@@ -85,6 +82,8 @@
   Tag.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  
 
   if (module) {
     module.Tag = Tag;
