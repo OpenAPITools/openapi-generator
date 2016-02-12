@@ -76,10 +76,8 @@ static SWGUserApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUserWithCompletionBlock: (SWGUser*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) createUserWithBody: (SWGUser*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -128,22 +126,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -154,10 +151,8 @@ static SWGUserApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithArrayInputWithCompletionBlock: (NSArray<SWGUser>*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -206,22 +201,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -232,10 +226,8 @@ static SWGUserApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithListInputWithCompletionBlock: (NSArray<SWGUser>*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -284,22 +276,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -312,11 +303,9 @@ static SWGUserApi* singletonAPI = nil;
 ///
 ///  @returns NSString*
 ///
--(NSNumber*) loginUserWithCompletionBlock: (NSString*) username
-         password: (NSString*) password
-        
-        completionHandler: (void (^)(NSString* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) loginUserWithUsername: (NSString*) username
+    password: (NSString*) password
+    completionHandler: (void (^)(NSString* output, NSError* error)) handler {
 
     
 
@@ -373,22 +362,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSString*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSString*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSString*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSString*)data, error);
+                           }
           ];
 }
 
@@ -397,9 +385,8 @@ static SWGUserApi* singletonAPI = nil;
 /// 
 ///  @returns void
 ///
--(NSNumber*) logoutUserWithCompletionBlock: 
-        
-        (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) logoutUserWithCompletionHandler: 
+    (void (^)(NSError* error)) handler {
 
     
 
@@ -448,22 +435,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -474,10 +460,8 @@ static SWGUserApi* singletonAPI = nil;
 ///
 ///  @returns SWGUser*
 ///
--(NSNumber*) getUserByNameWithCompletionBlock: (NSString*) username
-        
-        completionHandler: (void (^)(SWGUser* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getUserByNameWithUsername: (NSString*) username
+    completionHandler: (void (^)(SWGUser* output, NSError* error)) handler {
 
     
     // verify the required parameter 'username' is set
@@ -534,22 +518,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"SWGUser*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((SWGUser*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGUser*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGUser*)data, error);
+                           }
           ];
 }
 
@@ -562,11 +545,9 @@ static SWGUserApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) updateUserWithCompletionBlock: (NSString*) username
-         body: (SWGUser*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) updateUserWithUsername: (NSString*) username
+    body: (SWGUser*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'username' is set
@@ -623,22 +604,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -649,10 +629,8 @@ static SWGUserApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) deleteUserWithCompletionBlock: (NSString*) username
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) deleteUserWithUsername: (NSString*) username
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'username' is set
@@ -709,22 +687,21 @@ static SWGUserApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 

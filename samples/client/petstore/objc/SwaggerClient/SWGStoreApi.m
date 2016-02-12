@@ -74,9 +74,8 @@ static SWGStoreApi* singletonAPI = nil;
 /// Returns a map of status codes to quantities
 ///  @returns NSDictionary* /* NSString, NSNumber */
 ///
--(NSNumber*) getInventoryWithCompletionBlock: 
-        (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getInventoryWithCompletionHandler: 
+    (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error)) handler {
 
     
 
@@ -125,22 +124,21 @@ static SWGStoreApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSDictionary* /* NSString, NSNumber */"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSDictionary* /* NSString, NSNumber */)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSDictionary* /* NSString, NSNumber */"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSDictionary* /* NSString, NSNumber */)data, error);
+                           }
           ];
 }
 
@@ -151,10 +149,8 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 ///  @returns SWGOrder*
 ///
--(NSNumber*) placeOrderWithCompletionBlock: (SWGOrder*) body
-        
-        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
 
     
 
@@ -203,22 +199,21 @@ static SWGStoreApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"SWGOrder*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((SWGOrder*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGOrder*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGOrder*)data, error);
+                           }
           ];
 }
 
@@ -229,10 +224,8 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 ///  @returns SWGOrder*
 ///
--(NSNumber*) getOrderByIdWithCompletionBlock: (NSString*) orderId
-        
-        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
+    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
 
     
     // verify the required parameter 'orderId' is set
@@ -289,22 +282,21 @@ static SWGStoreApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"SWGOrder*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((SWGOrder*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGOrder*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGOrder*)data, error);
+                           }
           ];
 }
 
@@ -315,10 +307,8 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) deleteOrderWithCompletionBlock: (NSString*) orderId
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'orderId' is set
@@ -375,22 +365,21 @@ static SWGStoreApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
