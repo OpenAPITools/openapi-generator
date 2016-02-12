@@ -14,36 +14,7 @@
   }
 }(this, function(module, ApiClient, Category, Tag) {
   'use strict';
-
   
-  
-//export module
-if ( typeof define === "function" && define.amd ) {
-	define('StatusEnum', [], function() {
-        return StatusEnum;
-	 });
-}
-
-var StatusEnum = {
-
-	/**
-	 * @const
-	 */
-	AVAILABLE: "available",
-	
-	/**
-	 * @const
-	 */
-	PENDING: "pending",
-	
-	/**
-	 * @const
-	 */
-	SOLD: "sold"
-
-}
-
-
   
   var Pet = function Pet(photoUrls, name) { 
     
@@ -208,6 +179,27 @@ var StatusEnum = {
   Pet.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  var StatusEnum = {
+
+	  /**
+	   * @const
+	   */
+	  AVAILABLE: "available",
+	  
+	  /**
+	   * @const
+	   */
+	  PENDING: "pending",
+	  
+	  /**
+	   * @const
+	   */
+	  SOLD: "sold"
+  };
+
+  Pet.StatusEnum = StatusEnum;
+
 
   if (module) {
     module.Pet = Pet;
