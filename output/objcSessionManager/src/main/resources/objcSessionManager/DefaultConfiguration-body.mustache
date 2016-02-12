@@ -1,0 +1,38 @@
+#import "{{classPrefix}}DefaultConfiguration.h"
+
+@implementation {{classPrefix}}DefaultConfiguration
+
+#pragma mark - Singletion Methods
+
++ (instancetype) sharedConfiguration {
+    static {{classPrefix}}DefaultConfiguration *shardConfig = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shardConfig = [[self alloc] init];
+    });
+    return shardConfig;
+}
+
+#pragma mark - Initialize Methods
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        _host = @"{{basePath}}";
+        _username = @"";
+        _password = @"";
+        _tempFolderPath = nil;
+        _debug = NO;
+        _cacheEnabled = YES;
+        _offlineState = NO;
+    }
+    return self;
+}
+
+#pragma mark -
+
+- (NSDictionary *) authSettings {
+    return @{};
+}
+
+@end
