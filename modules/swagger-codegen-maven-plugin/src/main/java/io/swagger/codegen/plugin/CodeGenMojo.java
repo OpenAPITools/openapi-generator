@@ -160,7 +160,7 @@ public class CodeGenMojo extends AbstractMojo {
         
         Set<String> definedOptions = new HashSet<String>();
         for (CliOption langCliOption : config.cliOptions()) {
-        	definedOptions.add(langCliOption.getOpt());
+            definedOptions.add(langCliOption.getOpt());
         }
         
         if (configOptions != null) {
@@ -178,15 +178,15 @@ public class CodeGenMojo extends AbstractMojo {
                 Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("instantiation-types").toString());
                 config.instantiationTypes().putAll(mappings);
             }
-        	addAdditionalProperties(config, definedOptions, configOptions);
+            addAdditionalProperties(config, definedOptions, configOptions);
         }
 
         if (null != configurationFile) {
             Config genConfig = ConfigParser.read(configurationFile);
             if (null != genConfig) {
-            	addAdditionalProperties(config, definedOptions, genConfig.getOptions());
+                addAdditionalProperties(config, definedOptions, genConfig.getOptions());
             } else {
-            	throw new RuntimeException("Unable to read configuration file");
+                throw new RuntimeException("Unable to read configuration file");
             }
         }
         
@@ -205,8 +205,8 @@ public class CodeGenMojo extends AbstractMojo {
             new DefaultGenerator().opts(input).generate();
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
-        	// I find it annoying to jump through hoops to get basic diagnostic information,
-        	// so let's log it in any case:
+            // I find it annoying to jump through hoops to get basic diagnostic information,
+            // so let's log it in any case:
             getLog().error(e); 
             throw new MojoExecutionException("Code generation failed. See above for the full exception.");
         }
@@ -217,12 +217,12 @@ public class CodeGenMojo extends AbstractMojo {
     }
     
     private void addAdditionalProperties(CodegenConfig config, Set<String> definedOptions, Map<?,?> configOptions) {
-    	for(Map.Entry<?, ?> configEntry : configOptions.entrySet()) {
-    		config.additionalProperties().put(configEntry.getKey().toString(), configEntry.getValue());
-    		if(!definedOptions.contains(configEntry.getKey())) {
-    			getLog().warn("Additional property: " + configEntry.getKey() + " is not defined for this language.");
-    		}
-    	}
+        for(Map.Entry<?, ?> configEntry : configOptions.entrySet()) {
+            config.additionalProperties().put(configEntry.getKey().toString(), configEntry.getValue());
+            if(!definedOptions.contains(configEntry.getKey())) {
+                getLog().warn("Additional property: " + configEntry.getKey() + " is not defined for this language.");
+            }
+        }
     }
 
     private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
