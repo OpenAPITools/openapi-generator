@@ -16,6 +16,7 @@ namespace {{packageName}}.Api
     /// </summary>
     public interface I{{classname}}
     {
+        #region Synchronous Operations
         {{#operation}}
         /// <summary>
         /// {{summary}}
@@ -36,7 +37,11 @@ namespace {{packageName}}.Api
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-
+        {{/operation}}
+        #endregion Synchronous Operations
+        {{#supportsAsync}}
+        #region Asynchronous Operations
+        {{#operation}}
         /// <summary>
         /// {{summary}}
         /// </summary>
@@ -57,6 +62,8 @@ namespace {{packageName}}.Api
         {{/allParams}}/// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
         System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
+        #endregion Asynchronous Operations
+        {{/supportsAsync}}
     }
   
     /// <summary>
@@ -245,7 +252,8 @@ namespace {{packageName}}.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);{{/returnType}}
         }
-    
+
+        {{#supportsAsync}}
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
@@ -349,7 +357,7 @@ namespace {{packageName}}.Api
             {{^returnType}}return new ApiResponse<Object>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);{{/returnType}}
-        }
+        }{{/supportsAsync}}
         {{/operation}}
     }
     {{/operations}}
