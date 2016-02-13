@@ -146,7 +146,7 @@ namespace IO.Swagger.Client
             var response = RestClient.Execute(request);
             return (Object) response;
         }
-
+        
         /// <summary>
         /// Makes the asynchronous HTTP request.
         /// </summary>

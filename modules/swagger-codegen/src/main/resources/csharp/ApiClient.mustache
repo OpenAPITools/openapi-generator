@@ -146,7 +146,7 @@ namespace {{packageName}}.Client
             var response = RestClient.Execute(request);
             return (Object) response;
         }
-
+        {{#supportsAsync}}
         /// <summary>
         /// Makes the asynchronous HTTP request.
         /// </summary>
@@ -171,7 +171,7 @@ namespace {{packageName}}.Client
                 pathParams, contentType);
             var response = await RestClient.ExecuteTaskAsync(request);
             return (Object)response;
-        }
+        }{{/supportsAsync}}
     
         /// <summary>
         /// Escape string (url-encoded).
@@ -367,7 +367,7 @@ namespace {{packageName}}.Client
         /// <param name="source">Object to be casted</param>
         /// <param name="dest">Target type</param>
         /// <returns>Casted object</returns>
-        public static dynamic ConvertType(dynamic source, Type dest)
+        {{#supportsAsync}}public static dynamic ConvertType(dynamic source, Type dest){{/supportsAsync}}{{^supportsAsync}}public static object ConvertType<T>(T source, Type dest) where T : class{{/supportsAsync}}
         {
             return Convert.ChangeType(source, dest);
         }
