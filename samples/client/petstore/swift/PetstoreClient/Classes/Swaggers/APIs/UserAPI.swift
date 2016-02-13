@@ -84,8 +84,8 @@ extension PetstoreClientAPI {
          
          - GET /user/login
          - 
-         - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
-         - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
+         - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
+         - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
          
          - parameter username: (query) The user name for login
          - parameter password: (query) The password for login in clear text
@@ -134,7 +134,7 @@ extension PetstoreClientAPI {
          
          - GET /user/{username}
          - 
-         - examples: [{contentType=application/json, example={
+         - examples: [{example={
   "id" : 1,
   "username" : "johnp",
   "firstName" : "John",
@@ -143,7 +143,7 @@ extension PetstoreClientAPI {
   "password" : "-secret-",
   "phone" : "0123456789",
   "userStatus" : 0
-}}]
+}, contentType=application/json}]
          
          - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
 
