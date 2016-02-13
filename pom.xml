@@ -399,7 +399,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/objc</module>
+                <module>samples/client/petstore/objc/SwaggerClientTests</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>swift-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>swift</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/swift/SwaggerClientTests</module>
             </modules>
         </profile>
         <profile>
@@ -459,9 +471,10 @@
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
-                <!--module>samples/client/petstore/objc</module-->
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/server/petstore/jaxrs</module>
+                <module>samples/client/petstore/swift/SwaggerClientTests</module>
+                <module>samples/client/petstore/objc/SwaggerClientTests</module>
             </modules>
         </profile>
     </profiles>
