@@ -71,20 +71,20 @@ extension PetstoreClientAPI {
          - OAuth:
            - type: oauth2
            - name: petstore_auth
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -93,21 +93,21 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -116,7 +116,7 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
          
          - parameter status: (query) Status values that need to be considered for filter
 
@@ -145,20 +145,20 @@ extension PetstoreClientAPI {
          - OAuth:
            - type: oauth2
            - name: petstore_auth
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -167,21 +167,21 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-         - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+         - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -190,7 +190,7 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
          
          - parameter tags: (query) Tags to filter by
 
@@ -219,20 +219,20 @@ extension PetstoreClientAPI {
          - API Key:
            - type: apiKey api_key 
            - name: api_key
-         - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+         - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -241,21 +241,21 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-         - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+         - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -264,7 +264,7 @@ extension PetstoreClientAPI {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
          
          - parameter petId: (path) ID of pet that needs to be fetched
 
@@ -372,6 +372,60 @@ extension PetstoreClientAPI {
             let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: false)
+        }
+    
+        /**
+         
+         Fake endpoint to test byte array return by 'Find pet by ID'
+         
+         - GET /pet/{petId}?testing_byte_array=true
+         - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+         - API Key:
+           - type: apiKey api_key 
+           - name: api_key
+         - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
+         - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
+         
+         - parameter petId: (path) ID of pet that needs to be fetched
+
+         - returns: RequestBuilder<String> 
+         */
+        public class func getPetByIdWithByteArray(petId petId: Int) -> RequestBuilder<String> {
+            var path = "/pet/{petId}?testing_byte_array=true"
+            path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
+            let URLString = PetstoreClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [:]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+        }
+    
+        /**
+         
+         Fake endpoint to test byte array in body parameter for adding a new pet to the store
+         
+         - POST /pet?testing_byte_array=true
+         - 
+         - OAuth:
+           - type: oauth2
+           - name: petstore_auth
+         
+         - parameter body: (body) Pet object in the form of byte array
+
+         - returns: RequestBuilder<Void> 
+         */
+        public class func addPetUsingByteArray(body body: String?) -> RequestBuilder<Void> {
+            let path = "/pet?testing_byte_array=true"
+            let URLString = PetstoreClientAPI.basePath + path
+            
+            let parameters = body?.encodeToJSON() as? [String:AnyObject]
+
+            let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
         }
     
     }
