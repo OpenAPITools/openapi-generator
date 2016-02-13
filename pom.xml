@@ -473,8 +473,8 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/server/petstore/jaxrs</module>
-                <module>samples/client/petstore/swift/SwaggerClientTests</module>
                 <module>samples/client/petstore/objc/SwaggerClientTests</module>
+                <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
             </modules>
         </profile>
     </profiles>
