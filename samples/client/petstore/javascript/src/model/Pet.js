@@ -84,38 +84,40 @@ var StatusEnum = function StatusEnum() {
     
   };
 
-  Pet.prototype.constructFromObject = function(data) {
+  Pet.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
     }
+    var _this = new Pet();
     
     if (data['id']) {
-      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
     if (data['category']) {
-      this['category'].constructFromObject(data['category']);
+      _this['category'] = Category.constructFromObject(data['category']);
     }
     
     if (data['name']) {
-      this['name'] = ApiClient.convertToType(data['name'], 'String');
+      _this['name'] = ApiClient.convertToType(data['name'], 'String');
     }
     
     if (data['photoUrls']) {
-      this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
+      _this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
     }
     
     if (data['tags']) {
-      this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+      _this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
     }
     
     if (data['status']) {
-      this['status'] = ApiClient.convertToType(data['status'], 'String');
+      _this['status'] = ApiClient.convertToType(data['status'], 'String');
     }
     
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -202,6 +204,7 @@ var StatusEnum = function StatusEnum() {
   Pet.prototype.setStatus = function(status) {
     this['status'] = status;
   }
+  
   
 
   Pet.prototype.toJson = function() {

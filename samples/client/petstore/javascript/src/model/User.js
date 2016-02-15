@@ -64,46 +64,48 @@
     
   };
 
-  User.prototype.constructFromObject = function(data) {
+  User.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
     }
+    var _this = new User();
     
     if (data['id']) {
-      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
     if (data['username']) {
-      this['username'] = ApiClient.convertToType(data['username'], 'String');
+      _this['username'] = ApiClient.convertToType(data['username'], 'String');
     }
     
     if (data['firstName']) {
-      this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
+      _this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
     }
     
     if (data['lastName']) {
-      this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+      _this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
     }
     
     if (data['email']) {
-      this['email'] = ApiClient.convertToType(data['email'], 'String');
+      _this['email'] = ApiClient.convertToType(data['email'], 'String');
     }
     
     if (data['password']) {
-      this['password'] = ApiClient.convertToType(data['password'], 'String');
+      _this['password'] = ApiClient.convertToType(data['password'], 'String');
     }
     
     if (data['phone']) {
-      this['phone'] = ApiClient.convertToType(data['phone'], 'String');
+      _this['phone'] = ApiClient.convertToType(data['phone'], 'String');
     }
     
     if (data['userStatus']) {
-      this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
+      _this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
     }
     
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -218,6 +220,7 @@
   User.prototype.setUserStatus = function(userStatus) {
     this['userStatus'] = userStatus;
   }
+  
   
 
   User.prototype.toJson = function() {

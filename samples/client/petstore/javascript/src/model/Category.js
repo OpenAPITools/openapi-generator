@@ -33,22 +33,24 @@
     
   };
 
-  Category.prototype.constructFromObject = function(data) {
+  Category.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
     }
+    var _this = new Category();
     
     if (data['id']) {
-      this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
     if (data['name']) {
-      this['name'] = ApiClient.convertToType(data['name'], 'String');
+      _this['name'] = ApiClient.convertToType(data['name'], 'String');
     }
     
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -77,6 +79,7 @@
   Category.prototype.setName = function(name) {
     this['name'] = name;
   }
+  
   
 
   Category.prototype.toJson = function() {
