@@ -14,7 +14,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 	public String getHelp() {
 		return "Generates a TypeScript AngularJS client library.";
 	}
-
+	
+	@Override
+    public void processOpts() {
+        super.processOpts();
+	    supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage().replace('.', File.separatorChar), "api.d.ts"));
+	}
+	
 	public TypeScriptAngularClientCodegen() {
 	    super();
 	    outputFolder = "generated-code/typescript-angular";
@@ -23,6 +29,5 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 	    embeddedTemplateDir = templateDir = "TypeScript-Angular";
 	    apiPackage = "API.Client";
 	    modelPackage = "API.Client";
-	    supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage().replace('.', File.separatorChar), "api.d.ts"));
 	}
 }
