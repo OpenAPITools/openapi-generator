@@ -133,6 +133,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 config.additionalProperties().put("termsOfService", info.getTermsOfService());
             }
         }
+        
+        if(swagger.getVendorExtensions() != null) {
+        	config.vendorExtensions().putAll(swagger.getVendorExtensions());
+        }
 
         StringBuilder hostBuilder = new StringBuilder();
         String scheme;
@@ -273,6 +277,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("classname", config.toApiName(tag));
                     operation.put("classVarName", config.toApiVarName(tag));
                     operation.put("importPath", config.toApiImport(tag));
+                    
+                    if(!config.vendorExtensions().isEmpty()) {
+                    	operation.put("vendorExtensions", config.vendorExtensions());
+                    }
 
                     // Pass sortParamsByRequiredFlag through to the Mustache template...
                     boolean sortParamsByRequiredFlag = true;

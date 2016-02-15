@@ -18,6 +18,8 @@ public interface CodegenConfig {
     String getHelp();
 
     Map<String, Object> additionalProperties();
+    
+    Map<String, Object> vendorExtensions();
 
     String testPackage();
 
