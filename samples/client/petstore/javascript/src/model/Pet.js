@@ -24,24 +24,22 @@ if ( typeof define === "function" && define.amd ) {
 	 });
 }
 
-var StatusEnum = function StatusEnum() {
-	var self = this;
-
+var StatusEnum = {
 
 	/**
 	 * @const
 	 */
-	self.AVAILABLE = "available",
+	AVAILABLE: "available",
 	
 	/**
 	 * @const
 	 */
-	self.PENDING = "pending",
+	PENDING: "pending",
 	
 	/**
 	 * @const
 	 */
-	self.SOLD = "sold";
+	SOLD: "sold"
 
 }
 
