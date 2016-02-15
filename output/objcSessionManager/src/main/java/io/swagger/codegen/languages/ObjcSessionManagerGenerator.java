@@ -1,4 +1,4 @@
-package com.diamonddogs.codegen;
+package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-public class ObjcsessionmanagerGenerator extends DefaultCodegen implements CodegenConfig {
+public class ObjcSessionManagerGenerator extends DefaultCodegen implements CodegenConfig {
 
   public static final String CLASS_PREFIX = "classPrefix";
   public static final String POD_NAME = "podName";
@@ -38,10 +38,10 @@ public class ObjcsessionmanagerGenerator extends DefaultCodegen implements Codeg
 
 
 
-  public ObjcsessionmanagerGenerator() {
+  public ObjcSessionManagerGenerator() {
       super();
       
-      outputFolder = "generated-code" + File.separator + "objc-SessionManager";
+      outputFolder = "generated-code" + File.separator + "ObjcSessionManager";
 
       modelTemplateFiles.put("model-header.mustache", ".h");
       modelTemplateFiles.put("model-body.mustache", ".m");
@@ -49,7 +49,7 @@ public class ObjcsessionmanagerGenerator extends DefaultCodegen implements Codeg
       apiTemplateFiles.put("api-header.mustache", ".h");
       apiTemplateFiles.put("api-body.mustache", ".m");
 
-      embeddedTemplateDir = templateDir = "objc-SessionManager";
+      embeddedTemplateDir = templateDir = "ObjcSessionManager";
 
       defaultIncludes.clear();
       defaultIncludes.add("bool");

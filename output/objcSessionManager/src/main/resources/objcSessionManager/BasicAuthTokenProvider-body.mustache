@@ -2,8 +2,8 @@
 
 @implementation {{classPrefix}}BasicAuthTokenProvider
 
-+ (NSString *)createBasicAuthTokenWithUsername:(NSString *)username password:(NSString *)password
-{
++ (NSString *)createBasicAuthTokenWithUsername:(NSString *)username password:(NSString *)password {
+
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", username, password];
     NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
     basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];

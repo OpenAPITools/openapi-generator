@@ -10,7 +10,7 @@
 #define {{classPrefix}}DebugLog(format, ...) [{{classPrefix}}ApiSessionManager debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
 
 
-NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}ResponseObject";
+NSString * const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}ResponseObject";
 
 
 @interface {{classPrefix}}ApiSessionManager ()
@@ -21,37 +21,31 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
 
 @implementation {{classPrefix}}ApiSessionManager
 
-- (void)dealloc
-{
-    NSLog(@"%s: %p", __PRETTY_FUNCTION__, self);
-}
+- (instancetype)init {
 
-- (instancetype)init
-{
     return [self initWithConfiguration:[{{classPrefix}}DefaultConfiguration sharedConfiguration]];
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url
-{
+- (instancetype)initWithBaseURL:(NSURL *)url {
+
     return [self initWithBaseURL:url
                    configuration:[{{classPrefix}}DefaultConfiguration sharedConfiguration]];
     
 }
 
-- (instancetype)initWithConfiguration:(id<{{classPrefix}}Configuration>)configuration
-{
+- (instancetype)initWithConfiguration:(id<{{classPrefix}}Configuration>)configuration {
+
     return [self initWithBaseURL:[NSURL URLWithString:configuration.host] configuration:configuration];
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url
-                  configuration:(id<{{classPrefix}}Configuration>)configuration
-{
+                  configuration:(id<{{classPrefix}}Configuration>)configuration {
+
     self = [super initWithBaseURL:url];
-    if (self)
-    {
+    if (self) {
         _configuration = configuration;
     }
-    NSLog(@"%s: %p", __PRETTY_FUNCTION__, self);
+
     return self;
 }
 
@@ -67,8 +61,8 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
                               requestContentType:(NSString *)requestContentType
                              responseContentType:(NSString *)responseContentType
                                     responseType:(NSString *)responseType
-                                 completionBlock:(void (^)(id, NSError *))completionBlock
-{
+                                 completionBlock:(void (^)(id, NSError *))completionBlock {
+
     // setting request serializer
     if ([requestContentType isEqualToString:@"application/json"]) {
         self.requestSerializer = [{{classPrefix}}JSONRequestSerializer serializer];
@@ -151,12 +145,11 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
     if (headerParams != nil && [headerParams count] > 0) {
         hasHeaderParams = true;
     }
-    //if (offlineState) {
+
     if (self.configuration.offlineState) {
         {{classPrefix}}DebugLog(@"%@ cache forced", resourcePath);
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
     }
-    //else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
     else if(!hasHeaderParams && [method isEqualToString:@"GET"] && self.configuration.cacheEnabled) {
         {{classPrefix}}DebugLog(@"%@ cache enabled", resourcePath);
         [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
@@ -166,8 +159,8 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
         [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     }
     
-    if (hasHeaderParams){
-        for(NSString * key in [headerParams keyEnumerator]){
+    if (hasHeaderParams) {
+        for(NSString * key in [headerParams keyEnumerator]) {
             [request setValue:[headerParams valueForKey:key] forHTTPHeaderField:key];
         }
     }
@@ -303,7 +296,8 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
-- (id) sanitizeForSerialization:(id) object {
+- (id)sanitizeForSerialization:(id)object {
+
     if (object == nil) {
         return nil;
     }
@@ -345,7 +339,8 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
     }
 }
 
-- (id) deserialize:(id) data class:(NSString *) class {
+- (id)deserialize:(id)data class:(NSString *)class {
+
     NSRegularExpression *regexp = nil;
     NSTextCheckingResult *match = nil;
     NSMutableArray *resultArray = nil;
@@ -470,8 +465,9 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
     return nil;
 }
 
-- (NSString*) pathWithQueryParamsToString:(NSString*) path
-                              queryParams:(NSDictionary*) queryParams {
+- (NSString *)pathWithQueryParamsToString:(NSString *)path
+                              queryParams:(NSDictionary *)queryParams {
+
     NSString * separator = nil;
     int counter = 0;
     
@@ -525,7 +521,8 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
     return requestUrl;
 }
 
-- (NSString *) parameterToString:(id)param {
+- (NSString *)parameterToString:(id)param {
+
     if ([param isKindOfClass:[NSString class]]) {
         return param;
     }
@@ -556,7 +553,7 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
 /*
  * Detect `Accept` from accepts
  */
-+ (NSString *) selectHeaderAccept:(NSArray *)accepts {
++ (NSString *)selectHeaderAccept:(NSArray *)accepts {
     if (accepts == nil || [accepts count] == 0) {
         return @"";
     }
@@ -580,8 +577,7 @@ NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}Respons
 /*
  * Detect `Content-Type` from contentTypes
  */
-+ (NSString *) selectHeaderContentType:(NSArray *)contentTypes
-{
++ (NSString *)selectHeaderContentType:(NSArray *)contentTypes {
     if (contentTypes == nil || [contentTypes count] == 0) {
         return @"application/json";
     }

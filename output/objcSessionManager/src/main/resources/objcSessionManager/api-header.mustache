@@ -15,8 +15,8 @@
 
 @property (nonatomic, strong, readonly) {{classPrefix}}ApiSessionManager *sessionManager;
 
--(instancetype) initWithSessionManager:({{classPrefix}}ApiSessionManager *)sessionManager;
--(void) addHeader:(NSString*)value forKey:(NSString*)key;
+- (instancetype)initWithSessionManager:({{classPrefix}}ApiSessionManager *)sessionManager;
+- (void)addHeader:(NSString *)value forKey:(NSString *)key;
 
 {{#operation}}
 ///
@@ -28,12 +28,12 @@
 /// {{/allParams}}
 ///
 /// @return {{{returnType}}}
--(NSURLSessionTask*) {{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}}     {{paramName}}{{/secondaryParam}}:({{{dataType}}}) {{paramName}} {{#hasMore}}
+- (NSURLSessionTask *){{nickname}}WithCompletionBlock {{^allParams}}:{{/allParams}}{{#allParams}}{{#secondaryParam}}     {{paramName}}{{/secondaryParam}}:({{{dataType}}}){{paramName}} {{#hasMore}}
 {{/hasMore}}{{/allParams}}
     {{#returnBaseType}}{{#hasParams}}
-    completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock;{{/returnBaseType}}
+    completionHandler:{{/hasParams}}(void (^)({{{returnType}}} output, NSError *error))completionBlock;{{/returnBaseType}}
     {{^returnBaseType}}{{#hasParams}}
-    completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock;{{/returnBaseType}}
+    completionHandler: {{/hasParams}}(void (^)(NSError * error))completionBlock;{{/returnBaseType}}
 
 {{newline}}
 {{/operation}}
