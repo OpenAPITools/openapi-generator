@@ -16,7 +16,7 @@
 
 #pragma mark - Initialize methods
 
-- (id) initWithSessionManager:({{classPrefix}}ApiSessionManager *)sessionManager {
+- (id)initWithSessionManager:({{classPrefix}}ApiSessionManager *)sessionManager {
     self = [super init];
     if (self) {
         _sessionManager = sessionManager;
@@ -28,7 +28,7 @@
 
 #pragma mark -
 
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
+- (void)addHeader:(NSString *)value forKey:(NSString *)key {
     [self.defaultHeaders setValue:value forKey:key];
 }
 
@@ -42,7 +42,7 @@
 ///
 /// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 ///
--(NSURLSessionTask*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
+- (NSURLSessionTask *){{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
         {{/allParams}}
         {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock { {{/returnBaseType}}
         {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock { {{/returnBaseType}}

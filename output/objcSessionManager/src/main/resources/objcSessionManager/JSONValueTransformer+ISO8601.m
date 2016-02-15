@@ -2,8 +2,7 @@
 
 @implementation JSONValueTransformer (ISO8601)
 
-- (NSDate *) NSDateFromNSString:(NSString *)string
-{
+- (NSDate *)NSDateFromNSString:(NSString *)string {
     return [NSDate dateWithISO8601String:string];
 }
 

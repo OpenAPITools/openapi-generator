@@ -4,7 +4,8 @@
 
 #pragma mark - Singletion Methods
 
-+ (instancetype) sharedConfiguration {
++ (instancetype)sharedConfiguration {
+
     static {{classPrefix}}DefaultConfiguration *shardConfig = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -15,7 +16,7 @@
 
 #pragma mark - Initialize Methods
 
-- (instancetype) init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         _host = @"{{basePath}}";

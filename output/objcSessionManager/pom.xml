@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>objcSessionManager-swagger-codegen</artifactId>
+  <artifactId>ObjcSessionManager-swagger-codegen</artifactId>
   <packaging>jar</packaging>
-  <name>objcSessionManager-swagger-codegen</name>
+  <name>ObjcSessionManager-swagger-codegen</name>
   <version>1.0.0</version>
   <prerequisites>
     <maven>2.2.0</maven>

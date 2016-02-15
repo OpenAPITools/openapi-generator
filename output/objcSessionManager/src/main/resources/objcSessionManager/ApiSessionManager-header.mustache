@@ -37,18 +37,18 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  *
  * @return The created session task.
  */
-- (NSURLSessionTask *)requestWithCompletionBlock:(NSString*) path
+- (NSURLSessionTask *)requestWithCompletionBlock:(NSString*)path
                                           method:(NSString*) method
-                                      pathParams:(NSDictionary *) pathParams
-                                     queryParams:(NSDictionary*) queryParams
-                                      formParams:(NSDictionary *) formParams
-                                           files:(NSDictionary *) files
-                                            body:(id) body
-                                    headerParams:(NSDictionary*) headerParams
-                                    authSettings: (NSArray *) authSettings
-                              requestContentType:(NSString*) requestContentType
-                             responseContentType:(NSString*) responseContentType
-                                    responseType:(NSString *) responseType
+                                      pathParams:(NSDictionary *)pathParams
+                                     queryParams:(NSDictionary*)queryParams
+                                      formParams:(NSDictionary *)formParams
+                                           files:(NSDictionary *)files
+                                            body:(id)body
+                                    headerParams:(NSDictionary *)headerParams
+                                    authSettings: (NSArray *)authSettings
+                              requestContentType:(NSString *)requestContentType
+                             responseContentType:(NSString *)responseContentType
+                                    responseType:(NSString *)responseType
                                  completionBlock:(void (^)(id, NSError *))completionBlock;
 
 /**
@@ -58,7 +58,7 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  *
  * @return The Accept header
  */
-+(NSString *) selectHeaderAccept:(NSArray *)accepts;
++ (NSString *)selectHeaderAccept:(NSArray *)accepts;
 
 /**
  * Detects Content-Type header from contentTypes NSArray
@@ -67,6 +67,6 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  *
  * @return The Content-Type header
  */
-+(NSString *) selectHeaderContentType:(NSArray *)contentTypes;
++ (NSString *)selectHeaderContentType:(NSArray *)contentTypes;
 
 @end
