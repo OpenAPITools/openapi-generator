@@ -21,6 +21,11 @@
      */
     this.basePath = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
 
+    this.authentications = {
+      'petstore_auth': {type: 'oauth2'},
+      'api_key': {type: 'apiKey', in: 'header', name: 'api_key'}
+    };
+
     /**
      * The default HTTP headers to be included for all API calls.
      */
@@ -158,6 +163,42 @@
     }
   };
 
+  ApiClient.prototype.applyAuthToRequest = function applyAuthToRequest(request, authNames) {
+    var _this = this;
+    authNames.forEach(function(authName) {
+      var auth = _this.authentications[authName];
+      switch (auth.type) {
+        case 'basic':
+          if (auth.username || auth.password) {
+            request.auth(auth.username || '', auth.password || '');
+          }
+          break;
+        case 'apiKey':
+          if (auth.apiKey) {
+            var data = {};
+            if (auth.apiKeyPrefix) {
+              data[auth.name] = auth.apiKeyPrefix + ' ' + auth.apiKey;
+            } else {
+              data[auth.name] = auth.apiKey;
+            }
+            if (auth.in === 'header') {
+              request.set(data);
+            } else {
+              request.query(data);
+            }
+          }
+          break;
+        case 'oauth2':
+          if (auth.accessToken) {
+            request.set({'Authorization': 'Bearer ' + auth.accessToken});
+          }
+          break;
+        default:
+          throw new Error('Unknown authentication type: ' + auth.type);
+      }
+    });
+  };
+
   ApiClient.prototype.deserialize = function deserialize(response, returnType) {
     if (response == null || returnType == null) {
       return null;
@@ -172,11 +213,14 @@
   };
 
   ApiClient.prototype.callApi = function callApi(path, httpMethod, pathParams,
-      queryParams, headerParams, formParams, bodyParam, contentTypes, accepts,
-      returnType, callback) {
+      queryParams, headerParams, formParams, bodyParam, authNames, contentTypes,
+      accepts, returnType, callback) {
     var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
+
+    // apply authentications
+    this.applyAuthToRequest(request, authNames);
 
     // set query parameters
     request.query(this.normalizeParams(queryParams));
