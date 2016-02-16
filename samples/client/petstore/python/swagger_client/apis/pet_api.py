@@ -89,7 +89,7 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -165,7 +165,7 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -243,7 +243,7 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -319,7 +319,7 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -398,7 +398,7 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -479,12 +479,12 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
         if 'name' in params:
-            form_params['name'] = params['name']
+            form_params.append(('name', params['name']))
         if 'status' in params:
-            form_params['status'] = params['status']
+            form_params.append(('status', params['status']))
 
         body_params = None
 
@@ -565,7 +565,7 @@ class PetApi(object):
         if 'api_key' in params:
             header_params['api_key'] = params['api_key']
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -646,10 +646,10 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
         if 'additional_metadata' in params:
-            form_params['additionalMetadata'] = params['additional_metadata']
+            form_params.append(('additionalMetadata', params['additional_metadata']))
         if 'file' in params:
             files['file'] = params['file']
 
@@ -696,7 +696,7 @@ class PetApi(object):
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int pet_id: ID of pet that needs to be fetched (required)
-        :return: Binary
+        :return: str
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -729,7 +729,7 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -754,7 +754,7 @@ class PetApi(object):
                                             body=body_params,
                                             post_params=form_params,
                                             files=files,
-                                            response_type='Binary',
+                                            response_type='str',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
         return response
@@ -774,7 +774,7 @@ class PetApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param Binary body: Pet object in the form of byte array
+        :param str body: Pet object in the form of byte array
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -803,7 +803,7 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None

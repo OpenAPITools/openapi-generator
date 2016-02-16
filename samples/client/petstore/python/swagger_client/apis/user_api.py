@@ -89,7 +89,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -165,7 +165,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -241,7 +241,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -322,7 +322,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -395,7 +395,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -474,7 +474,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -554,7 +554,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -635,7 +635,7 @@ class UserApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None

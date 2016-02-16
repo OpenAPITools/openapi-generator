@@ -84,6 +84,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
         typeMapping.put("file", "NSURL");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "NSString");
 
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm

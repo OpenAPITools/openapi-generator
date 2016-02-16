@@ -32,8 +32,10 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static io.swagger.codegen.plugin.AdditionalParams.*;
 
@@ -155,40 +157,36 @@ public class CodeGenMojo extends AbstractMojo {
         if (null != invokerPackage) {
             config.additionalProperties().put(INVOKER_PACKAGE_PARAM, invokerPackage);
         }
-
+        
+        Set<String> definedOptions = new HashSet<String>();
+        for (CliOption langCliOption : config.cliOptions()) {
+            definedOptions.add(langCliOption.getOpt());
+        }
+        
         if (configOptions != null) {
-            for (CliOption langCliOption : config.cliOptions()) {
-                if (configOptions.containsKey(langCliOption.getOpt())) {
-                    config.additionalProperties().put(langCliOption.getOpt(),
-                            configOptions.get(langCliOption.getOpt()));
-                }
-            }
             if(configOptions.containsKey("import-mappings")) {
-                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.get("import-mappings").toString());
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("import-mappings").toString());
                 config.importMapping().putAll(mappings);
             }
 
             if(configOptions.containsKey("type-mappings")) {
-                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.get("type-mappings").toString());
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("type-mappings").toString());
                 config.typeMapping().putAll(mappings);
             }
 
             if(configOptions.containsKey("instantiation-types")) {
-                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.get("instantiation-types").toString());
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("instantiation-types").toString());
                 config.instantiationTypes().putAll(mappings);
             }
+            addAdditionalProperties(config, definedOptions, configOptions);
         }
 
         if (null != configurationFile) {
             Config genConfig = ConfigParser.read(configurationFile);
             if (null != genConfig) {
-                for (CliOption langCliOption : config.cliOptions()) {
-                    if (genConfig.hasOption(langCliOption.getOpt())) {
-                        config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
-                    }
-                }
+                addAdditionalProperties(config, definedOptions, genConfig.getOptions());
             } else {
-            	throw new RuntimeException("Unable to read configuration file");
+                throw new RuntimeException("Unable to read configuration file");
             }
         }
         
@@ -207,14 +205,23 @@ public class CodeGenMojo extends AbstractMojo {
             new DefaultGenerator().opts(input).generate();
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
-        	// I find it annoying to jump through hoops to get basic diagnostic information,
-        	// so let's log it in any case:
+            // I find it annoying to jump through hoops to get basic diagnostic information,
+            // so let's log it in any case:
             getLog().error(e); 
             throw new MojoExecutionException("Code generation failed. See above for the full exception.");
         }
 
         if (addCompileSourceRoot) {
             project.addCompileSourceRoot(output.toString());
+        }
+    }
+    
+    private void addAdditionalProperties(CodegenConfig config, Set<String> definedOptions, Map<?,?> configOptions) {
+        for(Map.Entry<?, ?> configEntry : configOptions.entrySet()) {
+            config.additionalProperties().put(configEntry.getKey().toString(), configEntry.getValue());
+            if(!definedOptions.contains(configEntry.getKey())) {
+                getLog().warn("Additional property: " + configEntry.getKey() + " is not defined for this language.");
+            }
         }
     }
 

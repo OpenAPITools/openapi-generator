@@ -14,16 +14,11 @@
   }
 }(this, function(module, ApiClient{{#imports}}, {{import}}{{/imports}}) {
   'use strict';
-
   {{#models}}{{#model}}
-  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
-
   {{#description}}/**
    * {{description}}
    **/{{/description}}
   var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
-    var self = this;
     {{#vars}}
     /**{{#description}}
      * {{{description}}}{{/description}}
@@ -32,43 +27,51 @@
      * minimum: {{minimum}}{{/minimum}}{{#maximum}}
      * maximum: {{maximum}}{{/maximum}}
      **/
-    self['{{baseName}}'] = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
+    this['{{baseName}}'] = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
     {{/vars}}
-
-    self.constructFromObject = function(data) {
-      if (!data) {
-        return this;
-      }
-      {{#vars}}
-      self['{{baseName}}']{{{defaultValueWithParam}}}
-      {{/vars}}
-      return this;
-    }
-
-    {{#vars}}
-    /**{{#description}}
-     * get {{{description}}}{{/description}}{{#minimum}}
-     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-     * maximum: {{maximum}}{{/maximum}}
-     * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
-     **/
-    self.{{getter}} = function() {
-      return self['{{baseName}}'];
-    }
-
-    /**{{#description}}
-     * set {{{description}}}{{/description}}
-     * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
-     **/
-    self.{{setter}} = function({{name}}) {
-      self['{{baseName}}'] = {{name}};
-    }
-    {{/vars}}
-
-    self.toJson = function() {
-      return JSON.stringify(self);
-    }
   };
+
+  {{classname}}.constructFromObject = function(data) {
+    if (!data) {
+      return null;
+    }
+    var _this = new {{classname}}();
+    {{#vars}}
+    if (data['{{baseName}}']) {
+      _this['{{baseName}}']{{{defaultValueWithParam}}}
+    }
+    {{/vars}}
+    return _this;
+  }
+
+  {{^omitModelMethods}}
+  {{#vars}}
+  /**{{#description}}
+   * get {{{description}}}{{/description}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
+   **/
+  {{classname}}.prototype.{{getter}} = function() {
+    return this['{{baseName}}'];
+  }
+
+  /**{{#description}}
+   * set {{{description}}}{{/description}}
+   * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
+   **/
+  {{classname}}.prototype.{{setter}} = function({{name}}) {
+    this['{{baseName}}'] = {{name}};
+  }
+  {{/vars}}
+  {{/omitModelMethods}}
+
+  {{classname}}.prototype.toJson = function() {
+    return JSON.stringify(this);
+  }
+
+  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
 
   if (module) {
     module.{{classname}} = {{classname}};

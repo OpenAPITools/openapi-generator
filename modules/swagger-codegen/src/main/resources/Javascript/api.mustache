@@ -25,10 +25,10 @@
      * {{summary}}
      * {{notes}}
   {{#allParams}}   * @param {{=<% %>=}}{<% dataType %>} <%={{ }}=%> {{paramName}} {{description}}
-  {{/allParams}}   * @param {function} callback the callback function, accepting three arguments: error, data, response{{#returnType}}
+  {{/allParams}}   {{^usePromises}}* @param {function} callback the callback function, accepting three arguments: error, data, response{{/usePromises}}{{#returnType}}
      *   data is of type: {{{returnType}}}{{/returnType}}
      */
-    self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}callback) {
+    self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{^usePromises}}{{#hasParams}}, {{/hasParams}}callback{{/usePromises}}) {
       var postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
       {{#allParams}}{{#required}}
       // verify the required parameter '{{paramName}}' is set
@@ -59,7 +59,7 @@
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
       );
       <={{ }}=>
     }

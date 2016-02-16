@@ -85,7 +85,7 @@ public class PetstoreProfiling {
 
     private void writeResultsToFile(List<Map<String, String>> results) {
         try {
-            File file = new File(outputFile);
+            java.io.File file = new java.io.File(outputFile);
             PrintWriter writer = new PrintWriter(file);
             String command = "mvn compile test-compile exec:java -Dexec.classpathScope=test -Dexec.mainClass=\"io.swagger.PetstoreProfiling\"";
             writer.println("# To run the profiling:");

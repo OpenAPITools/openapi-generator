@@ -88,7 +88,7 @@ class StoreApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -162,7 +162,7 @@ class StoreApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -243,7 +243,7 @@ class StoreApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None
@@ -322,7 +322,7 @@ class StoreApi(object):
 
         header_params = {}
 
-        form_params = {}
+        form_params = []
         files = {}
 
         body_params = None

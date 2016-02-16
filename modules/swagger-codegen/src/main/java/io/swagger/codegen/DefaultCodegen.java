@@ -71,6 +71,7 @@ public class DefaultCodegen {
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
@@ -247,6 +248,10 @@ public class DefaultCodegen {
         return additionalProperties;
     }
 
+    public Map<String, Object> vendorExtensions() {
+        return vendorExtensions;
+    }
+    
     public List<SupportingFile> supportingFiles() {
         return supportingFiles;
     }
@@ -593,6 +598,9 @@ public class DefaultCodegen {
      */
     @SuppressWarnings("static-method") 
     public String toExampleValue(Property p) {
+        if(p.getExample() != null) {
+            return p.getExample().toString();
+        }
         if (p instanceof StringProperty) {
             return "null";
         } else if (p instanceof BooleanProperty) {
@@ -1411,6 +1419,8 @@ public class DefaultCodegen {
                 } else if (param instanceof FormParameter) {
                     if ("file".equalsIgnoreCase(((FormParameter) param).getType())) {
                         p.isFile = true;
+                    } else if("file".equals(p.baseType)){
+                    	p.isFile = true;
                     } else {
                         p.notFile = true;
                     }
@@ -2204,5 +2214,23 @@ public class DefaultCodegen {
         // remove everything else other than word, number and _
         // $php_variable => php_variable
         return name.replaceAll("[^a-zA-Z0-9_]", "");
+    }
+
+    /**
+     * only write if the file doesn't exist
+     *
+     * @param supportingFile
+     */
+    public void writeOptional(SupportingFile supportingFile) {
+        String folder = supportingFile.folder;
+        if(!"".equals(folder)) {
+            folder += File.separator + supportingFile.destinationFilename;
+        }
+        else {
+            folder = supportingFile.destinationFilename;
+        }
+        if(!new File(folder).exists()) {
+            supportingFiles.add(supportingFile);
+        }
     }
 }
