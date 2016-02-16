@@ -14,10 +14,7 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-
   
   var User = function User() { 
     
@@ -226,6 +223,8 @@
   User.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  
 
   if (module) {
     module.User = User;
