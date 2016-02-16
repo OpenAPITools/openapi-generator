@@ -63,6 +63,7 @@ public class DefaultCodegen {
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
+    protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
@@ -826,8 +827,8 @@ public class DefaultCodegen {
      * @param name the name of the model
      * @return capitalized model name
      */
-    public String toModelName(String name) {
-        return initialCaps(name);
+    public String toModelName(final String name) {
+        return initialCaps(modelNamePrefix + name + modelNameSuffix);
     }
 
     /**
