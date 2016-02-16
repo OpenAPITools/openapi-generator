@@ -48,6 +48,8 @@ public class CodegenConfigurator {
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
+    private String modelNamePrefix;
+    private String modelNameSuffix;
     private String groupId;
     private String artifactId;
     private String artifactVersion;
@@ -94,6 +96,24 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setModelPackage(String modelPackage) {
         this.modelPackage = modelPackage;
+        return this;
+    }
+
+    public String getModelNamePrefix() {
+        return modelNamePrefix;
+    }
+
+    public CodegenConfigurator setModelNamePrefix(String prefix) {
+        this.modelNamePrefix = prefix;
+        return this;
+    }
+
+    public String getModelNameSuffix() {
+        return modelNameSuffix;
+    }
+
+    public CodegenConfigurator setModelNameSuffix(String suffix) {
+        this.modelNameSuffix = suffix;
         return this;
     }
 
