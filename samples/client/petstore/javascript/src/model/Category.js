@@ -14,10 +14,7 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-
   
   var Category = function Category() { 
     
@@ -85,6 +82,8 @@
   Category.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  
 
   if (module) {
     module.Category = Category;

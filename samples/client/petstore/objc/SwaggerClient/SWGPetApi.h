@@ -28,10 +28,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) updatePetWithCompletionBlock :(SWGPet*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) updatePetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -43,10 +41,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) addPetWithCompletionBlock :(SWGPet*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) addPetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -58,10 +54,8 @@
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByStatusWithCompletionBlock :(NSArray* /* NSString */) status 
-    
-    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
-    
+-(NSNumber*) findPetsByStatusWithStatus: (NSArray* /* NSString */) status
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
 ///
@@ -73,10 +67,8 @@
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByTagsWithCompletionBlock :(NSArray* /* NSString */) tags 
-    
-    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
-    
+-(NSNumber*) findPetsByTagsWithTags: (NSArray* /* NSString */) tags
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
 ///
@@ -88,10 +80,8 @@
 /// 
 ///
 /// @return SWGPet*
--(NSNumber*) getPetByIdWithCompletionBlock :(NSNumber*) petId 
-    
-    completionHandler: (void (^)(SWGPet* output, NSError* error))completionBlock;
-    
+-(NSNumber*) getPetByIdWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(SWGPet* output, NSError* error)) handler;
 
 
 ///
@@ -105,12 +95,10 @@
 /// 
 ///
 /// @return 
--(NSNumber*) updatePetWithFormWithCompletionBlock :(NSString*) petId 
-     name:(NSString*) name 
-     status:(NSString*) status 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
+    name: (NSString*) name
+    status: (NSString*) status
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -123,11 +111,9 @@
 /// 
 ///
 /// @return 
--(NSNumber*) deletePetWithCompletionBlock :(NSNumber*) petId 
-     apiKey:(NSString*) apiKey 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) deletePetWithPetId: (NSNumber*) petId
+    apiKey: (NSString*) apiKey
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -141,12 +127,10 @@
 /// 
 ///
 /// @return 
--(NSNumber*) uploadFileWithCompletionBlock :(NSNumber*) petId 
-     additionalMetadata:(NSString*) additionalMetadata 
-     file:(NSURL*) file 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
+    additionalMetadata: (NSString*) additionalMetadata
+    file: (NSURL*) file
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -158,10 +142,8 @@
 /// 
 ///
 /// @return NSString*
--(NSNumber*) getPetByIdWithByteArrayWithCompletionBlock :(NSNumber*) petId 
-    
-    completionHandler: (void (^)(NSString* output, NSError* error))completionBlock;
-    
+-(NSNumber*) getPetByIdWithByteArrayWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(NSString* output, NSError* error)) handler;
 
 
 ///
@@ -173,10 +155,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) addPetUsingByteArrayWithCompletionBlock :(NSString*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 

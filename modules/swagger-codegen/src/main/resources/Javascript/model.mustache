@@ -14,11 +14,7 @@
   }
 }(this, function(module, ApiClient{{#imports}}, {{import}}{{/imports}}) {
   'use strict';
-
   {{#models}}{{#model}}
-  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
-
   {{#description}}/**
    * {{description}}
    **/{{/description}}
@@ -73,6 +69,9 @@
   {{classname}}.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
 
   if (module) {
     module.{{classname}} = {{classname}};
