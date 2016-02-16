@@ -28,10 +28,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) createUserWithCompletionBlock :(SWGUser*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) createUserWithBody: (SWGUser*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -43,10 +41,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) createUsersWithArrayInputWithCompletionBlock :(NSArray<SWGUser>*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -58,10 +54,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) createUsersWithListInputWithCompletionBlock :(NSArray<SWGUser>*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -74,11 +68,9 @@
 /// 
 ///
 /// @return NSString*
--(NSNumber*) loginUserWithCompletionBlock :(NSString*) username 
-     password:(NSString*) password 
-    
-    completionHandler: (void (^)(NSString* output, NSError* error))completionBlock;
-    
+-(NSNumber*) loginUserWithUsername: (NSString*) username
+    password: (NSString*) password
+    completionHandler: (void (^)(NSString* output, NSError* error)) handler;
 
 
 ///
@@ -89,9 +81,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) logoutUserWithCompletionBlock :
-    
-    (void (^)(NSError* error))completionBlock;
+-(NSNumber*) logoutUserWithCompletionHandler: 
+    (void (^)(NSError* error)) handler;
 
 
 ///
@@ -103,10 +94,8 @@
 /// 
 ///
 /// @return SWGUser*
--(NSNumber*) getUserByNameWithCompletionBlock :(NSString*) username 
-    
-    completionHandler: (void (^)(SWGUser* output, NSError* error))completionBlock;
-    
+-(NSNumber*) getUserByNameWithUsername: (NSString*) username
+    completionHandler: (void (^)(SWGUser* output, NSError* error)) handler;
 
 
 ///
@@ -119,11 +108,9 @@
 /// 
 ///
 /// @return 
--(NSNumber*) updateUserWithCompletionBlock :(NSString*) username 
-     body:(SWGUser*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) updateUserWithUsername: (NSString*) username
+    body: (SWGUser*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -135,10 +122,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) deleteUserWithCompletionBlock :(NSString*) username 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) deleteUserWithUsername: (NSString*) username
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 

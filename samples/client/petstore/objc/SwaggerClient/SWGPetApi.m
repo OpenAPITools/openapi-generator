@@ -76,10 +76,8 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) updatePetWithCompletionBlock: (SWGPet*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) updatePetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -128,22 +126,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -154,10 +151,8 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) addPetWithCompletionBlock: (SWGPet*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) addPetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -206,22 +201,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -232,10 +226,8 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns NSArray<SWGPet>*
 ///
--(NSNumber*) findPetsByStatusWithCompletionBlock: (NSArray* /* NSString */) status
-        
-        completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) findPetsByStatusWithStatus: (NSArray* /* NSString */) status
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
 
     
 
@@ -290,22 +282,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSArray<SWGPet>*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSArray<SWGPet>*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSArray<SWGPet>*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSArray<SWGPet>*)data, error);
+                           }
           ];
 }
 
@@ -316,10 +307,8 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns NSArray<SWGPet>*
 ///
--(NSNumber*) findPetsByTagsWithCompletionBlock: (NSArray* /* NSString */) tags
-        
-        completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) findPetsByTagsWithTags: (NSArray* /* NSString */) tags
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
 
     
 
@@ -374,22 +363,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSArray<SWGPet>*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSArray<SWGPet>*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSArray<SWGPet>*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSArray<SWGPet>*)data, error);
+                           }
           ];
 }
 
@@ -400,10 +388,8 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns SWGPet*
 ///
--(NSNumber*) getPetByIdWithCompletionBlock: (NSNumber*) petId
-        
-        completionHandler: (void (^)(SWGPet* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getPetByIdWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(SWGPet* output, NSError* error)) handler {
 
     
     // verify the required parameter 'petId' is set
@@ -460,22 +446,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"SWGPet*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((SWGPet*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGPet*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGPet*)data, error);
+                           }
           ];
 }
 
@@ -490,12 +475,10 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) updatePetWithFormWithCompletionBlock: (NSString*) petId
-         name: (NSString*) name
-         status: (NSString*) status
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
+    name: (NSString*) name
+    status: (NSString*) status
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'petId' is set
@@ -564,22 +547,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -592,11 +574,9 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) deletePetWithCompletionBlock: (NSNumber*) petId
-         apiKey: (NSString*) apiKey
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) deletePetWithPetId: (NSNumber*) petId
+    apiKey: (NSString*) apiKey
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'petId' is set
@@ -656,22 +636,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -686,12 +665,10 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) uploadFileWithCompletionBlock: (NSNumber*) petId
-         additionalMetadata: (NSString*) additionalMetadata
-         file: (NSURL*) file
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
+    additionalMetadata: (NSString*) additionalMetadata
+    file: (NSURL*) file
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'petId' is set
@@ -758,22 +735,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -784,10 +760,8 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns NSString*
 ///
--(NSNumber*) getPetByIdWithByteArrayWithCompletionBlock: (NSNumber*) petId
-        
-        completionHandler: (void (^)(NSString* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getPetByIdWithByteArrayWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(NSString* output, NSError* error)) handler {
 
     
     // verify the required parameter 'petId' is set
@@ -844,22 +818,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSString*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSString*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSString*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSString*)data, error);
+                           }
           ];
 }
 
@@ -870,10 +843,8 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) addPetUsingByteArrayWithCompletionBlock: (NSString*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -922,22 +893,21 @@ static SWGPetApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
