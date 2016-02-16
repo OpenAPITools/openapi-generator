@@ -41,6 +41,7 @@
       var formParams = {
       };
 
+      var authNames = ['api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = {'String': 'Integer'};
@@ -48,7 +49,7 @@
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }
@@ -74,6 +75,7 @@
       var formParams = {
       };
 
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -81,7 +83,7 @@
       return this.apiClient.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }
@@ -113,6 +115,7 @@
       var formParams = {
       };
 
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -120,7 +123,7 @@
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }
@@ -151,6 +154,7 @@
       var formParams = {
       };
 
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -158,7 +162,7 @@
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }

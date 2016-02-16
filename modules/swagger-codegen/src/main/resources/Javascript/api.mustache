@@ -51,6 +51,7 @@
         '<baseName>': <#collectionFormat>this.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></formParams>
       };
 
+      var authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
       var contentTypes = [<#consumes>'<mediaType>'<#hasMore>, </hasMore></consumes>];
       var accepts = [<#produces>'<mediaType>'<#hasMore>, </hasMore></produces>];
       var returnType = <#returnType><&returnType></returnType><^returnType>null</returnType>;
@@ -58,7 +59,7 @@
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
+        authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
       );
       <={{ }}=>
     }
