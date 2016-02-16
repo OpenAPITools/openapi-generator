@@ -1,0 +1,18 @@
+use Test::More tests => 2;
+use Test::Exception;
+
+use lib 'lib';
+use strict;
+use warnings;
+
+{{#models}}
+{{#model}}
+
+use_ok('{{moduleName}}::Object::{{classname}}');
+
+my $instance = {{moduleName}}::Object::{{classname}}->new();
+
+isa_ok($instance, '{{moduleName}}::Object::{{classname}}');
+
+{{/model}}
+{{/models}}

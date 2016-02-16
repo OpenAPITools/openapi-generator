@@ -1,19 +1,10 @@
-
-//export module
-if ( typeof define === "function" && define.amd ) {
-	define('{{datatypeWithEnum}}', [], function() {
-        return {{datatypeWithEnum}};
-	 });
-}
-
-var {{datatypeWithEnum}} = function {{datatypeWithEnum}}() {
-	var self = this;
-
+var {{datatypeWithEnum}} = {
 {{#allowableValues}}{{#enumVars}}
-	/**
-	 * @const
-	 */
-	self.{{name}} = "{{value}}"{{^-last}},
-	{{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
+	  /**
+	   * @const
+	   */
+	  {{name}}: "{{value}}"{{^-last}},
+	  {{/-last}}{{/enumVars}}{{/allowableValues}}
+  };
 
-}
+  {{classname}}.{{datatypeWithEnum}} = {{datatypeWithEnum}};

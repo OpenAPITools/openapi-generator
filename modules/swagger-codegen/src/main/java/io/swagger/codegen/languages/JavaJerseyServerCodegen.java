@@ -63,8 +63,15 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void processOpts()
-    {
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if("null".equals(property.example)) {
+            property.example = null;
+        }
+    }
+
+    @Override
+    public void processOpts() {
         super.processOpts();
 
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER) ) {
@@ -72,13 +79,13 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen
         }
 
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        writeOptional(new SupportingFile("pom.mustache", "", "pom.xml"));
+        writeOptional(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
         supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
         supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
-        supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
+        writeOptional(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
 
         if ( additionalProperties.containsKey("dateLibrary") ) {

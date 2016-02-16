@@ -12,6 +12,7 @@ io.swagger.codegen.languages.JavaCXFServerCodegen
 io.swagger.codegen.languages.JavaResteasyServerCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
 io.swagger.codegen.languages.JavascriptClientCodegen
+io.swagger.codegen.languages.JavascriptClosureAngularClientCodegen
 io.swagger.codegen.languages.JMeterCodegen
 io.swagger.codegen.languages.NodeJSServerCodegen
 io.swagger.codegen.languages.ObjcClientCodegen
