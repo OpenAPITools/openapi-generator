@@ -19,16 +19,23 @@
    * {{description}}
    **/{{/description}}
   var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
-    {{#vars}}
+    {{#vars}}{{#required}}
     /**{{#description}}
      * {{{description}}}{{/description}}
-     * datatype: {{{datatypeWithEnum}}}{{#required}}
-     * required{{/required}}{{#minimum}}
+     * datatype: {{{datatypeWithEnum}}}
+     * required {{#minimum}}
      * minimum: {{minimum}}{{/minimum}}{{#maximum}}
      * maximum: {{maximum}}{{/maximum}}
      **/
-    this['{{baseName}}'] = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
-    {{/vars}}
+    this['{{baseName}}'] = {{name}};{{/required}}{{^required}}{{#defaultValue}}
+    /**{{#description}}
+     * {{{description}}}{{/description}}
+     * datatype: {{{datatypeWithEnum}}}
+     * required {{#minimum}}
+     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+     * maximum: {{maximum}}{{/maximum}}
+     **/
+    this['{{baseName}}'] = {{{defaultValue}}};{{/defaultValue}}{{/required}}{{/vars}}
   };
 
   {{classname}}.constructFromObject = function(data) {

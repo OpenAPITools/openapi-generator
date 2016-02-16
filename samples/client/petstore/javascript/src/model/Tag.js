@@ -18,16 +18,6 @@
   
   var Tag = function Tag() { 
     
-    /**
-     * datatype: Integer
-     **/
-    this['id'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['name'] = null;
-    
   };
 
   Tag.constructFromObject = function(data) {
