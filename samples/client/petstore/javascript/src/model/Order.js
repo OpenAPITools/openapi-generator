@@ -14,36 +14,7 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-//export module
-if ( typeof define === "function" && define.amd ) {
-	define('StatusEnum', [], function() {
-        return StatusEnum;
-	 });
-}
-
-var StatusEnum = {
-
-	/**
-	 * @const
-	 */
-	PLACED: "placed",
-	
-	/**
-	 * @const
-	 */
-	APPROVED: "approved",
-	
-	/**
-	 * @const
-	 */
-	DELIVERED: "delivered"
-
-}
-
-
   
   var Order = function Order() { 
     
@@ -206,6 +177,27 @@ var StatusEnum = {
   Order.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  var StatusEnum = {
+
+	  /**
+	   * @const
+	   */
+	  PLACED: "placed",
+	  
+	  /**
+	   * @const
+	   */
+	  APPROVED: "approved",
+	  
+	  /**
+	   * @const
+	   */
+	  DELIVERED: "delivered"
+  };
+
+  Order.StatusEnum = StatusEnum;
+
 
   if (module) {
     module.Order = Order;
