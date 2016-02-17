@@ -613,35 +613,29 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         continue;
                     }
                     Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-                    // NOTE: Use only the first security requirement for now.
-                    // See the "security" field of "Swagger Object":
-                    //  https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#swagger-object
-                    //  "there is a logical OR between the security requirements"
-                    if (securities.size() > 1) {
-                        LOGGER.warn("More than 1 security requirements are found, using only the first one");
-                    }
-                    Map<String, List<String>> security = securities.get(0);
-                    for (String securityName : security.keySet()) {
-                        SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
-                        if (securityDefinition != null) {
-                            if(securityDefinition instanceof OAuth2Definition) {
-                                OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
-                                OAuth2Definition oauth2Operation = new OAuth2Definition();
-                                oauth2Operation.setType(oauth2Definition.getType());
-                                oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
-                                oauth2Operation.setFlow(oauth2Definition.getFlow());
-                                oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
-                                oauth2Operation.setScopes(new HashMap<String, String>());
-                                for (String scope : security.get(securityName)) {
-                                    if (oauth2Definition.getScopes().containsKey(scope)) {
-                                        oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
-                                    }
-                                }
-                                authMethods.put(securityName, oauth2Operation);
-                            } else {
-                                authMethods.put(securityName, securityDefinition);
-                            }
-                        }
+                    for (Map<String, List<String>> security: securities) {
+                      for (String securityName : security.keySet()) {
+                          SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
+                          if (securityDefinition != null) {
+                              if(securityDefinition instanceof OAuth2Definition) {
+                                  OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
+                                  OAuth2Definition oauth2Operation = new OAuth2Definition();
+                                  oauth2Operation.setType(oauth2Definition.getType());
+                                  oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
+                                  oauth2Operation.setFlow(oauth2Definition.getFlow());
+                                  oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
+                                  oauth2Operation.setScopes(new HashMap<String, String>());
+                                  for (String scope : security.get(securityName)) {
+                                      if (oauth2Definition.getScopes().containsKey(scope)) {
+                                          oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
+                                      }
+                                  }
+                                  authMethods.put(securityName, oauth2Operation);
+                              } else {
+                                  authMethods.put(securityName, securityDefinition);
+                              }
+                          }
+                      }
                     }
                     if (!authMethods.isEmpty()) {
                         co.authMethods = config.fromSecurity(authMethods);

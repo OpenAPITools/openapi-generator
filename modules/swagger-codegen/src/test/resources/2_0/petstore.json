@@ -559,7 +559,13 @@
           "400": {
             "description": "Invalid Order"
           }
-        }
+        },
+        "security": [
+          {
+            "test_api_client_id": [],
+            "test_api_client_secret": []
+          }
+        ]
       }
     },
     "/store/order/{orderId}": {
@@ -596,7 +602,15 @@
           "400": {
             "description": "Invalid ID supplied"
           }
-        }
+        },
+        "security": [
+          {
+            "test_api_key_header": []
+          },
+          {
+            "test_api_key_query": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -915,6 +929,26 @@
         "write:pets": "modify pets in your account",
         "read:pets": "read your pets"
       }
+    },
+    "test_api_client_id": {
+      "type": "apiKey",
+      "name": "x-test_api_client_id",
+      "in": "header"
+    },
+    "test_api_client_secret": {
+      "type": "apiKey",
+      "name": "x-test_api_client_secret",
+      "in": "header"
+    },
+    "test_api_key_header": {
+      "type": "apiKey",
+      "name": "test_api_key_header",
+      "in": "header"
+    },
+    "test_api_key_query": {
+      "type": "apiKey",
+      "name": "test_api_key_query",
+      "in": "query"
     }
   },
   "definitions": {
