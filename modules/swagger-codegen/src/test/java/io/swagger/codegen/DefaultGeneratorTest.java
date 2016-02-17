@@ -52,12 +52,23 @@ public class DefaultGeneratorTest {
         gen.opts(clientOptInput);
         Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
 
-        CodegenSecurity apiKey, petstoreAuth;
+        CodegenSecurity cs, apiKey, petstoreAuth;
 
         // security of "getPetById": api_key
         CodegenOperation getPetById = findCodegenOperationByOperationId(paths, "getPetById");
-        assertEquals(getPetById.authMethods.size(), 1);
-        apiKey = getPetById.authMethods.iterator().next();
+        assertEquals(getPetById.authMethods.size(), 2);
+        cs = getPetById.authMethods.get(0);
+        if ("api_key".equals(cs.name)) {
+            apiKey = cs;
+            petstoreAuth = getPetById.authMethods.get(1);
+        } else {
+            petstoreAuth = cs;
+            apiKey = getPetById.authMethods.get(1);
+        }
+        assertEquals(petstoreAuth.name, "petstore_auth");
+        assertEquals(petstoreAuth.type, "oauth2");
+
+
         assertEquals(apiKey.name, "api_key");
         assertEquals(apiKey.type, "apiKey");
 
@@ -88,8 +99,17 @@ public class DefaultGeneratorTest {
 
         // security of "getPetById": api_key
         CodegenOperation getPetById = findCodegenOperationByOperationId(paths, "getPetById");
-        assertEquals(getPetById.authMethods.size(), 1);
-        apiKey = getPetById.authMethods.iterator().next();
+        assertEquals(getPetById.authMethods.size(), 2);
+        cs = getPetById.authMethods.get(0);
+        if ("api_key".equals(cs.name)) {
+            apiKey = cs;
+            petstoreAuth = getPetById.authMethods.get(1);
+        } else {
+            petstoreAuth = cs;
+            apiKey = getPetById.authMethods.get(1);
+        }
+        assertEquals(petstoreAuth.type, "oauth2");
+        assertEquals(petstoreAuth.name, "petstore_auth");
         assertEquals(apiKey.name, "api_key");
         assertEquals(apiKey.type, "apiKey");
 
