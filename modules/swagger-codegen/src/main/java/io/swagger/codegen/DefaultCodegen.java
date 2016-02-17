@@ -1660,9 +1660,16 @@ public class DefaultCodegen {
             setParameterBooleanFlagWithCodegenProperty(p, model);
 
             p.dataType = model.datatype;
+            if(model.isEnum) {
+                p.datatypeWithEnum = model.datatypeWithEnum;
+            }
             p.isEnum = model.isEnum;
             p._enum = model._enum;
             p.allowableValues = model.allowableValues;
+            if(model.items != null && model.items.isEnum) {
+                p.datatypeWithEnum = model.datatypeWithEnum;
+                p.items = model.items;
+            }
             p.collectionFormat = collectionFormat;
             if(collectionFormat != null && collectionFormat.equals("multi")) {
                 p.isCollectionFormatMulti = true;
