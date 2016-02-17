@@ -292,7 +292,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name);
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
@@ -313,6 +313,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toParamName(String name) {
+        // sanitize name
+        name = sanitizeName(name);
+
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
