@@ -183,6 +183,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     sortedModelKeys = updatedKeys;
                 }
 
+                // store all processed models
+                Map<String,Object> allProcessedModels = new HashMap<String, Object>();
+
+                // process models only
                 for (String name : sortedModelKeys) {
                     try {
                         //don't generate models that have an import mapping
@@ -195,6 +199,26 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         modelMap.put(name, model);
                         Map<String, Object> models = processModels(config, modelMap, definitions);
                         models.putAll(config.additionalProperties());
+                        
+                        allProcessedModels.put(name, models);
+
+                    } catch (Exception e) {
+                        throw new RuntimeException("Could not process model '" + name + "'", e);
+                    }
+                }
+                
+                // post process all processed models
+                allProcessedModels = config.postProcessAllModels(allProcessedModels);
+                
+                // generate files based on processed models
+                for (String name: allProcessedModels.keySet()) {
+                	Map<String, Object> models = (Map<String, Object>)allProcessedModels.get(name);
+                
+                	try {
+                        //don't generate models that have an import mapping
+                        if(config.importMapping().containsKey(name)) {
+                            continue;
+                        }
 
                         allModels.add(((List<Object>) models.get("models")).get(0));
 
