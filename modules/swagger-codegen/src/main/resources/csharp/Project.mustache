@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>{{packageTitle}}</RootNamespace>
     <AssemblyName>{{packageTitle}}</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>{{targetFramework}}</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -41,10 +41,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="Newtonsoft.Json">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>{{binRelativePath}}Newtonsoft.Json.dll</HintPath>
+      <HintPath>{{binRelativePath}}/Newtonsoft.Json.8.0.2/lib/{{targetFrameworkNuget}}/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
-      <HintPath>{{binRelativePath}}RestSharp.dll</HintPath>
+      <HintPath>{{binRelativePath}}/RestSharp.105.2.3/lib/{{targetFrameworkNuget}}/RestSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
