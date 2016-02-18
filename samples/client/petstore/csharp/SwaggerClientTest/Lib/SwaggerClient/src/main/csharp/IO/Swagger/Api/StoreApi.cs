@@ -15,6 +15,7 @@ namespace IO.Swagger.Api
     /// </summary>
     public interface IStoreApi
     {
+        #region Synchronous Operations
         
         /// <summary>
         /// Returns pet inventories by status
@@ -33,24 +34,6 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
         ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
-
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
-        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
-
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
         
         /// <summary>
         /// Place an order for a pet
@@ -71,7 +54,69 @@ namespace IO.Swagger.Api
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
         ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
+        
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Order</returns>
+        Order GetOrderById (string orderId);
+  
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>ApiResponse of Order</returns>
+        ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
+        
+        /// <summary>
+        /// Delete purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </remarks>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns></returns>
+        void DeleteOrder (string orderId);
+  
+        /// <summary>
+        /// Delete purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </remarks>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId);
+        
+        #endregion Synchronous Operations
+        
+        #region Asynchronous Operations
+        
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
+        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
 
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
+        
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -99,26 +144,6 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
-        Order GetOrderById (string orderId);
-  
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
-
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Task of Order</returns>
         System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
 
@@ -139,26 +164,6 @@ namespace IO.Swagger.Api
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns></returns>
-        void DeleteOrder (string orderId);
-  
-        /// <summary>
-        /// Delete purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </remarks>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId);
-
-        /// <summary>
-        /// Delete purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </remarks>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of void</returns>
         System.Threading.Tasks.Task DeleteOrderAsync (string orderId);
 
@@ -171,6 +176,8 @@ namespace IO.Swagger.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId);
+        
+        #endregion Asynchronous Operations
         
     }
   
@@ -326,7 +333,8 @@ namespace IO.Swagger.Api
                 (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>)));
             
         }
-    
+
+        
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
@@ -484,7 +492,8 @@ namespace IO.Swagger.Api
                 (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
             
         }
-    
+
+        
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
@@ -635,7 +644,8 @@ namespace IO.Swagger.Api
                 (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
             
         }
-    
+
+        
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
@@ -787,7 +797,8 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>

@@ -102,7 +102,7 @@
       var pathParams = {
       };
       var queryParams = {
-        'status': this.buildCollectionParam(status, 'multi')
+        'status': this.apiClient.buildCollectionParam(status, 'multi')
       };
       var headerParams = {
       };
@@ -137,7 +137,7 @@
       var pathParams = {
       };
       var queryParams = {
-        'tags': this.buildCollectionParam(tags, 'multi')
+        'tags': this.apiClient.buildCollectionParam(tags, 'multi')
       };
       var headerParams = {
       };
@@ -184,7 +184,7 @@
       var formParams = {
       };
 
-      var authNames = ['api_key'];
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Pet;
@@ -351,7 +351,7 @@
       var formParams = {
       };
 
-      var authNames = ['api_key'];
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = 'String';

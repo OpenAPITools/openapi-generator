@@ -13,7 +13,7 @@ import java.util.*;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-28T16:23:25.238+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:21.885+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -46,8 +46,13 @@ public class Pet   {
   
   /**
    **/
+  public Pet id(Long id) {
+    this.id = id;
+    return this;
+  }
+
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -59,8 +64,13 @@ public class Pet   {
   
   /**
    **/
+  public Pet category(Category category) {
+    this.category = category;
+    return this;
+  }
+
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -72,8 +82,13 @@ public class Pet   {
   
   /**
    **/
+  public Pet name(String name) {
+    this.name = name;
+    return this;
+  }
+
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -85,8 +100,13 @@ public class Pet   {
   
   /**
    **/
+  public Pet photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -98,8 +118,13 @@ public class Pet   {
   
   /**
    **/
+  public Pet tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
+
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
@@ -112,8 +137,13 @@ public class Pet   {
   /**
    * pet status in the store
    **/
+  public Pet status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
   
-  @ApiModelProperty(value = "pet status in the store")
+  @ApiModelProperty(example = "null", value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -133,14 +163,12 @@ public class Pet   {
       return false;
     }
     Pet pet = (Pet) o;
-
-    return true && Objects.equals(id, pet.id) &&
-        Objects.equals(category, pet.category) &&
-        Objects.equals(name, pet.name) &&
-        Objects.equals(photoUrls, pet.photoUrls) &&
-        Objects.equals(tags, pet.tags) &&
-        Objects.equals(status, pet.status)
-    ;
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
   }
 
   @Override

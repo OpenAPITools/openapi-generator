@@ -12,7 +12,7 @@ import io.swagger.client.model.Order;
 
 import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-12T18:48:10.013-08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:20.498+08:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -106,7 +106,7 @@ public class StoreApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "test_api_client_id", "test_api_client_secret" };
 
     
     GenericType<Order> returnType = new GenericType<Order>() {};
@@ -153,7 +153,7 @@ public class StoreApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "test_api_key_query", "test_api_key_header" };
 
     
     GenericType<Order> returnType = new GenericType<Order>() {};

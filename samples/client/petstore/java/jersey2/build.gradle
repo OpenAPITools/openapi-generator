@@ -1,3 +1,6 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
 group = 'io.swagger'
 version = '1.0.0'
 
