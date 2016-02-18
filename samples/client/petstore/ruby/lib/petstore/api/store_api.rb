@@ -122,7 +122,7 @@ module Petstore
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
-      auth_names = []
+      auth_names = ['test_api_client_id', 'test_api_client_secret']
       data, status_code, headers = @api_client.call_api(:POST, path,
         :header_params => header_params,
         :query_params => query_params,
@@ -182,7 +182,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = []
+      auth_names = ['test_api_key_query', 'test_api_key_header']
       data, status_code, headers = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
