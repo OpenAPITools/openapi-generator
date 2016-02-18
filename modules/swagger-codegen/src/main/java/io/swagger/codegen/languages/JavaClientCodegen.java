@@ -9,6 +9,7 @@ import io.swagger.models.Swagger;
 import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.*;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -531,18 +532,18 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if(model.isEnum == null || model.isEnum) {
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
             // needed by all pojos, but not enums
             model.imports.add("ApiModelProperty");
             model.imports.add("ApiModel");
-            // comment out below as it's in the model template 
+            // comment out below as it's in the model template
             //model.imports.add("Objects");
 
             final String lib = getLibrary();
             if(StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
                 model.imports.add("JsonProperty");
 
-                if(model.hasEnums != null || model.hasEnums == true) {
+                if(BooleanUtils.toBoolean(model.hasEnums)) {
                   model.imports.add("JsonValue");
                 }
             }
@@ -747,7 +748,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-            
+
             if(removedChildEnum) {
                 // If we removed an entry from this model's vars, we need to ensure hasMore is updated
                 int count = 0, numVars = codegenProperties.size();
