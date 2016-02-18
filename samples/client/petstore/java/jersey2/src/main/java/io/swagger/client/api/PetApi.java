@@ -12,7 +12,7 @@ import java.io.File;
 
 import java.util.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-28T16:23:25.238+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:21.885+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -238,7 +238,7 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "api_key" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     
     GenericType<Pet> returnType = new GenericType<Pet>() {};
@@ -438,7 +438,7 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "api_key" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     
     GenericType<byte[]> returnType = new GenericType<byte[]>() {};
