@@ -42,13 +42,13 @@
         '<baseName>': <paramName><#hasMore>,</hasMore></pathParams>
       };
       var queryParams = {<#queryParams>
-        '<baseName>': <#collectionFormat>this.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></queryParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></queryParams>
       };
       var headerParams = {<#headerParams>
         '<baseName>': <paramName><#hasMore>,</hasMore></headerParams>
       };
       var formParams = {<#formParams>
-        '<baseName>': <#collectionFormat>this.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></formParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></formParams>
       };
 
       var authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
