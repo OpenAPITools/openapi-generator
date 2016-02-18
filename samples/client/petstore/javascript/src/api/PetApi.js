@@ -184,7 +184,7 @@
       var formParams = {
       };
 
-      var authNames = ['api_key'];
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Pet;
@@ -351,7 +351,7 @@
       var formParams = {
       };
 
-      var authNames = ['api_key'];
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = 'String';
