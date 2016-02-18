@@ -109,12 +109,19 @@ public class DefaultCodegen {
         }
     }
 
+    // override with any special post-processing for all models
+    @SuppressWarnings("static-method")
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        return objs;
+    }
+
     // override with any special post-processing
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return objs;
     }
 
+    
     // override with any special post-processing
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
