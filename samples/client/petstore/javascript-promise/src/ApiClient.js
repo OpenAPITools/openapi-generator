@@ -21,6 +21,15 @@
      */
     this.basePath = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
 
+    this.authentications = {
+      'petstore_auth': {type: 'oauth2'},
+      'test_api_client_id': {type: 'apiKey', in: 'header', name: 'x-test_api_client_id'},
+      'test_api_client_secret': {type: 'apiKey', in: 'header', name: 'x-test_api_client_secret'},
+      'api_key': {type: 'apiKey', in: 'header', name: 'api_key'},
+      'test_api_key_query': {type: 'apiKey', in: 'query', name: 'test_api_key_query'},
+      'test_api_key_header': {type: 'apiKey', in: 'header', name: 'test_api_key_header'}
+    };
+
     /**
      * The default HTTP headers to be included for all API calls.
      */
@@ -158,6 +167,42 @@
     }
   };
 
+  ApiClient.prototype.applyAuthToRequest = function applyAuthToRequest(request, authNames) {
+    var _this = this;
+    authNames.forEach(function(authName) {
+      var auth = _this.authentications[authName];
+      switch (auth.type) {
+        case 'basic':
+          if (auth.username || auth.password) {
+            request.auth(auth.username || '', auth.password || '');
+          }
+          break;
+        case 'apiKey':
+          if (auth.apiKey) {
+            var data = {};
+            if (auth.apiKeyPrefix) {
+              data[auth.name] = auth.apiKeyPrefix + ' ' + auth.apiKey;
+            } else {
+              data[auth.name] = auth.apiKey;
+            }
+            if (auth.in === 'header') {
+              request.set(data);
+            } else {
+              request.query(data);
+            }
+          }
+          break;
+        case 'oauth2':
+          if (auth.accessToken) {
+            request.set({'Authorization': 'Bearer ' + auth.accessToken});
+          }
+          break;
+        default:
+          throw new Error('Unknown authentication type: ' + auth.type);
+      }
+    });
+  };
+
   ApiClient.prototype.deserialize = function deserialize(response, returnType) {
     if (response == null || returnType == null) {
       return null;
@@ -166,17 +211,22 @@
     // See http://visionmedia.github.io/superagent/#parsing-response-bodies
     var data = response.body;
     if (data == null) {
-      return null;
+      // Superagent does not always produce a body; use the unparsed response
+      // as a fallback
+      data = response.text;
     }
     return ApiClient.convertToType(data, returnType);
   };
 
   ApiClient.prototype.callApi = function callApi(path, httpMethod, pathParams,
-      queryParams, headerParams, formParams, bodyParam, contentTypes, accepts,
-      returnType) {
+      queryParams, headerParams, formParams, bodyParam, authNames, contentTypes,
+      accepts, returnType) {
     var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
+
+    // apply authentications
+    this.applyAuthToRequest(request, authNames);
 
     // set query parameters
     request.query(this.normalizeParams(queryParams));
