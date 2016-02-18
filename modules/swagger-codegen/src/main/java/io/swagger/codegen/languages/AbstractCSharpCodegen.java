@@ -468,7 +468,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name);
+        name = sanitizeName(modelNamePrefix + name + modelNameSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
