@@ -75,7 +75,7 @@
       var formParams = {
       };
 
-      var authNames = [];
+      var authNames = ['test_api_client_id', 'test_api_client_secret'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -115,7 +115,7 @@
       var formParams = {
       };
 
-      var authNames = [];
+      var authNames = ['test_api_key_query', 'test_api_key_header'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;

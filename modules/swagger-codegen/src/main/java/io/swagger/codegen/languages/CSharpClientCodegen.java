@@ -1,5 +1,7 @@
 package io.swagger.codegen.languages;
 
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
@@ -25,6 +27,8 @@ import org.slf4j.LoggerFactory;
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"unused", "hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private static final String NET45 = "v4.5";
+    private static final String NET35 = "v3.5";
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
     protected String packageTitle = "Swagger Library";
@@ -33,6 +37,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String packageCompany = "Swagger";
     protected String packageCopyright = "No Copyright";
     protected String clientPackage = "IO.Swagger.Client";
+
+    protected String targetFramework = NET45;
+    protected String targetFrameworkNuget = "net45";
+    protected boolean supportsAsync = Boolean.TRUE;
+
+
+    protected final Map<String, String> frameworks;
 
     public CSharpClientCodegen() {
         super();
@@ -63,6 +74,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
                 null);
+
+        CliOption framework = new CliOption(
+                CodegenConstants.DOTNET_FRAMEWORK,
+                CodegenConstants.DOTNET_FRAMEWORK_DESC
+        );
+        frameworks = new ImmutableMap.Builder<String, String>()
+                .put(NET35, ".NET Framework 3.5 compatible")
+                .put(NET45, ".NET Framework 4.5+ compatible")
+                .build();
+        framework.defaultValue(this.targetFramework);
+        framework.setEnum(frameworks);
+        cliOptions.add(framework);
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -111,6 +134,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("packageCompany", packageCompany);
         additionalProperties.put("packageCopyright", packageCopyright);
 
+        if (additionalProperties.containsKey(CodegenConstants.DOTNET_FRAMEWORK)) {
+            setTargetFramework((String) additionalProperties.get(CodegenConstants.DOTNET_FRAMEWORK));
+        }
+
+        if (NET35.equals(this.targetFramework)) {
+            setTargetFrameworkNuget("net35");
+            setSupportsAsync(Boolean.FALSE);
+            if(additionalProperties.containsKey("supportsAsync")){
+                additionalProperties.remove("supportsAsync");
+            }
+        } else {
+            setTargetFrameworkNuget("net45");
+            setSupportsAsync(Boolean.TRUE);
+            additionalProperties.put("supportsAsync", this.supportsAsync);
+        }
+
+        additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
+
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
             setOptionalProjectFileFlag(Boolean.valueOf(
                     additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_FILE).toString()));
@@ -141,7 +182,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         String binRelativePath = "..\\";
         for (int i = 0; i < packageDepth; i = i + 1)
             binRelativePath += "..\\";
-        binRelativePath += "bin\\";
+        binRelativePath += "vendor\\";
         additionalProperties.put("binRelativePath", binRelativePath);
 
         supportingFiles.add(new SupportingFile("Configuration.mustache",
@@ -153,8 +194,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponse.mustache",
                 clientPackageDir, "ApiResponse.cs"));
 
-        supportingFiles.add(new SupportingFile("Newtonsoft.Json.dll", "bin", "Newtonsoft.Json.dll"));
-        supportingFiles.add(new SupportingFile("RestSharp.dll", "bin", "RestSharp.dll"));
         supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor" + java.io.File.separator, "packages.config"));
@@ -222,4 +261,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
+    public void setTargetFramework(String dotnetFramework) {
+        if(!frameworks.containsKey(dotnetFramework)){
+            LOGGER.warn("Invalid .NET framework version, defaulting to " + this.targetFramework);
+        } else {
+            this.targetFramework = dotnetFramework;
+        }
+        LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+    }
+
+    public void setTargetFrameworkNuget(String targetFrameworkNuget) {
+        this.targetFrameworkNuget = targetFrameworkNuget;
+    }
+
+    public void setSupportsAsync(Boolean supportsAsync){
+        this.supportsAsync = supportsAsync;
+    }
 }

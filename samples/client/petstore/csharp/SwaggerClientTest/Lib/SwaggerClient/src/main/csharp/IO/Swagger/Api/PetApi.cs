@@ -15,6 +15,7 @@ namespace IO.Swagger.Api
     /// </summary>
     public interface IPetApi
     {
+        #region Synchronous Operations
         
         /// <summary>
         /// Update an existing pet
@@ -35,7 +36,201 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdatePetWithHttpInfo (Pet body = null);
-
+        
+        /// <summary>
+        /// Add a new pet to the store
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns></returns>
+        void AddPet (Pet body = null);
+  
+        /// <summary>
+        /// Add a new pet to the store
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> AddPetWithHttpInfo (Pet body = null);
+        
+        /// <summary>
+        /// Finds Pets by status
+        /// </summary>
+        /// <remarks>
+        /// Multiple status values can be provided with comma seperated strings
+        /// </remarks>
+        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <returns>List&lt;Pet&gt;</returns>
+        List<Pet> FindPetsByStatus (List<string> status = null);
+  
+        /// <summary>
+        /// Finds Pets by status
+        /// </summary>
+        /// <remarks>
+        /// Multiple status values can be provided with comma seperated strings
+        /// </remarks>
+        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo (List<string> status = null);
+        
+        /// <summary>
+        /// Finds Pets by tags
+        /// </summary>
+        /// <remarks>
+        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </remarks>
+        /// <param name="tags">Tags to filter by</param>
+        /// <returns>List&lt;Pet&gt;</returns>
+        List<Pet> FindPetsByTags (List<string> tags = null);
+  
+        /// <summary>
+        /// Finds Pets by tags
+        /// </summary>
+        /// <remarks>
+        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// </remarks>
+        /// <param name="tags">Tags to filter by</param>
+        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
+        ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags = null);
+        
+        /// <summary>
+        /// Find pet by ID
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>Pet</returns>
+        Pet GetPetById (long? petId);
+  
+        /// <summary>
+        /// Find pet by ID
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>ApiResponse of Pet</returns>
+        ApiResponse<Pet> GetPetByIdWithHttpInfo (long? petId);
+        
+        /// <summary>
+        /// Updates a pet in the store with form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet</param>
+        /// <param name="status">Updated status of the pet</param>
+        /// <returns></returns>
+        void UpdatePetWithForm (string petId, string name = null, string status = null);
+  
+        /// <summary>
+        /// Updates a pet in the store with form data
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet</param>
+        /// <param name="status">Updated status of the pet</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (string petId, string name = null, string status = null);
+        
+        /// <summary>
+        /// Deletes a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"></param>
+        /// <returns></returns>
+        void DeletePet (long? petId, string apiKey = null);
+  
+        /// <summary>
+        /// Deletes a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null);
+        
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server</param>
+        /// <param name="file">file to upload</param>
+        /// <returns></returns>
+        void UploadFile (long? petId, string additionalMetadata = null, Stream file = null);
+  
+        /// <summary>
+        /// uploads an image
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server</param>
+        /// <param name="file">file to upload</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
+        
+        /// <summary>
+        /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>byte[]</returns>
+        byte[] GetPetByIdWithByteArray (long? petId);
+  
+        /// <summary>
+        /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>ApiResponse of byte[]</returns>
+        ApiResponse<byte[]> GetPetByIdWithByteArrayWithHttpInfo (long? petId);
+        
+        /// <summary>
+        /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object in the form of byte array</param>
+        /// <returns></returns>
+        void AddPetUsingByteArray (byte[] body = null);
+  
+        /// <summary>
+        /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="body">Pet object in the form of byte array</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> AddPetUsingByteArrayWithHttpInfo (byte[] body = null);
+        
+        #endregion Synchronous Operations
+        
+        #region Asynchronous Operations
+        
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -63,26 +258,6 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">Pet object that needs to be added to the store</param>
-        /// <returns></returns>
-        void AddPet (Pet body = null);
-  
-        /// <summary>
-        /// Add a new pet to the store
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">Pet object that needs to be added to the store</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> AddPetWithHttpInfo (Pet body = null);
-
-        /// <summary>
-        /// Add a new pet to the store
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns>Task of void</returns>
         System.Threading.Tasks.Task AddPetAsync (Pet body = null);
 
@@ -96,26 +271,6 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body = null);
         
-        /// <summary>
-        /// Finds Pets by status
-        /// </summary>
-        /// <remarks>
-        /// Multiple status values can be provided with comma seperated strings
-        /// </remarks>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>List&lt;Pet&gt;</returns>
-        List<Pet> FindPetsByStatus (List<string> status = null);
-  
-        /// <summary>
-        /// Finds Pets by status
-        /// </summary>
-        /// <remarks>
-        /// Multiple status values can be provided with comma seperated strings
-        /// </remarks>
-        /// <param name="status">Status values that need to be considered for filter</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo (List<string> status = null);
-
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -143,26 +298,6 @@ namespace IO.Swagger.Api
         /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </remarks>
         /// <param name="tags">Tags to filter by</param>
-        /// <returns>List&lt;Pet&gt;</returns>
-        List<Pet> FindPetsByTags (List<string> tags = null);
-  
-        /// <summary>
-        /// Finds Pets by tags
-        /// </summary>
-        /// <remarks>
-        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-        /// </remarks>
-        /// <param name="tags">Tags to filter by</param>
-        /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
-        ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags = null);
-
-        /// <summary>
-        /// Finds Pets by tags
-        /// </summary>
-        /// <remarks>
-        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-        /// </remarks>
-        /// <param name="tags">Tags to filter by</param>
         /// <returns>Task of List&lt;Pet&gt;</returns>
         System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags = null);
 
@@ -183,26 +318,6 @@ namespace IO.Swagger.Api
         /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </remarks>
         /// <param name="petId">ID of pet that needs to be fetched</param>
-        /// <returns>Pet</returns>
-        Pet GetPetById (long? petId);
-  
-        /// <summary>
-        /// Find pet by ID
-        /// </summary>
-        /// <remarks>
-        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-        /// </remarks>
-        /// <param name="petId">ID of pet that needs to be fetched</param>
-        /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> GetPetByIdWithHttpInfo (long? petId);
-
-        /// <summary>
-        /// Find pet by ID
-        /// </summary>
-        /// <remarks>
-        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-        /// </remarks>
-        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of Pet</returns>
         System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId);
 
@@ -216,30 +331,6 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse (Pet)</returns>
         System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long? petId);
         
-        /// <summary>
-        /// Updates a pet in the store with form data
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="name">Updated name of the pet</param>
-        /// <param name="status">Updated status of the pet</param>
-        /// <returns></returns>
-        void UpdatePetWithForm (string petId, string name = null, string status = null);
-  
-        /// <summary>
-        /// Updates a pet in the store with form data
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="name">Updated name of the pet</param>
-        /// <param name="status">Updated status of the pet</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (string petId, string name = null, string status = null);
-
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -272,28 +363,6 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"></param>
-        /// <returns></returns>
-        void DeletePet (long? petId, string apiKey = null);
-  
-        /// <summary>
-        /// Deletes a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"></param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null);
-
-        /// <summary>
-        /// Deletes a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="petId">Pet id to delete</param>
-        /// <param name="apiKey"></param>
         /// <returns>Task of void</returns>
         System.Threading.Tasks.Task DeletePetAsync (long? petId, string apiKey = null);
 
@@ -308,30 +377,6 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null);
         
-        /// <summary>
-        /// uploads an image
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server</param>
-        /// <param name="file">file to upload</param>
-        /// <returns></returns>
-        void UploadFile (long? petId, string additionalMetadata = null, Stream file = null);
-  
-        /// <summary>
-        /// uploads an image
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="petId">ID of pet to update</param>
-        /// <param name="additionalMetadata">Additional data to pass to server</param>
-        /// <param name="file">file to upload</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
-
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -363,26 +408,6 @@ namespace IO.Swagger.Api
         /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </remarks>
         /// <param name="petId">ID of pet that needs to be fetched</param>
-        /// <returns>byte[]</returns>
-        byte[] GetPetByIdWithByteArray (long? petId);
-  
-        /// <summary>
-        /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-        /// </summary>
-        /// <remarks>
-        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-        /// </remarks>
-        /// <param name="petId">ID of pet that needs to be fetched</param>
-        /// <returns>ApiResponse of byte[]</returns>
-        ApiResponse<byte[]> GetPetByIdWithByteArrayWithHttpInfo (long? petId);
-
-        /// <summary>
-        /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-        /// </summary>
-        /// <remarks>
-        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-        /// </remarks>
-        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of byte[]</returns>
         System.Threading.Tasks.Task<byte[]> GetPetByIdWithByteArrayAsync (long? petId);
 
@@ -403,26 +428,6 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <param name="body">Pet object in the form of byte array</param>
-        /// <returns></returns>
-        void AddPetUsingByteArray (byte[] body = null);
-  
-        /// <summary>
-        /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">Pet object in the form of byte array</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> AddPetUsingByteArrayWithHttpInfo (byte[] body = null);
-
-        /// <summary>
-        /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">Pet object in the form of byte array</param>
         /// <returns>Task of void</returns>
         System.Threading.Tasks.Task AddPetUsingByteArrayAsync (byte[] body = null);
 
@@ -435,6 +440,8 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object in the form of byte array</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> AddPetUsingByteArrayAsyncWithHttpInfo (byte[] body = null);
+        
+        #endregion Asynchronous Operations
         
     }
   
@@ -598,7 +605,8 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Update an existing pet 
         /// </summary>
@@ -764,7 +772,8 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
@@ -925,7 +934,8 @@ namespace IO.Swagger.Api
                 (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>)));
             
         }
-    
+
+        
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma seperated strings
         /// </summary>
@@ -1087,7 +1097,8 @@ namespace IO.Swagger.Api
                 (List<Pet>) Configuration.ApiClient.Deserialize(response, typeof(List<Pet>)));
             
         }
-    
+
+        
         /// <summary>
         /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
@@ -1253,7 +1264,8 @@ namespace IO.Swagger.Api
                 (Pet) Configuration.ApiClient.Deserialize(response, typeof(Pet)));
             
         }
-    
+
+        
         /// <summary>
         /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -1426,7 +1438,8 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
@@ -1601,7 +1614,8 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Deletes a pet 
         /// </summary>
@@ -1776,7 +1790,8 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// uploads an image 
         /// </summary>
@@ -1949,7 +1964,8 @@ namespace IO.Swagger.Api
                 (byte[]) Configuration.ApiClient.Deserialize(response, typeof(byte[])));
             
         }
-    
+
+        
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -2118,7 +2134,8 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store 
         /// </summary>
