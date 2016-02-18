@@ -208,7 +208,9 @@
     // See http://visionmedia.github.io/superagent/#parsing-response-bodies
     var data = response.body;
     if (data == null) {
-      return null;
+      // Superagent does not always produce a body; use the unparsed response
+      // as a fallback
+      data = response.text;
     }
     return ApiClient.convertToType(data, returnType);
   };

@@ -41,6 +41,7 @@
       var formParams = {
       };
 
+      var authNames = ['api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = {'String': 'Integer'};
@@ -48,7 +49,7 @@
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -74,6 +75,7 @@
       var formParams = {
       };
 
+      var authNames = ['test_api_client_id', 'test_api_client_secret'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -81,7 +83,7 @@
       return this.apiClient.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -113,6 +115,7 @@
       var formParams = {
       };
 
+      var authNames = ['test_api_key_query', 'test_api_key_header'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -120,7 +123,7 @@
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -151,6 +154,7 @@
       var formParams = {
       };
 
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -158,7 +162,7 @@
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }

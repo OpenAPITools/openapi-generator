@@ -41,6 +41,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = ['application/json', 'application/xml'];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -48,7 +49,7 @@
       return this.apiClient.callApi(
         '/pet', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -73,6 +74,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = ['application/json', 'application/xml'];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -80,7 +82,7 @@
       return this.apiClient.callApi(
         '/pet', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -107,6 +109,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = [Pet];
@@ -114,7 +117,7 @@
       return this.apiClient.callApi(
         '/pet/findByStatus', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -141,6 +144,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = [Pet];
@@ -148,7 +152,7 @@
       return this.apiClient.callApi(
         '/pet/findByTags', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -180,6 +184,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Pet;
@@ -187,7 +192,7 @@
       return this.apiClient.callApi(
         '/pet/{petId}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -222,6 +227,7 @@
         'status': status
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = ['application/x-www-form-urlencoded'];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -229,7 +235,7 @@
       return this.apiClient.callApi(
         '/pet/{petId}', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -262,6 +268,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -269,7 +276,7 @@
       return this.apiClient.callApi(
         '/pet/{petId}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -304,6 +311,7 @@
         'file': file
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = ['multipart/form-data'];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -311,7 +319,7 @@
       return this.apiClient.callApi(
         '/pet/{petId}/uploadImage', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -343,6 +351,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = 'String';
@@ -350,7 +359,7 @@
       return this.apiClient.callApi(
         '/pet/{petId}?testing_byte_array=true', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
@@ -375,6 +384,7 @@
       var formParams = {
       };
 
+      var authNames = ['petstore_auth'];
       var contentTypes = ['application/json', 'application/xml'];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;
@@ -382,7 +392,7 @@
       return this.apiClient.callApi(
         '/pet?testing_byte_array=true', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType
       );
       
     }
