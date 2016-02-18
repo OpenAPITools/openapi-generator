@@ -73,6 +73,12 @@ public class Generate implements Runnable {
     @Option(name = {"--model-package"}, title = "model package", description = CodegenConstants.MODEL_PACKAGE_DESC)
     private String modelPackage;
 
+    @Option(name = {"--model-name-prefix"}, title = "model name prefix", description = CodegenConstants.MODEL_NAME_PREFIX_DESC)
+    private String modelNamePrefix;
+
+    @Option(name = {"--model-name-suffix"}, title = "model name suffix", description = CodegenConstants.MODEL_NAME_SUFFIX_DESC)
+    private String modelNameSuffix;
+
     @Option(name = {"--instantiation-types"}, title = "instantiation types", description = "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType." +
             "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code.")
     private String instantiationTypes;
@@ -154,6 +160,14 @@ public class Generate implements Runnable {
 
         if(isNotEmpty(modelPackage)) {
             configurator.setModelPackage(modelPackage);
+        }
+
+        if(isNotEmpty(modelNamePrefix)){
+            configurator.setModelNamePrefix(modelNamePrefix);
+        }
+
+        if(isNotEmpty(modelNameSuffix)){
+            configurator.setModelNameSuffix(modelNameSuffix);
         }
 
         if(isNotEmpty(invokerPackage)) {
