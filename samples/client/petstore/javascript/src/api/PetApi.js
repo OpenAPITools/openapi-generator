@@ -102,7 +102,7 @@
       var pathParams = {
       };
       var queryParams = {
-        'status': this.buildCollectionParam(status, 'multi')
+        'status': this.apiClient.buildCollectionParam(status, 'multi')
       };
       var headerParams = {
       };
@@ -137,7 +137,7 @@
       var pathParams = {
       };
       var queryParams = {
-        'tags': this.buildCollectionParam(tags, 'multi')
+        'tags': this.apiClient.buildCollectionParam(tags, 'multi')
       };
       var headerParams = {
       };
