@@ -337,7 +337,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return dp.getDefault();
+                return "'" + dp.getDefault() + "'";
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;
