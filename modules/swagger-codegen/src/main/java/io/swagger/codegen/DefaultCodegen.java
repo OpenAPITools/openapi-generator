@@ -2198,6 +2198,11 @@ public class DefaultCodegen {
     	    return "ERROR_UNKNOWN";
     	}
 
+        // if the name is just '$', map it to 'value' for the time being.
+        if ("$".equals(name)) {
+            return "value";
+        }
+
         // input[] => input
         name = name.replaceAll("\\[\\]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
