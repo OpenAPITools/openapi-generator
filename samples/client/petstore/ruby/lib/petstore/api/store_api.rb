@@ -182,7 +182,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['test_api_key_header', 'test_api_key_query']
+      auth_names = ['test_api_key_query', 'test_api_key_header']
       data, status_code, headers = @api_client.call_api(:GET, path,
         :header_params => header_params,
         :query_params => query_params,
