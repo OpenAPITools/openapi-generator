@@ -159,24 +159,46 @@ with a number of options.  You can get the options with the `help generate` comm
 
 ```
 NAME
-        swagger generate - Generate code with chosen lang
+        swagger-codegen-cli generate - Generate code with chosen lang
 
 SYNOPSIS
-        swagger generate [(-a <authorization> | --auth <authorization>)]
+        swagger-codegen-cli generate
+                [(-a <authorization> | --auth <authorization>)]
+                [--additional-properties <additional properties>]
+                [--api-package <api package>] [--artifact-id <artifact id>]
+                [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>]
+                [-D <system properties>] [--group-id <group id>]
                 (-i <spec file> | --input-spec <spec file>)
+                [--import-mappings <import mappings>]
+                [--instantiation-types <instantiation types>]
+                [--invoker-package <invoker package>]
                 (-l <language> | --lang <language>)
+                [--language-specific-primitives <language specific primitives>]
+                [--library <library>] [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)]
-                [(-t <template directory> | --template-dir <template directory>)]
-                [(-v | --verbose)]
                 [(-s | --skip-overwrite)]
+                [(-t <template directory> | --template-dir <template directory>)]
+                [--type-mappings <type mappings>] [(-v | --verbose)]
 
 OPTIONS
         -a <authorization>, --auth <authorization>
             adds authorization headers when fetching the swagger definitions
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
+
+        --additional-properties <additional properties>
+            sets additional properties that can be referenced by the mustache
+            templates in the format of name=value,name=value
+
+        --api-package <api package>
+            package for generated api classes
+
+        --artifact-id <artifact id>
+            artifactId in generated pom.xml
+
+        --artifact-version <artifact version>
+            artifact version in generated pom.xml
 
         -c <configuration file>, --config <configuration file>
             Path to json configuration file. File content should be in a json
@@ -188,25 +210,59 @@ OPTIONS
             sets specified system properties in the format of
             name=value,name=value
 
+        --group-id <group id>
+            groupId in generated pom.xml
+
         -i <spec file>, --input-spec <spec file>
-            location of the OpenAPI Spec, as URL or file (required)
+            location of the swagger spec, as URL or file (required)
+
+
+        --import-mappings <import mappings>
+            specifies mappings between a given class and the import that should
+            be used for that class in the format of type=import,type=import
+
+        --instantiation-types <instantiation types>
+            sets instantiation type mappings in the format of
+            type=instantiatedType,type=instantiatedType.For example (in Java):
+            array=ArrayList,map=HashMap. In other words array types will get
+            instantiated as ArrayList in generated code.
+
+        --invoker-package <invoker package>
+            root package for generated code
 
         -l <language>, --lang <language>
             client language to generate (maybe class name in classpath,
             required)
 
+        --language-specific-primitives <language specific primitives>
+            specifies additional language specific primitive types in the format
+            of type1,type2,type3,type3. For example:
+            String,boolean,Boolean,Double
+
+        --library <library>
+            library template (sub-template)
+
+        --model-package <model package>
+            package for generated models
+
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
+
+        -s, --skip-overwrite
+            specifies if the existing files should be overwritten during the
+            generation.
 
         -t <template directory>, --template-dir <template directory>
             folder containing the template files
 
+        --type-mappings <type mappings>
+            sets mappings between swagger spec types and generated code types in
+            the format of swaggerType=generatedType,swaggerType=generatedType.
+            For example: array=List,map=Map,string=String
+
         -v, --verbose
             verbose mode
 
-        -s , --skip-overwrite
-            specifies if the existing files should be overwritten during
-            the generation
 ```
 
 You can then compile and run the client, as well as unit tests against it:
