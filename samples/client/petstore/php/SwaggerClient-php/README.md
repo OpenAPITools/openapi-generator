@@ -1,52 +1,47 @@
+# SwaggerClient-php
+
 ## Requirements
 
-PHP 5.3.3 and later.
+PHP 5.4.0 and later
 
-## Composer
+## Installation & Usage
+### Composer
 
 You can install the bindings via [Composer](http://getcomposer.org/). Add this to your `composer.json`:
 
+```
+{
+  "repositories": [
     {
-        "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/wing328/SwaggerPetstore-php.git"
-        }
-        ],
-        "require": {
-            "SwaggerPetstore/SwaggerPetstore-php": "*@dev"
-        }
+      "type": "git",
+      "url": "https://github.com/swagger/swagger-client.git"
     }
+  ],
+  "require": {
+    "swagger/swagger-client": "*@dev"
+  }
+}
+```
 
-Then install via:
+Then install via `composer install`
 
-    composer install
+### Manual Installation
 
-To use the bindings, use Composer's [autoload](https://getcomposer.org/doc/00-intro.md#autoloading):
+If you do not wish to use Composer, you can download the latest release. Then, to use the bindings, include the `autoload.php` file.
+```php
+    require_once('/path/to/SwaggerClient-php/autoload.php');
+```
 
-    require_once('vendor/autoload.php');
+## Tests 
 
-## Manual Installation
+To run the unit tests:
+```
+composer install
+./vendor/bin/phpunit lib/Tests
+```
 
-If you do not wish to use Composer, you can download the latest release. Then, to use the bindings, include the `SwaggerPetstore.php` file.
+## Author
 
-    require_once('/path/to/SwaggerPetstore-php/SwaggerPetstore.php');
+apiteam@swagger.io
 
-## Getting Started
-
-php test.php
-
-## Documentation
-
-TODO
-
-## Tests
-
-In order to run tests first install [PHPUnit](http://packagist.org/packages/phpunit/phpunit) via [Composer](http://getcomposer.org/):
-
-    composer update
-
-To run the test suite:
-
-    ./vendor/bin/phpunit tests
 
