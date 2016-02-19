@@ -18,47 +18,6 @@
   
   var User = function User() { 
     
-    /**
-     * datatype: Integer
-     **/
-    this['id'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['username'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['firstName'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['lastName'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['email'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['password'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['phone'] = null;
-    
-    /**
-     * User Status
-     * datatype: Integer
-     **/
-    this['userStatus'] = null;
-    
   };
 
   User.constructFromObject = function(data) {

@@ -18,37 +18,6 @@
   
   var Order = function Order() { 
     
-    /**
-     * datatype: Integer
-     **/
-    this['id'] = null;
-    
-    /**
-     * datatype: Integer
-     **/
-    this['petId'] = null;
-    
-    /**
-     * datatype: Integer
-     **/
-    this['quantity'] = null;
-    
-    /**
-     * datatype: Date
-     **/
-    this['shipDate'] = null;
-    
-    /**
-     * Order Status
-     * datatype: StatusEnum
-     **/
-    this['status'] = null;
-    
-    /**
-     * datatype: Boolean
-     **/
-    this['complete'] = null;
-    
   };
 
   Order.constructFromObject = function(data) {
