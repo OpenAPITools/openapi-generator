@@ -223,6 +223,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toPackagePath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
+        supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
+        supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
     }
 
     @Override
