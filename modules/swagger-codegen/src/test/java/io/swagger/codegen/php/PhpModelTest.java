@@ -241,4 +241,20 @@ public class PhpModelTest {
         Assert.assertEquals(cm.imports.size(), 2);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
+
+    @Test(description = "avoid $ in class and file name, cased by two underscore in the model name.")
+    public void ModelTest() {
+        final Model model = new ModelImpl()
+                .description("a map model")
+                .additionalProperties(new RefProperty("#/definitions/Children"));
+        final DefaultCodegen codegen = new PhpClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample__model", model);
+
+        Assert.assertEquals(cm.name, "sample__model");
+        Assert.assertEquals(cm.classname, "SampleModel");
+        Assert.assertEquals(cm.description, "a map model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.imports.size(), 2);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+    }
 }
