@@ -372,6 +372,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         return camelize(name);
     }
 
+    public static String camelize(String word) {
+        return DefaultCodegen.camelize(word).replaceAll("\\$", "");
+    }
+
     @Override
     public String toModelFilename(String name) {
         // should be the same as the model name
