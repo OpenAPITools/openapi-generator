@@ -48,6 +48,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Java JAX-RS (Apache CXF 3)](#java-jax-rs-apache-cxf-3)
       - [Java Spring MVC](#java-spring-mvc)
       - [Haskell Servant](#haskell-servant)
+      - [ASP.NET 5 Web API](#aspnet-5-web-api)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Workflow Integration](#workflow-integration)
   - [Online Generators](#online-generators)
