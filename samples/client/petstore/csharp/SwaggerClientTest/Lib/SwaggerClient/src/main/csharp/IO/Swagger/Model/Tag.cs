@@ -20,8 +20,9 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag" /> class.
         /// </summary>
-        public Tag()
+        public Tag(Id = null, Name = null)
         {
+            
             
         }
 

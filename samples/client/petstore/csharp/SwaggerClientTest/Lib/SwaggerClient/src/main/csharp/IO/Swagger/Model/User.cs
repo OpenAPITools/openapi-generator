@@ -20,8 +20,9 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
-        public User()
+        public User(Id = null, Username = null, FirstName = null, LastName = null, Email = null, Password = null, Phone = null, UserStatus = null)
         {
+            
             
         }
 
