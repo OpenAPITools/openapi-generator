@@ -2231,10 +2231,16 @@ public class DefaultCodegen {
     /**
      * only write if the file doesn't exist
      *
+     * @param outputFolder
      * @param supportingFile
      */
-    public void writeOptional(SupportingFile supportingFile) {
-        String folder = supportingFile.folder;
+    public void writeOptional(String outputFolder, SupportingFile supportingFile) {
+        String folder = "";
+
+        if(outputFolder != null && !"".equals(outputFolder)) {
+            folder += outputFolder + File.separator;
+        }
+        folder += supportingFile.folder;
         if(!"".equals(folder)) {
             folder += File.separator + supportingFile.destinationFilename;
         }

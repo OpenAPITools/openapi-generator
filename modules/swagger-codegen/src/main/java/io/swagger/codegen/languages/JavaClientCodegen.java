@@ -234,13 +234,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
-        writeOptional(new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(new SupportingFile("README.mustache", "", "README.md"));
-        writeOptional(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        writeOptional(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-        writeOptional(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
-        writeOptional(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        writeOptional(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        writeOptional(outputFolder, new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
+        writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        writeOptional(outputFolder, new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
