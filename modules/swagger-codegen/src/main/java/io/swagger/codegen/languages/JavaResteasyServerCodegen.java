@@ -89,10 +89,10 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         }
 
         supportingFiles.clear();
-        writeOptional(new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(new SupportingFile("gradle.mustache", "", "build.gradle"));
-        writeOptional(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
-        writeOptional(new SupportingFile("README.mustache", "", "README.md"));
+        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        writeOptional(outputFolder, new SupportingFile("gradle.mustache", "", "build.gradle"));
+        writeOptional(outputFolder, new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiException.mustache",
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
         supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache",
@@ -101,11 +101,11 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache",
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
-        writeOptional(new SupportingFile("web.mustache",
+        writeOptional(outputFolder, new SupportingFile("web.mustache",
                 ("src/main/webapp/WEB-INF"), "web.xml"));
-        writeOptional(new SupportingFile("jboss-web.mustache",
+        writeOptional(outputFolder, new SupportingFile("jboss-web.mustache",
                 ("src/main/webapp/WEB-INF"), "jboss-web.xml"));
-        writeOptional(new SupportingFile("RestApplication.mustache",
+        writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
