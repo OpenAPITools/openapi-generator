@@ -20,8 +20,9 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        public Pet(Id = null, Category = null, Name = null, PhotoUrls = null, Tags = null, Status = null)
+        public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, string Status = null)
         {
+            // to ensure "Name" is required (not null)
             if (Name == null)
             {
                 throw new InvalidDataException("Name is a required property for Pet and cannot be null");
@@ -30,6 +31,7 @@ namespace IO.Swagger.Model
             {
                 this.Name = Name;
             }
+            // to ensure "PhotoUrls" is required (not null)
             if (PhotoUrls == null)
             {
                 throw new InvalidDataException("PhotoUrls is a required property for Pet and cannot be null");
@@ -38,7 +40,10 @@ namespace IO.Swagger.Model
             {
                 this.PhotoUrls = PhotoUrls;
             }
-            
+            this.Id = Id;
+            this.Category = Category;
+            this.Tags = Tags;
+            this.Status = Status;
             
         }
 

@@ -20,9 +20,14 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
-        public Order(Id = null, PetId = null, Quantity = null, ShipDate = null, Status = null, Complete = null)
+        public Order(long? Id = null, long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, string Status = null, bool? Complete = null)
         {
-            
+            this.Id = Id;
+            this.PetId = PetId;
+            this.Quantity = Quantity;
+            this.ShipDate = ShipDate;
+            this.Status = Status;
+            this.Complete = Complete;
             
         }
 
@@ -31,7 +36,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get;  }
+        public long? Id { get; private set; }
   
         
         /// <summary>

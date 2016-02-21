@@ -22,9 +22,10 @@ namespace {{packageName}}.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-        public {{classname}}({{#vars}}{{{dataType}}}{{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
+        public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
-            {{#vars}}{{#required}}if ({{name}} == null)
+            {{#vars}}{{#required}}// to ensure "{{name}}" is required (not null)
+            if ({{name}} == null)
             {
                 throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
             }
@@ -32,16 +33,17 @@ namespace {{packageName}}.Model
             {
                 this.{{name}} = {{name}};
             }
-            {{/required}}{{/vars}}
-            {{#vars}}{{#defaultValue}}if ({{name}} == null) 
+            {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
+            if ({{name}} == null)
             {
                 this.{{name}} = {{{defaultValue}}};
             }
-            else 
+            else
             {
                 this.{{name}} = {{name}};
             }
-            {{/defaultValue}}{{/vars}}
+            {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
+            {{/defaultValue}}{{/required}}{{/vars}}
         }
 
         {{#vars}}
@@ -50,7 +52,7 @@ namespace {{packageName}}.Model
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
-        public {{{datatype}}} {{name}} { get; {{^isReadOnly}}set;{{/isReadOnly}} }
+        public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
   
         {{/vars}}
   

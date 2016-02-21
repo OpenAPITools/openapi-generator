@@ -1309,13 +1309,6 @@ namespace IO.Swagger.Api
             {
                 headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            // authentication (petstore_auth) required
-            
-            // oauth required
-            if (!String.IsNullOrEmpty(Configuration.AccessToken))
-            {
-                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
-            }
             
     
             // make the HTTP request
@@ -1401,14 +1394,6 @@ namespace IO.Swagger.Api
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 headerParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
-            
-            // authentication (petstore_auth) required
-            
-            // oauth required
-            if (!String.IsNullOrEmpty(Configuration.AccessToken))
-            {
-                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
             
             // authentication (petstore_auth) required
@@ -2053,13 +2038,6 @@ namespace IO.Swagger.Api
             {
                 headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            // authentication (petstore_auth) required
-            
-            // oauth required
-            if (!String.IsNullOrEmpty(Configuration.AccessToken))
-            {
-                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
-            }
             
     
             // make the HTTP request
@@ -2145,14 +2123,6 @@ namespace IO.Swagger.Api
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 headerParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
-            
-            // authentication (petstore_auth) required
-            
-            // oauth required
-            if (!String.IsNullOrEmpty(Configuration.AccessToken))
-            {
-                headerParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
             
             // authentication (petstore_auth) required
