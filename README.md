@@ -53,6 +53,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Workflow Integration](#workflow-integration)
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
+  - [Companies/Projects using Swagger Codegen](#companies-projects-using-swagger-codegen)
   - [License](#license)
 
 
@@ -683,6 +684,24 @@ Guidelines for Contribution
 ---------------------------
 
 Please refer to this [page](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md)
+
+Companies/Projects using Swagger Codegen
+----------------------------------------
+Here are some companies/projects using Swagger Codegen. To add your company/project to the list, please submit a PR.
+- [Acunetix](https://www.acunetix.com/)
+- [Cupix](http://www.cupix.com) 
+- [Ergon](http://www.ergon.ch/)
+- [everystory.us](http://everystory.us)
+- [Expected Behavior](www.expectedbehavior.com/)
+- [nViso](http://www.nviso.ch/)
+- [Okiok](https://www.okiok.com)
+- [Reload! A/S](https://reload.dk/) 
+- [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
+- [SmartRecruiters](https://www.smartrecruiters.com/)
+- [StyleRecipe](http://stylerecipe.co.jp)
+- [ThoughtWorks](https://www.thoughtworks.com)
+- [uShip](https://www.uship.com/)
+- [ZEEF.com](https://zeef.com/)
 
 License
 -------
