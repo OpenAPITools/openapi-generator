@@ -18,10 +18,39 @@ namespace IO.Swagger.Model
     public partial class Pet :  IEquatable<Pet>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pet" /> class.
+        /// Initializes a new instance of the <see cref="Pet" />class.
         /// </summary>
-        public Pet()
+        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
+        /// <param name="Id">Id.</param>
+        /// <param name="Category">Category.</param>
+        /// <param name="Name">Name (required).</param>
+        /// <param name="PhotoUrls">PhotoUrls (required).</param>
+        /// <param name="Tags">Tags.</param>
+        /// <param name="Status">pet status in the store.</param>
+        public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, string Status = null)
         {
+            // to ensure "Name" is required (not null)
+            if (Name == null)
+            {
+                throw new InvalidDataException("Name is a required property for Pet and cannot be null");
+            }
+            else
+            {
+                this.Name = Name;
+            }
+            // to ensure "PhotoUrls" is required (not null)
+            if (PhotoUrls == null)
+            {
+                throw new InvalidDataException("PhotoUrls is a required property for Pet and cannot be null");
+            }
+            else
+            {
+                this.PhotoUrls = PhotoUrls;
+            }
+            this.Id = Id;
+            this.Category = Category;
+            this.Tags = Tags;
+            this.Status = Status;
             
         }
 
