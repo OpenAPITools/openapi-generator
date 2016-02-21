@@ -18,8 +18,11 @@ namespace IO.Swagger.Model
     public partial class Tag :  IEquatable<Tag>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Tag" /> class.
+        /// Initializes a new instance of the <see cref="Tag" />class.
         /// </summary>
+        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
+        /// <param name="Id">Id.</param>
+        /// <param name="Name">Name.</param>
         public Tag(long? Id = null, string Name = null)
         {
             this.Id = Id;

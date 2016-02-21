@@ -18,8 +18,15 @@ namespace IO.Swagger.Model
     public partial class Order :  IEquatable<Order>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Order" /> class.
+        /// Initializes a new instance of the <see cref="Order" />class.
         /// </summary>
+        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
+        /// <param name="Id">Id.</param>
+        /// <param name="PetId">PetId.</param>
+        /// <param name="Quantity">Quantity.</param>
+        /// <param name="ShipDate">ShipDate.</param>
+        /// <param name="Status">Order Status.</param>
+        /// <param name="Complete">Complete.</param>
         public Order(long? Id = null, long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, string Status = null, bool? Complete = null)
         {
             this.Id = Id;

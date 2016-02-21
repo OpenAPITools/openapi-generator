@@ -20,8 +20,11 @@ namespace {{packageName}}.Model
     public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// Initializes a new instance of the <see cref="{{classname}}" />class.
         /// </summary>
+        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
+{{#vars}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+{{/vars}}
         public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
             {{#vars}}{{#required}}// to ensure "{{name}}" is required (not null)
