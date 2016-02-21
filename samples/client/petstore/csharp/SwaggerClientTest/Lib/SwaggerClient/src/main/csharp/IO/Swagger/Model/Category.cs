@@ -20,9 +20,10 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        public Category(Id = null, Name = null)
+        public Category(long? Id = null, string Name = null)
         {
-            
+            this.Id = Id;
+            this.Name = Name;
             
         }
 
