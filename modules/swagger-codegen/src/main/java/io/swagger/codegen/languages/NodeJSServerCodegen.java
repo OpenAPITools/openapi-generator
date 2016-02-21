@@ -89,18 +89,9 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                         "api",
                         "swagger.yaml")
         );
-        writeOptional(new SupportingFile("index.mustache",
-                        "",
-                        "index.js")
-        );
-        writeOptional(new SupportingFile("package.mustache",
-                        "",
-                        "package.json")
-        );
-        writeOptional(new SupportingFile("README.mustache",
-                        "",
-                        "README.md")
-        );
+        writeOptional(outputFolder, new SupportingFile("index.mustache", "", "index.js"));
+        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         if (System.getProperty("noservice") == null) {
             apiTemplateFiles.put(
                     "service.mustache",   // the template to use
