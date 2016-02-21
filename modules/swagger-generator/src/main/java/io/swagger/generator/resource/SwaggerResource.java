@@ -30,6 +30,20 @@ public class SwaggerResource {
     static List<String> servers = new ArrayList<String>();
     private static Map<String, Generated> fileMap = new HashMap<String, Generated>();
 
+    static {
+        List<CodegenConfig> extensions = Codegen.getExtensions();
+        for (CodegenConfig config : extensions) {
+            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
+                clients.add(config.getName());
+            } else if (config.getTag().equals(CodegenType.SERVER)) {
+                servers.add(config.getName());
+            }
+        }
+
+        Collections.sort(clients);
+        Collections.sort(servers);
+    }
+
     @GET
     @Path("/download/{fileId}")
     @Produces({MediaType.APPLICATION_OCTET_STREAM})
@@ -200,17 +214,6 @@ public class SwaggerResource {
             return Response.ok().entity(new ResponseCode(code, link)).build();
         } else {
             return Response.status(500).build();
-        }
-    }
-
-    static {
-        List<CodegenConfig> extensions = Codegen.getExtensions();
-        for (CodegenConfig config : extensions) {
-            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
-                clients.add(config.getName());
-            } else if (config.getTag().equals(CodegenType.SERVER)) {
-                servers.add(config.getName());
-            }
         }
     }
 }
