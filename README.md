@@ -692,7 +692,7 @@ Here are some companies/projects using Swagger Codegen. To add your company/proj
 - [Cupix](http://www.cupix.com) 
 - [Ergon](http://www.ergon.ch/)
 - [everystory.us](http://everystory.us)
-- [Expected Behavior](www.expectedbehavior.com/)
+- [Expected Behavior](http://www.expectedbehavior.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [Reload! A/S](https://reload.dk/) 
