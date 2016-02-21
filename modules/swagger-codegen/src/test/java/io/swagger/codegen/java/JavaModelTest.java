@@ -20,6 +20,7 @@ import io.swagger.models.properties.StringProperty;
 
 import com.google.common.collect.Sets;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -455,5 +456,29 @@ public class JavaModelTest {
         final CodegenParameter cm = codegen.fromParameter(parameter, null);
 
         Assert.assertNull(cm.allowableValues);
+    }
+
+    @DataProvider(name = "modelNames")
+    public static Object[][] primeNumbers() {
+        return new Object[][] {
+                {"sample", "Sample"},
+                {"sample_name", "SampleName"},
+                {"sample__name", "SampleName"},
+                {"/sample", "Sample"},
+                {"\\sample", "Sample"},
+                {"sample.name", "SampleName"},
+                {"_sample", "Sample"},
+                {"Sample", "Sample"},
+        };
+    }
+
+    @Test(dataProvider = "modelNames", description = "avoid inner class")
+    public void modelNameTest(String name, String expectedName) {
+        final Model model = new ModelImpl();
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel(name, model);
+
+        Assert.assertEquals(cm.name, name);
+        Assert.assertEquals(cm.classname, expectedName);
     }
 }
