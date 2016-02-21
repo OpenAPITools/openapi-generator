@@ -334,7 +334,7 @@ namespace SwaggerClientTest.TestPet
 		public void TestDefaultHeader ()
 		{
 			PetApi petApi = new PetApi ();
-			// comment out the warning test below as it's confirmed the warning is working as expecteds
+			// commented out the warning test below as it's confirmed the warning is working as expected
 			// there should be a warning for using AddDefaultHeader (deprecated) below
 			//petApi.AddDefaultHeader ("header_key", "header_value");
 			// the following should be used instead as suggested in the doc
