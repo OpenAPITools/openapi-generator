@@ -20,8 +20,9 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        public Category()
+        public Category(Id = null, Name = null)
         {
+            
             
         }
 

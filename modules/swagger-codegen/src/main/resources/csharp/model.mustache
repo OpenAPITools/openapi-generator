@@ -22,9 +22,25 @@ namespace {{packageName}}.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-        public {{classname}}()
+        public {{classname}}({{#vars}}{{{dataType}}}{{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
-            {{#vars}}{{#defaultValue}}this.{{name}} = {{{defaultValue}}};
+            {{#vars}}{{#required}}if ({{name}} == null)
+            {
+                throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
+            }
+            else
+            {
+                this.{{name}} = {{name}};
+            }
+            {{/required}}{{/vars}}
+            {{#vars}}{{#defaultValue}}if ({{name}} == null) 
+            {
+                this.{{name}} = {{{defaultValue}}};
+            }
+            else 
+            {
+                this.{{name}} = {{name}};
+            }
             {{/defaultValue}}{{/vars}}
         }
 
@@ -34,7 +50,7 @@ namespace {{packageName}}.Model
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
-        public {{{datatype}}} {{name}} { get; set; }
+        public {{{datatype}}} {{name}} { get; {{^isReadOnly}}set;{{/isReadOnly}} }
   
         {{/vars}}
   
