@@ -53,7 +53,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Workflow Integration](#workflow-integration)
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
-  - [Companies/Projects using Swagger Codegen](#companies-projects-using-swagger-codegen)
+  - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
   - [License](#license)
 
 
