@@ -689,7 +689,8 @@ Companies/Projects using Swagger Codegen
 ----------------------------------------
 Here are some companies/projects using Swagger Codegen in production. To add your company/project to the list, please visit [README.md](https://github.com/swagger-api/swagger-codegen/blob/master/README.md) and click on the icon to edit the page.
 - [Acunetix](https://www.acunetix.com/)
-- [Cupix](http://www.cupix.com) 
+- [Cupix](http://www.cupix.com)
+- [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
