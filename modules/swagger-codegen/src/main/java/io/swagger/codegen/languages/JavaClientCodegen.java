@@ -219,6 +219,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             importMapping.remove("DateTime");
             instantiationTypes.put("array", "java.util.ArrayList");
             instantiationTypes.put("map", "java.util.HashMap");
+        } else {
+            languageSpecificPrimitives.add("List");
+            languageSpecificPrimitives.add("Map");
         }
 
         this.sanitizeConfig();
@@ -377,6 +380,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        name = super.toModelName(name);
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // camelize the model name
