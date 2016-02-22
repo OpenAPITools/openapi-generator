@@ -39,16 +39,21 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Generating static html api documentation](#generating-static-html-api-documentation)
     - [To build a server stub](#to-build-a-server-stub)
       - [Node.js](#nodejs)
+      - [PHP Slim](#php-slim)
       - [PHP Silex](#php-silex)
       - [Python Flask (Connexion)](#python-flask-connexion)
       - [Ruby Sinatra](#ruby-sinatra)
       - [Scala Scalatra](#scala-scalatra)
-      - [Java JAX-RS](#java-jax-rs)
+      - [Java JAX-RS (Java JAX-RS (Jersey v1.18)](#java-jax-rs-jersey-v118)
+      - [Java JAX-RS (Apache CXF 3)](#java-jax-rs-apache-cxf-3)
       - [Java Spring MVC](#java-spring-mvc)
+      - [Haskell Servant](#haskell-servant)
+      - [ASP.NET 5 Web API](#aspnet-5-web-api)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Workflow Integration](#workflow-integration)
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
+  - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
   - [License](#license)
 
 
@@ -67,7 +72,7 @@ Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 If you're looking for the latest stable version, you can grab it directly from maven central (you'll need java 7 runtime at a minimum):
 
 ```
-wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.1.4/swagger-codegen-cli-2.1.4.jar swagger-codegen-cli.jar
+wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.1.5/swagger-codegen-cli-2.1.5.jar -o swagger-codegen-cli.jar
 
 java -jar swagger-codegen-cli.jar help
 ```
@@ -118,7 +123,7 @@ cd swagger-codegen
 vagrant up
 vagrant ssh
 cd /vagrant
-sudo ./run-in-docker.sh mvn package
+./run-in-docker.sh mvn package
  ```
 
 #### Public Docker image
@@ -156,24 +161,46 @@ with a number of options.  You can get the options with the `help generate` comm
 
 ```
 NAME
-        swagger generate - Generate code with chosen lang
+        swagger-codegen-cli generate - Generate code with chosen lang
 
 SYNOPSIS
-        swagger generate [(-a <authorization> | --auth <authorization>)]
+        swagger-codegen-cli generate
+                [(-a <authorization> | --auth <authorization>)]
+                [--additional-properties <additional properties>]
+                [--api-package <api package>] [--artifact-id <artifact id>]
+                [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>]
+                [-D <system properties>] [--group-id <group id>]
                 (-i <spec file> | --input-spec <spec file>)
+                [--import-mappings <import mappings>]
+                [--instantiation-types <instantiation types>]
+                [--invoker-package <invoker package>]
                 (-l <language> | --lang <language>)
+                [--language-specific-primitives <language specific primitives>]
+                [--library <library>] [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)]
-                [(-t <template directory> | --template-dir <template directory>)]
-                [(-v | --verbose)]
                 [(-s | --skip-overwrite)]
+                [(-t <template directory> | --template-dir <template directory>)]
+                [--type-mappings <type mappings>] [(-v | --verbose)]
 
 OPTIONS
         -a <authorization>, --auth <authorization>
             adds authorization headers when fetching the swagger definitions
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
+
+        --additional-properties <additional properties>
+            sets additional properties that can be referenced by the mustache
+            templates in the format of name=value,name=value
+
+        --api-package <api package>
+            package for generated api classes
+
+        --artifact-id <artifact id>
+            artifactId in generated pom.xml
+
+        --artifact-version <artifact version>
+            artifact version in generated pom.xml
 
         -c <configuration file>, --config <configuration file>
             Path to json configuration file. File content should be in a json
@@ -185,25 +212,59 @@ OPTIONS
             sets specified system properties in the format of
             name=value,name=value
 
+        --group-id <group id>
+            groupId in generated pom.xml
+
         -i <spec file>, --input-spec <spec file>
-            location of the OpenAPI Spec, as URL or file (required)
+            location of the swagger spec, as URL or file (required)
+
+
+        --import-mappings <import mappings>
+            specifies mappings between a given class and the import that should
+            be used for that class in the format of type=import,type=import
+
+        --instantiation-types <instantiation types>
+            sets instantiation type mappings in the format of
+            type=instantiatedType,type=instantiatedType.For example (in Java):
+            array=ArrayList,map=HashMap. In other words array types will get
+            instantiated as ArrayList in generated code.
+
+        --invoker-package <invoker package>
+            root package for generated code
 
         -l <language>, --lang <language>
             client language to generate (maybe class name in classpath,
             required)
 
+        --language-specific-primitives <language specific primitives>
+            specifies additional language specific primitive types in the format
+            of type1,type2,type3,type3. For example:
+            String,boolean,Boolean,Double
+
+        --library <library>
+            library template (sub-template)
+
+        --model-package <model package>
+            package for generated models
+
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
+
+        -s, --skip-overwrite
+            specifies if the existing files should be overwritten during the
+            generation.
 
         -t <template directory>, --template-dir <template directory>
             folder containing the template files
 
+        --type-mappings <type mappings>
+            sets mappings between swagger spec types and generated code types in
+            the format of swaggerType=generatedType,swaggerType=generatedType.
+            For example: array=List,map=Map,string=String
+
         -v, --verbose
             verbose mode
 
-        -s , --skip-overwrite
-            specifies if the existing files should be overwritten during
-            the generation
 ```
 
 You can then compile and run the client, as well as unit tests against it:
@@ -306,10 +367,11 @@ There are different aspects of customizing the code generator beyond just creati
 
 ```
 $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
+AbstractJavaJAXRSServerCodegen.java
 AbstractTypeScriptClientCodegen.java
 AkkaScalaClientCodegen.java
 AndroidClientCodegen.java
-AndroidVolleyClientCodegen.java
+AspNet5ServerCodegen.java
 AsyncScalaClientCodegen.java
 CSharpClientCodegen.java
 ClojureClientCodegen.java
@@ -317,11 +379,14 @@ CsharpDotNet2ClientCodegen.java
 DartClientCodegen.java
 FlashClientCodegen.java
 FlaskConnexionCodegen.java
+GoClientCodegen.java
+HaskellServantCodegen.java
+JMeterCodegen.java
+JavaCXFServerCodegen.java
 JavaClientCodegen.java
 JavaInflectorServerCodegen.java
+JavaJerseyServerCodegen.java
 JavascriptClientCodegen.java
-JaxRSServerCodegen.java
-JMeterCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
 PerlClientCodegen.java
@@ -501,6 +566,15 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/nodejs
 ```
 
+### PHP Slim
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l slim \
+  -o samples/server/petstore/slim
+```
+
 ### PHP Silex
 
 ```
@@ -563,6 +637,24 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/spring-mvc
 ```
 
+### Haskell Servant
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l haskell-servant \
+  -o samples/server/petstore/haskell-servant
+```
+
+### ASP.NET 5 Web API
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l aspnet5 \
+  -o samples/server/petstore/aspnet5
+```
+
 ### To build the codegen library
 
 This will create the swagger-codegen library from source.
@@ -593,6 +685,24 @@ Guidelines for Contribution
 
 Please refer to this [page](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md)
 
+Companies/Projects using Swagger Codegen
+----------------------------------------
+Here are some companies/projects using Swagger Codegen. To add your company/project to the list, please submit a PR.
+- [Acunetix](https://www.acunetix.com/)
+- [Cupix](http://www.cupix.com) 
+- [Ergon](http://www.ergon.ch/)
+- [everystory.us](http://everystory.us)
+- [Expected Behavior](http://www.expectedbehavior.com/)
+- [nViso](http://www.nviso.ch/)
+- [Okiok](https://www.okiok.com)
+- [Reload! A/S](https://reload.dk/) 
+- [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
+- [SmartRecruiters](https://www.smartrecruiters.com/)
+- [StyleRecipe](http://stylerecipe.co.jp)
+- [ThoughtWorks](https://www.thoughtworks.com)
+- [uShip](https://www.uship.com/)
+- [ZEEF.com](https://zeef.com/)
+
 License
 -------
 
@@ -607,3 +717,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+---
+<img src="http://swagger.io/wp-content/uploads/2016/02/logo.jpg"/>

@@ -25,7 +25,7 @@
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @param {function} callback the callback function, accepting three arguments: error, data, response
-     *   data is of type: Object<String, Integer>
+     *   data is of type: {'String': 'Integer'}
      */
     self.getInventory = function(callback) {
       var postBody = null;
@@ -41,20 +41,15 @@
       var formParams = {
       };
 
+      var authNames = ['api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
-
-      var handleResponse = null;
-      if (callback) {
-        handleResponse = function(error, data, response) {
-          callback(error, data, response);
-        };
-      }
+      var returnType = {'String': 'Integer'};
 
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, handleResponse
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }
@@ -80,26 +75,15 @@
       var formParams = {
       };
 
+      var authNames = ['test_api_client_id', 'test_api_client_secret'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
-
-      var handleResponse = null;
-      if (callback) {
-        handleResponse = function(error, data, response) {
-          if (!error && data) {
-            var result = new Order();
-            result.constructFromObject(data);
-            callback(error, result, response);
-          } else {
-            callback(error, data, response);
-          }
-        };
-      }
+      var returnType = Order;
 
       return this.apiClient.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, handleResponse
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }
@@ -131,26 +115,15 @@
       var formParams = {
       };
 
+      var authNames = ['test_api_key_query', 'test_api_key_header'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
-
-      var handleResponse = null;
-      if (callback) {
-        handleResponse = function(error, data, response) {
-          if (!error && data) {
-            var result = new Order();
-            result.constructFromObject(data);
-            callback(error, result, response);
-          } else {
-            callback(error, data, response);
-          }
-        };
-      }
+      var returnType = Order;
 
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, handleResponse
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }
@@ -181,20 +154,15 @@
       var formParams = {
       };
 
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
-
-      var handleResponse = null;
-      if (callback) {
-        handleResponse = function(error, data, response) {
-          callback(error, data, response);
-        };
-      }
+      var returnType = null;
 
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, handleResponse
+        authNames, contentTypes, accepts, returnType, callback
       );
       
     }

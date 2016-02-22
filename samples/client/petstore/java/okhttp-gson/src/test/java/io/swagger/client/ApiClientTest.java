@@ -170,7 +170,13 @@ public class ApiClientTest {
 
     @Test
     public void testSetApiKeyAndPrefix() {
-        ApiKeyAuth auth = (ApiKeyAuth) apiClient.getAuthentications().get("api_key");
+        ApiKeyAuth auth = null;
+        for (Authentication _auth : apiClient.getAuthentications().values()) {
+            if (_auth instanceof ApiKeyAuth) {
+                auth = (ApiKeyAuth) _auth;
+                break;
+            }
+        }
         auth.setApiKey(null);
         auth.setApiKeyPrefix(null);
 

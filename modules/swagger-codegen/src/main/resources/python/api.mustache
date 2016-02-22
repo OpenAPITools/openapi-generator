@@ -117,11 +117,11 @@ class {{classname}}(object):
             header_params['{{baseName}}'] = params['{{paramName}}']
 {{/headerParams}}
 
-        form_params = {}
+        form_params = []
         files = {}
 {{#formParams}}
         if '{{paramName}}' in params:
-            {{#notFile}}form_params['{{baseName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
 {{/formParams}}
 
         body_params = None

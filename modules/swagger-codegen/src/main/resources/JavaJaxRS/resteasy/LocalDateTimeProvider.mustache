@@ -1,0 +1,34 @@
+package {{apiPackage}};
+
+import java.time.LocalDateTime;
+import javax.ws.rs.ext.ParamConverter;
+import javax.ws.rs.ext.ParamConverterProvider;
+import javax.ws.rs.ext.Provider;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
+@Provider
+public class LocalDateTimeProvider implements ParamConverterProvider {
+
+    public static class LocalDateTimeConverter implements ParamConverter<LocalDateTime> {
+
+        @Override
+        public LocalDateTime fromString(String string) {
+            LocalDate localDateTime = LocalDateTime.parse(string);
+            return localDateTime;
+        }
+
+        @Override
+        public String toString(LocalDateTime t) {
+            return t.toString();
+        }
+    }
+
+    @Override
+    public <T> ParamConverter<T> getConverter(Class<T> type, Type type1, Annotation[] antns) {
+        if (LocalDateTime.class.equals(type)) {
+            return (ParamConverter<T>) new LocalDateTimeConverter();
+        }
+        return null;
+    }
+}

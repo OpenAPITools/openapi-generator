@@ -182,7 +182,7 @@ public class StoreApi {
       });
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "test_api_client_id", "test_api_client_secret" };
     return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
@@ -290,7 +290,7 @@ public class StoreApi {
       });
     }
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "test_api_key_query", "test_api_key_header" };
     return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 

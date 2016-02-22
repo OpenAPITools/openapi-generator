@@ -129,6 +129,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (info.getVersion() != null) {
                 config.additionalProperties().put("version", info.getVersion());
             }
+            if (info.getTermsOfService() != null) {
+                config.additionalProperties().put("termsOfService", info.getTermsOfService());
+            }
+        }
+        
+        if(swagger.getVendorExtensions() != null) {
+        	config.vendorExtensions().putAll(swagger.getVendorExtensions());
         }
 
         StringBuilder hostBuilder = new StringBuilder();
@@ -176,6 +183,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     sortedModelKeys = updatedKeys;
                 }
 
+                // store all processed models
+                Map<String,Object> allProcessedModels = new HashMap<String, Object>();
+
+                // process models only
                 for (String name : sortedModelKeys) {
                     try {
                         //don't generate models that have an import mapping
@@ -188,6 +199,26 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         modelMap.put(name, model);
                         Map<String, Object> models = processModels(config, modelMap, definitions);
                         models.putAll(config.additionalProperties());
+                        
+                        allProcessedModels.put(name, models);
+
+                    } catch (Exception e) {
+                        throw new RuntimeException("Could not process model '" + name + "'", e);
+                    }
+                }
+                
+                // post process all processed models
+                allProcessedModels = config.postProcessAllModels(allProcessedModels);
+                
+                // generate files based on processed models
+                for (String name: allProcessedModels.keySet()) {
+                	Map<String, Object> models = (Map<String, Object>)allProcessedModels.get(name);
+                
+                	try {
+                        //don't generate models that have an import mapping
+                        if(config.importMapping().containsKey(name)) {
+                            continue;
+                        }
 
                         allModels.add(((List<Object>) models.get("models")).get(0));
 
@@ -270,6 +301,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("classname", config.toApiName(tag));
                     operation.put("classVarName", config.toApiVarName(tag));
                     operation.put("importPath", config.toApiImport(tag));
+                    
+                    if(!config.vendorExtensions().isEmpty()) {
+                    	operation.put("vendorExtensions", config.vendorExtensions());
+                    }
 
                     // Pass sortParamsByRequiredFlag through to the Mustache template...
                     boolean sortParamsByRequiredFlag = true;
@@ -602,35 +637,29 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         continue;
                     }
                     Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-                    // NOTE: Use only the first security requirement for now.
-                    // See the "security" field of "Swagger Object":
-                    //  https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#swagger-object
-                    //  "there is a logical OR between the security requirements"
-                    if (securities.size() > 1) {
-                        LOGGER.warn("More than 1 security requirements are found, using only the first one");
-                    }
-                    Map<String, List<String>> security = securities.get(0);
-                    for (String securityName : security.keySet()) {
-                        SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
-                        if (securityDefinition != null) {
-                            if(securityDefinition instanceof OAuth2Definition) {
-                                OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
-                                OAuth2Definition oauth2Operation = new OAuth2Definition();
-                                oauth2Operation.setType(oauth2Definition.getType());
-                                oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
-                                oauth2Operation.setFlow(oauth2Definition.getFlow());
-                                oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
-                                oauth2Operation.setScopes(new HashMap<String, String>());
-                                for (String scope : security.get(securityName)) {
-                                    if (oauth2Definition.getScopes().containsKey(scope)) {
-                                        oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
-                                    }
-                                }
-                                authMethods.put(securityName, oauth2Operation);
-                            } else {
-                                authMethods.put(securityName, securityDefinition);
-                            }
-                        }
+                    for (Map<String, List<String>> security: securities) {
+                      for (String securityName : security.keySet()) {
+                          SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
+                          if (securityDefinition != null) {
+                              if(securityDefinition instanceof OAuth2Definition) {
+                                  OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
+                                  OAuth2Definition oauth2Operation = new OAuth2Definition();
+                                  oauth2Operation.setType(oauth2Definition.getType());
+                                  oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
+                                  oauth2Operation.setFlow(oauth2Definition.getFlow());
+                                  oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
+                                  oauth2Operation.setScopes(new HashMap<String, String>());
+                                  for (String scope : security.get(securityName)) {
+                                      if (oauth2Definition.getScopes().containsKey(scope)) {
+                                          oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
+                                      }
+                                  }
+                                  authMethods.put(securityName, oauth2Operation);
+                              } else {
+                                  authMethods.put(securityName, securityDefinition);
+                              }
+                          }
+                      }
                     }
                     if (!authMethods.isEmpty()) {
                         co.authMethods = config.fromSecurity(authMethods);

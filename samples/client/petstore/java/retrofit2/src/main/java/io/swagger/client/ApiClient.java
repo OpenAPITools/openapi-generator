@@ -10,17 +10,19 @@ import java.util.Map;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 
-import retrofit.Converter;
-import retrofit.Retrofit;
-import retrofit.GsonConverterFactory;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
+import retrofit2.GsonConverterFactory;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.ResponseBody;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+
 
 import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
@@ -44,10 +46,10 @@ public class ApiClient {
         this();
         for(String authName : authNames) { 
             Interceptor auth;
-            if (authName == "api_key") { 
-                auth = new ApiKeyAuth("header", "api_key");
-            } else if (authName == "petstore_auth") { 
+            if (authName == "petstore_auth") { 
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else if (authName == "api_key") { 
+                auth = new ApiKeyAuth("header", "api_key");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
@@ -116,6 +118,7 @@ public class ApiClient {
                 .Builder()
                 .baseUrl(baseUrl)
                 .client(okClient)
+                
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
 
@@ -280,7 +283,7 @@ public class ApiClient {
      * @param okClient
      */
     public void configureFromOkclient(OkHttpClient okClient) {
-        OkHttpClient clone = okClient.clone();
+        OkHttpClient clone = okClient.newBuilder().build();
         addAuthsToOkClient(clone);
         adapterBuilder.client(clone);
     }
@@ -326,17 +329,17 @@ class GsonCustomConverterFactory extends Converter.Factory
 	    this.gsonConverterFactory = GsonConverterFactory.create(gson);
 	  }
 
-	  @Override
-	  public Converter<ResponseBody, ?> fromResponseBody(Type type, Annotation[] annotations) {
-		  if(type.equals(String.class))
-			  return new GsonResponseBodyConverterToString<Object>(gson, type);
-		  else
-			  return gsonConverterFactory.fromResponseBody(type, annotations);
-	  }
+    @Override
+    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+        if(type.equals(String.class))
+            return new GsonResponseBodyConverterToString<Object>(gson, type);
+        else
+            return gsonConverterFactory.responseBodyConverter(type, annotations, retrofit);
+    }
 
-	  @Override
-	  public Converter<?, RequestBody> toRequestBody(Type type, Annotation[] annotations) {
-	    return gsonConverterFactory.toRequestBody(type, annotations);
-	  }
+    @Override
+    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+            return gsonConverterFactory.requestBodyConverter(type, annotations, retrofit);
+    }
 }
 

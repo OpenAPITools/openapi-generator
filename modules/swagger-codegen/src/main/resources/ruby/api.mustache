@@ -1,3 +1,7 @@
+=begin
+{{> api_info}}
+=end
+
 require "uri"
 
 module {{moduleName}}
@@ -72,7 +76,6 @@ module {{moduleName}}
       {{^bodyParam}}post_body = nil
       {{/bodyParam}}{{#bodyParam}}post_body = @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
       {{/bodyParam}}
-
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
       data, status_code, headers = @api_client.call_api(:{{httpMethod}}, path,
         :header_params => header_params,
@@ -90,7 +93,3 @@ module {{moduleName}}
   end
 {{/operations}}
 end
-
-
-
-

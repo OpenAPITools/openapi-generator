@@ -240,6 +240,20 @@ class StoreApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_id');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['x-test_api_client_id'] = $apiKey;
+        }
+        
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_secret');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['x-test_api_client_secret'] = $apiKey;
+        }
+        
+        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -334,6 +348,20 @@ class StoreApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('test_api_key_header');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['test_api_key_header'] = $apiKey;
+        }
+        
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('test_api_key_query');
+        if (strlen($apiKey) !== 0) {
+            $queryParams['test_api_key_query'] = $apiKey;
+        }
+        
         
         // make the API Call
         try {

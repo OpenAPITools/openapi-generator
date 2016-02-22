@@ -1,73 +1,84 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined{{#imports}}, './{{import}}'{{/imports}}], factory);
+    define([undefined, '../ApiClient'{{#imports}}, './{{import}}'{{/imports}}], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined{{#imports}}, require('./{{import}}'){{/imports}});
+    module.exports = factory(undefined, require('../ApiClient'){{#imports}}, require('./{{import}}'){{/imports}});
   } else {
     // Browser globals (root is window)
     if (!root.{{moduleName}}) {
       root.{{moduleName}} = {};
     }
-    factory(root.{{moduleName}}{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
+    factory(root.{{moduleName}}, root.{{moduleName}}.ApiClient{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
   }
-}(this, function(module{{#imports}}, {{import}}{{/imports}}) {
+}(this, function(module, ApiClient{{#imports}}, {{import}}{{/imports}}) {
   'use strict';
-
   {{#models}}{{#model}}
-  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
-
   {{#description}}/**
    * {{description}}
    **/{{/description}}
   var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
-    var self = this;
-    {{#vars}}
+    {{#vars}}{{#required}}
     /**{{#description}}
      * {{{description}}}{{/description}}
-     * datatype: {{{datatypeWithEnum}}}{{#required}}
-     * required{{/required}}{{#minimum}}
+     * datatype: {{{datatypeWithEnum}}}
+     * required {{#minimum}}
      * minimum: {{minimum}}{{/minimum}}{{#maximum}}
      * maximum: {{maximum}}{{/maximum}}
      **/
-    self.{{name}} = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
-    {{/vars}}
-
-    self.constructFromObject = function(data) {
-      if (!data) {
-        return;
-      }
-      {{#vars}}
-      self.{{name}}{{{defaultValueWithParam}}}
-      {{/vars}}
-    }
-
-    {{#vars}}
+    this['{{baseName}}'] = {{name}};{{/required}}{{^required}}{{#defaultValue}}
     /**{{#description}}
-     * get {{{description}}}{{/description}}{{#minimum}}
+     * {{{description}}}{{/description}}
+     * datatype: {{{datatypeWithEnum}}}
+     * required {{#minimum}}
      * minimum: {{minimum}}{{/minimum}}{{#maximum}}
      * maximum: {{maximum}}{{/maximum}}
-     * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
      **/
-    self.{{getter}} = function() {
-      return self.{{name}};
-    }
-
-    /**{{#description}}
-     * set {{{description}}}{{/description}}
-     * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
-     **/
-    self.{{setter}} = function ({{name}}) {
-      self.{{name}} = {{name}};
-    }
-    {{/vars}}
-
-    self.toJson = function () {
-      return JSON.stringify(self);
-    }
+    this['{{baseName}}'] = {{{defaultValue}}};{{/defaultValue}}{{/required}}{{/vars}}
   };
+
+  {{classname}}.constructFromObject = function(data) {
+    if (!data) {
+      return null;
+    }
+    var _this = new {{classname}}();
+    {{#vars}}
+    if (data['{{baseName}}']) {
+      _this['{{baseName}}']{{{defaultValueWithParam}}}
+    }
+    {{/vars}}
+    return _this;
+  }
+
+  {{^omitModelMethods}}
+  {{#vars}}
+  /**{{#description}}
+   * get {{{description}}}{{/description}}{{#minimum}}
+   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+   * maximum: {{maximum}}{{/maximum}}
+   * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
+   **/
+  {{classname}}.prototype.{{getter}} = function() {
+    return this['{{baseName}}'];
+  }
+
+  /**{{#description}}
+   * set {{{description}}}{{/description}}
+   * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
+   **/
+  {{classname}}.prototype.{{setter}} = function({{name}}) {
+    this['{{baseName}}'] = {{name}};
+  }
+  {{/vars}}
+  {{/omitModelMethods}}
+
+  {{classname}}.prototype.toJson = function() {
+    return JSON.stringify(this);
+  }
+
+  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
 
   if (module) {
     module.{{classname}} = {{classname}};

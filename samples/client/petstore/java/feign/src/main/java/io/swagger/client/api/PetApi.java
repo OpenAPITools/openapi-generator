@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-11T21:48:33.457Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:23.375+08:00")
 public interface PetApi extends ApiClient.Api {
 
 
@@ -124,5 +124,31 @@ public interface PetApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  
+  /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return byte[]
+   */
+  @RequestLine("GET /pet/{petId}?testing_byte_array=true")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  byte[] getPetByIdWithByteArray(@Param("petId") Long petId);
+  
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * 
+   * @param body Pet object in the form of byte array
+   * @return void
+   */
+  @RequestLine("POST /pet?testing_byte_array=true")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  void addPetUsingByteArray(byte[] body);
   
 }

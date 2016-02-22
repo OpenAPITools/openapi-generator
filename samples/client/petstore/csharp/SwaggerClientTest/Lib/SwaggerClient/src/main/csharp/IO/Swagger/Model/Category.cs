@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
@@ -14,13 +15,18 @@ namespace IO.Swagger.Model
     /// 
     /// </summary>
     [DataContract]
-    public class Category :  IEquatable<Category>
+    public partial class Category :  IEquatable<Category>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Category" /> class.
+        /// Initializes a new instance of the <see cref="Category" />class.
         /// </summary>
-        public Category()
+        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
+        /// <param name="Id">Id.</param>
+        /// <param name="Name">Name.</param>
+        public Category(long? Id = null, string Name = null)
         {
+            this.Id = Id;
+            this.Name = Name;
             
         }
 

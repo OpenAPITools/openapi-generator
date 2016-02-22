@@ -22,7 +22,7 @@
 - (void)testGetInventory {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testGetPetByStatus"];
     
-    [self.api getInventoryWithCompletionBlock:^(NSDictionary *output, NSError *error) {
+    [self.api getInventoryWithCompletionHandler:^(NSDictionary *output, NSError *error) {
         
         if (error) {
             XCTFail(@"got error %@", error);

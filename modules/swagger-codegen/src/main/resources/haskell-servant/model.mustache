@@ -1,0 +1,34 @@
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
+{{#models}}
+{{#model}}
+module {{package}}.{{classname}}
+    ( {{classname}} (..)
+    ) where
+{{/model}}
+{{/models}}
+
+import Data.Aeson
+import GHC.Generics
+import Test.QuickCheck
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+
+data {{classname}} = {{classname}}
+    { {{#vars}}{{& name}} :: {{datatype}}{{#hasMore}}
+    , {{/hasMore}}{{/vars}}
+    } deriving (Show, Eq, Generic)
+
+instance FromJSON {{classname}}
+instance ToJSON {{classname}}
+instance Arbitrary {{classname}} where
+    arbitrary = {{classname}} <$> {{#vars}}arbitrary{{#hasMore}} <*> {{/hasMore}}{{/vars}}
+{{/model}}
+{{/models}}

@@ -1,6 +1,16 @@
 require 'spec_helper'
 require 'json'
 
+def serialize_json(o)
+  API_CLIENT.object_to_http_body(o)
+end
+
+def deserialize_json(s, type)
+  headers = {'Content-Type' => 'application/json'}
+  response = double('response', headers: headers, body: s)
+  API_CLIENT.deserialize(response, type)
+end
+
 describe "Pet" do
   before do
     @pet_api = Petstore::PetApi.new(API_CLIENT)
@@ -84,6 +94,23 @@ describe "Pet" do
       end
     end
 
+    it "should create and get pet with byte array (binary, string)" do
+      pet = @pet_api.get_pet_by_id(@pet_id)
+      pet.id = @pet_id + 1
+      str = serialize_json(pet)
+      @pet_api.add_pet_using_byte_array(body: str)
+
+      fetched_str = @pet_api.get_pet_by_id_with_byte_array(pet.id)
+      fetched_str.should be_a(String)
+      fetched = deserialize_json(fetched_str, 'Pet')
+      fetched.should be_a(Petstore::Pet)
+      fetched.id.should == pet.id
+      fetched.category.should be_a(Petstore::Category)
+      fetched.category.name.should == pet.category.name
+
+      @pet_api.delete_pet(pet.id)
+    end
+
     it "should update a pet" do
       pet = @pet_api.get_pet_by_id(@pet_id)
       pet.id.should == @pet_id
@@ -122,16 +149,18 @@ describe "Pet" do
     end
 
     it "should create a pet" do
-      pet = Petstore::Pet.new('id' => 10003, 'name' => "RUBY UNIT TESTING")
+      id = @pet_id + 1
+
+      pet = Petstore::Pet.new('id' => id, 'name' => "RUBY UNIT TESTING")
       result = @pet_api.add_pet(:body => pet)
       # nothing is returned
       result.should be_nil
 
-      pet = @pet_api.get_pet_by_id(10003)
-      pet.id.should == 10003
+      pet = @pet_api.get_pet_by_id(id)
+      pet.id.should == id
       pet.name.should == "RUBY UNIT TESTING"
 
-      @pet_api.delete_pet(10003)
+      @pet_api.delete_pet(id)
     end
 
     it "should upload a file to a pet" do

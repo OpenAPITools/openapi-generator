@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-15T19:19:23.415+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:20.498+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -241,7 +241,7 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "api_key" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     
     GenericType<Pet> returnType = new GenericType<Pet>() {};
@@ -441,7 +441,7 @@ public class PetApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] { "api_key" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     
     GenericType<byte[]> returnType = new GenericType<byte[]>() {};
