@@ -27,8 +27,8 @@ public class DynamicSwaggerConfig extends BeanConfig {
                 servers.add(config.getName());
             }
         }
-        Collections.sort(clients);
-        Collections.sort(servers);
+        Collections.sort(clients, String.CASE_INSENSITIVE_ORDER);
+        Collections.sort(servers, String.CASE_INSENSITIVE_ORDER);
     }
 
     @Override
