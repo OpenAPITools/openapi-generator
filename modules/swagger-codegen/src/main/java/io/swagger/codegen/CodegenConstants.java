@@ -60,7 +60,7 @@ public class CodegenConstants {
     public static final String OPTIONAL_METHOD_ARGUMENT_DESC = "Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).";
 
     public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
-    public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs (Default: true).";
+    public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs.";
 
     public static final String USE_COLLECTION = "useCollection";
     public static final String USE_COLLECTION_DESC = "Deserialize array types to Collection<T> instead of List<T>.";
@@ -69,13 +69,16 @@ public class CodegenConstants {
     public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
     
     public static final String OPTIONAL_PROJECT_FILE = "optionalProjectFile";
-    public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate {PackageName}.csproj (Default: false).";
+    public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate {PackageName}.csproj.";
     
     public static final String OPTIONAL_PROJECT_GUID = "packageGuid";
     public static final String OPTIONAL_PROJECT_GUID_DESC = "The GUID that will be associated with the C# project";
     
     public static final String MODEL_PROPERTY_NAMING = "modelPropertyNaming";
     public static final String MODEL_PROPERTY_NAMING_DESC = "Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
+
+    public static final String DOTNET_FRAMEWORK = "targetFramework";
+    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 

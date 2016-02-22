@@ -494,7 +494,7 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "api_key" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
     return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 
@@ -939,7 +939,7 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "api_key" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
     return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
   }
 

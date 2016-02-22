@@ -1,17 +1,13 @@
 package io.swagger.codegen.languages;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+
+import java.util.*;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
 {
@@ -49,8 +45,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger)
-    {
+    public void preprocessSwagger(Swagger swagger) {
         if ( "/".equals(swagger.getBasePath()) ) {
             swagger.setBasePath("");
         }
@@ -93,8 +88,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs)
-    {
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         @SuppressWarnings("unchecked")
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if ( operations != null ) {
@@ -139,8 +133,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     }
 
     @Override
-    public String toApiName(final String name)
-    {
+    public String toApiName(final String name) {
         String computed = name;
         if ( computed.length() == 0 ) {
             return "DefaultApi";
@@ -150,8 +143,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     }
 
     @Override
-    public String apiFilename(String templateName, String tag)
-    {
+    public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 
         if ( templateName.endsWith("Impl.mustache") ) {
@@ -169,15 +161,12 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
         return result;
     }
 
-    private String implFileFolder(String output)
-    {
+    private String implFileFolder(String output) {
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
     @Override
-    public boolean shouldOverwrite(String filename)
-    {
+    public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
     }
-
 }

@@ -77,7 +77,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         "Bool",
         "Void",
         "String",
-        "Character")
+        "Character",
+        "AnyObject")
     );
     defaultIncludes = new HashSet<String>(
       Arrays.asList(
@@ -118,7 +119,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("float", "Float");
     typeMapping.put("number", "Double");
     typeMapping.put("double", "Double");
-    typeMapping.put("object", "String");
+    typeMapping.put("object", "AnyObject");
     typeMapping.put("file", "NSURL");
     //TODO binary should be mapped to byte array
     // mapped to String as a workaround
@@ -188,7 +189,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String escapeReservedWord(String name) {
-    return "Swagger" + name;  // add an underscore to the name
+    return "_" + name;  // add an underscore to the name
   }
 
   @Override
@@ -263,7 +264,11 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       codegenProperty.allowableValues.put("values", swiftEnums);
       codegenProperty.datatypeWithEnum =
               StringUtils.left(codegenProperty.datatypeWithEnum, codegenProperty.datatypeWithEnum.length() - "Enum".length());
-      if (reservedWords.contains(codegenProperty.datatypeWithEnum)) {
+      // Ensure that the enum type doesn't match a reserved word or
+      // the variable name doesn't match the generated enum type or the
+      // Swift compiler will generate an error
+      if (reservedWords.contains(codegenProperty.datatypeWithEnum) ||
+          name.equals(codegenProperty.datatypeWithEnum)) {
         codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
       }
     }
@@ -286,6 +291,21 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     if(name.length() == 0)
       return "DefaultAPI";
     return initialCaps(name) + "API";
+  }
+
+  @Override
+  public String toOperationId(String operationId) {
+    // throw exception if method name is empty
+    if (StringUtils.isEmpty(operationId)) {
+      throw new RuntimeException("Empty method name (operationId) not allowed");
+    }
+
+    // method name cannot use reserved keyword, e.g. return
+    if (reservedWords.contains(operationId)) {
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+    }
+
+    return camelize(sanitizeName(operationId), true);
   }
 
   @Override

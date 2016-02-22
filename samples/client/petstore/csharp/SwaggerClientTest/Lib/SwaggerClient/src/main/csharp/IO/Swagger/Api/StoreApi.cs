@@ -15,6 +15,7 @@ namespace IO.Swagger.Api
     /// </summary>
     public interface IStoreApi
     {
+        #region Synchronous Operations
         
         /// <summary>
         /// Returns pet inventories by status
@@ -22,6 +23,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Dictionary&lt;string, int?&gt;</returns>
         Dictionary<string, int?> GetInventory ();
   
@@ -31,26 +33,9 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
         ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
-
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
-        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
-
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
         
         /// <summary>
         /// Place an order for a pet
@@ -58,6 +43,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// 
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
         Order PlaceOrder (Order body = null);
@@ -68,29 +54,10 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// 
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
         ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
-
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
-
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null);
         
         /// <summary>
         /// Find purchase order by ID
@@ -98,6 +65,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
         Order GetOrderById (string orderId);
@@ -108,29 +76,10 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
         ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
-
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
-
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId);
         
         /// <summary>
         /// Delete purchase order by ID
@@ -138,6 +87,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
         void DeleteOrder (string orderId);
@@ -148,16 +98,86 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId);
+        
+        #endregion Synchronous Operations
+        
+        #region Asynchronous Operations
+        
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
+        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
 
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
+        
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet</param>
+        /// <returns>Task of Order</returns>
+        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
+
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null);
+        
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of Order</returns>
+        System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
+
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId);
+        
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of void</returns>
         System.Threading.Tasks.Task DeleteOrderAsync (string orderId);
@@ -168,9 +188,12 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId);
+        
+        #endregion Asynchronous Operations
         
     }
   
@@ -253,6 +276,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Dictionary&lt;string, int?&gt;</returns>
         public Dictionary<string, int?> GetInventory ()
         {
@@ -263,6 +287,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
         public ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
         {
@@ -302,10 +327,9 @@ namespace IO.Swagger.Api
 
             // authentication (api_key) required
             
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
-            if (!String.IsNullOrEmpty(apiKeyValue))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
-                headerParams["api_key"] = apiKeyValue;
+                headerParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
             
     
@@ -326,10 +350,12 @@ namespace IO.Swagger.Api
                 (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>)));
             
         }
-    
+
+        
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
         {
@@ -341,6 +367,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ()
         {
@@ -350,7 +377,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             Object postBody = null;
@@ -381,10 +408,9 @@ namespace IO.Swagger.Api
             
             // authentication (api_key) required
             
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
-            if (!String.IsNullOrEmpty(apiKeyValue))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
-                headerParams["api_key"] = apiKeyValue;
+                headerParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
             
 
@@ -409,6 +435,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param> 
         /// <returns>Order</returns>
         public Order PlaceOrder (Order body = null)
@@ -420,6 +447,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param> 
         /// <returns>ApiResponse of Order</returns>
         public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body = null)
@@ -465,6 +493,18 @@ namespace IO.Swagger.Api
                 postBody = body; // byte array
             }
 
+            // authentication (test_api_client_id) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_id")))
+            {
+                headerParams["x-test_api_client_id"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_id");
+            }
+            // authentication (test_api_client_secret) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_secret")))
+            {
+                headerParams["x-test_api_client_secret"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_secret");
+            }
             
     
             // make the HTTP request
@@ -484,10 +524,12 @@ namespace IO.Swagger.Api
                 (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
             
         }
-    
+
+        
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null)
@@ -500,6 +542,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null)
@@ -510,7 +553,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             Object postBody = null;
@@ -540,6 +583,20 @@ namespace IO.Swagger.Api
             
 
             
+            // authentication (test_api_client_id) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_id")))
+            {
+                headerParams["x-test_api_client_id"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_id");
+            }
+            
+            // authentication (test_api_client_secret) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_secret")))
+            {
+                headerParams["x-test_api_client_secret"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_secret");
+            }
+            
 
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
@@ -562,6 +619,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param> 
         /// <returns>Order</returns>
         public Order GetOrderById (string orderId)
@@ -573,6 +631,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param> 
         /// <returns>ApiResponse of Order</returns>
         public ApiResponse< Order > GetOrderByIdWithHttpInfo (string orderId)
@@ -616,6 +675,18 @@ namespace IO.Swagger.Api
             
             
 
+            // authentication (test_api_key_header) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
+            {
+                headerParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
+            }
+            // authentication (test_api_key_query) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_query")))
+            {
+                queryParams["test_api_key_query"] = Configuration.GetApiKeyWithPrefix("test_api_key_query");
+            }
             
     
             // make the HTTP request
@@ -635,10 +706,12 @@ namespace IO.Swagger.Api
                 (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
             
         }
-    
+
+        
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId)
@@ -651,6 +724,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId)
@@ -663,7 +737,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             Object postBody = null;
@@ -693,6 +767,20 @@ namespace IO.Swagger.Api
             
 
             
+            // authentication (test_api_key_header) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
+            {
+                headerParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
+            }
+            
+            // authentication (test_api_key_query) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_query")))
+            {
+                queryParams["test_api_key_query"] = Configuration.GetApiKeyWithPrefix("test_api_key_query");
+            }
+            
 
             // make the HTTP request
             IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
@@ -715,6 +803,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
         /// <returns></returns>
         public void DeleteOrder (string orderId)
@@ -725,6 +814,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId)
@@ -787,10 +877,12 @@ namespace IO.Swagger.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeleteOrderAsync (string orderId)
@@ -802,6 +894,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId)
@@ -814,7 +907,7 @@ namespace IO.Swagger.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             Object postBody = null;

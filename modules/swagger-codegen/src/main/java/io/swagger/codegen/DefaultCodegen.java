@@ -71,6 +71,7 @@ public class DefaultCodegen {
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
@@ -108,12 +109,19 @@ public class DefaultCodegen {
         }
     }
 
+    // override with any special post-processing for all models
+    @SuppressWarnings("static-method")
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        return objs;
+    }
+
     // override with any special post-processing
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return objs;
     }
 
+    
     // override with any special post-processing
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
@@ -247,6 +255,10 @@ public class DefaultCodegen {
         return additionalProperties;
     }
 
+    public Map<String, Object> vendorExtensions() {
+        return vendorExtensions;
+    }
+    
     public List<SupportingFile> supportingFiles() {
         return supportingFiles;
     }
@@ -582,6 +594,54 @@ public class DefaultCodegen {
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Return the example value of the property
+     *
+     * @param p Swagger property object
+     * @return string presentation of the example value of the property
+     */
+    @SuppressWarnings("static-method") 
+    public String toExampleValue(Property p) {
+        if(p.getExample() != null) {
+            return p.getExample().toString();
+        }
+        if (p instanceof StringProperty) {
+            return "null";
+        } else if (p instanceof BooleanProperty) {
+            return "null";
+        } else if (p instanceof DateProperty) {
+            return "null";
+        } else if (p instanceof DateTimeProperty) {
+            return "null";
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getExample() != null) {
+                return dp.getExample().toString();
+            }
+            return "null";
+        } else {
+            return "null";
         }
     }
 
@@ -927,7 +987,7 @@ public class DefaultCodegen {
         property.unescapedDescription = p.getDescription();
         property.getter = "get" + getterAndSetterCapitalize(name);
         property.setter = "set" + getterAndSetterCapitalize(name);
-        property.example = p.getExample();
+        property.example = toExampleValue(p);
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
@@ -1366,6 +1426,8 @@ public class DefaultCodegen {
                 } else if (param instanceof FormParameter) {
                     if ("file".equalsIgnoreCase(((FormParameter) param).getType())) {
                         p.isFile = true;
+                    } else if("file".equals(p.baseType)){
+                    	p.isFile = true;
                     } else {
                         p.notFile = true;
                     }
@@ -2033,14 +2095,6 @@ public class DefaultCodegen {
             word = m.replaceAll(rep);
         }
 
-        // Replace two underscores with $ to support inner classes.
-        p = Pattern.compile("(__)(.)");
-        m = p.matcher(word);
-        while (m.find()) {
-            word = m.replaceFirst("\\$" + m.group(2).toUpperCase());
-            m = p.matcher(word);
-        }
-
         // Remove all underscores
         p = Pattern.compile("(_)(.)");
         m = p.matcher(word);
@@ -2136,6 +2190,11 @@ public class DefaultCodegen {
     	    return "ERROR_UNKNOWN";
     	}
 
+        // if the name is just '$', map it to 'value' for the time being.
+        if ("$".equals(name)) {
+            return "value";
+        }
+
         // input[] => input
         name = name.replaceAll("\\[\\]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -2159,5 +2218,29 @@ public class DefaultCodegen {
         // remove everything else other than word, number and _
         // $php_variable => php_variable
         return name.replaceAll("[^a-zA-Z0-9_]", "");
+    }
+
+    /**
+     * only write if the file doesn't exist
+     *
+     * @param outputFolder
+     * @param supportingFile
+     */
+    public void writeOptional(String outputFolder, SupportingFile supportingFile) {
+        String folder = "";
+
+        if(outputFolder != null && !"".equals(outputFolder)) {
+            folder += outputFolder + File.separator;
+        }
+        folder += supportingFile.folder;
+        if(!"".equals(folder)) {
+            folder += File.separator + supportingFile.destinationFilename;
+        }
+        else {
+            folder = supportingFile.destinationFilename;
+        }
+        if(!new File(folder).exists()) {
+            supportingFiles.add(supportingFile);
+        }
     }
 }

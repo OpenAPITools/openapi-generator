@@ -177,6 +177,9 @@ public class CodegenProperty {
         if (this.isEnum != other.isEnum) {
             return false;
         }
+        if (this.isReadOnly != other.isReadOnly && (this.isReadOnly == null || !this.isReadOnly.equals(other.isReadOnly))) {
+            return false;
+        }
         if (this._enum != other._enum && (this._enum == null || !this._enum.equals(other._enum))) {
             return false;
         }

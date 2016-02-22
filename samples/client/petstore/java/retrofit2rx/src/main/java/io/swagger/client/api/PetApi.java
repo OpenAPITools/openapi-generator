@@ -4,9 +4,9 @@ import io.swagger.client.CollectionFormats.*;
 
 import rx.Observable;
 
-import retrofit.http.*;
+import retrofit2.http.*;
 
-import com.squareup.okhttp.RequestBody;
+import okhttp3.RequestBody;
 
 import io.swagger.client.model.Pet;
 import java.io.File;

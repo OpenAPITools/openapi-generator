@@ -1,4 +1,5 @@
 io.swagger.codegen.languages.AndroidClientCodegen
+io.swagger.codegen.languages.AspNet5ServerCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
 io.swagger.codegen.languages.CSharpClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
@@ -8,8 +9,10 @@ io.swagger.codegen.languages.GoClientCodegen
 io.swagger.codegen.languages.JavaClientCodegen
 io.swagger.codegen.languages.JavaJerseyServerCodegen
 io.swagger.codegen.languages.JavaCXFServerCodegen
+io.swagger.codegen.languages.JavaResteasyServerCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
 io.swagger.codegen.languages.JavascriptClientCodegen
+io.swagger.codegen.languages.JavascriptClosureAngularClientCodegen
 io.swagger.codegen.languages.JMeterCodegen
 io.swagger.codegen.languages.NodeJSServerCodegen
 io.swagger.codegen.languages.ObjcClientCodegen
@@ -35,3 +38,4 @@ io.swagger.codegen.languages.TypeScriptNodeClientCodegen
 io.swagger.codegen.languages.AkkaScalaClientCodegen
 io.swagger.codegen.languages.CsharpDotNet2ClientCodegen
 io.swagger.codegen.languages.ClojureClientCodegen
+io.swagger.codegen.languages.HaskellServantCodegen

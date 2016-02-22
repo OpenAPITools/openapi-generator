@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
@@ -14,13 +15,30 @@ namespace IO.Swagger.Model
     /// 
     /// </summary>
     [DataContract]
-    public class User :  IEquatable<User>
+    public partial class User :  IEquatable<User>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="User" /> class.
+        /// Initializes a new instance of the <see cref="User" />class.
         /// </summary>
-        public User()
+        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
+        /// <param name="Id">Id.</param>
+        /// <param name="Username">Username.</param>
+        /// <param name="FirstName">FirstName.</param>
+        /// <param name="LastName">LastName.</param>
+        /// <param name="Email">Email.</param>
+        /// <param name="Password">Password.</param>
+        /// <param name="Phone">Phone.</param>
+        /// <param name="UserStatus">User Status.</param>
+        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, int? UserStatus = null)
         {
+            this.Id = Id;
+            this.Username = Username;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Email = Email;
+            this.Password = Password;
+            this.Phone = Phone;
+            this.UserStatus = UserStatus;
             
         }
 

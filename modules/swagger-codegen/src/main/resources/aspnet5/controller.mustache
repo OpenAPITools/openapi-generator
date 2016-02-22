@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Mvc;
+using Newtonsoft.Json;
+using Swashbuckle.SwaggerGen.Annotations;
+using {{packageName}}.Models;
+
+namespace {{packageName}}.Controllers
+{ {{#operations}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>{{#description}}{{#basePath}}
+    [Route("{{basePath}}")]
+    {{/basePath}}[Description("{{description}}")]{{/description}}
+    public class {{classname}}Controller : Controller
+    { {{#operation}}
+
+        /// <summary>
+        /// {{#summary}}{{summary}}{{/summary}}
+        /// </summary>
+        {{#notes}}/// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
+        /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
+        /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        [{{httpMethod}}]
+        [Route("{{path}}")]
+        [SwaggerOperation("{{operationId}}")]{{#returnType}}
+        [SwaggerResponse(200, type: typeof({{&returnType}}))]{{/returnType}}
+        public {{#returnType}}IActionResult{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        { {{#returnType}}
+            string exampleJson = null;
+            {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMapContainer}}{{>mapReturn}}{{/isMapContainer}}{{^isMapContainer}}{{>objectReturn}}{{/isMapContainer}}{{/isListCollection}}
+            {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
+            return new ObjectResult(example);{{/returnType}}{{^returnType}}
+            throw new NotImplementedException();{{/returnType}}
+        }
+{{/operation}}
+    }
+{{/operations}}
+}

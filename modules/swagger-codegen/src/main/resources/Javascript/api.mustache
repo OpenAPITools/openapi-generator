@@ -25,10 +25,10 @@
      * {{summary}}
      * {{notes}}
   {{#allParams}}   * @param {{=<% %>=}}{<% dataType %>} <%={{ }}=%> {{paramName}} {{description}}
-  {{/allParams}}   * @param {function} callback the callback function, accepting three arguments: error, data, response{{#returnType}}
+  {{/allParams}}   {{^usePromises}}* @param {function} callback the callback function, accepting three arguments: error, data, response{{/usePromises}}{{#returnType}}
      *   data is of type: {{{returnType}}}{{/returnType}}
      */
-    self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}callback) {
+    self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{^usePromises}}{{#hasParams}}, {{/hasParams}}callback{{/usePromises}}) {
       var postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
       {{#allParams}}{{#required}}
       // verify the required parameter '{{paramName}}' is set
@@ -42,39 +42,24 @@
         '<baseName>': <paramName><#hasMore>,</hasMore></pathParams>
       };
       var queryParams = {<#queryParams>
-        '<baseName>': <paramName><#hasMore>,</hasMore></queryParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></queryParams>
       };
       var headerParams = {<#headerParams>
         '<baseName>': <paramName><#hasMore>,</hasMore></headerParams>
       };
       var formParams = {<#formParams>
-        '<baseName>': <paramName><#hasMore>,</hasMore></formParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></formParams>
       };
 
+      var authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
       var contentTypes = [<#consumes>'<mediaType>'<#hasMore>, </hasMore></consumes>];
       var accepts = [<#produces>'<mediaType>'<#hasMore>, </hasMore></produces>];
-
-      var handleResponse = null;
-      if (callback) {
-        handleResponse = function(error, data, response) {<#returnType><#returnTypeIsPrimitive>
-          callback(error, data, response);</returnTypeIsPrimitive><^returnTypeIsPrimitive><#isListContainer>
-          // TODO: support deserializing array of models
-          callback(error, data, response);</isListContainer><^isListContainer>
-          if (!error && data) {
-            var result = new <&returnType>();
-            result.constructFromObject(data);
-            callback(error, result, response);
-          } else {
-            callback(error, data, response);
-          }</isListContainer></returnTypeIsPrimitive></returnType><^returnType>
-          callback(error, data, response);</returnType>
-        };
-      }
+      var returnType = <#returnType><&returnType></returnType><^returnType>null</returnType>;
 
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, headerParams, formParams, postBody,
-        contentTypes, accepts, handleResponse
+        authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
       );
       <={{ }}=>
     }

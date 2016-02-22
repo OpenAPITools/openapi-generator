@@ -16,6 +16,7 @@ namespace {{packageName}}.Api
     /// </summary>
     public interface I{{classname}}
     {
+        #region Synchronous Operations
         {{#operation}}
         /// <summary>
         /// {{summary}}
@@ -23,6 +24,7 @@ namespace {{packageName}}.Api
         /// <remarks>
         /// {{notes}}
         /// </remarks>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
         {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
@@ -33,16 +35,22 @@ namespace {{packageName}}.Api
         /// <remarks>
         /// {{notes}}
         /// </remarks>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-
+        {{/operation}}
+        #endregion Synchronous Operations
+        {{#supportsAsync}}
+        #region Asynchronous Operations
+        {{#operation}}
         /// <summary>
         /// {{summary}}
         /// </summary>
         /// <remarks>
         /// {{notes}}
         /// </remarks>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
         {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
@@ -53,10 +61,13 @@ namespace {{packageName}}.Api
         /// <remarks>
         /// {{notes}}
         /// </remarks>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
         System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
+        #endregion Asynchronous Operations
+        {{/supportsAsync}}
     }
   
     /// <summary>
@@ -138,6 +149,7 @@ namespace {{packageName}}.Api
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
         public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
@@ -149,6 +161,7 @@ namespace {{packageName}}.Api
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param> 
         {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
         public ApiResponse<{{#returnType}} {{{returnType}}} {{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
@@ -204,15 +217,13 @@ namespace {{packageName}}.Api
 
             {{#authMethods}}// authentication ({{name}}) required
             {{#isApiKey}}{{#isKeyInHeader}}
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
-            if (!String.IsNullOrEmpty(apiKeyValue))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                headerParams["{{keyParamName}}"] = apiKeyValue;
+                headerParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }{{/isKeyInHeader}}{{#isKeyInQuery}}
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
-            if (!String.IsNullOrEmpty(apiKeyValue))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                queryParams["{{keyParamName}}"] = apiKeyValue;
+                queryParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}
             // http basic authentication required
             if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
@@ -245,10 +256,12 @@ namespace {{packageName}}.Api
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);{{/returnType}}
         }
-    
+
+        {{#supportsAsync}}
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
         {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
@@ -261,6 +274,7 @@ namespace {{packageName}}.Api
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
+        /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}</param>
         {{/allParams}}/// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
         public async System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
@@ -273,7 +287,7 @@ namespace {{packageName}}.Api
     
             var pathParams = new Dictionary<String, String>();
             var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             Object postBody = null;
@@ -309,15 +323,13 @@ namespace {{packageName}}.Api
             {{#authMethods}}
             // authentication ({{name}}) required
             {{#isApiKey}}{{#isKeyInHeader}}
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
-            if (!String.IsNullOrEmpty(apiKeyValue))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                headerParams["{{keyParamName}}"] = apiKeyValue;
+                headerParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }{{/isKeyInHeader}}{{#isKeyInQuery}}
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
-            if (!String.IsNullOrEmpty(apiKeyValue))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                queryParams["{{keyParamName}}"] = apiKeyValue;
+                queryParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}
             // http basic authentication required
             if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
@@ -349,7 +361,7 @@ namespace {{packageName}}.Api
             {{^returnType}}return new ApiResponse<Object>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);{{/returnType}}
-        }
+        }{{/supportsAsync}}
         {{/operation}}
     }
     {{/operations}}

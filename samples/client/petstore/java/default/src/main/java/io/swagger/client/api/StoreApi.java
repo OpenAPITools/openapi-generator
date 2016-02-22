@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:16.440+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:20.498+08:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -108,7 +108,7 @@ public class StoreApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "test_api_client_id", "test_api_client_secret" };
 
     
     GenericType<Order> returnType = new GenericType<Order>() {};
@@ -155,7 +155,7 @@ public class StoreApi {
     };
     final String contentType = apiClient.selectHeaderContentType(contentTypes);
 
-    String[] authNames = new String[] {  };
+    String[] authNames = new String[] { "test_api_key_query", "test_api_key_header" };
 
     
     GenericType<Order> returnType = new GenericType<Order>() {};

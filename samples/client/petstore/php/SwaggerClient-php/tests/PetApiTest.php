@@ -2,6 +2,10 @@
 
 require_once('autoload.php');
 
+// increase memory limit to avoid fatal error due to findPetByStatus
+// returning a lot of data
+ini_set('memory_limit', '256M');
+
 class PetApiTest extends \PHPUnit_Framework_TestCase
 {
 
