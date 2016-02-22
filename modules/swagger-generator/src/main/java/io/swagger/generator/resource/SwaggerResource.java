@@ -40,8 +40,8 @@ public class SwaggerResource {
             }
         }
 
-        Collections.sort(clients);
-        Collections.sort(servers);
+        Collections.sort(clients, String.CASE_INSENSITIVE_ORDER);
+        Collections.sort(servers, String.CASE_INSENSITIVE_ORDER);
     }
 
     @GET
