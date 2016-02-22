@@ -5,7 +5,11 @@ import {{invokerPackage}}.ApiClient;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}import java.util.*;
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 {{/fullJavaUtil}}
 import feign.*;
 
