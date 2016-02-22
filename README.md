@@ -695,6 +695,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
+- [OSDN](https://osdn.jp)
 - [Reload! A/S](https://reload.dk/) 
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
