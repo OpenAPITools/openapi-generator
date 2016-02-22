@@ -7,6 +7,7 @@ import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.text.SimpleDateFormat;
 
@@ -63,12 +64,19 @@ public class StoreApiTest {
 
     private Order createOrder() {
         Order order = new Order();
-        order.setId(TestUtils.nextId());
         order.setPetId(new Long(200));
         order.setQuantity(new Integer(13));
         order.setShipDate(new java.util.Date());
         order.setStatus(Order.StatusEnum.PLACED);
         order.setComplete(true);
+
+        try {
+          Field idField = Order.class.getDeclaredField("id");
+          idField.setAccessible(true);
+          idField.set(order, TestUtils.nextId());
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
 
         return order;
     }
