@@ -687,7 +687,7 @@ Please refer to this [page](https://github.com/swagger-api/swagger-codegen/blob/
 
 Companies/Projects using Swagger Codegen
 ----------------------------------------
-Here are some companies/projects using Swagger Codegen in production. To add your company/project to the list, please submit a [PR](https://github.com/swagger-api/swagger-codegen/edit/master/README.md).
+Here are some companies/projects using Swagger Codegen in production. To add your company/project to the list, please visit [README.md](https://github.com/swagger-api/swagger-codegen/blob/master/README.md) and click on the icon to edit the page.
 - [Acunetix](https://www.acunetix.com/)
 - [Cupix](http://www.cupix.com) 
 - [Ergon](http://www.ergon.ch/)
