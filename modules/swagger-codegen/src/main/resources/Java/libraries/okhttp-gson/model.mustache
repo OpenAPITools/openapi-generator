@@ -33,10 +33,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   @ApiModelProperty({{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }
+  }{{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
-  }
+  }{{/isReadOnly}}
 
   {{/vars}}
 

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:23.375+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-22T15:32:23.465+08:00")
 public class User   {
   
   private Long id = null;
@@ -28,7 +28,6 @@ public class User   {
     this.id = id;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
@@ -46,7 +45,6 @@ public class User   {
     this.username = username;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("username")
@@ -64,7 +62,6 @@ public class User   {
     this.firstName = firstName;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("firstName")
@@ -82,7 +79,6 @@ public class User   {
     this.lastName = lastName;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("lastName")
@@ -100,7 +96,6 @@ public class User   {
     this.email = email;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("email")
@@ -118,7 +113,6 @@ public class User   {
     this.password = password;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("password")
@@ -136,7 +130,6 @@ public class User   {
     this.phone = phone;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("phone")
@@ -155,7 +148,6 @@ public class User   {
     this.userStatus = userStatus;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "User Status")
   @JsonProperty("userStatus")
