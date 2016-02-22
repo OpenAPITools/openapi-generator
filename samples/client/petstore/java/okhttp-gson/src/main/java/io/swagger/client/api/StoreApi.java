@@ -17,11 +17,13 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-import java.util.Map;
 import io.swagger.client.model.Order;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StoreApi {
   private ApiClient apiClient;
