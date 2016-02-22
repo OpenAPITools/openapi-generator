@@ -8,6 +8,7 @@ public class CodegenModel {
     public String parent, parentSchema;
     public String name, classname, description, classVarName, modelJson, dataType;
     public String unescapedDescription;
+    public String discriminator;
     public String defaultValue;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
     public List<String> allowableValues;

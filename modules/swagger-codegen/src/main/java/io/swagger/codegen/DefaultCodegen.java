@@ -864,6 +864,10 @@ public class DefaultCodegen {
         m.externalDocs = model.getExternalDocs();
         m.vendorExtensions = model.getVendorExtensions();
 
+        if (model instanceof ModelImpl) {
+            m.discriminator = ((ModelImpl) model).getDiscriminator();
+        }
+
 
         if (model instanceof ArrayModel) {
             ArrayModel am = (ArrayModel) model;
