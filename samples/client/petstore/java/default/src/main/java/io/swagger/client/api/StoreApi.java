@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:20.498+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-23T20:01:57.005+08:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -39,6 +39,7 @@ public class StoreApi {
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
    * @return Map<String, Integer>
+   * @throws ApiException if fails to make API call
    */
   public Map<String, Integer> getInventory() throws ApiException {
     Object postBody = null;
@@ -80,6 +81,7 @@ public class StoreApi {
    * 
    * @param body order placed for purchasing the pet
    * @return Order
+   * @throws ApiException if fails to make API call
    */
   public Order placeOrder(Order body) throws ApiException {
     Object postBody = body;
@@ -121,15 +123,16 @@ public class StoreApi {
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched
    * @return Order
+   * @throws ApiException if fails to make API call
    */
   public Order getOrderById(String orderId) throws ApiException {
     Object postBody = null;
     
-     // verify the required parameter 'orderId' is set
-     if (orderId == null) {
-        throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
-     }
-     
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
+      throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
+    }
+    
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
@@ -167,16 +170,16 @@ public class StoreApi {
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param orderId ID of the order that needs to be deleted
-   * @return void
+   * @throws ApiException if fails to make API call
    */
   public void deleteOrder(String orderId) throws ApiException {
     Object postBody = null;
     
-     // verify the required parameter 'orderId' is set
-     if (orderId == null) {
-        throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
-     }
-     
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
+      throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
+    }
+    
     // create path and map variables
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));

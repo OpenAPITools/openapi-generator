@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:20.498+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-23T20:01:57.005+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -40,7 +40,7 @@ public class PetApi {
    * Update an existing pet
    * 
    * @param body Pet object that needs to be added to the store
-   * @return void
+   * @throws ApiException if fails to make API call
    */
   public void updatePet(Pet body) throws ApiException {
     Object postBody = body;
@@ -80,7 +80,7 @@ public class PetApi {
    * Add a new pet to the store
    * 
    * @param body Pet object that needs to be added to the store
-   * @return void
+   * @throws ApiException if fails to make API call
    */
   public void addPet(Pet body) throws ApiException {
     Object postBody = body;
@@ -121,6 +121,7 @@ public class PetApi {
    * Multiple status values can be provided with comma seperated strings
    * @param status Status values that need to be considered for filter
    * @return List<Pet>
+   * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
     Object postBody = null;
@@ -164,6 +165,7 @@ public class PetApi {
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
    * @return List<Pet>
+   * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
     Object postBody = null;
@@ -207,15 +209,16 @@ public class PetApi {
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
    * @return Pet
+   * @throws ApiException if fails to make API call
    */
   public Pet getPetById(Long petId) throws ApiException {
     Object postBody = null;
     
-     // verify the required parameter 'petId' is set
-     if (petId == null) {
-        throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
-     }
-     
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
+    }
+    
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -255,16 +258,16 @@ public class PetApi {
    * @param petId ID of pet that needs to be updated
    * @param name Updated name of the pet
    * @param status Updated status of the pet
-   * @return void
+   * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(String petId, String name, String status) throws ApiException {
     Object postBody = null;
     
-     // verify the required parameter 'petId' is set
-     if (petId == null) {
-        throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
-     }
-     
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
+    }
+    
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -306,16 +309,16 @@ public class PetApi {
    * 
    * @param petId Pet id to delete
    * @param apiKey 
-   * @return void
+   * @throws ApiException if fails to make API call
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
     Object postBody = null;
     
-     // verify the required parameter 'petId' is set
-     if (petId == null) {
-        throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
-     }
-     
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
+    }
+    
     // create path and map variables
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -356,16 +359,16 @@ public class PetApi {
    * @param petId ID of pet to update
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
-   * @return void
+   * @throws ApiException if fails to make API call
    */
   public void uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     Object postBody = null;
     
-     // verify the required parameter 'petId' is set
-     if (petId == null) {
-        throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
-     }
-     
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
+    }
+    
     // create path and map variables
     String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -407,15 +410,16 @@ public class PetApi {
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
    * @return byte[]
+   * @throws ApiException if fails to make API call
    */
   public byte[] getPetByIdWithByteArray(Long petId) throws ApiException {
     Object postBody = null;
     
-     // verify the required parameter 'petId' is set
-     if (petId == null) {
-        throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetByIdWithByteArray");
-     }
-     
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetByIdWithByteArray");
+    }
+    
     // create path and map variables
     String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -453,7 +457,7 @@ public class PetApi {
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store
    * 
    * @param body Pet object in the form of byte array
-   * @return void
+   * @throws ApiException if fails to make API call
    */
   public void addPetUsingByteArray(byte[] body) throws ApiException {
     Object postBody = body;
