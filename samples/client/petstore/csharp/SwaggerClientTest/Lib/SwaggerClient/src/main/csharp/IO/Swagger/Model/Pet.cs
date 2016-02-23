@@ -27,6 +27,7 @@ namespace IO.Swagger.Model
         /// <param name="PhotoUrls">PhotoUrls (required).</param>
         /// <param name="Tags">Tags.</param>
         /// <param name="Status">pet status in the store.</param>
+
         public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, string Status = null)
         {
             // to ensure "Name" is required (not null)

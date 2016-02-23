@@ -23,11 +23,11 @@ namespace {{packageName}}.Model
         /// Initializes a new instance of the <see cref="{{classname}}" />class.
         /// </summary>
         /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
-{{#vars}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
-{{/vars}}
-        public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
+{{#vars}}{{^isReadOnly}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+{{/isReadOnly}}{{/vars}}
+        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/isReadOnly}}{{/vars}})
         {
-            {{#vars}}{{#required}}// to ensure "{{name}}" is required (not null)
+            {{#vars}}{{^isReadOnly}}{{#required}}// to ensure "{{name}}" is required (not null)
             if ({{name}} == null)
             {
                 throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
@@ -36,7 +36,7 @@ namespace {{packageName}}.Model
             {
                 this.{{name}} = {{name}};
             }
-            {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
+            {{/required}}{{/isReadOnly}}{{/vars}}{{#vars}}{{^isReadOnly}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
             if ({{name}} == null)
             {
                 this.{{name}} = {{{defaultValue}}};
@@ -46,7 +46,7 @@ namespace {{packageName}}.Model
                 this.{{name}} = {{name}};
             }
             {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
-            {{/defaultValue}}{{/required}}{{/vars}}
+            {{/defaultValue}}{{/required}}{{/isReadOnly}}{{/vars}}
         }
 
         {{#vars}}
