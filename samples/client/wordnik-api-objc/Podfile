@@ -1,4 +1,0 @@
-platform :ios, '6.0'
-xcodeproj 'WordnikApiClient/WordnikApiClient.xcodeproj'
-pod 'AFNetworking', '~> 1.0'
-
