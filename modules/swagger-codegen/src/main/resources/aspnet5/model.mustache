@@ -20,10 +20,30 @@ namespace {{packageName}}.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-        public {{classname}}()
+{{#vars}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+{{/vars}}
+        public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
-            {{#vars}}{{#defaultValue}}this.{{name}} = {{{defaultValue}}};
-            {{/defaultValue}}{{/vars}}
+            {{#vars}}{{#required}}// to ensure "{{name}}" is required (not null)
+            if ({{name}} == null)
+            {
+                throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
+            }
+            else
+            {
+                this.{{name}} = {{name}};
+            }
+            {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
+            if ({{name}} == null)
+            {
+                this.{{name}} = {{{defaultValue}}};
+            }
+            else
+            {
+                this.{{name}} = {{name}};
+            }
+            {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
+            {{/defaultValue}}{{/required}}{{/vars}}
         }
 
         {{#vars}}

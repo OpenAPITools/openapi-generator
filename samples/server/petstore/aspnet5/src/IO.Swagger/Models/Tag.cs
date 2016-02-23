@@ -18,8 +18,12 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag" /> class.
         /// </summary>
-        public Tag()
+        /// <param name="Id">Id.</param>
+        /// <param name="Name">Name.</param>
+        public Tag(long? Id = null, string Name = null)
         {
+            this.Id = Id;
+            this.Name = Name;
             
         }
 
