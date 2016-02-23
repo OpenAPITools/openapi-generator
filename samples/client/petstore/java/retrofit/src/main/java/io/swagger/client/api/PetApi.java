@@ -238,4 +238,56 @@ public interface PetApi {
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<Void> cb
   );
   
+  /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Sync method
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return byte[]
+   */
+  
+  @GET("/pet/{petId}?testing_byte_array=true")
+  byte[] getPetByIdWithByteArray(
+    @Path("petId") Long petId
+  );
+
+  /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Async method
+   * @param petId ID of pet that needs to be fetched
+   * @param cb callback method
+   * @return void
+   */
+  
+  @GET("/pet/{petId}?testing_byte_array=true")
+  void getPetByIdWithByteArray(
+    @Path("petId") Long petId, Callback<byte[]> cb
+  );
+  
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Sync method
+   * 
+   * @param body Pet object in the form of byte array
+   * @return Void
+   */
+  
+  @POST("/pet?testing_byte_array=true")
+  Void addPetUsingByteArray(
+    @Body byte[] body
+  );
+
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Async method
+   * @param body Pet object in the form of byte array
+   * @param cb callback method
+   * @return void
+   */
+  
+  @POST("/pet?testing_byte_array=true")
+  void addPetUsingByteArray(
+    @Body byte[] body, Callback<Void> cb
+  );
+  
 }

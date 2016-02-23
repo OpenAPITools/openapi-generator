@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:21.885+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-22T15:34:25.436+08:00")
 public class Category   {
   
   private Long id = null;
@@ -22,7 +22,6 @@ public class Category   {
     this.id = id;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
@@ -40,7 +39,6 @@ public class Category   {
     this.name = name;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("name")
