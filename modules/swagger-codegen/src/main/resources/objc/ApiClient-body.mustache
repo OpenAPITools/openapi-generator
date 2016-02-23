@@ -136,7 +136,8 @@ static void (^reachabilityChangeBlock)(int);
     NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
     for (NSString *string in accepts) {
         NSString * lowerAccept = [string lowercaseString];
-        if ([lowerAccept containsString:@"application/json"]) {
+	// use rangeOfString instead of containsString for iOS 7 support
+	if ([lowerAccept rangeOfString:@"application/json"].location != NSNotFound) {
             return @"application/json";
         }
         [lowerAccepts addObject:lowerAccept];
