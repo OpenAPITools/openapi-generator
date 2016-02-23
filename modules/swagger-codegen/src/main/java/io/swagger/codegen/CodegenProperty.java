@@ -33,6 +33,8 @@ public class CodegenProperty {
     public Boolean exclusiveMaximum;
     public Boolean hasMore, required, secondaryParam;
     public Boolean isPrimitiveType, isContainer, isNotContainer;
+    public Boolean isString, isInteger, isLong, isFloat, isDouble, isByte, isBinary, isBoolean, isDate, isDateTime;
+    public Boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public Boolean isReadOnly = false;
     public List<String> _enum;
@@ -81,6 +83,18 @@ public class CodegenProperty {
         result = prime * result + ((setter == null) ? 0 : setter.hashCode());
         result = prime * result + ((unescapedDescription == null) ? 0 : unescapedDescription.hashCode());
         result = prime * result + ((vendorExtensions == null) ? 0 : vendorExtensions.hashCode());
+        result = prime * result + ((isString == null) ? 0 : isString.hashCode());
+        result = prime * result + ((isInteger == null) ? 0 : isInteger.hashCode());
+        result = prime * result + ((isLong == null) ? 0 : isLong.hashCode());
+        result = prime * result + ((isFloat == null) ? 0 : isFloat.hashCode());
+        result = prime * result + ((isDouble == null) ? 0 : isDouble.hashCode());
+        result = prime * result + ((isByte == null) ? 0 : isByte.hashCode());
+        result = prime * result + ((isBinary == null) ? 0 : isBinary.hashCode());
+        result = prime * result + ((isBoolean == null) ? 0 : isBoolean.hashCode());
+        result = prime * result + ((isDate == null) ? 0 : isDate.hashCode());
+        result = prime * result + ((isDateTime == null) ? 0 : isDateTime.hashCode());
+        result = prime * result + ((isMapContainer == null) ? 0 : isMapContainer.hashCode());
+        result = prime * result + ((isListContainer == null) ? 0 : isListContainer.hashCode());
         return result;
     }
 
@@ -187,6 +201,42 @@ public class CodegenProperty {
             return false;
         }
         if (this.vendorExtensions != other.vendorExtensions && (this.vendorExtensions == null || !this.vendorExtensions.equals(other.vendorExtensions))) {
+            return false;
+        }
+        if (this.isString != other.isString && (this.isString == null || !this.isString.equals(other.isString))) {
+            return false;
+        }
+        if (this.isInteger != other.isInteger && (this.isInteger == null || !this.isInteger.equals(other.isInteger))) {
+            return false;
+        }
+        if (this.isLong != other.isLong && (this.isLong == null || !this.isLong.equals(other.isLong))) {
+            return false;
+        }
+        if (this.isFloat != other.isFloat && (this.isFloat == null || !this.isFloat.equals(other.isFloat))) {
+            return false;
+        }
+        if (this.isDouble != other.isDouble && (this.isDouble == null || !this.isDouble.equals(other.isDouble))) {
+            return false;
+        }
+        if (this.isByte != other.isByte && (this.isByte == null || !this.isByte.equals(other.isByte))) {
+            return false;
+        }
+        if (this.isBoolean != other.isBoolean && (this.isBoolean == null || !this.isBoolean.equals(other.isBoolean))) {
+            return false;
+        }
+        if (this.isDate != other.isDate && (this.isDate == null || !this.isDate.equals(other.isDate))) {
+            return false;
+        }
+        if (this.isDateTime != other.isDateTime && (this.isDateTime == null || !this.isDateTime.equals(other.isDateTime))) {
+            return false;
+        }
+        if (this.isBinary != other.isBinary && (this.isBinary == null || !this.isBinary.equals(other.isBinary))) {
+            return false;
+        }
+        if (this.isListContainer != other.isListContainer && (this.isListContainer == null || !this.isListContainer.equals(other.isListContainer))) {
+            return false;
+        }
+        if (this.isMapContainer != other.isMapContainer && (this.isMapContainer == null || !this.isMapContainer.equals(other.isMapContainer))) {
             return false;
         }
         return true;
