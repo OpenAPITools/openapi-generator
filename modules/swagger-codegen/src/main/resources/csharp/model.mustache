@@ -22,7 +22,6 @@ namespace {{packageName}}.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" />class.
         /// </summary>
-        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
 {{#vars}}{{^isReadOnly}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
 {{/isReadOnly}}{{/vars}}
         public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/isReadOnly}}{{/vars}})
