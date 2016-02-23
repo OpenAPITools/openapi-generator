@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:21.885+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-22T15:34:25.436+08:00")
 public class Order   {
   
   private Long id = null;
@@ -42,21 +42,10 @@ public class Order   {
   private Boolean complete = null;
 
   
-  /**
-   **/
-  public Order id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
   }
 
   
@@ -66,7 +55,6 @@ public class Order   {
     this.petId = petId;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("petId")
@@ -84,7 +72,6 @@ public class Order   {
     this.quantity = quantity;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("quantity")
@@ -102,7 +89,6 @@ public class Order   {
     this.shipDate = shipDate;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("shipDate")
@@ -121,7 +107,6 @@ public class Order   {
     this.status = status;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "Order Status")
   @JsonProperty("status")
@@ -139,7 +124,6 @@ public class Order   {
     this.complete = complete;
     return this;
   }
-
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("complete")
