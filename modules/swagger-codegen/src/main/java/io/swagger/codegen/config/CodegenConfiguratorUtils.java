@@ -10,7 +10,7 @@ import java.util.*;
  * to specific settings in CodegenConfigurator.
  *
  * <p>
- *     This class exists to facility in testing. These methods could be applied
+ *     This class exists to facilitate testing. These methods could be applied
  *     to CodegenConfigurator, but this complicates things when mocking CodegenConfigurator.
  * </p>
  */
