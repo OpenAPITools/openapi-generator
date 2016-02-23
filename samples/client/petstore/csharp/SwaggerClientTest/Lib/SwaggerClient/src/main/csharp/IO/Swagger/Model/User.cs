@@ -20,7 +20,6 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="User" />class.
         /// </summary>
-        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
         /// <param name="Id">Id.</param>
         /// <param name="Username">Username.</param>
         /// <param name="FirstName">FirstName.</param>
