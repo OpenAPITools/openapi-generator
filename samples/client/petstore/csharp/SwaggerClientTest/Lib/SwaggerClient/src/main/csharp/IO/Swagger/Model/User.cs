@@ -29,6 +29,7 @@ namespace IO.Swagger.Model
         /// <param name="Password">Password.</param>
         /// <param name="Phone">Phone.</param>
         /// <param name="UserStatus">User Status.</param>
+
         public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, int? UserStatus = null)
         {
             this.Id = Id;
