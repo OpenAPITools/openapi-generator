@@ -18,8 +18,24 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
-        public User()
+        /// <param name="Id">Id.</param>
+        /// <param name="Username">Username.</param>
+        /// <param name="FirstName">FirstName.</param>
+        /// <param name="LastName">LastName.</param>
+        /// <param name="Email">Email.</param>
+        /// <param name="Password">Password.</param>
+        /// <param name="Phone">Phone.</param>
+        /// <param name="UserStatus">User Status.</param>
+        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, int? UserStatus = null)
         {
+            this.Id = Id;
+            this.Username = Username;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Email = Email;
+            this.Password = Password;
+            this.Phone = Phone;
+            this.UserStatus = UserStatus;
             
         }
 
