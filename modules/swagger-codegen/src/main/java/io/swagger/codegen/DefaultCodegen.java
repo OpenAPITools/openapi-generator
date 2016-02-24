@@ -1596,7 +1596,7 @@ public class DefaultCodegen {
             if (null == type) {
                 LOGGER.warn("Type is NULL for Serializable Parameter: " + param);
             }
-            if ("array".equals(type)) {
+            if ("array".equals(type)) { // for array parameter
                 Property inner = qp.getItems();
                 if (inner == null) {
                     LOGGER.warn("warning!  No inner type supplied for array parameter \"" + qp.getName() + "\", using String");
@@ -1610,8 +1610,9 @@ public class DefaultCodegen {
                 CodegenProperty pr = fromProperty("inner", inner);
                 p.baseType = pr.datatype;
                 p.isContainer = true;
+                p.isListContainer = true;
                 imports.add(pr.baseType);
-            } else if ("object".equals(type)) {
+            } else if ("object".equals(type)) { // for map parameter
                 Property inner = qp.getItems();
                 if (inner == null) {
                     LOGGER.warn("warning!  No inner type supplied for map parameter \"" + qp.getName() + "\", using String");
@@ -1621,6 +1622,8 @@ public class DefaultCodegen {
                 collectionFormat = qp.getCollectionFormat();
                 CodegenProperty pr = fromProperty("inner", inner);
                 p.baseType = pr.datatype;
+                p.isContainer = true;
+                p.isMapContainer = true;
                 imports.add(pr.baseType);
             } else {
                 Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
@@ -1628,12 +1631,17 @@ public class DefaultCodegen {
                 args.put(PropertyId.ENUM, qp.getEnum());
                 property = PropertyBuilder.build(type, format, args);
             }
+
             if (property == null) {
                 LOGGER.warn("warning!  Property type \"" + type + "\" not found for parameter \"" + param.getName() + "\", using String");
                 property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + type + " but not supported");
             }
             property.setRequired(param.getRequired());
             CodegenProperty model = fromProperty(qp.getName(), property);
+
+            // set boolean flag (e.g. isString)
+            setParameterBooleanFlagWithCodegenProperty(p, model);
+
             p.dataType = model.datatype;
             p.isEnum = model.isEnum;
             p._enum = model._enum;
@@ -1684,6 +1692,9 @@ public class DefaultCodegen {
                         p.dataType = cp.datatype;
                         p.isBinary = cp.datatype.toLowerCase().startsWith("byte");
                     }
+
+                    // set boolean flag (e.g. isString)
+                    setParameterBooleanFlagWithCodegenProperty(p, cp);
                 }
             } else if (model instanceof ArrayModel) {
                 // to use the built-in model parsing, we unwrap the ArrayModel
@@ -1699,6 +1710,10 @@ public class DefaultCodegen {
                 imports.add(cp.baseType);
                 p.dataType = cp.datatype;
                 p.isContainer = true;
+                p.isListContainer = true;
+
+                // set boolean flag (e.g. isString)
+                setParameterBooleanFlagWithCodegenProperty(p, cp);
             } else {
                 Model sub = bp.getSchema();
                 if (sub instanceof RefModel) {
@@ -2262,6 +2277,48 @@ public class DefaultCodegen {
         }
         if(!new File(folder).exists()) {
             supportingFiles.add(supportingFile);
+        }
+    }
+
+    /**
+     * Set CodegenParameter boolean flag using CodegenProperty.
+     *
+     * @param p Codegen Parameter
+     * @param cp Codegen property
+     */
+    public void setParameterBooleanFlagWithCodegenProperty(CodegenParameter parameter, CodegenProperty property) {
+        if (parameter == null) {
+            LOGGER.error("Codegen Parameter cannnot be null.");
+            return;
+        }
+
+        if (property == null) {
+            LOGGER.error("Codegen Property cannot be null.");
+            return;
+        }
+
+        if (Boolean.TRUE.equals(property.isString)) {
+            parameter.isString = true;
+        } else if (Boolean.TRUE.equals(property.isBoolean)) {
+            parameter.isBoolean = true;
+        } else if (Boolean.TRUE.equals(property.isLong)) {
+            parameter.isLong = true;
+        } else if (Boolean.TRUE.equals(property.isInteger)) {
+            parameter.isInteger = true;
+        } else if (Boolean.TRUE.equals(property.isDouble)) {
+            parameter.isDouble = true;
+        } else if (Boolean.TRUE.equals(property.isFloat)) {
+            parameter.isFloat = true;
+        } else if (Boolean.TRUE.equals(property.isByteArray)) {
+            parameter.isByteArray = true;
+        } else if (Boolean.TRUE.equals(property.isBinary)) {
+            parameter.isByteArray = true;
+        } else if (Boolean.TRUE.equals(property.isDate)) {
+            parameter.isDate = true;
+        } else if (Boolean.TRUE.equals(property.isDateTime)) {
+            parameter.isDateTime = true;
+        } else {
+            LOGGER.debug("Property type is not primitive: " + property.datatype);
         }
     }
 }
