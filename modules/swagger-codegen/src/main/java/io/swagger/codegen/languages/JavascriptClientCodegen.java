@@ -385,6 +385,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     /**
      * Normalize type by wrapping primitive types with single quotes.
+     *
+     * @param type Primitive type
+     * @return Normalized type
      */
     public String normalizeType(String type) {
       return type.replaceAll("\\b(Boolean|Integer|Number|String|Date)\\b", "'$1'");

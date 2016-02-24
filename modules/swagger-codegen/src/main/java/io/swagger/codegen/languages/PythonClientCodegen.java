@@ -293,6 +293,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      *
      * (PEP 0008) Python packages should also have short, all-lowercase names,
      * although the use of underscores is discouraged.
+     *
+     * @param packageName Package name
+     * @return Python package name that conforms to PEP 0008
      */
     @SuppressWarnings("static-method")
     public String generatePackageName(String packageName) {
