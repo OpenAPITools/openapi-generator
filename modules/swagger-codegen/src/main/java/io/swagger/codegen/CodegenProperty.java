@@ -33,7 +33,7 @@ public class CodegenProperty {
     public Boolean exclusiveMaximum;
     public Boolean hasMore, required, secondaryParam;
     public Boolean isPrimitiveType, isContainer, isNotContainer;
-    public Boolean isString, isInteger, isLong, isFloat, isDouble, isByte, isBinary, isBoolean, isDate, isDateTime;
+    public Boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
     public Boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public Boolean isReadOnly = false;
@@ -88,7 +88,7 @@ public class CodegenProperty {
         result = prime * result + ((isLong == null) ? 0 : isLong.hashCode());
         result = prime * result + ((isFloat == null) ? 0 : isFloat.hashCode());
         result = prime * result + ((isDouble == null) ? 0 : isDouble.hashCode());
-        result = prime * result + ((isByte == null) ? 0 : isByte.hashCode());
+        result = prime * result + ((isByteArray == null) ? 0 : isByteArray.hashCode());
         result = prime * result + ((isBinary == null) ? 0 : isBinary.hashCode());
         result = prime * result + ((isBoolean == null) ? 0 : isBoolean.hashCode());
         result = prime * result + ((isDate == null) ? 0 : isDate.hashCode());
@@ -218,7 +218,7 @@ public class CodegenProperty {
         if (this.isDouble != other.isDouble && (this.isDouble == null || !this.isDouble.equals(other.isDouble))) {
             return false;
         }
-        if (this.isByte != other.isByte && (this.isByte == null || !this.isByte.equals(other.isByte))) {
+        if (this.isByteArray != other.isByteArray && (this.isByteArray == null || !this.isByteArray.equals(other.isByteArray))) {
             return false;
         }
         if (this.isBoolean != other.isBoolean && (this.isBoolean == null || !this.isBoolean.equals(other.isBoolean))) {

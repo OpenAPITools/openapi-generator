@@ -1069,6 +1069,18 @@ public class DefaultCodegen {
             }
         }
         
+        if (p instanceof BooleanProperty) {
+            property.isBoolean = true;
+        }
+
+        if (p instanceof BinaryProperty) {
+            property.isBinary = true;
+        }
+
+        if (p instanceof ByteArrayProperty) {
+            property.isByteArray = true;
+        }
+
         if (p instanceof DoubleProperty) {
             DoubleProperty sp = (DoubleProperty) p;
             property.isDouble = true;
