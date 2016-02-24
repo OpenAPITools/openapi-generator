@@ -1,54 +1,54 @@
-(function(root, factory) {
+{{=< >=}}(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'{{#imports}}, '../model/{{import}}'{{/imports}}], factory);
+    define(['../ApiClient'<#imports>, '../model/<import>'</imports>], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'){{#imports}}, require('../model/{{import}}'){{/imports}});
+    module.exports = factory(require('../ApiClient')<#imports>, require('../model/<import>')</imports>);
   } else {
     // Browser globals (root is window)
-    if (!root.{{moduleName}}) {
-      root.{{moduleName}} = {};
+    if (!root.<moduleName>) {
+      root.<moduleName> = {};
     }
-    root.{{moduleName}}.{{classname}} = factory(root.{{moduleName}}.ApiClient{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
+    root.<moduleName>.<classname> = factory(root.<moduleName>.ApiClient<#imports>, root.<moduleName>.<import></imports>);
   }
-}(this, function(ApiClient{{#imports}}, {{import}}{{/imports}}) {
+}(this, function(ApiClient<#imports>, <import></imports>) {
   'use strict';
 
-  var {{classname}} = function {{classname}}(apiClient) {
+  var <classname> = function <classname>(apiClient) {
     this.apiClient = apiClient || ApiClient.default;
 
     var self = this;
-    {{#operations}}
-    {{#operation}}
+    <#operations>
+    <#operation>
     /**
-     * {{summary}}
-     * {{notes}}
-  {{#allParams}}   * @param {{=<% %>=}}{<% dataType %>} <%={{ }}=%> {{paramName}} {{description}}
-  {{/allParams}}   {{^usePromises}}* @param {function} callback the callback function, accepting three arguments: error, data, response{{/usePromises}}{{#returnType}}
-     *   data is of type: {{{returnType}}}{{/returnType}}
+     * <summary>
+     * <notes><#allParams>
+     * @param {<dataType>} <#required><paramName></required><^required>opts['<paramName>']</required> <description></allParams><^usePromises>
+     * @param {function} callback the callback function, accepting three arguments: error, data, response</usePromises><#returnType>
+     *   data is of type: <&returnType></returnType>
      */
-    self.{{nickname}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{^usePromises}}{{#hasParams}}, {{/hasParams}}callback{{/usePromises}}) {
-      var postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-      {{#allParams}}{{#required}}
-      // verify the required parameter '{{paramName}}' is set
-      if ({{paramName}} == null) {
-        throw "Missing the required parameter '{{paramName}}' when calling {{nickname}}";
+    self.<nickname> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
+      opts = opts || {};</hasOptionalParams>
+      var postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
+      <#allParams><#required>
+      // verify the required parameter '<paramName>' is set
+      if (<paramName> == null) {
+        throw "Missing the required parameter '<paramName>' when calling <nickname>";
       }
-      {{/required}}{{/allParams}}
+      </required></allParams>
 
-      {{=< >=}}
       var pathParams = {<#pathParams>
-        '<baseName>': <paramName><#hasMore>,</hasMore></pathParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
       };
       var queryParams = {<#queryParams>
-        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></queryParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></queryParams>
       };
       var headerParams = {<#headerParams>
-        '<baseName>': <paramName><#hasMore>,</hasMore></headerParams>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></headerParams>
       };
       var formParams = {<#formParams>
-        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<paramName>, '<collectionFormat>')</collectionFormat><^collectionFormat><paramName></collectionFormat><#hasMore>,</hasMore></formParams>
+        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></formParams>
       };
 
       var authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
@@ -61,11 +61,11 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
       );
-      <={{ }}=>
+
     }
-    {{/operation}}
-    {{/operations}}
+    </operation>
+    </operations>
   };
 
-  return {{classname}};
-}));
+  return <classname>;
+}));<={{ }}=>
