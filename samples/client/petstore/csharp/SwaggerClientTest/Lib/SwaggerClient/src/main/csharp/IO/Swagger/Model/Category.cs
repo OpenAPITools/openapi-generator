@@ -20,9 +20,9 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" />class.
         /// </summary>
-        /// <exception cref="System.InvalidDataException">Thrown when required property is null</exception>
         /// <param name="Id">Id.</param>
         /// <param name="Name">Name.</param>
+
         public Category(long? Id = null, string Name = null)
         {
             this.Id = Id;
