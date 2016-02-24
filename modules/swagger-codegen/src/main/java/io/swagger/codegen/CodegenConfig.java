@@ -147,6 +147,8 @@ public interface CodegenConfig {
 
     /**
      * Library template (sub-template).
+     *
+     * @return libray template
      */
     String getLibrary();
 }

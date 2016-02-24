@@ -211,6 +211,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Generate Ruby module name from the gem name, e.g. use "SwaggerClient" for "swagger_client".
+     *
+     * @param gemName Ruby gem name
+     * @return Ruby module naame
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
@@ -219,6 +222,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Generate Ruby gem name from the module name, e.g. use "swagger_client" for "SwaggerClient".
+     *
+     * @param  moduleName Ruby module naame
+     * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
     public String generateGemName(String moduleName) {

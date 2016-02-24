@@ -2193,6 +2193,8 @@ public class DefaultCodegen {
 
     /**
      * Library template (sub-template).
+     *
+     * @return Library template
      */
     public String getLibrary() {
         return library;
@@ -2257,10 +2259,10 @@ public class DefaultCodegen {
     }
 
     /**
-     * only write if the file doesn't exist
+     * Only write if the file doesn't exist
      *
-     * @param outputFolder
-     * @param supportingFile
+     * @param outputFolder Output folder
+     * @param supportingFile Supporting file
      */
     public void writeOptional(String outputFolder, SupportingFile supportingFile) {
         String folder = "";
@@ -2283,8 +2285,8 @@ public class DefaultCodegen {
     /**
      * Set CodegenParameter boolean flag using CodegenProperty.
      *
-     * @param p Codegen Parameter
-     * @param cp Codegen property
+     * @param parameter Codegen Parameter
+     * @param property  Codegen property
      */
     public void setParameterBooleanFlagWithCodegenProperty(CodegenParameter parameter, CodegenProperty property) {
         if (parameter == null) {
