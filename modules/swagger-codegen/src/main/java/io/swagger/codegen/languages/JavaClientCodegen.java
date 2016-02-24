@@ -219,9 +219,6 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             importMapping.remove("DateTime");
             instantiationTypes.put("array", "java.util.ArrayList");
             instantiationTypes.put("map", "java.util.HashMap");
-        } else {
-            languageSpecificPrimitives.add("List");
-            languageSpecificPrimitives.add("Map");
         }
 
         this.sanitizeConfig();
@@ -490,7 +487,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0) {
+            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
+                type.equals("Map") || type.equals("List")) {
                 return type;
             }
         } else {
