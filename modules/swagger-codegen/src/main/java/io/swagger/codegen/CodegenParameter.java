@@ -7,10 +7,13 @@ import java.util.List;
 
 public class CodegenParameter {
     public Boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
-            isCookieParam, isBodyParam, isFile, notFile, hasMore, isContainer, 
-            secondaryParam, isBinary, isCollectionFormatMulti;
+            isCookieParam, isBodyParam, hasMore, isContainer, 
+            secondaryParam, isCollectionFormatMulti;
     public String baseName, paramName, dataType, collectionFormat, description, baseType, defaultValue;
     public String jsonSchema;
+    public Boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
+    public Boolean isListContainer, isMapContainer;
+    public Boolean isFile, notFile;
     public boolean isEnum;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
@@ -111,6 +114,17 @@ public class CodegenParameter {
         }
         output.vendorExtensions = this.vendorExtensions;
         output.isBinary = this.isBinary;
+        output.isByteArray = this.isByteArray;
+        output.isString = this.isString;
+        output.isInteger = this.isInteger;
+        output.isLong = this.isLong;
+        output.isDouble = this.isDouble;
+        output.isFloat = this.isFloat;
+        output.isBoolean = this.isBoolean;
+        output.isDate = this.isDate;
+        output.isDateTime = this.isDateTime;
+        output.isListContainer = this.isListContainer;
+        output.isMapContainer = this.isMapContainer;
 
         return output;
     }
