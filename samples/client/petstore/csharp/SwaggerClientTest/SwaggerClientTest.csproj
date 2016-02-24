@@ -58,6 +58,7 @@
     <Compile Include="TestApiClient.cs" />
     <Compile Include="TestConfiguration.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Client\ApiResponse.cs" />
+    <Compile Include="TestOrder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
