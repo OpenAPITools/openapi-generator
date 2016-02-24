@@ -488,6 +488,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
                 allowableValues.put("enumVars", enumVars);
             }
+            // set vendor-extension: x-hasMoreRequired
+            CodegenProperty lastRequired = null;
+            for (CodegenProperty var : cm.vars) {
+                if (var.required != null && var.required) {
+                    lastRequired = var;
+                }
+            }
+            for (CodegenProperty var : cm.vars) {
+                if (var == lastRequired) {
+                    var.vendorExtensions.put("x-hasMoreRequired", false);
+                } else if (var.required != null && var.required) {
+                    var.vendorExtensions.put("x-hasMoreRequired", true);
+                }
+            }
         }
         return objs;
     }
