@@ -1798,8 +1798,8 @@ public class DefaultCodegen {
                     builder.append(part);
                 }
             }
-            operationId = builder.toString();
-            LOGGER.info("generated operationId " + operationId + "\tfor Path: " + httpMethod + " " + path);
+            operationId = sanitizeName(builder.toString());
+            LOGGER.warn("Empty operationId found for path: " + httpMethod + " " + path + ". Renamed to auto-generated operationId: " + operationId);
         }
         return operationId;
     }
