@@ -101,20 +101,4 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         }
         return objs;
     }
-
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        List<CodegenOperation> opList = operations.get(ALL_OPERATIONS);
-        if (opList == null) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(ALL_OPERATIONS, opList);
-        }
-        for (CodegenOperation addedOperation : opList) {
-            if (addedOperation.operationId.equals(co.operationId) && addedOperation.path.equals(co.path) && addedOperation.httpMethod.equals(co.httpMethod)) {
-                addedOperation.tags.addAll(co.tags);
-                return;
-            }
-        }
-        opList.add(co);
-    }
 }
