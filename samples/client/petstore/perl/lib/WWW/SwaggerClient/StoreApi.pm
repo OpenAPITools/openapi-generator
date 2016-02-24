@@ -164,7 +164,7 @@ sub place_order {
     }
 
     # authentication setting, if any
-    my $auth_settings = [qw()];
+    my $auth_settings = [qw(test_api_client_id test_api_client_secret )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -239,7 +239,7 @@ sub get_order_by_id {
     
 
     # authentication setting, if any
-    my $auth_settings = [qw()];
+    my $auth_settings = [qw(test_api_key_header test_api_key_query )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,

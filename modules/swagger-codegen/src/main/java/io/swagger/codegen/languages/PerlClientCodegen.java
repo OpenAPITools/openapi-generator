@@ -24,6 +24,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
     protected String moduleVersion = "1.0.0";
 
+    protected static int emptyFunctionNameCounter = 0;
+
     public PerlClientCodegen() {
         super();
         modelPackage = File.separatorChar + "Object";
@@ -46,7 +48,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "cmp", "ge", "package", "until",
                         "continue", "gt", "q", "while",
                         "CORE", "if", "qq", "xor",
-                        "do", "le", "qr", "y"
+                        "do", "le", "qr", "y",
+                        "return"
                 )
         );
 
@@ -261,14 +264,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty
+        //rename to empty_function_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
+            operationId = underscore("empty_function_name_" + emptyFunctionNameCounter++);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            return underscore("call_" + operationId);
         }
 
         return underscore(operationId);
