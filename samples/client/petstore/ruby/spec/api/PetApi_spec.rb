@@ -169,13 +169,13 @@ describe 'PetApi' do
     end
   end
 
-  # unit tests for get_pet_by_id_with_byte_array
+  # unit tests for pet_pet_idtesting_byte_arraytrue_get
   # Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
   # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
   # @param pet_id ID of pet that needs to be fetched
   # @param [Hash] opts the optional parameters
   # @return [String]
-  describe 'get_pet_by_id_with_byte_array test' do
+  describe 'pet_pet_idtesting_byte_arraytrue_get test' do
     it "should work" do
       # assertion here
       # should be_a()
