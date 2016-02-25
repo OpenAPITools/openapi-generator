@@ -12,7 +12,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.GsonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 import com.google.gson.Gson;
@@ -46,10 +46,10 @@ public class ApiClient {
         this();
         for(String authName : authNames) { 
             Interceptor auth;
-            if (authName == "petstore_auth") { 
-                auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
-            } else if (authName == "api_key") { 
+            if (authName == "api_key") { 
                 auth = new ApiKeyAuth("header", "api_key");
+            } else if (authName == "petstore_auth") { 
+                auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
@@ -338,8 +338,8 @@ class GsonCustomConverterFactory extends Converter.Factory
     }
 
     @Override
-    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-            return gsonConverterFactory.requestBodyConverter(type, annotations, retrofit);
+    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+            return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
     }
 }
 
