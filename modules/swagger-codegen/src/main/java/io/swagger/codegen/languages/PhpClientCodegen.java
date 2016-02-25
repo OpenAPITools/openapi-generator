@@ -366,6 +366,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword
         if (reservedWords.contains(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("object_" + name));
             name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
         }
 
