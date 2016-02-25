@@ -146,12 +146,12 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test case for getPetByIdWithByteArray
+     * Test case for petPetIdtestingByteArraytrueGet
      *
      * Fake endpoint to test byte array return by 'Find pet by ID'
      *
      */
-    public function test_getPetByIdWithByteArray() {
+    public function test_petPetIdtestingByteArraytrueGet() {
 
     }
     
