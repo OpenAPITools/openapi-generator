@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:23.375+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-25T16:20:49.744+08:00")
 public interface PetApi extends ApiClient.Api {
 
 
@@ -136,7 +136,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  byte[] getPetByIdWithByteArray(@Param("petId") Long petId);
+  byte[] petPetIdtestingByteArraytrueGet(@Param("petId") Long petId);
   
   /**
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store

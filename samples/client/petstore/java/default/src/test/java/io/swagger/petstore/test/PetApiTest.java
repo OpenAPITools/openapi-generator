@@ -78,7 +78,7 @@ public class PetApiTest {
         byte[] bytes = serializeJson(pet).getBytes();
         api.addPetUsingByteArray(bytes);
 
-        byte[] fetchedBytes = api.getPetByIdWithByteArray(pet.getId());
+        byte[] fetchedBytes = api.petPetIdtestingByteArraytrueGet(pet.getId());
         Pet fetched = deserializeJson(new String(fetchedBytes), Pet.class);
         assertNotNull(fetched);
         assertEquals(pet.getId(), fetched.getId());

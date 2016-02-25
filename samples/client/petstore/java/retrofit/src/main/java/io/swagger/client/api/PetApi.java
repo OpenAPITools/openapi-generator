@@ -247,7 +247,7 @@ public interface PetApi {
    */
   
   @GET("/pet/{petId}?testing_byte_array=true")
-  byte[] getPetByIdWithByteArray(
+  byte[] petPetIdtestingByteArraytrueGet(
     @Path("petId") Long petId
   );
 
@@ -260,7 +260,7 @@ public interface PetApi {
    */
   
   @GET("/pet/{petId}?testing_byte_array=true")
-  void getPetByIdWithByteArray(
+  void petPetIdtestingByteArraytrueGet(
     @Path("petId") Long petId, Callback<byte[]> cb
   );
   

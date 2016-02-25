@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-23T20:02:09.740+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-25T16:20:48.283+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -412,12 +412,12 @@ public class PetApi {
    * @return byte[]
    * @throws ApiException if fails to make API call
    */
-  public byte[] getPetByIdWithByteArray(Long petId) throws ApiException {
+  public byte[] petPetIdtestingByteArraytrueGet(Long petId) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetByIdWithByteArray");
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet");
     }
     
     // create path and map variables
