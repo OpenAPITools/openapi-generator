@@ -24,14 +24,12 @@
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     
      *   data is of type: {'String': 'Integer'}
      */
     self.getInventory = function() {
       var postBody = null;
       
 
-      
       var pathParams = {
       };
       var queryParams = {
@@ -51,21 +49,20 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Place an order for a pet
      * 
-     * @param {Order}  body order placed for purchasing the pet
-     
+     * @param {Order} opts['body'] order placed for purchasing the pet
      *   data is of type: Order
      */
-    self.placeOrder = function(body) {
-      var postBody = body;
+    self.placeOrder = function(opts) {
+      opts = opts || {};
+      var postBody = opts['body'];
       
 
-      
       var pathParams = {
       };
       var queryParams = {
@@ -85,14 +82,13 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-     * @param {String}  orderId ID of pet that needs to be fetched
-     
+     * @param {String} orderId ID of pet that needs to be fetched
      *   data is of type: Order
      */
     self.getOrderById = function(orderId) {
@@ -104,7 +100,6 @@
       }
       
 
-      
       var pathParams = {
         'orderId': orderId
       };
@@ -125,14 +120,13 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-     * @param {String}  orderId ID of the order that needs to be deleted
-     
+     * @param {String} orderId ID of the order that needs to be deleted
      */
     self.deleteOrder = function(orderId) {
       var postBody = null;
@@ -143,7 +137,6 @@
       }
       
 
-      
       var pathParams = {
         'orderId': orderId
       };
@@ -164,7 +157,7 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     
