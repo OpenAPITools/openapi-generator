@@ -100,7 +100,7 @@ describe "Pet" do
       str = serialize_json(pet)
       @pet_api.add_pet_using_byte_array(body: str)
 
-      fetched_str = @pet_api.get_pet_by_id_with_byte_array(pet.id)
+      fetched_str = @pet_api.pet_pet_idtesting_byte_arraytrue_get(pet.id)
       fetched_str.should be_a(String)
       fetched = deserialize_json(fetched_str, 'Pet')
       fetched.should be_a(Petstore::Pet)
