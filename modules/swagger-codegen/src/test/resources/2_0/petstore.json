@@ -256,14 +256,14 @@
         ],
         "summary": "Fake endpoint to test byte array return by 'Find pet by ID'",
         "description": "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions",
-        "operationId": "getPetByIdWithByteArray",
+        "operationId": "",
         "produces": [
           "application/json",
           "application/xml"
         ],
         "parameters": [
           {
-            "name": "petId",
+            "name": "package",
             "in": "path",
             "description": "ID of pet that needs to be fetched",
             "required": true,
