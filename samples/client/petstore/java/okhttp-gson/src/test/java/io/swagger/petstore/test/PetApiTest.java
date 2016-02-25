@@ -79,7 +79,7 @@ public class PetApiTest {
         byte[] bytes = serializeJson(pet, api.getApiClient()).getBytes();
         api.addPetUsingByteArray(bytes);
 
-        byte[] fetchedBytes = api.getPetByIdWithByteArray(pet.getId());
+        byte[] fetchedBytes = api.petPetIdtestingByteArraytrueGet(pet.getId());
         System.out.println(new String(fetchedBytes));
         Type type = new TypeToken<Pet>(){}.getType();
         Pet fetched = deserializeJson(new String(fetchedBytes), type, api.getApiClient());

@@ -895,13 +895,13 @@ public class PetApi {
     return call;
   }
   
-  /* Build call for getPetByIdWithByteArray */
-  private Call getPetByIdWithByteArrayCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  /* Build call for petPetIdtestingByteArraytrueGet */
+  private Call petPetIdtestingByteArraytrueGetCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object postBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
-       throw new ApiException("Missing the required parameter 'petId' when calling getPetByIdWithByteArray(Async)");
+       throw new ApiException("Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet(Async)");
     }
     
 
@@ -950,8 +950,8 @@ public class PetApi {
    * @return byte[]
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public byte[] getPetByIdWithByteArray(Long petId) throws ApiException {
-    ApiResponse<byte[]> resp = getPetByIdWithByteArrayWithHttpInfo(petId);
+  public byte[] petPetIdtestingByteArraytrueGet(Long petId) throws ApiException {
+    ApiResponse<byte[]> resp = petPetIdtestingByteArraytrueGetWithHttpInfo(petId);
     return resp.getData();
   }
 
@@ -962,8 +962,8 @@ public class PetApi {
    * @return ApiResponse<byte[]>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public ApiResponse<byte[]> getPetByIdWithByteArrayWithHttpInfo(Long petId) throws ApiException {
-    Call call = getPetByIdWithByteArrayCall(petId, null, null);
+  public ApiResponse<byte[]> petPetIdtestingByteArraytrueGetWithHttpInfo(Long petId) throws ApiException {
+    Call call = petPetIdtestingByteArraytrueGetCall(petId, null, null);
     Type returnType = new TypeToken<byte[]>(){}.getType();
     return apiClient.execute(call, returnType);
   }
@@ -976,7 +976,7 @@ public class PetApi {
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
-  public Call getPetByIdWithByteArrayAsync(Long petId, final ApiCallback<byte[]> callback) throws ApiException {
+  public Call petPetIdtestingByteArraytrueGetAsync(Long petId, final ApiCallback<byte[]> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -997,7 +997,7 @@ public class PetApi {
       };
     }
 
-    Call call = getPetByIdWithByteArrayCall(petId, progressListener, progressRequestListener);
+    Call call = petPetIdtestingByteArraytrueGetCall(petId, progressListener, progressRequestListener);
     Type returnType = new TypeToken<byte[]>(){}.getType();
     apiClient.executeAsync(call, returnType, callback);
     return call;
