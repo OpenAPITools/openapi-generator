@@ -29,7 +29,7 @@ var createRandomPet = function() {
 describe('PetApi', function() {
   it('should create and get pet', function(done) {
     var pet = createRandomPet();
-    api.addPet(pet)
+    api.addPet({body: pet})
         .then(function() {
             return api.getPetById(pet.id)
         })
