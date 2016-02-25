@@ -414,7 +414,7 @@ class PetApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = ['api_key']
+        auth_settings = ['api_key', 'petstore_auth']
 
         response = self.api_client.call_api(resource_path, method,
                                             path_params,
@@ -680,7 +680,7 @@ class PetApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def get_pet_by_id_with_byte_array(self, pet_id, **kwargs):
+    def pet_pet_idtesting_byte_arraytrue_get(self, pet_id, **kwargs):
         """
         Fake endpoint to test byte array return by 'Find pet by ID'
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
@@ -691,7 +691,7 @@ class PetApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_pet_by_id_with_byte_array(pet_id, callback=callback_function)
+        >>> thread = api.pet_pet_idtesting_byte_arraytrue_get(pet_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -709,14 +709,14 @@ class PetApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_pet_by_id_with_byte_array" % key
+                    " to method pet_pet_idtesting_byte_arraytrue_get" % key
                 )
             params[key] = val
         del params['kwargs']
 
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in params) or (params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id_with_byte_array`")
+            raise ValueError("Missing the required parameter `pet_id` when calling `pet_pet_idtesting_byte_arraytrue_get`")
 
         resource_path = '/pet/{petId}?testing_byte_array=true'.replace('{format}', 'json')
         method = 'GET'
@@ -745,7 +745,7 @@ class PetApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = ['api_key']
+        auth_settings = ['api_key', 'petstore_auth']
 
         response = self.api_client.call_api(resource_path, method,
                                             path_params,
