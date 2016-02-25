@@ -16,6 +16,38 @@ extension PetstoreClientAPI {
          
          Create user
          
+         - parameter body: (body) Created user object
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func createUser(body body: User?, completion: ((error: ErrorType?) -> Void)) {
+            createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
+                completion(error: error);
+            }
+        }
+
+        /**
+         
+         Create user
+         
+         - parameter body: (body) Created user object
+         - returns: Promise<Void>
+         */
+        public class func createUser(body body: User?) -> Promise<Void> {
+            let deferred = Promise<Void>.pendingPromise()
+            createUser(body: body) { error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill()
+                }
+            }
+            return deferred.promise
+        }
+
+        /**
+         
+         Create user
+         
          - POST /user
          - This can only be done by the logged in user.
          
@@ -23,7 +55,7 @@ extension PetstoreClientAPI {
 
          - returns: RequestBuilder<Void> 
          */
-        public class func createUser(body body: User?) -> RequestBuilder<Void> {
+        public class func createUserWithRequestBuilder(body body: User?) -> RequestBuilder<Void> {
             let path = "/user"
             let URLString = PetstoreClientAPI.basePath + path
             
@@ -38,6 +70,38 @@ extension PetstoreClientAPI {
          
          Creates list of users with given input array
          
+         - parameter body: (body) List of user object
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func createUsersWithArrayInput(body body: [User]?, completion: ((error: ErrorType?) -> Void)) {
+            createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+                completion(error: error);
+            }
+        }
+
+        /**
+         
+         Creates list of users with given input array
+         
+         - parameter body: (body) List of user object
+         - returns: Promise<Void>
+         */
+        public class func createUsersWithArrayInput(body body: [User]?) -> Promise<Void> {
+            let deferred = Promise<Void>.pendingPromise()
+            createUsersWithArrayInput(body: body) { error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill()
+                }
+            }
+            return deferred.promise
+        }
+
+        /**
+         
+         Creates list of users with given input array
+         
          - POST /user/createWithArray
          - 
          
@@ -45,7 +109,7 @@ extension PetstoreClientAPI {
 
          - returns: RequestBuilder<Void> 
          */
-        public class func createUsersWithArrayInput(body body: [User]?) -> RequestBuilder<Void> {
+        public class func createUsersWithArrayInputWithRequestBuilder(body body: [User]?) -> RequestBuilder<Void> {
             let path = "/user/createWithArray"
             let URLString = PetstoreClientAPI.basePath + path
             
@@ -60,6 +124,38 @@ extension PetstoreClientAPI {
          
          Creates list of users with given input array
          
+         - parameter body: (body) List of user object
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func createUsersWithListInput(body body: [User]?, completion: ((error: ErrorType?) -> Void)) {
+            createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+                completion(error: error);
+            }
+        }
+
+        /**
+         
+         Creates list of users with given input array
+         
+         - parameter body: (body) List of user object
+         - returns: Promise<Void>
+         */
+        public class func createUsersWithListInput(body body: [User]?) -> Promise<Void> {
+            let deferred = Promise<Void>.pendingPromise()
+            createUsersWithListInput(body: body) { error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill()
+                }
+            }
+            return deferred.promise
+        }
+
+        /**
+         
+         Creates list of users with given input array
+         
          - POST /user/createWithList
          - 
          
@@ -67,7 +163,7 @@ extension PetstoreClientAPI {
 
          - returns: RequestBuilder<Void> 
          */
-        public class func createUsersWithListInput(body body: [User]?) -> RequestBuilder<Void> {
+        public class func createUsersWithListInputWithRequestBuilder(body body: [User]?) -> RequestBuilder<Void> {
             let path = "/user/createWithList"
             let URLString = PetstoreClientAPI.basePath + path
             
@@ -82,6 +178,40 @@ extension PetstoreClientAPI {
          
          Logs user into the system
          
+         - parameter username: (query) The user name for login
+         - parameter password: (query) The password for login in clear text
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func loginUser(username username: String?, password: String?, completion: ((data: String?, error: ErrorType?) -> Void)) {
+            loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
+                completion(data: response?.body, error: error);
+            }
+        }
+
+        /**
+         
+         Logs user into the system
+         
+         - parameter username: (query) The user name for login
+         - parameter password: (query) The password for login in clear text
+         - returns: Promise<String>
+         */
+        public class func loginUser(username username: String?, password: String?) -> Promise<String> {
+            let deferred = Promise<String>.pendingPromise()
+            loginUser(username: username, password: password) { data, error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill(data!)
+                }
+            }
+            return deferred.promise
+        }
+
+        /**
+         
+         Logs user into the system
+         
          - GET /user/login
          - 
          - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
@@ -92,7 +222,7 @@ extension PetstoreClientAPI {
 
          - returns: RequestBuilder<String> 
          */
-        public class func loginUser(username username: String?, password: String?) -> RequestBuilder<String> {
+        public class func loginUserWithRequestBuilder(username username: String?, password: String?) -> RequestBuilder<String> {
             let path = "/user/login"
             let URLString = PetstoreClientAPI.basePath + path
             
@@ -111,12 +241,42 @@ extension PetstoreClientAPI {
          
          Logs out current logged in user session
          
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func logoutUser(completion: ((error: ErrorType?) -> Void)) {
+            logoutUserWithRequestBuilder().execute { (response, error) -> Void in
+                completion(error: error);
+            }
+        }
+
+        /**
+         
+         Logs out current logged in user session
+         
+         - returns: Promise<Void>
+         */
+        public class func logoutUser() -> Promise<Void> {
+            let deferred = Promise<Void>.pendingPromise()
+            logoutUser() { error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill()
+                }
+            }
+            return deferred.promise
+        }
+
+        /**
+         
+         Logs out current logged in user session
+         
          - GET /user/logout
          - 
 
          - returns: RequestBuilder<Void> 
          */
-        public class func logoutUser() -> RequestBuilder<Void> {
+        public class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
             let path = "/user/logout"
             let URLString = PetstoreClientAPI.basePath + path
             
@@ -128,6 +288,38 @@ extension PetstoreClientAPI {
             return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
+        /**
+         
+         Get user by user name
+         
+         - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func getUserByName(username username: String, completion: ((data: User?, error: ErrorType?) -> Void)) {
+            getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
+                completion(data: response?.body, error: error);
+            }
+        }
+
+        /**
+         
+         Get user by user name
+         
+         - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+         - returns: Promise<User>
+         */
+        public class func getUserByName(username username: String) -> Promise<User> {
+            let deferred = Promise<User>.pendingPromise()
+            getUserByName(username: username) { data, error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill(data!)
+                }
+            }
+            return deferred.promise
+        }
+
         /**
          
          Get user by user name
@@ -149,7 +341,7 @@ extension PetstoreClientAPI {
 
          - returns: RequestBuilder<User> 
          */
-        public class func getUserByName(username username: String) -> RequestBuilder<User> {
+        public class func getUserByNameWithRequestBuilder(username username: String) -> RequestBuilder<User> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let URLString = PetstoreClientAPI.basePath + path
@@ -166,6 +358,40 @@ extension PetstoreClientAPI {
          
          Updated user
          
+         - parameter username: (path) name that need to be deleted
+         - parameter body: (body) Updated user object
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func updateUser(username username: String, body: User?, completion: ((error: ErrorType?) -> Void)) {
+            updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
+                completion(error: error);
+            }
+        }
+
+        /**
+         
+         Updated user
+         
+         - parameter username: (path) name that need to be deleted
+         - parameter body: (body) Updated user object
+         - returns: Promise<Void>
+         */
+        public class func updateUser(username username: String, body: User?) -> Promise<Void> {
+            let deferred = Promise<Void>.pendingPromise()
+            updateUser(username: username, body: body) { error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill()
+                }
+            }
+            return deferred.promise
+        }
+
+        /**
+         
+         Updated user
+         
          - PUT /user/{username}
          - This can only be done by the logged in user.
          
@@ -174,7 +400,7 @@ extension PetstoreClientAPI {
 
          - returns: RequestBuilder<Void> 
          */
-        public class func updateUser(username username: String, body: User?) -> RequestBuilder<Void> {
+        public class func updateUserWithRequestBuilder(username username: String, body: User?) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let URLString = PetstoreClientAPI.basePath + path
@@ -190,6 +416,38 @@ extension PetstoreClientAPI {
          
          Delete user
          
+         - parameter username: (path) The name that needs to be deleted
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        public class func deleteUser(username username: String, completion: ((error: ErrorType?) -> Void)) {
+            deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
+                completion(error: error);
+            }
+        }
+
+        /**
+         
+         Delete user
+         
+         - parameter username: (path) The name that needs to be deleted
+         - returns: Promise<Void>
+         */
+        public class func deleteUser(username username: String) -> Promise<Void> {
+            let deferred = Promise<Void>.pendingPromise()
+            deleteUser(username: username) { error in
+                if let error = error {
+                    deferred.reject(error)
+                } else {
+                    deferred.fulfill()
+                }
+            }
+            return deferred.promise
+        }
+
+        /**
+         
+         Delete user
+         
          - DELETE /user/{username}
          - This can only be done by the logged in user.
          
@@ -197,7 +455,7 @@ extension PetstoreClientAPI {
 
          - returns: RequestBuilder<Void> 
          */
-        public class func deleteUser(username username: String) -> RequestBuilder<Void> {
+        public class func deleteUserWithRequestBuilder(username username: String) -> RequestBuilder<Void> {
             var path = "/user/{username}"
             path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
             let URLString = PetstoreClientAPI.basePath + path
