@@ -329,7 +329,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $pet_api = new Swagger\Client\Api\PetAPI($api_client);
         // test getPetByIdWithByteArray 
         $pet_id = 10005;
-        $bytes = $pet_api->getPetByIdWithByteArray($pet_id);
+        $bytes = $pet_api->petPetIdtestingByteArraytrueGet($pet_id);
         $json = json_decode(call_user_func_array('pack', array_merge(array('C*'), $bytes )), true);
 
         $this->assertInternalType("array", $bytes);

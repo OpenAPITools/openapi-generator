@@ -76,12 +76,12 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test case for placeOrder
+     * Test case for callReturn
      *
      * Place an order for a pet
      *
      */
-    public function test_placeOrder() {
+    public function test_callReturn() {
 
     }
     

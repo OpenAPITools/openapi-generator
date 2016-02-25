@@ -879,7 +879,7 @@ class PetApi
     }
     
     /**
-     * getPetByIdWithByteArray
+     * petPetIdtestingByteArraytrueGet
      *
      * Fake endpoint to test byte array return by 'Find pet by ID'
      *
@@ -887,15 +887,15 @@ class PetApi
      * @return ByteArray
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function getPetByIdWithByteArray($pet_id)
+    public function petPetIdtestingByteArraytrueGet($pet_id)
     {
-        list($response, $statusCode, $httpHeader) = $this->getPetByIdWithByteArrayWithHttpInfo ($pet_id);
+        list($response, $statusCode, $httpHeader) = $this->petPetIdtestingByteArraytrueGetWithHttpInfo ($pet_id);
         return $response; 
     }
 
 
     /**
-     * getPetByIdWithByteArrayWithHttpInfo
+     * petPetIdtestingByteArraytrueGetWithHttpInfo
      *
      * Fake endpoint to test byte array return by 'Find pet by ID'
      *
@@ -903,12 +903,12 @@ class PetApi
      * @return Array of ByteArray, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function getPetByIdWithByteArrayWithHttpInfo($pet_id)
+    public function petPetIdtestingByteArraytrueGetWithHttpInfo($pet_id)
     {
         
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetByIdWithByteArray');
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling petPetIdtestingByteArraytrueGet');
         }
   
         // parse inputs
