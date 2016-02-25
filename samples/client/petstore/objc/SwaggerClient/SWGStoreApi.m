@@ -189,7 +189,7 @@ static SWGStoreApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[];
+    NSArray *authSettings = @[@"test_api_client_id", @"test_api_client_secret"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -272,7 +272,7 @@ static SWGStoreApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[];
+    NSArray *authSettings = @[@"test_api_key_header", @"test_api_key_query"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
