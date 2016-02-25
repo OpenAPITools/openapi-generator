@@ -170,7 +170,7 @@ public class DefaultGeneratorTest {
         //generate content first time without skipOverwrite flag, so all generated files should be recorded
         new DefaultGenerator().opts(clientOptInput).generate();
         final File order = new File(output, MODEL_ORDER_FILE);
-        assertTrue(order.exists(),""+order.getAbsolutePath());
+        assertTrue(order.exists(),"can't find: "+order.getAbsolutePath()+" output dir is:"+ (output.getAbsolutePath())+" it exists:"+output.exists() );
 
         //change content of one file
         changeContent(order);
