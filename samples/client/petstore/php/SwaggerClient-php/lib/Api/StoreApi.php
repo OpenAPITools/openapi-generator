@@ -180,7 +180,7 @@ class StoreApi
     }
     
     /**
-     * placeOrder
+     * callReturn
      *
      * Place an order for a pet
      *
@@ -188,15 +188,15 @@ class StoreApi
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function placeOrder($body = null)
+    public function callReturn($body = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->placeOrderWithHttpInfo ($body);
+        list($response, $statusCode, $httpHeader) = $this->callReturnWithHttpInfo ($body);
         return $response; 
     }
 
 
     /**
-     * placeOrderWithHttpInfo
+     * callReturnWithHttpInfo
      *
      * Place an order for a pet
      *
@@ -204,7 +204,7 @@ class StoreApi
      * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function placeOrderWithHttpInfo($body = null)
+    public function callReturnWithHttpInfo($body = null)
     {
         
   
