@@ -156,15 +156,15 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
-        /// Test GetPetByIdWithByteArray
+        /// Test PetPetIdtestingByteArraytrueGet
         /// </summary>
         [Test]
-        public void GetPetByIdWithByteArrayTest()
+        public void PetPetIdtestingByteArraytrueGetTest()
         {
-            // TODO: add unit test for the method 'GetPetByIdWithByteArray'
+            // TODO: add unit test for the method 'PetPetIdtestingByteArraytrueGet'
             long? petId = null; // TODO: replace null with proper value
             
-            var response = instance.GetPetByIdWithByteArray(petId);
+            var response = instance.PetPetIdtestingByteArraytrueGet(petId);
             Assert.IsInstanceOf<byte[]> (response, "response is byte[]"); 
         }
         
