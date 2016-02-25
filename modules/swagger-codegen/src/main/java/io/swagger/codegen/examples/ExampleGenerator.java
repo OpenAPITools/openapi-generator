@@ -93,9 +93,9 @@ public class ExampleGenerator {
                 };
             }
         } else if (property instanceof DateProperty) {
-            return new java.util.Date(System.currentTimeMillis());
+            return "2000-01-23T04:56:07.000+0000";
         } else if (property instanceof DateTimeProperty) {
-            return new java.util.Date(System.currentTimeMillis());
+            return "2000-01-23T04:56:07.000+0000";
         } else if (property instanceof DecimalProperty) {
             return new BigDecimal(1.3579);
         } else if (property instanceof DoubleProperty) {
