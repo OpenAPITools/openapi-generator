@@ -2279,6 +2279,8 @@ public class DefaultCodegen {
         }
         if(!new File(folder).exists()) {
             supportingFiles.add(supportingFile);
+        } else {
+            LOGGER.info("Skipped overwriting " + supportingFile.destinationFilename + " as the file already exists in " + folder);
         }
     }
 
