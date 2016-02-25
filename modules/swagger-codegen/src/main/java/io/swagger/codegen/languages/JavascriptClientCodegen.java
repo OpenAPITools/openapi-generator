@@ -7,6 +7,7 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
@@ -449,6 +450,35 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        // Generate and store argument list string of each operation into
+        // vendor-extension: x-codegen-argList.
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                List<String> argList = new ArrayList();
+                boolean hasOptionalParams = false;
+                for (CodegenParameter p : operation.allParams) {
+                    if (p.required != null && p.required) {
+                        argList.add(p.paramName);
+                    } else {
+                      hasOptionalParams = true;
+                    }
+                }
+                if (hasOptionalParams) {
+                    argList.add("opts");
+                }
+                if (!usePromises) {
+                    argList.add("callback");
+                }
+                operation.vendorExtensions.put("x-codegen-argList", StringUtils.join(argList, ", "));
+            }
+        }
+        return objs;
+    }
+
+    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
@@ -491,7 +521,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
                 allowableValues.put("enumVars", enumVars);
             }
-            // set vendor-extension: x-hasMoreRequired
+            // set vendor-extension: x-codegen-hasMoreRequired
             CodegenProperty lastRequired = null;
             for (CodegenProperty var : cm.vars) {
                 if (var.required != null && var.required) {
@@ -500,9 +530,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
             for (CodegenProperty var : cm.vars) {
                 if (var == lastRequired) {
-                    var.vendorExtensions.put("x-hasMoreRequired", false);
+                    var.vendorExtensions.put("x-codegen-hasMoreRequired", false);
                 } else if (var.required != null && var.required) {
-                    var.vendorExtensions.put("x-hasMoreRequired", true);
+                    var.vendorExtensions.put("x-codegen-hasMoreRequired", true);
                 }
             }
         }

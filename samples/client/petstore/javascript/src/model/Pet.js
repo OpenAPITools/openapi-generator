@@ -16,7 +16,7 @@
   'use strict';
   
   
-  var Pet = function Pet(photoUrls, name) { 
+  var Pet = function Pet(name, photoUrls) { 
     
     /**
      * datatype: String
