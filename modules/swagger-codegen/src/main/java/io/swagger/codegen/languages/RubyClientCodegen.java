@@ -360,7 +360,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+            String modelName = camelize("object_" + name);
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
         // camelize the model name
@@ -372,7 +374,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+            String filename = underscore("object_" + name);
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
+            return filename;
         }
 
         // underscore the model file name
