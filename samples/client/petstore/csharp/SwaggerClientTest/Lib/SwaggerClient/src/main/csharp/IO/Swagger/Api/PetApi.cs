@@ -212,7 +212,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>byte[]</returns>
-        byte[] GetPetByIdWithByteArray (long? petId);
+        byte[] PetPetIdtestingByteArraytrueGet (long? petId);
   
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
@@ -223,7 +223,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of byte[]</returns>
-        ApiResponse<byte[]> GetPetByIdWithByteArrayWithHttpInfo (long? petId);
+        ApiResponse<byte[]> PetPetIdtestingByteArraytrueGetWithHttpInfo (long? petId);
         
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
@@ -446,7 +446,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of byte[]</returns>
-        System.Threading.Tasks.Task<byte[]> GetPetByIdWithByteArrayAsync (long? petId);
+        System.Threading.Tasks.Task<byte[]> PetPetIdtestingByteArraytrueGetAsync (long? petId);
 
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
@@ -457,7 +457,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (byte[])</returns>
-        System.Threading.Tasks.Task<ApiResponse<byte[]>> GetPetByIdWithByteArrayAsyncWithHttpInfo (long? petId);
+        System.Threading.Tasks.Task<ApiResponse<byte[]>> PetPetIdtestingByteArraytrueGetAsyncWithHttpInfo (long? petId);
         
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
@@ -1972,9 +1972,9 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param> 
         /// <returns>byte[]</returns>
-        public byte[] GetPetByIdWithByteArray (long? petId)
+        public byte[] PetPetIdtestingByteArraytrueGet (long? petId)
         {
-             ApiResponse<byte[]> response = GetPetByIdWithByteArrayWithHttpInfo(petId);
+             ApiResponse<byte[]> response = PetPetIdtestingByteArraytrueGetWithHttpInfo(petId);
              return response.Data;
         }
 
@@ -1984,12 +1984,12 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param> 
         /// <returns>ApiResponse of byte[]</returns>
-        public ApiResponse< byte[] > GetPetByIdWithByteArrayWithHttpInfo (long? petId)
+        public ApiResponse< byte[] > PetPetIdtestingByteArraytrueGetWithHttpInfo (long? petId)
         {
             
             // verify the required parameter 'petId' is set
             if (petId == null)
-                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetByIdWithByteArray");
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->PetPetIdtestingByteArraytrueGet");
             
     
             var path_ = "/pet/{petId}?testing_byte_array=true";
@@ -2048,9 +2048,9 @@ namespace IO.Swagger.Api
             int statusCode = (int) response.StatusCode;
     
             if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetPetByIdWithByteArray: " + response.Content, response.Content);
+                throw new ApiException (statusCode, "Error calling PetPetIdtestingByteArraytrueGet: " + response.Content, response.Content);
             else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetPetByIdWithByteArray: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException (statusCode, "Error calling PetPetIdtestingByteArraytrueGet: " + response.ErrorMessage, response.ErrorMessage);
     
             return new ApiResponse<byte[]>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -2065,9 +2065,9 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of byte[]</returns>
-        public async System.Threading.Tasks.Task<byte[]> GetPetByIdWithByteArrayAsync (long? petId)
+        public async System.Threading.Tasks.Task<byte[]> PetPetIdtestingByteArraytrueGetAsync (long? petId)
         {
-             ApiResponse<byte[]> response = await GetPetByIdWithByteArrayAsyncWithHttpInfo(petId);
+             ApiResponse<byte[]> response = await PetPetIdtestingByteArraytrueGetAsyncWithHttpInfo(petId);
              return response.Data;
 
         }
@@ -2078,10 +2078,10 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (byte[])</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<byte[]>> GetPetByIdWithByteArrayAsyncWithHttpInfo (long? petId)
+        public async System.Threading.Tasks.Task<ApiResponse<byte[]>> PetPetIdtestingByteArraytrueGetAsyncWithHttpInfo (long? petId)
         {
             // verify the required parameter 'petId' is set
-            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetByIdWithByteArray");
+            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling PetPetIdtestingByteArraytrueGet");
             
     
             var path_ = "/pet/{petId}?testing_byte_array=true";
@@ -2142,9 +2142,9 @@ namespace IO.Swagger.Api
             int statusCode = (int) response.StatusCode;
  
             if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetPetByIdWithByteArray: " + response.Content, response.Content);
+                throw new ApiException (statusCode, "Error calling PetPetIdtestingByteArraytrueGet: " + response.Content, response.Content);
             else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetPetByIdWithByteArray: " + response.ErrorMessage, response.ErrorMessage);
+                throw new ApiException (statusCode, "Error calling PetPetIdtestingByteArraytrueGet: " + response.ErrorMessage, response.ErrorMessage);
 
             return new ApiResponse<byte[]>(statusCode,
                 response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),

@@ -180,7 +180,7 @@ class StoreApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['test_api_client_id', 'test_api_client_secret']
 
         response = self.api_client.call_api(resource_path, method,
                                             path_params,
@@ -259,7 +259,7 @@ class StoreApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['test_api_key_header', 'test_api_key_query']
 
         response = self.api_client.call_api(resource_path, method,
                                             path_params,

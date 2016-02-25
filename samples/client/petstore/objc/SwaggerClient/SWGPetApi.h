@@ -142,7 +142,7 @@
 /// 
 ///
 /// @return NSString*
--(NSNumber*) getPetByIdWithByteArrayWithPetId: (NSNumber*) petId
+-(NSNumber*) petPetIdtestingByteArraytrueGetWithPetId: (NSNumber*) petId
     completionHandler: (void (^)(NSString* output, NSError* error)) handler;
 
 

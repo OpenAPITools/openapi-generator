@@ -436,7 +436,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"api_key"];
+    NSArray *authSettings = @[@"api_key", @"petstore_auth"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -760,13 +760,13 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns NSString*
 ///
--(NSNumber*) getPetByIdWithByteArrayWithPetId: (NSNumber*) petId
+-(NSNumber*) petPetIdtestingByteArraytrueGetWithPetId: (NSNumber*) petId
     completionHandler: (void (^)(NSString* output, NSError* error)) handler {
 
     
     // verify the required parameter 'petId' is set
     if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `getPetByIdWithByteArray`"];
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `petPetIdtestingByteArraytrueGet`"];
     }
     
 
@@ -808,7 +808,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"api_key"];
+    NSArray *authSettings = @[@"api_key", @"petstore_auth"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
