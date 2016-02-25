@@ -24,14 +24,13 @@
     /**
      * Update an existing pet
      * 
-     * @param {Pet}  body Pet object that needs to be added to the store
-     
+     * @param {Pet} opts['body'] Pet object that needs to be added to the store
      */
-    self.updatePet = function(body) {
-      var postBody = body;
+    self.updatePet = function(opts) {
+      opts = opts || {};
+      var postBody = opts['body'];
       
 
-      
       var pathParams = {
       };
       var queryParams = {
@@ -51,20 +50,19 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Add a new pet to the store
      * 
-     * @param {Pet}  body Pet object that needs to be added to the store
-     
+     * @param {Pet} opts['body'] Pet object that needs to be added to the store
      */
-    self.addPet = function(body) {
-      var postBody = body;
+    self.addPet = function(opts) {
+      opts = opts || {};
+      var postBody = opts['body'];
       
 
-      
       var pathParams = {
       };
       var queryParams = {
@@ -84,25 +82,24 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma seperated strings
-     * @param {[String]}  status Status values that need to be considered for filter
-     
+     * @param {[String]} opts['status'] Status values that need to be considered for filter
      *   data is of type: [Pet]
      */
-    self.findPetsByStatus = function(status) {
+    self.findPetsByStatus = function(opts) {
+      opts = opts || {};
       var postBody = null;
       
 
-      
       var pathParams = {
       };
       var queryParams = {
-        'status': this.apiClient.buildCollectionParam(status, 'multi')
+        'status': this.apiClient.buildCollectionParam(opts['status'], 'multi')
       };
       var headerParams = {
       };
@@ -119,25 +116,24 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Finds Pets by tags
      * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-     * @param {[String]}  tags Tags to filter by
-     
+     * @param {[String]} opts['tags'] Tags to filter by
      *   data is of type: [Pet]
      */
-    self.findPetsByTags = function(tags) {
+    self.findPetsByTags = function(opts) {
+      opts = opts || {};
       var postBody = null;
       
 
-      
       var pathParams = {
       };
       var queryParams = {
-        'tags': this.apiClient.buildCollectionParam(tags, 'multi')
+        'tags': this.apiClient.buildCollectionParam(opts['tags'], 'multi')
       };
       var headerParams = {
       };
@@ -154,14 +150,13 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Find pet by ID
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-     * @param {Integer}  petId ID of pet that needs to be fetched
-     
+     * @param {Integer} petId ID of pet that needs to be fetched
      *   data is of type: Pet
      */
     self.getPetById = function(petId) {
@@ -173,7 +168,6 @@
       }
       
 
-      
       var pathParams = {
         'petId': petId
       };
@@ -194,18 +188,18 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Updates a pet in the store with form data
      * 
-     * @param {String}  petId ID of pet that needs to be updated
-     * @param {String}  name Updated name of the pet
-     * @param {String}  status Updated status of the pet
-     
+     * @param {String} petId ID of pet that needs to be updated
+     * @param {String} opts['name'] Updated name of the pet
+     * @param {String} opts['status'] Updated status of the pet
      */
-    self.updatePetWithForm = function(petId, name, status) {
+    self.updatePetWithForm = function(petId, opts) {
+      opts = opts || {};
       var postBody = null;
       
       // verify the required parameter 'petId' is set
@@ -214,7 +208,6 @@
       }
       
 
-      
       var pathParams = {
         'petId': petId
       };
@@ -223,8 +216,8 @@
       var headerParams = {
       };
       var formParams = {
-        'name': name,
-        'status': status
+        'name': opts['name'],
+        'status': opts['status']
       };
 
       var authNames = ['petstore_auth'];
@@ -237,17 +230,17 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Deletes a pet
      * 
-     * @param {Integer}  petId Pet id to delete
-     * @param {String}  apiKey 
-     
+     * @param {Integer} petId Pet id to delete
+     * @param {String} opts['apiKey'] 
      */
-    self.deletePet = function(petId, apiKey) {
+    self.deletePet = function(petId, opts) {
+      opts = opts || {};
       var postBody = null;
       
       // verify the required parameter 'petId' is set
@@ -256,14 +249,13 @@
       }
       
 
-      
       var pathParams = {
         'petId': petId
       };
       var queryParams = {
       };
       var headerParams = {
-        'api_key': apiKey
+        'api_key': opts['apiKey']
       };
       var formParams = {
       };
@@ -278,18 +270,18 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * uploads an image
      * 
-     * @param {Integer}  petId ID of pet to update
-     * @param {String}  additionalMetadata Additional data to pass to server
-     * @param {File}  file file to upload
-     
+     * @param {Integer} petId ID of pet to update
+     * @param {String} opts['additionalMetadata'] Additional data to pass to server
+     * @param {File} opts['file'] file to upload
      */
-    self.uploadFile = function(petId, additionalMetadata, file) {
+    self.uploadFile = function(petId, opts) {
+      opts = opts || {};
       var postBody = null;
       
       // verify the required parameter 'petId' is set
@@ -298,7 +290,6 @@
       }
       
 
-      
       var pathParams = {
         'petId': petId
       };
@@ -307,8 +298,8 @@
       var headerParams = {
       };
       var formParams = {
-        'additionalMetadata': additionalMetadata,
-        'file': file
+        'additionalMetadata': opts['additionalMetadata'],
+        'file': opts['file']
       };
 
       var authNames = ['petstore_auth'];
@@ -321,14 +312,13 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-     * @param {Integer}  petId ID of pet that needs to be fetched
-     
+     * @param {Integer} petId ID of pet that needs to be fetched
      *   data is of type: 'String'
      */
     self.getPetByIdWithByteArray = function(petId) {
@@ -340,7 +330,6 @@
       }
       
 
-      
       var pathParams = {
         'petId': petId
       };
@@ -361,20 +350,19 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     /**
      * Fake endpoint to test byte array in body parameter for adding a new pet to the store
      * 
-     * @param {String}  body Pet object in the form of byte array
-     
+     * @param {String} opts['body'] Pet object in the form of byte array
      */
-    self.addPetUsingByteArray = function(body) {
-      var postBody = body;
+    self.addPetUsingByteArray = function(opts) {
+      opts = opts || {};
+      var postBody = opts['body'];
       
 
-      
       var pathParams = {
       };
       var queryParams = {
@@ -394,7 +382,7 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-      
+
     }
     
     
