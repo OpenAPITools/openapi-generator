@@ -168,7 +168,7 @@ namespace SwaggerClientTest.TestPet
 			Configuration c1 = new Configuration (timeout: 10000);
 
 			PetApi petApi = new PetApi (c1);
-			byte[] response = petApi.GetPetByIdWithByteArray (petId);
+			byte[] response = petApi.PetPetIdtestingByteArraytrueGet (petId);
 			Assert.IsInstanceOf<byte[]> (response, "Response is byte array");
 		}
 
