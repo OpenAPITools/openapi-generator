@@ -506,29 +506,29 @@ module Petstore
 
     # Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
     # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-    # @param package ID of pet that needs to be fetched
+    # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [String]
-    def pet_pet_idtesting_byte_arraytrue_get(package, opts = {})
-      data, status_code, headers = pet_pet_idtesting_byte_arraytrue_get_with_http_info(package, opts)
+    def pet_pet_idtesting_byte_arraytrue_get(pet_id, opts = {})
+      data, status_code, headers = pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, opts)
       return data
     end
 
     # Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
     # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-    # @param package ID of pet that needs to be fetched
+    # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
-    def pet_pet_idtesting_byte_arraytrue_get_with_http_info(package, opts = {})
+    def pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: PetApi#pet_pet_idtesting_byte_arraytrue_get ..."
       end
       
-      # verify the required parameter 'package' is set
-      fail "Missing the required parameter 'package' when calling pet_pet_idtesting_byte_arraytrue_get" if package.nil?
+      # verify the required parameter 'pet_id' is set
+      fail "Missing the required parameter 'pet_id' when calling pet_pet_idtesting_byte_arraytrue_get" if pet_id.nil?
       
       # resource path
-      path = "/pet/{petId}?testing_byte_array=true".sub('{format}','json').sub('{' + 'package' + '}', package.to_s)
+      path = "/pet/{petId}?testing_byte_array=true".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
