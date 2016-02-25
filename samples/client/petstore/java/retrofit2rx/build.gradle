@@ -92,7 +92,7 @@ if(hasProperty('target') && target == 'android') {
 ext {
     okhttp_version = "3.0.1"
     oltu_version = "1.0.0"
-    retrofit_version = "2.0.0-beta3"
+    retrofit_version = "2.0.0-beta4"
     gson_version = "2.4"
     swagger_annotations_version = "1.5.0"
     junit_version = "4.12"
@@ -109,7 +109,6 @@ dependencies {
     compile "io.reactivex:rxjava:$rx_java_version"
 
 
-    compile "com.google.code.gson:gson:$gson_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
 
