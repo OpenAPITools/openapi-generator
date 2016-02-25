@@ -38,6 +38,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemAuthor = "";
     protected String gemAuthorEmail = "";
 
+    protected static int emptyMethodNameCounter = 0;
 
     public RubyClientCodegen() {
         super();
@@ -359,7 +360,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+            String modelName = camelize("object_" + name);
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
         // camelize the model name
@@ -371,7 +374,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+            String filename = underscore("object_" + name);
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
+            return filename;
         }
 
         // underscore the model file name
@@ -409,14 +414,18 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty
+        // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
+            operationId = underscore("empty_method_name_" + emptyMethodNameCounter++);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+            String newOperationId = underscore("call_" + operationId);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
         }
 
         return underscore(sanitizeName(operationId));
