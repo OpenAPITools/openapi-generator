@@ -82,4 +82,9 @@ public class CodegenConstants {
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
+    public static final String MODEL_NAME_PREFIX = "modelNamePrefix";
+    public static final String MODEL_NAME_PREFIX_DESC = "Prefix that will be prepended to all model names. Default is the empty string.";
+
+    public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
+    public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names. Default is the empty string.";
 }
