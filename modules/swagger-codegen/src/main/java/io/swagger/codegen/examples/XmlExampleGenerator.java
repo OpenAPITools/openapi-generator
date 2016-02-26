@@ -16,10 +16,8 @@ import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -33,8 +31,6 @@ public class XmlExampleGenerator {
     public static String TAG_END = "</";
     private static String EMPTY = "";
     protected Map<String, Model> examples;
-    protected SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     public XmlExampleGenerator(Map<String, Model> examples) {
         this.examples = examples;
@@ -172,7 +168,7 @@ public class XmlExampleGenerator {
             if (property.getExample() != null) {
                 return property.getExample().toString();
             } else {
-                return dtFormat.format(new Date());
+                return "2000-01-23T04:56:07.000Z";
             }
         } else if (property instanceof StringProperty) {
             if (property.getExample() != null) {
@@ -184,7 +180,7 @@ public class XmlExampleGenerator {
             if (property.getExample() != null) {
                 return property.getExample().toString();
             } else {
-                return dateFormat.format(new Date());
+                return "2000-01-23T04:56:07.000Z";
             }
         } else if (property instanceof IntegerProperty) {
             if (property.getExample() != null) {

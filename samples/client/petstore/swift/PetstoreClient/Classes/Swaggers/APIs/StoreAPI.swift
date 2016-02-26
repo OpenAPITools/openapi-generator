@@ -54,12 +54,12 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2016-02-13T08:19:01.757+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2016-02-13T16:19:01.763Z</shipDate>
+  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
@@ -69,12 +69,12 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2016-02-13T08:19:01.757+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2016-02-13T16:19:01.763Z</shipDate>
+  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
@@ -106,12 +106,12 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2016-02-13T08:19:01.765+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2016-02-13T16:19:01.766Z</shipDate>
+  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
@@ -121,12 +121,12 @@ extension PetstoreClientAPI {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2016-02-13T08:19:01.765+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+0000"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
-  <shipDate>2016-02-13T16:19:01.766Z</shipDate>
+  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
 </Order>, contentType=application/xml}]
