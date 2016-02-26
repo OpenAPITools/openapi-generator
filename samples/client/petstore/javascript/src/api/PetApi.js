@@ -330,12 +330,12 @@
      * @param {function} callback the callback function, accepting three arguments: error, data, response
      *   data is of type: 'String'
      */
-    self.getPetByIdWithByteArray = function(petId, callback) {
+    self.petPetIdtestingByteArraytrueGet = function(petId, callback) {
       var postBody = null;
       
       // verify the required parameter 'petId' is set
       if (petId == null) {
-        throw "Missing the required parameter 'petId' when calling getPetByIdWithByteArray";
+        throw "Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet";
       }
       
 

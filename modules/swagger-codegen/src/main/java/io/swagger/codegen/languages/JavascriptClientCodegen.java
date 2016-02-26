@@ -293,14 +293,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public String toModelName(String name) {
         name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
-        }
-
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        name = camelize(name);
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            String modelName = "Object" + name;
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        return name;
     }
 
     @Override
@@ -419,12 +423,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
+        operationId = camelize(sanitizeName(operationId), true);
+
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            operationId = escapeReservedWord(operationId);
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return operationId;
     }
 
     @Override
