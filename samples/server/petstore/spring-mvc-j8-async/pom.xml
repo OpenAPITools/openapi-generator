@@ -62,6 +62,15 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -74,6 +83,31 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>${slf4j-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-core</artifactId>
+      <version>${jersey-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-json</artifactId>
+      <version>${jersey-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-servlet</artifactId>
+      <version>${jersey-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey.contribs</groupId>
+      <artifactId>jersey-multipart</artifactId>
+      <version>${jersey-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>${jersey-version}</version>
     </dependency>
 
     <!--Spring dependencies -->
@@ -117,14 +151,22 @@
       <version>${servlet-api-version}</version>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>jcenter-snapshots</id>
+      <name>jcenter</name>
+      <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+    </repository>
+  </repositories>
   <properties>
     <swagger-core-version>1.5.7</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey-version>1.13</jersey-version>
     <slf4j-version>1.6.3</slf4j-version>
+    <scala-test-version>1.6.1</scala-test-version>
     <junit-version>4.8.1</junit-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <springfox-version>2.3.1</springfox-version>
-    <spring-version>4.1.8.RELEASE</spring-version>
+    <springfox-version>2.0.4-SNAPSHOT</springfox-version>
+    <spring-version>4.0.9.RELEASE</spring-version>
   </properties>
 </project>

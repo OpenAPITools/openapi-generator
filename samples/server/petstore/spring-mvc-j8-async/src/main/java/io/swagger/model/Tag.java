@@ -1,6 +1,5 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -11,8 +10,8 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:58:54.483Z")
-public class Category  {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:59:02.543Z")
+public class Tag  {
   
   private Long id = null;
   private String name = null;
@@ -51,9 +50,9 @@ public class Category  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Category category = (Category) o;
-    return Objects.equals(id, category.id) &&
-        Objects.equals(name, category.name);
+    Tag tag = (Tag) o;
+    return Objects.equals(id, tag.id) &&
+        Objects.equals(name, tag.name);
   }
 
   @Override
@@ -64,7 +63,7 @@ public class Category  {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Tag {\n");
     
     sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
