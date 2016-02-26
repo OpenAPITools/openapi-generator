@@ -1,3 +1,16 @@
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name="{{classNameFirstLetterLower}}")
+@XmlEnum
 public enum {{classname}} {
-    {{#allowableValues}}{{.}}{{^-last}}, {{/-last}}{{/allowableValues}}
+    {{#allowableValues}}{{.}}{{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/allowableValues}}
+    
+    public String value() {
+        return name();
+    }
+
+    public static {{classname}} fromValue(String v) {
+        return valueOf(v);
+    }
 }
