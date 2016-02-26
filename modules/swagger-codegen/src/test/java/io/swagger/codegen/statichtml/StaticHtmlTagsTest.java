@@ -83,7 +83,9 @@ public class StaticHtmlTagsTest {
                     "something has been changed in code and now code bypass the mock above...");
         } finally {
             if (apisBackup!=null) {
-              System.setProperty("apis", apisBackup);
+                System.setProperty("apis", apisBackup);
+            }else{
+                System.clearProperty("apis");  
             }
         }
     }
