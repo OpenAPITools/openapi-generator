@@ -37,7 +37,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         embeddedTemplateDir = templateDir = "perl";
 
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "else", "lock", "qw",
                         "__END__", "elsif", "lt", "qx",
@@ -219,7 +219,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             escapeReservedWord(name); // e.g. return => _return
         }
 
@@ -272,7 +272,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
             return underscore("call_" + operationId);
         }

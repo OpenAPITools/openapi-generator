@@ -76,7 +76,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "sample1",  // replace with static values
                         "sample2")

@@ -38,7 +38,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTemplateFiles.put("api.mustache", ".go");
         templateDir = "go";
 
-        reservedWords = new HashSet<String> (
+        setReservedWordsLowerCase(
             Arrays.asList(
                 "break", "default", "func", "interface", "select",
                 "case", "defer", "go", "map", "struct",
@@ -100,7 +100,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
                 .defaultValue("1.0.0"));
-   
+
     }
 
     @Override
@@ -128,7 +128,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = packageName;
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-    }    
+    }
 
     @Override
     public String escapeReservedWord(String name) {
@@ -158,7 +158,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
-        if(reservedWords.contains(name) || name.matches("^\\d.*"))
+        if(isReservedWord(name) || name.matches("^\\d.*"))
             name = escapeReservedWord(name);
 
         return name;
@@ -173,7 +173,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
-        if(reservedWords.contains(name))
+        if(isReservedWord(name))
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
 
         // camelize the model name
@@ -220,7 +220,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
-        if(reservedWords.contains(operationId))
+        if(isReservedWord(operationId))
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
 
         return camelize(operationId);

@@ -56,7 +56,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("binary", "str");
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable name used in API methods (endpoints)
                     "all_params", "resource_path", "method", "path_params", "query_params",
@@ -197,7 +197,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("^_*", "");
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -218,7 +218,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("$", "");
 
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
         }
 
@@ -230,7 +230,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
         }
 
@@ -273,7 +273,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 

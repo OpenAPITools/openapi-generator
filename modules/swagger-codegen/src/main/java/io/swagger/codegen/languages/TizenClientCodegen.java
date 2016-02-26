@@ -53,7 +53,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         additionalProperties().put("prefix", PREFIX);
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 // VERIFY
                 Arrays.asList(
                         "void", "char", "short", "int", "void", "char", "short", "int",
@@ -273,7 +273,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         // method name cannot use reserved keyword, e.g. return$
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 

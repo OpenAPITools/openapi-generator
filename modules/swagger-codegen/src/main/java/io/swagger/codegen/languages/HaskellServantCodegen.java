@@ -17,7 +17,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
   /**
    * Configures the type of generator.
-   * 
+   *
    * @return  the CodegenType for this generator
    * @see     io.swagger.codegen.CodegenType
    */
@@ -28,7 +28,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
   /**
    * Configures a friendly name for the generator.  This will be used by the generator
    * to select the library with the -l flag.
-   * 
+   *
    * @return the friendly name for the generator
    */
   public String getName() {
@@ -38,7 +38,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
   /**
    * Returns human-friendly help for the generator.  Provide the consumer with help
    * tips, parameters here
-   * 
+   *
    * @return A string value for the help message
    */
   public String getHelp() {
@@ -90,7 +90,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * Reserved words.  Override this with reserved words specific to your language
      */
     // from https://wiki.haskell.org/Keywords
-    reservedWords = new HashSet<String>(
+    setReservedWordsLowerCase(
         Arrays.asList(
             "as", "case", "of",
             "class", "data", // "data family", "data instance",
@@ -174,7 +174,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
   /**
    * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
    * those terms here.  This logic is only called if a variable matches the reseved words
-   * 
+   *
    * @return the escaped term
    */
   @Override
@@ -221,7 +221,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
   }
 
   /**
-   * Optional - swagger type conversion.  This is used to map swagger types in a `Property` into 
+   * Optional - swagger type conversion.  This is used to map swagger types in a `Property` into
    * either language specific types via `typeMapping` or into complex models if there is not a mapping.
    *
    * @return a string value of the type or complex model for this property
@@ -244,7 +244,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
   private String capturePath(String path, List<CodegenParameter> pathParams) {
     for (CodegenParameter p : pathParams) {
       String pName = "{"+p.baseName+"}";
-      if (path.indexOf(pName) >= 0) { 
+      if (path.indexOf(pName) >= 0) {
         path = path.replace(pName, "Capture " + "\""+p.baseName+"\" " + p.dataType);
       }
     }
@@ -270,7 +270,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     for (CodegenParameter p : formParams) {
       if(p.dataType.equals("FilePath")){
         // file data processing
-      } 
+      }
       names += p.baseName;
     }
     if(formParams.size() > 0){
@@ -315,7 +315,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     String[] ps = path.replaceFirst("/", "").split("/", 0);
     List<String> rs = new ArrayList<String>();
     for (String p : ps) {
-      if (p.indexOf("{") < 0) { 
+      if (p.indexOf("{") < 0) {
         rs.add("\"" + p + "\"");
       } else {
         rs.add(p);

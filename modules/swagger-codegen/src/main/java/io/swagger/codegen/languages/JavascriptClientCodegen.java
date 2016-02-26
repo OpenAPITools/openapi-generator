@@ -75,7 +75,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         modelPackage = "model";
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "abstract", "arguments", "boolean", "break", "byte",
                         "case", "catch", "char", "class", "const",
@@ -276,7 +276,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -294,7 +294,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
         }
 
@@ -420,7 +420,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             operationId = escapeReservedWord(operationId);
         }
 
