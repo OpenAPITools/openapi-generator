@@ -102,14 +102,14 @@ public class ApiClient {
                 .setUsername(username)
                 .setPassword(password);
     }
-    
+
    public void createDefaultAdapter() {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                 .create();
 
         okClient = new OkHttpClient();
-        
+
         String baseUrl = "http://petstore.swagger.io/v2";
         if(!baseUrl.endsWith("/"))
         	baseUrl = baseUrl + "/";
@@ -124,7 +124,7 @@ public class ApiClient {
 
     public <S> S createService(Class<S> serviceClass) {
         return adapterBuilder.build().create(serviceClass);
-        
+
     }
 
     /**
@@ -202,7 +202,7 @@ public class ApiClient {
             }
         }
     }
-    
+
     /**
      * Helper method to configure the oauth accessCode/implicit flow parameters
      * @param clientId
@@ -224,7 +224,7 @@ public class ApiClient {
             }
         }
     }
-    
+
     /**
      * Configures a listener which is notified when a new access token is received.
      * @param accessTokenListener
@@ -271,7 +271,7 @@ public class ApiClient {
     public OkHttpClient getOkClient() {
         return okClient;
     }
-    
+
     public void addAuthsToOkClient(OkHttpClient okClient) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
             okClient.interceptors().add(apiAuthorization);
@@ -307,14 +307,14 @@ class GsonResponseBodyConverterToString<T> implements Converter<ResponseBody, T>
 	    String returned = value.string();
 	    try {
 	      return gson.fromJson(returned, type);
-	    } 
+	    }
 	    catch (JsonParseException e) {
                 return (T) returned;
-        } 
+        }
 	 }
 }
 
-class GsonCustomConverterFactory extends Converter.Factory 
+class GsonCustomConverterFactory extends Converter.Factory
 {
 	public static GsonCustomConverterFactory create(Gson gson) {
 	    return new GsonCustomConverterFactory(gson);
