@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="SwaggerClientTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestOrder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
     <Files>
-      <File FileName="TestPet.cs" Line="84" Column="10" />
+      <File FileName="TestPet.cs" Line="162" Column="35" />
       <File FileName="TestOrder.cs" Line="42" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
