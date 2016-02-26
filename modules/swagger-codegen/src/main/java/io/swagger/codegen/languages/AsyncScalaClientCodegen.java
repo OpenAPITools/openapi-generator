@@ -43,7 +43,7 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
                     "config", "path", "contentTypes", "contentType", "queryParams", "headerParams",

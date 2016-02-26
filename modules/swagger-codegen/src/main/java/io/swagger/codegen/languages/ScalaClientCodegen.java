@@ -47,7 +47,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
                     "path", "contentTypes", "contentType", "queryParams", "headerParams",
@@ -235,7 +235,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 

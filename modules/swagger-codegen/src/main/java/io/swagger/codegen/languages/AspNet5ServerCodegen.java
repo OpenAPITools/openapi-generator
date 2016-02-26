@@ -23,11 +23,9 @@ public class AspNet5ServerCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("controller.mustache", ".cs");
 
         // contextually reserved words
-        reservedWords.add("var");
-        reservedWords.add("async");
-        reservedWords.add("await");
-        reservedWords.add("dynamic");
-        reservedWords.add("yield");
+        setReservedWordsLowerCase(
+            Arrays.asList("var", "async", "await", "dynamic", "yield")
+        );
 
         cliOptions.clear();
 

@@ -137,7 +137,7 @@ public interface PetApi {
    */
   
   @GET("pet/{petId}?testing_byte_array=true")
-  Call<byte[]> getPetByIdWithByteArray(
+  Call<byte[]> petPetIdtestingByteArraytrueGet(
     @Path("petId") Long petId
   );
 

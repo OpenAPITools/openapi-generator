@@ -15,10 +15,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	public AbstractTypeScriptClientCodegen() {
 	    super();
 		supportsInheritance = true;
-		reservedWords = new HashSet<String>(Arrays.asList(
+		setReservedWordsLowerCase(Arrays.asList(
                     // local variable names used in API methods (endpoints)
                     "path", "queryParameters", "headerParams", "formParams", "useFormData", "deferred",
-                    "requestOptions", 
+                    "requestOptions",
                     // Typescript reserved words
                     "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
@@ -32,7 +32,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 				"Float",
 				"Object"));
 		instantiationTypes.put("array", "Array");
-		
+
 	    typeMapping = new HashMap<String, String>();
 	    typeMapping.put("Array", "Array");
 	    typeMapping.put("array", "Array");
@@ -67,7 +67,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
-	
+
 	@Override
 	public CodegenType getTag() {
 	    return CodegenType.CLIENT;
@@ -102,7 +102,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 		name = camelize(name, true);
 
 		// for reserved word or word starting with number, append _
-		if (reservedWords.contains(name) || name.matches("^\\d.*"))
+		if (isReservedWord(name) || name.matches("^\\d.*"))
 			name = escapeReservedWord(name);
 
 		return name;
@@ -117,7 +117,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	@Override
 	public String toModelName(String name) {
 		// model name cannot use reserved keyword, e.g. return
-		if (reservedWords.contains(name))
+		if (isReservedWord(name))
 			throw new RuntimeException(name
 					+ " (reserved word) cannot be used as a model name");
 
@@ -170,7 +170,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         // method name cannot use reserved keyword, e.g. return
         // append _ at the beginning, e.g. _return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             return escapeReservedWord(camelize(sanitizeName(operationId), true));
         }
 
@@ -178,12 +178,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) || 
+        if ("original".equals(naming) || "camelCase".equals(naming) ||
             "PascalCase".equals(naming) || "snake_case".equals(naming)) {
             this.modelPropertyNaming = naming;
         } else {
-            throw new IllegalArgumentException("Invalid model property naming '" + 
-              naming + "'. Must be 'original', 'camelCase', " + 
+            throw new IllegalArgumentException("Invalid model property naming '" +
+              naming + "'. Must be 'original', 'camelCase', " +
               "'PascalCase' or 'snake_case'");
         }
     }
@@ -198,9 +198,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case camelCase:   return camelize(name, true);
             case PascalCase:  return camelize(name);
             case snake_case:  return underscore(name);
-            default:            throw new IllegalArgumentException("Invalid model property naming '" + 
-                                    name + "'. Must be 'original', 'camelCase', " + 
-                                    "'PascalCase' or 'snake_case'"); 
+            default:            throw new IllegalArgumentException("Invalid model property naming '" +
+                                    name + "'. Must be 'original', 'camelCase', " +
+                                    "'PascalCase' or 'snake_case'");
         }
 
     }

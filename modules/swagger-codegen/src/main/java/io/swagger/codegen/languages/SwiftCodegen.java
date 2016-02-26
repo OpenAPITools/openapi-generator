@@ -90,7 +90,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         "Empty",
         "AnyObject")
     );
-    reservedWords = new HashSet<String>(
+    setReservedWordsLowerCase(
       Arrays.asList(
         "class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
         "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
@@ -267,7 +267,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       // Ensure that the enum type doesn't match a reserved word or
       // the variable name doesn't match the generated enum type or the
       // Swift compiler will generate an error
-      if (reservedWords.contains(codegenProperty.datatypeWithEnum) ||
+      if (isReservedWord(codegenProperty.datatypeWithEnum) ||
           name.equals(codegenProperty.datatypeWithEnum)) {
         codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
       }
@@ -301,7 +301,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     // method name cannot use reserved keyword, e.g. return
-    if (reservedWords.contains(operationId)) {
+    if (isReservedWord(operationId)) {
       throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
     }
 

@@ -14,8 +14,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     public static final String GEM_NAME = "gemName";
     public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
@@ -55,7 +58,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.clear();
         languageSpecificPrimitives.clear();
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
                     "path", "query_params", "header_params", "_header_accept", "_header_accept_result",
@@ -341,7 +344,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = underscore(name);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -359,7 +362,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             String modelName = camelize("object_" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
@@ -373,7 +376,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             String filename = underscore("object_" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
             return filename;
@@ -422,7 +425,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
