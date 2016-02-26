@@ -376,21 +376,21 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    public String toModelName(final String name) {
+        final String sanitizedName = sanitizeName(modelNamePrefix + name + modelNameSuffix);
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = camelize(name);
+        final String camelizedName = camelize(sanitizedName);
 
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String modelName = "Object" + name;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+        if (isReservedWord(camelizedName)) {
+            final String modelName = "Object" + camelizedName;
+            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
-        return name;
+        return camelizedName;
     }
 
     @Override
@@ -486,7 +486,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0) {
+            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
+                type.equals("Map") || type.equals("List")) {
                 return type;
             }
         } else {

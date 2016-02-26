@@ -48,6 +48,8 @@ public class CodegenConfigurator {
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
+    private String modelNamePrefix;
+    private String modelNameSuffix;
     private String groupId;
     private String artifactId;
     private String artifactVersion;
@@ -94,6 +96,24 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setModelPackage(String modelPackage) {
         this.modelPackage = modelPackage;
+        return this;
+    }
+
+    public String getModelNamePrefix() {
+        return modelNamePrefix;
+    }
+
+    public CodegenConfigurator setModelNamePrefix(String prefix) {
+        this.modelNamePrefix = prefix;
+        return this;
+    }
+
+    public String getModelNameSuffix() {
+        return modelNameSuffix;
+    }
+
+    public CodegenConfigurator setModelNameSuffix(String suffix) {
+        this.modelNameSuffix = suffix;
         return this;
     }
 
@@ -300,6 +320,8 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
+        checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
 
         handleDynamicProperties(config);
 

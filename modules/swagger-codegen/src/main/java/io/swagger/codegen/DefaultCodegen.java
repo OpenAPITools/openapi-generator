@@ -63,6 +63,7 @@ public class DefaultCodegen {
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
+    protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
@@ -106,6 +107,14 @@ public class DefaultCodegen {
         if (additionalProperties.containsKey(CodegenConstants.ENSURE_UNIQUE_PARAMS)) {
             this.setEnsureUniqueParams(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.ENSURE_UNIQUE_PARAMS).toString()));
+        }
+
+        if(additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)){
+            this.setModelNamePrefix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_PREFIX));
+        }
+
+        if(additionalProperties.containsKey(CodegenConstants.MODEL_NAME_SUFFIX)){
+            this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
         }
     }
 
@@ -281,6 +290,14 @@ public class DefaultCodegen {
 
     public void setModelPackage(String modelPackage) {
         this.modelPackage = modelPackage;
+    }
+
+    public void setModelNamePrefix(String modelNamePrefix){
+        this.modelNamePrefix = modelNamePrefix;
+    }
+
+    public void setModelNameSuffix(String modelNameSuffix){
+        this.modelNameSuffix = modelNameSuffix;
     }
 
     public void setApiPackage(String apiPackage) {
@@ -826,8 +843,8 @@ public class DefaultCodegen {
      * @param name the name of the model
      * @return capitalized model name
      */
-    public String toModelName(String name) {
-        return initialCaps(name);
+    public String toModelName(final String name) {
+        return initialCaps(modelNamePrefix + name + modelNameSuffix);
     }
 
     /**
