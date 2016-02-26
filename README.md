@@ -45,7 +45,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Ruby Sinatra](#ruby-sinatra)
       - [Scala Scalatra](#scala-scalatra)
       - [Java JAX-RS (Java JAX-RS (Jersey v1.18)](#java-jax-rs-jersey-v118)
-      - [Java JAX-RS (Apache CXF 2 / 3)](#java-jax-rs-apache-cxf)
+      - [Java JAX-RS (Apache CXF 2 / 3)](#java-jax-rs-apache-cxf-2--3)
       - [Java Spring MVC](#java-spring-mvc)
       - [Haskell Servant](#haskell-servant)
       - [ASP.NET 5 Web API](#aspnet-5-web-api)
