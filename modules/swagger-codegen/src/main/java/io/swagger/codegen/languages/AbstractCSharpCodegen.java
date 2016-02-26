@@ -44,7 +44,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 Arrays.asList("IDictionary")
         );
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variable names in API methods (endpoints)
                         "path_", "pathParams", "queryParams", "headerParams", "formParams", "fileParams",
@@ -282,7 +282,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -305,7 +305,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -330,7 +330,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -471,7 +471,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = sanitizeName(name);
 
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("object_" + name));
             name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
         }

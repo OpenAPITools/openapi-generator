@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConfig {
-	
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FlaskConnexionCodegen.class);
 
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
@@ -73,7 +73,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         embeddedTemplateDir = templateDir = "flaskConnexion";
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                         "assert", "else", "if", "pass", "yield", "break", "except", "import",

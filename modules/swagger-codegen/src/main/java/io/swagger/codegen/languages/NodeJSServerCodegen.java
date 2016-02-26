@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
-	
+
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
@@ -60,7 +60,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "break", "case", "class", "catch", "const", "continue", "debugger",
                         "default", "delete", "do", "else", "export", "extends", "finally",
@@ -251,7 +251,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         this.additionalProperties.put("serverPort", port);
-        
+
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
             if (info.getTitle() != null) {
