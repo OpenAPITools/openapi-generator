@@ -5,9 +5,12 @@ import io.swagger.model.*;
 import io.swagger.model.Pet;
 import java.io.File;
 
+import java.util.concurrent.Callable;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
@@ -31,8 +34,8 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:58:54.483Z")
-public class PetApi {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:59:02.543Z")
+public interface PetApi {
   
 
   @ApiOperation(value = "Update an existing pet", notes = "", response = Void.class, authorizations = {
@@ -41,21 +44,21 @@ public class PetApi {
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied"),
-    @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found"),
-    @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Pet not found"),
+    @ApiResponse(code = 405, message = "Validation exception") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
     consumes = { "application/json", "application/xml" },
     method = RequestMethod.PUT)
-  public ResponseEntity<Void> updatePet(
+  default Callable<ResponseEntity<Void>> updatePet(
 
 @ApiParam(value = "Pet object that needs to be added to the store"  ) @RequestBody Pet body
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<Void>(HttpStatus.OK);
+      return () -> new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   
@@ -66,19 +69,19 @@ public class PetApi {
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "", 
     produces = { "application/json", "application/xml" }, 
     consumes = { "application/json", "application/xml" },
     method = RequestMethod.POST)
-  public ResponseEntity<Void> addPet(
+  default Callable<ResponseEntity<Void>> addPet(
 
 @ApiParam(value = "Pet object that needs to be added to the store"  ) @RequestBody Pet body
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<Void>(HttpStatus.OK);
+      return () -> new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   
@@ -89,20 +92,20 @@ public class PetApi {
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 200, message = "successful operation"),
+    @ApiResponse(code = 400, message = "Invalid status value") })
   @RequestMapping(value = "/findByStatus", 
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<List<Pet>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue = "available") @RequestParam(value = "status", required = false, defaultValue="available") List<String> status
+  default Callable<ResponseEntity<List<Pet>>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue = "available") @RequestParam(value = "status", required = false, defaultValue="available") List<String> status
 
 
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<List<Pet>>(HttpStatus.OK);
+      return () -> new ResponseEntity<List<Pet>>(HttpStatus.OK);
   }
 
   
@@ -113,20 +116,20 @@ public class PetApi {
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 200, message = "successful operation"),
+    @ApiResponse(code = 400, message = "Invalid tag value") })
   @RequestMapping(value = "/findByTags", 
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<List<Pet>> findPetsByTags(@ApiParam(value = "Tags to filter by") @RequestParam(value = "tags", required = false) List<String> tags
+  default Callable<ResponseEntity<List<Pet>>> findPetsByTags(@ApiParam(value = "Tags to filter by") @RequestParam(value = "tags", required = false) List<String> tags
 
 
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<List<Pet>>(HttpStatus.OK);
+      return () -> new ResponseEntity<List<Pet>>(HttpStatus.OK);
   }
 
   
@@ -138,21 +141,21 @@ public class PetApi {
       }),
     @Authorization(value = "api_key")
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied"),
-    @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 200, message = "successful operation"),
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Pet not found") })
   @RequestMapping(value = "/{petId}", 
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<Pet> getPetById(
+  default Callable<ResponseEntity<Pet>> getPetById(
 @ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("petId") Long petId
 
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<Pet>(HttpStatus.OK);
+      return () -> new ResponseEntity<Pet>(HttpStatus.OK);
   }
 
   
@@ -163,13 +166,13 @@ public class PetApi {
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "/{petId}", 
     produces = { "application/json", "application/xml" }, 
     consumes = { "application/x-www-form-urlencoded" },
     method = RequestMethod.POST)
-  public ResponseEntity<Void> updatePetWithForm(
+  default Callable<ResponseEntity<Void>> updatePetWithForm(
 @ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") String petId
 
 ,
@@ -185,7 +188,7 @@ public class PetApi {
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<Void>(HttpStatus.OK);
+      return () -> new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   
@@ -196,13 +199,13 @@ public class PetApi {
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 400, message = "Invalid pet value") })
   @RequestMapping(value = "/{petId}", 
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
-  public ResponseEntity<Void> deletePet(
+  default Callable<ResponseEntity<Void>> deletePet(
 @ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId
 
 ,
@@ -212,7 +215,7 @@ public class PetApi {
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<Void>(HttpStatus.OK);
+      return () -> new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   
@@ -223,13 +226,13 @@ public class PetApi {
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/{petId}/uploadImage", 
     produces = { "application/json", "application/xml" }, 
     consumes = { "multipart/form-data" },
     method = RequestMethod.POST)
-  public ResponseEntity<Void> uploadFile(
+  default Callable<ResponseEntity<Void>> uploadFile(
 @ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId
 
 ,
@@ -244,7 +247,7 @@ public class PetApi {
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<Void>(HttpStatus.OK);
+      return () -> new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   
@@ -256,21 +259,21 @@ public class PetApi {
       }),
     @Authorization(value = "api_key")
   })
-  @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied"),
-    @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found") })
+  @ApiResponses(value = { 
+    @ApiResponse(code = 200, message = "successful operation"),
+    @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    @ApiResponse(code = 404, message = "Pet not found") })
   @RequestMapping(value = "/{petId}?testing_byte_array=true", 
     produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<byte[]> petPetIdtestingByteArraytrueGet(
+  default Callable<ResponseEntity<byte[]>> petPetIdtestingByteArraytrueGet(
 @ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("petId") Long petId
 
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<byte[]>(HttpStatus.OK);
+      return () -> new ResponseEntity<byte[]>(HttpStatus.OK);
   }
 
   
