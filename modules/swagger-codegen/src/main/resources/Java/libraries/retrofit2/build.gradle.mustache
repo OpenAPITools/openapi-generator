@@ -90,7 +90,6 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    okhttp_version = "3.0.1"
     oltu_version = "1.0.0"
     retrofit_version = "2.0.0-beta4"
     gson_version = "2.4"
@@ -103,8 +102,6 @@ ext {
 }
 
 dependencies {
-    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
-
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
 {{#useRxJava}}
