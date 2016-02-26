@@ -39,7 +39,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
         embeddedTemplateDir = templateDir = "slim";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
@@ -210,7 +210,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             escapeReservedWord(name); // e.g. return => _return
         }
 

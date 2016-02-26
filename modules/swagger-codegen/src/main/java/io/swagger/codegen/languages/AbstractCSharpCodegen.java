@@ -44,7 +44,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 Arrays.asList("IDictionary")
         );
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variable names in API methods (endpoints)
                         "path_", "pathParams", "queryParams", "headerParams", "formParams", "fileParams",
@@ -282,7 +282,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
@@ -304,7 +304,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -329,7 +329,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -470,7 +470,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = sanitizeName(name);
 
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
         }
 

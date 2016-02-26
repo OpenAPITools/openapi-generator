@@ -52,20 +52,20 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
-        reservedWords = new HashSet<String>(
-                Arrays.asList(
-                        // used as internal variables, can collide with parameter names
-                        "path", "queryParams", "headerParams", "formParams", "postBody", "accepts", "accept", "contentTypes",
-                        "contentType", "authNames",
+        setReservedWordsLowerCase(
+            Arrays.asList(
+                // used as internal variables, can collide with parameter names
+                "path", "queryParams", "headerParams", "formParams", "postBody", "accepts", "accept", "contentTypes",
+                "contentType", "authNames",
 
-                        // language reserved words
-                        "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while")
+                // language reserved words
+                "abstract", "continue", "for", "new", "switch", "assert",
+                "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
+                "this", "break", "double", "implements", "protected", "throw", "byte", "else",
+                "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
+                "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
+                "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
+                "native", "super", "while")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -362,7 +362,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -384,7 +384,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             String modelName = "Object" + name;
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
@@ -508,7 +508,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         operationId = camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;

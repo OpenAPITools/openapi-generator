@@ -34,7 +34,7 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         apiPackage = "com.wordnik.client.api";
         modelPackage = "com.wordnik.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "abstract", "continue", "for", "new", "switch", "assert",
                         "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
