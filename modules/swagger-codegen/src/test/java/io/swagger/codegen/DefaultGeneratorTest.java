@@ -1,5 +1,6 @@
 package io.swagger.codegen;
 
+import io.swagger.codegen.config.CodegenConfigurator;
 import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
@@ -164,12 +165,21 @@ public class DefaultGeneratorTest {
         final Swagger swagger = new SwaggerParser().read("src/test/resources/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
+        {
+            new CodegenConfigurator().setVerbose(true).toClientOptInput();
+        }
 
         ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
 
+        final File order = new File(output, MODEL_ORDER_FILE);
+        System.out.println(""+order.getAbsolutePath()+" exists:"+order.exists());
         //generate content first time without skipOverwrite flag, so all generated files should be recorded
         new DefaultGenerator().opts(clientOptInput).generate();
-        final File order = new File(output, MODEL_ORDER_FILE);
+        {
+            new CodegenConfigurator().setVerbose(true).toClientOptInput();
+        }
+
+        
         assertTrue(order.exists(),"can't find: "+order.getAbsolutePath()+" output dir is:"+ (output.getAbsolutePath())+" it exists:"+output.exists() );
 
         //change content of one file
