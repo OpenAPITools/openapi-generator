@@ -34,7 +34,7 @@ class StoreAPITests: XCTestCase {
         order.shipDate = NSDate()
         order.status = .Placed
         let expectation = self.expectationWithDescription("testPlaceOrder")
-        PetstoreClientAPI.StoreAPI.placeOrder(body: order).then { order -> Void in
+        StoreAPI.placeOrder(body: order).then { order -> Void in
                 XCTAssert(order.id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .Placed, "invalid status")
@@ -49,7 +49,7 @@ class StoreAPITests: XCTestCase {
     
     func test2GetOrder() {
         let expectation = self.expectationWithDescription("testGetOrder")
-        PetstoreClientAPI.StoreAPI.getOrderById(orderId: "1000").then { order -> Void in
+        StoreAPI.getOrderById(orderId: "1000").then { order -> Void in
             XCTAssert(order.id == 1000, "invalid id")
             XCTAssert(order.quantity == 10, "invalid quantity")
             XCTAssert(order.status == .Placed, "invalid status")
@@ -64,7 +64,7 @@ class StoreAPITests: XCTestCase {
     
     func test3DeleteOrder() {
         let expectation = self.expectationWithDescription("testDeleteOrder")
-        PetstoreClientAPI.StoreAPI.deleteOrder(orderId: "1000").then {
+        StoreAPI.deleteOrder(orderId: "1000").then {
                 expectation.fulfill()
             }.always {
                 // Noop for now
