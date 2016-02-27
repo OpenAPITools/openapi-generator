@@ -83,4 +83,3 @@ samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/
 samples/client/petstore/python/dev-requirements.txt.log
 samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
 samples/client/petstore/python/.coverage
-samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
