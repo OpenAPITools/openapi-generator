@@ -27,7 +27,7 @@ class UserAPITests: XCTestCase {
     
     func testLogin() {
         let expectation = self.expectationWithDescription("testLogin")
-        PetstoreClientAPI.UserAPI.loginUser(username: "swiftTester", password: "swift").execute().then { response -> Void in
+        UserAPI.loginUser(username: "swiftTester", password: "swift").then { _ -> Void in
                 expectation.fulfill()
             }.always {
                 // Noop for now
@@ -48,7 +48,7 @@ class UserAPITests: XCTestCase {
     
     func testLogout() {
         let expectation = self.expectationWithDescription("testLogout")
-        PetstoreClientAPI.UserAPI.logoutUser().execute().then { response -> Void in
+        UserAPI.logoutUser().then {
                 expectation.fulfill()
             }.always {
                 // Noop for now
@@ -79,7 +79,7 @@ class UserAPITests: XCTestCase {
         newUser.phone = "867-5309"
         newUser.username = "test@test.com"
         newUser.userStatus = 0
-        PetstoreClientAPI.UserAPI.createUser(body: newUser).execute().then { response -> Void in
+        UserAPI.createUser(body: newUser).then {
                 expectation.fulfill()
             }.always {
                 // Noop for now
@@ -101,8 +101,7 @@ class UserAPITests: XCTestCase {
     
     func test2GetUser() {
         let expectation = self.expectationWithDescription("testGetUser")
-        PetstoreClientAPI.UserAPI.getUserByName(username: "test@test.com").execute().then { response -> Void in
-                let user = response.body
+        UserAPI.getUserByName(username: "test@test.com").then {user -> Void in
                 XCTAssert(user.userStatus == 0, "invalid userStatus")
                 XCTAssert(user.email == "test@test.com", "invalid email")
                 XCTAssert(user.firstName == "Test", "invalid firstName")
@@ -120,7 +119,7 @@ class UserAPITests: XCTestCase {
     
     func test3DeleteUser() {
         let expectation = self.expectationWithDescription("testDeleteUser")
-        PetstoreClientAPI.UserAPI.deleteUser(username: "test@test.com").execute().then { response -> Void in
+        UserAPI.deleteUser(username: "test@test.com").then {
                 expectation.fulfill()
             }.always {
                 // Noop for now

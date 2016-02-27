@@ -35,7 +35,7 @@ class PetAPITests: XCTestCase {
         newPet.id = 1000
         newPet.name = "Fluffy"
         newPet.status = .Available
-        PetstoreClientAPI.PetAPI.addPet(body: newPet).execute().then { response -> Void in
+        PetAPI.addPet(body: newPet).then {
                 expectation.fulfill()
             }.always {
                 // Noop for now
@@ -47,8 +47,7 @@ class PetAPITests: XCTestCase {
     
     func test2GetPet() {
         let expectation = self.expectationWithDescription("testGetPet")
-        PetstoreClientAPI.PetAPI.getPetById(petId: 1000).execute().then { response -> Void in
-                let pet = response.body
+        PetAPI.getPetById(petId: 1000).then { pet -> Void in
                 XCTAssert(pet.id == 1000, "invalid id")
                 XCTAssert(pet.name == "Fluffy", "invalid name")
                 expectation.fulfill()
@@ -62,7 +61,7 @@ class PetAPITests: XCTestCase {
     
     func test3DeletePet() {
         let expectation = self.expectationWithDescription("testDeletePet")
-        PetstoreClientAPI.PetAPI.deletePet(petId: 1000).execute().always { response -> Void in
+        PetAPI.deletePet(petId: 1000).always {
                 // expectation.fulfill()
             }.always {
                 // Noop for now
