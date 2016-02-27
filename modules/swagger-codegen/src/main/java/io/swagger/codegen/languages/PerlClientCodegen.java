@@ -187,7 +187,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (type == null) {
             return null;
         }
-        return type;
+        return toModelName(type);
     }
 
     @Override
@@ -220,8 +220,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
-            escapeReservedWord(name); // e.g. return => _return
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("object_" + name));
+            name = "object_" + name;
         }
+
+        // add prefix/suffic to model name
+        name = modelNamePrefix + name + modelNameSuffix;
 
         // camelize the model name
         // phone_number => PhoneNumber

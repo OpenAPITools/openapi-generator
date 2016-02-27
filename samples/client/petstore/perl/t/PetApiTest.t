@@ -102,8 +102,8 @@ isa_ok($api, 'WWW::SwaggerClient::PetApi');
 # pet_pet_idtesting_byte_arraytrue_get test
 #
 {
-    my $package = undef; # replace NULL with a proper value
-    my $result = $api->pet_pet_idtesting_byte_arraytrue_get(package => $package);
+    my $pet_id = undef; # replace NULL with a proper value
+    my $result = $api->pet_pet_idtesting_byte_arraytrue_get(pet_id => $pet_id);
 }
 
 #
