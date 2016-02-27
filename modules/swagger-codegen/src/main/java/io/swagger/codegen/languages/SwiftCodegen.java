@@ -37,10 +37,12 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   public static final String POD_DESCRIPTION = "podDescription";
   public static final String POD_SCREENSHOTS = "podScreenshots";
   public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
+  public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
   protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
   protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT };
   protected String projectName = "SwaggerClient";
   protected boolean unwrapRequired;
+  protected boolean swiftUseApiNamespace;
   protected String[] responseAs = new String[0];
   protected String sourceFolder = "Classes" + File.separator + "Swaggers";
   private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");
@@ -143,6 +145,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     cliOptions.add(new CliOption(POD_DESCRIPTION, "Description used for Podspec"));
     cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
     cliOptions.add(new CliOption(POD_DOCUMENTATION_URL, "Documentation URL used for Podspec"));
+    cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE, "Flag to make all the API classes inner-class of {{projectName}}API"));
   }
 
   @Override
@@ -176,6 +179,12 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
       additionalProperties.put("usePromiseKit", true);
     }
+
+    // Setup swiftUseApiNamespace option, which makes all the API classes inner-class of {{projectName}}API
+    if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
+      swiftUseApiNamespace = Boolean.parseBoolean(String.valueOf(additionalProperties.get(SWIFT_USE_API_NAMESPACE)));
+    }
+    additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
 
     supportingFiles.add(new SupportingFile("Podspec.mustache", "", projectName + ".podspec"));
     supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
