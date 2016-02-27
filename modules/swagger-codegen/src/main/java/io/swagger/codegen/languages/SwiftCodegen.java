@@ -319,7 +319,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     // camelize the variable name
-    // pet_id => PetId
+    // pet_id => petId
     name = camelize(name, true);
 
     // for reserved word or word starting with number, append _
