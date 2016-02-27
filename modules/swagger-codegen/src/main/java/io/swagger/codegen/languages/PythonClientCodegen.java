@@ -212,7 +212,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(modelNamePrefix + name + modelNameSuffix); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
@@ -234,6 +234,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (isReservedWord(name)) {
             LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + underscore(dropDots("object_" + name)));
             name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
+        }
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
         }
 
         // underscore the model file name
