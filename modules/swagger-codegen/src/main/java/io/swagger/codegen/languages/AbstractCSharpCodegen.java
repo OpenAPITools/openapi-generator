@@ -47,9 +47,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variable names in API methods (endpoints)
-                        "path_", "pathParams", "queryParams", "headerParams", "formParams", "fileParams",
-                        "postBody", "http_header_accepts", "http_header_accept", "apiKeyValue", "response",
-                        "statusCode",
+                        "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams", 
+                        "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
+                        "localVarPostBody", "localVarHttpHeaderAccepts", "localVarHttpHeaderAccept",
+                        "localVarHttpContentTypes", "localVarHttpContentType",
+                        "localVarStatusCode",
                         // C# reserved words
                         "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked",
                         "class", "const", "continue", "decimal", "default", "delegate", "do", "double", "else",
