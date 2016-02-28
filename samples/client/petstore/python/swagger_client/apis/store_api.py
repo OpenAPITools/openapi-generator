@@ -81,8 +81,6 @@ class StoreApi(object):
 
 
         resource_path = '/store/findByStatus'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -109,7 +107,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = ['test_api_client_id', 'test_api_client_secret']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -156,8 +154,6 @@ class StoreApi(object):
 
 
         resource_path = '/store/inventory'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -182,7 +178,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = ['api_key']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -230,8 +226,6 @@ class StoreApi(object):
 
 
         resource_path = '/store/order'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
@@ -258,7 +252,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = ['test_api_client_id', 'test_api_client_secret']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -309,8 +303,6 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")
 
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
         if 'order_id' in params:
             path_params['orderId'] = params['order_id']
@@ -337,7 +329,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = ['test_api_key_header', 'test_api_key_query']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -388,8 +380,6 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")
 
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
-        method = 'DELETE'
-
         path_params = {}
         if 'order_id' in params:
             path_params['orderId'] = params['order_id']
@@ -416,7 +406,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
                                             query_params,
                                             header_params,

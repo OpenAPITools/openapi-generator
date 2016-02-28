@@ -97,8 +97,6 @@ class {{classname}}(object):
 {{/allParams}}
 
         resource_path = '{{path}}'.replace('{format}', 'json')
-        method = '{{httpMethod}}'
-
         path_params = {}
 {{#pathParams}}
         if '{{paramName}}' in params:
@@ -143,7 +141,7 @@ class {{classname}}(object):
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, '{{httpMethod}}',
                                             path_params,
                                             query_params,
                                             header_params,

@@ -81,8 +81,6 @@ class UserApi(object):
 
 
         resource_path = '/user'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
@@ -109,7 +107,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -157,8 +155,6 @@ class UserApi(object):
 
 
         resource_path = '/user/createWithArray'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
@@ -185,7 +181,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -233,8 +229,6 @@ class UserApi(object):
 
 
         resource_path = '/user/createWithList'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
@@ -261,7 +255,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -310,8 +304,6 @@ class UserApi(object):
 
 
         resource_path = '/user/login'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -340,7 +332,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -387,8 +379,6 @@ class UserApi(object):
 
 
         resource_path = '/user/logout'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -413,7 +403,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -464,8 +454,6 @@ class UserApi(object):
             raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")
 
         resource_path = '/user/{username}'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
         if 'username' in params:
             path_params['username'] = params['username']
@@ -492,7 +480,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -544,8 +532,6 @@ class UserApi(object):
             raise ValueError("Missing the required parameter `username` when calling `update_user`")
 
         resource_path = '/user/{username}'.replace('{format}', 'json')
-        method = 'PUT'
-
         path_params = {}
         if 'username' in params:
             path_params['username'] = params['username']
@@ -574,7 +560,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'PUT',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -625,8 +611,6 @@ class UserApi(object):
             raise ValueError("Missing the required parameter `username` when calling `delete_user`")
 
         resource_path = '/user/{username}'.replace('{format}', 'json')
-        method = 'DELETE'
-
         path_params = {}
         if 'username' in params:
             path_params['username'] = params['username']
@@ -653,7 +637,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
                                             query_params,
                                             header_params,
