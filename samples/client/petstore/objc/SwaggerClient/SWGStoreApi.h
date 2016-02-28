@@ -21,6 +21,19 @@
 +(SWGStoreApi*) sharedAPI;
 ///
 ///
+/// Finds orders by status
+/// A single status value can be provided as a string
+///
+/// @param status Status value that needs to be considered for query
+/// 
+///
+/// @return NSArray<SWGOrder>*
+-(NSNumber*) findOrdersByStatusWithStatus: (NSString*) status
+    completionHandler: (void (^)(NSArray<SWGOrder>* output, NSError* error)) handler;
+
+
+///
+///
 /// Returns pet inventories by status
 /// Returns a map of status codes to quantities
 ///

@@ -120,7 +120,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -131,7 +131,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -195,7 +195,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -206,7 +206,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -221,8 +221,8 @@ static SWGPetApi* singletonAPI = nil;
 
 ///
 /// Finds Pets by status
-/// Multiple status values can be provided with comma seperated strings
-///  @param status Status values that need to be considered for filter
+/// Multiple status values can be provided with comma separated strings
+///  @param status Status values that need to be considered for query
 ///
 ///  @returns NSArray<SWGPet>*
 ///
@@ -276,7 +276,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -287,7 +287,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -357,7 +357,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -368,7 +368,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -440,7 +440,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -451,7 +451,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -529,7 +529,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -552,7 +552,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -630,7 +630,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -641,7 +641,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -719,7 +719,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -729,7 +729,7 @@ static SWGPetApi* singletonAPI = nil;
     
     
     
-    files[@"file"] = file;
+    localVarFiles[@"file"] = file;
     
     
     
@@ -740,7 +740,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -812,7 +812,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -823,7 +823,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -887,7 +887,7 @@ static SWGPetApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -898,7 +898,7 @@ static SWGPetApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings

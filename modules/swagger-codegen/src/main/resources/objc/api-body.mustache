@@ -141,7 +141,7 @@ static {{classname}}* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     {{#bodyParam}}
     bodyParam = {{paramName}};
     {{/bodyParam}}{{^bodyParam}}
@@ -151,7 +151,7 @@ static {{classname}}* singletonAPI = nil;
         formParams[@"{{baseName}}"] = {{paramName}};
     }
     {{/notFile}}{{#isFile}}
-    files[@"{{paramName}}"] = {{paramName}};
+    localVarFiles[@"{{paramName}}"] = {{paramName}};
     {{/isFile}}
     {{/formParams}}
     {{/bodyParam}}
@@ -168,7 +168,7 @@ static {{classname}}* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings

@@ -98,7 +98,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                     // local variable names in API methods (endpoints)
                     "resourcePath", "pathParams", "queryParams", "headerParams",
                     "responseContentType", "requestContentType", "authSettings",
-                    "formParams", "files", "bodyParam",
+                    "formParams", "localVarFiles", "bodyParam",
                     // objc reserved words
                     "auto", "else", "long", "switch",
                     "break", "enum", "register", "typedef",
@@ -343,7 +343,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         // custom classes
         else {
-            return classPrefix + camelize(type);
+            if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix
+                type = type + "_" + modelNameSuffix;
+            }
+
+            if (!StringUtils.isEmpty(modelNamePrefix)) { // set model prefix
+                type = modelNamePrefix + "_" + type;
+            }
+
+            return classPrefix + camelize(type); // add class prefix
         }
     }
 
