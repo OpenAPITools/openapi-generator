@@ -36,6 +36,7 @@ Code change should conform to the programming style guide of the respective lang
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
 - Python: https://www.python.org/dev/peps/pep-0008/
 - Ruby: https://github.com/bbatsov/ruby-style-guide
+- Swift: https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
 
 
