@@ -478,62 +478,62 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user";
+            var localVarPath = "/user";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
             
             if (body.GetType() != typeof(byte[]))
             {
-                postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                postBody = body; // byte array
+                localVarPostBody = body; // byte array
             }
 
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.POST, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling CreateUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling CreateUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
@@ -560,56 +560,62 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user";
+            var localVarPath = "/user";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
             
-            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            
+            if (body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
 
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.POST, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling CreateUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling CreateUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
         
@@ -634,62 +640,62 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/createWithArray";
+            var localVarPath = "/user/createWithArray";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
             
             if (body.GetType() != typeof(byte[]))
             {
-                postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                postBody = body; // byte array
+                localVarPostBody = body; // byte array
             }
 
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.POST, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
@@ -716,56 +722,62 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/createWithArray";
+            var localVarPath = "/user/createWithArray";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
             
-            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            
+            if (body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
 
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.POST, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithArrayInput: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
         
@@ -790,62 +802,62 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/createWithList";
+            var localVarPath = "/user/createWithList";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
             
             if (body.GetType() != typeof(byte[]))
             {
-                postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                postBody = body; // byte array
+                localVarPostBody = body; // byte array
             }
 
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.POST, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
@@ -872,56 +884,62 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/createWithList";
+            var localVarPath = "/user/createWithList";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
             
-            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            
+            if (body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
 
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.POST, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling CreateUsersWithListInput: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
         
@@ -934,8 +952,8 @@ namespace IO.Swagger.Api
         /// <returns>string</returns>
         public string LoginUser (string username = null, string password = null)
         {
-             ApiResponse<string> response = LoginUserWithHttpInfo(username, password);
-             return response.Data;
+             ApiResponse<string> localVarResponse = LoginUserWithHttpInfo(username, password);
+             return localVarResponse.Data;
         }
 
         /// <summary>
@@ -949,35 +967,35 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/login";
+            var localVarPath = "/user/login";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
-            if (username != null) queryParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // query parameter
-            if (password != null) queryParams.Add("password", Configuration.ApiClient.ParameterToString(password)); // query parameter
+            if (username != null) localVarQueryParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // query parameter
+            if (password != null) localVarQueryParams.Add("password", Configuration.ApiClient.ParameterToString(password)); // query parameter
             
             
             
@@ -986,20 +1004,20 @@ namespace IO.Swagger.Api
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.GET, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling LoginUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling LoginUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
-            return new ApiResponse<string>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (string) Configuration.ApiClient.Deserialize(response, typeof(string)));
+            return new ApiResponse<string>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (string) Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
             
         }
 
@@ -1013,8 +1031,8 @@ namespace IO.Swagger.Api
         /// <returns>Task of string</returns>
         public async System.Threading.Tasks.Task<string> LoginUserAsync (string username = null, string password = null)
         {
-             ApiResponse<string> response = await LoginUserAsyncWithHttpInfo(username, password);
-             return response.Data;
+             ApiResponse<string> localVarResponse = await LoginUserAsyncWithHttpInfo(username, password);
+             return localVarResponse.Data;
 
         }
 
@@ -1029,35 +1047,35 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/login";
+            var localVarPath = "/user/login";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
-            if (username != null) queryParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // query parameter
-            if (password != null) queryParams.Add("password", Configuration.ApiClient.ParameterToString(password)); // query parameter
+            if (username != null) localVarQueryParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // query parameter
+            if (password != null) localVarQueryParams.Add("password", Configuration.ApiClient.ParameterToString(password)); // query parameter
             
             
             
@@ -1066,20 +1084,20 @@ namespace IO.Swagger.Api
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.GET, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling LoginUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling LoginUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
-            return new ApiResponse<string>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (string) Configuration.ApiClient.Deserialize(response, typeof(string)));
+            return new ApiResponse<string>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (string) Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
             
         }
         
@@ -1102,32 +1120,32 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/logout";
+            var localVarPath = "/user/logout";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
@@ -1137,20 +1155,20 @@ namespace IO.Swagger.Api
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.GET, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
@@ -1175,32 +1193,32 @@ namespace IO.Swagger.Api
         {
             
     
-            var path_ = "/user/logout";
+            var localVarPath = "/user/logout";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
+            localVarPathParams.Add("format", "json");
             
             
             
@@ -1210,20 +1228,20 @@ namespace IO.Swagger.Api
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.GET, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling LogoutUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
         
@@ -1235,8 +1253,8 @@ namespace IO.Swagger.Api
         /// <returns>User</returns>
         public User GetUserByName (string username)
         {
-             ApiResponse<User> response = GetUserByNameWithHttpInfo(username);
-             return response.Data;
+             ApiResponse<User> localVarResponse = GetUserByNameWithHttpInfo(username);
+             return localVarResponse.Data;
         }
 
         /// <summary>
@@ -1253,33 +1271,33 @@ namespace IO.Swagger.Api
                 throw new ApiException(400, "Missing required parameter 'username' when calling UserApi->GetUserByName");
             
     
-            var path_ = "/user/{username}";
+            var localVarPath = "/user/{username}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (username != null) pathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (username != null) localVarPathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
             
             
             
@@ -1289,20 +1307,20 @@ namespace IO.Swagger.Api
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.GET, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
-            return new ApiResponse<User>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (User) Configuration.ApiClient.Deserialize(response, typeof(User)));
+            return new ApiResponse<User>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (User) Configuration.ApiClient.Deserialize(localVarResponse, typeof(User)));
             
         }
 
@@ -1315,8 +1333,8 @@ namespace IO.Swagger.Api
         /// <returns>Task of User</returns>
         public async System.Threading.Tasks.Task<User> GetUserByNameAsync (string username)
         {
-             ApiResponse<User> response = await GetUserByNameAsyncWithHttpInfo(username);
-             return response.Data;
+             ApiResponse<User> localVarResponse = await GetUserByNameAsyncWithHttpInfo(username);
+             return localVarResponse.Data;
 
         }
 
@@ -1332,33 +1350,33 @@ namespace IO.Swagger.Api
             if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling GetUserByName");
             
     
-            var path_ = "/user/{username}";
+            var localVarPath = "/user/{username}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (username != null) pathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (username != null) localVarPathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
             
             
             
@@ -1368,20 +1386,20 @@ namespace IO.Swagger.Api
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.GET, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetUserByName: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
-            return new ApiResponse<User>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (User) Configuration.ApiClient.Deserialize(response, typeof(User)));
+            return new ApiResponse<User>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (User) Configuration.ApiClient.Deserialize(localVarResponse, typeof(User)));
             
         }
         
@@ -1412,63 +1430,63 @@ namespace IO.Swagger.Api
                 throw new ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
             
     
-            var path_ = "/user/{username}";
+            var localVarPath = "/user/{username}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (username != null) pathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (username != null) localVarPathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
             
             
             
             
             if (body.GetType() != typeof(byte[]))
             {
-                postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                postBody = body; // byte array
+                localVarPostBody = body; // byte array
             }
 
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.PUT, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
@@ -1499,57 +1517,63 @@ namespace IO.Swagger.Api
             if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling UpdateUser");
             
     
-            var path_ = "/user/{username}";
+            var localVarPath = "/user/{username}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (username != null) pathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (username != null) localVarPathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
             
             
             
             
-            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            
+            if (body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
 
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.PUT, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling UpdateUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
         
@@ -1578,33 +1602,33 @@ namespace IO.Swagger.Api
                 throw new ApiException(400, "Missing required parameter 'username' when calling UserApi->DeleteUser");
             
     
-            var path_ = "/user/{username}";
+            var localVarPath = "/user/{username}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (username != null) pathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (username != null) localVarPathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
             
             
             
@@ -1614,20 +1638,20 @@ namespace IO.Swagger.Api
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, 
-                Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams,
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
@@ -1656,33 +1680,33 @@ namespace IO.Swagger.Api
             if (username == null) throw new ApiException(400, "Missing required parameter 'username' when calling DeleteUser");
             
     
-            var path_ = "/user/{username}";
+            var localVarPath = "/user/{username}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            Object postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
 
             // to determine the Content-Type header
-            String[] httpContentTypes = new String[] {
+            String[] localVarHttpContentTypes = new String[] {
                 
             };
-            String httpContentType = Configuration.ApiClient.SelectHeaderContentType(httpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] httpHeaderAccepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String httpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(httpHeaderAccepts);
-            if (httpHeaderAccept != null)
-                headerParams.Add("Accept", httpHeaderAccept);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (username != null) pathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (username != null) localVarPathParams.Add("username", Configuration.ApiClient.ParameterToString(username)); // path parameter
             
             
             
@@ -1692,20 +1716,20 @@ namespace IO.Swagger.Api
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, 
-                Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, 
-                pathParams, httpContentType);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling DeleteUser: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
         
