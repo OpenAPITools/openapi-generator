@@ -81,8 +81,6 @@ class PetApi(object):
 
 
         resource_path = '/pet'.replace('{format}', 'json')
-        method = 'PUT'
-
         path_params = {}
 
         query_params = {}
@@ -109,7 +107,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'PUT',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -157,8 +155,6 @@ class PetApi(object):
 
 
         resource_path = '/pet'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
@@ -185,7 +181,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -233,8 +229,6 @@ class PetApi(object):
 
 
         resource_path = '/pet/findByStatus'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -261,7 +255,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -309,8 +303,6 @@ class PetApi(object):
 
 
         resource_path = '/pet/findByTags'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -337,7 +329,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -388,8 +380,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -416,7 +406,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['api_key', 'petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -469,8 +459,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -501,7 +489,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -553,8 +541,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
-        method = 'DELETE'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -583,7 +569,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -636,8 +622,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
 
         resource_path = '/pet/{petId}/uploadImage'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -668,7 +652,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -719,8 +703,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `pet_pet_idtesting_byte_arraytrue_get`")
 
         resource_path = '/pet/{petId}?testing_byte_array=true'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -747,7 +729,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['api_key', 'petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -795,8 +777,6 @@ class PetApi(object):
 
 
         resource_path = '/pet?testing_byte_array=true'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
@@ -823,7 +803,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
