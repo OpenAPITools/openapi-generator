@@ -70,6 +70,85 @@ static SWGStoreApi* singletonAPI = nil;
 #pragma mark - Api Methods
 
 ///
+/// Finds orders by status
+/// A single status value can be provided as a string
+///  @param status Status value that needs to be considered for query
+///
+///  @returns NSArray<SWGOrder>*
+///
+-(NSNumber*) findOrdersByStatusWithStatus: (NSString*) status
+    completionHandler: (void (^)(NSArray<SWGOrder>* output, NSError* error)) handler {
+
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/findByStatus"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if (status != nil) {
+        
+        queryParams[@"status"] = status;
+    }
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"test_api_client_id", @"test_api_client_secret"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSArray<SWGOrder>*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSArray<SWGOrder>*)data, error);
+                           }
+          ];
+}
+
+///
 /// Returns pet inventories by status
 /// Returns a map of status codes to quantities
 ///  @returns NSDictionary* /* NSString, NSNumber */
@@ -118,7 +197,7 @@ static SWGStoreApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -129,7 +208,7 @@ static SWGStoreApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -193,7 +272,7 @@ static SWGStoreApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -204,7 +283,7 @@ static SWGStoreApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -276,7 +355,7 @@ static SWGStoreApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -287,7 +366,7 @@ static SWGStoreApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -359,7 +438,7 @@ static SWGStoreApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -370,7 +449,7 @@ static SWGStoreApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings

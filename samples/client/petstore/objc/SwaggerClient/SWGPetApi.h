@@ -48,9 +48,9 @@
 ///
 ///
 /// Finds Pets by status
-/// Multiple status values can be provided with comma seperated strings
+/// Multiple status values can be provided with comma separated strings
 ///
-/// @param status Status values that need to be considered for filter
+/// @param status Status values that need to be considered for query
 /// 
 ///
 /// @return NSArray<SWGPet>*
