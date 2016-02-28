@@ -59,8 +59,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable name used in API methods (endpoints)
-                    "all_params", "resource_path", "method", "path_params", "query_params",
-                    "header_params", "form_params", "files", "body_params",  "auth_settings",
+                    "all_params", "resource_path", "path_params", "query_params",
+                    "header_params", "form_params", "local_var_files", "body_params",  "auth_settings",
                     // python reserved words
                     "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                     "assert", "else", "if", "pass", "yield", "break", "except", "import",

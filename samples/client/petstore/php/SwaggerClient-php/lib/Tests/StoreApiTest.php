@@ -66,6 +66,16 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
 
     
     /**
+     * Test case for findOrdersByStatus
+     *
+     * Finds orders by status
+     *
+     */
+    public function test_findOrdersByStatus() {
+
+    }
+    
+    /**
      * Test case for getInventory
      *
      * Returns pet inventories by status

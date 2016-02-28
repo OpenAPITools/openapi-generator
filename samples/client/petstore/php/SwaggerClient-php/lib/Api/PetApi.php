@@ -264,7 +264,7 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param string[] $status Status values that need to be considered for filter (optional)
+     * @param string[] $status Status values that need to be considered for query (optional)
      * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -280,7 +280,7 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param string[] $status Status values that need to be considered for filter (optional)
+     * @param string[] $status Status values that need to be considered for query (optional)
      * @return Array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */

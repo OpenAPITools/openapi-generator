@@ -47,7 +47,7 @@ module {{moduleName}}
       end
       {{/isEnum}}{{/required}}{{/allParams}}
       # resource path
-      path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
+      local_var_path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
       # query parameters
       query_params = {}{{#queryParams}}{{#required}}
@@ -77,7 +77,7 @@ module {{moduleName}}
       {{/bodyParam}}{{#bodyParam}}post_body = @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
       {{/bodyParam}}
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, path,
+      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
