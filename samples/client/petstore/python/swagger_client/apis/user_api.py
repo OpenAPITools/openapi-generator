@@ -90,7 +90,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
         if 'body' in params:
@@ -115,7 +115,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -166,7 +166,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
         if 'body' in params:
@@ -191,7 +191,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -242,7 +242,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
         if 'body' in params:
@@ -267,7 +267,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -323,7 +323,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
 
@@ -346,7 +346,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='str',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -396,7 +396,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
 
@@ -419,7 +419,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -475,7 +475,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
 
@@ -498,7 +498,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='User',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -555,7 +555,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
         if 'body' in params:
@@ -580,7 +580,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -636,7 +636,7 @@ class UserApi(object):
         header_params = {}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 
         body_params = None
 
@@ -659,7 +659,7 @@ class UserApi(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))

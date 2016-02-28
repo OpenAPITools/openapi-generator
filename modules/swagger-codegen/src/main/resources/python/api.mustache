@@ -118,10 +118,10 @@ class {{classname}}(object):
 {{/headerParams}}
 
         form_params = []
-        files = {}
+        local_var_files = {}
 {{#formParams}}
         if '{{paramName}}' in params:
-            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
 {{/formParams}}
 
         body_params = None
@@ -149,7 +149,7 @@ class {{classname}}(object):
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))

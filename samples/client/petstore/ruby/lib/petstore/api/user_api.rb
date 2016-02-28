@@ -45,7 +45,7 @@ module Petstore
       end
       
       # resource path
-      path = "/user".sub('{format}','json')
+      local_var_path = "/user".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -68,7 +68,7 @@ module Petstore
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:POST, path,
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -101,7 +101,7 @@ module Petstore
       end
       
       # resource path
-      path = "/user/createWithArray".sub('{format}','json')
+      local_var_path = "/user/createWithArray".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -124,7 +124,7 @@ module Petstore
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:POST, path,
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -157,7 +157,7 @@ module Petstore
       end
       
       # resource path
-      path = "/user/createWithList".sub('{format}','json')
+      local_var_path = "/user/createWithList".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -180,7 +180,7 @@ module Petstore
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:POST, path,
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -215,7 +215,7 @@ module Petstore
       end
       
       # resource path
-      path = "/user/login".sub('{format}','json')
+      local_var_path = "/user/login".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -240,7 +240,7 @@ module Petstore
       post_body = nil
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:GET, path,
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -272,7 +272,7 @@ module Petstore
       end
       
       # resource path
-      path = "/user/logout".sub('{format}','json')
+      local_var_path = "/user/logout".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -295,7 +295,7 @@ module Petstore
       post_body = nil
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:GET, path,
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -331,7 +331,7 @@ module Petstore
       fail "Missing the required parameter 'username' when calling get_user_by_name" if username.nil?
       
       # resource path
-      path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+      local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
       # query parameters
       query_params = {}
@@ -354,7 +354,7 @@ module Petstore
       post_body = nil
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:GET, path,
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -393,7 +393,7 @@ module Petstore
       fail "Missing the required parameter 'username' when calling update_user" if username.nil?
       
       # resource path
-      path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+      local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
       # query parameters
       query_params = {}
@@ -416,7 +416,7 @@ module Petstore
       post_body = @api_client.object_to_http_body(opts[:'body'])
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:PUT, path,
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -452,7 +452,7 @@ module Petstore
       fail "Missing the required parameter 'username' when calling delete_user" if username.nil?
       
       # resource path
-      path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+      local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
       # query parameters
       query_params = {}
@@ -475,7 +475,7 @@ module Petstore
       post_body = nil
       
       auth_names = []
-      data, status_code, headers = @api_client.call_api(:DELETE, path,
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,

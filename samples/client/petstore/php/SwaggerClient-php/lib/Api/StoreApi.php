@@ -92,6 +92,107 @@ class StoreApi
   
     
     /**
+     * findOrdersByStatus
+     *
+     * Finds orders by status
+     *
+     * @param string $status Status value that needs to be considered for query (optional)
+     * @return \Swagger\Client\Model\Order[]
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function findOrdersByStatus($status = null)
+    {
+        list($response, $statusCode, $httpHeader) = $this->findOrdersByStatusWithHttpInfo ($status);
+        return $response; 
+    }
+
+
+    /**
+     * findOrdersByStatusWithHttpInfo
+     *
+     * Finds orders by status
+     *
+     * @param string $status Status value that needs to be considered for query (optional)
+     * @return Array of \Swagger\Client\Model\Order[], HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function findOrdersByStatusWithHttpInfo($status = null)
+    {
+        
+  
+        // parse inputs
+        $resourcePath = "/store/findByStatus";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        // query params
+        
+        if ($status !== null) {
+            $queryParams['status'] = $this->apiClient->getSerializer()->toQueryValue($status);
+        }
+        
+        
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_id');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['x-test_api_client_id'] = $apiKey;
+        }
+        
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_secret');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['x-test_api_client_secret'] = $apiKey;
+        }
+        
+        
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'GET',
+                $queryParams, $httpBody,
+                $headerParams, '\Swagger\Client\Model\Order[]'
+            );
+            
+            if (!$response) {
+                return array(null, $statusCode, $httpHeader);
+            }
+
+            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\Order[]', $httpHeader), $statusCode, $httpHeader);
+            
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            case 200:
+                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order[]', $e->getResponseHeaders());
+                $e->setResponseObject($data);
+                break;
+            }
+  
+            throw $e;
+        }
+    }
+    
+    /**
      * getInventory
      *
      * Returns pet inventories by status

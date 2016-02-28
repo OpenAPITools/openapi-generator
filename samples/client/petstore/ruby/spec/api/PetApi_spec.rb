@@ -70,9 +70,9 @@ describe 'PetApi' do
 
   # unit tests for find_pets_by_status
   # Finds Pets by status
-  # Multiple status values can be provided with comma seperated strings
+  # Multiple status values can be provided with comma separated strings
   # @param [Hash] opts the optional parameters
-  # @option opts [Array<String>] :status Status values that need to be considered for filter
+  # @option opts [Array<String>] :status Status values that need to be considered for query
   # @return [Array<Pet>]
   describe 'find_pets_by_status test' do
     it "should work" do
