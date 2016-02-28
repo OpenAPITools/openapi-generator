@@ -38,7 +38,8 @@ public class PhpModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
-        Assert.assertEquals(cm.imports.size(), 1);
+        // {{imports}} is not used in template
+        //Assert.assertEquals(cm.imports.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -198,7 +199,8 @@ public class PhpModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        // {{imports}} is not used in template
+        //Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
@@ -239,8 +241,9 @@ public class PhpModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.imports.size(), 2);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        // {{imports}} is not used in template
+        //Assert.assertEquals(cm.imports.size(), 2);
+        //Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
     @DataProvider(name = "modelNames")

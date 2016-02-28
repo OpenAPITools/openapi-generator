@@ -370,6 +370,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
         }
 
+        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
+        if (!name.matches("^\\\\.*")) {
+            name = modelNamePrefix + name + modelNameSuffix;
+        }
+        
         // camelize the model name
         // phone_number => PhoneNumber
         return camelize(name);

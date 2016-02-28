@@ -574,7 +574,7 @@ sub delete_pet {
 # 
 # @param int $pet_id ID of pet to update (required)
 # @param string $additional_metadata Additional data to pass to server (optional)
-# @param file $file file to upload (optional)
+# @param File $file file to upload (optional)
 {
     my $params = {
     'pet_id' => {
@@ -588,7 +588,7 @@ sub delete_pet {
         required => '0',
     },
     'file' => {
-        data_type => 'file',
+        data_type => 'File',
         description => 'file to upload',
         required => '0',
     },
@@ -667,10 +667,10 @@ sub upload_file {
 #
 # Fake endpoint to test byte array return by 'Find pet by ID'
 # 
-# @param int $package ID of pet that needs to be fetched (required)
+# @param int $pet_id ID of pet that needs to be fetched (required)
 {
     my $params = {
-    'package' => {
+    'pet_id' => {
         data_type => 'int',
         description => 'ID of pet that needs to be fetched',
         required => '1',
@@ -688,9 +688,9 @@ sub pet_pet_idtesting_byte_arraytrue_get {
     my ($self, %args) = @_;
 
     
-    # verify the required parameter 'package' is set
-    unless (exists $args{'package'}) {
-      croak("Missing the required parameter 'package' when calling pet_pet_idtesting_byte_arraytrue_get");
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling pet_pet_idtesting_byte_arraytrue_get");
     }
     
 
@@ -713,9 +713,9 @@ sub pet_pet_idtesting_byte_arraytrue_get {
     
     
     # path params
-    if ( exists $args{'package'}) {
-        my $_base_variable = "{" . "package" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'package'});
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
     
