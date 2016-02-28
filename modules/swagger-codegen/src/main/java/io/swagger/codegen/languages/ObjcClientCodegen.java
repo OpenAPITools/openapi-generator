@@ -98,7 +98,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                     // local variable names in API methods (endpoints)
                     "resourcePath", "pathParams", "queryParams", "headerParams",
                     "responseContentType", "requestContentType", "authSettings",
-                    "formParams", "files", "bodyParam",
+                    "formParams", "localVarFiles", "bodyParam",
                     // objc reserved words
                     "auto", "else", "long", "switch",
                     "break", "enum", "register", "typedef",

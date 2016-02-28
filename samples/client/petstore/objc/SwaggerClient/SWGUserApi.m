@@ -120,7 +120,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -131,7 +131,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -195,7 +195,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -206,7 +206,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -270,7 +270,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -281,7 +281,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -356,7 +356,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -367,7 +367,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -429,7 +429,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -440,7 +440,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -512,7 +512,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -523,7 +523,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -598,7 +598,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
@@ -609,7 +609,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -681,7 +681,7 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
@@ -692,7 +692,7 @@ static SWGUserApi* singletonAPI = nil;
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
