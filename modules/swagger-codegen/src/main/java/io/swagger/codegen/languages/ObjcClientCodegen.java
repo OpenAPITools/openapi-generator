@@ -343,7 +343,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         // custom classes
         else {
-            return classPrefix + camelize(type);
+            if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix
+                type = type + "_" + modelNameSuffix;
+            }
+
+            if (!StringUtils.isEmpty(modelNamePrefix)) { // set model prefix
+                type = modelNamePrefix + "_" + type;
+            }
+
+            return classPrefix + camelize(type); // add class prefix
         }
     }
 
