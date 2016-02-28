@@ -47,6 +47,19 @@ namespace IO.Swagger.Test
 
         
         /// <summary>
+        /// Test FindOrdersByStatus
+        /// </summary>
+        [Test]
+        public void FindOrdersByStatusTest()
+        {
+            // TODO: add unit test for the method 'FindOrdersByStatus'
+            string status = null; // TODO: replace null with proper value
+            
+            var response = instance.FindOrdersByStatus(status);
+            Assert.IsInstanceOf<List<Order>> (response, "response is List<Order>"); 
+        }
+        
+        /// <summary>
         /// Test GetInventory
         /// </summary>
         [Test]
