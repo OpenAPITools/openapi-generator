@@ -318,6 +318,53 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
+  public String toVarName(String name) {
+    // sanitize name
+    name = sanitizeName(name);
+
+    // if it's all uppper case, do nothing
+    if (name.matches("^[A-Z_]*$")) {
+        return name;
+    }
+
+    // camelize the variable name
+    // pet_id => petId
+    name = camelize(name, true);
+
+    // for reserved word or word starting with number, append _
+    if (isReservedWord(name) || name.matches("^\\d.*")) {
+        name = escapeReservedWord(name);
+    }
+
+    return name;
+  }
+
+  @Override
+  public String toParamName(String name) {
+    // sanitize name
+    name = sanitizeName(name);
+
+    // replace - with _ e.g. created-at => created_at
+    name = name.replaceAll("-", "_");
+
+    // if it's all uppper case, do nothing
+    if (name.matches("^[A-Z_]*$")) {
+        return name;
+    }
+
+    // camelize(lower) the variable name
+    // pet_id => petId
+    name = camelize(name, true);
+
+    // for reserved word or word starting with number, append _
+    if (isReservedWord(name) || name.matches("^\\d.*")) {
+        name = escapeReservedWord(name);
+    }
+
+    return name;
+  }
+
+  @Override
   public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
     path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
     List<Parameter> parameters = operation.getParameters();
