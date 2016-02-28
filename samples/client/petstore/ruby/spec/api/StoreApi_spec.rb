@@ -36,6 +36,22 @@ describe 'StoreApi' do
     end
   end
 
+  # unit tests for find_orders_by_status
+  # Finds orders by status
+  # A single status value can be provided as a string
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :status Status value that needs to be considered for query
+  # @return [Array<Order>]
+  describe 'find_orders_by_status test' do
+    it "should work" do
+      # assertion here
+      # should be_a()
+      # should be_nil
+      # should ==
+      # should_not ==
+    end
+  end
+
   # unit tests for get_inventory
   # Returns pet inventories by status
   # Returns a map of status codes to quantities

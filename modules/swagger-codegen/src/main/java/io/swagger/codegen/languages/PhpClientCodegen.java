@@ -52,7 +52,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variables used in api methods (endpoints)
-                    "resourcePath", "method", "httpBody", "queryParams", "headerParams",
+                    "resourcePath", "httpBody", "queryParams", "headerParams",
                     "formParams", "_header_accept", "_tempBody",
 
                     // PHP reserved words

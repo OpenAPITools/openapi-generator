@@ -61,7 +61,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
-                    "path", "query_params", "header_params", "_header_accept", "_header_accept_result",
+                    "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
                     "_header_content_type", "form_params", "post_body", "auth_names",
                     // ruby reserved keywords
                     "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
