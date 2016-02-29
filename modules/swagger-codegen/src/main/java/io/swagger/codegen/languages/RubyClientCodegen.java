@@ -71,11 +71,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.clear();
         languageSpecificPrimitives.clear();
 
+        // primitives in ruby lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("array");
         languageSpecificPrimitives.add("map");
         languageSpecificPrimitives.add("string");
-        languageSpecificPrimitives.add("DateTime");
         // primitives in the typeMapping
         languageSpecificPrimitives.add("String");
         languageSpecificPrimitives.add("Integer");
@@ -85,6 +85,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("BOOLEAN");
         languageSpecificPrimitives.add("Array");
         languageSpecificPrimitives.add("Hash");
+        languageSpecificPrimitives.add("File");
 
         typeMapping.put("string", "String");
         typeMapping.put("char", "String");
@@ -326,7 +327,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
+            if (languageSpecificPrimitives.contains(type)) { 
                 return type;
             }
         } else {
