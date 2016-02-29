@@ -32,13 +32,13 @@ namespace API.Client {
          * @param body Created user object
          */
         public createUser (body?: User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const path = this.basePath + '/user';
+            const localVarPath = this.basePath + '/user';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
                 method: 'POST',
-                url: path,
+                url: localVarPath,
                 json: true,
                 data: body,
                 
@@ -59,13 +59,13 @@ namespace API.Client {
          * @param body List of user object
          */
         public createUsersWithArrayInput (body?: Array<User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const path = this.basePath + '/user/createWithArray';
+            const localVarPath = this.basePath + '/user/createWithArray';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
                 method: 'POST',
-                url: path,
+                url: localVarPath,
                 json: true,
                 data: body,
                 
@@ -86,13 +86,13 @@ namespace API.Client {
          * @param body List of user object
          */
         public createUsersWithListInput (body?: Array<User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const path = this.basePath + '/user/createWithList';
+            const localVarPath = this.basePath + '/user/createWithList';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
                 method: 'POST',
-                url: path,
+                url: localVarPath,
                 json: true,
                 data: body,
                 
@@ -114,7 +114,7 @@ namespace API.Client {
          * @param password The password for login in clear text
          */
         public loginUser (username?: string, password?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<string> {
-            const path = this.basePath + '/user/login';
+            const localVarPath = this.basePath + '/user/login';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -128,7 +128,7 @@ namespace API.Client {
 
             let httpRequestParams: any = {
                 method: 'GET',
-                url: path,
+                url: localVarPath,
                 json: true,
                 
                 
@@ -147,13 +147,13 @@ namespace API.Client {
          * 
          */
         public logoutUser (extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const path = this.basePath + '/user/logout';
+            const localVarPath = this.basePath + '/user/logout';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
                 method: 'GET',
-                url: path,
+                url: localVarPath,
                 json: true,
                 
                 
@@ -173,7 +173,7 @@ namespace API.Client {
          * @param username The name that needs to be fetched. Use user1 for testing.
          */
         public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<User> {
-            const path = this.basePath + '/user/{username}'
+            const localVarPath = this.basePath + '/user/{username}'
                 .replace('{' + 'username' + '}', String(username));
 
             let queryParameters: any = {};
@@ -184,7 +184,7 @@ namespace API.Client {
             }
             let httpRequestParams: any = {
                 method: 'GET',
-                url: path,
+                url: localVarPath,
                 json: true,
                 
                 
@@ -205,7 +205,7 @@ namespace API.Client {
          * @param body Updated user object
          */
         public updateUser (username: string, body?: User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const path = this.basePath + '/user/{username}'
+            const localVarPath = this.basePath + '/user/{username}'
                 .replace('{' + 'username' + '}', String(username));
 
             let queryParameters: any = {};
@@ -216,7 +216,7 @@ namespace API.Client {
             }
             let httpRequestParams: any = {
                 method: 'PUT',
-                url: path,
+                url: localVarPath,
                 json: true,
                 data: body,
                 
@@ -237,7 +237,7 @@ namespace API.Client {
          * @param username The name that needs to be deleted
          */
         public deleteUser (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const path = this.basePath + '/user/{username}'
+            const localVarPath = this.basePath + '/user/{username}'
                 .replace('{' + 'username' + '}', String(username));
 
             let queryParameters: any = {};
@@ -248,7 +248,7 @@ namespace API.Client {
             }
             let httpRequestParams: any = {
                 method: 'DELETE',
-                url: path,
+                url: localVarPath,
                 json: true,
                 
                 
