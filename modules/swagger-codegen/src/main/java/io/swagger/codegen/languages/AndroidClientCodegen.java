@@ -45,9 +45,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
-                    "postBody", "path", "queryParams", "headerParams", "formParams",
-                    "contentTypes", "contentType", "response", "builder", "httpEntity",
-                    "authNames", "basePath", "apiInvoker",
+                    "localVarPostBody", "localVarPath", "localVarQueryParams", "localVarHeaderParams",
+                    "localVarFormParams", "localVarContentTypes", "localVarContentType",
+                    "response", "builder", "authNames", "basePath", "apiInvoker",
 
                     // android reserved words
                     "abstract", "continue", "for", "new", "switch", "assert",
@@ -68,6 +68,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                         "Integer",
                         "Long",
                         "Float",
+                        "byte[]",
                         "Object")
         );
         instantiationTypes.put("array", "ArrayList");
@@ -141,8 +142,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
+            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
+                type.equals("Map") || type.equals("List")) {
+                return type;
             }
         } else {
             type = swaggerType;
