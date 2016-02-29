@@ -35,7 +35,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/scala";
     protected String authScheme = "";
-    protected boolean authPreemptive = false;
+    protected boolean authPreemptive;
     protected boolean asyncHttpClient = !authScheme.isEmpty();
 
     public ScalaClientCodegen() {
@@ -47,13 +47,18 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
-                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
-                        "false", "final", "finally", "for", "forSome", "if", "implicit",
-                        "import", "lazy", "match", "new", "null", "object", "override", "package",
-                        "private", "protected", "return", "sealed", "super", "this", "throw",
-                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
+                    // local variable names used in API methods (endpoints)
+                    "path", "contentTypes", "contentType", "queryParams", "headerParams",
+                    "formParams", "postBody", "mp", "basePath", "apiInvoker",
+
+                    // scala reserved words
+                    "abstract", "case", "catch", "class", "def", "do", "else", "extends",
+                    "false", "final", "finally", "for", "forSome", "if", "implicit",
+                    "import", "lazy", "match", "new", "null", "object", "override", "package",
+                    "private", "protected", "return", "sealed", "super", "this", "throw",
+                    "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -91,6 +96,9 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -112,14 +120,17 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "scala";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Scala client library.";
     }
@@ -134,6 +145,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
@@ -183,6 +195,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
             return "null";
@@ -222,7 +235,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 

@@ -178,7 +178,7 @@ SWGUserApi::loginUser(QString* username, QString* password) {
 
     
     
-    if(fullPath.indexOf("?") > 0) 
+    if (fullPath.indexOf("?") > 0) 
       fullPath.append("&");
     else 
       fullPath.append("?");
@@ -190,7 +190,7 @@ SWGUserApi::loginUser(QString* username, QString* password) {
     
     
     
-    if(fullPath.indexOf("?") > 0) 
+    if (fullPath.indexOf("?") > 0) 
       fullPath.append("&");
     else 
       fullPath.append("?");

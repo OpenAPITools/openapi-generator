@@ -1,4 +1,4 @@
-package WWW::{{moduleName}}::ApiFactory;
+package {{moduleName}}::ApiFactory;
 
 use strict;
 use warnings;
@@ -7,26 +7,26 @@ use utf8;
 use Carp;
 use Module::Find;
 
-usesub WWW::{{moduleName}}::Object;
+usesub {{moduleName}}::Object;
 
-use WWW::{{moduleName}}::ApiClient;
+use {{moduleName}}::ApiClient;
 
 =head1 Name
 
-	WWW::{{moduleName}}::ApiFactory - constructs APIs to retrieve {{moduleName}} objects
+	{{moduleName}}::ApiFactory - constructs APIs to retrieve {{moduleName}} objects
 
 =head1 Synopsis
 
 	package My::Petstore::App;
 	
-	use WWW::{{moduleName}}::ApiFactory;
+	use {{moduleName}}::ApiFactory;
 	
-	my $api_factory = WWW::{{moduleName}}::ApiFactory->new( ... ); # any args for ApiClient constructor
+	my $api_factory = {{moduleName}}::ApiFactory->new( ... ); # any args for ApiClient constructor
 							  
 	# later...
 	my $pet_api = $api_factory->get_api('Pet');  
 	
-	# $pet_api isa WWW::{{moduleName}}::PetApi
+	# $pet_api isa {{moduleName}}::PetApi
 	
 	my $pet = $pet_api->get_pet_by_id(pet_id => $pet_id);
 	
@@ -39,9 +39,9 @@ use WWW::{{moduleName}}::ApiClient;
 =cut
 
 # Load all the API classes and construct a lookup table at startup time
-my %_apis = map { $_ =~ /^WWW::{{moduleName}}::(.*)$/; $1 => $_ } 
+my %_apis = map { $_ =~ /^{{moduleName}}::(.*)$/; $1 => $_ } 
 			grep {$_ =~ /Api$/} 
-			usesub 'WWW::{{moduleName}}';
+			usesub '{{moduleName}}';
 
 =head1 new()
 	
@@ -54,7 +54,7 @@ my %_apis = map { $_ =~ /^WWW::{{moduleName}}::(.*)$/; $1 => $_ }
 
 sub new {
     my ($class, %p) = (shift, @_);
-	$p{api_client} = WWW::{{moduleName}}::ApiClient->instance(%p);			
+	$p{api_client} = {{moduleName}}::ApiClient->instance(%p);			
 	return bless \%p, $class;
 }
 
@@ -64,7 +64,7 @@ sub new {
 	
 	$which is a nickname for the class: 
 	
-		WWW::FooBarClient::BazApi has nickname 'Baz'
+		FooBarClient::BazApi has nickname 'Baz'
 		
 =cut
 

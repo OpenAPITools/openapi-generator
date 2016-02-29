@@ -1,0 +1,224 @@
+package {{package}};
+
+import {{invokerPackage}}.ApiInvoker;
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.Pair;
+
+import {{modelPackage}}.*;
+
+import java.util.*;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+
+{{#operations}}
+public class {{classname}} {
+  String basePath = "{{basePath}}";
+  ApiInvoker apiInvoker = ApiInvoker.getInstance();
+
+  public void addHeader(String key, String value) {
+    getInvoker().addDefaultHeader(key, value);
+  }
+
+  public ApiInvoker getInvoker() {
+    return apiInvoker;
+  }
+
+  public void setBasePath(String basePath) {
+    this.basePath = basePath;
+  }
+
+  public String getBasePath() {
+    return basePath;
+  }
+
+  {{#operation}}
+  /**
+  * {{summary}}
+  * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}}
+{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+  */
+  public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+  {{#allParams}}{{#required}}
+      // verify the required parameter '{{paramName}}' is set
+      if ({{paramName}} == null) {
+      VolleyError error = new VolleyError("Missing the required parameter '{{paramName}}' when calling {{nickname}}",
+      new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}"));
+      }
+  {{/required}}{{/allParams}}
+
+  // create path and map variables
+  String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  {{#queryParams}}
+          queryParams.addAll(ApiInvoker.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+  {{/queryParams}}
+
+  {{#headerParams}}
+          headerParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
+  {{/headerParams}}
+
+      String[] contentTypes = {
+  {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+  {{#formParams}}{{#notFile}}
+          if ({{paramName}} != null) {
+          builder.addTextBody("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), ApiInvoker.TEXT_PLAIN_UTF8);
+          }
+  {{/notFile}}{{#isFile}}
+          if ({{paramName}} != null) {
+          builder.addBinaryBody("{{baseName}}", {{paramName}});
+          }
+  {{/isFile}}{{/formParams}}
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));{{/notFile}}
+  {{/formParams}}
+      }
+
+      String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+
+      try {
+        String response = apiInvoker.invokeAPI (basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(response != null){
+           return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
+        } else {
+           return {{#returnType}}null{{/returnType}};
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}}{{/allParams}}
+  */
+  public void {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}final Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}String{{/returnType}}> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+
+  {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+       VolleyError error = new VolleyError("Missing the required parameter '{{paramName}}' when calling {{nickname}}",
+         new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}"));
+    }
+    {{/required}}{{/allParams}}
+
+    // create path and map variables
+    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    {{#queryParams}}
+    queryParams.addAll(ApiInvoker.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+    {{/queryParams}}
+
+    {{#headerParams}}
+    headerParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
+    {{/headerParams}}
+
+    String[] contentTypes = {
+      {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      {{#formParams}}{{#notFile}}
+      if ({{paramName}} != null) {
+        builder.addTextBody("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), ApiInvoker.TEXT_PLAIN_UTF8);
+      }
+      {{/notFile}}{{#isFile}}
+      if ({{paramName}} != null) {
+        builder.addBinaryBody("{{baseName}}", {{paramName}});
+      }
+      {{/isFile}}{{/formParams}}
+
+      HttpEntity httpEntity = builder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));{{/notFile}}
+      {{/formParams}}
+    }
+
+      String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String response) {
+            {{#returnType}}
+            try {
+              responseListener.onResponse(({{{returnType}}}) ApiInvoker.deserialize(response,  "{{returnContainer}}", {{returnBaseType}}.class));
+              {{/returnType}}
+              {{^returnType}}
+              responseListener.onResponse(response);
+              {{/returnType}}
+            {{#returnType}}
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+            {{/returnType}}
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  {{/operation}}
+}
+{{/operations}}

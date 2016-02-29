@@ -8,16 +8,21 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.util.Yaml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
-    protected String title = "Swagger Inflector";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+
+    protected String title = "Swagger Inflector";
+    protected String implFolder = "src/main/java";
     public JavaInflectorServerCodegen() {
         super();
 
-        sourceFolder = "src/main/java";
+        sourceFolder = "src/gen/java";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         embeddedTemplateDir = templateDir = "JavaInflector";
@@ -35,6 +40,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
+                        "byte[]",
                         "String",
                         "boolean",
                         "Boolean",
@@ -45,14 +51,17 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         );
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "inflector";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java Inflector Server application.";
     }
@@ -62,14 +71,16 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         super.processOpts();
 
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
-        supportingFiles.add(new SupportingFile("inflector.mustache", "", "inflector.yaml"));
+        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
+        writeOptional(outputFolder, new SupportingFile("inflector.mustache", "", "inflector.yaml"));
         supportingFiles.add(new SupportingFile("swagger.mustache",
                         "src/main/swagger",
                         "swagger.yaml")
         );
+        supportingFiles.add(new SupportingFile("StringUtil.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
     }
 
     @Override
@@ -116,21 +127,6 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            for (CodegenProperty var : cm.vars) {
-                // handle default value for enum, e.g. available => StatusEnum.available
-                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
-                    var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
-                }
-            }
-        }
-        return objs;
-    }
-
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -165,6 +161,18 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         return objs;
     }
 
+    public String apiFilename(String templateName, String tag) {
+        String result = super.apiFilename(templateName, tag);
+
+        if ( templateName.endsWith("api.mustache") ) {
+            int ix = result.indexOf(sourceFolder);
+            String beg = result.substring(0, ix);
+            String end = result.substring(ix + sourceFolder.length());
+            new java.io.File(beg + implFolder).mkdirs();
+            result = beg + implFolder + end;
+        }
+        return result;
+    }
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
@@ -173,7 +181,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return super.postProcessSupportingFileData(objs);
@@ -184,11 +192,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         if (name.length() == 0) {
             return "DefaultController";
         }
-        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
+        name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return camelize(name)+ "Controller";
-    }
-
-    public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename);
     }
 }

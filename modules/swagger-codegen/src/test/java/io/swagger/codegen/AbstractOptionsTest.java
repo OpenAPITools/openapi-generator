@@ -22,6 +22,7 @@ public abstract class AbstractOptionsTest {
         this.optionsProvider = optionsProvider;
     }
 
+    @SuppressWarnings("unused")
     @Test
     public void checkOptionsProcessing() {
         getCodegenConfig().additionalProperties().putAll(optionsProvider.createOptions());
@@ -49,8 +50,9 @@ public abstract class AbstractOptionsTest {
         }
     }
 
-    private Function<CliOption, String> getCliOptionTransformer() {
+    private static Function<CliOption, String> getCliOptionTransformer() {
         return new Function<CliOption, String>() {
+            @Override
             public String apply(CliOption option) {
                 return option.getOpt();
             }

@@ -1,48 +1,57 @@
-// require files in Node.js environment
-{{#imports}}
-var {{import}};{{/imports}}
-if (typeof module === 'object' && module.exports) {
-  {{#imports}}
-  {{import}} = require('./{{import}}.js');{{/imports}}
-}
-
-{{#models}}{{#model}}
-{{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-{{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
-
-//export module
-if ( typeof define === "function" && define.amd ) {
-  define('{{classname}}', ['jquery'{{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}'{{datatypeWithEnum}}'{{/isPrimitiveType}}{{/vars}}],
-    function(${{#vars}}{{^isPrimitiveType}}{{^-last}}, {{/-last}}{{datatypeWithEnum}}{{/isPrimitiveType}}{{/vars}}) {
-      return {{classname}};
-   });
-}
-
-{{#description}}/**
- * {{description}}
- **/{{/description}}
-var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/-last}}{{/mandatory}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
-  var self = this;
-  {{#vars}}
-  /**{{#description}}
-   * {{{description}}}{{/description}}
-   * datatype: {{{datatypeWithEnum}}}{{#required}}
-   * required{{/required}}{{#minimum}}
-   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-   * maximum: {{maximum}}{{/maximum}}
-   **/
-  self.{{name}} = {{#required}}{{name}}{{/required}}{{^required}}{{{defaultValue}}}{{/required}};
-  {{/vars}}
-  
-  self.constructFromObject = function(data) {
-    if (!data) {
-      return;
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([undefined, '../ApiClient'{{#imports}}, './{{import}}'{{/imports}}], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(undefined, require('../ApiClient'){{#imports}}, require('./{{import}}'){{/imports}});
+  } else {
+    // Browser globals (root is window)
+    if (!root.{{moduleName}}) {
+      root.{{moduleName}} = {};
     }
+    factory(root.{{moduleName}}, root.{{moduleName}}.ApiClient{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
+  }
+}(this, function(module, ApiClient{{#imports}}, {{import}}{{/imports}}) {
+  'use strict';
+  {{#models}}{{#model}}
+  {{#description}}/**
+   * {{description}}
+   **/{{/description}}
+  var {{classname}} = function {{classname}}({{#vars}}{{#required}}{{name}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/vars}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
+    {{#vars}}{{#required}}
+    /**{{#description}}
+     * {{{description}}}{{/description}}
+     * datatype: {{{datatypeWithEnum}}}
+     * required {{#minimum}}
+     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+     * maximum: {{maximum}}{{/maximum}}
+     **/
+    this['{{baseName}}'] = {{name}};{{/required}}{{^required}}{{#defaultValue}}
+    /**{{#description}}
+     * {{{description}}}{{/description}}
+     * datatype: {{{datatypeWithEnum}}}
+     * required {{#minimum}}
+     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+     * maximum: {{maximum}}{{/maximum}}
+     **/
+    this['{{baseName}}'] = {{{defaultValue}}};{{/defaultValue}}{{/required}}{{/vars}}
+  };
+
+  {{classname}}.constructFromObject = function(data) {
+    if (!data) {
+      return null;
+    }
+    var _this = new {{classname}}();
     {{#vars}}
-    self.{{name}}{{{defaultValueWithParam}}}
+    if (data['{{baseName}}']) {
+      _this['{{baseName}}']{{{defaultValueWithParam}}}
+    }
     {{/vars}}
+    return _this;
   }
 
+  {{^omitModelMethods}}
   {{#vars}}
   /**{{#description}}
    * get {{{description}}}{{/description}}{{#minimum}}
@@ -50,26 +59,32 @@ var {{classname}} = function {{classname}}({{#mandatory}}{{this}}{{^-last}}, {{/
    * maximum: {{maximum}}{{/maximum}}
    * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
    **/
-  self.{{getter}} = function() {
-    return self.{{name}};
+  {{classname}}.prototype.{{getter}} = function() {
+    return this['{{baseName}}'];
   }
 
   /**{{#description}}
    * set {{{description}}}{{/description}}
    * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
    **/
-  self.{{setter}} = function ({{name}}) {
-    self.{{name}} = {{name}};
+  {{classname}}.prototype.{{setter}} = function({{name}}) {
+    this['{{baseName}}'] = {{name}};
   }
   {{/vars}}
+  {{/omitModelMethods}}
 
-  self.toJson = function () {
-    return JSON.stringify(self);
+  {{classname}}.prototype.toJson = function() {
+    return JSON.stringify(this);
   }
-}
 
-if (typeof module === 'object' && module.exports) {
-  module.exports = {{classname}};
-}
-{{/model}}
-{{/models}}
+  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
+
+  if (module) {
+    module.{{classname}} = {{classname}};
+  }
+
+  return {{classname}};
+  {{/model}}
+  {{/models}}
+}));

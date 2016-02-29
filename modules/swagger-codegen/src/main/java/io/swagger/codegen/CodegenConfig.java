@@ -18,10 +18,16 @@ public interface CodegenConfig {
     String getHelp();
 
     Map<String, Object> additionalProperties();
+    
+    Map<String, Object> vendorExtensions();
+
+    String testPackage();
 
     String apiPackage();
 
     String apiFileFolder();
+
+    String apiTestFileFolder();
 
     String fileSuffix();
 
@@ -32,6 +38,8 @@ public interface CodegenConfig {
     String embeddedTemplateDir();
 
     String modelFileFolder();
+
+    String modelTestFileFolder();
 
     String modelPackage();
 
@@ -87,6 +95,10 @@ public interface CodegenConfig {
 
     Map<String, String> modelTemplateFiles();
 
+    Map<String, String> apiTestTemplateFiles();
+
+    Map<String, String> modelTestTemplateFiles();
+
     Set<String> languageSpecificPrimitives();
 
     void preprocessSwagger(Swagger swagger);
@@ -97,19 +109,31 @@ public interface CodegenConfig {
 
     String toModelFilename(String name);
 
+    String toApiTestFilename(String name);
+
+    String toModelTestFilename(String name);
+    
     String toModelImport(String name);
 
     String toApiImport(String name);
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
+    Map<String, Object> postProcessAllModels(Map<String, Object> objs);
+    
     Map<String, Object> postProcessModels(Map<String, Object> objs);
 
     Map<String, Object> postProcessOperations(Map<String, Object> objs);
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
+    void postProcessModelProperty(CodegenModel model, CodegenProperty property);
+
+    void postProcessParameter(CodegenParameter parameter);
+
     String apiFilename(String templateName, String tag);
+
+    String apiTestFilename(String templateName, String tag);
 
     boolean shouldOverwrite(String filename);
 
@@ -123,6 +147,8 @@ public interface CodegenConfig {
 
     /**
      * Library template (sub-template).
+     *
+     * @return libray template
      */
     String getLibrary();
 }

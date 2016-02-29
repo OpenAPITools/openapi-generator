@@ -11,7 +11,10 @@ import {{invokerPackage}}.Pair;
 {{/imports}}
 
 {{^fullJavaUtil}}
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 {{/fullJavaUtil}}
 
 {{>generatedAnnotation}}
@@ -38,18 +41,19 @@ public class {{classname}} {
   {{#operation}}
   /**
    * {{summary}}
-   * {{notes}}
-{{#allParams}}   * @param {{paramName}} {{description}}
-{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+   * {{notes}}{{#allParams}}
+   * @param {{paramName}} {{description}}{{/allParams}}{{#returnType}}
+   * @return {{{returnType}}}{{/returnType}}
+   * @throws ApiException if fails to make API call
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
-     // verify the required parameter '{{paramName}}' is set
-     if ({{paramName}} == null) {
-        throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
-     }
-     {{/required}}{{/allParams}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+    }
+    {{/required}}{{/allParams}}
     // create path and map variables
     String {{localVariablePrefix}}path = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};

@@ -16,15 +16,13 @@ package io.swagger.codegen.plugin;
  * limitations under the License.
  */
 
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.ClientOptInput;
-import io.swagger.codegen.ClientOpts;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConfigLoader;
-import io.swagger.codegen.DefaultGenerator;
+import config.Config;
+import config.ConfigParser;
+import io.swagger.codegen.*;
+import io.swagger.codegen.utils.OptionUtils;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
-
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -32,18 +30,14 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import config.Config;
-import config.ConfigParser;
-
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
+import java.util.Set;
 
-import static io.swagger.codegen.plugin.AdditionalParams.API_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.INVOKER_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.MODEL_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.TEMPLATE_DIR_PARAM;
+import static io.swagger.codegen.plugin.AdditionalParams.*;
 
 /**
  * Goal which generates client/server code from a swagger json/yaml definition.
@@ -101,10 +95,16 @@ public class CodeGenMojo extends AbstractMojo {
     private String configurationFile;
 
     /**
+     * Sets the library
+     */
+    @Parameter(name = "library", required = false)
+    private String library;
+
+    /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
-    private Map configOptions;
+    private Map<?, ?> configOptions;
 
     /**
      * Add the output directory to the project as a source root, so that the
@@ -115,6 +115,9 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<String, String>();
+
+    @Parameter
+    private boolean configHelp = false;
 
     /**
      * The project being built.
@@ -139,7 +142,9 @@ public class CodeGenMojo extends AbstractMojo {
                 System.setProperty(key, value);
             }
         }
-
+        if (null != library) {
+            config.setLibrary(library);
+        }
         if (null != templateDirectory) {
             config.additionalProperties().put(TEMPLATE_DIR_PARAM, templateDirectory.getAbsolutePath());
         }
@@ -152,38 +157,56 @@ public class CodeGenMojo extends AbstractMojo {
         if (null != invokerPackage) {
             config.additionalProperties().put(INVOKER_PACKAGE_PARAM, invokerPackage);
         }
-
+        
+        Set<String> definedOptions = new HashSet<String>();
+        for (CliOption langCliOption : config.cliOptions()) {
+            definedOptions.add(langCliOption.getOpt());
+        }
+        
         if (configOptions != null) {
-            for (CliOption langCliOption : config.cliOptions()) {
-                if (configOptions.containsKey(langCliOption.getOpt())) {
-                    config.additionalProperties().put(langCliOption.getOpt(),
-                            configOptions.get(langCliOption.getOpt()));
-                }
+            if(configOptions.containsKey("import-mappings")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("import-mappings").toString());
+                config.importMapping().putAll(mappings);
             }
+
+            if(configOptions.containsKey("type-mappings")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("type-mappings").toString());
+                config.typeMapping().putAll(mappings);
+            }
+
+            if(configOptions.containsKey("instantiation-types")) {
+                Map<String, String> mappings = createMapFromKeyValuePairs(configOptions.remove("instantiation-types").toString());
+                config.instantiationTypes().putAll(mappings);
+            }
+            addAdditionalProperties(config, definedOptions, configOptions);
         }
 
         if (null != configurationFile) {
             Config genConfig = ConfigParser.read(configurationFile);
             if (null != genConfig) {
-                for (CliOption langCliOption : config.cliOptions()) {
-                    if (genConfig.hasOption(langCliOption.getOpt())) {
-                        config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
-                    }
-                }
+                addAdditionalProperties(config, definedOptions, genConfig.getOptions());
             } else {
-            	throw new RuntimeException("Unable to read configuration file");
+                throw new RuntimeException("Unable to read configuration file");
             }
         }
         
         ClientOptInput input = new ClientOptInput().opts(new ClientOpts()).swagger(swagger);
         input.setConfig(config);
-        
+
+        if(configHelp) {
+            for (CliOption langCliOption : config.cliOptions()) {
+                System.out.println("\t" + langCliOption.getOpt());
+                System.out.println("\t    " + langCliOption.getOptionHelp().replaceAll("\n", "\n\t    "));
+                System.out.println();
+            }
+            return;
+        }
         try {
             new DefaultGenerator().opts(input).generate();
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
-        	// I find it annoying to jump through hoops to get basic diagnostic information,
-        	// so let's log it in any case:
+            // I find it annoying to jump through hoops to get basic diagnostic information,
+            // so let's log it in any case:
             getLog().error(e); 
             throw new MojoExecutionException("Code generation failed. See above for the full exception.");
         }
@@ -191,5 +214,26 @@ public class CodeGenMojo extends AbstractMojo {
         if (addCompileSourceRoot) {
             project.addCompileSourceRoot(output.toString());
         }
+    }
+    
+    private void addAdditionalProperties(CodegenConfig config, Set<String> definedOptions, Map<?,?> configOptions) {
+        for(Map.Entry<?, ?> configEntry : configOptions.entrySet()) {
+            config.additionalProperties().put(configEntry.getKey().toString(), configEntry.getValue());
+            if(!definedOptions.contains(configEntry.getKey())) {
+                getLog().warn("Additional property: " + configEntry.getKey() + " is not defined for this language.");
+            }
+        }
+    }
+
+    private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
+        final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
+
+        Map<String, String> result = new HashMap<String, String>();
+
+        for (Pair<String, String> pair : pairs) {
+            result.put(pair.getLeft(), pair.getRight());
+        }
+
+        return result;
     }
 }

@@ -53,7 +53,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         additionalProperties().put("prefix", PREFIX);
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 // VERIFY
                 Arrays.asList(
                         "void", "char", "short", "int", "void", "char", "short", "int",
@@ -76,6 +76,9 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("map", "HashMap");
         typeMapping.put("number", "Long");
         typeMapping.put("object", PREFIX + "Object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         importMapping = new HashMap<String, String>();
 
@@ -110,14 +113,17 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile("error-body.mustache", sourceFolder, PREFIX + "Error.cpp"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "tizen";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Samsung Tizen C++ client library.";
     }
@@ -125,12 +131,8 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toInstantiationType(Property p) {
         if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return instantiationTypes.get("map");
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -214,12 +216,8 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         } else if (p instanceof DecimalProperty) {
             return "new Long()";
         } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return "new HashMap()";
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return "new ArrayList()";
         }
         // else
@@ -250,6 +248,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         return PREFIX + initialCaps(name) + "Api";
     }
 
+    @Override
     public String toApiFilename(String name) {
         return PREFIX + initialCaps(name) + "Api";
     }
@@ -261,6 +260,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         return "p" + paramName;
     }
 
+    @Override
     public String escapeReservedWord(String name) {
         return "_" + name;
     }
@@ -273,7 +273,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         // method name cannot use reserved keyword, e.g. return$
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 

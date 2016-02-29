@@ -2,15 +2,20 @@ package {{package}};
 
 import {{invokerPackage}}.CollectionFormats.*;
 
-import retrofit.Call;
-import retrofit.http.*;
-import com.squareup.okhttp.RequestBody;
+{{#useRxJava}}import rx.Observable;{{/useRxJava}}
+{{^useRxJava}}import retrofit2.Call;{{/useRxJava}}
+import retrofit2.http.*;
+
+import okhttp3.RequestBody;
 
 {{#imports}}import {{import}};
 {{/imports}}
 
 {{^fullJavaUtil}}
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 {{/fullJavaUtil}}
 
 {{#operations}}
@@ -25,7 +30,7 @@ public interface {{classname}} {
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@Multipart{{/isMultipart}}{{^isMultipart}}@FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
   @{{httpMethod}}("{{path}}")
-  Call<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}({{^allParams}});{{/allParams}}
+  {{#useRxJava}}Observable{{/useRxJava}}{{^useRxJava}}Call{{/useRxJava}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
 

@@ -11,7 +11,7 @@
  */
 
 /**
- *  Copyright 2015 SmartBear Software
+ *  Copyright 2016 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -516,7 +516,7 @@ class Configuration
         $report  = "PHP SDK (Swagger\Client) Debug Report:\n";
         $report .= "    OS: ".php_uname()."\n";
         $report .= "    PHP Version: ".phpversion()."\n";
-        $report .= "    Swagger Spec Version: 1.0.0\n";
+        $report .= "    OpenAPI Spec Version: 1.0.0\n";
         $report .= "    SDK Package Version: 1.0.0\n";
         $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath()."\n";
 

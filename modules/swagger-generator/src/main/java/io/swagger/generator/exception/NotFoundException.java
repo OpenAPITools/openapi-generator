@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 SmartBear Software
+ * Copyright 2016 SmartBear Software
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,12 @@
 
 package io.swagger.generator.exception;
 
-public class NotFoundException extends ApiException {
-    private int code;
+import org.apache.http.HttpStatus;
 
-    public NotFoundException(int code, String msg) {
-        super(code, msg);
-        this.code = code;
+public class NotFoundException extends ApiException {
+    private static final long serialVersionUID = -1223255119112336573L;
+
+    public NotFoundException(String msg) {
+        super(HttpStatus.SC_NOT_FOUND, msg);
     }
 }

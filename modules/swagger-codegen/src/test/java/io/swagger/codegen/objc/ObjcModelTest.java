@@ -24,6 +24,7 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
+@SuppressWarnings("static-method")
 public class ObjcModelTest {
 
     @Test(description = "convert a simple java model")

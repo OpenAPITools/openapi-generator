@@ -81,11 +81,46 @@ public class CodegenTest {
         Assert.assertNull(statusParam.hasMore);
     }
 
+    @Test(description = "handle enum array in query parameter test")
+    public void enumArrayQueryParameterTest() {
+        final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/pet/findByStatus";
+        final Operation p = model.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions());
+
+        Assert.assertEquals(op.queryParams.size(), 1);
+
+        final CodegenParameter statusParam = op.queryParams.get(0);
+        Assert.assertEquals(statusParam.items.datatypeWithEnum, "StatusEnum");
+        Assert.assertNotNull(statusParam.items);
+        Assert.assertTrue(statusParam.items.isEnum);
+        Assert.assertEquals(statusParam.items._enum.size(), 3);
+    }
+
+    @Test(description = "handle enum in query parameter test")
+    public void enumQueryParameterTest() {
+        final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/store/findByStatus";
+        final Operation p = model.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions());
+
+        Assert.assertEquals(op.queryParams.size(), 1);
+
+        final CodegenParameter statusParam = op.queryParams.get(0);
+        Assert.assertEquals(statusParam.datatypeWithEnum, "StatusEnum");
+        Assert.assertTrue(statusParam.isEnum);
+        Assert.assertEquals(statusParam._enum.size(), 3);
+    }
+
+
     @Test(description = "handle required parameters from a 2.0 spec as required when figuring out Swagger types")
     public void requiredParametersTest() {
         final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/requiredTest.json");
 
         final DefaultCodegen codegen = new DefaultCodegen() {
+            @Override
             public String getSwaggerType(Property p) {
                 if (p != null && !p.getRequired()) {
                     return "Optional<" + super.getSwaggerType(p) + ">";
@@ -188,7 +223,7 @@ public class CodegenTest {
 
     }
 
-    private Swagger parseAndPrepareSwagger(String path) {
+    private static Swagger parseAndPrepareSwagger(String path) {
         Swagger swagger = new SwaggerParser().read(path);
         // resolve inline models
         new InlineModelResolver().flatten(swagger);

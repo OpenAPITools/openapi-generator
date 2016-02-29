@@ -79,10 +79,9 @@ static {{classname}}* singletonAPI = nil;
 ///
 /// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 ///
--(NSNumber*) {{nickname}}WithCompletionBlock{{^allParams}}: {{/allParams}}{{#allParams}}{{#secondaryParam}} {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}
-        {{/allParams}}
-        {{#returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{{returnType}}} output, NSError* error))completionBlock { {{/returnBaseType}}
-        {{^returnBaseType}}{{#hasParams}}completionHandler: {{/hasParams}}(void (^)(NSError* error))completionBlock { {{/returnBaseType}}
+-(NSNumber*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+    {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
+    {{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) handler {
 
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -142,7 +141,7 @@ static {{classname}}* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     {{#bodyParam}}
     bodyParam = {{paramName}};
     {{/bodyParam}}{{^bodyParam}}
@@ -152,7 +151,7 @@ static {{classname}}* singletonAPI = nil;
         formParams[@"{{baseName}}"] = {{paramName}};
     }
     {{/notFile}}{{#isFile}}
-    files[@"{{paramName}}"] = {{paramName}};
+    localVarFiles[@"{{paramName}}"] = {{paramName}};
     {{/isFile}}
     {{/formParams}}
     {{/bodyParam}}
@@ -164,22 +163,21 @@ static {{classname}}* singletonAPI = nil;
     }
     {{/requiredParams}}
     {{/requiredParamCount}}
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"{{httpMethod}}"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
-                                      completionBlock: ^(id data, NSError *error) {
-                  {{^returnType}}completionBlock(error);{{/returnType}}
-                  {{#returnType}}completionBlock(({{{ returnType }}})data, error);{{/returnType}}
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"{{httpMethod}}"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
+                           completionBlock: ^(id data, NSError *error) {
+                               handler({{#returnType}}({{{ returnType }}})data, {{/returnType}}error);
+                           }
           ];
 }
 
