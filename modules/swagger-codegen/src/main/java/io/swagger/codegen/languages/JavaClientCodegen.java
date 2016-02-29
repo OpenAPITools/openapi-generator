@@ -55,8 +55,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         setReservedWordsLowerCase(
             Arrays.asList(
                 // used as internal variables, can collide with parameter names
-                "path", "queryParams", "headerParams", "formParams", "postBody", "accepts", "accept", "contentTypes",
-                "contentType", "authNames",
+                "localVarPath", "localVarQueryParams", "localVarHeaderParams", "localVarFormParams",
+                "localVarPostBody", "localVarAccepts", "localVarAccept", "localVarContentTypes",
+                "localVarContentType", "localVarAuthNames", "localReturnType",
 
                 // language reserved words
                 "abstract", "continue", "for", "new", "switch", "assert",
