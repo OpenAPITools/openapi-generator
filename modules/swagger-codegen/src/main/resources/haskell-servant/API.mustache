@@ -1,0 +1,150 @@
+{-# LANGUAGE DataKinds, TypeFamilies, TypeOperators, FlexibleInstances, OverloadedStrings, ViewPatterns #-}
+{-# LANGUAGE RecordWildCards, GeneralizedNewtypeDeriving, DeriveTraversable, FlexibleContexts, DeriveGeneric #-}
+module {{title}}.API (
+  -- * Client and Server
+  ServerConfig(..),
+  {{title}}Backend,
+  create{{title}}Client,
+  run{{title}}Server,
+  -- ** Servant
+  {{title}}API,
+  ) where
+
+import {{title}}.Types
+
+import Data.Coerce (coerce)
+import Servant.API
+import Servant (serve, ServantErr)
+import qualified Network.Wai.Handler.Warp as Warp
+import Control.Monad.Trans.Either (EitherT)
+import qualified Data.Text as T
+import Data.Text (Text)
+import Servant.Common.BaseUrl(BaseUrl(..))
+import Servant.Client (ServantError, client, Scheme(..))
+import Data.Proxy (Proxy(..))
+import Control.Monad.IO.Class
+import Data.Function ((&))
+import GHC.Exts (IsString(..))
+import qualified Data.Map as Map
+import GHC.Generics (Generic)
+import Data.Monoid ((<>))
+
+
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasFormParams}}
+data {{vendorExtensions.x-formName}} = {{vendorExtensions.x-formName}}
+    { {{#formParams}}{{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} :: {{dataType}}{{#hasMore}}
+    , {{/hasMore}}{{/formParams}}
+    } deriving (Show, Eq, Generic)
+
+instance FromFormUrlEncoded {{vendorExtensions.x-formName}} where
+    fromFormUrlEncoded inputs = {{vendorExtensions.x-formName}} <$> {{#formParams}} lookupEither "{{baseName}}" inputs{{#hasMore}} <*> {{/hasMore}}{{/formParams}}
+instance ToFormUrlEncoded {{vendorExtensions.x-formName}} where
+    toFormUrlEncoded value = [{{#formParams}}("{{baseName}}", toText $ {{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} value){{#hasMore}}, {{/hasMore}}{{/formParams}}]
+{{/hasFormParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+-- For the form data code generation.
+lookupEither :: FromText b => Text -> [(Text, Text)] -> Either String b
+lookupEither key assocs =
+  case lookup key assocs >>= fromText of
+    Nothing -> Left $ T.unpack $ "Could not find parameter " <> key <> " in form data"
+    Just value -> Right value
+
+{{#apiInfo}}
+-- | Servant type-level API, generated from the Swagger spec for {{title}}.
+type {{title}}API
+    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
+    :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
+    :<|> {{/hasMore}}{{/apis}}
+{{/apiInfo}}
+
+-- | Server or client configuration, specifying the host and port to query or serve on.
+data ServerConfig = ServerConfig {
+    configHost :: String,  -- ^ Hostname to serve on, e.g. "127.0.0.1"
+    configPort :: Int      -- ^ Port to serve on, e.g. 8080
+  } deriving (Eq, Ord, Show, Read)
+
+-- | List of elements parsed from a query.
+newtype QueryList (p :: CollectionFormat) a = QueryList { fromQueryList :: [a] }
+  deriving (Functor, Applicative, Monad, Foldable, Traversable)
+
+-- | Formats in which a list can be encoded into a HTTP path.
+data CollectionFormat = CommaSeparated -- ^ CSV format for multiple parameters.
+                      | SpaceSeparated -- ^ Also called "SSV"
+                      | TabSeparated -- ^ Also called "TSV"
+                      | PipeSeparated -- ^ `value1|value2|value2`
+                      | MultiParamArray -- ^ Using multiple GET parameters, e.g. `foo=bar&foo=baz`. Only for GET params.
+
+instance FromText a => FromText (QueryList 'CommaSeparated a) where
+    fromText = parseSeparatedQueryList ','
+
+instance FromText a => FromText (QueryList 'TabSeparated a) where
+    fromText = parseSeparatedQueryList '\t'
+
+instance FromText a => FromText (QueryList 'SpaceSeparated a) where
+    fromText = parseSeparatedQueryList ' '
+
+instance FromText a => FromText (QueryList 'PipeSeparated a) where
+    fromText = parseSeparatedQueryList '|'
+
+instance FromText a => FromText (QueryList 'MultiParamArray a) where
+    fromText = error "unimplemented FromText for MultiParamArray collection format"
+
+parseSeparatedQueryList :: FromText a => Char -> Text -> Maybe (QueryList p a)
+parseSeparatedQueryList char = fmap QueryList . mapM fromText . T.split (== char)
+
+instance ToText a => ToText (QueryList 'CommaSeparated a) where
+    toText = formatSeparatedQueryList ','
+
+instance ToText a => ToText (QueryList 'TabSeparated a) where
+    toText = formatSeparatedQueryList '\t'
+
+instance ToText a => ToText (QueryList 'SpaceSeparated a) where
+    toText = formatSeparatedQueryList ' '
+
+instance ToText a => ToText (QueryList 'PipeSeparated a) where
+    toText = formatSeparatedQueryList '|'
+
+instance ToText a => ToText (QueryList 'MultiParamArray a) where
+    toText = error "unimplemented ToText for MultiParamArray collection format"
+
+formatSeparatedQueryList :: ToText a => Char ->  QueryList p a -> Text
+formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toText . fromQueryList
+
+
+{{#apiInfo}}
+-- | Backend for {{title}}.
+-- The backend can be used both for the client and the server. The client generated from the {{title}} Swagger spec
+-- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
+-- a backend, the API can be served using @run{{title}}Server@.
+data {{title}}Backend m = {{title}}Backend {
+    {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-clientType}}{- ^ {{& notes}} -}{{#hasMore}},
+    {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}},
+    {{/hasMore}}{{/apis}}
+  }
+{{/apiInfo}}
+
+
+{{#apiInfo}}
+create{{title}}Client :: ServerConfig -> {{title}}Backend (EitherT ServantError IO)
+create{{title}}Client clientConfig = {{title}}Backend{..}
+  where
+    -- Use a strange variable name to avoid conflicts in autogenerated code... (no hygienic templates)
+    servantBaseUrlForClient3928 = BaseUrl Http (configHost clientConfig) (configPort clientConfig)
+    ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{#hasMore}} :<|>
+     {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
+     {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API) servantBaseUrlForClient3928
+{{/apiInfo}}
+
+{{#apiInfo}}
+-- | Run the {{title}} server at the provided host and port.
+run{{title}}Server :: MonadIO m => ServerConfig -> {{title}}Backend (EitherT ServantErr IO)  -> m ()
+run{{title}}Server ServerConfig{..} backend =
+  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
+
+  where
+    warpSettings = Warp.defaultSettings & Warp.setPort configPort & Warp.setHost (fromString configHost)
+    serverFromBackend {{title}}Backend{..} =
+      ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>
+       {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
+       {{/hasMore}}{{/apis}})
+{{/apiInfo}}
