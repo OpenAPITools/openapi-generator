@@ -48,7 +48,7 @@
 
 (defn find-pets-by-status-with-http-info
   "Finds Pets by status
-  Multiple status values can be provided with comma seperated strings"
+  Multiple status values can be provided with comma separated strings"
   ([] (find-pets-by-status-with-http-info nil))
   ([{:keys [status ]}]
    (call-api "/pet/findByStatus" :get
@@ -62,7 +62,7 @@
 
 (defn find-pets-by-status
   "Finds Pets by status
-  Multiple status values can be provided with comma seperated strings"
+  Multiple status values can be provided with comma separated strings"
   ([] (find-pets-by-status nil))
   ([optional-params]
    (:data (find-pets-by-status-with-http-info optional-params))))
@@ -99,7 +99,7 @@
              :form-params   {}
              :content-types []
              :accepts       ["application/json" "application/xml"]
-             :auth-names    ["api_key"]}))
+             :auth-names    ["petstore_auth" "api_key"]}))
 
 (defn get-pet-by-id
   "Find pet by ID
@@ -169,3 +169,44 @@
   ([pet-id ] (upload-file pet-id nil))
   ([pet-id optional-params]
    (:data (upload-file-with-http-info pet-id optional-params))))
+
+(defn pet-pet-idtesting-byte-arraytrue-get-with-http-info
+  "Fake endpoint to test byte array return by 'Find pet by ID'
+  Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
+  [pet-id ]
+  (call-api "/pet/{petId}?testing_byte_array=true" :get
+            {:path-params   {"petId" pet-id }
+             :header-params {}
+             :query-params  {}
+             :form-params   {}
+             :content-types []
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    ["petstore_auth" "api_key"]}))
+
+(defn pet-pet-idtesting-byte-arraytrue-get
+  "Fake endpoint to test byte array return by 'Find pet by ID'
+  Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
+  [pet-id ]
+  (:data (pet-pet-idtesting-byte-arraytrue-get-with-http-info pet-id)))
+
+(defn add-pet-using-byte-array-with-http-info
+  "Fake endpoint to test byte array in body parameter for adding a new pet to the store
+  "
+  ([] (add-pet-using-byte-array-with-http-info nil))
+  ([{:keys [body ]}]
+   (call-api "/pet?testing_byte_array=true" :post
+             {:path-params   {}
+              :header-params {}
+              :query-params  {}
+              :form-params   {}
+              :body-param    body
+              :content-types ["application/json" "application/xml"]
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
+
+(defn add-pet-using-byte-array
+  "Fake endpoint to test byte array in body parameter for adding a new pet to the store
+  "
+  ([] (add-pet-using-byte-array nil))
+  ([optional-params]
+   (:data (add-pet-using-byte-array-with-http-info optional-params))))
