@@ -334,6 +334,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                         var.defaultValue = var.datatypeWithEnum + "." + enumName;
                     }
                 }
+
+                // HACK: strip ? from enum
+                if (var.datatypeWithEnum != null) {
+                    var.vendorExtensions.put("plainDatatypeWithEnum", var.datatypeWithEnum.substring(0, var.datatypeWithEnum.length() - 1));
+                }
             }
         }
 
