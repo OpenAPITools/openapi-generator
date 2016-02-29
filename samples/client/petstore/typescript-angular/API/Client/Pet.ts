@@ -5,20 +5,20 @@ namespace API.Client {
 
     export interface Pet {
 
-        id?: number;
+        "id"?: number;
 
-        category?: Category;
+        "category"?: Category;
 
-        name: string;
+        "name": string;
 
-        photoUrls: Array<string>;
+        "photoUrls": Array<string>;
 
-        tags?: Array<Tag>;
+        "tags"?: Array<Tag>;
 
         /**
          * pet status in the store
          */
-        status?: Pet.StatusEnum;
+        "status"?: Pet.StatusEnum;
     }
 
     export namespace Pet {
@@ -26,7 +26,7 @@ namespace API.Client {
         export enum StatusEnum { 
             available = <any> 'available',
             pending = <any> 'pending',
-            sold = <any> 'sold',
+            sold = <any> 'sold'
         }
     }
 }

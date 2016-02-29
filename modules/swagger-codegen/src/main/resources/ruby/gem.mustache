@@ -1,3 +1,7 @@
+=begin
+{{> api_info}}
+=end
+
 # Common files
 require '{{gemName}}/api_client'
 require '{{gemName}}/api_error'
@@ -5,7 +9,6 @@ require '{{gemName}}/version'
 require '{{gemName}}/configuration'
 
 # Models
-require '{{gemName}}/{{modelPackage}}/base_object'
 {{#models}}
 require '{{importPath}}'
 {{/models}}

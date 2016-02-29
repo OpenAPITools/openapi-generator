@@ -15,8 +15,8 @@ import java.util.HashSet;
 import org.apache.commons.lang.StringUtils;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String packageName = null;
-    protected String packageVersion = null;
+    protected String packageName;
+    protected String packageVersion;
 
     public PythonClientCodegen() {
         super();
@@ -51,21 +51,29 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
         typeMapping.put("file", "file");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "str");
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
-                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try"));
+                    // local variable name used in API methods (endpoints)
+                    "all_params", "resource_path", "path_params", "query_params",
+                    "header_params", "form_params", "local_var_files", "body_params",  "auth_settings",
+                    // python reserved words
+                    "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
+                    "assert", "else", "if", "pass", "yield", "break", "except", "import",
+                    "print", "class", "exec", "in", "raise", "continue", "finally", "is",
+                    "return", "def", "for", "lambda", "try", "self"));
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
                 .defaultValue("swagger_client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
                 .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -108,14 +116,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return str.replaceAll("\\.", "_");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "python";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Python client library.";
     }
@@ -130,6 +141,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return outputFolder + File.separatorChar + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separatorChar + modelPackage().replace('.', File.separatorChar);
     }
@@ -167,7 +179,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
@@ -185,7 +197,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("^_*", "");
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -200,14 +212,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name);
+        name = sanitizeName(modelNamePrefix + name + modelNameSuffix); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
 
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("object_" + name));
+            name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
         }
 
         // camelize the model name
@@ -218,8 +231,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + underscore(dropDots("object_" + name)));
+            name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
+        }
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
         }
 
         // underscore the model file name
@@ -255,14 +277,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty
+        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
         }
 
         return underscore(sanitizeName(operationId));
@@ -281,7 +304,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      *
      * (PEP 0008) Python packages should also have short, all-lowercase names,
      * although the use of underscores is discouraged.
+     *
+     * @param packageName Package name
+     * @return Python package name that conforms to PEP 0008
      */
+    @SuppressWarnings("static-method")
     public String generatePackageName(String packageName) {
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }

@@ -2,28 +2,21 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
+import java.util.*;
 
-public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
+public class SpringMVCServerCodegen extends JavaClientCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";
     protected String title = "Petstore Server";
     protected String configPackage = "";
+    protected String templateFileName = "api.mustache";
 
     public SpringMVCServerCodegen() {
         super();
         outputFolder = "generated-code/javaSpringMVC";
         modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
+        apiTemplateFiles.put(templateFileName, ".java");
         embeddedTemplateDir = templateDir = "JavaSpringMVC";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
@@ -41,6 +34,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
+                        "byte[]",
                         "String",
                         "boolean",
                         "Boolean",
@@ -51,16 +45,24 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         );
 
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
+
+        supportedLibraries.clear();
+        supportedLibraries.put(DEFAULT_LIBRARY, "Default Spring MVC server stub.");
+        supportedLibraries.put("j8-async", "Use async servlet feature and Java 8's default interface. Generating interface with service " +
+                "declaration is useful when using Maven plugin. Just provide a implementation with @Controller to instantiate service.");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "spring-mvc";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java Spring-MVC Server application using the SpringFox integration.";
     }
@@ -126,6 +128,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         co.baseName = basePath;
     }
 
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -139,8 +142,6 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                         }
                     }
                 }
-                System.out.println(operation.operationId);
-                io.swagger.util.Json.prettyPrint(operation);
 
                 if (operation.returnType == null) {
                     operation.returnType = "Void";
@@ -168,6 +169,24 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
                 }
             }
         }
+        if("j8-async".equals(getLibrary())) {
+            apiTemplateFiles.remove(this.templateFileName);
+            this.templateFileName = "api-j8-async.mustache";
+            apiTemplateFiles.put(this.templateFileName, ".java");
+
+            int originalPomFileIdx = -1;
+            for (int i = 0; i < supportingFiles.size(); i++) {
+                if ("pom.xml".equals(supportingFiles.get(i).destinationFilename)) {
+                    originalPomFileIdx = i;
+                    break;
+                }
+            }
+            if (originalPomFileIdx > -1) {
+                supportingFiles.remove(originalPomFileIdx);
+            }
+            supportingFiles.add(new SupportingFile("pom-j8-async.mustache", "", "pom.xml"));
+        }
+
         return objs;
     }
 

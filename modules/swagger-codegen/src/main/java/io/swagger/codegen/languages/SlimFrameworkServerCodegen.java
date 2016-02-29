@@ -39,7 +39,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
         embeddedTemplateDir = templateDir = "slim";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
@@ -67,7 +67,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
 
-        // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
@@ -83,6 +83,9 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "string");
 
         supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
         supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
@@ -90,14 +93,17 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "slim";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Slim Framework server library.";
     }
@@ -112,6 +118,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
     }
@@ -162,6 +169,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         return super.getTypeDeclaration(name);
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }
@@ -172,8 +180,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style
@@ -203,7 +210,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             escapeReservedWord(name); // e.g. return => _return
         }
 

@@ -27,17 +27,47 @@ namespace API.Client {
         }
 
         /**
+         * Finds orders by status
+         * A single status value can be provided as a string
+         * @param status Status value that needs to be considered for query
+         */
+        public findOrdersByStatus (status?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<Order>> {
+            const localVarPath = this.basePath + '/store/findByStatus';
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            if (status !== undefined) {
+                queryParameters['status'] = status;
+            }
+
+            let httpRequestParams: any = {
+                method: 'GET',
+                url: localVarPath,
+                json: true,
+                
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
          * Returns pet inventories by status
          * Returns a map of status codes to quantities
          */
         public getInventory (extraHttpRequestParams?: any ) : ng.IHttpPromise<{ [key: string]: number; }> {
-            const path = this.basePath + '/store/inventory';
+            const localVarPath = this.basePath + '/store/inventory';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
                 method: 'GET',
-                url: path,
+                url: localVarPath,
                 json: true,
                 
                 
@@ -57,13 +87,13 @@ namespace API.Client {
          * @param body order placed for purchasing the pet
          */
         public placeOrder (body?: Order, extraHttpRequestParams?: any ) : ng.IHttpPromise<Order> {
-            const path = this.basePath + '/store/order';
+            const localVarPath = this.basePath + '/store/order';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
                 method: 'POST',
-                url: path,
+                url: localVarPath,
                 json: true,
                 data: body,
                 
@@ -84,7 +114,7 @@ namespace API.Client {
          * @param orderId ID of pet that needs to be fetched
          */
         public getOrderById (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<Order> {
-            const path = this.basePath + '/store/order/{orderId}'
+            const localVarPath = this.basePath + '/store/order/{orderId}'
                 .replace('{' + 'orderId' + '}', String(orderId));
 
             let queryParameters: any = {};
@@ -95,7 +125,7 @@ namespace API.Client {
             }
             let httpRequestParams: any = {
                 method: 'GET',
-                url: path,
+                url: localVarPath,
                 json: true,
                 
                 
@@ -115,7 +145,7 @@ namespace API.Client {
          * @param orderId ID of the order that needs to be deleted
          */
         public deleteOrder (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const path = this.basePath + '/store/order/{orderId}'
+            const localVarPath = this.basePath + '/store/order/{orderId}'
                 .replace('{' + 'orderId' + '}', String(orderId));
 
             let queryParameters: any = {};
@@ -126,7 +156,7 @@ namespace API.Client {
             }
             let httpRequestParams: any = {
                 method: 'DELETE',
-                url: path,
+                url: localVarPath,
                 json: true,
                 
                 

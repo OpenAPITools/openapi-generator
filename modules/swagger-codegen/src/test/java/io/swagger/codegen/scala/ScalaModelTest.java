@@ -18,6 +18,7 @@ import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class ScalaModelTest {
 
     @Test(description = "convert a simple scala model")

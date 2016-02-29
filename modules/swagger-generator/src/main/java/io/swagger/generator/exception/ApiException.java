@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 SmartBear Software
+ * Copyright 2016 SmartBear Software
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,16 @@
 package io.swagger.generator.exception;
 
 public class ApiException extends Exception {
+    private static final long serialVersionUID = -5085112752305370687L;
     private int code;
 
     public ApiException(int code, String msg) {
         super(msg);
         this.code = code;
+    }
+
+    public int getCode()
+    {
+        return code;
     }
 }

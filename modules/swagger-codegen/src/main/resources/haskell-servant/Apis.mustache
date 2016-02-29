@@ -1,0 +1,26 @@
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE FlexibleInstances #-}
+module Apis (
+      api
+    , API
+    ) where
+
+{{#apiInfo}}
+{{#apis}}
+import {{package}}.{{classname}} ({{classname}})
+{{/apis}}
+{{/apiInfo}}
+
+import Data.Proxy
+import Servant.API
+import Test.QuickCheck
+import qualified Data.Map as Map
+import Utils
+
+type API = {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}} :<|> {{/hasMore}}{{/apis}}{{/apiInfo}}
+
+api :: Proxy API
+api = Proxy

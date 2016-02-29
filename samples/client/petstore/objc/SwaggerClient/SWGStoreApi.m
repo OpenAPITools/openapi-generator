@@ -70,13 +70,91 @@ static SWGStoreApi* singletonAPI = nil;
 #pragma mark - Api Methods
 
 ///
+/// Finds orders by status
+/// A single status value can be provided as a string
+///  @param status Status value that needs to be considered for query
+///
+///  @returns NSArray<SWGOrder>*
+///
+-(NSNumber*) findOrdersByStatusWithStatus: (NSString*) status
+    completionHandler: (void (^)(NSArray<SWGOrder>* output, NSError* error)) handler {
+
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/findByStatus"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if (status != nil) {
+        
+        queryParams[@"status"] = status;
+    }
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"test_api_client_id", @"test_api_client_secret"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSArray<SWGOrder>*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSArray<SWGOrder>*)data, error);
+                           }
+          ];
+}
+
+///
 /// Returns pet inventories by status
 /// Returns a map of status codes to quantities
 ///  @returns NSDictionary* /* NSString, NSNumber */
 ///
--(NSNumber*) getInventoryWithCompletionBlock: 
-        (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getInventoryWithCompletionHandler: 
+    (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error)) handler {
 
     
 
@@ -119,28 +197,27 @@ static SWGStoreApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSDictionary* /* NSString, NSNumber */"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSDictionary* /* NSString, NSNumber */)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSDictionary* /* NSString, NSNumber */"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSDictionary* /* NSString, NSNumber */)data, error);
+                           }
           ];
 }
 
@@ -151,10 +228,8 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 ///  @returns SWGOrder*
 ///
--(NSNumber*) placeOrderWithCompletionBlock: (SWGOrder*) body
-        
-        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
 
     
 
@@ -193,32 +268,31 @@ static SWGStoreApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[];
+    NSArray *authSettings = @[@"test_api_client_id", @"test_api_client_secret"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"SWGOrder*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((SWGOrder*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGOrder*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGOrder*)data, error);
+                           }
           ];
 }
 
@@ -229,10 +303,8 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 ///  @returns SWGOrder*
 ///
--(NSNumber*) getOrderByIdWithCompletionBlock: (NSString*) orderId
-        
-        completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
+    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
 
     
     // verify the required parameter 'orderId' is set
@@ -279,32 +351,31 @@ static SWGStoreApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[];
+    NSArray *authSettings = @[@"test_api_key_header", @"test_api_key_query"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"SWGOrder*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((SWGOrder*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGOrder*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGOrder*)data, error);
+                           }
           ];
 }
 
@@ -315,10 +386,8 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 ///  @returns void
 ///
--(NSNumber*) deleteOrderWithCompletionBlock: (NSString*) orderId
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'orderId' is set
@@ -369,28 +438,27 @@ static SWGStoreApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 

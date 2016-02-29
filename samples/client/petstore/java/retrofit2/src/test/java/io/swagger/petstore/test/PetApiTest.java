@@ -1,5 +1,7 @@
 package io.swagger.petstore.test;
 
+import io.swagger.TestUtils;
+
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
@@ -13,10 +15,10 @@ import java.util.List;
 
 import org.junit.*;
 
-import retrofit.Response;
+import retrofit2.Response;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +34,7 @@ public class PetApiTest {
     public void testCreateAndGetPet() throws Exception {
         Pet pet = createRandomPet();
         Response<Void> rp2 = api.addPet(pet).execute();
-        
+
         Response<Pet> rp = api.getPetById(pet.getId()).execute();
         Pet fetched = rp.body();
         assertNotNull(fetched);
@@ -139,7 +141,7 @@ public class PetApiTest {
         writer.write("Hello world!");
         writer.close();
 
-        api.uploadFile(pet.getId(), "a test file", RequestBody.create(MediaType.parse("text/plain"), file)).execute();
+        api.uploadFile(pet.getId(), null, RequestBody.create(MediaType.parse("text/plain"), file)).execute();
     }
 
     @Test
@@ -171,7 +173,7 @@ public class PetApiTest {
 
     private Pet createRandomPet() {
         Pet pet = new Pet();
-        pet.setId(System.currentTimeMillis());
+        pet.setId(TestUtils.nextId());
         pet.setName("gorilla");
 
         Category category = new Category();

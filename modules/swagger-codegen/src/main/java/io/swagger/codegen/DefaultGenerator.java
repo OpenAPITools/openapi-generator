@@ -19,11 +19,11 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
-    Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
+    protected Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
 
     protected CodegenConfig config;
-    protected ClientOptInput opts = null;
-    protected Swagger swagger = null;
+    protected ClientOptInput opts;
+    protected Swagger swagger;
 
     @Override
     public Generator opts(ClientOptInput opts) {
@@ -129,6 +129,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (info.getVersion() != null) {
                 config.additionalProperties().put("version", info.getVersion());
             }
+            if (info.getTermsOfService() != null) {
+                config.additionalProperties().put("termsOfService", info.getTermsOfService());
+            }
+        }
+        
+        if(swagger.getVendorExtensions() != null) {
+        	config.vendorExtensions().putAll(swagger.getVendorExtensions());
         }
 
         StringBuilder hostBuilder = new StringBuilder();
@@ -176,6 +183,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     sortedModelKeys = updatedKeys;
                 }
 
+                // store all processed models
+                Map<String,Object> allProcessedModels = new HashMap<String, Object>();
+
+                // process models only
                 for (String name : sortedModelKeys) {
                     try {
                         //don't generate models that have an import mapping
@@ -188,12 +199,54 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         modelMap.put(name, model);
                         Map<String, Object> models = processModels(config, modelMap, definitions);
                         models.putAll(config.additionalProperties());
+                        
+                        allProcessedModels.put(name, models);
+
+                    } catch (Exception e) {
+                        throw new RuntimeException("Could not process model '" + name + "'", e);
+                    }
+                }
+                
+                // post process all processed models
+                allProcessedModels = config.postProcessAllModels(allProcessedModels);
+                
+                // generate files based on processed models
+                for (String name: allProcessedModels.keySet()) {
+                	Map<String, Object> models = (Map<String, Object>)allProcessedModels.get(name);
+                
+                	try {
+                        //don't generate models that have an import mapping
+                        if(config.importMapping().containsKey(name)) {
+                            continue;
+                        }
 
                         allModels.add(((List<Object>) models.get("models")).get(0));
 
                         for (String templateName : config.modelTemplateFiles().keySet()) {
                             String suffix = config.modelTemplateFiles().get(templateName);
                             String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
+                            if (!config.shouldOverwrite(filename)) {
+                                continue;
+                            }
+                            String templateFile = getFullTemplateFile(config, templateName);
+                            String template = readTemplate(templateFile);
+                            Template tmpl = Mustache.compiler()
+                                    .withLoader(new Mustache.TemplateLoader() {
+                                        @Override
+                                        public Reader getTemplate(String name) {
+                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                                        }
+                                    })
+                                    .defaultValue("")
+                                    .compile(template);
+                            writeToFile(filename, tmpl.execute(models));
+                            files.add(new File(filename));
+                        }
+
+                        // to generate model test files
+                        for (String templateName : config.modelTestTemplateFiles().keySet()) {
+                            String suffix = config.modelTestTemplateFiles().get(templateName);
+                            String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(name) + suffix;
                             if (!config.shouldOverwrite(filename)) {
                                 continue;
                             }
@@ -218,7 +271,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
         if (System.getProperty("debugModels") != null) {
-            System.out.println("############ Model info ############");
+            LOGGER.info("############ Model info ############");
             Json.prettyPrint(allModels);
         }
 
@@ -248,6 +301,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("classname", config.toApiName(tag));
                     operation.put("classVarName", config.toApiVarName(tag));
                     operation.put("importPath", config.toApiImport(tag));
+                    
+                    if(!config.vendorExtensions().isEmpty()) {
+                    	operation.put("vendorExtensions", config.vendorExtensions());
+                    }
 
                     // Pass sortParamsByRequiredFlag through to the Mustache template...
                     boolean sortParamsByRequiredFlag = true;
@@ -288,13 +345,37 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         writeToFile(filename, tmpl.execute(operation));
                         files.add(new File(filename));
                     }
+
+                    // to generate api test files
+                    for (String templateName : config.apiTestTemplateFiles().keySet()) {
+                        String filename = config.apiTestFilename(templateName, tag);
+                        if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
+                            continue;
+                        }
+
+                        String templateFile = getFullTemplateFile(config, templateName);
+                        String template = readTemplate(templateFile);
+                        Template tmpl = Mustache.compiler()
+                                .withLoader(new Mustache.TemplateLoader() {
+                                    @Override
+                                    public Reader getTemplate(String name) {
+                                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                                    }
+                                })
+                                .defaultValue("")
+                                .compile(template);
+
+                        writeToFile(filename, tmpl.execute(operation));
+                        files.add(new File(filename));
+                    }
+
                 } catch (Exception e) {
                     throw new RuntimeException("Could not generate api file for '" + tag + "'", e);
                 }
             }
         }
         if (System.getProperty("debugOperations") != null) {
-            System.out.println("############ Operation info ############");
+            LOGGER.info("############ Operation info ############");
             Json.prettyPrint(allOperations);
         }
 
@@ -333,7 +414,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.postProcessSupportingFileData(bundle);
 
         if (System.getProperty("debugSupportingFiles") != null) {
-            System.out.println("############ Supporting file info ############");
+            LOGGER.info("############ Supporting file info ############");
             Json.prettyPrint(bundle);
         }
 
@@ -392,18 +473,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             }
                             File outputFile = new File(outputFilename);
                             OutputStream out = new FileOutputStream(outputFile, false);
-                            if (in != null && out != null) {
-                                System.out.println("writing file " + outputFile);
+                            if (in != null) {
+                            	LOGGER.info("writing file " + outputFile);
                                 IOUtils.copy(in, out);
                             } else {
                                 if (in == null) {
-                                    System.out.println("can't open " + templateFile + " for input");
-                                }
-                                if (out == null) {
-                                    System.out.println("can't open " + outputFile + " for output");
+                                    LOGGER.error("can't open " + templateFile + " for input");
                                 }
                             }
-
                             files.add(outputFile);
                         }
                     }
@@ -412,13 +489,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
             }
         }
-
         config.processSwagger(swagger);
-
         return files;
     }
 
-    private void processMimeTypes(List<String> mimeTypeList, Map<String, Object> operation, String source) {
+    private static void processMimeTypes(List<String> mimeTypeList, Map<String, Object> operation, String source) {
         if (mimeTypeList != null && mimeTypeList.size() > 0) {
             List<Map<String, String>> c = new ArrayList<Map<String, String>>();
             int count = 0;
@@ -439,7 +514,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
+    private static List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
     	List<String> sortedModelKeys = new ArrayList<String>(definitions.keySet());
     	Comparator<String> cmp = new Comparator<String>() {
 			@Override
@@ -512,7 +587,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, Path path) {
         if (operation != null) {
             if (System.getProperty("debugOperations") != null) {
-                LOGGER.debug("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
+                LOGGER.info("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation
+                        + "\n");
             }
             List<String> tags = operation.getTags();
             if (tags == null) {
@@ -561,35 +637,29 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         continue;
                     }
                     Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-                    // NOTE: Use only the first security requirement for now.
-                    // See the "security" field of "Swagger Object":
-                    //  https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#swagger-object
-                    //  "there is a logical OR between the security requirements"
-                    if (securities.size() > 1) {
-                        LOGGER.warn("More than 1 security requirements are found, using only the first one");
-                    }
-                    Map<String, List<String>> security = securities.get(0);
-                    for (String securityName : security.keySet()) {
-                        SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
-                        if (securityDefinition != null) {
-                            if(securityDefinition instanceof OAuth2Definition) {
-                                OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
-                                OAuth2Definition oauth2Operation = new OAuth2Definition();
-                                oauth2Operation.setType(oauth2Definition.getType());
-                                oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
-                                oauth2Operation.setFlow(oauth2Definition.getFlow());
-                                oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
-                                oauth2Operation.setScopes(new HashMap<String, String>());
-                                for (String scope : security.get(securityName)) {
-                                    if (oauth2Definition.getScopes().containsKey(scope)) {
-                                        oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
-                                    }
-                                }
-                                authMethods.put(securityName, oauth2Operation);
-                            } else {
-                                authMethods.put(securityName, securityDefinition);
-                            }
-                        }
+                    for (Map<String, List<String>> security: securities) {
+                      for (String securityName : security.keySet()) {
+                          SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
+                          if (securityDefinition != null) {
+                              if(securityDefinition instanceof OAuth2Definition) {
+                                  OAuth2Definition oauth2Definition = (OAuth2Definition) securityDefinition;
+                                  OAuth2Definition oauth2Operation = new OAuth2Definition();
+                                  oauth2Operation.setType(oauth2Definition.getType());
+                                  oauth2Operation.setAuthorizationUrl(oauth2Definition.getAuthorizationUrl());
+                                  oauth2Operation.setFlow(oauth2Definition.getFlow());
+                                  oauth2Operation.setTokenUrl(oauth2Definition.getTokenUrl());
+                                  oauth2Operation.setScopes(new HashMap<String, String>());
+                                  for (String scope : security.get(securityName)) {
+                                      if (oauth2Definition.getScopes().containsKey(scope)) {
+                                          oauth2Operation.addScope(scope, oauth2Definition.getScopes().get(scope));
+                                      }
+                                  }
+                                  authMethods.put(securityName, oauth2Operation);
+                              } else {
+                                  authMethods.put(securityName, securityDefinition);
+                              }
+                          }
+                      }
                     }
                     if (!authMethods.isEmpty()) {
                         co.authMethods = config.fromSecurity(authMethods);
@@ -609,10 +679,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private String generateParameterId(Parameter parameter) {
+    private static String generateParameterId(Parameter parameter) {
         return parameter.getName() + ":" + parameter.getIn();
     }
 
+    @SuppressWarnings("static-method")
     protected String sanitizeTag(String tag) {
         // remove spaces and make strong case
         String[] parts = tag.split(" ");
@@ -625,6 +696,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return buf.toString().replaceAll("[^a-zA-Z ]", "");
     }
 
+    @SuppressWarnings("static-method")
     public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
         Map<String, Object> operations = new HashMap<String, Object>();
         Map<String, Object> objs = new HashMap<String, Object>();
@@ -685,6 +757,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return operations;
     }
 
+    @SuppressWarnings("static-method")
     public Map<String, Object> processModels(CodegenConfig config, Map<String, Model> definitions, Map<String, Model> allDefinitions) {
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("package", config.modelPackage());
@@ -697,27 +770,32 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(key));
             models.add(mo);
+
             allImports.addAll(cm.imports);
         }
         objs.put("models", models);
 
-        List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+        Set<String> importSet = new TreeSet<String>();
         for (String nextImport : allImports) {
-            Map<String, String> im = new LinkedHashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
                 mapping = config.toModelImport(nextImport);
             }
             if (mapping != null && !config.defaultIncludes().contains(mapping)) {
-                im.put("import", mapping);
-                imports.add(im);
+                importSet.add(mapping);
             }
             // add instantiation types
             mapping = config.instantiationTypes().get(nextImport);
             if (mapping != null && !config.defaultIncludes().contains(mapping)) {
-                im.put("import", mapping);
-                imports.add(im);
+                importSet.add(mapping);
             }
+        }
+
+        List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+        for(String s: importSet) {
+            Map<String, String> item = new HashMap<String, String>();
+            item.put("import", s);
+            imports.add(item);
         }
 
         objs.put("imports", imports);

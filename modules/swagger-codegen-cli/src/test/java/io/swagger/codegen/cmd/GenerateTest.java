@@ -12,6 +12,7 @@ import mockit.Verifications;
 import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("unused")
 public class GenerateTest {
 
     @Mocked

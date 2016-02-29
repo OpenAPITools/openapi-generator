@@ -8,8 +8,6 @@ import io.swagger.codegen.options.FlashClienOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
-import java.util.Map;
-
 public class FlashClienOptionsTest extends AbstractOptionsTest {
 
     @Tested
@@ -24,6 +22,7 @@ public class FlashClienOptionsTest extends AbstractOptionsTest {
         return clientCodegen;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{

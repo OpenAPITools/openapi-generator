@@ -76,7 +76,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "sample1",  // replace with static values
                         "sample2")
@@ -121,6 +121,9 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "QMap");
         typeMapping.put("file", "SWGHttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "QString");
 
         importMapping = new HashMap<String, String>();
 
@@ -140,6 +143,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
      * @return the CodegenType for this generator
      * @see io.swagger.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -150,6 +154,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "qt5cpp";
     }
@@ -160,6 +165,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a qt5 C++ client library.";
     }
@@ -189,6 +195,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }

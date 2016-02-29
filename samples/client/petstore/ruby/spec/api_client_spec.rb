@@ -59,7 +59,7 @@ describe Petstore::ApiClient do
         c.api_key['api_key'] = 'special-key2'
       end
       api_client2 = Petstore::ApiClient.new(config2)
-      
+
       auth_names = ['api_key', 'unknown']
 
       header_params = {}
@@ -82,7 +82,7 @@ describe Petstore::ApiClient do
       end
 
       api_client = Petstore::ApiClient.new
-      
+
       header_params = {}
       query_params = {}
       auth_names = ['api_key', 'unknown']
@@ -92,7 +92,44 @@ describe Petstore::ApiClient do
     end
   end
 
+  describe "timeout in #build_request" do
+    let(:config) { Petstore::Configuration.new }
+    let(:api_client) { Petstore::ApiClient.new(config) }
+
+    it "defaults to 0" do
+      Petstore::Configuration.default.timeout.should == 0
+      config.timeout.should == 0
+
+      request = api_client.build_request(:get, '/test')
+      request.options[:timeout].should == 0
+    end
+
+    it "can be customized" do
+      config.timeout = 100
+      request = api_client.build_request(:get, '/test')
+      request.options[:timeout].should == 100
+    end
+  end
+
   describe "#deserialize" do
+    it "handles Array<Integer>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '[12, 34]')
+      data = api_client.deserialize(response, 'Array<Integer>')
+      data.should be_a(Array)
+      data.should == [12, 34]
+    end
+
+    it "handles Array<Array<Integer>>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '[[12, 34], [56]]')
+      data = api_client.deserialize(response, 'Array<Array<Integer>>')
+      data.should be_a(Array)
+      data.should == [[12, 34], [56]]
+    end
+
     it "handles Hash<String, String>" do
       api_client = Petstore::ApiClient.new
       headers = {'Content-Type' => 'application/json'}
@@ -107,6 +144,21 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '{"pet": {"id": 1}}')
       data = api_client.deserialize(response, 'Hash<String, Pet>')
+      data.should be_a(Hash)
+      data.keys.should == [:pet]
+      pet = data[:pet]
+      pet.should be_a(Petstore::Pet)
+      pet.id.should == 1
+    end
+
+    it "handles Hash<String, Hash<String, Pet>>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '{"data": {"pet": {"id": 1}}}')
+      result = api_client.deserialize(response, 'Hash<String, Hash<String, Pet>>')
+      result.should be_a(Hash)
+      result.keys.should == [:data]
+      data = result[:data]
       data.should be_a(Hash)
       data.keys.should == [:pet]
       pet = data[:pet]
@@ -203,6 +255,22 @@ describe Petstore::ApiClient do
       api_client.select_header_content_type(['APPLICATION/JSON', 'text/html']).should == 'APPLICATION/JSON'
       api_client.select_header_content_type(['application/xml']).should == 'application/xml'
       api_client.select_header_content_type(['text/plain', 'application/xml']).should == 'text/plain'
+    end
+  end
+
+  describe "#sanitize_filename" do
+    let(:api_client) { Petstore::ApiClient.new }
+
+    it "works" do
+      api_client.sanitize_filename('sun').should == 'sun'
+      api_client.sanitize_filename('sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('../sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('/var/tmp/sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('./sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('..\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('\var\tmp\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('c:\var\tmp\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('.\sun.gif').should == 'sun.gif'
     end
   end
 

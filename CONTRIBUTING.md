@@ -2,9 +2,9 @@
 
 ## Before submitting an issue
 
- - Before submitting an issue, search the [open issue](https://github.com/swagger-api/swagger-codegen/issues) and [closed issue](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aissue+is%3Aclosed) to ensure no one else has reported something similar before.
+ - Search the [open issue](https://github.com/swagger-api/swagger-codegen/issues) and [closed issue](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aissue+is%3Aclosed) to ensure no one else has reported something similar before.
  - The issue should contain details on how to repeat the issue, e.g. 
-   - the Swagger spec for reproducing the issue (:bulb: use [Gist](https://gist.github.com) to share). If the Swagger spec cannot be shared publicly, it will be hard for the community to help
+   - the OpenAPI Spec for reproducing the issue (:bulb: use [Gist](https://gist.github.com) to share). If the OpenAPI Spec cannot be shared publicly, it will be hard for the community to help
    - version of Swagger Codegen
    - language (`-l` in the command line, e.g. java, csharp, php)
  - You can also make a suggestion or ask a question by opening an "issue"
@@ -31,10 +31,12 @@ For a list of variables available in the template, please refer to this [page](h
 Code change should conform to the programming style guide of the respective langauages:
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - Java: https://google.github.io/styleguide/javaguide.html
+- JavaScript - https://github.com/airbnb/javascript/tree/master/es5
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
 - Python: https://www.python.org/dev/peps/pep-0008/
 - Ruby: https://github.com/bbatsov/ruby-style-guide
+- Swift: https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
 
 
@@ -56,7 +58,7 @@ To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all t
 
 ### Tips
 - Smaller changes are easier to review
-- [Optional] For bug fixes, provide a Swagger spec to repeat the issue so that the reviewer can use it to confirm the fix
+- [Optional] For bug fixes, provide a OpenAPI Spec to repeat the issue so that the reviewer can use it to confirm the fix
 - Add test case(s) to cover the change
 - Document the fix in the code to make the code more readable
 - Make sure test cases passed after the change (one way is to leverage https://travis-ci.org/ to run the CI tests)

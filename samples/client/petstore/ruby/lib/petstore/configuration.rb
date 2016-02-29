@@ -60,6 +60,10 @@ module Petstore
     # @return [String]
     attr_accessor :temp_folder_path
 
+    # The time limit for HTTP request in seconds.
+    # Default to 0 (never times out).
+    attr_accessor :timeout
+
     ### TLS/SSL
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
@@ -93,6 +97,7 @@ module Petstore
       @base_path = '/v2'
       @api_key = {}
       @api_key_prefix = {}
+      @timeout = 0
       @verify_ssl = true
       @cert_file = nil
       @key_file = nil
@@ -152,12 +157,12 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
-        'petstore_auth' =>
+        'test_api_key_header' =>
           {
-            type: 'oauth2',
+            type: 'api_key',
             in: 'header',
-            key: 'Authorization',
-            value: "Bearer #{access_token}"
+            key: 'test_api_key_header',
+            value: api_key_with_prefix('test_api_key_header')
           },
         'api_key' =>
           {
@@ -165,6 +170,34 @@ module Petstore
             in: 'header',
             key: 'api_key',
             value: api_key_with_prefix('api_key')
+          },
+        'test_api_client_secret' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'x-test_api_client_secret',
+            value: api_key_with_prefix('x-test_api_client_secret')
+          },
+        'test_api_client_id' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'x-test_api_client_id',
+            value: api_key_with_prefix('x-test_api_client_id')
+          },
+        'test_api_key_query' =>
+          {
+            type: 'api_key',
+            in: 'query',
+            key: 'test_api_key_query',
+            value: api_key_with_prefix('test_api_key_query')
+          },
+        'petstore_auth' =>
+          {
+            type: 'oauth2',
+            in: 'header',
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
           },
       }
     end

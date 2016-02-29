@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-Copyright 2015 SmartBear Software
+Copyright 2016 SmartBear Software
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -66,8 +66,7 @@ class ApiClient(object):
     :param header_name: a header to pass when making calls to the API.
     :param header_value: a header value to pass when making calls to the API.
     """
-    def __init__(self, host=Configuration().host,
-                 header_name=None, header_value=None, cookie=None):
+    def __init__(self, host=None, header_name=None, header_value=None, cookie=None):
 
         """
         Constructor of the class.
@@ -76,7 +75,10 @@ class ApiClient(object):
         self.default_headers = {}
         if header_name is not None:
             self.default_headers[header_name] = header_value
-        self.host = host
+        if host is None:
+            self.host = Configuration().host
+        else:
+            self.host = host
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = 'Python-Swagger/1.0.0'
@@ -384,22 +386,23 @@ class ApiClient(object):
         :param files: File parameters.
         :return: Form parameters with files.
         """
-        params = {}
+        params = []
 
         if post_params:
-            params.update(post_params)
+            params = post_params
 
         if files:
             for k, v in iteritems(files):
                 if not v:
                     continue
-
-                with open(v, 'rb') as f:
-                    filename = os.path.basename(f.name)
-                    filedata = f.read()
-                    mimetype = mimetypes.\
-                        guess_type(filename)[0] or 'application/octet-stream'
-                    params[k] = tuple([filename, filedata, mimetype])
+                file_names = v if type(v) is list else [v]
+                for n in file_names:
+                    with open(n, 'rb') as f:
+                        filename = os.path.basename(f.name)
+                        filedata = f.read()
+                        mimetype = mimetypes.\
+                            guess_type(filename)[0] or 'application/octet-stream'
+                        params.append(tuple([k, tuple([filename, filedata, mimetype])]))
 
         return params
 

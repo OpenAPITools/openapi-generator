@@ -31,7 +31,7 @@ samples/client/petstore/qt5cpp/build-*
 samples/client/petstore/qt5cpp/PetStore/PetStore
 samples/client/petstore/qt5cpp/PetStore/Makefile
 samples/client/petstore/java/hello.txt
-samples/client/petstore/android-java/hello.txt
+samples/client/petstore/android/default/hello.txt
 samples/client/petstore/objc/SwaggerClientTests/Build
 samples/client/petstore/objc/SwaggerClientTests/Pods
 samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcworkspace
@@ -48,6 +48,7 @@ atlassian-ide-plugin.xml
 packages/
 .pub
 .packages
+.vagrant/
 
 samples/client/petstore/php/SwaggerClient-php/composer.lock
 samples/client/petstore/php/SwaggerClient-php/vendor/
@@ -55,13 +56,30 @@ samples/client/petstore/php/SwaggerClient-php/vendor/
 samples/client/petstore/silex/SwaggerServer/composer.lock
 samples/client/petstore/silex/SwaggerServer/venodr/
 
+samples/client/petstore/perl/deep_module_test/
+
 samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
+samples/client/petstore/python/dev-requirements.txt.log
 
-*/.settings
+samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
+samples/client/petstore/swift/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
+samples/client/petstore/swift/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
+
+.settings
 
 *.mustache~
 *.java~
 *.pm~
 *.xml~
 *.t~
+
+samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/
+samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/
+**/.gradle/
+
+samples/client/petstore/python/dev-requirements.txt.log
+samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
+samples/client/petstore/python/.coverage

@@ -5,7 +5,7 @@ import io.airlift.airline.Option;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
-import io.swagger.codegen.cmd.utils.OptionUtils;
+import io.swagger.codegen.utils.OptionUtils;
 import io.swagger.codegen.config.CodegenConfigurator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -72,6 +72,12 @@ public class Generate implements Runnable {
 
     @Option(name = {"--model-package"}, title = "model package", description = CodegenConstants.MODEL_PACKAGE_DESC)
     private String modelPackage;
+
+    @Option(name = {"--model-name-prefix"}, title = "model name prefix", description = CodegenConstants.MODEL_NAME_PREFIX_DESC)
+    private String modelNamePrefix;
+
+    @Option(name = {"--model-name-suffix"}, title = "model name suffix", description = CodegenConstants.MODEL_NAME_SUFFIX_DESC)
+    private String modelNameSuffix;
 
     @Option(name = {"--instantiation-types"}, title = "instantiation types", description = "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType." +
             "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code.")
@@ -156,6 +162,14 @@ public class Generate implements Runnable {
             configurator.setModelPackage(modelPackage);
         }
 
+        if(isNotEmpty(modelNamePrefix)){
+            configurator.setModelNamePrefix(modelNamePrefix);
+        }
+
+        if(isNotEmpty(modelNameSuffix)){
+            configurator.setModelNameSuffix(modelNameSuffix);
+        }
+
         if(isNotEmpty(invokerPackage)) {
             configurator.setInvokerPackage(invokerPackage);
         }
@@ -230,15 +244,15 @@ public class Generate implements Runnable {
         }
     }
 
-    private Set<String> createSetFromCsvList(String csvProperty) {
+    private static Set<String> createSetFromCsvList(String csvProperty) {
         final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
         return new HashSet<String>(values);
     }
 
-    private Map createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
+    private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
         final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
 
-        Map result = new HashMap();
+        Map<String, String> result = new HashMap<String, String>();
 
         for (Pair<String, String> pair : pairs) {
             result.put(pair.getLeft(), pair.getRight());

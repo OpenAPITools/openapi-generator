@@ -5,8 +5,6 @@ import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.*;
-import org.apache.commons.lang.StringUtils;
-
 import java.util.*;
 import java.io.File;
 
@@ -22,6 +20,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * @return  the CodegenType for this generator
    * @see     io.swagger.codegen.CodegenType
    */
+  @Override
   public CodegenType getTag() {
     return CodegenType.CLIENT;
   }
@@ -32,6 +31,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * 
    * @return the friendly name for the generator
    */
+  @Override
   public String getName() {
     return "jmeter";
   }
@@ -42,6 +42,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * 
    * @return A string value for the help message
    */
+  @Override
   public String getHelp() {
     return "Generates a JMeter .jmx file.";
   }
@@ -97,6 +98,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
 //    supportingFiles.add(new SupportingFile("testdata-localhost.mustache", "input", "testdata-localhost.csv"));
   }
 
+  @Override
   public void preprocessSwagger(Swagger swagger) {
     if (swagger != null && swagger.getPaths() != null) {
       for (String pathname : swagger.getPaths().keySet()) {
@@ -126,6 +128,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * Location to write model files.  You can use the modelPackage() as defined when the class is
    * instantiated
    */
+  @Override
   public String modelFileFolder() {
     return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
   }

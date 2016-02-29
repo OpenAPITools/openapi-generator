@@ -1,4 +1,0 @@
-nose
-tox
-coverage
-randomize
