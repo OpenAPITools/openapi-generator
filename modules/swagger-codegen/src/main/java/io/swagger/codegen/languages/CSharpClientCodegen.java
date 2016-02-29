@@ -335,6 +335,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     }
                 }
             }
+        }
+
+        return objs;
+    }
+
     public void setTargetFramework(String dotnetFramework) {
         if(!frameworks.containsKey(dotnetFramework)){
             LOGGER.warn("Invalid .NET framework version, defaulting to " + this.targetFramework);
@@ -419,49 +424,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
-    /**
-     * Return the default value of the property
-     *
-     * @param p Swagger property object
-     * @return string presentation of the default value of the property
-     */
-    @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "\"" + dp.getDefault().toString() + "\"";
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateProperty) {
-            // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        }
+
     public void setTargetFrameworkNuget(String targetFrameworkNuget) {
         this.targetFrameworkNuget = targetFrameworkNuget;
     }
