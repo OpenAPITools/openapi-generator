@@ -194,6 +194,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String toEnumName(CodegenProperty property) {
+        return StringUtils.capitalize(property.name) + "Enum?";
+    }
+
+    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
