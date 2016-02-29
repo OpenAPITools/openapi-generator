@@ -55,9 +55,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".rb");
         apiTestTemplateFiles.put("api_test.mustache", ".rb");
 
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
-
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
@@ -71,11 +68,23 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
                     "if", "not", "return", "undef", "yield")
         );
 
+        typeMapping.clear();
+        languageSpecificPrimitives.clear();
+
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("array");
         languageSpecificPrimitives.add("map");
         languageSpecificPrimitives.add("string");
         languageSpecificPrimitives.add("DateTime");
+        // primitives in the typeMapping
+        languageSpecificPrimitives.add("String");
+        languageSpecificPrimitives.add("Integer");
+        languageSpecificPrimitives.add("Float");
+        languageSpecificPrimitives.add("Date");
+        languageSpecificPrimitives.add("DateTime");
+        languageSpecificPrimitives.add("BOOLEAN");
+        languageSpecificPrimitives.add("Array");
+        languageSpecificPrimitives.add("Hash");
 
         typeMapping.put("string", "String");
         typeMapping.put("char", "String");
@@ -333,7 +342,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase();
@@ -361,6 +369,14 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("object_" + name);
@@ -375,6 +391,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String filename = underscore("object_" + name);
@@ -398,12 +423,12 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiTestFilename(String name) {
-        return toApiName(name) + "_spec";
+        return toApiFilename(name) + "_spec";
     }
 
     @Override
     public String toModelTestFilename(String name) {
-        return toModelName(name) + "_spec";
+        return toModelFilename(name) + "_spec";
     }
 
     @Override
