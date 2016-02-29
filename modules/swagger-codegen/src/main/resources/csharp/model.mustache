@@ -37,7 +37,7 @@ namespace {{packageName}}.Model
         /// </summary>
 {{#vars}}{{^isReadOnly}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
 {{/isReadOnly}}{{/vars}}
-        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/isReadOnly}}{{/vars}})
+        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatypeWithEnum}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/isReadOnly}}{{/vars}})
         {
             {{#vars}}{{^isReadOnly}}{{#required}}// to ensure "{{name}}" is required (not null)
             if ({{name}} == null)
