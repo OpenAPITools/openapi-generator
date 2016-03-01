@@ -6,7 +6,7 @@ import io.swagger.model.Order;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("/v2")
+@Path("/")
 public interface StoreApi  {
     @GET
     @Path("/store/inventory")
