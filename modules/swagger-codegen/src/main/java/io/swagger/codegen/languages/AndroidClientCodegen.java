@@ -45,9 +45,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
-                    "postBody", "path", "queryParams", "headerParams", "formParams",
-                    "contentTypes", "contentType", "response", "builder", "httpEntity",
-                    "authNames", "basePath", "apiInvoker",
+                    "localVarPostBody", "localVarPath", "localVarQueryParams", "localVarHeaderParams",
+                    "localVarFormParams", "localVarContentTypes", "localVarContentType",
+                    "localVarResponse", "localVarBuilder", "authNames", "basePath", "apiInvoker",
 
                     // android reserved words
                     "abstract", "continue", "for", "new", "switch", "assert",
@@ -68,10 +68,13 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                         "Integer",
                         "Long",
                         "Float",
+                        "byte[]",
                         "Object")
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
+        typeMapping.put("date", "Date");
+        typeMapping.put("file", "File");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -141,8 +144,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
+            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
+                type.equals("Map") || type.equals("List") ||
+                type.equals("File") || type.equals("Date")) {
+                return type;
             }
         } else {
             type = swaggerType;
@@ -182,7 +187,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        name = camelize(sanitizeName(name));
+        name = camelize(sanitizeName(modelNamePrefix + name + modelNameSuffix));
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {

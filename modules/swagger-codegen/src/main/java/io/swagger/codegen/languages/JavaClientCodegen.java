@@ -55,8 +55,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         setReservedWordsLowerCase(
             Arrays.asList(
                 // used as internal variables, can collide with parameter names
-                "path", "queryParams", "headerParams", "formParams", "postBody", "accepts", "accept", "contentTypes",
-                "contentType", "authNames",
+                "localVarPath", "localVarQueryParams", "localVarHeaderParams", "localVarFormParams",
+                "localVarPostBody", "localVarAccepts", "localVarAccept", "localVarContentTypes",
+                "localVarContentType", "localVarAuthNames", "localReturnType",
 
                 // language reserved words
                 "abstract", "continue", "for", "new", "switch", "assert",
@@ -102,7 +103,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
-        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2). Enable the RxJava adapter using '-DuseRxJava=true'.");
+        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta4). Enable the RxJava adapter using '-DuseRxJava=true'.");
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
