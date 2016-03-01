@@ -5,18 +5,11 @@ import io.airlift.airline.Option;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
-import io.swagger.codegen.utils.OptionUtils;
 import io.swagger.codegen.config.CodegenConfigurator;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
@@ -190,74 +183,15 @@ public class Generate implements Runnable {
             configurator.setLibrary(library);
         }
 
-        setSystemProperties(configurator);
-        setInstantiationTypes(configurator);
-        setImportMappings(configurator);
-        setTypeMappings(configurator);
-        setAdditionalProperties(configurator);
-        setLanguageSpecificPrimitives(configurator);
+        applySystemPropertiesKvp(systemProperties, configurator);
+        applyInstantiationTypesKvp(instantiationTypes, configurator);
+        applyImportMappingsKvp(importMappings, configurator);
+        applyTypeMappingsKvp(typeMappings, configurator);
+        applyAdditionalPropertiesKvp(additionalProperties, configurator);
+        applyLanguageSpecificPrimitivesCsv(languageSpecificPrimitives, configurator);
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
         new DefaultGenerator().opts(clientOptInput).generate();
-    }
-
-    private void setSystemProperties(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(systemProperties);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addSystemProperty(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setInstantiationTypes(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(instantiationTypes);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addInstantiationType(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setImportMappings(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(importMappings);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addImportMapping(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setTypeMappings(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(typeMappings);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addTypeMapping(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setAdditionalProperties(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(additionalProperties);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addAdditionalProperty(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setLanguageSpecificPrimitives(CodegenConfigurator configurator) {
-        final Set<String> set = createSetFromCsvList(languageSpecificPrimitives);
-        for (String item : set) {
-            configurator.addLanguageSpecificPrimitive(item);
-        }
-    }
-
-    private static Set<String> createSetFromCsvList(String csvProperty) {
-        final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
-        return new HashSet<String>(values);
-    }
-
-    private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
-        final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
-
-        Map<String, String> result = new HashMap<String, String>();
-
-        for (Pair<String, String> pair : pairs) {
-            result.put(pair.getLeft(), pair.getRight());
-        }
-
-        return result;
     }
 }
