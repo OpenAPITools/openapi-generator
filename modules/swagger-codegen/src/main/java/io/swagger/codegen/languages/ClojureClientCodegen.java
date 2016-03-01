@@ -161,6 +161,11 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
+    public String toApiFilename(String name) {
+        return underscore(toApiName(name));
+    }
+
+    @Override
     public String toApiName(String name) {
         return dashize(name);
     }
