@@ -69,18 +69,18 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -122,18 +122,18 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -177,19 +177,19 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return (List<Pet>) ApiInvoker.deserialize(localVarResponse, "array", Pet.class);
       }
       else {
         return null;
@@ -232,19 +232,19 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
-        return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return (List<Pet>) ApiInvoker.deserialize(localVarResponse, "array", Pet.class);
       }
       else {
         return null;
@@ -290,19 +290,19 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
-        return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return (Pet) ApiInvoker.deserialize(localVarResponse, "", Pet.class);
       }
       else {
         return null;
@@ -350,18 +350,18 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
       if (name != null) {
-        builder.addTextBody("name", ApiInvoker.parameterToString(name), ApiInvoker.TEXT_PLAIN_UTF8);
+        localVarBuilder.addTextBody("name", ApiInvoker.parameterToString(name), ApiInvoker.TEXT_PLAIN_UTF8);
       }
       
       if (status != null) {
-        builder.addTextBody("status", ApiInvoker.parameterToString(status), ApiInvoker.TEXT_PLAIN_UTF8);
+        localVarBuilder.addTextBody("status", ApiInvoker.parameterToString(status), ApiInvoker.TEXT_PLAIN_UTF8);
       }
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       localVarFormParams.put("name", ApiInvoker.parameterToString(name));
@@ -370,8 +370,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -421,18 +421,18 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -481,18 +481,18 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
       if (additionalMetadata != null) {
-        builder.addTextBody("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), ApiInvoker.TEXT_PLAIN_UTF8);
+        localVarBuilder.addTextBody("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), ApiInvoker.TEXT_PLAIN_UTF8);
       }
       
       if (file != null) {
-        builder.addBinaryBody("file", file);
+        localVarBuilder.addBinaryBody("file", file);
       }
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       localVarFormParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
@@ -501,8 +501,8 @@ public class PetApi {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -549,19 +549,19 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
-        return (byte[]) ApiInvoker.deserialize(response, "", byte[].class);
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return (byte[]) ApiInvoker.deserialize(localVarResponse, "", byte[].class);
       }
       else {
         return null;
@@ -602,18 +602,18 @@ public class PetApi {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {

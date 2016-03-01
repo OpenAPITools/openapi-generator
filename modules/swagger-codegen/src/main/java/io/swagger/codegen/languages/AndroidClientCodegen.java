@@ -47,7 +47,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                     // local variable names used in API methods (endpoints)
                     "localVarPostBody", "localVarPath", "localVarQueryParams", "localVarHeaderParams",
                     "localVarFormParams", "localVarContentTypes", "localVarContentType",
-                    "response", "builder", "authNames", "basePath", "apiInvoker",
+                    "localVarResponse", "localVarBuilder", "authNames", "basePath", "apiInvoker",
 
                     // android reserved words
                     "abstract", "continue", "for", "new", "switch", "assert",

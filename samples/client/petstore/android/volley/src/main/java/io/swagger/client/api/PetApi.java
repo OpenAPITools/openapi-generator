@@ -76,10 +76,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -89,8 +89,8 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -140,10 +140,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -156,10 +156,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -205,10 +205,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -218,8 +218,8 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -269,10 +269,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -285,10 +285,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -336,10 +336,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -349,9 +349,9 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
-           return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (List<Pet>) ApiInvoker.deserialize(localVarResponse, "array", Pet.class);
         } else {
            return null;
         }
@@ -402,10 +402,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -418,10 +418,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
             try {
-              responseListener.onResponse((List<Pet>) ApiInvoker.deserialize(response,  "array", Pet.class));
+              responseListener.onResponse((List<Pet>) ApiInvoker.deserialize(localVarResponse,  "array", Pet.class));
               
               
             
@@ -474,10 +474,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -487,9 +487,9 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
-           return (List<Pet>) ApiInvoker.deserialize(response, "array", Pet.class);
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (List<Pet>) ApiInvoker.deserialize(localVarResponse, "array", Pet.class);
         } else {
            return null;
         }
@@ -540,10 +540,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -556,10 +556,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
             try {
-              responseListener.onResponse((List<Pet>) ApiInvoker.deserialize(response,  "array", Pet.class));
+              responseListener.onResponse((List<Pet>) ApiInvoker.deserialize(localVarResponse,  "array", Pet.class));
               
               
             
@@ -616,10 +616,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -629,9 +629,9 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth", "api_key" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
-           return (Pet) ApiInvoker.deserialize(response, "", Pet.class);
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (Pet) ApiInvoker.deserialize(localVarResponse, "", Pet.class);
         } else {
            return null;
         }
@@ -686,10 +686,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -702,10 +702,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
             try {
-              responseListener.onResponse((Pet) ApiInvoker.deserialize(response,  "", Pet.class));
+              responseListener.onResponse((Pet) ApiInvoker.deserialize(localVarResponse,  "", Pet.class));
               
               
             
@@ -764,18 +764,18 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
           if (name != null) {
-          builder.addTextBody("name", ApiInvoker.parameterToString(name), ApiInvoker.TEXT_PLAIN_UTF8);
+          localVarBuilder.addTextBody("name", ApiInvoker.parameterToString(name), ApiInvoker.TEXT_PLAIN_UTF8);
           }
   
           if (status != null) {
-          builder.addTextBody("status", ApiInvoker.parameterToString(status), ApiInvoker.TEXT_PLAIN_UTF8);
+          localVarBuilder.addTextBody("status", ApiInvoker.parameterToString(status), ApiInvoker.TEXT_PLAIN_UTF8);
           }
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -787,8 +787,8 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -844,18 +844,18 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
       if (name != null) {
-        builder.addTextBody("name", ApiInvoker.parameterToString(name), ApiInvoker.TEXT_PLAIN_UTF8);
+        localVarBuilder.addTextBody("name", ApiInvoker.parameterToString(name), ApiInvoker.TEXT_PLAIN_UTF8);
       }
       
       if (status != null) {
-        builder.addTextBody("status", ApiInvoker.parameterToString(status), ApiInvoker.TEXT_PLAIN_UTF8);
+        localVarBuilder.addTextBody("status", ApiInvoker.parameterToString(status), ApiInvoker.TEXT_PLAIN_UTF8);
       }
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -870,10 +870,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -928,10 +928,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -941,8 +941,8 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -1000,10 +1000,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -1016,10 +1016,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -1073,18 +1073,18 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
           if (additionalMetadata != null) {
-          builder.addTextBody("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), ApiInvoker.TEXT_PLAIN_UTF8);
+          localVarBuilder.addTextBody("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), ApiInvoker.TEXT_PLAIN_UTF8);
           }
   
           if (file != null) {
-          builder.addBinaryBody("file", file);
+          localVarBuilder.addBinaryBody("file", file);
           }
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -1096,8 +1096,8 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -1153,18 +1153,18 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
       if (additionalMetadata != null) {
-        builder.addTextBody("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), ApiInvoker.TEXT_PLAIN_UTF8);
+        localVarBuilder.addTextBody("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata), ApiInvoker.TEXT_PLAIN_UTF8);
       }
       
       if (file != null) {
-        builder.addBinaryBody("file", file);
+        localVarBuilder.addBinaryBody("file", file);
       }
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -1179,10 +1179,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -1234,10 +1234,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -1247,9 +1247,9 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth", "api_key" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
-           return (byte[]) ApiInvoker.deserialize(response, "", byte[].class);
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (byte[]) ApiInvoker.deserialize(localVarResponse, "", byte[].class);
         } else {
            return null;
         }
@@ -1304,10 +1304,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -1320,10 +1320,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
             try {
-              responseListener.onResponse((byte[]) ApiInvoker.deserialize(response,  "", byte[].class));
+              responseListener.onResponse((byte[]) ApiInvoker.deserialize(localVarResponse,  "", byte[].class));
               
               
             
@@ -1374,10 +1374,10 @@ public class PetApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -1387,8 +1387,8 @@ public class PetApi {
       String[] authNames = new String[] { "petstore_auth" };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -1438,10 +1438,10 @@ public class PetApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -1454,10 +1454,10 @@ public class PetApi {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
