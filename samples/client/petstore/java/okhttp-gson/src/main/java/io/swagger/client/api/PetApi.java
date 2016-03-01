@@ -48,29 +48,29 @@ public class PetApi {
   
   /* Build call for updatePet */
   private Call updatePetCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/pet".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       "application/json", "application/xml"
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -84,8 +84,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "PUT", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -128,7 +128,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -146,29 +146,29 @@ public class PetApi {
   
   /* Build call for addPet */
   private Call addPetCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/pet".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       "application/json", "application/xml"
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -182,8 +182,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -226,7 +226,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -244,31 +244,31 @@ public class PetApi {
   
   /* Build call for findPetsByStatus */
   private Call findPetsByStatusCall(List<String> status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
 
     // create path and map variables
-    String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     if (status != null)
-      queryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
+      localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -282,14 +282,14 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Finds Pets by status
-   * Multiple status values can be provided with comma seperated strings
-   * @param status Status values that need to be considered for filter
+   * Multiple status values can be provided with comma separated strings
+   * @param status Status values that need to be considered for query
    * @return List<Pet>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -300,21 +300,21 @@ public class PetApi {
 
   /**
    * Finds Pets by status
-   * Multiple status values can be provided with comma seperated strings
-   * @param status Status values that need to be considered for filter
+   * Multiple status values can be provided with comma separated strings
+   * @param status Status values that need to be considered for query
    * @return ApiResponse<List<Pet>>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
     Call call = findPetsByStatusCall(status, null, null);
-    Type returnType = new TypeToken<List<Pet>>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
    * Finds Pets by status (asynchronously)
-   * Multiple status values can be provided with comma seperated strings
-   * @param status Status values that need to be considered for filter
+   * Multiple status values can be provided with comma separated strings
+   * @param status Status values that need to be considered for query
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -329,7 +329,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -341,38 +341,38 @@ public class PetApi {
     }
 
     Call call = findPetsByStatusCall(status, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<List<Pet>>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for findPetsByTags */
   private Call findPetsByTagsCall(List<String> tags, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
 
     // create path and map variables
-    String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     if (tags != null)
-      queryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
+      localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -386,8 +386,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -411,8 +411,8 @@ public class PetApi {
    */
   public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
     Call call = findPetsByTagsCall(tags, null, null);
-    Type returnType = new TypeToken<List<Pet>>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
@@ -433,7 +433,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -445,14 +445,14 @@ public class PetApi {
     }
 
     Call call = findPetsByTagsCall(tags, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<List<Pet>>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for getPetById */
   private Call getPetByIdCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -461,26 +461,26 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -494,8 +494,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth", "api_key" };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -519,8 +519,8 @@ public class PetApi {
    */
   public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
     Call call = getPetByIdCall(petId, null, null);
-    Type returnType = new TypeToken<Pet>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<Pet>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
@@ -541,7 +541,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -553,14 +553,14 @@ public class PetApi {
     }
 
     Call call = getPetByIdCall(petId, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<Pet>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<Pet>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for updatePetWithForm */
   private Call updatePetWithFormCall(String petId, String name, String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -569,30 +569,30 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
     if (name != null)
-      formParams.put("name", name);
+      localVarFormParams.put("name", name);
     if (status != null)
-      formParams.put("status", status);
+      localVarFormParams.put("status", status);
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       "application/x-www-form-urlencoded"
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -606,8 +606,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -656,7 +656,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -674,7 +674,7 @@ public class PetApi {
   
   /* Build call for deletePet */
   private Call deletePetCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -683,28 +683,28 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     if (apiKey != null)
-      headerParams.put("api_key", apiClient.parameterToString(apiKey));
+      localVarHeaderParams.put("api_key", apiClient.parameterToString(apiKey));
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -718,8 +718,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "DELETE", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -765,7 +765,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -783,7 +783,7 @@ public class PetApi {
   
   /* Build call for uploadFile */
   private Call uploadFileCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -792,30 +792,30 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
     if (additionalMetadata != null)
-      formParams.put("additionalMetadata", additionalMetadata);
+      localVarFormParams.put("additionalMetadata", additionalMetadata);
     if (file != null)
-      formParams.put("file", file);
+      localVarFormParams.put("file", file);
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       "multipart/form-data"
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -829,8 +829,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -879,7 +879,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -897,7 +897,7 @@ public class PetApi {
   
   /* Build call for petPetIdtestingByteArraytrueGet */
   private Call petPetIdtestingByteArraytrueGetCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -906,26 +906,26 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -939,8 +939,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth", "api_key" };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -964,8 +964,8 @@ public class PetApi {
    */
   public ApiResponse<byte[]> petPetIdtestingByteArraytrueGetWithHttpInfo(Long petId) throws ApiException {
     Call call = petPetIdtestingByteArraytrueGetCall(petId, null, null);
-    Type returnType = new TypeToken<byte[]>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
@@ -986,7 +986,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -998,36 +998,36 @@ public class PetApi {
     }
 
     Call call = petPetIdtestingByteArraytrueGetCall(petId, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<byte[]>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for addPetUsingByteArray */
   private Call addPetUsingByteArrayCall(byte[] body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       "application/json", "application/xml"
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -1041,8 +1041,8 @@ public class PetApi {
       });
     }
 
-    String[] authNames = new String[] { "petstore_auth" };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -1085,7 +1085,7 @@ public class PetApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
