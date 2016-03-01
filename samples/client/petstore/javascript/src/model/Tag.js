@@ -69,10 +69,6 @@
   
   
 
-  Tag.prototype.toJson = function() {
-    return JSON.stringify(this);
-  }
-
   
 
   if (module) {
