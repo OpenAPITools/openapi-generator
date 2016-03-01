@@ -79,18 +79,18 @@ public class {{classname}} {
 
     if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       {{#formParams}}{{#notFile}}
       if ({{paramName}} != null) {
-        builder.addTextBody("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), ApiInvoker.TEXT_PLAIN_UTF8);
+        localVarBuilder.addTextBody("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), ApiInvoker.TEXT_PLAIN_UTF8);
       }
       {{/notFile}}{{#isFile}}
       if ({{paramName}} != null) {
-        builder.addBinaryBody("{{baseName}}", {{paramName}});
+        localVarBuilder.addBinaryBody("{{baseName}}", {{paramName}});
       }
       {{/isFile}}{{/formParams}}
 
-      localVarPostBody = builder.build();
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       {{#formParams}}{{#notFile}}localVarFormParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));{{/notFile}}
@@ -98,9 +98,9 @@ public class {{classname}} {
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(response != null){
-        return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(response, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(localVarResponse, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
       }
       else {
         return {{#returnType}}null{{/returnType}};

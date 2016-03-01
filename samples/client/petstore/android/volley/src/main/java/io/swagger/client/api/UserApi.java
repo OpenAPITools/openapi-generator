@@ -76,10 +76,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -89,8 +89,8 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -140,10 +140,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -156,10 +156,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -205,10 +205,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -218,8 +218,8 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -269,10 +269,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -285,10 +285,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -334,10 +334,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -347,8 +347,8 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -398,10 +398,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -414,10 +414,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -468,10 +468,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -481,9 +481,9 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
-           return (String) ApiInvoker.deserialize(response, "", String.class);
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (String) ApiInvoker.deserialize(localVarResponse, "", String.class);
         } else {
            return null;
         }
@@ -536,10 +536,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -552,10 +552,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
             try {
-              responseListener.onResponse((String) ApiInvoker.deserialize(response,  "", String.class));
+              responseListener.onResponse((String) ApiInvoker.deserialize(localVarResponse,  "", String.class));
               
               
             
@@ -605,10 +605,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -618,8 +618,8 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -669,10 +669,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -685,10 +685,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -740,10 +740,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -753,9 +753,9 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
-           return (User) ApiInvoker.deserialize(response, "", User.class);
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
         } else {
            return null;
         }
@@ -810,10 +810,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -826,10 +826,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
             try {
-              responseListener.onResponse((User) ApiInvoker.deserialize(response,  "", User.class));
+              responseListener.onResponse((User) ApiInvoker.deserialize(localVarResponse,  "", User.class));
               
               
             
@@ -887,10 +887,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -900,8 +900,8 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -957,10 +957,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -973,10 +973,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
@@ -1028,10 +1028,10 @@ public class UserApi {
 
       if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
   
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
       } else {
       // normal form params
@@ -1041,8 +1041,8 @@ public class UserApi {
       String[] authNames = new String[] {  };
 
       try {
-        String response = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(response != null){
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
            return ;
         } else {
            return ;
@@ -1098,10 +1098,10 @@ public class UserApi {
 
     if (contentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
+      HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
     } else {
       // normal form params
@@ -1114,10 +1114,10 @@ public class UserApi {
       apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
-          public void onResponse(String response) {
+          public void onResponse(String localVarResponse) {
             
               
-              responseListener.onResponse(response);
+              responseListener.onResponse(localVarResponse);
               
             
           }
