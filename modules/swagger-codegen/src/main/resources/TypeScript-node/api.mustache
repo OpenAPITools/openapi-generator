@@ -179,7 +179,7 @@ export class {{classname}} {
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
     public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
-        const path = this.basePath + '{{path}}'{{#pathParams}}
+        const localVarPath = this.basePath + '{{path}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -212,13 +212,13 @@ export class {{classname}} {
 {{/isFile}}
 
 {{/formParams}}
-        let deferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>();
+        let localVarDeferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>();
 
         let requestOptions: request.Options = {
             method: '{{httpMethod}}',
             qs: queryParameters,
             headers: headerParams,
-            uri: path,
+            uri: localVarPath,
             json: true,
 {{#bodyParam}}
             body: {{paramName}},
@@ -241,17 +241,17 @@ export class {{classname}} {
 
         request(requestOptions, (error, response, body) => {
             if (error) {
-                deferred.reject(error);
+                localVarDeferred.reject(error);
             } else {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    deferred.resolve({ response: response, body: body });
+                    localVarDeferred.resolve({ response: response, body: body });
                 } else {
-                    deferred.reject({ response: response, body: body });
+                    localVarDeferred.reject({ response: response, body: body });
                 }
             }
         });
 
-        return deferred.promise;
+        return localVarDeferred.promise;
     }
 {{/operation}}
 }

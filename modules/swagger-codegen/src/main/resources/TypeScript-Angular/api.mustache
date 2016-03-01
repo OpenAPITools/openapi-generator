@@ -39,7 +39,7 @@ namespace {{package}} {
          {{#allParams}}* @param {{paramName}} {{description}}
          {{/allParams}}*/
         public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-            const path = this.basePath + '{{path}}'{{#pathParams}}
+            const localVarPath = this.basePath + '{{path}}'{{#pathParams}}
                 .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
 
             let queryParameters: any = {};
@@ -76,7 +76,7 @@ namespace {{package}} {
 {{/formParams}}
             let httpRequestParams: any = {
                 method: '{{httpMethod}}',
-                url: path,
+                url: localVarPath,
                 json: {{#hasFormParams}}false{{/hasFormParams}}{{^hasFormParams}}true{{/hasFormParams}},
                 {{#bodyParam}}data: {{paramName}},
                 {{/bodyParam}}
