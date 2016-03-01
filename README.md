@@ -699,6 +699,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [OSDN](https://osdn.jp)
+- [Pixoneye](http://www.pixoneye.com/)
 - [Reload! A/S](https://reload.dk/) 
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
