@@ -2,6 +2,27 @@
   (:require [swagger-petstore.core :refer [call-api check-required-params with-collection-format]])
   (:import (java.io File)))
 
+(defn find-orders-by-status-with-http-info
+  "Finds orders by status
+  A single status value can be provided as a string"
+  ([] (find-orders-by-status-with-http-info nil))
+  ([{:keys [status ]}]
+   (call-api "/store/findByStatus" :get
+             {:path-params   {}
+              :header-params {}
+              :query-params  {"status" status }
+              :form-params   {}
+              :content-types []
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["test_api_client_id" "test_api_client_secret"]})))
+
+(defn find-orders-by-status
+  "Finds orders by status
+  A single status value can be provided as a string"
+  ([] (find-orders-by-status nil))
+  ([optional-params]
+   (:data (find-orders-by-status-with-http-info optional-params))))
+
 (defn get-inventory-with-http-info
   "Returns pet inventories by status
   Returns a map of status codes to quantities"
@@ -34,7 +55,7 @@
               :body-param    body
               :content-types []
               :accepts       ["application/json" "application/xml"]
-              :auth-names    []})))
+              :auth-names    ["test_api_client_id" "test_api_client_secret"]})))
 
 (defn place-order
   "Place an order for a pet
@@ -54,7 +75,7 @@
              :form-params   {}
              :content-types []
              :accepts       ["application/json" "application/xml"]
-             :auth-names    []}))
+             :auth-names    ["test_api_key_query" "test_api_key_header"]}))
 
 (defn get-order-by-id
   "Find purchase order by ID

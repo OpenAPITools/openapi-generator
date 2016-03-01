@@ -11,7 +11,11 @@
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
             :debug           false
             :auths           {"api_key"       nil
-                              "petstore_auth" nil}}
+                              "petstore_auth" nil
+                              "test_api_client_id" nil
+                              "test_api_client_secret" nil
+                              "test_api_key_query" nil
+                              "test_api_key_header" nil}}
            default-api-context
            *api-context*
            (with-api-context {}
@@ -25,8 +29,9 @@
               :date-format     "yyyy-MM-dd"
               :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
               :debug           true
-              :auths           {"api_key"       "key1"
-                                "petstore_auth" "token1"}}
+              :auths           (merge (:auths default-api-context)
+                                      {"api_key"       "key1"
+                                       "petstore_auth" "token1"})}
              *api-context*))
       ;; nested with-api-context inherits values from the outer api context
       (with-api-context {:datetime-format "yyyy-MM-dd HH:mm:ss"
@@ -35,8 +40,9 @@
                 :date-format     "yyyy-MM-dd"
                 :datetime-format "yyyy-MM-dd HH:mm:ss"
                 :debug           true
-                :auths           {"api_key"       "key2"
-                                  "petstore_auth" "token1"}}
+                :auths           (merge (:auths default-api-context)
+                                        {"api_key"       "key2"
+                                         "petstore_auth" "token1"})}
                *api-context*))))
     ;; back to default api context
     (is (= {:base-url        "http://petstore.swagger.io/v2"
@@ -44,7 +50,11 @@
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
             :debug           false
             :auths           {"api_key"       nil
-                              "petstore_auth" nil}}
+                              "petstore_auth" nil
+                              "test_api_client_id" nil
+                              "test_api_client_secret" nil
+                              "test_api_key_query" nil
+                              "test_api_key_header" nil}}
            default-api-context
            *api-context*))))
 

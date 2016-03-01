@@ -17,12 +17,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 		supportsInheritance = true;
 		setReservedWordsLowerCase(Arrays.asList(
                     // local variable names used in API methods (endpoints)
-                    "path", "queryParameters", "headerParams", "formParams", "useFormData", "deferred",
+                    "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
                     "requestOptions",
                     // Typescript reserved words
                     "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
 		languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
+				"string",
 				"String",
 				"boolean",
 				"Boolean",
@@ -30,7 +31,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 				"Integer",
 				"Long",
 				"Float",
-				"Object"));
+				"Object",
+                "Array",
+                "Date",
+                "number",
+                "any"
+                ));
 		instantiationTypes.put("array", "Array");
 
 	    typeMapping = new HashMap<String, String>();
@@ -116,10 +122,22 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
 	@Override
 	public String toModelName(String name) {
-		// model name cannot use reserved keyword, e.g. return
-		if (isReservedWord(name))
-			throw new RuntimeException(name
-					+ " (reserved word) cannot be used as a model name");
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            String modelName = camelize("object_" + name);
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
 
 		// camelize the model name
 		// phone_number => PhoneNumber
@@ -158,7 +176,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 				return type;
 		} else
 			type = swaggerType;
-		return type;
+		return toModelName(type);
 	}
 
     @Override
