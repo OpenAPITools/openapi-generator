@@ -146,6 +146,11 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
+    public String sanitizeTag(String tag) {
+        return tag.replaceAll("[^a-zA-Z_]+", "_");
+    }
+
+    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + namespaceToFolder(apiPackage);
     }
