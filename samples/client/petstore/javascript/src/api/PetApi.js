@@ -89,8 +89,8 @@
     
     /**
      * Finds Pets by status
-     * Multiple status values can be provided with comma seperated strings
-     * @param {[String]} opts['status'] Status values that need to be considered for filter
+     * Multiple status values can be provided with comma separated strings
+     * @param {[String]} opts['status'] Status values that need to be considered for query
      * @param {function} callback the callback function, accepting three arguments: error, data, response
      *   data is of type: [Pet]
      */
@@ -183,7 +183,7 @@
       var formParams = {
       };
 
-      var authNames = ['petstore_auth', 'api_key'];
+      var authNames = ['api_key', 'petstore_auth'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Pet;
@@ -349,7 +349,7 @@
       var formParams = {
       };
 
-      var authNames = ['petstore_auth', 'api_key'];
+      var authNames = ['api_key', 'petstore_auth'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = 'String';
