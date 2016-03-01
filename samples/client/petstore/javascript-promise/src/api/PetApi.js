@@ -87,8 +87,8 @@
     
     /**
      * Finds Pets by status
-     * Multiple status values can be provided with comma seperated strings
-     * @param {[String]} opts['status'] Status values that need to be considered for filter
+     * Multiple status values can be provided with comma separated strings
+     * @param {[String]} opts['status'] Status values that need to be considered for query
      *   data is of type: [Pet]
      */
     self.findPetsByStatus = function(opts) {
@@ -321,12 +321,12 @@
      * @param {Integer} petId ID of pet that needs to be fetched
      *   data is of type: 'String'
      */
-    self.getPetByIdWithByteArray = function(petId) {
+    self.petPetIdtestingByteArraytrueGet = function(petId) {
       var postBody = null;
       
       // verify the required parameter 'petId' is set
       if (petId == null) {
-        throw "Missing the required parameter 'petId' when calling getPetByIdWithByteArray";
+        throw "Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet";
       }
       
 
