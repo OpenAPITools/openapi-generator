@@ -34,6 +34,11 @@
      * The default HTTP headers to be included for all API calls.
      */
     this.defaultHeaders = {};
+
+    /**
+     * The default HTTP timeout for all API calls.
+     */
+    this.timeout = 60000;
   };
 
   ApiClient.prototype.paramToString = function paramToString(param) {
@@ -233,6 +238,9 @@
 
     // set header parameters
     request.set(this.defaultHeaders).set(this.normalizeParams(headerParams));
+
+    //set request timeout
+    request.timeout(this.timeout);
 
     var contentType = this.jsonPreferredMime(contentTypes);
     if (contentType) {

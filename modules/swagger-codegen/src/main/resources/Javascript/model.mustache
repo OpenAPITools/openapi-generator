@@ -73,10 +73,6 @@
   {{/vars}}
   {{/omitModelMethods}}
 
-  {{classname}}.prototype.toJson = function() {
-    return JSON.stringify(this);
-  }
-
   {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
   {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
 

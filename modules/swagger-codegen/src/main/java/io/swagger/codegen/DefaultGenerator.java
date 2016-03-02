@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.*;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
@@ -623,8 +622,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 try {
                     co = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions(), swagger);
                     co.tags = new ArrayList<String>();
-                    co.tags.add(sanitizeTag(tag));
-                    config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
+                    co.tags.add(config.sanitizeTag(tag));
+                    config.addOperationToGroup(config.sanitizeTag(tag), resourcePath, operation, co, operations);
 
                     List<Map<String, List<String>>> securities = operation.getSecurity();
                     if (securities == null && swagger.getSecurity() != null) {
@@ -681,19 +680,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     private static String generateParameterId(Parameter parameter) {
         return parameter.getName() + ":" + parameter.getIn();
-    }
-
-    @SuppressWarnings("static-method")
-    protected String sanitizeTag(String tag) {
-        // remove spaces and make strong case
-        String[] parts = tag.split(" ");
-        StringBuilder buf = new StringBuilder();
-        for (String part : parts) {
-            if (isNotEmpty(part)) {
-                buf.append(capitalize(part));
-            }
-        }
-        return buf.toString().replaceAll("[^a-zA-Z ]", "");
     }
 
     @SuppressWarnings("static-method")

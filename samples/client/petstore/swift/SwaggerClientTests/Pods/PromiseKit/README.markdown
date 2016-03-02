@@ -45,7 +45,7 @@ If you still are using Xcode 6 and Swift 1.2 then use PromiseKit 2.
 
 # PromiseKit 2
 
-PromiseKit 2 contains many interesting and important additions. Check out our our [release announcement](http://promisekit.org/PromiseKit-2.0-Released/) for full details.
+PromiseKit 2 contains many interesting and important additions. Check out our our [release announcement](http://promisekit.org/PromiseKit-2.0-Released) for full details.
 
 # PromiseKit 1
 

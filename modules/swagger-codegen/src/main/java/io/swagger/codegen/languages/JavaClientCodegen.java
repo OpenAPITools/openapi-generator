@@ -83,6 +83,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
+        typeMapping.put("date", "Date");
+        typeMapping.put("file", "File");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -488,7 +490,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
             if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
-                type.equals("Map") || type.equals("List")) {
+                type.equals("Map") || type.equals("List") ||
+                type.equals("File") || type.equals("Date")) {
                 return type;
             }
         } else {

@@ -22,6 +22,41 @@
     
     
     /**
+     * Finds orders by status
+     * A single status value can be provided as a string
+     * @param {String} opts['status'] Status value that needs to be considered for query
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     *   data is of type: [Order]
+     */
+    self.findOrdersByStatus = function(opts, callback) {
+      opts = opts || {};
+      var postBody = null;
+      
+
+      var pathParams = {
+      };
+      var queryParams = {
+        'status': opts['status']
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['test_api_client_id', 'test_api_client_secret'];
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+      var returnType = [Order];
+
+      return this.apiClient.callApi(
+        '/store/findByStatus', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+
+    }
+    
+    /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @param {function} callback the callback function, accepting three arguments: error, data, response
