@@ -44,7 +44,8 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "case", "defer", "go", "map", "struct",
                 "chan", "else", "goto", "package", "switch",
                 "const", "fallthrough", "if", "range", "type",
-                "continue", "for", "import", "return", "var")
+                "continue", "for", "import", "return", "var", "error")
+                // Added "error" as it's used so frequently that it may as well be a keyword
         );
 
         defaultIncludes = new HashSet<String>(
@@ -131,8 +132,22 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name;
+    public String escapeReservedWord(String name)
+    {
+        // Can't start with an underscore, as our fields need to start with an
+        // UppercaseLetter so that Go treats them as public/visible.
+
+        // Options?
+        // - MyName
+        // - AName
+        // - TheName
+        // - XName
+        // - X_Name
+        // ... or maybe a suffix?
+        // - Name_ ... think this will work.
+
+        // FIXME: This should also really be a customizable option
+        return camelize(name) + '_';
     }
 
     @Override
@@ -166,8 +181,13 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
+        // params should be lowerCamelCase. E.g. "person Person", instead of
+        // "Person Person".
+        //
+        // REVISIT: Actually, for idiomatic go, the param name should
+        // really should just be a letter, e.g. "p Person"), but we'll get
+        // around to that some other time... Maybe.
+        return camelize(toVarName(name), true);
     }
 
     @Override
@@ -200,7 +220,24 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
             return getSwaggerType(p) + "[string]" + getTypeDeclaration(inner);
         }
-        return super.getTypeDeclaration(p);
+        //return super.getTypeDeclaration(p);
+
+        // Not using the supertype invocation, because we want to UpperCamelize
+        // the type.
+        String swaggerType = getSwaggerType(p);
+        if (typeMapping.containsKey(swaggerType)) {
+            return typeMapping.get(swaggerType);
+        }
+
+        if(typeMapping.containsValue(swaggerType)) {
+            return swaggerType;
+        }
+
+        if(languageSpecificPrimitives.contains(swaggerType)) {
+            return swaggerType;
+        }
+
+        return camelize(swaggerType, false);
     }
 
     @Override
