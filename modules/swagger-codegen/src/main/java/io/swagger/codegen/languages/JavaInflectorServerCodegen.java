@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
+public class JavaInflectorServerCodegen extends JavaClientCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
 
