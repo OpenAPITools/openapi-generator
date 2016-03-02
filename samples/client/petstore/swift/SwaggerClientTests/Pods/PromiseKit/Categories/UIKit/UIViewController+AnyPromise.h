@@ -51,7 +51,7 @@
     }
  
     - (void)viewDidLoad {
-        _promise = [AnyPromise promiseWithResolver:&resolve];
+        _promise = [[AnyPromise alloc] initWithResolver:&resolve];
     }
  
     - (void)later {
