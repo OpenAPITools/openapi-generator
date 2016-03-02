@@ -48,19 +48,19 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");
 
     @Override
-        public CodegenType getTag() {
-            return CodegenType.CLIENT;
-        }
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
+    }
 
     @Override
-        public String getName() {
-            return "swift";
-        }
+    public String getName() {
+        return "swift";
+    }
 
     @Override
-        public String getHelp() {
-            return "Generates a swift client library.";
-        }
+    public String getHelp() {
+        return "Generates a swift client library.";
+    }
 
     public SwiftCodegen() {
         super();
@@ -85,6 +85,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
                     "NSDate",
+                    "NSURL", // for file
                     "Array",
                     "Dictionary",
                     "Set",
@@ -149,234 +150,282 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-        public void processOpts() {
-            super.processOpts();
+    public void processOpts() {
+        super.processOpts();
 
-            // Setup project name
-            if (additionalProperties.containsKey(PROJECT_NAME)) {
-                setProjectName((String) additionalProperties.get(PROJECT_NAME));
+        // Setup project name
+        if (additionalProperties.containsKey(PROJECT_NAME)) {
+            setProjectName((String) additionalProperties.get(PROJECT_NAME));
+        } else {
+            additionalProperties.put(PROJECT_NAME, projectName);
+        }
+        sourceFolder = projectName + File.separator + sourceFolder;
+
+        // Setup unwrapRequired option, which makes all the properties with "required" non-optional
+        if (additionalProperties.containsKey(UNWRAP_REQUIRED)) {
+            setUnwrapRequired(Boolean.parseBoolean(String.valueOf(additionalProperties.get(UNWRAP_REQUIRED))));
+        }
+        additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
+
+        // Setup unwrapRequired option, which makes all the properties with "required" non-optional
+        if (additionalProperties.containsKey(RESPONSE_AS)) {
+            Object responseAsObject = additionalProperties.get(RESPONSE_AS);
+            if (responseAsObject instanceof String) {
+                setResponseAs(((String)responseAsObject).split(","));
             } else {
-                additionalProperties.put(PROJECT_NAME, projectName);
+                setResponseAs((String[]) responseAsObject);
             }
-            sourceFolder = projectName + File.separator + sourceFolder;
-
-            // Setup unwrapRequired option, which makes all the properties with "required" non-optional
-            if (additionalProperties.containsKey(UNWRAP_REQUIRED)) {
-                setUnwrapRequired(Boolean.parseBoolean(String.valueOf(additionalProperties.get(UNWRAP_REQUIRED))));
-            }
-            additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
-
-            // Setup unwrapRequired option, which makes all the properties with "required" non-optional
-            if (additionalProperties.containsKey(RESPONSE_AS)) {
-                Object responseAsObject = additionalProperties.get(RESPONSE_AS);
-                if (responseAsObject instanceof String) {
-                    setResponseAs(((String)responseAsObject).split(","));
-                } else {
-                    setResponseAs((String[]) responseAsObject);
-                }
-            }
-            additionalProperties.put(RESPONSE_AS, responseAs);
-            if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
-                additionalProperties.put("usePromiseKit", true);
-            }
-
-            // Setup swiftUseApiNamespace option, which makes all the API classes inner-class of {{projectName}}API
-            if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
-                swiftUseApiNamespace = Boolean.parseBoolean(String.valueOf(additionalProperties.get(SWIFT_USE_API_NAMESPACE)));
-            }
-            additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
-
-            supportingFiles.add(new SupportingFile("Podspec.mustache", "", projectName + ".podspec"));
-            supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
-            supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
-            supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache", sourceFolder,
-                        "AlamofireImplementations.swift"));
-            supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));
-            supportingFiles.add(new SupportingFile("Models.mustache", sourceFolder, "Models.swift"));
-            supportingFiles.add(new SupportingFile("APIs.mustache", sourceFolder, "APIs.swift"));
         }
+        additionalProperties.put(RESPONSE_AS, responseAs);
+        if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
+            additionalProperties.put("usePromiseKit", true);
+        }
+
+        // Setup swiftUseApiNamespace option, which makes all the API classes inner-class of {{projectName}}API
+        if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
+            swiftUseApiNamespace = Boolean.parseBoolean(String.valueOf(additionalProperties.get(SWIFT_USE_API_NAMESPACE)));
+        }
+        additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
+
+        supportingFiles.add(new SupportingFile("Podspec.mustache", "", projectName + ".podspec"));
+        supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
+        supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
+        supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache", sourceFolder,
+                    "AlamofireImplementations.swift"));
+        supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));
+        supportingFiles.add(new SupportingFile("Models.mustache", sourceFolder, "Models.swift"));
+        supportingFiles.add(new SupportingFile("APIs.mustache", sourceFolder, "APIs.swift"));
+    }
 
     @Override
-        public String escapeReservedWord(String name) {
-            return "_" + name;  // add an underscore to the name
-        }
+    public String escapeReservedWord(String name) {
+        return "_" + name;  // add an underscore to the name
+    }
 
     @Override
-        public String modelFileFolder() {
-            return outputFolder + File.separator + sourceFolder + modelPackage().replace('.', File.separatorChar);
-        }
+    public String modelFileFolder() {
+        return outputFolder + File.separator + sourceFolder + modelPackage().replace('.', File.separatorChar);
+    }
 
     @Override
-        public String apiFileFolder() {
-            return outputFolder + File.separator + sourceFolder + apiPackage().replace('.', File.separatorChar);
-        }
+    public String apiFileFolder() {
+        return outputFolder + File.separator + sourceFolder + apiPackage().replace('.', File.separatorChar);
+    }
 
     @Override
-        public String getTypeDeclaration(Property p) {
-            if (p instanceof ArrayProperty) {
-                ArrayProperty ap = (ArrayProperty) p;
-                Property inner = ap.getItems();
-                return "[" + getTypeDeclaration(inner) + "]";
-            } else if (p instanceof MapProperty) {
-                MapProperty mp = (MapProperty) p;
-                Property inner = mp.getAdditionalProperties();
-                return "[String:" + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Property p) {
+        if (p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            Property inner = ap.getItems();
+            return "[" + getTypeDeclaration(inner) + "]";
+        } else if (p instanceof MapProperty) {
+            MapProperty mp = (MapProperty) p;
+            Property inner = mp.getAdditionalProperties();
+            return "[String:" + getTypeDeclaration(inner) + "]";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String getSwaggerType(Property p) {
+        String swaggerType = super.getSwaggerType(p);
+        String type = null;
+        if (typeMapping.containsKey(swaggerType)) {
+            type = typeMapping.get(swaggerType);
+            if (languageSpecificPrimitives.contains(type) || defaultIncludes.contains(type))
+                return type;
+        } else
+            type = swaggerType;
+        return toModelName(type);
+    }
+
+    /**
+     * Output the proper model name (capitalized)
+     *
+     * @param name the name of the model
+     * @return capitalized model name
+     */
+    @Override
+    public String toModelName(String name) {
+        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix
+            name = name + "_" + modelNameSuffix;
+        }
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) { // set model prefix
+            name = modelNamePrefix + "_" + name;
+        }
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        name = camelize(name);
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            String modelName = "Object" + name;
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        return name;
+    }
+
+    /**
+     * Return the capitalized file name of the model
+     *
+     * @param name the model name
+     * @return the file name of the model
+     */
+    @Override
+    public String toModelFilename(String name) {
+        // should be the same as the model name
+        return toModelName(name);
+    }
+
+    @Override
+    public String toDefaultValue(Property p) {
+        // nil
+        return null;
+    }
+
+    @Override
+    public String toInstantiationType(Property p) {
+        if (p instanceof MapProperty) {
+            MapProperty ap = (MapProperty) p;
+            String inner = getSwaggerType(ap.getAdditionalProperties());
+            return "[String:" + inner + "]";
+        } else if (p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            String inner = getSwaggerType(ap.getItems());
+            return "[" + inner + "]";
+        }
+        return null;
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Property p) {
+        CodegenProperty codegenProperty = super.fromProperty(name, p);
+        if (codegenProperty.isEnum) {
+            List<Map<String, String>> swiftEnums = new ArrayList<Map<String, String>>();
+            List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
+            for (String value : values) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("enum", toSwiftyEnumName(value));
+                map.put("raw", value);
+                swiftEnums.add(map);
             }
-            return super.getTypeDeclaration(p);
+            codegenProperty.allowableValues.put("values", swiftEnums);
+            codegenProperty.datatypeWithEnum =
+                StringUtils.left(codegenProperty.datatypeWithEnum, codegenProperty.datatypeWithEnum.length() - "Enum".length());
+            // Ensure that the enum type doesn't match a reserved word or
+            // the variable name doesn't match the generated enum type or the
+            // Swift compiler will generate an error
+            if (isReservedWord(codegenProperty.datatypeWithEnum) ||
+                    name.equals(codegenProperty.datatypeWithEnum)) {
+                codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
+                    }
         }
-
-    @Override
-        public String getSwaggerType(Property p) {
-            String swaggerType = super.getSwaggerType(p);
-            String type = null;
-            if (typeMapping.containsKey(swaggerType)) {
-                type = typeMapping.get(swaggerType);
-                if (languageSpecificPrimitives.contains(type))
-                    return toModelName(type);
-            } else
-                type = swaggerType;
-            return toModelName(type);
-        }
-
-    @Override
-        public String toDefaultValue(Property p) {
-            // nil
-            return null;
-        }
-
-    @Override
-        public String toInstantiationType(Property p) {
-            if (p instanceof MapProperty) {
-                MapProperty ap = (MapProperty) p;
-                String inner = getSwaggerType(ap.getAdditionalProperties());
-                return "[String:" + inner + "]";
-            } else if (p instanceof ArrayProperty) {
-                ArrayProperty ap = (ArrayProperty) p;
-                String inner = getSwaggerType(ap.getItems());
-                return "[" + inner + "]";
-            }
-            return null;
-        }
-
-    @Override
-        public CodegenProperty fromProperty(String name, Property p) {
-            CodegenProperty codegenProperty = super.fromProperty(name, p);
-            if (codegenProperty.isEnum) {
-                List<Map<String, String>> swiftEnums = new ArrayList<Map<String, String>>();
-                List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
-                for (String value : values) {
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("enum", toSwiftyEnumName(value));
-                    map.put("raw", value);
-                    swiftEnums.add(map);
-                }
-                codegenProperty.allowableValues.put("values", swiftEnums);
-                codegenProperty.datatypeWithEnum =
-                    StringUtils.left(codegenProperty.datatypeWithEnum, codegenProperty.datatypeWithEnum.length() - "Enum".length());
-                // Ensure that the enum type doesn't match a reserved word or
-                // the variable name doesn't match the generated enum type or the
-                // Swift compiler will generate an error
-                if (isReservedWord(codegenProperty.datatypeWithEnum) ||
-                        name.equals(codegenProperty.datatypeWithEnum)) {
-                    codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
-                        }
-            }
-            return codegenProperty;
-        }
+        return codegenProperty;
+    }
 
     @SuppressWarnings("static-method")
-        public String toSwiftyEnumName(String value) {
-            // Prevent from breaking properly cased identifier
-            if (value.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-                return value;
-            }
-            char[] separators = {'-', '_', ' '};
-            return WordUtils.capitalizeFully(StringUtils.lowerCase(value), separators).replaceAll("[-_ ]", "");
+    public String toSwiftyEnumName(String value) {
+        // Prevent from breaking properly cased identifier
+        if (value.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+            return value;
         }
+        char[] separators = {'-', '_', ' '};
+        return WordUtils.capitalizeFully(StringUtils.lowerCase(value), separators).replaceAll("[-_ ]", "");
+    }
 
 
     @Override
-        public String toApiName(String name) {
-            if(name.length() == 0)
-                return "DefaultAPI";
-            return initialCaps(name) + "API";
-        }
+    public String toApiName(String name) {
+        if(name.length() == 0)
+            return "DefaultAPI";
+        return initialCaps(name) + "API";
+    }
 
     @Override
-        public String toOperationId(String operationId) {
-            // throw exception if method name is empty
-            if (StringUtils.isEmpty(operationId)) {
-                throw new RuntimeException("Empty method name (operationId) not allowed");
-            }
+    public String toOperationId(String operationId) {
+        operationId = camelize(sanitizeName(operationId), true); 
 
-            // method name cannot use reserved keyword, e.g. return
-            if (isReservedWord(operationId)) {
-                throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
-            }
-
-            return camelize(sanitizeName(operationId), true);
+        // throw exception if method name is empty. This should not happen but keep the check just in case
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            String newOperationId = camelize(("call_" + operationId), true);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
+        return operationId;
+    }
+
     @Override
-        public String toVarName(String name) {
-            // sanitize name
-            name = sanitizeName(name);
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name);
 
-            // if it's all uppper case, do nothing
-            if (name.matches("^[A-Z_]*$")) {
-                return name;
-            }
-
-            // camelize the variable name
-            // pet_id => petId
-            name = camelize(name, true);
-
-            // for reserved word or word starting with number, append _
-            if (isReservedWord(name) || name.matches("^\\d.*")) {
-                name = escapeReservedWord(name);
-            }
-
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
+        // camelize the variable name
+        // pet_id => petId
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
+    }
+
     @Override
-        public String toParamName(String name) {
-            // sanitize name
-            name = sanitizeName(name);
+    public String toParamName(String name) {
+        // sanitize name
+        name = sanitizeName(name);
 
-            // replace - with _ e.g. created-at => created_at
-            name = name.replaceAll("-", "_");
+        // replace - with _ e.g. created-at => created_at
+        name = name.replaceAll("-", "_");
 
-            // if it's all uppper case, do nothing
-            if (name.matches("^[A-Z_]*$")) {
-                return name;
-            }
-
-            // camelize(lower) the variable name
-            // pet_id => petId
-            name = camelize(name, true);
-
-            // for reserved word or word starting with number, append _
-            if (isReservedWord(name) || name.matches("^\\d.*")) {
-                name = escapeReservedWord(name);
-            }
-
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
-    @Override
-        public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-            path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-            List<Parameter> parameters = operation.getParameters();
-            parameters = Lists.newArrayList(Iterators.filter(parameters.iterator(), new Predicate<Parameter>() {
-                @Override
-                public boolean apply(@Nullable Parameter parameter) {
-                    return !(parameter instanceof HeaderParameter);
-                }
-            }));
-            operation.setParameters(parameters);
-            return super.fromOperation(path, httpMethod, operation, definitions, swagger);
+        // camelize(lower) the variable name
+        // pet_id => petId
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
         }
+
+        return name;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
+        path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        List<Parameter> parameters = operation.getParameters();
+        parameters = Lists.newArrayList(Iterators.filter(parameters.iterator(), new Predicate<Parameter>() {
+            @Override
+            public boolean apply(@Nullable Parameter parameter) {
+                return !(parameter instanceof HeaderParameter);
+            }
+        }));
+        operation.setParameters(parameters);
+        return super.fromOperation(path, httpMethod, operation, definitions, swagger);
+    }
 
     private static String normalizePath(String path) {
         StringBuilder builder = new StringBuilder();
