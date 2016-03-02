@@ -105,6 +105,8 @@ public interface CodegenConfig {
 
     void processSwagger(Swagger swagger);
 
+    String sanitizeTag(String tag);
+
     String toApiFilename(String name);
 
     String toModelFilename(String name);
