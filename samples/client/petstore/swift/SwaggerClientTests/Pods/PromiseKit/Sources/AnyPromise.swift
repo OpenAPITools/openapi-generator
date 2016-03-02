@@ -51,12 +51,30 @@ import Foundation.NSError
     }
 
     /**
+     - Returns: A new AnyPromise bound to a `Promise<String>`.
+     The two promises represent the same task, any changes to either will instantly reflect on both.
+     The value is converted to an NSString so Objective-C can use it.
+     */
+    convenience public init(bound: Promise<String>) {
+        self.init(bound: bound.then(on: zalgo) { NSString(string: $0) })
+    }
+
+    /**
      - Returns: A new AnyPromise bound to a `Promise<Int>`.
      The two promises represent the same task, any changes to either will instantly reflect on both.
      The value is converted to an NSNumber so Objective-C can use it.
     */
     convenience public init(bound: Promise<Int>) {
         self.init(bound: bound.then(on: zalgo) { NSNumber(integer: $0) })
+    }
+
+    /**
+     - Returns: A new AnyPromise bound to a `Promise<Bool>`.
+     The two promises represent the same task, any changes to either will instantly reflect on both.
+     The value is converted to an NSNumber so Objective-C can use it.
+     */
+    convenience public init(bound: Promise<Bool>) {
+        self.init(bound: bound.then(on: zalgo) { NSNumber(bool: $0) })
     }
 
     /**
