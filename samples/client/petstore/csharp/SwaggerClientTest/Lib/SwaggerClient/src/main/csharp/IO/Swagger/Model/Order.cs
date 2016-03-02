@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+
+
 namespace IO.Swagger.Model
 {
     /// <summary>
@@ -36,10 +38,11 @@ namespace IO.Swagger.Model
         /// </summary>
         /// <value>Order Status</value>
         [DataMember(Name="status", EmitDefaultValue=true)]
-        public StatusEnum Status { get; set; }
+        public StatusEnum? Status { get; set; }
     
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
+        /// Initializes a new instance of the <see cref="Order" />class.
         /// </summary>
         /// <param name="PetId">PetId.</param>
         /// <param name="Quantity">Quantity.</param>
@@ -47,7 +50,7 @@ namespace IO.Swagger.Model
         /// <param name="Status">Order Status.</param>
         /// <param name="Complete">Complete.</param>
 
-        public Order(long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, string Status = null, bool? Complete = null)
+        public Order(long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
         {
             this.PetId = PetId;
             this.Quantity = Quantity;
@@ -206,4 +209,6 @@ namespace IO.Swagger.Model
         }
 
     }
+
+
 }

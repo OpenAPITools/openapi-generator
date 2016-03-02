@@ -11,6 +11,7 @@ using IO.Swagger.Client;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
 
+
 namespace IO.Swagger.Test
 {
     [TestFixture]
