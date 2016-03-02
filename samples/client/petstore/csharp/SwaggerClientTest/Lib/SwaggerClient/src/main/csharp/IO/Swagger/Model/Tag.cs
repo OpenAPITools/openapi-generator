@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+
+
 namespace IO.Swagger.Model
 {
     /// <summary>
@@ -19,6 +21,7 @@ namespace IO.Swagger.Model
     { 
     
         /// <summary>
+        /// Initializes a new instance of the <see cref="Tag" /> class.
         /// Initializes a new instance of the <see cref="Tag" />class.
         /// </summary>
         /// <param name="Id">Id.</param>
@@ -126,4 +129,6 @@ namespace IO.Swagger.Model
         }
 
     }
+
+
 }
