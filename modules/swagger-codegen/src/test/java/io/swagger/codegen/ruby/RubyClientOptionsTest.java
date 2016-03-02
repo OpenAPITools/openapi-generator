@@ -22,6 +22,7 @@ public class RubyClientOptionsTest extends AbstractOptionsTest {
         return clientCodegen;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
@@ -31,6 +32,19 @@ public class RubyClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setGemVersion(RubyClientOptionsProvider.GEM_VERSION_VALUE);
             times = 1;
+            clientCodegen.setGemLicense(RubyClientOptionsProvider.GEM_LICENSE_VALUE);
+            times = 1;
+            clientCodegen.setGemHomepage(RubyClientOptionsProvider.GEM_HOMEPAGE_VALUE);
+            times = 1;
+            clientCodegen.setGemDescription(RubyClientOptionsProvider.GEM_DESCRIPTION_VALUE);
+            times = 1;
+            clientCodegen.setGemSummary(RubyClientOptionsProvider.GEM_SUMMARY_VALUE);
+            times = 1;
+            clientCodegen.setGemAuthor(RubyClientOptionsProvider.GEM_AUTHOR_VALUE);
+            times = 1;
+            clientCodegen.setGemAuthorEmail(RubyClientOptionsProvider.GEM_AUTHOR_EMAIL_VALUE);
+            times = 1;
+
         }};
     }
 }

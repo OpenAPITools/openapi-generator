@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-class ArrayMapObject < Petstore::BaseObject
-  attr_accessor :int_arr, :pet_arr, :int_map, :pet_map, :int_arr_map, :pet_arr_map
+class ArrayMapObject < Petstore::Category
+  attr_accessor :int_arr, :pet_arr, :int_map, :pet_map, :int_arr_map, :pet_arr_map, :boolean_true_arr, :boolean_false_arr
 
   def self.attribute_map
     {
@@ -10,7 +10,9 @@ class ArrayMapObject < Petstore::BaseObject
       :int_map => :int_map,
       :pet_map => :pet_map,
       :int_arr_map => :int_arr_map,
-      :pet_arr_map => :pet_arr_map
+      :pet_arr_map => :pet_arr_map,
+      :boolean_true_arr  => :boolean_true_arr,
+      :boolean_false_arr => :boolean_false_arr,
     }
   end
 
@@ -21,13 +23,15 @@ class ArrayMapObject < Petstore::BaseObject
       :int_map => :'Hash<String, Integer>',
       :pet_map => :'Hash<String, Pet>',
       :int_arr_map => :'Hash<String, Array<Integer>>',
-      :pet_arr_map => :'Hash<String, Array<Pet>>'
+      :pet_arr_map => :'Hash<String, Array<Pet>>',
+      :boolean_true_arr  => :'Array<BOOLEAN>',
+      :boolean_false_arr => :'Array<BOOLEAN>',
     }
   end
 end
 
 
-describe Petstore::BaseObject do
+describe 'BaseObject' do
   describe 'array and map properties' do
     let(:obj) { ArrayMapObject.new }
 
@@ -37,7 +41,9 @@ describe Petstore::BaseObject do
        int_map: {'int' => 123},
        pet_map: {'pet' => {name: 'Kitty'}},
        int_arr_map: {'int_arr' => [123, 456]},
-       pet_arr_map: {'pet_arr' => [{name: 'Kitty'}]}
+       pet_arr_map: {'pet_arr' => [{name: 'Kitty'}]},
+       boolean_true_arr:  [true, "true", "TruE", 1, "y", "yes", "1", "t", "T"],
+       boolean_false_arr: [false, "", 0, "0", "f", nil, "null"],
       }
     end
 
@@ -71,11 +77,24 @@ describe Petstore::BaseObject do
       pet = arr.first
       pet.should be_a(Petstore::Pet)
       pet.name.should == 'Kitty'
+
+      obj.boolean_true_arr.should be_a(Array)
+      obj.boolean_true_arr.each do |b|
+        b.should eq true
+      end
+
+      obj.boolean_false_arr.should be_a(Array)
+      obj.boolean_false_arr.each do |b|
+        b.should eq false
+      end
     end
 
     it 'works for #to_hash' do
       obj.build_from_hash(data)
-      obj.to_hash.should == data
+      expect_data = data.dup
+      expect_data[:boolean_true_arr].map! {true}
+      expect_data[:boolean_false_arr].map! {false}
+      obj.to_hash.should == expect_data
     end
   end
 end

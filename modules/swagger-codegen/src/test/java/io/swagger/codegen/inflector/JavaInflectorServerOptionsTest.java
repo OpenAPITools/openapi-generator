@@ -4,8 +4,6 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.java.JavaClientOptionsTest;
 import io.swagger.codegen.languages.JavaInflectorServerCodegen;
 import io.swagger.codegen.options.JavaInflectorServerOptionsProvider;
-import io.swagger.codegen.options.JavaOptionsProvider;
-
 import mockit.Expectations;
 import mockit.Tested;
 
@@ -23,6 +21,7 @@ public class JavaInflectorServerOptionsTest extends JavaClientOptionsTest {
         return clientCodegen;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
@@ -46,9 +45,11 @@ public class JavaInflectorServerOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setSerializableModel(Boolean.valueOf(JavaInflectorServerOptionsProvider.SERIALIZABLE_MODEL_VALUE));
             times = 1;
-            clientCodegen.setLibrary(JavaInflectorServerOptionsProvider.LIBRARY_VALUE);
+            clientCodegen.setLibrary(JavaInflectorServerOptionsProvider.DEFAULT_LIBRARY_VALUE);
             times = 1;
             clientCodegen.setFullJavaUtil(Boolean.valueOf(JavaInflectorServerOptionsProvider.FULL_JAVA_UTIL_VALUE));
+            times = 1;
+            clientCodegen.setSerializeBigDecimalAsString(true);
             times = 1;
         }};
     }

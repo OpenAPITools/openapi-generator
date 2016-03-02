@@ -11,11 +11,25 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.PathParameter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DynamicSwaggerConfig extends BeanConfig {
     static List<String> clients = new ArrayList<String>();
     static List<String> servers = new ArrayList<String>();
+
+    static {
+        List<CodegenConfig> extensions = Codegen.getExtensions();
+        for (CodegenConfig config : extensions) {
+            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
+                clients.add(config.getName());
+            } else if (config.getTag().equals(CodegenType.SERVER)) {
+                servers.add(config.getName());
+            }
+        }
+        Collections.sort(clients, String.CASE_INSENSITIVE_ORDER);
+        Collections.sort(servers, String.CASE_INSENSITIVE_ORDER);
+    }
 
     @Override
     public Swagger configure(Swagger swagger) {
@@ -61,16 +75,5 @@ public class DynamicSwaggerConfig extends BeanConfig {
         return swagger.info(getInfo())
                 .host(getHost())
                 .basePath("/api");
-    }
-
-    static {
-        List<CodegenConfig> extensions = Codegen.getExtensions();
-        for (CodegenConfig config : extensions) {
-            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
-                clients.add(config.getName());
-            } else if (config.getTag().equals(CodegenType.SERVER)) {
-                servers.add(config.getName());
-            }
-        }
     }
 }

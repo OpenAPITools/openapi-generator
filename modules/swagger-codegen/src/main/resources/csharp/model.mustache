@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -16,7 +17,7 @@ namespace {{packageName}}.Model
     /// {{description}}
     /// </summary>
     [DataContract]
-    public class {{classname}} : IEquatable<{{classname}}>{{#parent}}, {{{parent}}}{{/parent}}
+    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{#isEnum}}
     
         [JsonConverter(typeof(StringEnumConverter))]
@@ -32,11 +33,32 @@ namespace {{packageName}}.Model
     {{/isEnum}}{{/vars}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// Initializes a new instance of the <see cref="{{classname}}" />class.
         /// </summary>
-        public {{classname}}()
+{{#vars}}{{^isReadOnly}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+{{/isReadOnly}}{{/vars}}
+        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatypeWithEnum}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/isReadOnly}}{{/vars}})
         {
-           {{#vars}}{{#defaultValue}}this.{{name}} = {{{defaultValue}}};
-           {{/defaultValue}}{{/vars}}
+            {{#vars}}{{^isReadOnly}}{{#required}}// to ensure "{{name}}" is required (not null)
+            if ({{name}} == null)
+            {
+                throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
+            }
+            else
+            {
+                this.{{name}} = {{name}};
+            }
+            {{/required}}{{/isReadOnly}}{{/vars}}{{#vars}}{{^isReadOnly}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
+            if ({{name}} == null)
+            {
+                this.{{name}} = {{{defaultValue}}};
+            }
+            else
+            {
+                this.{{name}} = {{name}};
+            }
+            {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
+            {{/defaultValue}}{{/required}}{{/isReadOnly}}{{/vars}}
         }
         
     {{#vars}}{{^isEnum}}
@@ -45,7 +67,7 @@ namespace {{packageName}}.Model
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue=true)]
-        public {{{datatype}}} {{name}} { get; set; }
+        public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
     {{/isEnum}}{{/vars}}
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,7 +106,7 @@ namespace {{packageName}}.Model
         /// <summary>
         /// Returns true if {{classname}} instances are equal
         /// </summary>
-        /// <param name="obj">Instance of {{classname}} to be compared</param>
+        /// <param name="other">Instance of {{classname}} to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals({{classname}} other)
         {
@@ -118,7 +140,7 @@ namespace {{packageName}}.Model
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
                 if (this.{{name}} != null)
-                    hash = hash * 57 + this.{{name}}.GetHashCode();
+                    hash = hash * 59 + this.{{name}}.GetHashCode();
                 {{/vars}}
                 return hash;
             }

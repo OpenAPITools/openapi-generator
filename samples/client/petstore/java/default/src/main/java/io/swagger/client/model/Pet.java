@@ -1,20 +1,21 @@
 package io.swagger.client.model;
 
-import io.swagger.client.StringUtil;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Category;
 import java.util.*;
 import io.swagger.client.model.Tag;
-
-
-import java.util.Objects;
-
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-12-22T10:21:47.360+01:00")
+
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-22T14:59:49.052+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -24,30 +25,35 @@ public class Pet   {
   private List<Tag> tags = new ArrayList<Tag>();
 
 
-public enum StatusEnum {
-  AVAILABLE("available"),
-  PENDING("pending"),
-  SOLD("sold");
+  public enum StatusEnum {
+    AVAILABLE("available"),
+    PENDING("pending"),
+    SOLD("sold");
 
-  private String value;
+    private String value;
 
-  StatusEnum(String value) {
-    this.value = value;
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return value;
+    }
   }
-
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
-}
 
   private StatusEnum status = null;
 
   
   /**
    **/
-  @ApiModelProperty(value = "")
+  public Pet id(Long id) {
+    this.id = id;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -59,7 +65,12 @@ public enum StatusEnum {
   
   /**
    **/
-  @ApiModelProperty(value = "")
+  public Pet category(Category category) {
+    this.category = category;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -71,7 +82,12 @@ public enum StatusEnum {
   
   /**
    **/
-  @ApiModelProperty(required = true, value = "")
+  public Pet name(String name) {
+    this.name = name;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -83,7 +99,12 @@ public enum StatusEnum {
   
   /**
    **/
-  @ApiModelProperty(required = true, value = "")
+  public Pet photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -95,7 +116,12 @@ public enum StatusEnum {
   
   /**
    **/
-  @ApiModelProperty(value = "")
+  public Pet tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
@@ -108,7 +134,12 @@ public enum StatusEnum {
   /**
    * pet status in the store
    **/
-  @ApiModelProperty(value = "pet status in the store")
+  public Pet status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -120,7 +151,7 @@ public enum StatusEnum {
   
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -128,12 +159,12 @@ public enum StatusEnum {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(id, pet.id) &&
-        Objects.equals(category, pet.category) &&
-        Objects.equals(name, pet.name) &&
-        Objects.equals(photoUrls, pet.photoUrls) &&
-        Objects.equals(tags, pet.tags) &&
-        Objects.equals(status, pet.status);
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
   }
 
   @Override
@@ -142,17 +173,29 @@ public enum StatusEnum {
   }
 
   @Override
-  public String toString()  {
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
     
-    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-    sb.append("    category: ").append(StringUtil.toIndentedString(category)).append("\n");
-    sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
-    sb.append("    photoUrls: ").append(StringUtil.toIndentedString(photoUrls)).append("\n");
-    sb.append("    tags: ").append(StringUtil.toIndentedString(tags)).append("\n");
-    sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

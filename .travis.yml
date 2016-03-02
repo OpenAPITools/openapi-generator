@@ -1,5 +1,21 @@
-sudo: false
+sudo: required
 language: java
-script: mvn verify -Psamples
 jdk:
   - oraclejdk7
+  - oraclejdk8
+
+services:
+  - docker
+
+before_install:
+  # required when sudo: required for the Ruby petstore tests
+  - gem install bundler
+
+install:
+
+script:
+  - mvn verify -Psamples
+  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi && docker push $DOCKER_IMAGE_NAME; fi
+
+env:
+  - DOCKER_IMAGE_NAME=swaggerapi/swagger-generator

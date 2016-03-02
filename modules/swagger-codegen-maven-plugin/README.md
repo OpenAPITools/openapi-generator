@@ -11,7 +11,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen-maven-plugin</artifactId>
-    <version>${project.version}</version>
+    <version>2.1.5-SNAPSHOT</version>
     <executions>
         <execution>
             <goals>
@@ -37,7 +37,7 @@ mvn clean compile
 
 ### General Configuration parameters
 
-- `inputSpec` - swagger spec file path
+- `inputSpec` - OpenAPI Spec file path
 - `language` - target generation language
 - `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`)
 - `templateDirectory` - directory with mustache templates
@@ -46,10 +46,8 @@ mvn clean compile
 - `apiPackage` - the package to use for generated api objects/classes
 - `invokerPackage` - the package to use for the generated invoker objects
 - `configOptions` - a map of language-specific parameters (see below)
+- `configHelp` - dumps the configuration help for the specified library (generates no sources)
 
-### Java-specific parameters (under configOptions)
+### Sample configuration
 
-- `sourceFolder` - the folder to use for generated sources under the output folder
-- `groupId` - groupId in generated pom.xml
-- `artifactId` - artifactId in generated pom.xml
-- `artifactVersion` - artifact version in generated pom.xml
+- Please see [an example configuration](examples) for using the plugin

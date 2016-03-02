@@ -1,5 +1,5 @@
 #
-# Copyright 2015 SmartBear Software
+# Copyright 2016 SmartBear Software
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -378,7 +378,7 @@ sub get_pet_by_id {
     
 
     # authentication setting, if any
-    my $auth_settings = [qw(api_key )];
+    my $auth_settings = [qw(api_key petstore_auth )];
 
     # make the API Call
     my $response = $self->{api_client}->call_api($_resource_path, $_method,
@@ -574,7 +574,7 @@ sub delete_pet {
 # 
 # @param int $pet_id ID of pet to update (required)
 # @param string $additional_metadata Additional data to pass to server (optional)
-# @param file $file file to upload (optional)
+# @param File $file file to upload (optional)
 {
     my $params = {
     'pet_id' => {
@@ -588,7 +588,7 @@ sub delete_pet {
         required => '0',
     },
     'file' => {
-        data_type => 'file',
+        data_type => 'File',
         description => 'file to upload',
         required => '0',
     },
@@ -649,6 +649,146 @@ sub upload_file {
     }
     my $_body_data;
     
+
+    # authentication setting, if any
+    my $auth_settings = [qw(petstore_auth )];
+
+    # make the API Call
+    
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+    
+}
+
+#
+# pet_pet_idtesting_byte_arraytrue_get
+#
+# Fake endpoint to test byte array return by 'Find pet by ID'
+# 
+# @param int $pet_id ID of pet that needs to be fetched (required)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'ID of pet that needs to be fetched',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ pet_pet_idtesting_byte_arraytrue_get } = { 
+    	summary => 'Fake endpoint to test byte array return by &#39;Find pet by ID&#39;',
+        params => $params,
+        returns => 'string',
+        };
+}
+# @return string
+#
+sub pet_pet_idtesting_byte_arraytrue_get {
+    my ($self, %args) = @_;
+
+    
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling pet_pet_idtesting_byte_arraytrue_get");
+    }
+    
+
+    # parse inputs
+    my $_resource_path = '/pet/{petId}?testing_byte_array=true';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    
+    
+    # path params
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+    
+    my $_body_data;
+    
+
+    # authentication setting, if any
+    my $auth_settings = [qw(api_key petstore_auth )];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('string', $response);
+    return $_response_object;
+    
+}
+
+#
+# add_pet_using_byte_array
+#
+# Fake endpoint to test byte array in body parameter for adding a new pet to the store
+# 
+# @param string $body Pet object in the form of byte array (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'string',
+        description => 'Pet object in the form of byte array',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ add_pet_using_byte_array } = { 
+    	summary => 'Fake endpoint to test byte array in body parameter for adding a new pet to the store',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub add_pet_using_byte_array {
+    my ($self, %args) = @_;
+
+    
+
+    # parse inputs
+    my $_resource_path = '/pet?testing_byte_array=true';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml');
+
+    
+    
+    
+    
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
 
     # authentication setting, if any
     my $auth_settings = [qw(petstore_auth )];

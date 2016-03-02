@@ -2,7 +2,7 @@
 
 """
 {{classname}}.py
-Copyright 2015 SmartBear Software
+Copyright 2016 SmartBear Software
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -97,8 +97,6 @@ class {{classname}}(object):
 {{/allParams}}
 
         resource_path = '{{path}}'.replace('{format}', 'json')
-        method = '{{httpMethod}}'
-
         path_params = {}
 {{#pathParams}}
         if '{{paramName}}' in params:
@@ -117,11 +115,11 @@ class {{classname}}(object):
             header_params['{{baseName}}'] = params['{{paramName}}']
 {{/headerParams}}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 {{#formParams}}
         if '{{paramName}}' in params:
-            {{#notFile}}form_params['{{baseName}}'] = params['{{paramName}}']{{/notFile}}{{#isFile}}files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
 {{/formParams}}
 
         body_params = None
@@ -143,13 +141,13 @@ class {{classname}}(object):
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, '{{httpMethod}}',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
