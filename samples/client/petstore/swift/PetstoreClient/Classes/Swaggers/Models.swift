@@ -124,24 +124,6 @@ class Decoders {
                 fatalError("formatter failed to parse \(source)")
             } 
 
-			// Decoder for [Order]
-            Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject) -> [Order] in
-                return Decoders.decode(clazz: [Order].self, source: source)
-            }
-			// Decoder for Order
-            Decoders.addDecoder(clazz: Order.self) { (source: AnyObject) -> Order in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = Order()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                instance.petId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["petId"])
-                instance.quantity = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["quantity"])
-                instance.shipDate = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["shipDate"])
-                instance.status = Order.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
-                instance.complete = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["complete"])
-                return instance
-            }
-			
-
 			// Decoder for [User]
             Decoders.addDecoder(clazz: [User].self) { (source: AnyObject) -> [User] in
                 return Decoders.decode(clazz: [User].self, source: source)
@@ -176,20 +158,6 @@ class Decoders {
             }
 			
 
-			// Decoder for [Tag]
-            Decoders.addDecoder(clazz: [Tag].self) { (source: AnyObject) -> [Tag] in
-                return Decoders.decode(clazz: [Tag].self, source: source)
-            }
-			// Decoder for Tag
-            Decoders.addDecoder(clazz: Tag.self) { (source: AnyObject) -> Tag in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = Tag()
-                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
-                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                return instance
-            }
-			
-
 			// Decoder for [Pet]
             Decoders.addDecoder(clazz: [Pet].self) { (source: AnyObject) -> [Pet] in
                 return Decoders.decode(clazz: [Pet].self, source: source)
@@ -204,6 +172,38 @@ class Decoders {
                 instance.photoUrls = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["photoUrls"])
                 instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"])
                 instance.status = Pet.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
+                return instance
+            }
+			
+
+			// Decoder for [Tag]
+            Decoders.addDecoder(clazz: [Tag].self) { (source: AnyObject) -> [Tag] in
+                return Decoders.decode(clazz: [Tag].self, source: source)
+            }
+			// Decoder for Tag
+            Decoders.addDecoder(clazz: Tag.self) { (source: AnyObject) -> Tag in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Tag()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
+                return instance
+            }
+			
+
+			// Decoder for [Order]
+            Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject) -> [Order] in
+                return Decoders.decode(clazz: [Order].self, source: source)
+            }
+			// Decoder for Order
+            Decoders.addDecoder(clazz: Order.self) { (source: AnyObject) -> Order in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Order()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.petId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["petId"])
+                instance.quantity = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["quantity"])
+                instance.shipDate = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["shipDate"])
+                instance.status = Order.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
+                instance.complete = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["complete"])
                 return instance
             }
 			
