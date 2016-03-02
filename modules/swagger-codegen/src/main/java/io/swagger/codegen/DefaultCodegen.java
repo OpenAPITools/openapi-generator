@@ -343,7 +343,7 @@ public class DefaultCodegen {
     }
 
     /**
-     * Return the capitalized file name of the model test
+     * Return the capitalized file name of the model
      *
      * @param name the model name
      * @return the file name of the model
