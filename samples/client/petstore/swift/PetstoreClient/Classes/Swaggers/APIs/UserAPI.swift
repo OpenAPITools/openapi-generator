@@ -213,8 +213,8 @@ public class UserAPI: APIBase {
      
      - GET /user/login
      - 
-     - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
-     - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
+     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
+     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
      
      - parameter username: (query) The user name for login
      - parameter password: (query) The password for login in clear text
@@ -325,7 +325,7 @@ public class UserAPI: APIBase {
      
      - GET /user/{username}
      - 
-     - examples: [{example={
+     - examples: [{contentType=application/json, example={
   "id" : 1,
   "username" : "johnp",
   "firstName" : "John",
@@ -334,7 +334,7 @@ public class UserAPI: APIBase {
   "password" : "-secret-",
   "phone" : "0123456789",
   "userStatus" : 0
-}, contentType=application/json}]
+}}]
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
 
