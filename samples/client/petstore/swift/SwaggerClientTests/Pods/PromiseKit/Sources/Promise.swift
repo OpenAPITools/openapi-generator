@@ -174,6 +174,18 @@ public class Promise<T> {
     }
 
     /**
+     A `typealias` for the return values of `pendingPromise()`. Simplifies declaration of properties that reference the values' containing tuple when this is necessary. For example, when working with multiple `pendingPromise()`s within the same scope, or when the promise initialization must occur outside of the caller's initialization.
+
+         ```
+         class Foo: BarDelegate {
+         var pendingPromise: Promise<Int>.PendingPromise?
+         }
+         ```
+     - SeeAlso: pendingPromise()
+     */
+    public typealias PendingPromise = (promise: Promise, fulfill: (T) -> Void, reject: (ErrorType) -> Void)
+
+    /**
      Making promises that wrap asynchronous delegation systems or other larger asynchronous systems without a simple completion handler is easier with pendingPromise.
 
          class Foo: BarDelegate {
@@ -193,7 +205,7 @@ public class Promise<T> {
        2) A function that fulfills that promise
        3) A function that rejects that promise
     */
-    public class func pendingPromise() -> (promise: Promise, fulfill: (T) -> Void, reject: (ErrorType) -> Void) {
+    public class func pendingPromise() -> PendingPromise {
         var fulfill: ((T) -> Void)!
         var reject: ((ErrorType) -> Void)!
         let promise = Promise { fulfill = $0; reject = $1 }

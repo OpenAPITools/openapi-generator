@@ -2293,6 +2293,19 @@ public class DefaultCodegen {
         return name.replaceAll("[^a-zA-Z0-9_]", "");
     }
 
+    @SuppressWarnings("static-method")
+    public String sanitizeTag(String tag) {
+        // remove spaces and make strong case
+        String[] parts = tag.split(" ");
+        StringBuilder buf = new StringBuilder();
+        for (String part : parts) {
+            if (StringUtils.isNotEmpty(part)) {
+                buf.append(StringUtils.capitalize(part));
+            }
+        }
+        return buf.toString().replaceAll("[^a-zA-Z ]", "");
+    }
+
     /**
      * Only write if the file doesn't exist
      *

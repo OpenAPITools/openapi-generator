@@ -143,10 +143,6 @@
   
   
 
-  Order.prototype.toJson = function() {
-    return JSON.stringify(this);
-  }
-
   var StatusEnum = {
 
 	  /**
