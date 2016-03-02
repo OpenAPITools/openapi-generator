@@ -5,15 +5,14 @@
 exports.{{nickname}} = function(args, res, next) {
   /**
    * parameters expected in the args:
-   {{#allParams}}* {{paramName}} ({{dataType}})
-   {{/allParams}}**/
-
-var examples = {};
-  {{#examples}}
-  examples['{{contentType}}'] = {{{example}}};
-  {{/examples}}
-
+  {{#allParams}}* {{paramName}} ({{dataType}})
+  {{/allParams}}**/
+  {{^returnType}}// no response value expected for this operation
+  {{/returnType}}
   {{#returnType}}
+  var examples = {};
+  {{#examples}}examples['{{contentType}}'] = {{{example}}};
+  {{/examples}}
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -24,5 +23,6 @@ var examples = {};
   {{/returnType}}
   {{^returnType}}res.end();{{/returnType}}
 }
+
 {{/operation}}
 {{/operations}}

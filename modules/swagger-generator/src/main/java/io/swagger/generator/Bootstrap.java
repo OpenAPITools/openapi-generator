@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 SmartBear Software
+ * Copyright 2016 SmartBear Software
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@ package io.swagger.generator;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class Bootstrap extends HttpServlet {
-    public void init(ServletConfig config) throws ServletException {
-        ServletContext context = config.getServletContext();
+    private static final long serialVersionUID = 1400930071893332856L;
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
         DynamicSwaggerConfig bc = new DynamicSwaggerConfig();
         bc.setBasePath("/api");
         bc.setTitle("Swagger Generator");
@@ -49,17 +49,6 @@ public class Bootstrap extends HttpServlet {
             }
         }
 
-        String host = config.getInitParameter("generator.host");
-        if(host == null) {
-            host = "generator.swagger.io";
-        }
-        bc.setHost(host);
-
-        String scheme = config.getInitParameter("generator.protocol");
-        if(host == null) {
-            scheme = "https";
-        }
-        bc.setSchemes(new String[]{scheme});
         bc.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
         bc.setResourcePackage("io.swagger.generator.resource");
         bc.setScan(true);

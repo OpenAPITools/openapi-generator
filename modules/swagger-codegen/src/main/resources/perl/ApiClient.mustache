@@ -1,4 +1,4 @@
-package WWW::{{moduleName}}::ApiClient;
+package {{moduleName}}::ApiClient;
 
 use strict;
 use warnings;
@@ -18,7 +18,7 @@ use Log::Any qw($log);
 use Carp;
 use Module::Runtime qw(use_module);
 
-use WWW::{{moduleName}}::Configuration;
+use {{moduleName}}::Configuration;
 
 use base 'Class::Singleton';
 
@@ -34,7 +34,7 @@ sub _new_instance
     return bless \%args, $class;
 }
 
-sub _cfg {'WWW::{{moduleName}}::Configuration'}
+sub _cfg {'{{moduleName}}::Configuration'}
 
 # Set the user agent of the API client
 #
@@ -119,8 +119,8 @@ sub call_api {
     else {
     }
    
-    $self->{ua}->timeout($self->{http_timeout} || $WWW::{{moduleName}}::Configuration::http_timeout); 
-    $self->{ua}->agent($self->{http_user_agent} || $WWW::{{moduleName}}::Configuration::http_user_agent);
+    $self->{ua}->timeout($self->{http_timeout} || ${{moduleName}}::Configuration::http_timeout); 
+    $self->{ua}->agent($self->{http_user_agent} || ${{moduleName}}::Configuration::http_user_agent);
     
     $log->debugf("REQUEST: %s", $_request->as_string);
     my $_response = $self->{ua}->request($_request);
@@ -243,7 +243,7 @@ sub deserialize
     } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) {
         return $data;
     } else { # model
-        my $_instance = use_module("WWW::{{moduleName}}::Object::$class")->new;
+        my $_instance = use_module("{{moduleName}}::Object::$class")->new;
         if (ref $data eq "HASH") {
             return $_instance->from_hash($data);
         } else { # string, need to json decode first
@@ -294,11 +294,11 @@ sub get_api_key_with_prefix
 {
 	my ($self, $key_name) = @_;
 
-	my $api_key = $WWW::{{moduleName}}::Configuration::api_key->{$key_name};
+	my $api_key = ${{moduleName}}::Configuration::api_key->{$key_name};
 	
 	return unless $api_key;
 	
-	my $prefix = $WWW::{{moduleName}}::Configuration::api_key_prefix->{$key_name};
+	my $prefix = ${{moduleName}}::Configuration::api_key_prefix->{$key_name};
 	return $prefix ? "$prefix $api_key" : $api_key;
 }	
 
@@ -329,11 +329,11 @@ sub update_params_for_auth {
             if ($api_key) {
                 $query_params->{'{{keyParamName}}'} = $api_key;
             }{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}
-            if ($WWW::{{moduleName}}::Configuration::username || $WWW::{{moduleName}}::Configuration::password) {
-                $header_params->{'Authorization'} = 'Basic ' . encode_base64($WWW::{{moduleName}}::Configuration::username . ":" . $WWW::{{moduleName}}::Configuration::password);
+            if (${{moduleName}}::Configuration::username || ${{moduleName}}::Configuration::password) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64(${{moduleName}}::Configuration::username . ":" . ${{moduleName}}::Configuration::password);
             }{{/isBasic}}{{#isOAuth}}
-            if ($WWW::{{moduleName}}::Configuration::access_token) {
-                $header_params->{'Authorization'} = 'Bearer ' . $WWW::{{moduleName}}::Configuration::access_token;
+            if (${{moduleName}}::Configuration::access_token) {
+                $header_params->{'Authorization'} = 'Bearer ' . ${{moduleName}}::Configuration::access_token;
             }{{/isOAuth}}
         }
         {{/authMethods}}
@@ -345,7 +345,7 @@ sub update_params_for_auth {
 
 # The endpoint API class has not found any settings for auth. This may be deliberate, 
 # in which case update_params_for_auth() will be a no-op. But it may also be that the 
-# swagger spec does not describe the intended authorization. So we check in the config for any 
+# OpenAPI Spec does not describe the intended authorization. So we check in the config for any 
 # auth tokens and if we find any, we use them for all endpoints; 
 sub _global_auth_setup {
 	my ($self, $header_params, $query_params) = @_; 

@@ -37,7 +37,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
 
         embeddedTemplateDir = templateDir = "silex";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
@@ -65,7 +65,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
 
-        // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
@@ -81,6 +81,9 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "string");
 
         supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
         supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
@@ -88,14 +91,17 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "silex-PHP";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Silex server library.";
     }
@@ -110,6 +116,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
     }
@@ -148,6 +155,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
         return toModelName(type);
     }
 
+    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }
@@ -157,7 +165,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name);
+        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
@@ -177,7 +185,7 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             escapeReservedWord(name); // e.g. return => _return
         }
 

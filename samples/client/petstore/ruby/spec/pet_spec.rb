@@ -1,10 +1,30 @@
 require 'spec_helper'
 require 'json'
 
+def serialize_json(o)
+  API_CLIENT.object_to_http_body(o)
+end
+
+def deserialize_json(s, type)
+  headers = {'Content-Type' => 'application/json'}
+  response = double('response', headers: headers, body: s)
+  API_CLIENT.deserialize(response, type)
+end
+
 describe "Pet" do
   before do
     @pet_api = Petstore::PetApi.new(API_CLIENT)
-    prepare_pet @pet_api
+    @pet_id = prepare_pet(@pet_api)
+  end
+
+  after do
+    # remove the testing pet
+    begin
+      @pet_api.delete_pet(@pet_id)
+    rescue Petstore::ApiError => e
+      # ignore ApiError 404 (Not Found)
+      raise e if e.code != 404
+    end
   end
 
   describe "pet methods" do
@@ -14,7 +34,7 @@ describe "Pet" do
       category1 = Petstore::Category.new({:id => 1, :name => 'category unknown'})
       # initalize using both string and symbol key
       pet_hash = {
-        :id => 10002,
+        :id => @pet_id,
         :name => "RUBY UNIT TESTING",
         :status => "pending",
         :photo_urls => ["url1", "url2"],
@@ -25,7 +45,7 @@ describe "Pet" do
       # test new
       pet.name.should == "RUBY UNIT TESTING"
       pet.status.should == "pending"
-      pet.id.should == 10002
+      pet.id.should == @pet_id
       pet.tags[0].id.should == 1
       pet.tags[1].name.should == 'tag2'
       pet.category.name.should == 'category unknown'
@@ -42,20 +62,20 @@ describe "Pet" do
     end
 
     it "should fetch a pet object" do
-      pet = @pet_api.get_pet_by_id(10002)
+      pet = @pet_api.get_pet_by_id(@pet_id)
       pet.should be_a(Petstore::Pet)
-      pet.id.should == 10002
+      pet.id.should == @pet_id
       pet.name.should == "RUBY UNIT TESTING"
       pet.tags[0].name.should == "tag test"
       pet.category.name.should == "category test"
     end
 
     it "should fetch a pet object with http info" do
-      pet, status_code, headers = @pet_api.get_pet_by_id_with_http_info(10002)
+      pet, status_code, headers = @pet_api.get_pet_by_id_with_http_info(@pet_id)
       status_code.should == 200
       headers['Content-Type'].should == 'application/json'
       pet.should be_a(Petstore::Pet)
-      pet.id.should == 10002
+      pet.id.should == @pet_id
       pet.name.should == "RUBY UNIT TESTING"
       pet.tags[0].name.should == "tag test"
       pet.category.name.should == "category test"
@@ -63,7 +83,7 @@ describe "Pet" do
 
     it "should not find a pet that does not exist" do
       begin
-        @pet_api.get_pet_by_id(-10002)
+        @pet_api.get_pet_by_id(-@pet_id)
         fail 'it should raise error'
       rescue Petstore::ApiError => e
         e.code.should == 404
@@ -72,6 +92,37 @@ describe "Pet" do
         e.response_headers.should be_a(Hash)
         e.response_headers['Content-Type'].should == 'application/json'
       end
+    end
+
+    it "should create and get pet with byte array (binary, string)" do
+      pet = @pet_api.get_pet_by_id(@pet_id)
+      pet.id = @pet_id + 1
+      str = serialize_json(pet)
+      @pet_api.add_pet_using_byte_array(body: str)
+
+      fetched_str = @pet_api.pet_pet_idtesting_byte_arraytrue_get(pet.id)
+      fetched_str.should be_a(String)
+      fetched = deserialize_json(fetched_str, 'Pet')
+      fetched.should be_a(Petstore::Pet)
+      fetched.id.should == pet.id
+      fetched.category.should be_a(Petstore::Category)
+      fetched.category.name.should == pet.category.name
+
+      @pet_api.delete_pet(pet.id)
+    end
+
+    it "should update a pet" do
+      pet = @pet_api.get_pet_by_id(@pet_id)
+      pet.id.should == @pet_id
+      pet.name.should == "RUBY UNIT TESTING"
+      pet.status.should == 'pending'
+
+      @pet_api.update_pet_with_form(@pet_id, name: 'new name', status: 'sold')
+
+      fetched = @pet_api.get_pet_by_id(@pet_id)
+      fetched.id.should == @pet_id
+      fetched.name.should == "new name"
+      fetched.status.should == 'sold'
     end
 
     it "should find pets by status" do
@@ -97,43 +148,29 @@ describe "Pet" do
       end
     end
 
-    it "should update a pet" do
-      pet = Petstore::Pet.new({'id' => 10002, 'status' => 'sold'})
-      @pet_api.add_pet(:body => pet)
-
-      fetched = @pet_api.get_pet_by_id(10002)
-      fetched.id.should == 10002
-      fetched.status.should == 'sold'
-    end
-
     it "should create a pet" do
-      pet = Petstore::Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
+      id = @pet_id + 1
+
+      pet = Petstore::Pet.new('id' => id, 'name' => "RUBY UNIT TESTING")
       result = @pet_api.add_pet(:body => pet)
       # nothing is returned
       result.should be_nil
 
-      pet = @pet_api.get_pet_by_id(10002)
-      pet.id.should == 10002
+      pet = @pet_api.get_pet_by_id(id)
+      pet.id.should == id
       pet.name.should == "RUBY UNIT TESTING"
+
+      @pet_api.delete_pet(id)
     end
 
     it "should upload a file to a pet" do
-      pet = Petstore::Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING")
-      result = @pet_api.add_pet(:body => pet)
-      # nothing is returned
-      result.should be_nil
-
-      result = @pet_api.upload_file(10002, file: File.new('hello.txt'))
+      result = @pet_api.upload_file(@pet_id, file: File.new('hello.txt'))
       # nothing is returned
       result.should be_nil
     end
 
     it "should upload a file with form parameter to a pet" do
-      pet = Petstore::Pet.new('id' => 10002, 'name' => 'RUBY UNIT TESTING')
-      result = @pet_api.add_pet(body: pet)
-      result.should be_nil
-
-      result = @pet_api.upload_file(10002, file: File.new('hello.txt'), additional_metadata: 'metadata')
+      result = @pet_api.upload_file(@pet_id, file: File.new('hello.txt'), additional_metadata: 'metadata')
       result.should be_nil
     end
 

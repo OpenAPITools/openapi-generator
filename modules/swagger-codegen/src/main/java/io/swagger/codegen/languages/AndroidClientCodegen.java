@@ -15,8 +15,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AndroidClientCodegen.class);
     public static final String USE_ANDROID_MAVEN_GRADLE_PLUGIN = "useAndroidMavenGradlePlugin";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -26,24 +29,34 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String sourceFolder = projectFolder + "/java";
     protected Boolean useAndroidMavenGradlePlugin = true;
 
+    // requestPackage and authPackage are used by the "volley" template/library
+    protected String requestPackage = "io.swagger.client.request";
+    protected String authPackage = "io.swagger.client.auth";
+
     public AndroidClientCodegen() {
         super();
         outputFolder = "generated-code/android";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        embeddedTemplateDir = templateDir = "android-java";
+        embeddedTemplateDir = templateDir = "android";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
-                        "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while")
+                    // local variable names used in API methods (endpoints)
+                    "localVarPostBody", "localVarPath", "localVarQueryParams", "localVarHeaderParams",
+                    "localVarFormParams", "localVarContentTypes", "localVarContentType",
+                    "localVarResponse", "localVarBuilder", "authNames", "basePath", "apiInvoker",
+
+                    // android reserved words
+                    "abstract", "continue", "for", "new", "switch", "assert",
+                    "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
+                    "this", "break", "double", "implements", "protected", "throw", "byte", "else",
+                    "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
+                    "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
+                    "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
+                    "native", "super", "while")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -55,10 +68,13 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                         "Integer",
                         "Long",
                         "Float",
+                        "byte[]",
                         "Object")
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
+        typeMapping.put("date", "Date");
+        typeMapping.put("file", "File");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -67,18 +83,27 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, "artifactId for use in the generated build.gradle and pom.xml"));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "artifact version for use in the generated build.gradle and pom.xml"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
-        cliOptions.add(new CliOption(USE_ANDROID_MAVEN_GRADLE_PLUGIN, "A flag to toggle android-maven gradle plugin.")
-                .defaultValue("true"));
+        cliOptions.add(CliOption.newBoolean(USE_ANDROID_MAVEN_GRADLE_PLUGIN, "A flag to toggle android-maven gradle plugin.")
+                .defaultValue(Boolean.TRUE.toString()));
+
+        supportedLibraries.put("<default>", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1");
+        supportedLibraries.put("volley", "HTTP client: Volley 1.0.19");
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        library.setEnum(supportedLibraries);
+        cliOptions.add(library);
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "android";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Android client library.";
     }
@@ -93,6 +118,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
@@ -118,8 +144,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
+            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
+                type.equals("Map") || type.equals("List") ||
+                type.equals("File") || type.equals("Date")) {
+                return type;
             }
         } else {
             type = swaggerType;
@@ -130,7 +158,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
@@ -142,7 +170,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -157,14 +185,18 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
-        // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
-        }
-
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        name = camelize(sanitizeName(modelNamePrefix + name + modelNameSuffix));
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            String modelName = "Object" + name;
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        return name;
     }
 
     @Override
@@ -180,12 +212,16 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
+        operationId = camelize(sanitizeName(operationId), true);
+
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        if (isReservedWord(operationId)) {
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
         }
 
-        return camelize(operationId, true);
+        return operationId;
     }
 
     @Override
@@ -231,22 +267,63 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
         }
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
 
+        if (StringUtils.isEmpty(getLibrary())) {
+            addSupportingFilesForDefault();
+        } else if ("volley".equals(getLibrary())) {
+            addSupportingFilesForVolley();
+        }
+    }
+
+    private void addSupportingFilesForDefault() {
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
         supportingFiles.add(new SupportingFile("httpPatch.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "HttpPatch.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "HttpPatch.java"));
         supportingFiles.add(new SupportingFile("jsonUtil.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
         supportingFiles.add(new SupportingFile("apiException.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
         supportingFiles.add(new SupportingFile("Pair.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Pair.java"));
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+    }
+
+    private void addSupportingFilesForVolley() {
+        // supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
+        supportingFiles.add(new SupportingFile("apiInvoker.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiInvoker.java"));
+        supportingFiles.add(new SupportingFile("jsonUtil.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "JsonUtil.java"));
+        supportingFiles.add(new SupportingFile("apiException.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
+        supportingFiles.add(new SupportingFile("Pair.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+        supportingFiles.add(new SupportingFile("request/getrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "GetRequest.java"));
+        supportingFiles.add(new SupportingFile("request/postrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PostRequest.java"));
+        supportingFiles.add(new SupportingFile("request/putrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PutRequest.java"));
+        supportingFiles.add(new SupportingFile("request/deleterequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "DeleteRequest.java"));
+        supportingFiles.add(new SupportingFile("request/patchrequest.mustache",
+                (sourceFolder + File.separator + requestPackage).replace(".", File.separator), "PatchRequest.java"));
+        supportingFiles.add(new SupportingFile("auth/apikeyauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "ApiKeyAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "HttpBasicAuth.java"));
+        supportingFiles.add(new SupportingFile("auth/authentication.mustache",
+                (sourceFolder + File.separator + authPackage).replace(".", File.separator), "Authentication.java"));
     }
 
     public Boolean getUseAndroidMavenGradlePlugin() {

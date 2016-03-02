@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -14,15 +15,20 @@ namespace IO.Swagger.Model
     /// 
     /// </summary>
     [DataContract]
-    public class Category : IEquatable<Category>
+    public partial class Category :  IEquatable<Category>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="Category" /> class.
+        /// Initializes a new instance of the <see cref="Category" />class.
         /// </summary>
-        public Category()
+        /// <param name="Id">Id.</param>
+        /// <param name="Name">Name.</param>
+
+        public Category(long? Id = null, string Name = null)
         {
-           
+            this.Id = Id;
+            this.Name = Name;
+            
         }
         
     
@@ -76,7 +82,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if Category instances are equal
         /// </summary>
-        /// <param name="obj">Instance of Category to be compared</param>
+        /// <param name="other">Instance of Category to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(Category other)
         {
@@ -110,10 +116,10 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 
                 if (this.Id != null)
-                    hash = hash * 57 + this.Id.GetHashCode();
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
                 if (this.Name != null)
-                    hash = hash * 57 + this.Name.GetHashCode();
+                    hash = hash * 59 + this.Name.GetHashCode();
                 
                 return hash;
             }

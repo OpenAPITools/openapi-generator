@@ -11,7 +11,7 @@
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 /**
- *  Copyright 2015 SmartBear Software
+ *  Copyright 2016 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -150,7 +150,7 @@ class ApiClient
         if ($postData and in_array('Content-Type: application/x-www-form-urlencoded', $headers)) {
             $postData = http_build_query($postData);
         } elseif ((is_object($postData) or is_array($postData)) and !in_array('Content-Type: multipart/form-data', $headers)) { // json model
-            $postData = json_encode($this->serializer->sanitizeForSerialization($postData));
+            $postData = json_encode(\{{invokerPackage}}\ObjectSerializer::sanitizeForSerialization($postData));
         }
 
         $url = $this->config->getHost() . $resourcePath;
@@ -230,7 +230,7 @@ class ApiClient
             throw new ApiException("API call to $url timed out: ".serialize($response_info), 0, null, null);
         } elseif ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
             // return raw body if response is a file
-            if ($responseType == '\SplFileObject') {
+            if ($responseType == '\SplFileObject' || $responseType == 'ByteArray') {
                 return array($http_body, $response_info['http_code'], $http_header);
             }
 

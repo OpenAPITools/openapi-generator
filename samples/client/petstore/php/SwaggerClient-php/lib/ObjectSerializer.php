@@ -11,7 +11,7 @@
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 /**
- *  Copyright 2015 SmartBear Software
+ *  Copyright 2016 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -46,13 +46,13 @@ class ObjectSerializer
 {
 
     /**
-     * Build a JSON POST object
+     * Serialize data
      *
      * @param mixed $data the data to serialize
      *
      * @return string serialized form of $data
      */
-    public function sanitizeForSerialization($data)
+    public static function sanitizeForSerialization($data)
     {
         if (is_scalar($data) || null === $data) {
             $sanitized = $data;
@@ -60,7 +60,7 @@ class ObjectSerializer
             $sanitized = $data->format(\DateTime::ISO8601);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
-                $data[$property] = $this->sanitizeForSerialization($value);
+                $data[$property] = self::sanitizeForSerialization($value);
             }
             $sanitized = $data;
         } elseif (is_object($data)) {
@@ -68,15 +68,32 @@ class ObjectSerializer
             foreach (array_keys($data::$swaggerTypes) as $property) {
                 $getter = $data::$getters[$property];
                 if ($data->$getter() !== null) {
-                    $values[$data::$attributeMap[$property]] = $this->sanitizeForSerialization($data->$getter());
+                    $values[$data::$attributeMap[$property]] = self::sanitizeForSerialization($data->$getter());
                 }
             }
-            $sanitized = $values;
+            $sanitized = (object)$values;
         } else {
             $sanitized = (string)$data;
         }
 
         return $sanitized;
+    }
+
+    /**
+     * Sanitize filename by removing path.
+     * e.g. ../../sun.gif becomes sun.gif 
+     *
+     * @param string $filename filename to be sanitized
+     *
+     * @return string the sanitized filename
+     */
+    public function sanitizeFilename($filename)
+    {
+        if (preg_match("/.*[\/\\\\](.*)$/", $filename, $match)) {
+            return $match[1];
+        } else {
+            return $filename;
+        }
     }
 
     /**
@@ -136,7 +153,7 @@ class ObjectSerializer
      */
     public function toFormValue($value)
     {
-        if ($value instanceof SplFileObject) {
+        if ($value instanceof \SplFileObject) {
             return $value->getRealPath();
         } else {
             return $this->toString($value);
@@ -162,15 +179,48 @@ class ObjectSerializer
     }
 
     /**
+     * Serialize an array to a string.
+     *
+     * @param array  $collection       collection to serialize to a string
+     * @param string $collectionFormat the format use for serialization (csv,
+     * ssv, tsv, pipes, multi)
+     *
+     * @return string
+     */
+    public function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti=false)
+    {
+        if ($allowCollectionFormatMulti && ('multi' === $collectionFormat)) {
+            // http_build_query() almost does the job for us. We just
+            // need to fix the result of multidimensional arrays.
+            return preg_replace('/%5B[0-9]+%5D=/', '=', http_build_query($collection, '', '&'));
+        }
+        switch ($collectionFormat) {
+            case 'pipes':
+                return implode('|', $collection);
+
+            case 'tsv':
+                return implode("\t", $collection);
+
+            case 'ssv':
+                return implode(' ', $collection);
+
+            case 'csv':
+                // Deliberate fall through. CSV is default format.
+            default:
+                return implode(',', $collection);
+        }
+    }
+
+    /**
      * Deserialize a JSON string into an object
      *
      * @param mixed  $data       object or primitive to be deserialized
      * @param string $class      class name is passed as a string
-     * @param string $httpHeader HTTP headers
+     * @param string $httpHeaders HTTP headers
      *
      * @return object an instance of $class
      */
-    public function deserialize($data, $class, $httpHeader=null)
+    public static function deserialize($data, $class, $httpHeaders=null)
     {
         if (null === $data) {
             $deserialized = null;
@@ -181,16 +231,18 @@ class ObjectSerializer
                 $subClass_array = explode(',', $inner, 2);
                 $subClass = $subClass_array[1];
                 foreach ($data as $key => $value) {
-                    $deserialized[$key] = $this->deserialize($value, $subClass);
+                    $deserialized[$key] = self::deserialize($value, $subClass);
                 }
             }
         } elseif (strcasecmp(substr($class, -2), '[]') == 0) {
             $subClass = substr($class, 0, -2);
             $values = array();
             foreach ($data as $key => $value) {
-                $values[] = $this->deserialize($value, $subClass);
+                $values[] = self::deserialize($value, $subClass);
             }
             $deserialized = $values;
+        } elseif ($class === 'ByteArray') { // byte array
+            $deserialized = unpack('C*', (string)$data);
         } elseif ($class === '\DateTime') {
             $deserialized = new \DateTime($data);
         } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
@@ -198,8 +250,8 @@ class ObjectSerializer
             $deserialized = $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
-            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeader['Content-Disposition'], $match)) {
-                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath().$match[1];
+            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
+                $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . sanitizeFilename($match[1]);
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }
@@ -218,7 +270,7 @@ class ObjectSerializer
      
                 $propertyValue = $data->{$instance::$attributeMap[$property]};
                 if (isset($propertyValue)) {
-                    $instance->$propertySetter($this->deserialize($propertyValue, $type));
+                    $instance->$propertySetter(self::deserialize($propertyValue, $type));
                 }
             }
             $deserialized = $instance;

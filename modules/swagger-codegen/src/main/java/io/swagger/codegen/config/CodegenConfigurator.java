@@ -36,18 +36,20 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  */
 public class CodegenConfigurator {
 
-    public static final Logger LOG = LoggerFactory.getLogger(CodegenConfigurator.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
     private String lang;
     private String inputSpec;
     private String outputDir;
-    private boolean verbose = false;
-    private boolean skipOverwrite = false;
+    private boolean verbose;
+    private boolean skipOverwrite;
     private String templateDir;
     private String auth;
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
+    private String modelNamePrefix;
+    private String modelNameSuffix;
     private String groupId;
     private String artifactId;
     private String artifactVersion;
@@ -94,6 +96,24 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setModelPackage(String modelPackage) {
         this.modelPackage = modelPackage;
+        return this;
+    }
+
+    public String getModelNamePrefix() {
+        return modelNamePrefix;
+    }
+
+    public CodegenConfigurator setModelNamePrefix(String prefix) {
+        this.modelNamePrefix = prefix;
+        return this;
+    }
+
+    public String getModelNameSuffix() {
+        return modelNameSuffix;
+    }
+
+    public CodegenConfigurator setModelNameSuffix(String suffix) {
+        this.modelNameSuffix = suffix;
         return this;
     }
 
@@ -300,6 +320,8 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
+        checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
 
         handleDynamicProperties(config);
 
@@ -349,7 +371,7 @@ public class CodegenConfigurator {
         if (!verbose) {
             return;
         }
-        LOG.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
+        LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
                 "\n - [debugSwagger] prints the swagger specification as interpreted by the codegen" +
                 "\n - [debugModels] prints models passed to the template engine" +
                 "\n - [debugOperations] prints operations passed to the template engine" +
@@ -390,10 +412,9 @@ public class CodegenConfigurator {
 
         if (isNotEmpty(configFile)) {
             try {
-                CodegenConfigurator result = Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
-                return result;
+                return Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
             } catch (IOException e) {
-                LOG.error("Unable to deserialize config file: " + configFile, e);
+                LOGGER.error("Unable to deserialize config file: " + configFile, e);
             }
         }
         return null;

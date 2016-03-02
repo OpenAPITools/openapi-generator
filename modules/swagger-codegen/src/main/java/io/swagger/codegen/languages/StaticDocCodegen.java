@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
@@ -21,6 +22,11 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".html");
         apiTemplateFiles.put("operation.mustache", ".html");
         embeddedTemplateDir = templateDir = "swagger-static";
+
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
@@ -50,14 +56,17 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("map", "HashMap");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }
 
+    @Override
     public String getName() {
         return "dynamic-html";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a dynamic HTML site.";
     }
@@ -72,6 +81,7 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
         return outputFolder + File.separator + sourceFolder + File.separator + "operations";
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + "models";
     }

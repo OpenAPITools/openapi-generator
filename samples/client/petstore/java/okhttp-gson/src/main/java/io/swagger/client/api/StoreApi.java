@@ -17,11 +17,13 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-import java.util.Map;
 import io.swagger.client.model.Order;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StoreApi {
   private ApiClient apiClient;
@@ -43,31 +45,33 @@ public class StoreApi {
   }
 
   
-  /* Build call for getInventory */
-  private Call getInventoryCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+  /* Build call for findOrdersByStatus */
+  private Call findOrdersByStatusCall(String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
     
 
     // create path and map variables
-    String path = "/store/inventory".replaceAll("\\{format\\}","json");
+    String localVarPath = "/store/findByStatus".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    if (status != null)
+      localVarQueryParams.addAll(apiClient.parameterToPairs("", "status", status));
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -81,8 +85,110 @@ public class StoreApi {
       });
     }
 
-    String[] authNames = new String[] { "api_key" };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "test_api_client_id", "test_api_client_secret" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Finds orders by status
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query
+   * @return List<Order>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public List<Order> findOrdersByStatus(String status) throws ApiException {
+    ApiResponse<List<Order>> resp = findOrdersByStatusWithHttpInfo(status);
+    return resp.getData();
+  }
+
+  /**
+   * Finds orders by status
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query
+   * @return ApiResponse<List<Order>>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<List<Order>> findOrdersByStatusWithHttpInfo(String status) throws ApiException {
+    Call call = findOrdersByStatusCall(status, null, null);
+    Type localVarReturnType = new TypeToken<List<Order>>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
+  }
+
+  /**
+   * Finds orders by status (asynchronously)
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call findOrdersByStatusAsync(String status, final ApiCallback<List<Order>> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = findOrdersByStatusCall(status, progressListener, progressRequestListener);
+    Type localVarReturnType = new TypeToken<List<Order>>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
+    return call;
+  }
+  
+  /* Build call for getInventory */
+  private Call getInventoryCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+
+    // create path and map variables
+    String localVarPath = "/store/inventory".replaceAll("\\{format\\}","json");
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] { "api_key" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -104,8 +210,8 @@ public class StoreApi {
    */
   public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
     Call call = getInventoryCall(null, null);
-    Type returnType = new TypeToken<Map<String, Integer>>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
@@ -125,7 +231,7 @@ public class StoreApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -137,36 +243,36 @@ public class StoreApi {
     }
 
     Call call = getInventoryCall(progressListener, progressRequestListener);
-    Type returnType = new TypeToken<Map<String, Integer>>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for placeOrder */
   private Call placeOrderCall(Order body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/store/order".replaceAll("\\{format\\}","json");
+    String localVarPath = "/store/order".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -180,8 +286,8 @@ public class StoreApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "test_api_client_id", "test_api_client_secret" };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -205,8 +311,8 @@ public class StoreApi {
    */
   public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
     Call call = placeOrderCall(body, null, null);
-    Type returnType = new TypeToken<Order>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<Order>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
@@ -227,7 +333,7 @@ public class StoreApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -239,14 +345,14 @@ public class StoreApi {
     }
 
     Call call = placeOrderCall(body, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<Order>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<Order>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for getOrderById */
   private Call getOrderByIdCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
@@ -255,26 +361,26 @@ public class StoreApi {
     
 
     // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -288,8 +394,8 @@ public class StoreApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "test_api_key_query", "test_api_key_header" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -313,8 +419,8 @@ public class StoreApi {
    */
   public ApiResponse<Order> getOrderByIdWithHttpInfo(String orderId) throws ApiException {
     Call call = getOrderByIdCall(orderId, null, null);
-    Type returnType = new TypeToken<Order>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<Order>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
@@ -335,7 +441,7 @@ public class StoreApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -347,14 +453,14 @@ public class StoreApi {
     }
 
     Call call = getOrderByIdCall(orderId, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<Order>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<Order>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for deleteOrder */
   private Call deleteOrderCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
@@ -363,26 +469,26 @@ public class StoreApi {
     
 
     // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -396,8 +502,8 @@ public class StoreApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "DELETE", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -440,7 +546,7 @@ public class StoreApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {

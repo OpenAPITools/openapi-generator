@@ -18,13 +18,11 @@ package io.swagger.codegen.plugin;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.ClientOptInput;
-import io.swagger.codegen.ClientOpts;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.DefaultGenerator;
+import io.swagger.codegen.config.CodegenConfigurator;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -32,24 +30,30 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import config.Config;
-import config.ConfigParser;
-
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.ServiceLoader;
+import java.util.Set;
 
-import static io.swagger.codegen.plugin.AdditionalParams.API_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.INVOKER_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.MODEL_PACKAGE_PARAM;
-import static io.swagger.codegen.plugin.AdditionalParams.TEMPLATE_DIR_PARAM;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.*;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * Goal which generates client/server code from a swagger json/yaml definition.
  */
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class CodeGenMojo extends AbstractMojo {
+
+    @Parameter(name="verbose", required = false, defaultValue = "false")
+    private boolean verbose;
+
+    /**
+     * Client language to generate.
+     */
+    @Parameter(name = "language", required = true)
+    private String language;
+
     /**
      * Location of the output directory.
      */
@@ -71,28 +75,11 @@ public class CodeGenMojo extends AbstractMojo {
     private File templateDirectory;
 
     /**
-     * The package to use for generated model objects/classes
+     * Adds authorization headers when fetching the swagger definitions remotely.
+     " Pass in a URL-encoded string of name:header with a comma separating multiple values
      */
-    @Parameter(name = "modelPackage")
-    private String modelPackage;
-
-    /**
-     * The package to use for generated api objects/classes
-     */
-    @Parameter(name = "apiPackage")
-    private String apiPackage;
-
-    /**
-     * The package to use for the generated invoker objects
-     */
-    @Parameter(name = "invokerPackage")
-    private String invokerPackage;
-
-    /**
-     * Client language to generate.
-     */
-    @Parameter(name = "language", required = true)
-    private String language;
+    @Parameter(name="auth")
+    private String auth;
 
     /**
      * Path to separate json configuration file.
@@ -101,10 +88,58 @@ public class CodeGenMojo extends AbstractMojo {
     private String configurationFile;
 
     /**
+     * Specifies if the existing files should be overwritten during the generation.
+     */
+    @Parameter(name="skipOverwrite", required=false)
+    private Boolean skipOverwrite;
+
+    /**
+     * The package to use for generated api objects/classes
+     */
+    @Parameter(name = "apiPackage")
+    private String apiPackage;
+
+    /**
+     * The package to use for generated model objects/classes
+     */
+    @Parameter(name = "modelPackage")
+    private String modelPackage;
+
+    /**
+     * The package to use for the generated invoker objects
+     */
+    @Parameter(name = "invokerPackage")
+    private String invokerPackage;
+
+    /**
+     * groupId in generated pom.xml
+     */
+    @Parameter(name = "groupId")
+    private String groupId;
+
+    /**
+     * artifactId in generated pom.xml
+     */
+    @Parameter(name = "artifactId")
+    private String artifactId;
+
+    /**
+     * artifact version in generated pom.xml
+     */
+    @Parameter(name = "artifactVersion")
+    private String artifactVersion;
+
+    /**
+     * Sets the library
+     */
+    @Parameter(name = "library", required = false)
+    private String library;
+
+    /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
-    private Map configOptions;
+    private Map<?, ?> configOptions;
 
     /**
      * Add the output directory to the project as a source root, so that the
@@ -116,6 +151,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<String, String>();
 
+    @Parameter
+    private boolean configHelp = false;
+
     /**
      * The project being built.
      */
@@ -124,12 +162,92 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+
         Swagger swagger = new SwaggerParser().read(inputSpec);
 
-        CodegenConfig config = CodegenConfigLoader.forName(language);
-        config.setOutputDir(output.getAbsolutePath());
+        //attempt to read from config file
+        CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
+
+        //if a config file wasn't specified or we were unable to read it
+        if(configurator == null) {
+            configurator = new CodegenConfigurator();
+        }
+
+        configurator.setVerbose(verbose);
+
+        if(skipOverwrite != null) {
+            configurator.setSkipOverwrite(skipOverwrite);
+        }
+
+        if(isNotEmpty(inputSpec)) {
+            configurator.setInputSpec(inputSpec);
+        }
+
+        configurator.setLang(language);
+
+        configurator.setOutputDir(output.getAbsolutePath());
+
+        if(isNotEmpty(auth)) {
+            configurator.setAuth(auth);
+        }
+
+        if(isNotEmpty(apiPackage)) {
+            configurator.setApiPackage(apiPackage);
+        }
+
+        if(isNotEmpty(modelPackage)) {
+            configurator.setModelPackage(modelPackage);
+        }
+
+        if(isNotEmpty(invokerPackage)) {
+            configurator.setInvokerPackage(invokerPackage);
+        }
+
+        if(isNotEmpty(groupId)) {
+            configurator.setGroupId(groupId);
+        }
+
+        if(isNotEmpty(artifactId)) {
+            configurator.setArtifactId(artifactId);
+        }
+
+        if(isNotEmpty(artifactVersion)) {
+            configurator.setArtifactVersion(artifactVersion);
+        }
+
+        if(isNotEmpty(library)) {
+            configurator.setLibrary(library);
+        }
+
+        if (null != templateDirectory) {
+            configurator.setTemplateDir(templateDirectory.getAbsolutePath());
+        }
+
+        if (configOptions != null) {
+
+            if(configOptions.containsKey("instantiation-types")) {
+                applyInstantiationTypesKvp(configOptions.get("instantiation-types").toString(), configurator);
+            }
+
+            if(configOptions.containsKey("import-mappings")) {
+                applyImportMappingsKvp(configOptions.get("import-mappings").toString(), configurator);
+            }
+
+            if(configOptions.containsKey("type-mappings")) {
+                applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
+            }
+
+            if(configOptions.containsKey("language-specific-primitives")) {
+                applyLanguageSpecificPrimitivesCsv(configOptions.get("language-specific-primitives").toString(), configurator);
+            }
+
+            if(configOptions.containsKey("additional-properties")) {
+                applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(), configurator);
+            }
+        }
 
         if (environmentVariables != null) {
+
             for(String key : environmentVariables.keySet()) {
                 String value = environmentVariables.get(key);
                 if(value == null) {
@@ -137,53 +255,36 @@ public class CodeGenMojo extends AbstractMojo {
                     value = "";
                 }
                 System.setProperty(key, value);
+                configurator.addSystemProperty(key, value);
             }
         }
+        
+        final ClientOptInput input = configurator.toClientOptInput();
+        final CodegenConfig config = input.getConfig();
 
-        if (null != templateDirectory) {
-            config.additionalProperties().put(TEMPLATE_DIR_PARAM, templateDirectory.getAbsolutePath());
-        }
-        if (null != modelPackage) {
-            config.additionalProperties().put(MODEL_PACKAGE_PARAM, modelPackage);
-        }
-        if (null != apiPackage) {
-            config.additionalProperties().put(API_PACKAGE_PARAM, apiPackage);
-        }
-        if (null != invokerPackage) {
-            config.additionalProperties().put(INVOKER_PACKAGE_PARAM, invokerPackage);
-        }
-
-        if (configOptions != null) {
+        if(configOptions != null) {
             for (CliOption langCliOption : config.cliOptions()) {
                 if (configOptions.containsKey(langCliOption.getOpt())) {
-                    config.additionalProperties().put(langCliOption.getOpt(),
+                    input.getConfig().additionalProperties().put(langCliOption.getOpt(),
                             configOptions.get(langCliOption.getOpt()));
                 }
             }
         }
 
-        if (null != configurationFile) {
-            Config genConfig = ConfigParser.read(configurationFile);
-            if (null != genConfig) {
-                for (CliOption langCliOption : config.cliOptions()) {
-                    if (genConfig.hasOption(langCliOption.getOpt())) {
-                        config.additionalProperties().put(langCliOption.getOpt(), genConfig.getOption(langCliOption.getOpt()));
-                    }
-                }
-            } else {
-            	throw new RuntimeException("Unable to read configuration file");
+        if(configHelp) {
+            for (CliOption langCliOption : config.cliOptions()) {
+                System.out.println("\t" + langCliOption.getOpt());
+                System.out.println("\t    " + langCliOption.getOptionHelp().replaceAll("\n", "\n\t    "));
+                System.out.println();
             }
+            return;
         }
-        
-        ClientOptInput input = new ClientOptInput().opts(new ClientOpts()).swagger(swagger);
-        input.setConfig(config);
-        
         try {
             new DefaultGenerator().opts(input).generate();
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
-        	// I find it annoying to jump through hoops to get basic diagnostic information,
-        	// so let's log it in any case:
+            // I find it annoying to jump through hoops to get basic diagnostic information,
+            // so let's log it in any case:
             getLog().error(e); 
             throw new MojoExecutionException("Code generation failed. See above for the full exception.");
         }

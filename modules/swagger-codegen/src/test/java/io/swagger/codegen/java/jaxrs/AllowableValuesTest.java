@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 
 public class AllowableValuesTest {
 
-    private static final String TEMPLATE_FILE = "JavaJaxRS/allowableValues.mustache";
+    private static final String TEMPLATE_FILE = "JavaJaxRS/jersey1_18/allowableValues.mustache";
     private static final String PROVIDER_NAME = "operations";
 
     private static String loadClassResource(Class<?> cls, String name) throws IOException {
@@ -31,7 +31,7 @@ public class AllowableValuesTest {
     }
 
     @DataProvider(name = PROVIDER_NAME)
-    private Object[][] resource() {
+    private static Object[][] resource() {
         final CodegenParameter param1 = new CodegenParameter();
         final CodegenParameter param2 = new CodegenParameter() {{
             allowableValues = ImmutableMap.<String, Object>of("values", ImmutableList.of("item1", "item2", "item3"));

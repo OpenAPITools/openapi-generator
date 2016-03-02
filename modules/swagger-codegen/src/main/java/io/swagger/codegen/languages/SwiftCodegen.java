@@ -37,22 +37,27 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   public static final String POD_DESCRIPTION = "podDescription";
   public static final String POD_SCREENSHOTS = "podScreenshots";
   public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
+  public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
   protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
   protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT };
   protected String projectName = "SwaggerClient";
-  protected boolean unwrapRequired = false;
+  protected boolean unwrapRequired;
+  protected boolean swiftUseApiNamespace;
   protected String[] responseAs = new String[0];
   protected String sourceFolder = "Classes" + File.separator + "Swaggers";
   private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");
 
+  @Override
   public CodegenType getTag() {
     return CodegenType.CLIENT;
   }
 
+  @Override
   public String getName() {
     return "swift";
   }
 
+  @Override
   public String getHelp() {
     return "Generates a swift client library.";
   }
@@ -74,7 +79,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         "Bool",
         "Void",
         "String",
-        "Character")
+        "Character",
+        "AnyObject")
     );
     defaultIncludes = new HashSet<String>(
       Arrays.asList(
@@ -86,7 +92,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         "Empty",
         "AnyObject")
     );
-    reservedWords = new HashSet<String>(
+    setReservedWordsLowerCase(
       Arrays.asList(
         "class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
         "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
@@ -115,8 +121,11 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("float", "Float");
     typeMapping.put("number", "Double");
     typeMapping.put("double", "Double");
-    typeMapping.put("object", "String");
+    typeMapping.put("object", "AnyObject");
     typeMapping.put("file", "NSURL");
+    //TODO binary should be mapped to byte array
+    // mapped to String as a workaround
+    typeMapping.put("binary", "String");
 
     importMapping = new HashMap<String, String>();
 
@@ -136,6 +145,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     cliOptions.add(new CliOption(POD_DESCRIPTION, "Description used for Podspec"));
     cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
     cliOptions.add(new CliOption(POD_DOCUMENTATION_URL, "Documentation URL used for Podspec"));
+    cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE, "Flag to make all the API classes inner-class of {{projectName}}API"));
   }
 
   @Override
@@ -170,6 +180,12 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       additionalProperties.put("usePromiseKit", true);
     }
 
+    // Setup swiftUseApiNamespace option, which makes all the API classes inner-class of {{projectName}}API
+    if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
+      swiftUseApiNamespace = Boolean.parseBoolean(String.valueOf(additionalProperties.get(SWIFT_USE_API_NAMESPACE)));
+    }
+    additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
+
     supportingFiles.add(new SupportingFile("Podspec.mustache", "", projectName + ".podspec"));
     supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
     supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
@@ -182,7 +198,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String escapeReservedWord(String name) {
-    return "Swagger" + name;  // add an underscore to the name
+    return "_" + name;  // add an underscore to the name
   }
 
   @Override
@@ -257,13 +273,18 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
       codegenProperty.allowableValues.put("values", swiftEnums);
       codegenProperty.datatypeWithEnum =
               StringUtils.left(codegenProperty.datatypeWithEnum, codegenProperty.datatypeWithEnum.length() - "Enum".length());
-      if (reservedWords.contains(codegenProperty.datatypeWithEnum)) {
+      // Ensure that the enum type doesn't match a reserved word or
+      // the variable name doesn't match the generated enum type or the
+      // Swift compiler will generate an error
+      if (isReservedWord(codegenProperty.datatypeWithEnum) ||
+          name.equals(codegenProperty.datatypeWithEnum)) {
         codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
       }
     }
     return codegenProperty;
   }
 
+    @SuppressWarnings("static-method")
     public String toSwiftyEnumName(String value) {
         // Prevent from breaking properly cased identifier
         if (value.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
@@ -282,8 +303,70 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   @Override
+  public String toOperationId(String operationId) {
+    // throw exception if method name is empty
+    if (StringUtils.isEmpty(operationId)) {
+      throw new RuntimeException("Empty method name (operationId) not allowed");
+    }
+
+    // method name cannot use reserved keyword, e.g. return
+    if (isReservedWord(operationId)) {
+      throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+    }
+
+    return camelize(sanitizeName(operationId), true);
+  }
+
+  @Override
+  public String toVarName(String name) {
+    // sanitize name
+    name = sanitizeName(name);
+
+    // if it's all uppper case, do nothing
+    if (name.matches("^[A-Z_]*$")) {
+        return name;
+    }
+
+    // camelize the variable name
+    // pet_id => petId
+    name = camelize(name, true);
+
+    // for reserved word or word starting with number, append _
+    if (isReservedWord(name) || name.matches("^\\d.*")) {
+        name = escapeReservedWord(name);
+    }
+
+    return name;
+  }
+
+  @Override
+  public String toParamName(String name) {
+    // sanitize name
+    name = sanitizeName(name);
+
+    // replace - with _ e.g. created-at => created_at
+    name = name.replaceAll("-", "_");
+
+    // if it's all uppper case, do nothing
+    if (name.matches("^[A-Z_]*$")) {
+        return name;
+    }
+
+    // camelize(lower) the variable name
+    // pet_id => petId
+    name = camelize(name, true);
+
+    // for reserved word or word starting with number, append _
+    if (isReservedWord(name) || name.matches("^\\d.*")) {
+        name = escapeReservedWord(name);
+    }
+
+    return name;
+  }
+
+  @Override
   public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-    path = normalizePath(path);
+    path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
     List<Parameter> parameters = operation.getParameters();
     parameters = Lists.newArrayList(Iterators.filter(parameters.iterator(), new Predicate<Parameter>() {
       @Override
