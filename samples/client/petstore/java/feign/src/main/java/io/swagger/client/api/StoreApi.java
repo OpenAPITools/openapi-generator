@@ -10,10 +10,23 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-11T21:48:33.457Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-02T21:04:56.888+08:00")
 public interface StoreApi extends ApiClient.Api {
 
 
+  /**
+   * Finds orders by status
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query
+   * @return List<Order>
+   */
+  @RequestLine("GET /store/findByStatus?status={status}")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  List<Order> findOrdersByStatus(@Param("status") String status);
+  
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
@@ -25,6 +38,18 @@ public interface StoreApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   Map<String, Integer> getInventory();
+  
+  /**
+   * Returns pet inventories by status
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return Object
+   */
+  @RequestLine("GET /store/inventory?response=arbitrary_object")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  Object getInventoryInObject();
   
   /**
    * Place an order for a pet

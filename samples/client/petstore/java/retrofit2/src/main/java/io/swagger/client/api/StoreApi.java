@@ -18,6 +18,19 @@ import java.util.Map;
 public interface StoreApi {
   
   /**
+   * Finds orders by status
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query
+   * @return Call<List<Order>>
+   */
+  
+  @GET("store/findByStatus")
+  Call<List<Order>> findOrdersByStatus(
+    @Query("status") String status
+  );
+
+  
+  /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
    * @return Call<Map<String, Integer>>
@@ -25,6 +38,17 @@ public interface StoreApi {
   
   @GET("store/inventory")
   Call<Map<String, Integer>> getInventory();
+    
+
+  
+  /**
+   * Returns pet inventories by status
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return Call<Object>
+   */
+  
+  @GET("store/inventory?response=arbitrary_object")
+  Call<Object> getInventoryInObject();
     
 
   
