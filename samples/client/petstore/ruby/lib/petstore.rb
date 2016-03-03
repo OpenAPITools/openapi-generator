@@ -21,16 +21,17 @@ require 'petstore/version'
 require 'petstore/configuration'
 
 # Models
+require 'petstore/models/order'
 require 'petstore/models/user'
 require 'petstore/models/category'
-require 'petstore/models/pet'
+require 'petstore/models/inline_response_200'
 require 'petstore/models/tag'
-require 'petstore/models/order'
+require 'petstore/models/pet'
 
 # APIs
 require 'petstore/api/user_api'
-require 'petstore/api/pet_api'
 require 'petstore/api/store_api'
+require 'petstore/api/pet_api'
 
 module Petstore
   class << self

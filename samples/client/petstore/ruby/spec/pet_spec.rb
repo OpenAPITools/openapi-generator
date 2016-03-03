@@ -111,6 +111,16 @@ describe "Pet" do
       @pet_api.delete_pet(pet.id)
     end
 
+    it "should get pet in bject" do
+      pet = @pet_api.get_pet_by_id_in_object(@pet_id)
+      pet.should be_a(Petstore::InlineResponse200)
+      pet.id.should == @pet_id
+      pet.name.should == "RUBY UNIT TESTING"
+      pet.category.should be_a(Hash)
+      pet.category[:id].should == 20002
+      pet.category[:name].should == 'category test'
+    end
+
     it "should update a pet" do
       pet = @pet_api.get_pet_by_id(@pet_id)
       pet.id.should == @pet_id

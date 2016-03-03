@@ -23,4 +23,14 @@ describe "Store" do
       v.should be_a(Integer)
     end
   end
+
+  it "should featch the inventory in object" do
+    result = @api.get_inventory_in_object
+    result.should be_a(Hash)
+    result.should_not be_empty
+    result.each do |k, v|
+      k.should be_a(Symbol)
+      v.should be_a(Integer)
+    end
+  end
 end

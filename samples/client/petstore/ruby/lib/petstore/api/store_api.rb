@@ -141,6 +141,61 @@ module Petstore
       return data, status_code, headers
     end
 
+    # Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+    # Returns an arbitrary object which is actually a map of status codes to quantities
+    # @param [Hash] opts the optional parameters
+    # @return [Object]
+    def get_inventory_in_object(opts = {})
+      data, status_code, headers = get_inventory_in_object_with_http_info(opts)
+      return data
+    end
+
+    # Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+    # Returns an arbitrary object which is actually a map of status codes to quantities
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Object, Fixnum, Hash)>] Object data, response status code and response headers
+    def get_inventory_in_object_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: StoreApi#get_inventory_in_object ..."
+      end
+      
+      # resource path
+      local_var_path = "/store/inventory?response=arbitrary_object".sub('{format}','json')
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # HTTP header 'Accept' (if needed)
+      _header_accept = ['application/json', 'application/xml']
+      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+
+      # HTTP header 'Content-Type'
+      _header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      
+      auth_names = ['api_key']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Object')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StoreApi#get_inventory_in_object\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Place an order for a pet
     # 
     # @param [Hash] opts the optional parameters
@@ -244,7 +299,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['test_api_key_header', 'test_api_key_query']
+      auth_names = ['test_api_key_query', 'test_api_key_header']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
