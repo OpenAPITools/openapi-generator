@@ -99,6 +99,14 @@ isa_ok($api, 'WWW::SwaggerClient::PetApi');
 }
 
 #
+# get_pet_by_id_in_object test
+#
+{
+    my $pet_id = undef; # replace NULL with a proper value
+    my $result = $api->get_pet_by_id_in_object(pet_id => $pet_id);
+}
+
+#
 # pet_pet_idtesting_byte_arraytrue_get test
 #
 {
