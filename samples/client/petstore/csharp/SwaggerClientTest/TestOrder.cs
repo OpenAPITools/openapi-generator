@@ -49,7 +49,7 @@ namespace SwaggerClientTest.TestORder
 			Assert.AreEqual (1982, o.Id);
 			Assert.AreEqual (1020, o.PetId);
 			Assert.AreEqual (1, o.Quantity);
-			Assert.AreEqual ("placed", o.Status);
+			Assert.AreEqual (Order.StatusEnum.Placed, o.Status);
 			Assert.AreEqual (true, o.Complete);
 
 		}

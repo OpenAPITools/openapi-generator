@@ -9,6 +9,8 @@ using IO.Swagger.Model;
 using IO.Swagger.Client;
 using System.Reflection;
 
+
+
 namespace IO.Swagger.Test
 {
     [TestFixture]
@@ -102,3 +104,5 @@ namespace IO.Swagger.Test
     }
 
 }
+
+

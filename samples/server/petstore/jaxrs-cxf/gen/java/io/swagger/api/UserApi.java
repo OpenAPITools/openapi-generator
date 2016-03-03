@@ -1,12 +1,12 @@
 package io.swagger.api;
 
 import io.swagger.model.User;
-import java.util.*;
+import java.util.List;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("/v2")
+@Path("/")
 public interface UserApi  {
     @POST
     @Path("/user")
@@ -27,8 +27,7 @@ public interface UserApi  {
     @Path("/user/login")
     
     @Produces({ "application/json", "application/xml" })
-    public Response loginUser(@QueryParam("username") String username,
-    @QueryParam("password") String password);
+    public Response loginUser(@QueryParam("username") String username,@QueryParam("password") String password);
     @GET
     @Path("/user/logout")
     
@@ -43,8 +42,7 @@ public interface UserApi  {
     @Path("/user/{username}")
     
     @Produces({ "application/json", "application/xml" })
-    public Response updateUser(@PathParam("username") String username,
-    User body);
+    public Response updateUser(@PathParam("username") String username,User body);
     @DELETE
     @Path("/user/{username}")
     
