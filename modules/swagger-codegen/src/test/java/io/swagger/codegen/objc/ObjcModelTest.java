@@ -35,7 +35,8 @@ public class ObjcModelTest {
                 .property("name", new StringProperty())
                 .property("createdAt", new DateTimeProperty())
                 .required("id")
-                .required("name");
+                .required("name")
+                .discriminator("test");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -43,6 +44,7 @@ public class ObjcModelTest {
         Assert.assertEquals(cm.classname, "SWGSample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.discriminator,"test");
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");

@@ -16,6 +16,31 @@
   return self;
 }
 
+{{#discriminator}}
+/**
+ Maps "discriminator" value to the sub-class name, so that inheritance is supported.
+ */
+- (id)initWithDictionary:(NSDictionary *)dict error:(NSError *__autoreleasing *)err {
+
+
+    NSString * discriminatedClassName = [dict valueForKey:@"{{discriminator}}"];
+
+    if(discriminatedClassName == nil ){
+         return [super initWithDictionary:dict error:err];
+    }
+
+    Class class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:discriminatedClassName]);
+
+    if([self class ] == class) {
+        return [super initWithDictionary:dict error:err];
+    }
+
+
+    return [[class alloc] initWithDictionary:dict error: err];
+
+}
+{{/discriminator}}
+
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
