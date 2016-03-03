@@ -4,7 +4,7 @@ import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
-import io.swagger.client.model.PetWithArbitraryObject;
+import io.swagger.client.model.InlineResponse200;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-02T21:04:56.888+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-03T12:04:41.120+08:00")
 public interface PetApi extends ApiClient.Api {
 
 
@@ -127,17 +127,17 @@ public interface PetApi extends ApiClient.Api {
   void uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
   
   /**
-   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
-   * @return PetWithArbitraryObject
+   * @return InlineResponse200
    */
   @RequestLine("GET /pet/{petId}?response=inline_arbitrary_object")
   @Headers({
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  PetWithArbitraryObject getPetByIdWithObject(@Param("petId") Long petId);
+  InlineResponse200 getPetByIdInObject(@Param("petId") Long petId);
   
   /**
    * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;

@@ -75,12 +75,10 @@ public class PetApiTest {
     @Test
     public void testCreateAndGetPetWithByteArray() throws Exception {
         Pet pet = createRandomPet();
-        System.out.println(serializeJson(pet, api.getApiClient()));
         byte[] bytes = serializeJson(pet, api.getApiClient()).getBytes();
         api.addPetUsingByteArray(bytes);
 
         byte[] fetchedBytes = api.petPetIdtestingByteArraytrueGet(pet.getId());
-        System.out.println(new String(fetchedBytes));
         Type type = new TypeToken<Pet>(){}.getType();
         Pet fetched = deserializeJson(new String(fetchedBytes), type, api.getApiClient());
         assertNotNull(fetched);
@@ -200,6 +198,40 @@ public class PetApiTest {
     }
 
     @Test
+    public void testGetPetByIdInObject() throws Exception {
+        Pet pet = new Pet();
+        pet.setId(TestUtils.nextId());
+        pet.setName("pet " + pet.getId());
+
+        Category category = new Category();
+        category.setId(TestUtils.nextId());
+        category.setName("category " + category.getId());
+        pet.setCategory(category);
+
+        pet.setStatus(Pet.StatusEnum.PENDING);
+        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1"});
+        pet.setPhotoUrls(photos);
+
+        api.addPet(pet);
+
+        InlineResponse200 fetched = api.getPetByIdInObject(pet.getId());
+        assertEquals(pet.getId(), fetched.getId());
+        assertEquals(pet.getName(), fetched.getName());
+
+        Object categoryObj = fetched.getCategory();
+        assertNotNull(categoryObj);
+        assertTrue(categoryObj instanceof Map);
+
+        Map categoryMap = (Map) categoryObj;
+        Object categoryIdObj = categoryMap.get("id");
+        // NOTE: Gson parses integer value to double.
+        assertTrue(categoryIdObj instanceof Double);
+        Long categoryIdLong = ((Double) categoryIdObj).longValue();
+        assertEquals(category.getId(), categoryIdLong);
+        assertEquals(category.getName(), categoryMap.get("name"));
+    }
+
+    @Test
     public void testUpdatePet() throws Exception {
         Pet pet = createRandomPet();
         pet.setName("programmer");
@@ -217,11 +249,11 @@ public class PetApiTest {
     public void testFindPetsByStatus() throws Exception {
         Pet pet = createRandomPet();
         pet.setName("programmer");
-        pet.setStatus(Pet.StatusEnum.AVAILABLE);
+        pet.setStatus(Pet.StatusEnum.PENDING);
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByStatus(Arrays.asList(new String[]{"available"}));
+        List<Pet> pets = api.findPetsByStatus(Arrays.asList(new String[]{"pending"}));
         assertNotNull(pets);
 
         boolean found = false;
@@ -233,6 +265,8 @@ public class PetApiTest {
         }
 
         assertTrue(found);
+
+        api.deletePet(pet.getId(), null);
     }
 
     @Test
@@ -260,6 +294,8 @@ public class PetApiTest {
             }
         }
         assertTrue(found);
+
+        api.deletePet(pet.getId(), null);
     }
 
     @Test

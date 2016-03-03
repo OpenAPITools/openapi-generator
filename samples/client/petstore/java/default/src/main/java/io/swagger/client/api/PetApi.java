@@ -9,14 +9,14 @@ import io.swagger.client.Pair;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
-import io.swagger.client.model.PetWithArbitraryObject;
+import io.swagger.client.model.InlineResponse200;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-02T21:04:54.084+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-03T10:59:23.243+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -407,18 +407,18 @@ public class PetApi {
   }
   
   /**
-   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
-   * @return PetWithArbitraryObject
+   * @return InlineResponse200
    * @throws ApiException if fails to make API call
    */
-  public PetWithArbitraryObject getPetByIdWithObject(Long petId) throws ApiException {
+  public InlineResponse200 getPetByIdInObject(Long petId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
-      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetByIdWithObject");
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetByIdInObject");
     }
     
     // create path and map variables
@@ -449,7 +449,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
 
     
-    GenericType<PetWithArbitraryObject> localVarReturnType = new GenericType<PetWithArbitraryObject>() {};
+    GenericType<InlineResponse200> localVarReturnType = new GenericType<InlineResponse200>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     
   }

@@ -39,6 +39,20 @@ public class StoreApiTest {
     }
 
     @Test
+    public void testGetInventoryInObject() throws Exception {
+        Object inventoryObj = api.getInventoryInObject();
+        assertTrue(inventoryObj instanceof Map);
+
+        Map inventoryMap = (Map) inventoryObj;
+        assertTrue(inventoryMap.keySet().size() > 0);
+
+        Map.Entry firstEntry = (Map.Entry) inventoryMap.entrySet().iterator().next();
+        assertTrue(firstEntry.getKey() instanceof String);
+        // NOTE: Gson parses integer value to double.
+        assertTrue(firstEntry.getValue() instanceof Double);
+    }
+
+    @Test
     public void testPlaceOrder() throws Exception {
         Order order = createOrder();
         api.placeOrder(order);

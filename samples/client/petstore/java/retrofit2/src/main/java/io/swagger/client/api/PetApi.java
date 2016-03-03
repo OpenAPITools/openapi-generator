@@ -10,7 +10,7 @@ import okhttp3.RequestBody;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
-import io.swagger.client.model.PetWithArbitraryObject;
+import io.swagger.client.model.InlineResponse200;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,14 +131,14 @@ public interface PetApi {
 
   
   /**
-   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
-   * @return Call<PetWithArbitraryObject>
+   * @return Call<InlineResponse200>
    */
   
   @GET("pet/{petId}?response=inline_arbitrary_object")
-  Call<PetWithArbitraryObject> getPetByIdWithObject(
+  Call<InlineResponse200> getPetByIdInObject(
     @Path("petId") Long petId
   );
 

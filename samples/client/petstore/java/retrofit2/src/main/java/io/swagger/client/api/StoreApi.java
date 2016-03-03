@@ -42,7 +42,7 @@ public interface StoreApi {
 
   
   /**
-   * Returns pet inventories by status
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
    * Returns an arbitrary object which is actually a map of status codes to quantities
    * @return Call<Object>
    */

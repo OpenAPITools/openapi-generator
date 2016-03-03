@@ -65,7 +65,7 @@ public interface StoreApi {
   );
   
   /**
-   * Returns pet inventories by status
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
    * Sync method
    * Returns an arbitrary object which is actually a map of status codes to quantities
    * @return Object
@@ -76,7 +76,7 @@ public interface StoreApi {
     
 
   /**
-   * Returns pet inventories by status
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
    * Async method
    * @param cb callback method
    * @return void

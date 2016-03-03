@@ -314,9 +314,9 @@
         "tags": [
           "pet"
         ],
-        "summary": "Fake endpoint to test byte array return by 'Find pet by ID'",
+        "summary": "Fake endpoint to test inline arbitrary object return by 'Find pet by ID'",
         "description": "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions",
-        "operationId": "getPetByIdWithObject",
+        "operationId": "getPetByIdInObject",
         "produces": [
           "application/json",
           "application/xml"
@@ -338,7 +338,23 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/PetWithArbitraryObject"
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "category": {
+                  "type": "object"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "doggie"
+                }
+              }
             }
           },
           "400": {
@@ -590,7 +606,7 @@
         "tags": [
           "store"
         ],
-        "summary": "Returns pet inventories by status",
+        "summary": "Fake endpoint to test arbitrary object return by 'Get inventory'",
         "description": "Returns an arbitrary object which is actually a map of status codes to quantities",
         "operationId": "getInventoryInObject",
         "produces": [
@@ -1184,57 +1200,6 @@
       },
       "xml": {
         "name": "Pet"
-      }
-    },
-    "PetWithArbitraryObject": {
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "category": {
-          "type": "object"
-        },
-        "name": {
-          "type": "string",
-          "example": "doggie"
-        },
-        "photoUrls": {
-          "type": "array",
-          "xml": {
-            "name": "photoUrl",
-            "wrapped": true
-          },
-          "items": {
-            "type": "string"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "xml": {
-            "name": "tag",
-            "wrapped": true
-          },
-          "items": {
-            "$ref": "#/definitions/Tag"
-          }
-        },
-        "status": {
-          "type": "string",
-          "description": "pet status in the store",
-          "enum": [
-            "available",
-            "pending",
-            "sold"
-          ]
-        }
-      },
-      "xml": {
-        "name": "PetWithArbitraryObject"
       }
     },
     "Tag": {
