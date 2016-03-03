@@ -46,6 +46,8 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setReturnICollection(false);
             times = 1;
+            clientCodegen.setOptionalEmitDefaultValue(true);
+            times = 1;
         }};
     }
 }
