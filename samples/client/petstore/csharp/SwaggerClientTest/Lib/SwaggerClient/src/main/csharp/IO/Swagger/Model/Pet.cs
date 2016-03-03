@@ -7,17 +7,39 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace IO.Swagger.Model
 {
-
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
     public partial class Pet :  IEquatable<Pet>
-    {
+    { 
+    
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum StatusEnum {
+            
+            [EnumMember(Value = "available")]
+            Available,
+            
+            [EnumMember(Value = "pending")]
+            Pending,
+            
+            [EnumMember(Value = "sold")]
+            Sold
+        }
+    
         /// <summary>
+        /// pet status in the store
+        /// </summary>
+        /// <value>pet status in the store</value>
+        [DataMember(Name="status", EmitDefaultValue=false)]
+        public StatusEnum? Status { get; set; }
+    
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pet" /> class.
         /// Initializes a new instance of the <see cref="Pet" />class.
         /// </summary>
         /// <param name="Id">Id.</param>
@@ -27,7 +49,7 @@ namespace IO.Swagger.Model
         /// <param name="Tags">Tags.</param>
         /// <param name="Status">pet status in the store.</param>
 
-        public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, string Status = null)
+        public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, StatusEnum? Status = null)
         {
             // to ensure "Name" is required (not null)
             if (Name == null)
@@ -53,52 +75,38 @@ namespace IO.Swagger.Model
             this.Status = Status;
             
         }
-
         
+    
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name="category", EmitDefaultValue=false)]
         public Category Category { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [DataMember(Name="photoUrls", EmitDefaultValue=false)]
         public List<string> PhotoUrls { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [DataMember(Name="tags", EmitDefaultValue=false)]
         public List<Tag> Tags { get; set; }
-  
-        
-        /// <summary>
-        /// pet status in the store
-        /// </summary>
-        /// <value>pet status in the store</value>
-        [DataMember(Name="status", EmitDefaultValue=false)]
-        public string Status { get; set; }
-  
-        
-  
+    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
