@@ -291,7 +291,7 @@ public class StoreApi {
   }
 
   /**
-   * Returns pet inventories by status
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
    * Returns an arbitrary object which is actually a map of status codes to quantities
    * @return Object
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -302,7 +302,7 @@ public class StoreApi {
   }
 
   /**
-   * Returns pet inventories by status
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
    * Returns an arbitrary object which is actually a map of status codes to quantities
    * @return ApiResponse<Object>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -314,7 +314,7 @@ public class StoreApi {
   }
 
   /**
-   * Returns pet inventories by status (asynchronously)
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39; (asynchronously)
    * Returns an arbitrary object which is actually a map of status codes to quantities
    * @param callback The callback to be executed when the API call finishes
    * @return The request call

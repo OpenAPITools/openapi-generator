@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-02T21:04:54.084+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-03T11:57:06.886+08:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -121,7 +121,7 @@ public class StoreApi {
   }
   
   /**
-   * Returns pet inventories by status
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
    * Returns an arbitrary object which is actually a map of status codes to quantities
    * @return Object
    * @throws ApiException if fails to make API call

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-02T21:04:56.888+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-03T12:04:41.120+08:00")
 public interface StoreApi extends ApiClient.Api {
 
 
@@ -40,7 +40,7 @@ public interface StoreApi extends ApiClient.Api {
   Map<String, Integer> getInventory();
   
   /**
-   * Returns pet inventories by status
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
    * Returns an arbitrary object which is actually a map of status codes to quantities
    * @return Object
    */
