@@ -7,6 +7,7 @@ using RestSharp;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
 
+
 namespace IO.Swagger.Api
 {
     
@@ -903,17 +904,17 @@ namespace IO.Swagger.Api
             
             
 
-            // authentication (test_api_key_header) required
-            
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
-            {
-                localVarHeaderParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
-            }
             // authentication (test_api_key_query) required
             
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_query")))
             {
                 localVarQueryParams["test_api_key_query"] = Configuration.GetApiKeyWithPrefix("test_api_key_query");
+            }
+            // authentication (test_api_key_header) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
+            {
+                localVarHeaderParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
             }
             
     
@@ -995,18 +996,18 @@ namespace IO.Swagger.Api
             
 
             
-            // authentication (test_api_key_header) required
-            
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
-            {
-                localVarHeaderParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
-            }
-            
             // authentication (test_api_key_query) required
             
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_query")))
             {
                 localVarQueryParams["test_api_key_query"] = Configuration.GetApiKeyWithPrefix("test_api_key_query");
+            }
+            
+            // authentication (test_api_key_header) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
+            {
+                localVarHeaderParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
             }
             
 
