@@ -169,6 +169,9 @@ module Petstore
         else
           false
         end
+      when :Object
+        # generic object (usually a Hash), return directly
+        value
       when /\AArray<(?<inner_type>.+)>\z/
         inner_type = Regexp.last_match[:inner_type]
         value.map { |v| _deserialize(inner_type, v) }
