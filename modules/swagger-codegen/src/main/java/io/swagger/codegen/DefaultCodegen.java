@@ -1231,6 +1231,9 @@ public class DefaultCodegen {
         }
     }
 
+    /**
+     * Override with any special handling of response codes
+     */
     protected Response findMethodResponse(Map<String, Response> responses) {
 
         String code = null;
