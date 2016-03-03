@@ -1233,6 +1233,8 @@ public class DefaultCodegen {
 
     /**
      * Override with any special handling of response codes
+     * @param responses Swagger Operation's responses
+     * @return default method response or <tt>null</tt> if not found
      */
     protected Response findMethodResponse(Map<String, Response> responses) {
 
