@@ -9,8 +9,6 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-
-
 namespace IO.Swagger.Model
 {
     /// <summary>
@@ -50,50 +48,50 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=true)]
+        [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
     
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
-        [DataMember(Name="username", EmitDefaultValue=true)]
+        [DataMember(Name="username", EmitDefaultValue=false)]
         public string Username { get; set; }
     
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
-        [DataMember(Name="firstName", EmitDefaultValue=true)]
+        [DataMember(Name="firstName", EmitDefaultValue=false)]
         public string FirstName { get; set; }
     
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
-        [DataMember(Name="lastName", EmitDefaultValue=true)]
+        [DataMember(Name="lastName", EmitDefaultValue=false)]
         public string LastName { get; set; }
     
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
-        [DataMember(Name="email", EmitDefaultValue=true)]
+        [DataMember(Name="email", EmitDefaultValue=false)]
         public string Email { get; set; }
     
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=true)]
+        [DataMember(Name="password", EmitDefaultValue=false)]
         public string Password { get; set; }
     
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
-        [DataMember(Name="phone", EmitDefaultValue=true)]
+        [DataMember(Name="phone", EmitDefaultValue=false)]
         public string Phone { get; set; }
     
         /// <summary>
         /// User Status
         /// </summary>
         /// <value>User Status</value>
-        [DataMember(Name="userStatus", EmitDefaultValue=true)]
+        [DataMember(Name="userStatus", EmitDefaultValue=false)]
         public int? UserStatus { get; set; }
     
         /// <summary>
@@ -232,6 +230,4 @@ namespace IO.Swagger.Model
         }
 
     }
-
-
 }

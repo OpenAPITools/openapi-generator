@@ -9,8 +9,6 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-
-
 namespace IO.Swagger.Model
 {
     /// <summary>
@@ -37,7 +35,7 @@ namespace IO.Swagger.Model
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        [DataMember(Name="status", EmitDefaultValue=true)]
+        [DataMember(Name="status", EmitDefaultValue=false)]
         public StatusEnum? Status { get; set; }
     
         /// <summary>
@@ -64,31 +62,31 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=true)]
+        [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; private set; }
     
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
-        [DataMember(Name="petId", EmitDefaultValue=true)]
+        [DataMember(Name="petId", EmitDefaultValue=false)]
         public long? PetId { get; set; }
     
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
-        [DataMember(Name="quantity", EmitDefaultValue=true)]
+        [DataMember(Name="quantity", EmitDefaultValue=false)]
         public int? Quantity { get; set; }
     
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        [DataMember(Name="shipDate", EmitDefaultValue=true)]
+        [DataMember(Name="shipDate", EmitDefaultValue=false)]
         public DateTime? ShipDate { get; set; }
     
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name="complete", EmitDefaultValue=true)]
+        [DataMember(Name="complete", EmitDefaultValue=false)]
         public bool? Complete { get; set; }
     
         /// <summary>
@@ -209,6 +207,4 @@ namespace IO.Swagger.Model
         }
 
     }
-
-
 }

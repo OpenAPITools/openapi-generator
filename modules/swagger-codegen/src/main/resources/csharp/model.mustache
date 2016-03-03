@@ -28,7 +28,7 @@ namespace {{packageName}}.Model
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue=true)]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]
         public {{{datatypeWithEnum}}} {{name}} { get; set; }
     {{/isEnum}}{{/vars}}
         /// <summary>
@@ -66,7 +66,7 @@ namespace {{packageName}}.Model
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue=true)]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]
         public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
     {{/isEnum}}{{/vars}}
         /// <summary>
