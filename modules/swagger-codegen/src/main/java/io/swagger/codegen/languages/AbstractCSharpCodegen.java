@@ -13,6 +13,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalProjectFileFlag = false;
+    protected boolean optionalEmitDefaultValue = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
@@ -120,6 +121,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.returnICollection = returnICollection;
     }
 
+    public void setOptionalEmitDefaultValue(boolean optionalEmitDefaultValue) {
+        this.optionalEmitDefaultValue = optionalEmitDefaultValue;
+    }
+
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
@@ -191,6 +196,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (additionalProperties.containsKey(CodegenConstants.RETURN_ICOLLECTION)) {
             setReturnICollection(Boolean.valueOf(additionalProperties.get(CodegenConstants.RETURN_ICOLLECTION).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
+            setOptionalEmitDefaultValue(Boolean.valueOf(additionalProperties.get(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES).toString()));
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return StringUtils.capitalize(property.name) + "Enum?";
     }
 
     @Override
