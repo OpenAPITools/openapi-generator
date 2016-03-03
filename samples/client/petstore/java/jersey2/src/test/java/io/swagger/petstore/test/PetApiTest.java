@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -81,6 +82,39 @@ public class PetApiTest {
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testGetPetByIdInObject() throws Exception {
+        Pet pet = new Pet();
+        pet.setId(TestUtils.nextId());
+        pet.setName("pet " + pet.getId());
+
+        Category category = new Category();
+        category.setId(TestUtils.nextId());
+        category.setName("category " + category.getId());
+        pet.setCategory(category);
+
+        pet.setStatus(Pet.StatusEnum.PENDING);
+        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1"});
+        pet.setPhotoUrls(photos);
+
+        api.addPet(pet);
+
+        InlineResponse200 fetched = api.getPetByIdInObject(pet.getId());
+        assertEquals(pet.getId(), fetched.getId());
+        assertEquals(pet.getName(), fetched.getName());
+
+        Object categoryObj = fetched.getCategory();
+        assertNotNull(categoryObj);
+        assertTrue(categoryObj instanceof Map);
+
+        Map categoryMap = (Map) categoryObj;
+        Object categoryIdObj = categoryMap.get("id");
+        assertTrue(categoryIdObj instanceof Integer);
+        Integer categoryIdInt = (Integer) categoryIdObj;
+        assertEquals(category.getId(), Long.valueOf(categoryIdInt));
+        assertEquals(category.getName(), categoryMap.get("name"));
     }
 
     @Test

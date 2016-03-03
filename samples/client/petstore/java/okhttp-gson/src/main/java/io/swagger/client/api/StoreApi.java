@@ -248,6 +248,105 @@ public class StoreApi {
     return call;
   }
   
+  /* Build call for getInventoryInObject */
+  private Call getInventoryInObjectCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+
+    // create path and map variables
+    String localVarPath = "/store/inventory?response=arbitrary_object".replaceAll("\\{format\\}","json");
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] { "api_key" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return Object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public Object getInventoryInObject() throws ApiException {
+    ApiResponse<Object> resp = getInventoryInObjectWithHttpInfo();
+    return resp.getData();
+  }
+
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return ApiResponse<Object>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Object> getInventoryInObjectWithHttpInfo() throws ApiException {
+    Call call = getInventoryInObjectCall(null, null);
+    Type localVarReturnType = new TypeToken<Object>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
+  }
+
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39; (asynchronously)
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call getInventoryInObjectAsync(final ApiCallback<Object> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = getInventoryInObjectCall(progressListener, progressRequestListener);
+    Type localVarReturnType = new TypeToken<Object>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
+    return call;
+  }
+  
   /* Build call for placeOrder */
   private Call placeOrderCall(Order body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = body;
