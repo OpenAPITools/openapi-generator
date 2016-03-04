@@ -204,6 +204,28 @@ namespace IO.Swagger.Api
         ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
         
         /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>InlineResponse200</returns>
+        InlineResponse200 GetPetByIdInObject (long? petId);
+  
+        /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>ApiResponse of InlineResponse200</returns>
+        ApiResponse<InlineResponse200> GetPetByIdInObjectWithHttpInfo (long? petId);
+        
+        /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
         /// </summary>
         /// <remarks>
@@ -436,6 +458,28 @@ namespace IO.Swagger.Api
         /// <param name="file">file to upload</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
+        
+        /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of InlineResponse200</returns>
+        System.Threading.Tasks.Task<InlineResponse200> GetPetByIdInObjectAsync (long? petId);
+
+        /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of ApiResponse (InlineResponse200)</returns>
+        System.Threading.Tasks.Task<ApiResponse<InlineResponse200>> GetPetByIdInObjectAsyncWithHttpInfo (long? petId);
         
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
@@ -1976,6 +2020,192 @@ namespace IO.Swagger.Api
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
+        }
+        
+        /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <returns>InlineResponse200</returns>
+        public InlineResponse200 GetPetByIdInObject (long? petId)
+        {
+             ApiResponse<InlineResponse200> localVarResponse = GetPetByIdInObjectWithHttpInfo(petId);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <returns>ApiResponse of InlineResponse200</returns>
+        public ApiResponse< InlineResponse200 > GetPetByIdInObjectWithHttpInfo (long? petId)
+        {
+            
+            // verify the required parameter 'petId' is set
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetByIdInObject");
+            
+    
+            var localVarPath = "/pet/{petId}?response=inline_arbitrary_object";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
+            
+            
+            
+            
+            
+
+            // authentication (api_key) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+    
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+    
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetPetByIdInObject: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetPetByIdInObject: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+    
+            return new ApiResponse<InlineResponse200>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (InlineResponse200) Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponse200)));
+            
+        }
+
+        
+        /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of InlineResponse200</returns>
+        public async System.Threading.Tasks.Task<InlineResponse200> GetPetByIdInObjectAsync (long? petId)
+        {
+             ApiResponse<InlineResponse200> localVarResponse = await GetPetByIdInObjectAsyncWithHttpInfo(petId);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of ApiResponse (InlineResponse200)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<InlineResponse200>> GetPetByIdInObjectAsyncWithHttpInfo (long? petId)
+        {
+            // verify the required parameter 'petId' is set
+            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetByIdInObject");
+            
+    
+            var localVarPath = "/pet/{petId}?response=inline_arbitrary_object";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
+            
+            
+            
+            
+            
+
+            
+            // authentication (api_key) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+            
+            // authentication (petstore_auth) required
+            
+            // oauth required
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
+            {
+                localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+ 
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetPetByIdInObject: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetPetByIdInObject: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<InlineResponse200>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (InlineResponse200) Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponse200)));
+            
         }
         
         /// <summary>
