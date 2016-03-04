@@ -723,11 +723,11 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
+- [Svenska Spel AB](https://www.svenskaspel.se/)
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [uShip](https://www.uship.com/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
-- [Svenska Spel AB](https://www.svenskaspel.se/)
 
 License
 -------
