@@ -991,7 +991,7 @@ class PetApi
      * Fake endpoint to test byte array return by 'Find pet by ID'
      *
      * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return ByteArray
+     * @return string
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function petPetIdtestingByteArraytrueGet($pet_id)
@@ -1007,7 +1007,7 @@ class PetApi
      * Fake endpoint to test byte array return by 'Find pet by ID'
      *
      * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return Array of ByteArray, HTTP status code, HTTP response headers (array of strings)
+     * @return Array of string, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function petPetIdtestingByteArraytrueGetWithHttpInfo($pet_id)
@@ -1071,19 +1071,19 @@ class PetApi
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'GET',
                 $queryParams, $httpBody,
-                $headerParams, 'ByteArray'
+                $headerParams, 'string'
             );
             
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, 'ByteArray', $httpHeader), $statusCode, $httpHeader);
+            return array(\Swagger\Client\ObjectSerializer::deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), 'ByteArray', $e->getResponseHeaders());
+                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;
             }
@@ -1097,7 +1097,7 @@ class PetApi
      *
      * Fake endpoint to test byte array in body parameter for adding a new pet to the store
      *
-     * @param ByteArray $body Pet object in the form of byte array (optional)
+     * @param string $body Pet object in the form of byte array (optional)
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -1113,7 +1113,7 @@ class PetApi
      *
      * Fake endpoint to test byte array in body parameter for adding a new pet to the store
      *
-     * @param ByteArray $body Pet object in the form of byte array (optional)
+     * @param string $body Pet object in the form of byte array (optional)
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -1143,7 +1143,7 @@ class PetApi
         // body params
         $_tempBody = null;
         if (isset($body)) {
-            $_tempBody = call_user_func_array('pack', array_merge(array('C*'), $body));
+            $_tempBody = $body;
         }
   
         // for model (json/xml)

@@ -279,7 +279,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         // add a new pet (model)
         $object_serializer = new Swagger\Client\ObjectSerializer();
         $pet_json_string = json_encode($object_serializer->sanitizeForSerialization($new_pet));
-        $add_response = $pet_api->addPetUsingByteArray(unpack('C*', $pet_json_string));
+        $add_response = $pet_api->addPetUsingByteArray($pet_json_string);
         // return nothing (void)
         $this->assertSame($add_response, NULL);
         // verify added Pet
@@ -330,9 +330,9 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         // test getPetByIdWithByteArray 
         $pet_id = 10005;
         $bytes = $pet_api->petPetIdtestingByteArraytrueGet($pet_id);
-        $json = json_decode(call_user_func_array('pack', array_merge(array('C*'), $bytes )), true);
+        $json = json_decode($bytes, true);
 
-        $this->assertInternalType("array", $bytes);
+        $this->assertInternalType("string", $bytes);
 
         $this->assertSame($json['id'], $pet_id);
         // not testing name as it's tested by addPetUsingByteArray
