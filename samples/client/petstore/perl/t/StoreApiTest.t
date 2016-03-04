@@ -30,10 +30,25 @@ my $api = WWW::SwaggerClient::StoreApi->new();
 isa_ok($api, 'WWW::SwaggerClient::StoreApi');
 
 #
+# find_orders_by_status test
+#
+{
+    my $status = undef; # replace NULL with a proper value
+    my $result = $api->find_orders_by_status(status => $status);
+}
+
+#
 # get_inventory test
 #
 {
     my $result = $api->get_inventory();
+}
+
+#
+# get_inventory_in_object test
+#
+{
+    my $result = $api->get_inventory_in_object();
 }
 
 #
