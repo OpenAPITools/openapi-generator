@@ -664,6 +664,83 @@ class PetApi(object):
                                             callback=params.get('callback'))
         return response
 
+    def get_pet_by_id_in_object(self, pet_id, **kwargs):
+        """
+        Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+        Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_pet_by_id_in_object(pet_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int pet_id: ID of pet that needs to be fetched (required)
+        :return: InlineResponse200
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['pet_id']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_pet_by_id_in_object" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in params) or (params['pet_id'] is None):
+            raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id_in_object`")
+
+        resource_path = '/pet/{petId}?response=inline_arbitrary_object'.replace('{format}', 'json')
+        path_params = {}
+        if 'pet_id' in params:
+            path_params['petId'] = params['pet_id']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = ['api_key', 'petstore_auth']
+
+        response = self.api_client.call_api(resource_path, 'GET',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type='InlineResponse200',
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
     def pet_pet_idtesting_byte_arraytrue_get(self, pet_id, **kwargs):
         """
         Fake endpoint to test byte array return by 'Find pet by ID'
