@@ -708,6 +708,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Activehours](https://www.activehours.com/)
 - [Acunetix](https://www.acunetix.com/)
 - [Atlassian](https://www.atlassian.com/)
+- [CloudBoost](https://www.CloudBoost.io/)
 - [Cupix](http://www.cupix.com)
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
