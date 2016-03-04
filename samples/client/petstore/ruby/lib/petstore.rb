@@ -22,8 +22,10 @@ require 'petstore/configuration'
 
 # Models
 require 'petstore/models/order'
+require 'petstore/models/special_model_name'
 require 'petstore/models/user'
 require 'petstore/models/category'
+require 'petstore/models/object_return'
 require 'petstore/models/inline_response_200'
 require 'petstore/models/tag'
 require 'petstore/models/pet'

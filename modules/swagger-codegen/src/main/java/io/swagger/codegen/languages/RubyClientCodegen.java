@@ -86,6 +86,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("Array");
         languageSpecificPrimitives.add("Hash");
         languageSpecificPrimitives.add("File");
+        languageSpecificPrimitives.add("Object");
 
         typeMapping.put("string", "String");
         typeMapping.put("char", "String");
@@ -458,11 +459,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return underscore(sanitizeName(operationId));
-    }
-
-    @Override
-    public String toModelImport(String name) {
-        return gemName + "/" + modelPackage() + "/" + underscore(name);
     }
 
     @Override
