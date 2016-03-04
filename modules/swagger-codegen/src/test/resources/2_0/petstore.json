@@ -1251,6 +1251,28 @@
       "xml": {
         "name": "Order"
       }
+    },
+    "$special[model.name]": {
+      "properties": {
+        "$special[property.name]": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "xml": {
+        "name": "$special[model.name]"
+      }
+    },
+    "Return": {
+      "properties": {
+        "return": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Return"
+      }
     }
   }
 }

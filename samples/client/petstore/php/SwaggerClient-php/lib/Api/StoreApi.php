@@ -281,6 +281,94 @@ class StoreApi
     }
     
     /**
+     * getInventoryInObject
+     *
+     * Fake endpoint to test arbitrary object return by 'Get inventory'
+     *
+     * @return object
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getInventoryInObject()
+    {
+        list($response, $statusCode, $httpHeader) = $this->getInventoryInObjectWithHttpInfo ();
+        return $response; 
+    }
+
+
+    /**
+     * getInventoryInObjectWithHttpInfo
+     *
+     * Fake endpoint to test arbitrary object return by 'Get inventory'
+     *
+     * @return Array of object, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getInventoryInObjectWithHttpInfo()
+    {
+        
+  
+        // parse inputs
+        $resourcePath = "/store/inventory?response=arbitrary_object";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        
+        
+        
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['api_key'] = $apiKey;
+        }
+        
+        
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'GET',
+                $queryParams, $httpBody,
+                $headerParams, 'object'
+            );
+            
+            if (!$response) {
+                return array(null, $statusCode, $httpHeader);
+            }
+
+            return array(\Swagger\Client\ObjectSerializer::deserialize($response, 'object', $httpHeader), $statusCode, $httpHeader);
+            
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            case 200:
+                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), 'object', $e->getResponseHeaders());
+                $e->setResponseObject($data);
+                break;
+            }
+  
+            throw $e;
+        }
+    }
+    
+    /**
      * placeOrder
      *
      * Place an order for a pet

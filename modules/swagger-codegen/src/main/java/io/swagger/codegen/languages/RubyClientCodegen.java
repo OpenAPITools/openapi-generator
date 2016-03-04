@@ -462,7 +462,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
-        return gemName + "/" + modelPackage() + "/" + toModelFilename(name);
+        return gemName + "/" + modelPackage() + "/" + underscore(name);
     }
 
     @Override
