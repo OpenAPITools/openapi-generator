@@ -10,7 +10,8 @@ require '{{gemName}}/configuration'
 
 # Models
 {{#models}}
-require '{{importPath}}'
+{{#model}}
+require '{{gemName}}/{{modelPackage}}/{{classFilename}}'{{/model}}
 {{/models}}
 
 # APIs
