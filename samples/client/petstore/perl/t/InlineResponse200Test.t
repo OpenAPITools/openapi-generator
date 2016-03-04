@@ -9,9 +9,9 @@ use strict;
 use warnings;
 
 
-use_ok('WWW::SwaggerClient::Object::User');
+use_ok('WWW::SwaggerClient::Object::InlineResponse200');
 
-my $instance = WWW::SwaggerClient::Object::User->new();
+my $instance = WWW::SwaggerClient::Object::InlineResponse200->new();
 
-isa_ok($instance, 'WWW::SwaggerClient::Object::User');
+isa_ok($instance, 'WWW::SwaggerClient::Object::InlineResponse200');
 

@@ -7,17 +7,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace IO.Swagger.Model
 {
-
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
     public partial class InlineResponse200 :  IEquatable<InlineResponse200>
-    {
+    { 
+    
         /// <summary>
+        /// Initializes a new instance of the <see cref="InlineResponse200" /> class.
         /// Initializes a new instance of the <see cref="InlineResponse200" />class.
         /// </summary>
         /// <param name="Id">Id (required).</param>
@@ -39,30 +41,26 @@ namespace IO.Swagger.Model
             this.Name = Name;
             
         }
-
         
+    
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name="category", EmitDefaultValue=false)]
         public Object Category { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
-  
-        
-  
+    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

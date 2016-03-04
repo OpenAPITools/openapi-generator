@@ -642,6 +642,86 @@ public class PetAPI: APIBase {
 
     /**
      
+     Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+     
+     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func getPetByIdInObject(petId petId: Int, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
+        getPetByIdInObjectWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+    /**
+     
+     Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+     
+     - parameter petId: (path) ID of pet that needs to be fetched
+     - returns: Promise<InlineResponse200>
+     */
+    public class func getPetByIdInObject(petId petId: Int) -> Promise<InlineResponse200> {
+        let deferred = Promise<InlineResponse200>.pendingPromise()
+        getPetByIdInObject(petId: petId) { data, error in
+            if let error = error {
+                deferred.reject(error)
+            } else {
+                deferred.fulfill(data!)
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     
+     Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+     
+     - GET /pet/{petId}?response=inline_arbitrary_object
+     - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     - API Key:
+       - type: apiKey api_key 
+       - name: api_key
+     - OAuth:
+       - type: oauth2
+       - name: petstore_auth
+     - examples: [{example={
+  "id" : 123456789,
+  "category" : "{}",
+  "name" : "doggie"
+}, contentType=application/json}, {example=<null>
+  <id>123456</id>
+  <category>not implemented io.swagger.models.properties.ObjectProperty@37ff6855</category>
+  <name>doggie</name>
+</null>, contentType=application/xml}]
+     - examples: [{example={
+  "id" : 123456789,
+  "category" : "{}",
+  "name" : "doggie"
+}, contentType=application/json}, {example=<null>
+  <id>123456</id>
+  <category>not implemented io.swagger.models.properties.ObjectProperty@37ff6855</category>
+  <name>doggie</name>
+</null>, contentType=application/xml}]
+     
+     - parameter petId: (path) ID of pet that needs to be fetched
+
+     - returns: RequestBuilder<InlineResponse200> 
+     */
+    public class func getPetByIdInObjectWithRequestBuilder(petId petId: Int) -> RequestBuilder<InlineResponse200> {
+        var path = "/pet/{petId}?response=inline_arbitrary_object"
+        path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
+        let URLString = PetstoreClientAPI.basePath + path
+        
+        let nillableParameters: [String:AnyObject?] = [:]
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let requestBuilder: RequestBuilder<InlineResponse200>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+    }
+
+    /**
+     
      Fake endpoint to test byte array return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched

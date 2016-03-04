@@ -60,6 +60,8 @@
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Client\ApiResponse.cs" />
     <Compile Include="TestOrder.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\InlineResponse200.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ObjectReturn.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\SpecialModelName.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

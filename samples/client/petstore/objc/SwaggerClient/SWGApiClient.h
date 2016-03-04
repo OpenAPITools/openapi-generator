@@ -16,7 +16,10 @@
 #import "SWGCategory.h"
 #import "SWGPet.h"
 #import "SWGTag.h"
+#import "SWGReturn.h"
 #import "SWGOrder.h"
+#import "SWGSpecialModelName_.h"
+#import "SWGInlineResponse200.h"
 
 
 @class SWGConfiguration;
