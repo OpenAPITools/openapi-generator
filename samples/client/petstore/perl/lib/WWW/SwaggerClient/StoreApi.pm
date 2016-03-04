@@ -52,6 +52,74 @@ sub new {
 
 
 #
+# find_orders_by_status
+#
+# Finds orders by status
+# 
+# @param string $status Status value that needs to be considered for query (optional)
+{
+    my $params = {
+    'status' => {
+        data_type => 'string',
+        description => 'Status value that needs to be considered for query',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ find_orders_by_status } = { 
+    	summary => 'Finds orders by status',
+        params => $params,
+        returns => 'ARRAY[Order]',
+        };
+}
+# @return ARRAY[Order]
+#
+sub find_orders_by_status {
+    my ($self, %args) = @_;
+
+    
+
+    # parse inputs
+    my $_resource_path = '/store/findByStatus';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    # query params
+    if ( exists $args{'status'}) {
+        $query_params->{'status'} = $self->{api_client}->to_query_value($args{'status'});
+    }
+    
+    
+    
+    my $_body_data;
+    
+
+    # authentication setting, if any
+    my $auth_settings = [qw(test_api_client_id test_api_client_secret )];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('ARRAY[Order]', $response);
+    return $_response_object;
+    
+}
+
+#
 # get_inventory
 #
 # Returns pet inventories by status
@@ -106,6 +174,65 @@ sub get_inventory {
         return;
     }
     my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
+    return $_response_object;
+    
+}
+
+#
+# get_inventory_in_object
+#
+# Fake endpoint to test arbitrary object return by 'Get inventory'
+# 
+{
+    my $params = {
+    };
+    __PACKAGE__->method_documentation->{ get_inventory_in_object } = { 
+    	summary => 'Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;',
+        params => $params,
+        returns => 'object',
+        };
+}
+# @return object
+#
+sub get_inventory_in_object {
+    my ($self, %args) = @_;
+
+    
+
+    # parse inputs
+    my $_resource_path = '/store/inventory?response=arbitrary_object';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    
+    
+    
+    
+    my $_body_data;
+    
+
+    # authentication setting, if any
+    my $auth_settings = [qw(api_key )];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('object', $response);
     return $_response_object;
     
 }

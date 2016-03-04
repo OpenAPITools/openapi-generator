@@ -186,12 +186,12 @@ sub add_pet {
 #
 # Finds Pets by status
 # 
-# @param ARRAY[string] $status Status values that need to be considered for filter (optional)
+# @param ARRAY[string] $status Status values that need to be considered for query (optional)
 {
     my $params = {
     'status' => {
         data_type => 'ARRAY[string]',
-        description => 'Status values that need to be considered for filter',
+        description => 'Status values that need to be considered for query',
         required => '0',
     },
     };
@@ -659,6 +659,81 @@ sub upload_file {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
+    
+}
+
+#
+# get_pet_by_id_in_object
+#
+# Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+# 
+# @param int $pet_id ID of pet that needs to be fetched (required)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'ID of pet that needs to be fetched',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ get_pet_by_id_in_object } = { 
+    	summary => 'Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;',
+        params => $params,
+        returns => 'InlineResponse200',
+        };
+}
+# @return InlineResponse200
+#
+sub get_pet_by_id_in_object {
+    my ($self, %args) = @_;
+
+    
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling get_pet_by_id_in_object");
+    }
+    
+
+    # parse inputs
+    my $_resource_path = '/pet/{petId}?response=inline_arbitrary_object';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    
+    
+    # path params
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+    
+    my $_body_data;
+    
+
+    # authentication setting, if any
+    my $auth_settings = [qw(api_key petstore_auth )];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('InlineResponse200', $response);
+    return $_response_object;
     
 }
 
