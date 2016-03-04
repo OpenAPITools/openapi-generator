@@ -222,6 +222,79 @@ static SWGStoreApi* singletonAPI = nil;
 }
 
 ///
+/// Fake endpoint to test arbitrary object return by 'Get inventory'
+/// Returns an arbitrary object which is actually a map of status codes to quantities
+///  @returns NSObject*
+///
+-(NSNumber*) getInventoryInObjectWithCompletionHandler: 
+    (void (^)(NSObject* output, NSError* error)) handler {
+
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/inventory?response=arbitrary_object"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"api_key"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSObject*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSObject*)data, error);
+                           }
+          ];
+}
+
+///
 /// Place an order for a pet
 /// 
 ///  @param body order placed for purchasing the pet

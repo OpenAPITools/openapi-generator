@@ -46,6 +46,18 @@
 
 ///
 ///
+/// Fake endpoint to test arbitrary object return by 'Get inventory'
+/// Returns an arbitrary object which is actually a map of status codes to quantities
+///
+/// 
+///
+/// @return NSObject*
+-(NSNumber*) getInventoryInObjectWithCompletionHandler: 
+    (void (^)(NSObject* output, NSError* error)) handler;
+
+
+///
+///
 /// Place an order for a pet
 /// 
 ///
