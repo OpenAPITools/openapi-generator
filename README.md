@@ -727,6 +727,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [uShip](https://www.uship.com/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
+- [Svenska Spel AB](https://www.svenskaspel.se/)
 
 License
 -------
