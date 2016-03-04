@@ -5,7 +5,10 @@ from .models.user import User
 from .models.category import Category
 from .models.pet import Pet
 from .models.tag import Tag
+from .models.object_return import ObjectReturn
 from .models.order import Order
+from .models.special_model_name import SpecialModelName
+from .models.inline_response_200 import InlineResponse200
 
 # import apis into sdk package
 from .apis.user_api import UserApi

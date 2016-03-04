@@ -1,5 +1,5 @@
 from __future__ import absolute_import
 
 # import models into model package
-{{#models}}{{#model}}from .{{classVarName}} import {{classname}}{{/model}}
+{{#models}}{{#model}}from .{{classFilename}} import {{classname}}{{/model}}
 {{/models}}

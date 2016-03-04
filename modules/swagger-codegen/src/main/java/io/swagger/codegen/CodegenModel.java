@@ -7,6 +7,7 @@ import java.util.*;
 public class CodegenModel {
     public String parent, parentSchema;
     public String name, classname, description, classVarName, modelJson, dataType;
+    public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
     public String discriminator;
     public String defaultValue;
