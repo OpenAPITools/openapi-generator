@@ -1,6 +1,6 @@
-#import "SWGUser.h"
+#import "SWGReturn.h"
 
-@implementation SWGUser
+@implementation SWGReturn
 
 - (instancetype)init {
   self = [super init];
@@ -20,7 +20,7 @@
  */
 + (JSONKeyMapper *)keyMapper
 {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"username": @"username", @"firstName": @"firstName", @"lastName": @"lastName", @"email": @"email", @"password": @"password", @"phone": @"phone", @"userStatus": @"userStatus" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"return": @"_return" }];
 }
 
 /**
@@ -30,7 +30,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName
 {
-  NSArray *optionalProperties = @[@"_id", @"username", @"firstName", @"lastName", @"email", @"password", @"phone", @"userStatus"];
+  NSArray *optionalProperties = @[@"_return"];
 
   if ([optionalProperties containsObject:propertyName]) {
     return YES;

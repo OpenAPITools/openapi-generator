@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "SWGPet.h"
+#import "SWGInlineResponse200.h"
 #import "SWGObject.h"
 #import "SWGApiClient.h"
 
@@ -131,6 +132,19 @@
     additionalMetadata: (NSString*) additionalMetadata
     file: (NSURL*) file
     completionHandler: (void (^)(NSError* error)) handler;
+
+
+///
+///
+/// Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+/// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+///
+/// @param petId ID of pet that needs to be fetched
+/// 
+///
+/// @return SWGInlineResponse200*
+-(NSNumber*) getPetByIdInObjectWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(SWGInlineResponse200* output, NSError* error)) handler;
 
 
 ///

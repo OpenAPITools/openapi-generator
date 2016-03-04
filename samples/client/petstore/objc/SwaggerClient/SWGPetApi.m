@@ -1,6 +1,7 @@
 #import "SWGPetApi.h"
 #import "SWGQueryParamCollection.h"
 #import "SWGPet.h"
+#import "SWGInlineResponse200.h"
 
 
 @interface SWGPetApi ()
@@ -749,6 +750,89 @@ static SWGPetApi* singletonAPI = nil;
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
                                handler(error);
+                           }
+          ];
+}
+
+///
+/// Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+/// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+///  @param petId ID of pet that needs to be fetched
+///
+///  @returns SWGInlineResponse200*
+///
+-(NSNumber*) getPetByIdInObjectWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(SWGInlineResponse200* output, NSError* error)) handler {
+
+    
+    // verify the required parameter 'petId' is set
+    if (petId == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `getPetByIdInObject`"];
+    }
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}?response=inline_arbitrary_object"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (petId != nil) {
+        pathParams[@"petId"] = petId;
+    }
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"api_key", @"petstore_auth"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGInlineResponse200*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGInlineResponse200*)data, error);
                            }
           ];
 }
