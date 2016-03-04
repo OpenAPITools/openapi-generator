@@ -1,6 +1,6 @@
-#import "SWGUser.h"
+#import "SWGSpecialModelName_.h"
 
-@implementation SWGUser
+@implementation SWGSpecialModelName_
 
 - (instancetype)init {
   self = [super init];
@@ -20,7 +20,7 @@
  */
 + (JSONKeyMapper *)keyMapper
 {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"id": @"_id", @"username": @"username", @"firstName": @"firstName", @"lastName": @"lastName", @"email": @"email", @"password": @"password", @"phone": @"phone", @"userStatus": @"userStatus" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"$special[property.name]": @"specialPropertyName" }];
 }
 
 /**
@@ -30,7 +30,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName
 {
-  NSArray *optionalProperties = @[@"_id", @"username", @"firstName", @"lastName", @"email", @"password", @"phone", @"userStatus"];
+  NSArray *optionalProperties = @[@"specialPropertyName"];
 
   if ([optionalProperties containsObject:propertyName]) {
     return YES;

@@ -166,6 +166,62 @@ public class StoreAPI: APIBase {
 
     /**
      
+     Fake endpoint to test arbitrary object return by 'Get inventory'
+     
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func getInventoryInObject(completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+        getInventoryInObjectWithRequestBuilder().execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+    /**
+     
+     Fake endpoint to test arbitrary object return by 'Get inventory'
+     
+     - returns: Promise<AnyObject>
+     */
+    public class func getInventoryInObject() -> Promise<AnyObject> {
+        let deferred = Promise<AnyObject>.pendingPromise()
+        getInventoryInObject() { data, error in
+            if let error = error {
+                deferred.reject(error)
+            } else {
+                deferred.fulfill(data!)
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     
+     Fake endpoint to test arbitrary object return by 'Get inventory'
+     
+     - GET /store/inventory?response=arbitrary_object
+     - Returns an arbitrary object which is actually a map of status codes to quantities
+     - API Key:
+       - type: apiKey api_key 
+       - name: api_key
+     - examples: [{example="{}", contentType=application/json}, {example=not implemented io.swagger.models.properties.ObjectProperty@37aadb4f, contentType=application/xml}]
+     - examples: [{example="{}", contentType=application/json}, {example=not implemented io.swagger.models.properties.ObjectProperty@37aadb4f, contentType=application/xml}]
+
+     - returns: RequestBuilder<AnyObject> 
+     */
+    public class func getInventoryInObjectWithRequestBuilder() -> RequestBuilder<AnyObject> {
+        let path = "/store/inventory?response=arbitrary_object"
+        let URLString = PetstoreClientAPI.basePath + path
+        
+        let nillableParameters: [String:AnyObject?] = [:]
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let requestBuilder: RequestBuilder<AnyObject>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+    }
+
+    /**
+     
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet
