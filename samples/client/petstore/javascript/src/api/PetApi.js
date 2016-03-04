@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/Pet'], factory);
+    define(['../ApiClient', '../model/Pet', '../model/InlineResponse200'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('../model/Pet'));
+    module.exports = factory(require('../ApiClient'), require('../model/Pet'), require('../model/InlineResponse200'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    root.SwaggerPetstore.PetApi = factory(root.SwaggerPetstore.ApiClient, root.SwaggerPetstore.Pet);
+    root.SwaggerPetstore.PetApi = factory(root.SwaggerPetstore.ApiClient, root.SwaggerPetstore.Pet, root.SwaggerPetstore.InlineResponse200);
   }
-}(this, function(ApiClient, Pet) {
+}(this, function(ApiClient, Pet, InlineResponse200) {
   'use strict';
 
   var PetApi = function PetApi(apiClient) {
@@ -317,6 +317,45 @@
 
       return this.apiClient.callApi(
         '/pet/{petId}/uploadImage', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+
+    }
+    
+    /**
+     * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+     * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+     * @param {Integer} petId ID of pet that needs to be fetched
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     *   data is of type: InlineResponse200
+     */
+    self.getPetByIdInObject = function(petId, callback) {
+      var postBody = null;
+      
+      // verify the required parameter 'petId' is set
+      if (petId == null) {
+        throw "Missing the required parameter 'petId' when calling getPetByIdInObject";
+      }
+      
+
+      var pathParams = {
+        'petId': petId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['petstore_auth', 'api_key'];
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+      var returnType = InlineResponse200;
+
+      return this.apiClient.callApi(
+        '/pet/{petId}?response=inline_arbitrary_object', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );

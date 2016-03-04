@@ -89,6 +89,38 @@
     }
     
     /**
+     * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+     * Returns an arbitrary object which is actually a map of status codes to quantities
+     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     *   data is of type: Object
+     */
+    self.getInventoryInObject = function(callback) {
+      var postBody = null;
+      
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['api_key'];
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+      var returnType = Object;
+
+      return this.apiClient.callApi(
+        '/store/inventory?response=arbitrary_object', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+
+    }
+    
+    /**
      * Place an order for a pet
      * 
      * @param {Order} opts['body'] order placed for purchasing the pet
