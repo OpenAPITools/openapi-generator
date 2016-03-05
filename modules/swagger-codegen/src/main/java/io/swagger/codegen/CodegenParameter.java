@@ -10,6 +10,7 @@ public class CodegenParameter {
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti;
     public String baseName, paramName, dataType, datatypeWithEnum, collectionFormat, description, baseType, defaultValue;
+    public String example; // example value (x-example)
     public String jsonSchema;
     public Boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
     public Boolean isListContainer, isMapContainer;
@@ -107,6 +108,7 @@ public class CodegenParameter {
         output.multipleOf = this.multipleOf;
         output.jsonSchema = this.jsonSchema;
         output.defaultValue = this.defaultValue;
+        output.example = this.example;
         output.isEnum = this.isEnum;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);

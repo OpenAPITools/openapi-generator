@@ -653,12 +653,21 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the example value of the parameter. 
+     *
+     * @param p Swagger property object
+     * @return string presentation of the example value of the property
+     */
+    public void setParameterExampleValue(CodegenParameter p) {
+
+    }
+
+    /**
      * Return the example value of the property
      *
      * @param p Swagger property object
      * @return string presentation of the example value of the property
      */
-    @SuppressWarnings("static-method")
     public String toExampleValue(Property p) {
         if(p.getExample() != null) {
             return p.getExample().toString();
@@ -1805,6 +1814,36 @@ public class DefaultCodegen {
             }
             p.paramName = toParamName(bp.getName());
         }
+
+        // set the example value
+        // if not specified in x-example, generate a default value
+        if (p.vendorExtensions.containsKey("x-example")) {
+            p.example = (String) p.vendorExtensions.get("x-example");
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            p.example = p.paramName + "_example";
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            p.example = new String("true");
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            p.example = new String("789");
+        } else if (Boolean.TRUE.equals(p.isInteger)) {
+            p.example = new String("56");
+        } else if (Boolean.TRUE.equals(p.isFloat)) {
+            p.example = new String("3.4");
+        } else if (Boolean.TRUE.equals(p.isDouble)) {
+            p.example = new String("1.2");
+        } else if (Boolean.TRUE.equals(p.isBinary)) {
+            p.example = new String("BINARY_DATA_HERE");
+        } else if (Boolean.TRUE.equals(p.isByteArray)) {
+            p.example = new String("B");
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            p.example = new String("2013-10-20");
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            p.example = new String("2013-10-20T19:20:30+01:00");
+        } 
+
+        // set the parameter excample value
+        // should be overridden by exmaple value
+        setParameterExampleValue(p);
 
         postProcessParameter(p);
         return p;
