@@ -10,7 +10,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 
 
-namespace SwaggerClientTest.TestORder
+namespace SwaggerClientTest.TestOrder
 {
 	[TestFixture ()]
 	public class TestOrder
@@ -53,6 +53,48 @@ namespace SwaggerClientTest.TestORder
 			Assert.AreEqual (true, o.Complete);
 
 		}
+
+		/// <summary>
+		/// Test GetInvetory
+		/// </summary>
+		[Test ()]
+		public void TestGetInventory ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			StoreApi storeApi = new StoreApi (c1);
+			Dictionary<String, int?> response = storeApi.GetInventory ();
+
+			foreach(KeyValuePair<string, int?> entry in response)
+			{
+				Assert.IsInstanceOf (typeof(int?), entry.Value);
+			}
+				
+		}
+
+		/// <summary>
+		/// Test GetInvetoryInObject
+		/// </summary>
+		[Test ()]
+		public void TestGetInventoryInObject ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			StoreApi storeApi = new StoreApi (c1);
+			Newtonsoft.Json.Linq.JObject response = (Newtonsoft.Json.Linq.JObject)storeApi.GetInventoryInObject ();
+
+			// should be a Newtonsoft.Json.Linq.JObject since type is object
+			Assert.IsInstanceOf (typeof(Newtonsoft.Json.Linq.JObject), response);
+
+			foreach(KeyValuePair<string, string> entry in response.ToObject<Dictionary<string, string>>())
+			{
+				Assert.IsInstanceOf (typeof(int?), Int32.Parse(entry.Value));
+			}
+
+		}
+
 	}
 }
 

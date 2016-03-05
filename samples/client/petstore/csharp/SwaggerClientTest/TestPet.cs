@@ -159,6 +159,37 @@ namespace SwaggerClientTest.TestPet
 		}
 
 		/// <summary>
+		/// Test GetPetByIdInObject
+		/// </summary>
+		[Test ()]
+		public void TestGetPetByIdInObject ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			PetApi petApi = new PetApi (c1);
+			InlineResponse200 response = petApi.GetPetByIdInObject (petId);
+			Assert.IsInstanceOf<InlineResponse200> (response, "Response is a Pet");
+
+			Assert.AreEqual ("Csharp test", response.Name);
+			Assert.AreEqual (InlineResponse200.StatusEnum.Available, response.Status);
+
+			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.AreEqual (petId, response.Tags [0].Id);
+			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
+
+			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
+			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
+
+			Assert.IsInstanceOf<Newtonsoft.Json.Linq.JObject> (response.Category, "Response.Category is a Newtonsoft.Json.Linq.JObject");
+
+			Newtonsoft.Json.Linq.JObject category = (Newtonsoft.Json.Linq.JObject)response.Category;
+			Assert.AreEqual (56, (int)category ["id"]);
+			Assert.AreEqual ("sample category name2", (string) category["name"]);
+
+		}
+
+		/// <summary>
 		/// Test GetPetByIdWithByteArray
 		/// </summary>
 		[Test ()]
