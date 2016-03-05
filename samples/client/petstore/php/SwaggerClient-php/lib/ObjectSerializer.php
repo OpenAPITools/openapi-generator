@@ -241,6 +241,9 @@ class ObjectSerializer
                 $values[] = self::deserialize($value, $subClass);
             }
             $deserialized = $values;
+        } elseif ($class === 'object') {
+            settype($data, 'array');
+            $deserialized = $data;
         } elseif ($class === '\DateTime') {
             $deserialized = new \DateTime($data);
         } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
