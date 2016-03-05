@@ -51,9 +51,12 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
+        'tags' => '\Swagger\Client\Model\Tag[]',
         'id' => 'int',
         'category' => 'object',
-        'name' => 'string'
+        'status' => 'string',
+        'name' => 'string',
+        'photo_urls' => 'string[]'
     );
   
     /** 
@@ -61,9 +64,12 @@ class InlineResponse200 implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
+        'tags' => 'tags',
         'id' => 'id',
         'category' => 'category',
-        'name' => 'name'
+        'status' => 'status',
+        'name' => 'name',
+        'photo_urls' => 'photoUrls'
     );
   
     /**
@@ -71,9 +77,12 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
+        'tags' => 'setTags',
         'id' => 'setId',
         'category' => 'setCategory',
-        'name' => 'setName'
+        'status' => 'setStatus',
+        'name' => 'setName',
+        'photo_urls' => 'setPhotoUrls'
     );
   
     /**
@@ -81,11 +90,20 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
+        'tags' => 'getTags',
         'id' => 'getId',
         'category' => 'getCategory',
-        'name' => 'getName'
+        'status' => 'getStatus',
+        'name' => 'getName',
+        'photo_urls' => 'getPhotoUrls'
     );
   
+    
+    /**
+      * $tags 
+      * @var \Swagger\Client\Model\Tag[]
+      */
+    protected $tags;
     
     /**
       * $id 
@@ -100,10 +118,22 @@ class InlineResponse200 implements ArrayAccess
     protected $category;
     
     /**
+      * $status pet status in the store
+      * @var string
+      */
+    protected $status;
+    
+    /**
       * $name 
       * @var string
       */
     protected $name;
+    
+    /**
+      * $photo_urls 
+      * @var string[]
+      */
+    protected $photo_urls;
     
 
     /**
@@ -113,10 +143,34 @@ class InlineResponse200 implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
+            $this->tags = $data["tags"];
             $this->id = $data["id"];
             $this->category = $data["category"];
+            $this->status = $data["status"];
             $this->name = $data["name"];
+            $this->photo_urls = $data["photo_urls"];
         }
+    }
+    
+    /**
+     * Gets tags
+     * @return \Swagger\Client\Model\Tag[]
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+  
+    /**
+     * Sets tags
+     * @param \Swagger\Client\Model\Tag[] $tags 
+     * @return $this
+     */
+    public function setTags($tags)
+    {
+        
+        $this->tags = $tags;
+        return $this;
     }
     
     /**
@@ -162,6 +216,30 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
+     * Gets status
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+  
+    /**
+     * Sets status
+     * @param string $status pet status in the store
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $allowed_values = array("available", "pending", "sold");
+        if (!in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
+        }
+        $this->status = $status;
+        return $this;
+    }
+    
+    /**
      * Gets name
      * @return string
      */
@@ -179,6 +257,27 @@ class InlineResponse200 implements ArrayAccess
     {
         
         $this->name = $name;
+        return $this;
+    }
+    
+    /**
+     * Gets photo_urls
+     * @return string[]
+     */
+    public function getPhotoUrls()
+    {
+        return $this->photo_urls;
+    }
+  
+    /**
+     * Sets photo_urls
+     * @param string[] $photo_urls 
+     * @return $this
+     */
+    public function setPhotoUrls($photo_urls)
+    {
+        
+        $this->photo_urls = $photo_urls;
         return $this;
     }
     

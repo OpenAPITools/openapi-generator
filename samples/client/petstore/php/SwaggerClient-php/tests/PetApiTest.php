@@ -110,8 +110,31 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response->getTags()[0]->getId(), $pet_id);
         $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
     }
-  
+
     // test getPetById with a Pet object (id 10005)
+    public function testGetPetByIdInObject()
+    {
+        // initialize the API client without host
+        $pet_id = 10005;  // ID of pet that needs to be fetched
+        $pet_api = new Swagger\Client\Api\PetAPI();
+        $pet_api->getApiClient()->getConfig()->setApiKey('api_key', '111222333444555');
+        // return Pet (inline model)
+        $response = $pet_api->getPetByIdInObject($pet_id);
+        $this->assertInstanceOf('Swagger\Client\Model\InlineResponse200', $response);
+        $this->assertSame($response->getId(), $pet_id);
+        $this->assertSame($response->getName(), 'PHP Unit Test');
+        $this->assertSame($response->getPhotoUrls()[0], 'http://test_php_unit_test.com');
+
+        // category is type "object"
+        $this->assertInternalType('array', $response->getCategory());
+        $this->assertSame($response->getCategory()['id'], $pet_id);
+        $this->assertSame($response->getCategory()['name'], 'test php category');
+
+        $this->assertSame($response->getTags()[0]->getId(), $pet_id);
+        $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
+    }
+  
+    // test getPetByIdWithHttpInfo with a Pet object (id 10005)
     public function testGetPetByIdWithHttpInfo()
     {
         // initialize the API client without host
