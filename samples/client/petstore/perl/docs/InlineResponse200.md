@@ -8,11 +8,11 @@ use WWW::SwaggerClient::Object::InlineResponse200;
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**tags** | [**ARRAY[Tag]**](docs/Tag.md) |  | [optional][default to null]
-**id** | **int** |  | [default to null]
-**category** | **object** |  | [optional][default to null]
-**status** | **string** | pet status in the store | [optional][default to null]
-**name** | **string** |  | [optional][default to null]
-**photo_urls** | **ARRAY[string]** |  | [optional][default to null]
+**tags** | [**ARRAY[Tag]**](Tag.md) |  | [optional] 
+**id** | **int** |  | 
+**category** | **object** |  | [optional] 
+**status** | **string** | pet status in the store | [optional] 
+**name** | **string** |  | [optional] 
+**photo_urls** | **ARRAY[string]** |  | [optional] 
 
 
