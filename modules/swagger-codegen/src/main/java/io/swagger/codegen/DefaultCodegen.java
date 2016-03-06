@@ -656,7 +656,6 @@ public class DefaultCodegen {
      * Return the example value of the parameter. 
      *
      * @param p Swagger property object
-     * @return string presentation of the example value of the property
      */
     public void setParameterExampleValue(CodegenParameter p) {
 
