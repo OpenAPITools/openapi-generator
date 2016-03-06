@@ -35,6 +35,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String moduleName = "WWW::SwaggerClient";
     protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
     protected String moduleVersion = "1.0.0";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     protected static int emptyFunctionNameCounter = 0;
 
@@ -122,6 +124,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(MODULE_NAME, moduleName);
         }
 
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "ApiClient.pm"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "Configuration.pm"));
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "ApiFactory.pm"));
@@ -173,12 +179,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder).replace('/', File.separatorChar);
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder).replace('/', File.separatorChar);
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
     @Override
@@ -375,7 +381,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) || Boolean.TRUE.equals(p.isByteArray)) {
+        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) || 
+                Boolean.TRUE.equals(p.isByteArray) || Boolean.TRUE.equals(p.isFile)) {
             p.example = "'" + p.example + "'";
         } else if (Boolean.TRUE.equals(p.isBoolean)) {
             if (Boolean.parseBoolean(p.example))
