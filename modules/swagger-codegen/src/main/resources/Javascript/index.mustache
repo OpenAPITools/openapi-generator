@@ -6,7 +6,7 @@
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('./ApiClient'){{#models}}, require('./model/{{importPath}}'){{/models}}{{#apiInfo}}{{#apis}}, require('./api/{{importPath}}'){{/apis}}{{/apiInfo}});
   }
-}(function(ApiClient{{#models}}, {{importPath}}{{/models}}{{#apiInfo}}{{#apis}}, {{importPath}}{{/apis}}{{/apiInfo}}) {
+}(function(ApiClient{{#models}}{{#model}}, {{classFilename}}{{/model}}{{/models}}{{#apiInfo}}{{#apis}}, {{importPath}}{{/apis}}{{/apiInfo}}) {
   'use strict';
 
   return {
