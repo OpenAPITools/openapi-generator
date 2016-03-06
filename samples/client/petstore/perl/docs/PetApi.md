@@ -40,7 +40,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](docs/.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -82,7 +82,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](docs/.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -124,7 +124,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**ARRAY[string]**](docs/.md)| Status values that need to be considered for query | [optional] [default to available]
+ **status** | [**ARRAY[string]**](string.md)| Status values that need to be considered for query | [optional] [default to available]
 
 ### Return type
 
@@ -166,7 +166,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**ARRAY[string]**](docs/.md)| Tags to filter by | [optional] 
+ **tags** | [**ARRAY[string]**](string.md)| Tags to filter by | [optional] 
 
 ### Return type
 
@@ -208,7 +208,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | [**int**](docs/.md)| ID of pet that needs to be fetched | 
+ **pet_id** | **int**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -252,9 +252,9 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | [**string**](docs/.md)| ID of pet that needs to be updated | 
- **name** | [**string**](docs/.md)| Updated name of the pet | [optional] 
- **status** | [**string**](docs/.md)| Updated status of the pet | [optional] 
+ **pet_id** | **string**| ID of pet that needs to be updated | 
+ **name** | **string**| Updated name of the pet | [optional] 
+ **status** | **string**| Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -297,8 +297,8 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | [**int**](docs/.md)| Pet id to delete | 
- **api_key** | [**string**](docs/.md)|  | [optional] 
+ **pet_id** | **int**| Pet id to delete | 
+ **api_key** | **string**|  | [optional] 
 
 ### Return type
 
@@ -342,9 +342,9 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | [**int**](docs/.md)| ID of pet to update | 
- **additional_metadata** | [**string**](docs/.md)| Additional data to pass to server | [optional] 
- **file** | [**File**](docs/.md)| file to upload | [optional] 
+ **pet_id** | **int**| ID of pet to update | 
+ **additional_metadata** | **string**| Additional data to pass to server | [optional] 
+ **file** | [**File**](.md)| file to upload | [optional] 
 
 ### Return type
 
@@ -386,7 +386,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | [**int**](docs/.md)| ID of pet that needs to be fetched | 
+ **pet_id** | **int**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -428,7 +428,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | [**int**](docs/.md)| ID of pet that needs to be fetched | 
+ **pet_id** | **int**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -470,7 +470,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**string**](docs/.md)| Pet object in the form of byte array | [optional] 
+ **body** | **string**| Pet object in the form of byte array | [optional] 
 
 ### Return type
 

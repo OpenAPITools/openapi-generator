@@ -37,7 +37,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](docs/.md)| Created user object | [optional] 
+ **body** | [**User**](User.md)| Created user object | [optional] 
 
 ### Return type
 
@@ -79,7 +79,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ARRAY[User]**](docs/.md)| List of user object | [optional] 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | [optional] 
 
 ### Return type
 
@@ -121,7 +121,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ARRAY[User]**](docs/.md)| List of user object | [optional] 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | [optional] 
 
 ### Return type
 
@@ -164,8 +164,8 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | [**string**](docs/.md)| The user name for login | [optional] 
- **password** | [**string**](docs/.md)| The password for login in clear text | [optional] 
+ **username** | **string**| The user name for login | [optional] 
+ **password** | **string**| The password for login in clear text | [optional] 
 
 ### Return type
 
@@ -247,7 +247,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | [**string**](docs/.md)| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -290,8 +290,8 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | [**string**](docs/.md)| name that need to be deleted | 
- **body** | [**User**](docs/.md)| Updated user object | [optional] 
+ **username** | **string**| name that need to be deleted | 
+ **body** | [**User**](User.md)| Updated user object | [optional] 
 
 ### Return type
 
@@ -333,7 +333,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | [**string**](docs/.md)| The name that needs to be deleted | 
+ **username** | **string**| The name that needs to be deleted | 
 
 ### Return type
 
