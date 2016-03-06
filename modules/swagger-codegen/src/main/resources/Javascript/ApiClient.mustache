@@ -315,7 +315,10 @@
       case 'Date':
         return this.parseDate(String(data));
       default:
-        if (typeof type === 'function') {
+        if (type === Object) {
+          // generic object, return directly
+          return data;
+        } else if (typeof type === 'function') {
           // for model type like: User
           var model = type.constructFromObject(data);
           return model;
