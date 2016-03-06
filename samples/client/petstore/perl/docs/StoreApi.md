@@ -35,7 +35,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string**](docs/.md)| Status value that needs to be considered for query | [optional] [default to placed]
+ **status** | **string**| Status value that needs to be considered for query | [optional] [default to placed]
 
 ### Return type
 
@@ -157,7 +157,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](docs/.md)| order placed for purchasing the pet | [optional] 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | [optional] 
 
 ### Return type
 
@@ -199,7 +199,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | [**string**](docs/.md)| ID of pet that needs to be fetched | 
+ **order_id** | **string**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -241,7 +241,7 @@ if ($@) {
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | [**string**](docs/.md)| ID of the order that needs to be deleted | 
+ **order_id** | **string**| ID of the order that needs to be deleted | 
 
 ### Return type
 

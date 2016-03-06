@@ -1499,6 +1499,14 @@ public class DefaultCodegen {
                         }
                     }
                 }
+
+                // set isPrimitiveType and baseType for allParams
+                /*if (languageSpecificPrimitives.contains(p.baseType)) {
+                    p.isPrimitiveType = true;
+                    p.baseType = getSwaggerType(p);
+                }*/
+
+
                 allParams.add(p);
                 if (param instanceof QueryParameter) {
                     p.isQueryParam = new Boolean(true);
@@ -1770,7 +1778,9 @@ public class DefaultCodegen {
                     prop.setRequired(bp.getRequired());
                     CodegenProperty cp = fromProperty("property", prop);
                     if (cp != null) {
+                        p.baseType = cp.baseType;
                         p.dataType = cp.datatype;
+                        p.isPrimitiveType = cp.isPrimitiveType;
                         p.isBinary = cp.datatype.toLowerCase().startsWith("byte");
                     }
 
@@ -1790,6 +1800,8 @@ public class DefaultCodegen {
                 }
                 imports.add(cp.baseType);
                 p.dataType = cp.datatype;
+                p.baseType = cp.complexType;
+                p.isPrimitiveType = cp.isPrimitiveType;
                 p.isContainer = true;
                 p.isListContainer = true;
 
@@ -1810,6 +1822,7 @@ public class DefaultCodegen {
                         name = getTypeDeclaration(name);
                     }
                     p.dataType = name;
+                    p.baseType = name;
                 }
             }
             p.paramName = toParamName(bp.getName());
@@ -2456,24 +2469,34 @@ public class DefaultCodegen {
 
         if (Boolean.TRUE.equals(property.isString)) {
             parameter.isString = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBoolean)) {
             parameter.isBoolean = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isLong)) {
             parameter.isLong = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isInteger)) {
             parameter.isInteger = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDouble)) {
             parameter.isDouble = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isFloat)) {
             parameter.isFloat = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isByteArray)) {
             parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBinary)) {
             parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDate)) {
             parameter.isDate = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDateTime)) {
             parameter.isDateTime = true;
+            parameter.isPrimitiveType = true;
         } else {
             LOGGER.debug("Property type is not primitive: " + property.datatype);
         }
