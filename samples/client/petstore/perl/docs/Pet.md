@@ -8,11 +8,11 @@ use WWW::SwaggerClient::Object::Pet;
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** |  | [optional][default to null]
-**category** | [**Category**](docs/Category.md) |  | [optional][default to null]
-**name** | **string** |  | [default to null]
-**photo_urls** | **ARRAY[string]** |  | [default to null]
-**tags** | [**ARRAY[Tag]**](docs/Tag.md) |  | [optional][default to null]
-**status** | **string** | pet status in the store | [optional][default to null]
+**id** | **int** |  | [optional] 
+**category** | [**Category**](Category.md) |  | [optional] 
+**name** | **string** |  | 
+**photo_urls** | **ARRAY[string]** |  | 
+**tags** | [**ARRAY[Tag]**](Tag.md) |  | [optional] 
+**status** | **string** | pet status in the store | [optional] 
 
 

@@ -257,7 +257,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        return "null";
+        return null;
     }
 
 

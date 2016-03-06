@@ -8,7 +8,7 @@ use WWW::SwaggerClient::Object::Tag;
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** |  | [optional][default to null]
-**name** | **string** |  | [optional][default to null]
+**id** | **int** |  | [optional] 
+**name** | **string** |  | [optional] 
 
 
