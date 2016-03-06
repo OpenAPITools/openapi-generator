@@ -1839,10 +1839,15 @@ public class DefaultCodegen {
             p.example = new String("2013-10-20");
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
             p.example = new String("2013-10-20T19:20:30+01:00");
-        } 
+        } else if (param instanceof FormParameter &&
+                ("file".equalsIgnoreCase(((FormParameter) param).getType()) ||
+                "file".equals(p.baseType))) {
+            p.isFile = true;
+            p.example = new String("/path/to/file.txt");
+        }
 
         // set the parameter excample value
-        // should be overridden by exmaple value
+        // should be overridden by lang codegen
         setParameterExampleValue(p);
 
         postProcessParameter(p);
