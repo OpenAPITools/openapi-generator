@@ -192,9 +192,21 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        name = sanitizeName(name);
+
         // model name cannot use reserved keyword, e.g. return
-        if(isReservedWord(name))
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
 
         // camelize the model name
         // phone_number => PhoneNumber
@@ -257,8 +269,10 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
-        if(isReservedWord(operationId))
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
 
         return camelize(operationId);
     }
