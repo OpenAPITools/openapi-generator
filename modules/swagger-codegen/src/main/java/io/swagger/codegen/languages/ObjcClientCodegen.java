@@ -316,8 +316,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String type) {
         // model name cannot use reserved keyword
         if (reservedWords.contains(type)) {
-            LOGGER.warn(type+ " (reserved word) cannot be used as model name. Renamed to " + ("object_" + type) + " before further processing");
-            type = "object_" + type; // e.g. return => ObjectReturn (after camelize)
+            LOGGER.warn(type+ " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
+            type = "model_" + type; // e.g. return => ModelReturn (after camelize)
         }
 
         return toModelNameWithoutReservedWordCheck(type);
