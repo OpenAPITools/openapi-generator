@@ -388,7 +388,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
-            final String modelName = "Object" + camelizedName;
+            final String modelName = "Model" + camelizedName;
             LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }

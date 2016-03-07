@@ -497,7 +497,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ObjectReturn (after camelize)
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // camelize the model name

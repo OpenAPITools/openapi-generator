@@ -185,13 +185,22 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
+        // add prefix, suffix if needed
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
         // camelize the model name
         // phone_number => PhoneNumber
-        name = camelize(sanitizeName(modelNamePrefix + name + modelNameSuffix));
+        name = camelize(sanitizeName(name));
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String modelName = "Object" + name;
+            String modelName = "Model" + name;
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }

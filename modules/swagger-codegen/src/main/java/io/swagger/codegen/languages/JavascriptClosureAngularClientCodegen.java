@@ -128,10 +128,19 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String toModelName(String name) {
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name))
-            throw new RuntimeException(name
-                    + " (reserved word) cannot be used as a model name");
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
 
         // camelize the model name
         // phone_number => PhoneNumber

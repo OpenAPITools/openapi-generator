@@ -218,8 +218,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("object_" + name));
-            name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -243,8 +243,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + underscore(dropDots("object_" + name)));
-            name = "object_" + name; // e.g. return => ObjectReturn (after camelize)
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + underscore(dropDots("model_" + name)));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
