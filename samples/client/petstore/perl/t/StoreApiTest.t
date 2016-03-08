@@ -30,6 +30,14 @@ my $api = WWW::SwaggerClient::StoreApi->new();
 isa_ok($api, 'WWW::SwaggerClient::StoreApi');
 
 #
+# delete_order test
+#
+{
+    my $order_id = undef; # replace NULL with a proper value
+    my $result = $api->delete_order(order_id => $order_id);
+}
+
+#
 # find_orders_by_status test
 #
 {
@@ -52,14 +60,6 @@ isa_ok($api, 'WWW::SwaggerClient::StoreApi');
 }
 
 #
-# place_order test
-#
-{
-    my $body = undef; # replace NULL with a proper value
-    my $result = $api->place_order(body => $body);
-}
-
-#
 # get_order_by_id test
 #
 {
@@ -68,11 +68,11 @@ isa_ok($api, 'WWW::SwaggerClient::StoreApi');
 }
 
 #
-# delete_order test
+# place_order test
 #
 {
-    my $order_id = undef; # replace NULL with a proper value
-    my $result = $api->delete_order(order_id => $order_id);
+    my $body = undef; # replace NULL with a proper value
+    my $result = $api->place_order(body => $body);
 }
 
 
