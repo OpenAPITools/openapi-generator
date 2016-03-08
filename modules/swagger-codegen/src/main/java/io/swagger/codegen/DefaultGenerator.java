@@ -16,6 +16,7 @@ import java.io.*;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import org.apache.commons.lang3.ObjectUtils;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
@@ -167,26 +168,63 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         List<Object> allModels = new ArrayList<Object>();
 
         // models
-        Map<String, Model> definitions = swagger.getDefinitions();
+        final Map<String, Model> definitions = swagger.getDefinitions();
         if (definitions != null) {
-        	List<String> sortedModelKeys = sortModelsByInheritance(definitions);
+        	Set<String> modelKeys = definitions.keySet();
 
             if(generateModels) {
                 if(modelsToGenerate != null && modelsToGenerate.size() > 0) {
-                    List<String> updatedKeys = new ArrayList<String>();
-                    for(String m : sortedModelKeys) {
+                    Set<String> updatedKeys = new HashSet<String>();
+                    for(String m : modelKeys) {
                         if(modelsToGenerate.contains(m)) {
                             updatedKeys.add(m);
                         }
                     }
-                    sortedModelKeys = updatedKeys;
+                    modelKeys = updatedKeys;
                 }
 
                 // store all processed models
-                Map<String,Object> allProcessedModels = new HashMap<String, Object>();
+                Map<String,Object> allProcessedModels = new TreeMap<String, Object>(new Comparator<String>() {
+                    @Override
+                    public int compare(String o1, String o2) {
+                        Model model1 = definitions.get(o1);
+                        Model model2 = definitions.get(o2);
+
+                        int model1InheritanceDepth = getInheritanceDepth(model1);
+                        int model2InheritanceDepth = getInheritanceDepth(model2);
+
+                        if (model1InheritanceDepth == model2InheritanceDepth) {
+                            return ObjectUtils.compare(config.toModelName(o1), config.toModelName(o2));
+                        } else if (model1InheritanceDepth > model2InheritanceDepth) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    }
+
+                    private int getInheritanceDepth(Model model) {
+                        int inheritanceDepth = 0;
+                        Model parent = getParent(model);
+
+                        while (parent != null) {
+                            inheritanceDepth++;
+                            parent = getParent(parent);
+                        }
+
+                        return inheritanceDepth;
+                    }
+
+                    private Model getParent(Model model) {
+                        if (model instanceof ComposedModel) {
+                            return definitions.get(((ComposedModel) model).getParent().getReference());
+                        }
+
+                        return null;
+                    }
+                });
 
                 // process models only
-                for (String name : sortedModelKeys) {
+                for (String name : modelKeys) {
                     try {
                         //don't generate models that have an import mapping
                         if(config.importMapping().containsKey(name)) {
@@ -311,6 +349,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             for (String tag : paths.keySet()) {
                 try {
                     List<CodegenOperation> ops = paths.get(tag);
+                    Collections.sort(ops, new Comparator<CodegenOperation>() {
+                        @Override
+                        public int compare(CodegenOperation one, CodegenOperation another) {
+                            return ObjectUtils.compare(one.operationId, another.operationId);
+                        }
+                    });
                     Map<String, Object> operation = processOperations(config, tag, ops);
 
                     operation.put("basePath", basePath);
@@ -418,6 +462,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
             }
         }
+
         if (System.getProperty("debugOperations") != null) {
             LOGGER.info("############ Operation info ############");
             Json.prettyPrint(allOperations);
@@ -558,54 +603,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private static List<String> sortModelsByInheritance(final Map<String, Model> definitions) {
-    	List<String> sortedModelKeys = new ArrayList<String>(definitions.keySet());
-    	Comparator<String> cmp = new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2) {
-				Model model1 = definitions.get(o1);
-				Model model2 = definitions.get(o2);
-
-				int model1InheritanceDepth = getInheritanceDepth(model1);
-				int model2InheritanceDepth = getInheritanceDepth(model2);
-
-				if (model1InheritanceDepth == model2InheritanceDepth) {
-					return 0;
-				} else if (model1InheritanceDepth > model2InheritanceDepth) {
-					return 1;
-				} else {
-					return -1;
-				}
-			}
-
-			private int getInheritanceDepth(Model model) {
-				int inheritanceDepth = 0;
-				Model parent = getParent(model);
-
-				while (parent != null) {
-					inheritanceDepth++;
-					parent = getParent(parent);
-				}
-
-				return inheritanceDepth;
-			}
-
-			private Model getParent(Model model) {
-				if (model instanceof ComposedModel) {
-					return definitions.get(((ComposedModel) model).getParent().getReference());
-				}
-
-				return null;
-			}
-		};
-
-		Collections.sort(sortedModelKeys, cmp);
-
-		return sortedModelKeys;
-    }
-
     public Map<String, List<CodegenOperation>> processPaths(Map<String, Path> paths) {
-        Map<String, List<CodegenOperation>> ops = new HashMap<String, List<CodegenOperation>>();
+        Map<String, List<CodegenOperation>> ops = new TreeMap<String, List<CodegenOperation>>();
 
         for (String resourcePath : paths.keySet()) {
             Path path = paths.get(resourcePath);
