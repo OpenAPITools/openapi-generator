@@ -35,7 +35,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = "lib.api";
         modelPackage = "lib.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "abstract", "as", "assert", "async", "async*", "await",
                         "break", "case", "catch", "class", "const", "continue",
@@ -76,6 +76,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("File", "MultipartFile");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         cliOptions.add(new CliOption(BROWSER_CLIENT, "Is the client browser based"));
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
@@ -168,7 +171,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
@@ -180,7 +183,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -196,7 +199,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
         }
 
@@ -218,15 +221,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Property p) {
         if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return "{}";
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return "[]";
         }
-
         return super.toDefaultValue(p);
     }
 
@@ -263,7 +261,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 

@@ -13,6 +13,7 @@
   return self;
 }
 
+
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.

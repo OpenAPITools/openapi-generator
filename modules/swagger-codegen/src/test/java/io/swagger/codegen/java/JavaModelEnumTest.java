@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("static-method")
 public class JavaModelEnumTest {
 
     @Test(description = "convert a java model with an enum")

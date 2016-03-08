@@ -49,6 +49,10 @@ android {
             }
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 
@@ -58,6 +62,8 @@ ext {
     httpclient_version = "4.3.3"
     volley_version = "1.0.19"
     junit_version = "4.8.1"
+    robolectric_version = "3.0"
+    concurrent_unit_version = "0.4.2"
 }
 
 dependencies {
@@ -67,6 +73,8 @@ dependencies {
     compile "org.apache.httpcomponents:httpmime:$httpclient_version"
     compile "com.mcxiaoke.volley:library:${volley_version}@aar"
     testCompile "junit:junit:$junit_version"
+    testCompile "org.robolectric:robolectric:${robolectric_version}"
+    testCompile "net.jodah:concurrentunit:${concurrent_unit_version}"
 }
 
 afterEvaluate {

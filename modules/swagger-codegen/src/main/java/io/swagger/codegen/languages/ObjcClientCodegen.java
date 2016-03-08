@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -13,6 +14,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +39,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public ObjcClientCodegen() {
         super();
-        
+
         outputFolder = "generated-code" + File.separator + "objc";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".m");
@@ -57,7 +60,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("NSDictionary");
         defaultIncludes.add("NSMutableArray");
         defaultIncludes.add("NSMutableDictionary");
-        
+
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("NSNumber");
         languageSpecificPrimitives.add("NSString");
@@ -84,15 +87,18 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
         typeMapping.put("file", "NSURL");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "NSString");
 
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
-        reservedWords = new HashSet<String>(
-                Arrays.asList(
+        setReservedWordsLowerCase(
+              Arrays.asList(
                     // local variable names in API methods (endpoints)
                     "resourcePath", "pathParams", "queryParams", "headerParams",
                     "responseContentType", "requestContentType", "authSettings",
-                    "formParams", "files", "bodyParam",
+                    "formParams", "localVarFiles", "bodyParam",
                     // objc reserved words
                     "auto", "else", "long", "switch",
                     "break", "enum", "register", "typedef",
@@ -168,19 +174,19 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CLASS_PREFIX)) {
             setClassPrefix((String) additionalProperties.get(CLASS_PREFIX));
         }
-        
+
         if (additionalProperties.containsKey(AUTHOR_NAME)) {
             setAuthorName((String) additionalProperties.get(AUTHOR_NAME));
         }
-        
+
         if (additionalProperties.containsKey(AUTHOR_EMAIL)) {
             setAuthorEmail((String) additionalProperties.get(AUTHOR_EMAIL));
         }
-        
+
         if (additionalProperties.containsKey(GIT_REPO_URL)) {
             setGitRepoURL((String) additionalProperties.get(GIT_REPO_URL));
         }
-        
+
         if (additionalProperties.containsKey(LICENSE)) {
             setLicense((String) additionalProperties.get(LICENSE));
         }
@@ -219,12 +225,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toInstantiationType(Property p) {
         if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
             return instantiationTypes.get("map");
         } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -247,12 +249,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
             if (languageSpecificPrimitives.contains(type) && !foundationClasses.contains(type)) {
-                return toModelName(type);
+                return toModelNameWithoutReservedWordCheck(type);
             }
         } else {
             type = swaggerType;
         }
-        return toModelName(type);
+        return toModelNameWithoutReservedWordCheck(type);
     }
 
     @Override
@@ -312,7 +314,24 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String type) {
-        type = type.replaceAll("[^0-9a-zA-Z_]", "_");
+        // model name cannot use reserved keyword
+        if (reservedWords.contains(type)) {
+            LOGGER.warn(type+ " (reserved word) cannot be used as model name. Renamed to " + ("model_" + type) + " before further processing");
+            type = "model_" + type; // e.g. return => ModelReturn (after camelize)
+        }
+
+        return toModelNameWithoutReservedWordCheck(type);
+    }
+
+    /*
+     * Convert input to proper model name according to ObjC style guide
+     * without checking for reserved words
+     *
+     * @param type Model anme
+     * @return model Name in ObjC style guide
+     */
+    public String toModelNameWithoutReservedWordCheck(String type) {
+        type = type.replaceAll("[^0-9a-zA-Z_]", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // language build-in classes
         if (typeMapping.keySet().contains(type) ||
@@ -324,7 +343,15 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         // custom classes
         else {
-            return classPrefix + camelize(type);
+            if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix
+                type = type + "_" + modelNameSuffix;
+            }
+
+            if (!StringUtils.isEmpty(modelNamePrefix)) { // set model prefix
+                type = modelNamePrefix + "_" + type;
+            }
+
+            return classPrefix + camelize(type); // add class prefix
         }
     }
 
@@ -372,7 +399,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all upper case, do noting
         if (name.matches("^[A-Z_]$")) {
@@ -390,7 +417,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = camelize(name, true);
 
         // for reserved word or word starting with number, prepend `_`
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -409,6 +436,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "_" + name;
     }
 
+    @SuppressWarnings("static-method")
     public String escapeSpecialWord(String name) {
         return "var_" + name;
     }
@@ -421,8 +449,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = "call_" + operationId;
         }
 
         return camelize(sanitizeName(operationId), true);
@@ -439,21 +468,36 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setPodVersion(String podVersion) {
         this.podVersion = podVersion;
     }
-    
+
     public void setAuthorEmail(String authorEmail) {
         this.authorEmail = authorEmail;
     }
-    
+
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
-    
+
     public void setGitRepoURL(String gitRepoURL) {
         this.gitRepoURL = gitRepoURL;
     }
-    
+
     public void setLicense(String license) {
         this.license = license;
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                if (!operation.allParams.isEmpty()) {
+                    String firstParamName = operation.allParams.get(0).paramName;
+                    operation.vendorExtensions.put("firstParamAltName", camelize(firstParamName));
+                }
+            }
+        }
+        return objs;
     }
 
     /**

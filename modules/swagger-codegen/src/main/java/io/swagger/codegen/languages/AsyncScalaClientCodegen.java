@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.apache.commons.lang.StringUtils;
-
 public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -45,7 +43,7 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable names used in API methods (endpoints)
                     "config", "path", "contentTypes", "contentType", "queryParams", "headerParams",

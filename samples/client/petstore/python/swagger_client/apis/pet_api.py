@@ -81,16 +81,14 @@ class PetApi(object):
 
 
         resource_path = '/pet'.replace('{format}', 'json')
-        method = 'PUT'
-
         path_params = {}
 
         query_params = {}
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
         if 'body' in params:
@@ -109,13 +107,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'PUT',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -157,16 +155,14 @@ class PetApi(object):
 
 
         resource_path = '/pet'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
         if 'body' in params:
@@ -185,13 +181,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -200,7 +196,7 @@ class PetApi(object):
     def find_pets_by_status(self, **kwargs):
         """
         Finds Pets by status
-        Multiple status values can be provided with comma seperated strings
+        Multiple status values can be provided with comma separated strings
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
@@ -212,7 +208,7 @@ class PetApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param list[str] status: Status values that need to be considered for filter
+        :param list[str] status: Status values that need to be considered for query
         :return: list[Pet]
                  If the method is called asynchronously,
                  returns the request thread.
@@ -233,8 +229,6 @@ class PetApi(object):
 
 
         resource_path = '/pet/findByStatus'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -243,8 +237,8 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
 
@@ -261,13 +255,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -309,8 +303,6 @@ class PetApi(object):
 
 
         resource_path = '/pet/findByTags'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
@@ -319,8 +311,8 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
 
@@ -337,13 +329,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -388,8 +380,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -398,8 +388,8 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
 
@@ -414,15 +404,15 @@ class PetApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = ['api_key']
+        auth_settings = ['api_key', 'petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='Pet',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -469,8 +459,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -479,12 +467,12 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
         if 'name' in params:
-            form_params['name'] = params['name']
+            form_params.append(('name', params['name']))
         if 'status' in params:
-            form_params['status'] = params['status']
+            form_params.append(('status', params['status']))
 
         body_params = None
 
@@ -501,13 +489,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -553,8 +541,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
-        method = 'DELETE'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -565,8 +551,8 @@ class PetApi(object):
         if 'api_key' in params:
             header_params['api_key'] = params['api_key']
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
 
@@ -583,13 +569,13 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -636,8 +622,6 @@ class PetApi(object):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
 
         resource_path = '/pet/{petId}/uploadImage'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -646,12 +630,12 @@ class PetApi(object):
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
         if 'additional_metadata' in params:
-            form_params['additionalMetadata'] = params['additional_metadata']
+            form_params.append(('additionalMetadata', params['additional_metadata']))
         if 'file' in params:
-            files['file'] = params['file']
+            local_var_files['file'] = params['file']
 
         body_params = None
 
@@ -668,13 +652,241 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
+                                            response_type=None,
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
+    def get_pet_by_id_in_object(self, pet_id, **kwargs):
+        """
+        Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+        Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_pet_by_id_in_object(pet_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int pet_id: ID of pet that needs to be fetched (required)
+        :return: InlineResponse200
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['pet_id']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_pet_by_id_in_object" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in params) or (params['pet_id'] is None):
+            raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id_in_object`")
+
+        resource_path = '/pet/{petId}?response=inline_arbitrary_object'.replace('{format}', 'json')
+        path_params = {}
+        if 'pet_id' in params:
+            path_params['petId'] = params['pet_id']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = ['api_key', 'petstore_auth']
+
+        response = self.api_client.call_api(resource_path, 'GET',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type='InlineResponse200',
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
+    def pet_pet_idtesting_byte_arraytrue_get(self, pet_id, **kwargs):
+        """
+        Fake endpoint to test byte array return by 'Find pet by ID'
+        Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.pet_pet_idtesting_byte_arraytrue_get(pet_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int pet_id: ID of pet that needs to be fetched (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['pet_id']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method pet_pet_idtesting_byte_arraytrue_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        # verify the required parameter 'pet_id' is set
+        if ('pet_id' not in params) or (params['pet_id'] is None):
+            raise ValueError("Missing the required parameter `pet_id` when calling `pet_pet_idtesting_byte_arraytrue_get`")
+
+        resource_path = '/pet/{petId}?testing_byte_array=true'.replace('{format}', 'json')
+        path_params = {}
+        if 'pet_id' in params:
+            path_params['petId'] = params['pet_id']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = ['api_key', 'petstore_auth']
+
+        response = self.api_client.call_api(resource_path, 'GET',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type='str',
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
+    def add_pet_using_byte_array(self, **kwargs):
+        """
+        Fake endpoint to test byte array in body parameter for adding a new pet to the store
+        
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.add_pet_using_byte_array(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str body: Pet object in the form of byte array
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['body']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method add_pet_using_byte_array" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        resource_path = '/pet?testing_byte_array=true'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['application/json', 'application/xml'])
+
+        # Authentication setting
+        auth_settings = ['petstore_auth']
+
+        response = self.api_client.call_api(resource_path, 'POST',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))

@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "SWGPet.h"
+#import "SWGInlineResponse200.h"
 #import "SWGObject.h"
 #import "SWGApiClient.h"
 
@@ -28,10 +29,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) updatePetWithCompletionBlock :(SWGPet*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) updatePetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -43,25 +42,21 @@
 /// 
 ///
 /// @return 
--(NSNumber*) addPetWithCompletionBlock :(SWGPet*) body 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) addPetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
 ///
 /// Finds Pets by status
-/// Multiple status values can be provided with comma seperated strings
+/// Multiple status values can be provided with comma separated strings
 ///
-/// @param status Status values that need to be considered for filter
+/// @param status Status values that need to be considered for query
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByStatusWithCompletionBlock :(NSArray* /* NSString */) status 
-    
-    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
-    
+-(NSNumber*) findPetsByStatusWithStatus: (NSArray* /* NSString */) status
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
 ///
@@ -73,10 +68,8 @@
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByTagsWithCompletionBlock :(NSArray* /* NSString */) tags 
-    
-    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error))completionBlock;
-    
+-(NSNumber*) findPetsByTagsWithTags: (NSArray* /* NSString */) tags
+    completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
 ///
@@ -88,10 +81,8 @@
 /// 
 ///
 /// @return SWGPet*
--(NSNumber*) getPetByIdWithCompletionBlock :(NSNumber*) petId 
-    
-    completionHandler: (void (^)(SWGPet* output, NSError* error))completionBlock;
-    
+-(NSNumber*) getPetByIdWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(SWGPet* output, NSError* error)) handler;
 
 
 ///
@@ -105,12 +96,10 @@
 /// 
 ///
 /// @return 
--(NSNumber*) updatePetWithFormWithCompletionBlock :(NSString*) petId 
-     name:(NSString*) name 
-     status:(NSString*) status 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
+    name: (NSString*) name
+    status: (NSString*) status
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -123,11 +112,9 @@
 /// 
 ///
 /// @return 
--(NSNumber*) deletePetWithCompletionBlock :(NSNumber*) petId 
-     apiKey:(NSString*) apiKey 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) deletePetWithPetId: (NSNumber*) petId
+    apiKey: (NSString*) apiKey
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 ///
@@ -141,12 +128,49 @@
 /// 
 ///
 /// @return 
--(NSNumber*) uploadFileWithCompletionBlock :(NSNumber*) petId 
-     additionalMetadata:(NSString*) additionalMetadata 
-     file:(NSURL*) file 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
+    additionalMetadata: (NSString*) additionalMetadata
+    file: (NSURL*) file
+    completionHandler: (void (^)(NSError* error)) handler;
+
+
+///
+///
+/// Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+/// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+///
+/// @param petId ID of pet that needs to be fetched
+/// 
+///
+/// @return SWGInlineResponse200*
+-(NSNumber*) getPetByIdInObjectWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(SWGInlineResponse200* output, NSError* error)) handler;
+
+
+///
+///
+/// Fake endpoint to test byte array return by 'Find pet by ID'
+/// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+///
+/// @param petId ID of pet that needs to be fetched
+/// 
+///
+/// @return NSString*
+-(NSNumber*) petPetIdtestingByteArraytrueGetWithPetId: (NSNumber*) petId
+    completionHandler: (void (^)(NSString* output, NSError* error)) handler;
+
+
+///
+///
+/// Fake endpoint to test byte array in body parameter for adding a new pet to the store
+/// 
+///
+/// @param body Pet object in the form of byte array
+/// 
+///
+/// @return 
+-(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 

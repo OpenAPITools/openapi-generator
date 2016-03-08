@@ -45,6 +45,80 @@ class StoreApi(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
+    def find_orders_by_status(self, **kwargs):
+        """
+        Finds orders by status
+        A single status value can be provided as a string
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.find_orders_by_status(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str status: Status value that needs to be considered for query
+        :return: list[Order]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['status']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_orders_by_status" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        resource_path = '/store/findByStatus'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'status' in params:
+            query_params['status'] = params['status']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = ['test_api_client_id', 'test_api_client_secret']
+
+        response = self.api_client.call_api(resource_path, 'GET',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type='list[Order]',
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
     def get_inventory(self, **kwargs):
         """
         Returns pet inventories by status
@@ -80,16 +154,14 @@ class StoreApi(object):
 
 
         resource_path = '/store/inventory'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
 
         query_params = {}
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
 
@@ -106,14 +178,85 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = ['api_key']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='dict(str, int)',
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
+    def get_inventory_in_object(self, **kwargs):
+        """
+        Fake endpoint to test arbitrary object return by 'Get inventory'
+        Returns an arbitrary object which is actually a map of status codes to quantities
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_inventory_in_object(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: object
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_inventory_in_object" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        resource_path = '/store/inventory?response=arbitrary_object'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = ['api_key']
+
+        response = self.api_client.call_api(resource_path, 'GET',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type='object',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
         return response
@@ -154,16 +297,14 @@ class StoreApi(object):
 
 
         resource_path = '/store/order'.replace('{format}', 'json')
-        method = 'POST'
-
         path_params = {}
 
         query_params = {}
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
         if 'body' in params:
@@ -180,15 +321,15 @@ class StoreApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['test_api_client_id', 'test_api_client_secret']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='Order',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -233,8 +374,6 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")
 
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
-        method = 'GET'
-
         path_params = {}
         if 'order_id' in params:
             path_params['orderId'] = params['order_id']
@@ -243,8 +382,8 @@ class StoreApi(object):
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
 
@@ -259,15 +398,15 @@ class StoreApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['test_api_key_header', 'test_api_key_query']
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type='Order',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
@@ -312,8 +451,6 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")
 
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
-        method = 'DELETE'
-
         path_params = {}
         if 'order_id' in params:
             path_params['orderId'] = params['order_id']
@@ -322,8 +459,8 @@ class StoreApi(object):
 
         header_params = {}
 
-        form_params = {}
-        files = {}
+        form_params = []
+        local_var_files = {}
 
         body_params = None
 
@@ -340,13 +477,13 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []
 
-        response = self.api_client.call_api(resource_path, method,
+        response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
-                                            files=files,
+                                            files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))

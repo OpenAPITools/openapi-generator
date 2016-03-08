@@ -109,13 +109,19 @@ class Decoders {
             }
             // Decoder for NSDate
             Decoders.addDecoder(clazz: NSDate.self) { (source: AnyObject) -> NSDate in
-                let sourceString = source as! String
-                for formatter in formatters {
-                    if let date = formatter.dateFromString(sourceString) {
-                        return date
+               if let sourceString = source as? String {
+                    for formatter in formatters {
+                        if let date = formatter.dateFromString(sourceString) {
+                            return date
+                        }
                     }
+                
                 }
-                fatalError("formatter failed to parse \(sourceString)")
+                if let sourceInt = source as? Int {
+                    // treat as a java date
+                    return NSDate(timeIntervalSince1970: Double(sourceInt / 1000) )
+                }
+                fatalError("formatter failed to parse \(source)")
             } 
 
 			// Decoder for [User]
@@ -165,7 +171,7 @@ class Decoders {
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
                 instance.photoUrls = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["photoUrls"])
                 instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"])
-                instance.status = (sourceDictionary["status"] as? String).map { Pet.Status(rawValue: $0)! } 
+                instance.status = Pet.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
                 return instance
             }
 			
@@ -184,6 +190,19 @@ class Decoders {
             }
 			
 
+			// Decoder for [ObjectReturn]
+            Decoders.addDecoder(clazz: [ObjectReturn].self) { (source: AnyObject) -> [ObjectReturn] in
+                return Decoders.decode(clazz: [ObjectReturn].self, source: source)
+            }
+			// Decoder for ObjectReturn
+            Decoders.addDecoder(clazz: ObjectReturn.self) { (source: AnyObject) -> ObjectReturn in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = ObjectReturn()
+                instance._return = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["_return"])
+                return instance
+            }
+			
+
 			// Decoder for [Order]
             Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject) -> [Order] in
                 return Decoders.decode(clazz: [Order].self, source: source)
@@ -196,8 +215,36 @@ class Decoders {
                 instance.petId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["petId"])
                 instance.quantity = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["quantity"])
                 instance.shipDate = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["shipDate"])
-                instance.status = (sourceDictionary["status"] as? String).map { Order.Status(rawValue: $0)! } 
+                instance.status = Order.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
                 instance.complete = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["complete"])
+                return instance
+            }
+			
+
+			// Decoder for [SpecialModelName]
+            Decoders.addDecoder(clazz: [SpecialModelName].self) { (source: AnyObject) -> [SpecialModelName] in
+                return Decoders.decode(clazz: [SpecialModelName].self, source: source)
+            }
+			// Decoder for SpecialModelName
+            Decoders.addDecoder(clazz: SpecialModelName.self) { (source: AnyObject) -> SpecialModelName in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = SpecialModelName()
+                instance.specialPropertyName = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["specialPropertyName"])
+                return instance
+            }
+			
+
+			// Decoder for [InlineResponse200]
+            Decoders.addDecoder(clazz: [InlineResponse200].self) { (source: AnyObject) -> [InlineResponse200] in
+                return Decoders.decode(clazz: [InlineResponse200].self, source: source)
+            }
+			// Decoder for InlineResponse200
+            Decoders.addDecoder(clazz: InlineResponse200.self) { (source: AnyObject) -> InlineResponse200 in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = InlineResponse200()
+                instance.id = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["id"])
+                instance.category = Decoders.decodeOptional(clazz: AnyObject.self, source: sourceDictionary["category"])
+                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
                 return instance
             }
 			

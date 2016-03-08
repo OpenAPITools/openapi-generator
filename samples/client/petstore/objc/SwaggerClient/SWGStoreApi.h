@@ -21,15 +21,39 @@
 +(SWGStoreApi*) sharedAPI;
 ///
 ///
+/// Finds orders by status
+/// A single status value can be provided as a string
+///
+/// @param status Status value that needs to be considered for query
+/// 
+///
+/// @return NSArray<SWGOrder>*
+-(NSNumber*) findOrdersByStatusWithStatus: (NSString*) status
+    completionHandler: (void (^)(NSArray<SWGOrder>* output, NSError* error)) handler;
+
+
+///
+///
 /// Returns pet inventories by status
 /// Returns a map of status codes to quantities
 ///
 /// 
 ///
 /// @return NSDictionary* /* NSString, NSNumber */
--(NSNumber*) getInventoryWithCompletionBlock :
-    (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error))completionBlock;
-    
+-(NSNumber*) getInventoryWithCompletionHandler: 
+    (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error)) handler;
+
+
+///
+///
+/// Fake endpoint to test arbitrary object return by 'Get inventory'
+/// Returns an arbitrary object which is actually a map of status codes to quantities
+///
+/// 
+///
+/// @return NSObject*
+-(NSNumber*) getInventoryInObjectWithCompletionHandler: 
+    (void (^)(NSObject* output, NSError* error)) handler;
 
 
 ///
@@ -41,10 +65,8 @@
 /// 
 ///
 /// @return SWGOrder*
--(NSNumber*) placeOrderWithCompletionBlock :(SWGOrder*) body 
-    
-    completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock;
-    
+-(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 
 ///
@@ -56,10 +78,8 @@
 /// 
 ///
 /// @return SWGOrder*
--(NSNumber*) getOrderByIdWithCompletionBlock :(NSString*) orderId 
-    
-    completionHandler: (void (^)(SWGOrder* output, NSError* error))completionBlock;
-    
+-(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
+    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 
 ///
@@ -71,10 +91,8 @@
 /// 
 ///
 /// @return 
--(NSNumber*) deleteOrderWithCompletionBlock :(NSString*) orderId 
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+-(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 

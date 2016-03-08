@@ -19,7 +19,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2015-11-23T10:25:42.314Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-14T21:37:36.074Z")
 public class PetApiServiceImpl extends PetApiService {
   
       @Override
@@ -72,7 +72,14 @@ public class PetApiServiceImpl extends PetApiService {
   }
   
       @Override
-      public Response uploadFile(Long petId,String additionalMetadata,FormDataContentDisposition fileDetail,SecurityContext securityContext)
+      public Response uploadFile(Long petId,String additionalMetadata,InputStream inputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext)
+      throws NotFoundException {
+      // do some magic!
+      return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+  }
+  
+      @Override
+      public Response getPetByIdWithByteArray(Long petId,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

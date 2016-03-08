@@ -17,6 +17,7 @@ import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class TypeScriptAngularModelTest {
 
     @Test(description = "convert a simple TypeScript Angular model")
@@ -58,7 +59,7 @@ public class TypeScriptAngularModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.complexType, "Date");
+        Assert.assertEquals(property3.complexType, null);
         Assert.assertEquals(property3.datatype, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");

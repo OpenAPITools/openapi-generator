@@ -8,16 +8,21 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.util.Yaml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class JavaInflectorServerCodegen extends JavaClientCodegen implements CodegenConfig {
-    protected String title = "Swagger Inflector";
+public class JavaInflectorServerCodegen extends JavaClientCodegen {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
+
+    protected String title = "Swagger Inflector";
+    protected String implFolder = "src/main/java";
     public JavaInflectorServerCodegen() {
         super();
 
-        sourceFolder = "src/main/java";
+        sourceFolder = "src/gen/java";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         embeddedTemplateDir = templateDir = "JavaInflector";
@@ -35,6 +40,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
+                        "byte[]",
                         "String",
                         "boolean",
                         "Boolean",
@@ -65,10 +71,10 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         super.processOpts();
 
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
-        supportingFiles.add(new SupportingFile("inflector.mustache", "", "inflector.yaml"));
+        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
+        writeOptional(outputFolder, new SupportingFile("inflector.mustache", "", "inflector.yaml"));
         supportingFiles.add(new SupportingFile("swagger.mustache",
                         "src/main/swagger",
                         "swagger.yaml")
@@ -155,6 +161,18 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         return objs;
     }
 
+    public String apiFilename(String templateName, String tag) {
+        String result = super.apiFilename(templateName, tag);
+
+        if ( templateName.endsWith("api.mustache") ) {
+            int ix = result.indexOf(sourceFolder);
+            String beg = result.substring(0, ix);
+            String end = result.substring(ix + sourceFolder.length());
+            new java.io.File(beg + implFolder).mkdirs();
+            result = beg + implFolder + end;
+        }
+        return result;
+    }
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
@@ -163,7 +181,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
             try {
                 objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return super.postProcessSupportingFileData(objs);
@@ -174,12 +192,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen implements Cod
         if (name.length() == 0) {
             return "DefaultController";
         }
-        name = name.replaceAll("[^a-zA-Z0-9]+", "_");
+        name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         return camelize(name)+ "Controller";
-    }
-
-    @Override
-    public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename);
     }
 }

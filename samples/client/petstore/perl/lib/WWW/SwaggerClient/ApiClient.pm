@@ -319,10 +319,11 @@ sub update_params_for_auth {
         if (!defined($auth)) {
             # TODO show warning about auth setting not defined
         }
-        elsif ($auth eq 'petstore_auth') {
+        elsif ($auth eq 'test_api_key_header') {
             
-            if ($WWW::SwaggerClient::Configuration::access_token) {
-                $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
+            my $api_key = $self->get_api_key_with_prefix('test_api_key_header');
+            if ($api_key) {
+                $header_params->{'test_api_key_header'} = $api_key;
             }
         }
         elsif ($auth eq 'api_key') {
@@ -330,6 +331,33 @@ sub update_params_for_auth {
             my $api_key = $self->get_api_key_with_prefix('api_key');
             if ($api_key) {
                 $header_params->{'api_key'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'test_api_client_secret') {
+            
+            my $api_key = $self->get_api_key_with_prefix('x-test_api_client_secret');
+            if ($api_key) {
+                $header_params->{'x-test_api_client_secret'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'test_api_client_id') {
+            
+            my $api_key = $self->get_api_key_with_prefix('x-test_api_client_id');
+            if ($api_key) {
+                $header_params->{'x-test_api_client_id'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'test_api_key_query') {
+            
+            my $api_key = $self->get_api_key_with_prefix('test_api_key_query');
+            if ($api_key) {
+                $query_params->{'test_api_key_query'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'petstore_auth') {
+            
+            if ($WWW::SwaggerClient::Configuration::access_token) {
+                $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
             }
         }
         

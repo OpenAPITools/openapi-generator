@@ -2,16 +2,33 @@ package io.swagger.client.api;
 
 import io.swagger.client.CollectionFormats.*;
 
-import retrofit.Call;
-import retrofit.http.*;
-import com.squareup.okhttp.RequestBody;
 
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.http.*;
+
+import okhttp3.RequestBody;
+
 import io.swagger.client.model.Order;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface StoreApi {
+  
+  /**
+   * Finds orders by status
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query
+   * @return Call<List<Order>>
+   */
+  
+  @GET("store/findByStatus")
+  Call<List<Order>> findOrdersByStatus(
+    @Query("status") String status
+  );
+
   
   /**
    * Returns pet inventories by status
@@ -21,6 +38,17 @@ public interface StoreApi {
   
   @GET("store/inventory")
   Call<Map<String, Integer>> getInventory();
+    
+
+  
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return Call<Object>
+   */
+  
+  @GET("store/inventory?response=arbitrary_object")
+  Call<Object> getInventoryInObject();
     
 
   

@@ -11,7 +11,6 @@ import java.util.*;
 import io.swagger.client.model.User;
 import java.util.*;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.util.Map;
@@ -46,43 +45,42 @@ public class UserApi {
    * @return void
    */
   public void  createUser (User body) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/user".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
 
     
 
-    String[] contentTypes = {
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -100,43 +98,42 @@ public class UserApi {
    * @return void
    */
   public void  createUsersWithArrayInput (List<User> body) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
 
     
 
-    String[] contentTypes = {
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -154,43 +151,42 @@ public class UserApi {
    * @return void
    */
   public void  createUsersWithListInput (List<User> body) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/createWithList".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
 
     
 
-    String[] contentTypes = {
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -209,48 +205,47 @@ public class UserApi {
    * @return String
    */
   public String  loginUser (String username, String password) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
 
     // create path and map variables
-    String path = "/user/login".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/login".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
+    localVarQueryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
     
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
-    
-
+    localVarQueryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
     
 
-    String[] contentTypes = {
+    
+
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
-        return (String) ApiInvoker.deserialize(response, "", String.class);
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return (String) ApiInvoker.deserialize(localVarResponse, "", String.class);
       }
       else {
         return null;
@@ -266,43 +261,42 @@ public class UserApi {
    * @return void
    */
   public void  logoutUser () throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
 
     // create path and map variables
-    String path = "/user/logout".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/logout".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
 
     
 
-    String[] contentTypes = {
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -320,7 +314,7 @@ public class UserApi {
    * @return User
    */
   public User  getUserByName (String username) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -329,40 +323,39 @@ public class UserApi {
     
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
 
     
 
-    String[] contentTypes = {
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
-        return (User) ApiInvoker.deserialize(response, "", User.class);
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
       }
       else {
         return null;
@@ -380,7 +373,7 @@ public class UserApi {
    * @return void
    */
   public void  updateUser (String username, User body) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -389,39 +382,38 @@ public class UserApi {
     
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
 
     
 
-    String[] contentTypes = {
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {
@@ -439,7 +431,7 @@ public class UserApi {
    * @return void
    */
   public void  deleteUser (String username) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -448,39 +440,38 @@ public class UserApi {
     
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
 
     
 
     
 
-    String[] contentTypes = {
+    String[] localVarContentTypes = {
       
     };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 
-    if (contentType.startsWith("multipart/form-data")) {
+    if (localVarContentType.startsWith("multipart/form-data")) {
       // file uploading
-      MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
       
 
-      HttpEntity httpEntity = builder.build();
-      postBody = httpEntity;
+      localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
       
     }
 
     try {
-      String response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
-      if(response != null){
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
         return ;
       }
       else {

@@ -16,7 +16,10 @@
 #import "SWGCategory.h"
 #import "SWGPet.h"
 #import "SWGTag.h"
+#import "SWGReturn.h"
 #import "SWGOrder.h"
+#import "SWGSpecialModelName_.h"
+#import "SWGInlineResponse200.h"
 
 
 @class SWGConfiguration;
@@ -190,19 +193,19 @@ extern NSString *const SWGResponseObjectErrorKey;
  *
  * @return The request id.
  */
--(NSNumber*)  requestWithCompletionBlock:(NSString*) path
-                                  method:(NSString*) method
-                              pathParams:(NSDictionary *) pathParams
-                             queryParams:(NSDictionary*) queryParams
-                              formParams:(NSDictionary *) formParams
-                                   files:(NSDictionary *) files
-                                    body:(id) body
-                            headerParams:(NSDictionary*) headerParams
-                            authSettings: (NSArray *) authSettings
-                      requestContentType:(NSString*) requestContentType
-                     responseContentType:(NSString*) responseContentType
-                            responseType:(NSString *) responseType
-                         completionBlock:(void (^)(id, NSError *))completionBlock;
+-(NSNumber*) requestWithPath:(NSString*) path
+                      method:(NSString*) method
+                  pathParams:(NSDictionary *) pathParams
+                 queryParams:(NSDictionary*) queryParams
+                  formParams:(NSDictionary *) formParams
+                       files:(NSDictionary *) files
+                        body:(id) body
+                headerParams:(NSDictionary*) headerParams
+                authSettings:(NSArray *) authSettings
+          requestContentType:(NSString*) requestContentType
+         responseContentType:(NSString*) responseContentType
+                responseType:(NSString *) responseType
+             completionBlock:(void (^)(id, NSError *))completionBlock;
 
 /**
  * Sanitize object for request

@@ -14,8 +14,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
    **/
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+
   {{#vendorExtensions.extraAnnotation}}{{vendorExtensions.extraAnnotation}}{{/vendorExtensions.extraAnnotation}}
-  @ApiModelProperty({{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#example}}example = "{{example}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   @JsonProperty("{{baseName}}")
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};

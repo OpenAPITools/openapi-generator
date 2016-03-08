@@ -4,71 +4,109 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace IO.Swagger.Model
 {
-
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public class Pet :  IEquatable<Pet>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Pet" /> class.
-        /// </summary>
-        public Pet()
-        {
+    public partial class Pet :  IEquatable<Pet>
+    { 
+    
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum StatusEnum {
             
+            [EnumMember(Value = "available")]
+            Available,
+            
+            [EnumMember(Value = "pending")]
+            Pending,
+            
+            [EnumMember(Value = "sold")]
+            Sold
         }
-
-        
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
-  
-        
-        /// <summary>
-        /// Gets or Sets Category
-        /// </summary>
-        [DataMember(Name="category", EmitDefaultValue=false)]
-        public Category Category { get; set; }
-  
-        
-        /// <summary>
-        /// Gets or Sets Name
-        /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
-  
-        
-        /// <summary>
-        /// Gets or Sets PhotoUrls
-        /// </summary>
-        [DataMember(Name="photoUrls", EmitDefaultValue=false)]
-        public List<string> PhotoUrls { get; set; }
-  
-        
-        /// <summary>
-        /// Gets or Sets Tags
-        /// </summary>
-        [DataMember(Name="tags", EmitDefaultValue=false)]
-        public List<Tag> Tags { get; set; }
-  
-        
+    
         /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
         [DataMember(Name="status", EmitDefaultValue=false)]
-        public string Status { get; set; }
-  
+        public StatusEnum? Status { get; set; }
+    
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pet" /> class.
+        /// Initializes a new instance of the <see cref="Pet" />class.
+        /// </summary>
+        /// <param name="Id">Id.</param>
+        /// <param name="Category">Category.</param>
+        /// <param name="Name">Name (required).</param>
+        /// <param name="PhotoUrls">PhotoUrls (required).</param>
+        /// <param name="Tags">Tags.</param>
+        /// <param name="Status">pet status in the store.</param>
+
+        public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, StatusEnum? Status = null)
+        {
+            // to ensure "Name" is required (not null)
+            if (Name == null)
+            {
+                throw new InvalidDataException("Name is a required property for Pet and cannot be null");
+            }
+            else
+            {
+                this.Name = Name;
+            }
+            // to ensure "PhotoUrls" is required (not null)
+            if (PhotoUrls == null)
+            {
+                throw new InvalidDataException("PhotoUrls is a required property for Pet and cannot be null");
+            }
+            else
+            {
+                this.PhotoUrls = PhotoUrls;
+            }
+            this.Id = Id;
+            this.Category = Category;
+            this.Tags = Tags;
+            this.Status = Status;
+            
+        }
         
-  
+    
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name="id", EmitDefaultValue=false)]
+        public long? Id { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets Category
+        /// </summary>
+        [DataMember(Name="category", EmitDefaultValue=false)]
+        public Category Category { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [DataMember(Name="name", EmitDefaultValue=false)]
+        public string Name { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets PhotoUrls
+        /// </summary>
+        [DataMember(Name="photoUrls", EmitDefaultValue=false)]
+        public List<string> PhotoUrls { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets Tags
+        /// </summary>
+        [DataMember(Name="tags", EmitDefaultValue=false)]
+        public List<Tag> Tags { get; set; }
+    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -165,22 +203,22 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 
                 if (this.Id != null)
-                    hash = hash * 57 + this.Id.GetHashCode();
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
                 if (this.Category != null)
-                    hash = hash * 57 + this.Category.GetHashCode();
+                    hash = hash * 59 + this.Category.GetHashCode();
                 
                 if (this.Name != null)
-                    hash = hash * 57 + this.Name.GetHashCode();
+                    hash = hash * 59 + this.Name.GetHashCode();
                 
                 if (this.PhotoUrls != null)
-                    hash = hash * 57 + this.PhotoUrls.GetHashCode();
+                    hash = hash * 59 + this.PhotoUrls.GetHashCode();
                 
                 if (this.Tags != null)
-                    hash = hash * 57 + this.Tags.GetHashCode();
+                    hash = hash * 59 + this.Tags.GetHashCode();
                 
                 if (this.Status != null)
-                    hash = hash * 57 + this.Status.GetHashCode();
+                    hash = hash * 59 + this.Status.GetHashCode();
                 
                 return hash;
             }

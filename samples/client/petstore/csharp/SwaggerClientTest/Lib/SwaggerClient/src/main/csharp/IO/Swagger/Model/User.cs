@@ -4,85 +4,96 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace IO.Swagger.Model
 {
-
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public class User :  IEquatable<User>
-    {
+    public partial class User :  IEquatable<User>
+    { 
+    
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
+        /// Initializes a new instance of the <see cref="User" />class.
         /// </summary>
-        public User()
+        /// <param name="Id">Id.</param>
+        /// <param name="Username">Username.</param>
+        /// <param name="FirstName">FirstName.</param>
+        /// <param name="LastName">LastName.</param>
+        /// <param name="Email">Email.</param>
+        /// <param name="Password">Password.</param>
+        /// <param name="Phone">Phone.</param>
+        /// <param name="UserStatus">User Status.</param>
+
+        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, int? UserStatus = null)
         {
+            this.Id = Id;
+            this.Username = Username;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Email = Email;
+            this.Password = Password;
+            this.Phone = Phone;
+            this.UserStatus = UserStatus;
             
         }
-
         
+    
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name="username", EmitDefaultValue=false)]
         public string Username { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name="firstName", EmitDefaultValue=false)]
         public string FirstName { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name="lastName", EmitDefaultValue=false)]
         public string LastName { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name="email", EmitDefaultValue=false)]
         public string Email { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password", EmitDefaultValue=false)]
         public string Password { get; set; }
-  
-        
+    
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name="phone", EmitDefaultValue=false)]
         public string Phone { get; set; }
-  
-        
+    
         /// <summary>
         /// User Status
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name="userStatus", EmitDefaultValue=false)]
         public int? UserStatus { get; set; }
-  
-        
-  
+    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -191,28 +202,28 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 
                 if (this.Id != null)
-                    hash = hash * 57 + this.Id.GetHashCode();
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
                 if (this.Username != null)
-                    hash = hash * 57 + this.Username.GetHashCode();
+                    hash = hash * 59 + this.Username.GetHashCode();
                 
                 if (this.FirstName != null)
-                    hash = hash * 57 + this.FirstName.GetHashCode();
+                    hash = hash * 59 + this.FirstName.GetHashCode();
                 
                 if (this.LastName != null)
-                    hash = hash * 57 + this.LastName.GetHashCode();
+                    hash = hash * 59 + this.LastName.GetHashCode();
                 
                 if (this.Email != null)
-                    hash = hash * 57 + this.Email.GetHashCode();
+                    hash = hash * 59 + this.Email.GetHashCode();
                 
                 if (this.Password != null)
-                    hash = hash * 57 + this.Password.GetHashCode();
+                    hash = hash * 59 + this.Password.GetHashCode();
                 
                 if (this.Phone != null)
-                    hash = hash * 57 + this.Phone.GetHashCode();
+                    hash = hash * 59 + this.Phone.GetHashCode();
                 
                 if (this.UserStatus != null)
-                    hash = hash * 57 + this.UserStatus.GetHashCode();
+                    hash = hash * 59 + this.UserStatus.GetHashCode();
                 
                 return hash;
             }

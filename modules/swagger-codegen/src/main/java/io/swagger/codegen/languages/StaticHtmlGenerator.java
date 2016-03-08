@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
@@ -32,6 +33,17 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
         defaultIncludes = new HashSet<String>();
 
+        cliOptions.add(new CliOption("appName", "short name of the application"));
+        cliOptions.add(new CliOption("appDescription", "description of the application"));
+        cliOptions.add(new CliOption("infoUrl", "a URL where users can get more information about the application"));
+        cliOptions.add(new CliOption("infoEmail", "an email address to contact for inquiries about the application"));
+        cliOptions.add(new CliOption("licenseInfo", "a short description of the license"));
+        cliOptions.add(new CliOption("licenseUrl", "a URL pointing to the full license"));
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
+        
         additionalProperties.put("appName", "Swagger Sample");
         additionalProperties.put("appDescription", "A sample swagger server");
         additionalProperties.put("infoUrl", "https://helloreverb.com");
@@ -88,21 +100,5 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
             op.httpMethod = op.httpMethod.toLowerCase();
         }
         return objs;
-    }
-
-    @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        List<CodegenOperation> opList = operations.get(ALL_OPERATIONS);
-        if (opList == null) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(ALL_OPERATIONS, opList);
-        }
-        for (CodegenOperation addedOperation : opList) {
-            if (addedOperation.operationId.equals(co.operationId) && addedOperation.path.equals(co.path) && addedOperation.httpMethod.equals(co.httpMethod)) {
-                addedOperation.tags.addAll(co.tags);
-                return;
-            }
-        }
-        opList.add(co);
     }
 }
