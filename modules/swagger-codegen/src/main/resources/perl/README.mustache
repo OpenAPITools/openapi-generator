@@ -217,3 +217,17 @@ spec. If so, this is available via the `class_documentation()` and
         
 
 Each of these calls returns a hashref with various useful pieces of information.	
+
+# DOCUMENTATION FOR API ENDPOINTS
+
+All URIs are relative to *{{basePath}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{nickname}}**]({{apiDocPath}}{{classname}}.md#{{nickname}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+# DOCUMENTATION FOR MODELS
+{{#models}}{{#model}} - [{{moduleName}}::Object::{{classname}}]({{modelDocPath}}{{classname}}.md)
+{{/model}}{{/models}}
+
