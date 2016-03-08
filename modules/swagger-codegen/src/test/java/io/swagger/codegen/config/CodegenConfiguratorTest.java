@@ -25,6 +25,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+@SuppressWarnings("static-method")
 public class CodegenConfiguratorTest {
 
     @Mocked
@@ -45,6 +46,7 @@ public class CodegenConfiguratorTest {
     @Tested
     CodegenConfigurator configurator;
 
+    @SuppressWarnings("unused")
     @Test
     public void testVerbose() throws Exception {
 
@@ -75,6 +77,7 @@ public class CodegenConfiguratorTest {
         assertValueInMap(clientOptInput.getConfig().additionalProperties(), CodegenConstants.TEMPLATE_DIR, toAbsolutePathDir(templateDir));
     }
 
+    @SuppressWarnings("unused")
     @Test
     public void testSystemProperties() throws Exception {
 
@@ -286,6 +289,7 @@ public class CodegenConfiguratorTest {
         assertValueInMap(configurator.getDynamicProperties(), CodegenConstants.LOCAL_VARIABLE_PREFIX, "_");
     }
 
+    @SuppressWarnings("unused")
     private ClientOptInput setupAndRunGenericTest(CodegenConfigurator configurator) {
 
         final String spec = "swagger.yaml";
@@ -315,10 +319,11 @@ public class CodegenConfiguratorTest {
         return result;
     }
 
-    private String toAbsolutePathDir(String outputDir) {
+    private static String toAbsolutePathDir(String outputDir) {
         return Paths.get(outputDir).toAbsolutePath().toAbsolutePath().toString();
     }
 
+    @SuppressWarnings("unused")
     private void setupStandardExpectations(final String spec, final String languageName, final String auth, final CodegenConfig config) {
 
         new StrictExpectations() {{
@@ -339,7 +344,7 @@ public class CodegenConfiguratorTest {
         }};
     }
 
-    private void assertValueInMap(Map map, String propertyKey, String expectedPropertyValue) {
+    private static void assertValueInMap(Map<?, ?> map, String propertyKey, String expectedPropertyValue) {
         assertTrue(map.containsKey(propertyKey));
         assertEquals(map.get(propertyKey), expectedPropertyValue);
     }

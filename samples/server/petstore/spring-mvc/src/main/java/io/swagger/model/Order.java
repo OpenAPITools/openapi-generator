@@ -13,7 +13,7 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-01-05T15:01:20.501+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:58:54.483Z")
 public class Order  {
   
   private Long id = null;
@@ -23,6 +23,7 @@ public class Order  {
   public enum StatusEnum {
      placed,  approved,  delivered, 
   };
+  
   private StatusEnum status = null;
   private Boolean complete = null;
 

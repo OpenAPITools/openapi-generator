@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
+    @SuppressWarnings("hiding")
     static Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
@@ -41,14 +42,17 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "php";
         modelTemplateFiles.put("model.mustache", ".php");
         apiTemplateFiles.put("api.mustache", ".php");
+        modelTestTemplateFiles.put("model_test.mustache", ".php");
+        apiTestTemplateFiles.put("api_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php";
         apiPackage = invokerPackage + "\\Api";
         modelPackage = invokerPackage + "\\Model";
+        testPackage = invokerPackage + "\\Tests";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variables used in api methods (endpoints)
-                    "resourcePath", "method", "httpBody", "queryParams", "headerParams",
+                    "resourcePath", "httpBody", "queryParams", "headerParams",
                     "formParams", "_header_accept", "_tempBody",
 
                     // PHP reserved words
@@ -97,6 +101,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
+        typeMapping.put("binary", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -115,9 +120,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String toPackagePath(String packageName, String basePath) {
-        packageName = packageName.replace(invokerPackage, "");
+        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar;
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
         String regFirstPathSeparator;
@@ -173,13 +178,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             additionalProperties.put(SRC_BASE_PATH, srcBasePath);
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else {
             additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
-        
+
         if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
@@ -187,19 +192,19 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
-                
+
         if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
             this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
         } else {
             additionalProperties.put(COMPOSER_PROJECT_NAME, composerProjectName);
         }
-        
+
         if (additionalProperties.containsKey(COMPOSER_VENDOR_NAME)) {
             this.setComposerVendorName((String) additionalProperties.get(COMPOSER_VENDOR_NAME));
         } else {
             additionalProperties.put(COMPOSER_VENDOR_NAME, composerVendorName);
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else {
@@ -209,7 +214,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(VARIABLE_NAMING_CONVENTION)) {
             this.setParameterNamingConvention((String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
         }
-        
+
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
         supportingFiles.add(new SupportingFile("configuration.mustache", toPackagePath(invokerPackage, srcBasePath), "Configuration.php"));
@@ -218,6 +223,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toPackagePath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
+        supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
+        supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
     }
 
     @Override
@@ -233,6 +240,16 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
     }
 
     @Override
@@ -284,7 +301,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }
-        
+
     public void setArtifactVersion(String artifactVersion) {
         this.artifactVersion = artifactVersion;
     }
@@ -296,7 +313,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setSrcBasePath(String srcBasePath) {
         this.srcBasePath = srcBasePath;
     }
-    
+
     public void setParameterNamingConvention(String variableNamingConvention) {
         this.variableNamingConvention = variableNamingConvention;
     }
@@ -304,7 +321,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setComposerVendorName(String composerVendorName) {
         this.composerVendorName = composerVendorName;
     }
-    
+
     public void setComposerProjectName(String composerProjectName) {
         this.composerProjectName = composerProjectName;
     }
@@ -312,7 +329,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
           // return the name in camelCase style
@@ -341,17 +358,26 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // remove [ 
+        name = name.replaceAll("\\]", "");
+
         // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
-        name = name.replaceAll("[^\\w\\\\]+", "_");
+        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
 
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
-            escapeReservedWord(name); // e.g. return => _return
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
+        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
+        if (!name.matches("^\\\\.*")) {
+            name = modelNamePrefix + name + modelNameSuffix;
+        }
+        
         // camelize the model name
         // phone_number => PhoneNumber
         return camelize(name);
@@ -364,6 +390,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toModelTestFilename(String name) {
+        // should be the same as the model name
+        return toModelName(name) + "Test";
+    }
+
+    @Override
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
@@ -371,8 +403,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = "call_" + operationId;
         }
 
         return camelize(sanitizeName(operationId), true);

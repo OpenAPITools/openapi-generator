@@ -6,12 +6,40 @@ import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
-import java.util.Map;
 import io.swagger.client.model.Order;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface StoreApi {
+  
+  /**
+   * Finds orders by status
+   * Sync method
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query
+   * @return List<Order>
+   */
+  
+  @GET("/store/findByStatus")
+  List<Order> findOrdersByStatus(
+    @Query("status") String status
+  );
+
+  /**
+   * Finds orders by status
+   * Async method
+   * @param status Status value that needs to be considered for query
+   * @param cb callback method
+   * @return void
+   */
+  
+  @GET("/store/findByStatus")
+  void findOrdersByStatus(
+    @Query("status") String status, Callback<List<Order>> cb
+  );
   
   /**
    * Returns pet inventories by status
@@ -34,6 +62,29 @@ public interface StoreApi {
   @GET("/store/inventory")
   void getInventory(
     Callback<Map<String, Integer>> cb
+  );
+  
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+   * Sync method
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return Object
+   */
+  
+  @GET("/store/inventory?response=arbitrary_object")
+  Object getInventoryInObject();
+    
+
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+   * Async method
+   * @param cb callback method
+   * @return void
+   */
+  
+  @GET("/store/inventory?response=arbitrary_object")
+  void getInventoryInObject(
+    Callback<Object> cb
   );
   
   /**

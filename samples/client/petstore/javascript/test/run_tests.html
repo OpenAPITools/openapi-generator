@@ -9,8 +9,8 @@
 
   <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
   <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+  <script src="http://sinonjs.org/releases/sinon-1.17.3.js"></script>
   <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
-
   <script>
     mocha.setup({
       ui: 'bdd',
@@ -18,12 +18,24 @@
     });
   </script>
 
+  <script src="../node_modules/superagent/superagent.js"></script>
+
+  <script src="../src/ApiClient.js"></script>
+
   <script src="../src/model/Category.js"></script>
   <script src="../src/model/Tag.js"></script>
+  <script src="../src/model/InlineResponse200.js"></script>
   <script src="../src/model/Pet.js"></script>
+  <script src="../src/model/Order.js"></script>
   <script src="../src/model/User.js"></script>
+
   <script src="../src/api/PetApi.js"></script>
+  <script src="../src/api/StoreApi.js"></script>
+
+  <script src="ApiClientTest.js"></script>
   <script src="api/PetApiTest.js"></script>
+  <script src="api/StoreApiTest.js"></script>
+
   <script>
     mocha.checkLeaks();
     mocha.globals(['jQuery']);

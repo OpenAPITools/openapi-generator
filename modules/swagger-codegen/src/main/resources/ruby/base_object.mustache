@@ -31,11 +31,14 @@
       when :Float
         value.to_f
       when :BOOLEAN
-        if value =~ /^(true|t|yes|y|1)$/i
+        if value.to_s =~ /^(true|t|yes|y|1)$/i
           true
         else
           false
         end
+      when :Object
+        # generic object (usually a Hash), return directly
+        value
       when /\AArray<(?<inner_type>.+)>\z/
         inner_type = Regexp.last_match[:inner_type]
         value.map { |v| _deserialize(inner_type, v) }

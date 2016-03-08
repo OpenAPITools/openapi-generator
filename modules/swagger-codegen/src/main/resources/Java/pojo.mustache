@@ -8,21 +8,26 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{>enumClass}}{{/items}}{{/items.isEnum}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
-  {{#vars}}
+  {{#vars}}{{^isReadOnly}}
   /**{{#description}}
    * {{{description}}}{{/description}}{{#minimum}}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
    **/
-  {{#vendorExtensions.extraAnnotation}}{{vendorExtensions.extraAnnotation}}{{/vendorExtensions.extraAnnotation}}
-  @ApiModelProperty({{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+  {{/isReadOnly}}{{#vendorExtensions.extraAnnotation}}
+  {{vendorExtensions.extraAnnotation}}{{/vendorExtensions.extraAnnotation}}
+  @ApiModelProperty({{#example}}example = "{{example}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   @JsonProperty("{{baseName}}")
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }
+  }{{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
-  }
+  }{{/isReadOnly}}
 
   {{/vars}}
 
@@ -33,17 +38,17 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
-    }
+    }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-
-    return true {{#hasVars}}&& {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-        {{/hasMore}}{{/vars}}{{/hasVars}}
-    {{#parent}}&& super.equals(o){{/parent}};
+    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
+        {{/hasMore}}{{/vars}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}},{{/hasVars}} super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
   @Override

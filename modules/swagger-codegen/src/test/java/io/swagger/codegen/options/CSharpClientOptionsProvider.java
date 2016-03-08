@@ -10,6 +10,7 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
     public static final String PACKAGE_NAME_VALUE = "swagger_client_csharp";
     public static final String PACKAGE_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SOURCE_FOLDER_VALUE = "src_csharp";
+    public static final String PACKAGE_GUID_VALUE = "{894EAEBB-649A-498C-A735-10D0BD7B73E0}";
 	
     @Override
     public String getLanguage() {
@@ -26,6 +27,12 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.OPTIONAL_ASSEMBLY_INFO, "true")
                 .put(CodegenConstants.USE_DATETIME_OFFSET, "true")
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
+                .put(CodegenConstants.USE_COLLECTION, "false")
+                .put(CodegenConstants.RETURN_ICOLLECTION, "false")
+                .put(CodegenConstants.OPTIONAL_PROJECT_FILE, "true")
+                .put(CodegenConstants.OPTIONAL_PROJECT_GUID, PACKAGE_GUID_VALUE)
+                .put(CodegenConstants.DOTNET_FRAMEWORK, "4.x")
+                .put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, "true")
                 .build();
     }
 

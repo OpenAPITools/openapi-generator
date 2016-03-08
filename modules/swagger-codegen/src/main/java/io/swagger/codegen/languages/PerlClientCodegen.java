@@ -7,13 +7,13 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CliOption;
 import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.regex.Matcher;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,8 +21,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
     protected String moduleName = "WWW::SwaggerClient";
-    protected String modulePathPart = moduleName.replaceAll("::",String.valueOf(File.separatorChar));
+    protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
     protected String moduleVersion = "1.0.0";
+
+    protected static int emptyFunctionNameCounter = 0;
 
     public PerlClientCodegen() {
         super();
@@ -30,10 +32,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separatorChar + "perl";
         modelTemplateFiles.put("object.mustache", ".pm");
         apiTemplateFiles.put("api.mustache", ".pm");
+        modelTestTemplateFiles.put("object_test.mustache", ".t");
+        apiTestTemplateFiles.put("api_test.mustache", ".t");
         embeddedTemplateDir = templateDir = "perl";
 
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "else", "lock", "qw",
                         "__END__", "elsif", "lt", "qx",
@@ -44,7 +48,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "cmp", "ge", "package", "until",
                         "continue", "gt", "q", "while",
                         "CORE", "if", "qq", "xor",
-                        "do", "le", "qr", "y"
+                        "do", "le", "qr", "y",
+                        "return"
                 )
         );
 
@@ -71,6 +76,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "ARRAY");
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "string");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase or Long::Module).").defaultValue("SwaggerClient"));
@@ -95,7 +103,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(MODULE_NAME)) {
             setModuleName((String) additionalProperties.get(MODULE_NAME));
-            setModulePathPart(moduleName.replaceAll("::",String.valueOf(File.separatorChar)));
+            setModulePathPart(moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator)));
         } else {
             additionalProperties.put(MODULE_NAME, moduleName);
         }
@@ -139,6 +147,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + "/lib/" + modulePathPart + modelPackage()).replace('/', File.separatorChar);
     }
 
+
+    @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + "/t").replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + "/t").replace('/', File.separatorChar);
+    }
+
     @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
@@ -168,7 +187,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (type == null) {
             return null;
         }
-        return type;
+        return toModelName(type);
     }
 
     @Override
@@ -181,14 +200,13 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name);
+        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
         if (name.matches("^\\d.*")) {
             name = "_" + name;
         }
-
         return name;
     }
 
@@ -200,9 +218,21 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
-            escapeReservedWord(name); // e.g. return => _return
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name;
+        }
+
+        // add prefix/suffic to model name
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
         }
 
         // camelize the model name
@@ -217,9 +247,19 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + "Test";
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "Test";
+    }
+
+    @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. phone_number_api.rb => PhoneNumberApi.rb
         return camelize(name) + "Api";
@@ -236,14 +276,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty
+        //rename to empty_function_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
+            operationId = underscore("empty_function_name_" + emptyFunctionNameCounter++);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            return underscore("call_" + operationId);
         }
 
         return underscore(operationId);

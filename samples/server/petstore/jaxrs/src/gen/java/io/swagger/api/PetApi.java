@@ -28,7 +28,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JaxRSServerCodegen", date = "2016-01-05T15:00:28.637+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-01-31T21:10:14.319Z")
 public class PetApi  {
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
 
@@ -36,20 +36,21 @@ public class PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/json", "application/xml" })
-    @io.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = Void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Update an existing pet", notes = "", response = void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
     }, tags={ "pet",  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = void.class),
         
-        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = void.class),
         
-        @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = void.class) })
 
-    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ) Pet body,@Context SecurityContext securityContext)
+    public Response updatePet(
+@ApiParam(value = "Pet object that needs to be added to the store" ) Pet body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(body,securityContext);
     }
@@ -57,16 +58,17 @@ public class PetApi  {
     
     @Consumes({ "application/json", "application/xml" })
     @Produces({ "application/json", "application/xml" })
-    @io.swagger.annotations.ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Add a new pet to the store", notes = "", response = void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
     }, tags={ "pet",  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = void.class) })
 
-    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ) Pet body,@Context SecurityContext securityContext)
+    public Response addPet(
+@ApiParam(value = "Pet object that needs to be added to the store" ) Pet body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(body,securityContext);
     }
@@ -85,7 +87,8 @@ public class PetApi  {
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Pet.class, responseContainer = "List") })
 
-    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue="available") @QueryParam("status") List<String> status,@Context SecurityContext securityContext)
+    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue="available") @DefaultValue("available") @QueryParam("status") List<String> status
+,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByStatus(status,securityContext);
     }
@@ -104,7 +107,8 @@ public class PetApi  {
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value", response = Pet.class, responseContainer = "List") })
 
-    public Response findPetsByTags(@ApiParam(value = "Tags to filter by") @QueryParam("tags") List<String> tags,@Context SecurityContext securityContext)
+    public Response findPetsByTags(@ApiParam(value = "Tags to filter by") @QueryParam("tags") List<String> tags
+,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByTags(tags,securityContext);
     }
@@ -122,7 +126,8 @@ public class PetApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Pet.class) })
 
-    public Response getPetById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("petId") Long petId,@Context SecurityContext securityContext)
+    public Response getPetById(
+@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("petId") Long petId,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getPetById(petId,securityContext);
     }
@@ -130,16 +135,19 @@ public class PetApi  {
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     @Produces({ "application/json", "application/xml" })
-    @io.swagger.annotations.ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
     }, tags={ "pet",  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = void.class) })
 
-    public Response updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathParam("petId") String petId,@ApiParam(value = "Updated name of the pet")@FormParam("name")  String name,@ApiParam(value = "Updated status of the pet")@FormParam("status")  String status,@Context SecurityContext securityContext)
+    public Response updatePetWithForm(
+@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathParam("petId") String petId,
+@ApiParam(value = "Updated name of the pet")@FormParam("name")  String name,
+@ApiParam(value = "Updated status of the pet")@FormParam("status")  String status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePetWithForm(petId,name,status,securityContext);
     }
@@ -147,16 +155,18 @@ public class PetApi  {
     @Path("/{petId}")
     
     @Produces({ "application/json", "application/xml" })
-    @io.swagger.annotations.ApiOperation(value = "Deletes a pet", notes = "", response = Void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Deletes a pet", notes = "", response = void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
     }, tags={ "pet",  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = void.class) })
 
-    public Response deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId,@ApiParam(value = "" )@HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
+    public Response deletePet(
+@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId,
+@ApiParam(value = "" )@HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deletePet(petId,apiKey,securityContext);
     }
@@ -164,18 +174,40 @@ public class PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json", "application/xml" })
-    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = Void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet" })
+    }, tags={ "pet",  })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = void.class) })
 
-    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId,@ApiParam(value = "Additional data to pass to server")@FormParam("additionalMetadata")  String additionalMetadata,  @FormDataParam("file") InputStream inputStream,
+    public Response uploadFile(
+@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId,
+@ApiParam(value = "Additional data to pass to server")@FormParam("additionalMetadata")  String additionalMetadata,
+  @FormDataParam("file") InputStream inputStream,
       @FormDataParam("file") FormDataContentDisposition fileDetail,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFile(petId,additionalMetadata,fileDetail,securityContext);
+        return delegate.uploadFile(petId,additionalMetadata,inputStream, fileDetail,securityContext);
+    }
+    @GET
+    @Path("/{petId}?testing_byte_array=true")
+    
+    @Produces({ "application/json", "application/xml" })
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test byte array return by 'Find pet by ID'", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = byte[].class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "api_key")
+    }, tags={ "pet" })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = byte[].class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = byte[].class),
+        
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = byte[].class) })
+
+    public Response getPetByIdWithByteArray(
+@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("petId") Long petId,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.getPetByIdWithByteArray(petId,securityContext);
     }
 }

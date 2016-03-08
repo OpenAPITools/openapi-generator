@@ -34,7 +34,7 @@ public class {{classname}} extends SwaggerApi {
     /*
      * Returns {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
      */
-    public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
+    public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
         // create path and map variables
         var path: String = "{{path}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{paramName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
 

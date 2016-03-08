@@ -6,7 +6,7 @@ import io.swagger.models.Operation;
 import java.io.File;
 import java.util.*;
 
-public class SpringMVCServerCodegen extends JavaClientCodegen implements CodegenConfig {
+public class SpringMVCServerCodegen extends JavaClientCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";
     protected String title = "Petstore Server";
     protected String configPackage = "";
@@ -34,6 +34,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
+                        "byte[]",
                         "String",
                         "boolean",
                         "Boolean",

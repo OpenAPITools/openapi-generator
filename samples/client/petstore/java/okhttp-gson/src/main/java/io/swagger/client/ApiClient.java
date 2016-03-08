@@ -146,7 +146,11 @@ public class ApiClient {
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
     authentications.put("petstore_auth", new OAuth());
+    authentications.put("test_api_client_id", new ApiKeyAuth("header", "x-test_api_client_id"));
+    authentications.put("test_api_client_secret", new ApiKeyAuth("header", "x-test_api_client_secret"));
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("test_api_key_query", new ApiKeyAuth("query", "test_api_key_query"));
+    authentications.put("test_api_key_header", new ApiKeyAuth("header", "test_api_key_header"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -581,6 +585,17 @@ public class ApiClient {
   }
 
   /**
+   * Sanitize filename by removing path.
+   * e.g. ../../sun.gif becomes sun.gif
+   *
+   * @param filename The filename to be sanitized
+   * @return The sanitized filename
+   */
+  public String sanitizeFilename(String filename) {
+    return filename.replaceAll(".*[/\\\\]", "");
+  }
+
+  /**
    * Check if the given MIME is a JSON MIME.
    * JSON MIME examples:
    *   application/json
@@ -645,8 +660,8 @@ public class ApiClient {
   }
 
   /**
-   * Deserialize response body to Java object, according to the Content-Type
-   * response header.
+   * Deserialize response body to Java object, according to the return type and
+   * the Content-Type response header.
    *
    * @param response HTTP response
    * @param returnType The type of the Java object
@@ -655,12 +670,21 @@ public class ApiClient {
    *   or the Content-Type of the response is not supported.
    */
   public <T> T deserialize(Response response, Type returnType) throws ApiException {
-    if (response == null || returnType == null)
+    if (response == null || returnType == null) {
       return null;
+    }
 
-    // Handle file downloading.
-    if (returnType.equals(File.class))
+    if ("byte[]".equals(returnType.toString())) {
+      // Handle binary response (byte array).
+      try {
+        return (T) response.body().bytes();
+      } catch (IOException e) {
+        throw new ApiException(e);
+      }
+    } else if (returnType.equals(File.class)) {
+      // Handle file downloading.
       return (T) downloadFileFromResponse(response);
+    }
 
     String respBody;
     try {
@@ -672,8 +696,9 @@ public class ApiClient {
       throw new ApiException(e);
     }
 
-    if (respBody == null || "".equals(respBody))
+    if (respBody == null || "".equals(respBody)) {
       return null;
+    }
 
     String contentType = response.headers().get("Content-Type");
     if (contentType == null) {
@@ -695,20 +720,29 @@ public class ApiClient {
   }
 
   /**
-   * Serialize the given Java object into request body string, according to the
-   * request Content-Type.
+   * Serialize the given Java object into request body according to the object's
+   * class and the request Content-Type.
    *
    * @param obj The Java object
    * @param contentType The request Content-Type
-   * @return The serialized string
+   * @return The serialized request body
    * @throws ApiException If fail to serialize the given object
    */
-  public String serialize(Object obj, String contentType) throws ApiException {
-    if (isJsonMime(contentType)) {
-      if (obj != null)
-        return json.serialize(obj);
-      else
-        return null;
+  public RequestBody serialize(Object obj, String contentType) throws ApiException {
+    if (obj instanceof byte[]) {
+      // Binary (byte array) body parameter support.
+      return RequestBody.create(MediaType.parse(contentType), (byte[]) obj);
+    } else if (obj instanceof File) {
+      // File body parameter support.
+      return RequestBody.create(MediaType.parse(contentType), (File) obj);
+    } else if (isJsonMime(contentType)) {
+      String content;
+      if (obj != null) {
+        content = json.serialize(obj);
+      } else {
+        content = null;
+      }
+      return RequestBody.create(MediaType.parse(contentType), content);
     } else {
       throw new ApiException("Content type \"" + contentType + "\" is not supported");
     }
@@ -737,8 +771,9 @@ public class ApiClient {
       // Get filename from the Content-Disposition header.
       Pattern pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
       Matcher matcher = pattern.matcher(contentDisposition);
-      if (matcher.find())
-        filename = matcher.group(1);
+      if (matcher.find()) {
+        filename = sanitizeFilename(matcher.group(1));
+      }
     }
 
     String prefix = null;
@@ -896,7 +931,7 @@ public class ApiClient {
         reqBody = RequestBody.create(MediaType.parse(contentType), "");
       }
     } else {
-      reqBody = RequestBody.create(MediaType.parse(contentType), serialize(body, contentType));
+      reqBody = serialize(body, contentType);
     }
 
     Request request = null;
@@ -919,20 +954,27 @@ public class ApiClient {
    * @return The full URL
    */
   public String buildUrl(String path, List<Pair> queryParams) {
-    StringBuilder query = new StringBuilder();
-    if (queryParams != null) {
+    final StringBuilder url = new StringBuilder();
+    url.append(basePath).append(path);
+
+    if (queryParams != null && !queryParams.isEmpty()) {
+      // support (constant) query string in `path`, e.g. "/posts?draft=1"
+      String prefix = path.contains("?") ? "&" : "?";
       for (Pair param : queryParams) {
         if (param.getValue() != null) {
-          if (query.toString().length() == 0)
-            query.append("?");
-          else
-            query.append("&");
+          if (prefix != null) {
+            url.append(prefix);
+            prefix = null;
+          } else {
+            url.append("&");
+          }
           String value = parameterToString(param.getValue());
-          query.append(escapeString(param.getName())).append("=").append(escapeString(value));
+          url.append(escapeString(param.getName())).append("=").append(escapeString(value));
         }
       }
     }
-    return basePath + path + query.toString();
+
+    return url.toString();
   }
 
   /**

@@ -38,33 +38,32 @@ end
 
 API_CLIENT = Petstore::ApiClient.new(Petstore::Configuration.new)
 
-# always delete and then re-create the pet object with 10002
-def prepare_pet(pet_api)
-  begin
-    # remove the pet
-    pet_api.delete_pet(10002)
-  rescue Petstore::ApiError => e
-    # ignore ApiError 404 (Not Found)
-    raise e if e.code != 404
-  end
-  # recreate the pet
-  category = Petstore::Category.new('id' => 20002, 'name' => 'category test')
-  tag = Petstore::Tag.new('id' => 30002, 'name' => 'tag test')
-  pet = Petstore::Pet.new('id' => 10002, 'name' => "RUBY UNIT TESTING", 'photo_urls' => 'photo url',
-                               'category' => category, 'tags' => [tag], 'status' => 'pending')
-
-  pet_api.add_pet(:'body'=> pet)
+def random_id
+  rand(1000000) + 20000
 end
 
-# always delete and then re-create the store order
+# create a random pet, return its id
+def prepare_pet(pet_api)
+  pet_id = random_id
+  category = Petstore::Category.new('id' => 20002, 'name' => 'category test')
+  tag = Petstore::Tag.new('id' => 30002, 'name' => 'tag test')
+  pet = Petstore::Pet.new('id' => pet_id, 'name' => "RUBY UNIT TESTING", 'photo_urls' => 'photo url',
+                          'category' => category, 'tags' => [tag], 'status' => 'pending')
+  pet_api.add_pet(:'body'=> pet)
+  return pet_id
+end
+
+# create a random order, return its id
 def prepare_store(store_api)
-  order = Petstore::Order.new("id" => 10002,
-		  "petId" => 10002,
+  order_id = random_id
+  order = Petstore::Order.new("id" => order_id,
+		  "petId" => 123,
 		  "quantity" => 789,
 		  "shipDate" => "2015-04-06T23:42:01.678Z",
 		  "status" => "placed",
 		  "complete" => false)
   store_api.place_order(:body => order)
+  return order_id
 end
 
 # A random string to tack onto stuff to ensure we're not seeing
