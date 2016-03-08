@@ -247,6 +247,153 @@ sub create_users_with_list_input {
 }
 
 #
+# delete_user
+#
+# Delete user
+# 
+# @param string $username The name that needs to be deleted (required)
+{
+    my $params = {
+    'username' => {
+        data_type => 'string',
+        description => 'The name that needs to be deleted',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ delete_user } = { 
+    	summary => 'Delete user',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub delete_user {
+    my ($self, %args) = @_;
+
+    
+    # verify the required parameter 'username' is set
+    unless (exists $args{'username'}) {
+      croak("Missing the required parameter 'username' when calling delete_user");
+    }
+    
+
+    # parse inputs
+    my $_resource_path = '/user/{username}';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'DELETE';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    
+    
+    # path params
+    if ( exists $args{'username'}) {
+        my $_base_variable = "{" . "username" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+    
+    my $_body_data;
+    
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+    
+}
+
+#
+# get_user_by_name
+#
+# Get user by user name
+# 
+# @param string $username The name that needs to be fetched. Use user1 for testing. (required)
+{
+    my $params = {
+    'username' => {
+        data_type => 'string',
+        description => 'The name that needs to be fetched. Use user1 for testing.',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ get_user_by_name } = { 
+    	summary => 'Get user by user name',
+        params => $params,
+        returns => 'User',
+        };
+}
+# @return User
+#
+sub get_user_by_name {
+    my ($self, %args) = @_;
+
+    
+    # verify the required parameter 'username' is set
+    unless (exists $args{'username'}) {
+      croak("Missing the required parameter 'username' when calling get_user_by_name");
+    }
+    
+
+    # parse inputs
+    my $_resource_path = '/user/{username}';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    
+    
+    # path params
+    if ( exists $args{'username'}) {
+        my $_base_variable = "{" . "username" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+    
+    my $_body_data;
+    
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('User', $response);
+    return $_response_object;
+    
+}
+
+#
 # login_user
 #
 # Logs user into the system
@@ -380,81 +527,6 @@ sub logout_user {
 }
 
 #
-# get_user_by_name
-#
-# Get user by user name
-# 
-# @param string $username The name that needs to be fetched. Use user1 for testing. (required)
-{
-    my $params = {
-    'username' => {
-        data_type => 'string',
-        description => 'The name that needs to be fetched. Use user1 for testing.',
-        required => '1',
-    },
-    };
-    __PACKAGE__->method_documentation->{ get_user_by_name } = { 
-    	summary => 'Get user by user name',
-        params => $params,
-        returns => 'User',
-        };
-}
-# @return User
-#
-sub get_user_by_name {
-    my ($self, %args) = @_;
-
-    
-    # verify the required parameter 'username' is set
-    unless (exists $args{'username'}) {
-      croak("Missing the required parameter 'username' when calling get_user_by_name");
-    }
-    
-
-    # parse inputs
-    my $_resource_path = '/user/{username}';
-    $_resource_path =~ s/{format}/json/; # default format to json
-
-    my $_method = 'GET';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
-
-    
-    
-    # path params
-    if ( exists $args{'username'}) {
-        my $_base_variable = "{" . "username" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
-        $_resource_path =~ s/$_base_variable/$_base_value/g;
-    }
-    
-    my $_body_data;
-    
-
-    # authentication setting, if any
-    my $auth_settings = [qw()];
-
-    # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
-        return;
-    }
-    my $_response_object = $self->{api_client}->deserialize('User', $response);
-    return $_response_object;
-    
-}
-
-#
 # update_user
 #
 # Updated user
@@ -522,78 +594,6 @@ sub update_user {
     if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
     }
-
-    # authentication setting, if any
-    my $auth_settings = [qw()];
-
-    # make the API Call
-    
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    return;
-    
-}
-
-#
-# delete_user
-#
-# Delete user
-# 
-# @param string $username The name that needs to be deleted (required)
-{
-    my $params = {
-    'username' => {
-        data_type => 'string',
-        description => 'The name that needs to be deleted',
-        required => '1',
-    },
-    };
-    __PACKAGE__->method_documentation->{ delete_user } = { 
-    	summary => 'Delete user',
-        params => $params,
-        returns => undef,
-        };
-}
-# @return void
-#
-sub delete_user {
-    my ($self, %args) = @_;
-
-    
-    # verify the required parameter 'username' is set
-    unless (exists $args{'username'}) {
-      croak("Missing the required parameter 'username' when calling delete_user");
-    }
-    
-
-    # parse inputs
-    my $_resource_path = '/user/{username}';
-    $_resource_path =~ s/{format}/json/; # default format to json
-
-    my $_method = 'DELETE';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
-
-    
-    
-    # path params
-    if ( exists $args{'username'}) {
-        my $_base_variable = "{" . "username" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'username'});
-        $_resource_path =~ s/$_base_variable/$_base_value/g;
-    }
-    
-    my $_body_data;
-    
 
     # authentication setting, if any
     my $auth_settings = [qw()];

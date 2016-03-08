@@ -54,6 +54,22 @@ isa_ok($api, 'WWW::SwaggerClient::UserApi');
 }
 
 #
+# delete_user test
+#
+{
+    my $username = undef; # replace NULL with a proper value
+    my $result = $api->delete_user(username => $username);
+}
+
+#
+# get_user_by_name test
+#
+{
+    my $username = undef; # replace NULL with a proper value
+    my $result = $api->get_user_by_name(username => $username);
+}
+
+#
 # login_user test
 #
 {
@@ -70,28 +86,12 @@ isa_ok($api, 'WWW::SwaggerClient::UserApi');
 }
 
 #
-# get_user_by_name test
-#
-{
-    my $username = undef; # replace NULL with a proper value
-    my $result = $api->get_user_by_name(username => $username);
-}
-
-#
 # update_user test
 #
 {
     my $username = undef; # replace NULL with a proper value
     my $body = undef; # replace NULL with a proper value
     my $result = $api->update_user(username => $username, body => $body);
-}
-
-#
-# delete_user test
-#
-{
-    my $username = undef; # replace NULL with a proper value
-    my $result = $api->delete_user(username => $username);
 }
 
 
