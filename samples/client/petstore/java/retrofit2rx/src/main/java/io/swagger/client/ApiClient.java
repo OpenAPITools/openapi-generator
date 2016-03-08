@@ -12,8 +12,9 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,10 +47,18 @@ public class ApiClient {
         this();
         for(String authName : authNames) { 
             Interceptor auth;
-            if (authName == "api_key") { 
-                auth = new ApiKeyAuth("header", "api_key");
-            } else if (authName == "petstore_auth") { 
+            if (authName == "petstore_auth") { 
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else if (authName == "test_api_client_id") { 
+                auth = new ApiKeyAuth("header", "x-test_api_client_id");
+            } else if (authName == "test_api_client_secret") { 
+                auth = new ApiKeyAuth("header", "x-test_api_client_secret");
+            } else if (authName == "api_key") { 
+                auth = new ApiKeyAuth("header", "api_key");
+            } else if (authName == "test_api_key_query") { 
+                auth = new ApiKeyAuth("query", "test_api_key_query");
+            } else if (authName == "test_api_key_header") { 
+                auth = new ApiKeyAuth("header", "test_api_key_header");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
@@ -119,6 +128,7 @@ public class ApiClient {
                 .baseUrl(baseUrl)
                 .client(okClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
 
