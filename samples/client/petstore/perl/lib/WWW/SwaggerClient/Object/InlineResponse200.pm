@@ -103,6 +103,13 @@ __PACKAGE__->class_documentation({description => '',
 }                                 );
 
 __PACKAGE__->method_documentation({
+    'tags' => {
+    	datatype => 'ARRAY[Tag]',
+    	base_name => 'tags',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
     'id' => {
     	datatype => 'int',
     	base_name => 'id',
@@ -117,9 +124,23 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
+    'status' => {
+    	datatype => 'string',
+    	base_name => 'status',
+    	description => 'pet status in the store',
+    	format => '',
+    	read_only => '',
+    		},
     'name' => {
     	datatype => 'string',
     	base_name => 'name',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
+    'photo_urls' => {
+    	datatype => 'ARRAY[string]',
+    	base_name => 'photoUrls',
     	description => '',
     	format => '',
     	read_only => '',
@@ -128,15 +149,21 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->swagger_types( {
+    'tags' => 'ARRAY[Tag]',
     'id' => 'int',
     'category' => 'object',
-    'name' => 'string'
+    'status' => 'string',
+    'name' => 'string',
+    'photo_urls' => 'ARRAY[string]'
 } );
 
 __PACKAGE__->attribute_map( {
+    'tags' => 'tags',
     'id' => 'id',
     'category' => 'category',
-    'name' => 'name'
+    'status' => 'status',
+    'name' => 'name',
+    'photo_urls' => 'photoUrls'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

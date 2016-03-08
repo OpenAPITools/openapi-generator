@@ -263,6 +263,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             writeToFile(filename, tmpl.execute(models));
                             files.add(new File(filename));
                         }
+
+                        // to generate model documentation files
+                        for (String templateName : config.modelDocTemplateFiles().keySet()) {
+                            String suffix = config.modelDocTemplateFiles().get(templateName);
+                            String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(name) + suffix;
+                            if (!config.shouldOverwrite(filename)) {
+                                continue;
+                            }
+                            String templateFile = getFullTemplateFile(config, templateName);
+                            String template = readTemplate(templateFile);
+                            Template tmpl = Mustache.compiler()
+                                    .withLoader(new Mustache.TemplateLoader() {
+                                        @Override
+                                        public Reader getTemplate(String name) {
+                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                                        }
+                                    })
+                                    .defaultValue("")
+                                    .compile(template);
+                            writeToFile(filename, tmpl.execute(models));
+                            files.add(new File(filename));
+                        }
                     } catch (Exception e) {
                         throw new RuntimeException("Could not generate model '" + name + "'", e);
                     }
@@ -348,6 +370,29 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     // to generate api test files
                     for (String templateName : config.apiTestTemplateFiles().keySet()) {
                         String filename = config.apiTestFilename(templateName, tag);
+                        if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
+                            continue;
+                        }
+
+                        String templateFile = getFullTemplateFile(config, templateName);
+                        String template = readTemplate(templateFile);
+                        Template tmpl = Mustache.compiler()
+                                .withLoader(new Mustache.TemplateLoader() {
+                                    @Override
+                                    public Reader getTemplate(String name) {
+                                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                                    }
+                                })
+                                .defaultValue("")
+                                .compile(template);
+
+                        writeToFile(filename, tmpl.execute(operation));
+                        files.add(new File(filename));
+                    }
+
+                    // to generate api documentation files
+                    for (String templateName : config.apiDocTemplateFiles().keySet()) {
+                        String filename = config.apiDocFilename(templateName, tag);
                         if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
                             continue;
                         }

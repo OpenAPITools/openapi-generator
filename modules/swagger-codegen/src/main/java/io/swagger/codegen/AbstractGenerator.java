@@ -69,6 +69,7 @@ public abstract class AbstractGenerator {
      *
      * @param config Codegen config
      * @param templateFile Template file
+     * @return String Full template file path
      */
     public String getFullTemplateFile(CodegenConfig config, String templateFile) {
         String library = config.getLibrary();

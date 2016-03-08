@@ -25,6 +25,14 @@ $WWW::SwaggerClient::Configuration::password = 'password';
 
 my $api = WWW::SwaggerClient::PetApi->new();
 
+# exception handling
+#eval {
+#    print "\nget_pet_by_id:".Dumper $api->get_pet_by_id(pet_id => 9999);
+#};
+#if ($@) {
+#    print "Exception when calling: $@\n";
+#}
+
 my $pet_id = 10008;
 
 my $category =  WWW::SwaggerClient::Object::Category->new('id' => '2', 'name' => 'perl');

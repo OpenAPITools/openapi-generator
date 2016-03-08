@@ -54,7 +54,7 @@ sub new {
 {{#operation}}
 
 #
-# {{{nickname}}}
+# {{{operationId}}}
 #
 # {{{summary}}}
 # 
@@ -70,7 +70,7 @@ sub new {
     },
 {{/allParams}}
     };
-    __PACKAGE__->method_documentation->{ {{nickname}} } = { 
+    __PACKAGE__->method_documentation->{ {{operationId}} } = { 
     	summary => '{{summary}}',
         params => $params,
         returns => {{#returnType}}'{{{returnType}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
@@ -78,13 +78,13 @@ sub new {
 }
 # @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 #
-sub {{nickname}} {
+sub {{operationId}} {
     my ($self, %args) = @_;
 
     {{#allParams}}{{#required}}
     # verify the required parameter '{{paramName}}' is set
     unless (exists $args{'{{paramName}}'}) {
-      croak("Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+      croak("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
     }
     {{/required}}{{/allParams}}
 

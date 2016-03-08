@@ -1293,6 +1293,7 @@
       }
     },
     "Return": {
+      "descripton": "Model for testing reserved words",
       "properties": {
         "return": {
           "type": "integer",

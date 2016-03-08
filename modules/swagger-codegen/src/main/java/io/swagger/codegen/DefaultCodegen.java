@@ -69,6 +69,8 @@ public class DefaultCodegen {
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> apiDocTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -228,6 +230,14 @@ public class DefaultCodegen {
         }
     }
 
+    public Map<String, String> apiDocTemplateFiles() {
+        return apiDocTemplateFiles;
+    }
+
+    public Map<String, String> modelDocTemplateFiles() {
+        return modelDocTemplateFiles;
+    }
+
     public Map<String, String> apiTestTemplateFiles() {
         return apiTestTemplateFiles;
     }
@@ -258,6 +268,14 @@ public class DefaultCodegen {
 
     public String modelTestFileFolder() {
         return outputFolder + "/" + testPackage().replace('.', '/');
+    }
+
+    public String apiDocFileFolder() {
+        return outputFolder;
+    }
+
+    public String modelDocFileFolder() {
+        return outputFolder;
     }
 
     public Map<String, Object> additionalProperties() {
@@ -323,6 +341,16 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the file name of the Api Documentation 
+     * 
+     * @param name the file name of the Api
+     * @return the file name of the Api
+     */
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
+    }
+
+    /**
      * Return the file name of the Api Test
      *
      * @param name the file name of the Api
@@ -362,6 +390,16 @@ public class DefaultCodegen {
         return initialCaps(name) + "Test";
     }
 
+    /**
+     * Return the capitalized file name of the model documentation
+     * 
+     * @param name the model name
+     * @return the file name of the model
+     */
+    public String toModelDocFilename(String name) {
+        return initialCaps(name);
+    }
+    
     /**
      * Return the operation ID (method name)
      *
@@ -615,12 +653,20 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the example value of the parameter. 
+     *
+     * @param p Swagger property object
+     */
+    public void setParameterExampleValue(CodegenParameter p) {
+
+    }
+
+    /**
      * Return the example value of the property
      *
      * @param p Swagger property object
      * @return string presentation of the example value of the property
      */
-    @SuppressWarnings("static-method")
     public String toExampleValue(Property p) {
         if(p.getExample() != null) {
             return p.getExample().toString();
@@ -1452,6 +1498,14 @@ public class DefaultCodegen {
                         }
                     }
                 }
+
+                // set isPrimitiveType and baseType for allParams
+                /*if (languageSpecificPrimitives.contains(p.baseType)) {
+                    p.isPrimitiveType = true;
+                    p.baseType = getSwaggerType(p);
+                }*/
+
+
                 allParams.add(p);
                 if (param instanceof QueryParameter) {
                     p.isQueryParam = new Boolean(true);
@@ -1723,7 +1777,9 @@ public class DefaultCodegen {
                     prop.setRequired(bp.getRequired());
                     CodegenProperty cp = fromProperty("property", prop);
                     if (cp != null) {
+                        p.baseType = cp.baseType;
                         p.dataType = cp.datatype;
+                        p.isPrimitiveType = cp.isPrimitiveType;
                         p.isBinary = cp.datatype.toLowerCase().startsWith("byte");
                     }
 
@@ -1743,6 +1799,8 @@ public class DefaultCodegen {
                 }
                 imports.add(cp.baseType);
                 p.dataType = cp.datatype;
+                p.baseType = cp.complexType;
+                p.isPrimitiveType = cp.isPrimitiveType;
                 p.isContainer = true;
                 p.isListContainer = true;
 
@@ -1763,10 +1821,46 @@ public class DefaultCodegen {
                         name = getTypeDeclaration(name);
                     }
                     p.dataType = name;
+                    p.baseType = name;
                 }
             }
             p.paramName = toParamName(bp.getName());
         }
+
+        // set the example value
+        // if not specified in x-example, generate a default value
+        if (p.vendorExtensions.containsKey("x-example")) {
+            p.example = (String) p.vendorExtensions.get("x-example");
+        } else if (Boolean.TRUE.equals(p.isString)) {
+            p.example = p.paramName + "_example";
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            p.example = new String("true");
+        } else if (Boolean.TRUE.equals(p.isLong)) {
+            p.example = new String("789");
+        } else if (Boolean.TRUE.equals(p.isInteger)) {
+            p.example = new String("56");
+        } else if (Boolean.TRUE.equals(p.isFloat)) {
+            p.example = new String("3.4");
+        } else if (Boolean.TRUE.equals(p.isDouble)) {
+            p.example = new String("1.2");
+        } else if (Boolean.TRUE.equals(p.isBinary)) {
+            p.example = new String("BINARY_DATA_HERE");
+        } else if (Boolean.TRUE.equals(p.isByteArray)) {
+            p.example = new String("B");
+        } else if (Boolean.TRUE.equals(p.isDate)) {
+            p.example = new String("2013-10-20");
+        } else if (Boolean.TRUE.equals(p.isDateTime)) {
+            p.example = new String("2013-10-20T19:20:30+01:00");
+        } else if (param instanceof FormParameter &&
+                ("file".equalsIgnoreCase(((FormParameter) param).getType()) ||
+                "file".equals(p.baseType))) {
+            p.isFile = true;
+            p.example = new String("/path/to/file.txt");
+        }
+
+        // set the parameter excample value
+        // should be overridden by lang codegen
+        setParameterExampleValue(p);
 
         postProcessParameter(p);
         return p;
@@ -2197,6 +2291,19 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the full path and API documentation file
+     *
+     * @param templateName template name
+     * @param tag tag
+     *
+     * @return the API documentation file name with full path
+     */
+    public String apiDocFilename(String templateName, String tag) {
+        String suffix = apiDocTemplateFiles().get(templateName);
+        return apiDocFileFolder() + '/' + toApiDocFilename(tag) + suffix;
+    }
+
+    /**
      * Return the full path and API test file
      *
      * @param templateName template name
@@ -2361,24 +2468,34 @@ public class DefaultCodegen {
 
         if (Boolean.TRUE.equals(property.isString)) {
             parameter.isString = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBoolean)) {
             parameter.isBoolean = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isLong)) {
             parameter.isLong = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isInteger)) {
             parameter.isInteger = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDouble)) {
             parameter.isDouble = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isFloat)) {
             parameter.isFloat = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isByteArray)) {
             parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBinary)) {
             parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDate)) {
             parameter.isDate = true;
+            parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDateTime)) {
             parameter.isDateTime = true;
+            parameter.isPrimitiveType = true;
         } else {
             LOGGER.debug("Property type is not primitive: " + property.datatype);
         }
