@@ -24,13 +24,13 @@ Update an existing pet
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $body = WWW::SwaggerClient::Object::Pet->new(); # [Pet] Pet object that needs to be added to the store
 
 eval { 
-    my $result = $api->update_pet(body => $body);
+    $api->update_pet(body => $body);
 };
 if ($@) {
     warn "Exception when calling update_pet: $@\n";
@@ -66,13 +66,13 @@ Add a new pet to the store
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $body = WWW::SwaggerClient::Object::Pet->new(); # [Pet] Pet object that needs to be added to the store
 
 eval { 
-    my $result = $api->add_pet(body => $body);
+    $api->add_pet(body => $body);
 };
 if ($@) {
     warn "Exception when calling add_pet: $@\n";
@@ -102,13 +102,13 @@ petstore_auth
 
 
 # **find_pets_by_status**
-> find_pets_by_status(status => $status)
+> ARRAY[Pet] find_pets_by_status(status => $status)
 
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $status = (); # [ARRAY[string]] Status values that need to be considered for query
@@ -144,13 +144,13 @@ petstore_auth
 
 
 # **find_pets_by_tags**
-> find_pets_by_tags(tags => $tags)
+> ARRAY[Pet] find_pets_by_tags(tags => $tags)
 
 Finds Pets by tags
 
 Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $tags = (); # [ARRAY[string]] Tags to filter by
@@ -186,13 +186,13 @@ petstore_auth
 
 
 # **get_pet_by_id**
-> get_pet_by_id(pet_id => $pet_id)
+> Pet get_pet_by_id(pet_id => $pet_id)
 
 Find pet by ID
 
 Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # [int] ID of pet that needs to be fetched
@@ -234,7 +234,7 @@ Updates a pet in the store with form data
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 'pet_id_example'; # [string] ID of pet that needs to be updated
@@ -242,7 +242,7 @@ my $name = 'name_example'; # [string] Updated name of the pet
 my $status = 'status_example'; # [string] Updated status of the pet
 
 eval { 
-    my $result = $api->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
+    $api->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
 };
 if ($@) {
     warn "Exception when calling update_pet_with_form: $@\n";
@@ -280,14 +280,14 @@ Deletes a pet
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # [int] Pet id to delete
 my $api_key = 'api_key_example'; # [string] 
 
 eval { 
-    my $result = $api->delete_pet(pet_id => $pet_id, api_key => $api_key);
+    $api->delete_pet(pet_id => $pet_id, api_key => $api_key);
 };
 if ($@) {
     warn "Exception when calling delete_pet: $@\n";
@@ -324,7 +324,7 @@ uploads an image
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # [int] ID of pet to update
@@ -332,7 +332,7 @@ my $additional_metadata = 'additional_metadata_example'; # [string] Additional d
 my $file = '/path/to/file.txt'; # [File] file to upload
 
 eval { 
-    my $result = $api->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
+    $api->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
 };
 if ($@) {
     warn "Exception when calling upload_file: $@\n";
@@ -364,13 +364,13 @@ petstore_auth
 
 
 # **get_pet_by_id_in_object**
-> get_pet_by_id_in_object(pet_id => $pet_id)
+> InlineResponse200 get_pet_by_id_in_object(pet_id => $pet_id)
 
 Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
 
 Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # [int] ID of pet that needs to be fetched
@@ -406,13 +406,13 @@ api_keypetstore_auth
 
 
 # **pet_pet_idtesting_byte_arraytrue_get**
-> pet_pet_idtesting_byte_arraytrue_get(pet_id => $pet_id)
+> string pet_pet_idtesting_byte_arraytrue_get(pet_id => $pet_id)
 
 Fake endpoint to test byte array return by 'Find pet by ID'
 
 Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # [int] ID of pet that needs to be fetched
@@ -432,7 +432,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**string**](string.md)
+**string**
 
 ### HTTP headers
 
@@ -454,13 +454,13 @@ Fake endpoint to test byte array in body parameter for adding a new pet to the s
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::PetApi->new();
 my $body = WWW::SwaggerClient::Object::string->new(); # [string] Pet object in the form of byte array
 
 eval { 
-    my $result = $api->add_pet_using_byte_array(body => $body);
+    $api->add_pet_using_byte_array(body => $body);
 };
 if ($@) {
     warn "Exception when calling add_pet_using_byte_array: $@\n";
