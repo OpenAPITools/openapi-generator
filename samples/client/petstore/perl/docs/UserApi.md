@@ -21,13 +21,13 @@ Create user
 
 This can only be done by the logged in user.
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 my $body = WWW::SwaggerClient::Object::User->new(); # [User] Created user object
 
 eval { 
-    my $result = $api->create_user(body => $body);
+    $api->create_user(body => $body);
 };
 if ($@) {
     warn "Exception when calling create_user: $@\n";
@@ -63,13 +63,13 @@ Creates list of users with given input array
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # [ARRAY[User]] List of user object
 
 eval { 
-    my $result = $api->create_users_with_array_input(body => $body);
+    $api->create_users_with_array_input(body => $body);
 };
 if ($@) {
     warn "Exception when calling create_users_with_array_input: $@\n";
@@ -105,13 +105,13 @@ Creates list of users with given input array
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # [ARRAY[User]] List of user object
 
 eval { 
-    my $result = $api->create_users_with_list_input(body => $body);
+    $api->create_users_with_list_input(body => $body);
 };
 if ($@) {
     warn "Exception when calling create_users_with_list_input: $@\n";
@@ -141,13 +141,13 @@ No authentiation required
 
 
 # **login_user**
-> login_user(username => $username, password => $password)
+> string login_user(username => $username, password => $password)
 
 Logs user into the system
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] The user name for login
@@ -169,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**string**](string.md)
+**string**
 
 ### HTTP headers
 
@@ -191,12 +191,12 @@ Logs out current logged in user session
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 
 eval { 
-    my $result = $api->logout_user();
+    $api->logout_user();
 };
 if ($@) {
     warn "Exception when calling logout_user: $@\n";
@@ -225,13 +225,13 @@ No authentiation required
 
 
 # **get_user_by_name**
-> get_user_by_name(username => $username)
+> User get_user_by_name(username => $username)
 
 Get user by user name
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] The name that needs to be fetched. Use user1 for testing.
@@ -273,14 +273,14 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] name that need to be deleted
 my $body = WWW::SwaggerClient::Object::User->new(); # [User] Updated user object
 
 eval { 
-    my $result = $api->update_user(username => $username, body => $body);
+    $api->update_user(username => $username, body => $body);
 };
 if ($@) {
     warn "Exception when calling update_user: $@\n";
@@ -317,13 +317,13 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] The name that needs to be deleted
 
 eval { 
-    my $result = $api->delete_user(username => $username);
+    $api->delete_user(username => $username);
 };
 if ($@) {
     warn "Exception when calling delete_user: $@\n";

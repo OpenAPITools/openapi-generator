@@ -13,13 +13,13 @@ Method | HTTP request | Description
 
 
 # **find_orders_by_status**
-> find_orders_by_status(status => $status)
+> ARRAY[Order] find_orders_by_status(status => $status)
 
 Finds orders by status
 
 A single status value can be provided as a string
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::StoreApi->new();
 my $status = 'status_example'; # [string] Status value that needs to be considered for query
@@ -55,13 +55,13 @@ test_api_client_idtest_api_client_secret
 
 
 # **get_inventory**
-> get_inventory()
+> HASH[string,int] get_inventory()
 
 Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::StoreApi->new();
 
@@ -79,7 +79,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**HASH[string,int]**](HASH.md)
+**HASH[string,int]**
 
 ### HTTP headers
 
@@ -95,13 +95,13 @@ api_key
 
 
 # **get_inventory_in_object**
-> get_inventory_in_object()
+> object get_inventory_in_object()
 
 Fake endpoint to test arbitrary object return by 'Get inventory'
 
 Returns an arbitrary object which is actually a map of status codes to quantities
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::StoreApi->new();
 
@@ -119,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**object**](object.md)
+**object**
 
 ### HTTP headers
 
@@ -135,13 +135,13 @@ api_key
 
 
 # **place_order**
-> place_order(body => $body)
+> Order place_order(body => $body)
 
 Place an order for a pet
 
 
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::StoreApi->new();
 my $body = WWW::SwaggerClient::Object::Order->new(); # [Order] order placed for purchasing the pet
@@ -177,13 +177,13 @@ test_api_client_idtest_api_client_secret
 
 
 # **get_order_by_id**
-> get_order_by_id(order_id => $order_id)
+> Order get_order_by_id(order_id => $order_id)
 
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::StoreApi->new();
 my $order_id = 'order_id_example'; # [string] ID of pet that needs to be fetched
@@ -225,13 +225,13 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Sample 
+### Example 
 ```perl
 my $api = WWW::SwaggerClient::StoreApi->new();
 my $order_id = 'order_id_example'; # [string] ID of the order that needs to be deleted
 
 eval { 
-    my $result = $api->delete_order(order_id => $order_id);
+    $api->delete_order(order_id => $order_id);
 };
 if ($@) {
     warn "Exception when calling delete_order: $@\n";
