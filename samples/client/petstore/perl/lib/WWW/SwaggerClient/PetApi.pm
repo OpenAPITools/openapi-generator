@@ -52,71 +52,6 @@ sub new {
 
 
 #
-# update_pet
-#
-# Update an existing pet
-# 
-# @param Pet $body Pet object that needs to be added to the store (optional)
-{
-    my $params = {
-    'body' => {
-        data_type => 'Pet',
-        description => 'Pet object that needs to be added to the store',
-        required => '0',
-    },
-    };
-    __PACKAGE__->method_documentation->{ update_pet } = { 
-    	summary => 'Update an existing pet',
-        params => $params,
-        returns => undef,
-        };
-}
-# @return void
-#
-sub update_pet {
-    my ($self, %args) = @_;
-
-    
-
-    # parse inputs
-    my $_resource_path = '/pet';
-    $_resource_path =~ s/{format}/json/; # default format to json
-
-    my $_method = 'PUT';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml');
-
-    
-    
-    
-    
-    my $_body_data;
-    # body params
-    if ( exists $args{'body'}) {
-        $_body_data = $args{'body'};
-    }
-
-    # authentication setting, if any
-    my $auth_settings = [qw(petstore_auth )];
-
-    # make the API Call
-    
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    return;
-    
-}
-
-#
 # add_pet
 #
 # Add a new pet to the store
@@ -168,6 +103,152 @@ sub add_pet {
     if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
     }
+
+    # authentication setting, if any
+    my $auth_settings = [qw(petstore_auth )];
+
+    # make the API Call
+    
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+    
+}
+
+#
+# add_pet_using_byte_array
+#
+# Fake endpoint to test byte array in body parameter for adding a new pet to the store
+# 
+# @param string $body Pet object in the form of byte array (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'string',
+        description => 'Pet object in the form of byte array',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ add_pet_using_byte_array } = { 
+    	summary => 'Fake endpoint to test byte array in body parameter for adding a new pet to the store',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub add_pet_using_byte_array {
+    my ($self, %args) = @_;
+
+    
+
+    # parse inputs
+    my $_resource_path = '/pet?testing_byte_array=true';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml');
+
+    
+    
+    
+    
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw(petstore_auth )];
+
+    # make the API Call
+    
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+    
+}
+
+#
+# delete_pet
+#
+# Deletes a pet
+# 
+# @param int $pet_id Pet id to delete (required)
+# @param string $api_key  (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'Pet id to delete',
+        required => '1',
+    },
+    'api_key' => {
+        data_type => 'string',
+        description => '',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ delete_pet } = { 
+    	summary => 'Deletes a pet',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub delete_pet {
+    my ($self, %args) = @_;
+
+    
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling delete_pet");
+    }
+    
+
+    # parse inputs
+    my $_resource_path = '/pet/{petId}';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'DELETE';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    
+    # header params
+    if ( exists $args{'api_key'}) {
+        $header_params->{'api_key'} = $self->{api_client}->to_header_value($args{'api_key'});
+    }
+    # path params
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+    
+    my $_body_data;
+    
 
     # authentication setting, if any
     my $auth_settings = [qw(petstore_auth )];
@@ -393,276 +474,6 @@ sub get_pet_by_id {
 }
 
 #
-# update_pet_with_form
-#
-# Updates a pet in the store with form data
-# 
-# @param string $pet_id ID of pet that needs to be updated (required)
-# @param string $name Updated name of the pet (optional)
-# @param string $status Updated status of the pet (optional)
-{
-    my $params = {
-    'pet_id' => {
-        data_type => 'string',
-        description => 'ID of pet that needs to be updated',
-        required => '1',
-    },
-    'name' => {
-        data_type => 'string',
-        description => 'Updated name of the pet',
-        required => '0',
-    },
-    'status' => {
-        data_type => 'string',
-        description => 'Updated status of the pet',
-        required => '0',
-    },
-    };
-    __PACKAGE__->method_documentation->{ update_pet_with_form } = { 
-    	summary => 'Updates a pet in the store with form data',
-        params => $params,
-        returns => undef,
-        };
-}
-# @return void
-#
-sub update_pet_with_form {
-    my ($self, %args) = @_;
-
-    
-    # verify the required parameter 'pet_id' is set
-    unless (exists $args{'pet_id'}) {
-      croak("Missing the required parameter 'pet_id' when calling update_pet_with_form");
-    }
-    
-
-    # parse inputs
-    my $_resource_path = '/pet/{petId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
-
-    my $_method = 'POST';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
-
-    
-    
-    # path params
-    if ( exists $args{'pet_id'}) {
-        my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
-        $_resource_path =~ s/$_base_variable/$_base_value/g;
-    }
-    # form params
-    if ( exists $args{'name'} ) {
-        
-        $form_params->{'name'} = $self->{api_client}->to_form_value($args{'name'});
-        
-    }# form params
-    if ( exists $args{'status'} ) {
-        
-        $form_params->{'status'} = $self->{api_client}->to_form_value($args{'status'});
-        
-    }
-    my $_body_data;
-    
-
-    # authentication setting, if any
-    my $auth_settings = [qw(petstore_auth )];
-
-    # make the API Call
-    
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    return;
-    
-}
-
-#
-# delete_pet
-#
-# Deletes a pet
-# 
-# @param int $pet_id Pet id to delete (required)
-# @param string $api_key  (optional)
-{
-    my $params = {
-    'pet_id' => {
-        data_type => 'int',
-        description => 'Pet id to delete',
-        required => '1',
-    },
-    'api_key' => {
-        data_type => 'string',
-        description => '',
-        required => '0',
-    },
-    };
-    __PACKAGE__->method_documentation->{ delete_pet } = { 
-    	summary => 'Deletes a pet',
-        params => $params,
-        returns => undef,
-        };
-}
-# @return void
-#
-sub delete_pet {
-    my ($self, %args) = @_;
-
-    
-    # verify the required parameter 'pet_id' is set
-    unless (exists $args{'pet_id'}) {
-      croak("Missing the required parameter 'pet_id' when calling delete_pet");
-    }
-    
-
-    # parse inputs
-    my $_resource_path = '/pet/{petId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
-
-    my $_method = 'DELETE';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
-
-    
-    # header params
-    if ( exists $args{'api_key'}) {
-        $header_params->{'api_key'} = $self->{api_client}->to_header_value($args{'api_key'});
-    }
-    # path params
-    if ( exists $args{'pet_id'}) {
-        my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
-        $_resource_path =~ s/$_base_variable/$_base_value/g;
-    }
-    
-    my $_body_data;
-    
-
-    # authentication setting, if any
-    my $auth_settings = [qw(petstore_auth )];
-
-    # make the API Call
-    
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    return;
-    
-}
-
-#
-# upload_file
-#
-# uploads an image
-# 
-# @param int $pet_id ID of pet to update (required)
-# @param string $additional_metadata Additional data to pass to server (optional)
-# @param File $file file to upload (optional)
-{
-    my $params = {
-    'pet_id' => {
-        data_type => 'int',
-        description => 'ID of pet to update',
-        required => '1',
-    },
-    'additional_metadata' => {
-        data_type => 'string',
-        description => 'Additional data to pass to server',
-        required => '0',
-    },
-    'file' => {
-        data_type => 'File',
-        description => 'file to upload',
-        required => '0',
-    },
-    };
-    __PACKAGE__->method_documentation->{ upload_file } = { 
-    	summary => 'uploads an image',
-        params => $params,
-        returns => undef,
-        };
-}
-# @return void
-#
-sub upload_file {
-    my ($self, %args) = @_;
-
-    
-    # verify the required parameter 'pet_id' is set
-    unless (exists $args{'pet_id'}) {
-      croak("Missing the required parameter 'pet_id' when calling upload_file");
-    }
-    
-
-    # parse inputs
-    my $_resource_path = '/pet/{petId}/uploadImage';
-    $_resource_path =~ s/{format}/json/; # default format to json
-
-    my $_method = 'POST';
-    my $query_params = {};
-    my $header_params = {};
-    my $form_params = {};
-
-    # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
-    if ($_header_accept) {
-        $header_params->{'Accept'} = $_header_accept;
-    }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('multipart/form-data');
-
-    
-    
-    # path params
-    if ( exists $args{'pet_id'}) {
-        my $_base_variable = "{" . "petId" . "}";
-        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
-        $_resource_path =~ s/$_base_variable/$_base_value/g;
-    }
-    # form params
-    if ( exists $args{'additional_metadata'} ) {
-        
-        $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
-        
-    }# form params
-    if ( exists $args{'file'} ) {
-        $form_params->{'file'} = [] unless defined $form_params->{'file'};
-        push @{$form_params->{'file'}}, $args{'file'};
-        
-        
-    }
-    my $_body_data;
-    
-
-    # authentication setting, if any
-    my $auth_settings = [qw(petstore_auth )];
-
-    # make the API Call
-    
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    return;
-    
-}
-
-#
 # get_pet_by_id_in_object
 #
 # Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
@@ -813,37 +624,37 @@ sub pet_pet_idtesting_byte_arraytrue_get {
 }
 
 #
-# add_pet_using_byte_array
+# update_pet
 #
-# Fake endpoint to test byte array in body parameter for adding a new pet to the store
+# Update an existing pet
 # 
-# @param string $body Pet object in the form of byte array (optional)
+# @param Pet $body Pet object that needs to be added to the store (optional)
 {
     my $params = {
     'body' => {
-        data_type => 'string',
-        description => 'Pet object in the form of byte array',
+        data_type => 'Pet',
+        description => 'Pet object that needs to be added to the store',
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ add_pet_using_byte_array } = { 
-    	summary => 'Fake endpoint to test byte array in body parameter for adding a new pet to the store',
+    __PACKAGE__->method_documentation->{ update_pet } = { 
+    	summary => 'Update an existing pet',
         params => $params,
         returns => undef,
         };
 }
 # @return void
 #
-sub add_pet_using_byte_array {
+sub update_pet {
     my ($self, %args) = @_;
 
     
 
     # parse inputs
-    my $_resource_path = '/pet?testing_byte_array=true';
+    my $_resource_path = '/pet';
     $_resource_path =~ s/{format}/json/; # default format to json
 
-    my $_method = 'POST';
+    my $_method = 'PUT';
     my $query_params = {};
     my $header_params = {};
     my $form_params = {};
@@ -864,6 +675,195 @@ sub add_pet_using_byte_array {
     if ( exists $args{'body'}) {
         $_body_data = $args{'body'};
     }
+
+    # authentication setting, if any
+    my $auth_settings = [qw(petstore_auth )];
+
+    # make the API Call
+    
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+    
+}
+
+#
+# update_pet_with_form
+#
+# Updates a pet in the store with form data
+# 
+# @param string $pet_id ID of pet that needs to be updated (required)
+# @param string $name Updated name of the pet (optional)
+# @param string $status Updated status of the pet (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'string',
+        description => 'ID of pet that needs to be updated',
+        required => '1',
+    },
+    'name' => {
+        data_type => 'string',
+        description => 'Updated name of the pet',
+        required => '0',
+    },
+    'status' => {
+        data_type => 'string',
+        description => 'Updated status of the pet',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ update_pet_with_form } = { 
+    	summary => 'Updates a pet in the store with form data',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub update_pet_with_form {
+    my ($self, %args) = @_;
+
+    
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling update_pet_with_form");
+    }
+    
+
+    # parse inputs
+    my $_resource_path = '/pet/{petId}';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
+
+    
+    
+    # path params
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+    # form params
+    if ( exists $args{'name'} ) {
+        
+        $form_params->{'name'} = $self->{api_client}->to_form_value($args{'name'});
+        
+    }# form params
+    if ( exists $args{'status'} ) {
+        
+        $form_params->{'status'} = $self->{api_client}->to_form_value($args{'status'});
+        
+    }
+    my $_body_data;
+    
+
+    # authentication setting, if any
+    my $auth_settings = [qw(petstore_auth )];
+
+    # make the API Call
+    
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+    
+}
+
+#
+# upload_file
+#
+# uploads an image
+# 
+# @param int $pet_id ID of pet to update (required)
+# @param string $additional_metadata Additional data to pass to server (optional)
+# @param File $file file to upload (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'ID of pet to update',
+        required => '1',
+    },
+    'additional_metadata' => {
+        data_type => 'string',
+        description => 'Additional data to pass to server',
+        required => '0',
+    },
+    'file' => {
+        data_type => 'File',
+        description => 'file to upload',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ upload_file } = { 
+    	summary => 'uploads an image',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub upload_file {
+    my ($self, %args) = @_;
+
+    
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling upload_file");
+    }
+    
+
+    # parse inputs
+    my $_resource_path = '/pet/{petId}/uploadImage';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('multipart/form-data');
+
+    
+    
+    # path params
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+    # form params
+    if ( exists $args{'additional_metadata'} ) {
+        
+        $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
+        
+    }# form params
+    if ( exists $args{'file'} ) {
+        $form_params->{'file'} = [] unless defined $form_params->{'file'};
+        push @{$form_params->{'file'}}, $args{'file'};
+        
+        
+    }
+    my $_body_data;
+    
 
     # authentication setting, if any
     my $auth_settings = [qw(petstore_auth )];

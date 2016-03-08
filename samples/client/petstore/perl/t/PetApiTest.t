@@ -30,19 +30,28 @@ my $api = WWW::SwaggerClient::PetApi->new();
 isa_ok($api, 'WWW::SwaggerClient::PetApi');
 
 #
-# update_pet test
-#
-{
-    my $body = undef; # replace NULL with a proper value
-    my $result = $api->update_pet(body => $body);
-}
-
-#
 # add_pet test
 #
 {
     my $body = undef; # replace NULL with a proper value
     my $result = $api->add_pet(body => $body);
+}
+
+#
+# add_pet_using_byte_array test
+#
+{
+    my $body = undef; # replace NULL with a proper value
+    my $result = $api->add_pet_using_byte_array(body => $body);
+}
+
+#
+# delete_pet test
+#
+{
+    my $pet_id = undef; # replace NULL with a proper value
+    my $api_key = undef; # replace NULL with a proper value
+    my $result = $api->delete_pet(pet_id => $pet_id, api_key => $api_key);
 }
 
 #
@@ -70,35 +79,6 @@ isa_ok($api, 'WWW::SwaggerClient::PetApi');
 }
 
 #
-# update_pet_with_form test
-#
-{
-    my $pet_id = undef; # replace NULL with a proper value
-    my $name = undef; # replace NULL with a proper value
-    my $status = undef; # replace NULL with a proper value
-    my $result = $api->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
-}
-
-#
-# delete_pet test
-#
-{
-    my $pet_id = undef; # replace NULL with a proper value
-    my $api_key = undef; # replace NULL with a proper value
-    my $result = $api->delete_pet(pet_id => $pet_id, api_key => $api_key);
-}
-
-#
-# upload_file test
-#
-{
-    my $pet_id = undef; # replace NULL with a proper value
-    my $additional_metadata = undef; # replace NULL with a proper value
-    my $file = undef; # replace NULL with a proper value
-    my $result = $api->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
-}
-
-#
 # get_pet_by_id_in_object test
 #
 {
@@ -115,11 +95,31 @@ isa_ok($api, 'WWW::SwaggerClient::PetApi');
 }
 
 #
-# add_pet_using_byte_array test
+# update_pet test
 #
 {
     my $body = undef; # replace NULL with a proper value
-    my $result = $api->add_pet_using_byte_array(body => $body);
+    my $result = $api->update_pet(body => $body);
+}
+
+#
+# update_pet_with_form test
+#
+{
+    my $pet_id = undef; # replace NULL with a proper value
+    my $name = undef; # replace NULL with a proper value
+    my $status = undef; # replace NULL with a proper value
+    my $result = $api->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
+}
+
+#
+# upload_file test
+#
+{
+    my $pet_id = undef; # replace NULL with a proper value
+    my $additional_metadata = undef; # replace NULL with a proper value
+    my $file = undef; # replace NULL with a proper value
+    my $result = $api->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
 }
 
 
