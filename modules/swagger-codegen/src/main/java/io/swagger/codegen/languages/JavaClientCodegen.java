@@ -525,7 +525,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-
+        if(codegenModel.description != null) {
+            codegenModel.imports.add("ApiModel");
+        }
         if (allDefinitions != null && codegenModel != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
@@ -584,6 +586,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
 
