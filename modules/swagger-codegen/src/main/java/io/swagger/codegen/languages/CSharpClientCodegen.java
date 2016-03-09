@@ -34,6 +34,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final String NET45 = "v4.5";
     private static final String NET35 = "v3.5";
+    private static final String DATA_TYPE_WITH_ENUM_EXTENSION = "plainDatatypeWithEnum";
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
     protected String packageTitle = "Swagger Library";
@@ -286,7 +287,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-    	
     	Map<String, Object> objs = super.postProcessModels(objMap);
     	
         List<Object> models = (List<Object>) objs.get("models");
@@ -331,23 +331,27 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
                 allowableValues.put("enumVars", enumVars);
                 // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
+
+                // HACK: strip ? from enum
+                if (var.datatypeWithEnum != null) {
+                    var.vendorExtensions.put(DATA_TYPE_WITH_ENUM_EXTENSION, var.datatypeWithEnum.substring(0, var.datatypeWithEnum.length() - 1));
+                }
+                
                 if (var.defaultValue != null) {
                     String enumName = null;
+                    
                     for (Map<String, String> enumVar : enumVars) {
-                        if (var.defaultValue.equals(enumVar.get("value"))) {
+                    	
+                        if (var.defaultValue.replace("\"", "").equals(enumVar.get("value"))) {
                             enumName = enumVar.get("name");
                             break;
                         }
                     }
-                    if (enumName != null) {
-                        var.defaultValue = var.datatypeWithEnum + "." + enumName;
+                    if (enumName != null && var.vendorExtensions.containsKey(DATA_TYPE_WITH_ENUM_EXTENSION)) {
+                        var.defaultValue = var.vendorExtensions.get(DATA_TYPE_WITH_ENUM_EXTENSION) + "." + enumName;
                     }
                 }
 
-                // HACK: strip ? from enum
-                if (var.datatypeWithEnum != null) {
-                    var.vendorExtensions.put("plainDatatypeWithEnum", var.datatypeWithEnum.substring(0, var.datatypeWithEnum.length() - 1));
-                }
             }
         }
 
