@@ -84,6 +84,38 @@ describe 'UserApi' do
     end
   end
 
+  # unit tests for delete_user
+  # Delete user
+  # This can only be done by the logged in user.
+  # @param username The name that needs to be deleted
+  # @param [Hash] opts the optional parameters
+  # @return [nil]
+  describe 'delete_user test' do
+    it "should work" do
+      # assertion here
+      # should be_a()
+      # should be_nil
+      # should ==
+      # should_not ==
+    end
+  end
+
+  # unit tests for get_user_by_name
+  # Get user by user name
+  # 
+  # @param username The name that needs to be fetched. Use user1 for testing.
+  # @param [Hash] opts the optional parameters
+  # @return [User]
+  describe 'get_user_by_name test' do
+    it "should work" do
+      # assertion here
+      # should be_a()
+      # should be_nil
+      # should ==
+      # should_not ==
+    end
+  end
+
   # unit tests for login_user
   # Logs user into the system
   # 
@@ -116,22 +148,6 @@ describe 'UserApi' do
     end
   end
 
-  # unit tests for get_user_by_name
-  # Get user by user name
-  # 
-  # @param username The name that needs to be fetched. Use user1 for testing.
-  # @param [Hash] opts the optional parameters
-  # @return [User]
-  describe 'get_user_by_name test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
   # unit tests for update_user
   # Updated user
   # This can only be done by the logged in user.
@@ -140,22 +156,6 @@ describe 'UserApi' do
   # @option opts [User] :body Updated user object
   # @return [nil]
   describe 'update_user test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
-  # unit tests for delete_user
-  # Delete user
-  # This can only be done by the logged in user.
-  # @param username The name that needs to be deleted
-  # @param [Hash] opts the optional parameters
-  # @return [nil]
-  describe 'delete_user test' do
     it "should work" do
       # assertion here
       # should be_a()
