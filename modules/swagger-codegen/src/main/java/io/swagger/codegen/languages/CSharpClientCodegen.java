@@ -285,7 +285,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
+    	
+    	Map<String, Object> objs = super.postProcessModels(objMap);
+    	
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
