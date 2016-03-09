@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -40,6 +41,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemDescription = "This gem maps to a swagger API";
     protected String gemAuthor = "";
     protected String gemAuthorEmail = "";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     protected static int emptyMethodNameCounter = 0;
 
@@ -50,6 +53,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "ruby";
         modelTemplateFiles.put("model.mustache", ".rb");
         apiTemplateFiles.put("api.mustache", ".rb");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "ruby";
 
         modelTestTemplateFiles.put("model_test.mustache", ".rb");
@@ -206,6 +211,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
 
@@ -272,6 +278,16 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
     public String getTypeDeclaration(Property p) {
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
@@ -328,7 +344,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) { 
+            if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
@@ -415,12 +431,22 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toModelDocFilename(String name) {
+        return toModelFilename(name);
+    }
+
+    @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(name) + "_api";
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiFilename(name);
     }
 
     @Override
@@ -464,6 +490,16 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiImport(String name) {
         return gemName + "/" + apiPackage() + "/" + toApiFilename(name);
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) ||
+                Boolean.TRUE.equals(p.isByteArray) || Boolean.TRUE.equals(p.isFile)) {
+            p.example = "\"" + escapeText(p.example) + "\"";
+        } else if (Boolean.TRUE.equals(p.isDateTime) || Boolean.TRUE.equals(p.isDate)) {
+            p.example = "Date.parse(\"" + escapeText(p.example) + "\")";
+        }
     }
 
     public void setGemName(String gemName) {

@@ -1,0 +1,59 @@
+# {{moduleName}}::{{classname}}{{#description}}
+{{description}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+# **{{{operationId}}}**
+> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
+
+{{{summary}}}{{#notes}}
+
+{{{notes}}}{{/notes}}
+
+### Example
+```ruby
+api = {{moduleName}}::{{classname}}.new
+{{#allParams}}{{#required}}{{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::{{dataType}}.new{{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}} # [{{{dataType}}}] {{description}}
+{{/required}}{{/allParams}}
+opts = { {{#allParams}}{{^required}}
+  {{paramName}}: {{{example}}},{{/required}}{{/allParams}}
+}
+
+begin
+  {{#returnType}}result = {{/returnType}}api.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
+rescue {{moduleName}}::ApiError => e
+  puts "Exception when calling {{operationId}}: #{e}"
+end
+```
+
+### Parameters
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP reuqest headers
+
+ - **Content-Type**: {{#consumes}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+
+
+{{/operation}}
+{{/operations}}

@@ -36,13 +36,13 @@ describe 'PetApi' do
     end
   end
 
-  # unit tests for update_pet
-  # Update an existing pet
+  # unit tests for add_pet
+  # Add a new pet to the store
   # 
   # @param [Hash] opts the optional parameters
   # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return [nil]
-  describe 'update_pet test' do
+  describe 'add_pet test' do
     it "should work" do
       # assertion here
       # should be_a()
@@ -52,13 +52,30 @@ describe 'PetApi' do
     end
   end
 
-  # unit tests for add_pet
-  # Add a new pet to the store
+  # unit tests for add_pet_using_byte_array
+  # Fake endpoint to test byte array in body parameter for adding a new pet to the store
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [Pet] :body Pet object that needs to be added to the store
+  # @option opts [String] :body Pet object in the form of byte array
   # @return [nil]
-  describe 'add_pet test' do
+  describe 'add_pet_using_byte_array test' do
+    it "should work" do
+      # assertion here
+      # should be_a()
+      # should be_nil
+      # should ==
+      # should_not ==
+    end
+  end
+
+  # unit tests for delete_pet
+  # Deletes a pet
+  # 
+  # @param pet_id Pet id to delete
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :api_key 
+  # @return [nil]
+  describe 'delete_pet test' do
     it "should work" do
       # assertion here
       # should be_a()
@@ -116,59 +133,6 @@ describe 'PetApi' do
     end
   end
 
-  # unit tests for update_pet_with_form
-  # Updates a pet in the store with form data
-  # 
-  # @param pet_id ID of pet that needs to be updated
-  # @param [Hash] opts the optional parameters
-  # @option opts [String] :name Updated name of the pet
-  # @option opts [String] :status Updated status of the pet
-  # @return [nil]
-  describe 'update_pet_with_form test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
-  # unit tests for delete_pet
-  # Deletes a pet
-  # 
-  # @param pet_id Pet id to delete
-  # @param [Hash] opts the optional parameters
-  # @option opts [String] :api_key 
-  # @return [nil]
-  describe 'delete_pet test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
-  # unit tests for upload_file
-  # uploads an image
-  # 
-  # @param pet_id ID of pet to update
-  # @param [Hash] opts the optional parameters
-  # @option opts [String] :additional_metadata Additional data to pass to server
-  # @option opts [File] :file file to upload
-  # @return [nil]
-  describe 'upload_file test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
   # unit tests for get_pet_by_id_in_object
   # Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
   # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -201,13 +165,49 @@ describe 'PetApi' do
     end
   end
 
-  # unit tests for add_pet_using_byte_array
-  # Fake endpoint to test byte array in body parameter for adding a new pet to the store
+  # unit tests for update_pet
+  # Update an existing pet
   # 
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :body Pet object in the form of byte array
+  # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return [nil]
-  describe 'add_pet_using_byte_array test' do
+  describe 'update_pet test' do
+    it "should work" do
+      # assertion here
+      # should be_a()
+      # should be_nil
+      # should ==
+      # should_not ==
+    end
+  end
+
+  # unit tests for update_pet_with_form
+  # Updates a pet in the store with form data
+  # 
+  # @param pet_id ID of pet that needs to be updated
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :name Updated name of the pet
+  # @option opts [String] :status Updated status of the pet
+  # @return [nil]
+  describe 'update_pet_with_form test' do
+    it "should work" do
+      # assertion here
+      # should be_a()
+      # should be_nil
+      # should ==
+      # should_not ==
+    end
+  end
+
+  # unit tests for upload_file
+  # uploads an image
+  # 
+  # @param pet_id ID of pet to update
+  # @param [Hash] opts the optional parameters
+  # @option opts [String] :additional_metadata Additional data to pass to server
+  # @option opts [File] :file file to upload
+  # @return [nil]
+  describe 'upload_file test' do
     it "should work" do
       # assertion here
       # should be_a()

@@ -17,35 +17,14 @@ Terms of Service: http://swagger.io/terms/
 require 'date'
 
 module Petstore
-  class InlineResponse200
-    attr_accessor :photo_urls
-
-    attr_accessor :name
-
-    attr_accessor :id
-
-    attr_accessor :category
-
-    attr_accessor :tags
-
-    # pet status in the store
-    attr_accessor :status
+  class ModelReturn
+    attr_accessor :_return
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         
-        :'photo_urls' => :'photoUrls',
-        
-        :'name' => :'name',
-        
-        :'id' => :'id',
-        
-        :'category' => :'category',
-        
-        :'tags' => :'tags',
-        
-        :'status' => :'status'
+        :'_return' => :'return'
         
       }
     end
@@ -53,12 +32,7 @@ module Petstore
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'photo_urls' => :'Array<String>',
-        :'name' => :'String',
-        :'id' => :'Integer',
-        :'category' => :'Object',
-        :'tags' => :'Array<Tag>',
-        :'status' => :'String'
+        :'_return' => :'Integer'
         
       }
     end
@@ -70,55 +44,17 @@ module Petstore
       attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
 
       
-      if attributes[:'photoUrls']
-        if (value = attributes[:'photoUrls']).is_a?(Array)
-          self.photo_urls = value
-        end
+      if attributes[:'return']
+        self._return = attributes[:'return']
       end
       
-      if attributes[:'name']
-        self.name = attributes[:'name']
-      end
-      
-      if attributes[:'id']
-        self.id = attributes[:'id']
-      end
-      
-      if attributes[:'category']
-        self.category = attributes[:'category']
-      end
-      
-      if attributes[:'tags']
-        if (value = attributes[:'tags']).is_a?(Array)
-          self.tags = value
-        end
-      end
-      
-      if attributes[:'status']
-        self.status = attributes[:'status']
-      end
-      
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    def status=(status)
-      allowed_values = ["available", "pending", "sold"]
-      if status && !allowed_values.include?(status)
-        fail "invalid value for 'status', must be one of #{allowed_values}"
-      end
-      @status = status
     end
 
     # Check equality by comparing each attribute.
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          photo_urls == o.photo_urls &&
-          name == o.name &&
-          id == o.id &&
-          category == o.category &&
-          tags == o.tags &&
-          status == o.status
+          _return == o._return
     end
 
     # @see the `==` method
@@ -128,7 +64,7 @@ module Petstore
 
     # Calculate hash code according to all attributes.
     def hash
-      [photo_urls, name, id, category, tags, status].hash
+      [_return].hash
     end
 
     # build the object from hash
