@@ -461,7 +461,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
  **additional_metadata** | **string**| Additional data to pass to server | [optional] 
- **file** | [**File**](.md)| file to upload | [optional] 
+ **file** | **File**| file to upload | [optional] 
 
 ### Return type
 
