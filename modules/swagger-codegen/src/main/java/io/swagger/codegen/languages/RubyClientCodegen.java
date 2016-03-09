@@ -199,6 +199,9 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         // use constant model/api package (folder path)
         setModelPackage("models");
@@ -433,7 +436,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelDocFilename(String name) {
-        return toModelFilename(name);
+        return toModelName(name);
     }
 
     @Override
@@ -447,7 +450,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiDocFilename(String name) {
-        return toApiFilename(name);
+        return toApiName(name);
     }
 
     @Override
