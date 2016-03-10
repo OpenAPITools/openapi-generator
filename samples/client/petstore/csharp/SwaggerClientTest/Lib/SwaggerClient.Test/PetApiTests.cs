@@ -54,19 +54,6 @@ namespace IO.Swagger.Test
 
         
         /// <summary>
-        /// Test UpdatePet
-        /// </summary>
-        [Test]
-        public void UpdatePetTest()
-        {
-            // TODO: add unit test for the method 'UpdatePet'
-            Pet body = null; // TODO: replace null with proper value
-            
-            instance.UpdatePet(body);
-             
-        }
-        
-        /// <summary>
         /// Test AddPet
         /// </summary>
         [Test]
@@ -76,6 +63,33 @@ namespace IO.Swagger.Test
             Pet body = null; // TODO: replace null with proper value
             
             instance.AddPet(body);
+             
+        }
+        
+        /// <summary>
+        /// Test AddPetUsingByteArray
+        /// </summary>
+        [Test]
+        public void AddPetUsingByteArrayTest()
+        {
+            // TODO: add unit test for the method 'AddPetUsingByteArray'
+            byte[] body = null; // TODO: replace null with proper value
+            
+            instance.AddPetUsingByteArray(body);
+             
+        }
+        
+        /// <summary>
+        /// Test DeletePet
+        /// </summary>
+        [Test]
+        public void DeletePetTest()
+        {
+            // TODO: add unit test for the method 'DeletePet'
+            long? petId = null; // TODO: replace null with proper value
+            string apiKey = null; // TODO: replace null with proper value
+            
+            instance.DeletePet(petId, apiKey);
              
         }
         
@@ -119,50 +133,6 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
-        /// Test UpdatePetWithForm
-        /// </summary>
-        [Test]
-        public void UpdatePetWithFormTest()
-        {
-            // TODO: add unit test for the method 'UpdatePetWithForm'
-            string petId = null; // TODO: replace null with proper value
-            string name = null; // TODO: replace null with proper value
-            string status = null; // TODO: replace null with proper value
-            
-            instance.UpdatePetWithForm(petId, name, status);
-             
-        }
-        
-        /// <summary>
-        /// Test DeletePet
-        /// </summary>
-        [Test]
-        public void DeletePetTest()
-        {
-            // TODO: add unit test for the method 'DeletePet'
-            long? petId = null; // TODO: replace null with proper value
-            string apiKey = null; // TODO: replace null with proper value
-            
-            instance.DeletePet(petId, apiKey);
-             
-        }
-        
-        /// <summary>
-        /// Test UploadFile
-        /// </summary>
-        [Test]
-        public void UploadFileTest()
-        {
-            // TODO: add unit test for the method 'UploadFile'
-            long? petId = null; // TODO: replace null with proper value
-            string additionalMetadata = null; // TODO: replace null with proper value
-            Stream file = null; // TODO: replace null with proper value
-            
-            instance.UploadFile(petId, additionalMetadata, file);
-             
-        }
-        
-        /// <summary>
         /// Test GetPetByIdInObject
         /// </summary>
         [Test]
@@ -189,15 +159,45 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
-        /// Test AddPetUsingByteArray
+        /// Test UpdatePet
         /// </summary>
         [Test]
-        public void AddPetUsingByteArrayTest()
+        public void UpdatePetTest()
         {
-            // TODO: add unit test for the method 'AddPetUsingByteArray'
-            byte[] body = null; // TODO: replace null with proper value
+            // TODO: add unit test for the method 'UpdatePet'
+            Pet body = null; // TODO: replace null with proper value
             
-            instance.AddPetUsingByteArray(body);
+            instance.UpdatePet(body);
+             
+        }
+        
+        /// <summary>
+        /// Test UpdatePetWithForm
+        /// </summary>
+        [Test]
+        public void UpdatePetWithFormTest()
+        {
+            // TODO: add unit test for the method 'UpdatePetWithForm'
+            string petId = null; // TODO: replace null with proper value
+            string name = null; // TODO: replace null with proper value
+            string status = null; // TODO: replace null with proper value
+            
+            instance.UpdatePetWithForm(petId, name, status);
+             
+        }
+        
+        /// <summary>
+        /// Test UploadFile
+        /// </summary>
+        [Test]
+        public void UploadFileTest()
+        {
+            // TODO: add unit test for the method 'UploadFile'
+            long? petId = null; // TODO: replace null with proper value
+            string additionalMetadata = null; // TODO: replace null with proper value
+            Stream file = null; // TODO: replace null with proper value
+            
+            instance.UploadFile(petId, additionalMetadata, file);
              
         }
         

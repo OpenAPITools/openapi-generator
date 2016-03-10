@@ -1303,6 +1303,18 @@
       "xml": {
         "name": "Return"
       }
+    },
+    "Name": {
+      "descripton": "Model for testing reserved words",
+      "properties": {
+        "name": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Name"
+      }
     }
   }
 }
