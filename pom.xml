@@ -415,6 +415,18 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-resteasy-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-server</id>
             <activation>
                 <property>
@@ -473,6 +485,7 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/server/petstore/jaxrs</module>
+                <module>samples/server/petstore/jaxrs-resteasy</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
             </modules>
