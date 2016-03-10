@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-29T12:55:35.772+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-10T11:48:21.307-08:00")
 public class UserApi {
   private ApiClient apiClient;
 
@@ -156,6 +156,100 @@ public class UserApi {
   }
   
   /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @throws ApiException if fails to make API call
+   */
+  public void deleteUser(String username) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+      throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+
+    
+
+    
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    
+    apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+    
+  }
+  
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return User
+   * @throws ApiException if fails to make API call
+   */
+  public User getUserByName(String username) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+      throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+
+    
+
+    
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    
+    GenericType<User> localVarReturnType = new GenericType<User>() {};
+    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    
+  }
+  
+  /**
    * Logs user into the system
    * 
    * @param username The user name for login
@@ -242,54 +336,6 @@ public class UserApi {
   }
   
   /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-   * @throws ApiException if fails to make API call
-   */
-  public User getUserByName(String username) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'username' is set
-    if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
-    }
-    
-    // create path and map variables
-    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] localVarAccepts = {
-      "application/json", "application/xml"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    
-    GenericType<User> localVarReturnType = new GenericType<User>() {};
-    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    
-  }
-  
-  /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
@@ -333,52 +379,6 @@ public class UserApi {
 
     
     apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    
-  }
-  
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @throws ApiException if fails to make API call
-   */
-  public void deleteUser(String username) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'username' is set
-    if (username == null) {
-      throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
-    }
-    
-    // create path and map variables
-    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] localVarAccepts = {
-      "application/json", "application/xml"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    
-    apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
     
   }
   
