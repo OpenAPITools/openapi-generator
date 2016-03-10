@@ -18,7 +18,7 @@ import javax.ws.rs.*;
 @Path("/pet?testing_byte_array=true")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-03-10T09:43:22.889+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-03-10T11:00:42.854+08:00")
 public class PettestingByteArraytrueApi  {
    private final PettestingByteArraytrueApiService delegate = PettestingByteArraytrueApiServiceFactory.getPettestingByteArraytrueApi();
 
