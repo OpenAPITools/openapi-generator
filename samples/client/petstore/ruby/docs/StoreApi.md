@@ -13,22 +13,21 @@ Method | HTTP request | Description
 
 
 # **delete_order**
-> delete_order(order_id, opts)
+> delete_order(order_id)
 
 Delete purchase order by ID
 
-For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
 ```ruby
 api = Petstore::StoreApi.new
+
 order_id = "order_id_example" # [String] ID of the order that needs to be deleted
 
-opts = { 
-}
 
 begin
-  api.delete_order(order_id, opts)
+  api.delete_order(order_id)
 rescue Petstore::ApiError => e
   puts "Exception when calling delete_order: #{e}"
 end
@@ -56,7 +55,7 @@ No authorization required
 
 
 # **find_orders_by_status**
-> Array<Order> find_orders_by_status(opts)
+> Array&lt;Order&gt; find_orders_by_status(opts)
 
 Finds orders by status
 
@@ -67,7 +66,7 @@ A single status value can be provided as a string
 api = Petstore::StoreApi.new
 
 opts = { 
-  status: "status_example",
+  status: "status_example" # [String] Status value that needs to be considered for query
 }
 
 begin
@@ -85,7 +84,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Array<Order>**](Order.md)
+[**Array&lt;Order&gt;**](Order.md)
 
 ### Authorization
 
@@ -99,7 +98,7 @@ Name | Type | Description  | Notes
 
 
 # **get_inventory**
-> Hash<String, Integer> get_inventory(opts)
+> Hash&lt;String, Integer&gt; get_inventory
 
 Returns pet inventories by status
 
@@ -109,11 +108,8 @@ Returns a map of status codes to quantities
 ```ruby
 api = Petstore::StoreApi.new
 
-opts = { 
-}
-
 begin
-  result = api.get_inventory(opts)
+  result = api.get_inventory
 rescue Petstore::ApiError => e
   puts "Exception when calling get_inventory: #{e}"
 end
@@ -124,7 +120,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Hash<String, Integer>**
+**Hash&lt;String, Integer&gt;**
 
 ### Authorization
 
@@ -138,9 +134,9 @@ This endpoint does not need any parameter.
 
 
 # **get_inventory_in_object**
-> Object get_inventory_in_object(opts)
+> Object get_inventory_in_object
 
-Fake endpoint to test arbitrary object return by 'Get inventory'
+Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
 
 Returns an arbitrary object which is actually a map of status codes to quantities
 
@@ -148,11 +144,8 @@ Returns an arbitrary object which is actually a map of status codes to quantitie
 ```ruby
 api = Petstore::StoreApi.new
 
-opts = { 
-}
-
 begin
-  result = api.get_inventory_in_object(opts)
+  result = api.get_inventory_in_object
 rescue Petstore::ApiError => e
   puts "Exception when calling get_inventory_in_object: #{e}"
 end
@@ -177,22 +170,21 @@ This endpoint does not need any parameter.
 
 
 # **get_order_by_id**
-> Order get_order_by_id(order_id, opts)
+> Order get_order_by_id(order_id)
 
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
 
 ### Example
 ```ruby
 api = Petstore::StoreApi.new
+
 order_id = "order_id_example" # [String] ID of pet that needs to be fetched
 
-opts = { 
-}
 
 begin
-  result = api.get_order_by_id(order_id, opts)
+  result = api.get_order_by_id(order_id)
 rescue Petstore::ApiError => e
   puts "Exception when calling get_order_by_id: #{e}"
 end
@@ -231,7 +223,7 @@ Place an order for a pet
 api = Petstore::StoreApi.new
 
 opts = { 
-  body: ,
+  body: Petstore::Order.new # [Order] order placed for purchasing the pet
 }
 
 begin

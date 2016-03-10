@@ -29,7 +29,7 @@ Add a new pet to the store
 api = Petstore::PetApi.new
 
 opts = { 
-  body: ,
+  body: Petstore::Pet.new # [Pet] Pet object that needs to be added to the store
 }
 
 begin
@@ -72,7 +72,7 @@ Fake endpoint to test byte array in body parameter for adding a new pet to the s
 api = Petstore::PetApi.new
 
 opts = { 
-  body: "B",
+  body: Petstore::String.new # [String] Pet object in the form of byte array
 }
 
 begin
@@ -113,10 +113,11 @@ Deletes a pet
 ### Example
 ```ruby
 api = Petstore::PetApi.new
+
 pet_id = 789 # [Integer] Pet id to delete
 
 opts = { 
-  api_key: "api_key_example",
+  api_key: "api_key_example" # [String] 
 }
 
 begin
@@ -149,7 +150,7 @@ nil (empty response body)
 
 
 # **find_pets_by_status**
-> Array<Pet> find_pets_by_status(opts)
+> Array&lt;Pet&gt; find_pets_by_status(opts)
 
 Finds Pets by status
 
@@ -160,7 +161,7 @@ Multiple status values can be provided with comma separated strings
 api = Petstore::PetApi.new
 
 opts = { 
-  status: ,
+  status: [] # [Array<String>] Status values that need to be considered for query
 }
 
 begin
@@ -178,7 +179,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Array<Pet>**](Pet.md)
+[**Array&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -192,7 +193,7 @@ Name | Type | Description  | Notes
 
 
 # **find_pets_by_tags**
-> Array<Pet> find_pets_by_tags(opts)
+> Array&lt;Pet&gt; find_pets_by_tags(opts)
 
 Finds Pets by tags
 
@@ -203,7 +204,7 @@ Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 
 api = Petstore::PetApi.new
 
 opts = { 
-  tags: ,
+  tags: [] # [Array<String>] Tags to filter by
 }
 
 begin
@@ -221,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Array<Pet>**](Pet.md)
+[**Array&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
@@ -235,22 +236,21 @@ Name | Type | Description  | Notes
 
 
 # **get_pet_by_id**
-> Pet get_pet_by_id(pet_id, opts)
+> Pet get_pet_by_id(pet_id)
 
 Find pet by ID
 
-Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
 
 ### Example
 ```ruby
 api = Petstore::PetApi.new
+
 pet_id = 789 # [Integer] ID of pet that needs to be fetched
 
-opts = { 
-}
 
 begin
-  result = api.get_pet_by_id(pet_id, opts)
+  result = api.get_pet_by_id(pet_id)
 rescue Petstore::ApiError => e
   puts "Exception when calling get_pet_by_id: #{e}"
 end
@@ -278,22 +278,21 @@ Name | Type | Description  | Notes
 
 
 # **get_pet_by_id_in_object**
-> InlineResponse200 get_pet_by_id_in_object(pet_id, opts)
+> InlineResponse200 get_pet_by_id_in_object(pet_id)
 
-Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
 
-Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
 
 ### Example
 ```ruby
 api = Petstore::PetApi.new
+
 pet_id = 789 # [Integer] ID of pet that needs to be fetched
 
-opts = { 
-}
 
 begin
-  result = api.get_pet_by_id_in_object(pet_id, opts)
+  result = api.get_pet_by_id_in_object(pet_id)
 rescue Petstore::ApiError => e
   puts "Exception when calling get_pet_by_id_in_object: #{e}"
 end
@@ -321,22 +320,21 @@ Name | Type | Description  | Notes
 
 
 # **pet_pet_idtesting_byte_arraytrue_get**
-> String pet_pet_idtesting_byte_arraytrue_get(pet_id, opts)
+> String pet_pet_idtesting_byte_arraytrue_get(pet_id)
 
-Fake endpoint to test byte array return by 'Find pet by ID'
+Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
 
-Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
 
 ### Example
 ```ruby
 api = Petstore::PetApi.new
+
 pet_id = 789 # [Integer] ID of pet that needs to be fetched
 
-opts = { 
-}
 
 begin
-  result = api.pet_pet_idtesting_byte_arraytrue_get(pet_id, opts)
+  result = api.pet_pet_idtesting_byte_arraytrue_get(pet_id)
 rescue Petstore::ApiError => e
   puts "Exception when calling pet_pet_idtesting_byte_arraytrue_get: #{e}"
 end
@@ -375,7 +373,7 @@ Update an existing pet
 api = Petstore::PetApi.new
 
 opts = { 
-  body: ,
+  body: Petstore::Pet.new # [Pet] Pet object that needs to be added to the store
 }
 
 begin
@@ -416,11 +414,12 @@ Updates a pet in the store with form data
 ### Example
 ```ruby
 api = Petstore::PetApi.new
+
 pet_id = "pet_id_example" # [String] ID of pet that needs to be updated
 
 opts = { 
-  name: "name_example",
-  status: "status_example",
+  name: "name_example", # [String] Updated name of the pet
+  status: "status_example" # [String] Updated status of the pet
 }
 
 begin
@@ -463,11 +462,12 @@ uploads an image
 ### Example
 ```ruby
 api = Petstore::PetApi.new
+
 pet_id = 789 # [Integer] ID of pet to update
 
 opts = { 
-  additional_metadata: "additional_metadata_example",
-  file: "/path/to/file.txt",
+  additional_metadata: "additional_metadata_example", # [String] Additional data to pass to server
+  file: File.new("/path/to/file.txt") # [File] file to upload
 }
 
 begin
