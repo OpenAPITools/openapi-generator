@@ -62,6 +62,9 @@
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\InlineResponse200.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ObjectReturn.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\SpecialModelName.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ModelReturn.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Name.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Task.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

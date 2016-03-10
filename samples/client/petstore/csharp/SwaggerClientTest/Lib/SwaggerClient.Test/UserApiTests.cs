@@ -93,6 +93,32 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
+        /// Test DeleteUser
+        /// </summary>
+        [Test]
+        public void DeleteUserTest()
+        {
+            // TODO: add unit test for the method 'DeleteUser'
+            string username = null; // TODO: replace null with proper value
+            
+            instance.DeleteUser(username);
+             
+        }
+        
+        /// <summary>
+        /// Test GetUserByName
+        /// </summary>
+        [Test]
+        public void GetUserByNameTest()
+        {
+            // TODO: add unit test for the method 'GetUserByName'
+            string username = null; // TODO: replace null with proper value
+            
+            var response = instance.GetUserByName(username);
+            Assert.IsInstanceOf<User> (response, "response is User"); 
+        }
+        
+        /// <summary>
         /// Test LoginUser
         /// </summary>
         [Test]
@@ -119,19 +145,6 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
-        /// Test GetUserByName
-        /// </summary>
-        [Test]
-        public void GetUserByNameTest()
-        {
-            // TODO: add unit test for the method 'GetUserByName'
-            string username = null; // TODO: replace null with proper value
-            
-            var response = instance.GetUserByName(username);
-            Assert.IsInstanceOf<User> (response, "response is User"); 
-        }
-        
-        /// <summary>
         /// Test UpdateUser
         /// </summary>
         [Test]
@@ -142,19 +155,6 @@ namespace IO.Swagger.Test
             User body = null; // TODO: replace null with proper value
             
             instance.UpdateUser(username, body);
-             
-        }
-        
-        /// <summary>
-        /// Test DeleteUser
-        /// </summary>
-        [Test]
-        public void DeleteUserTest()
-        {
-            // TODO: add unit test for the method 'DeleteUser'
-            string username = null; // TODO: replace null with proper value
-            
-            instance.DeleteUser(username);
              
         }
         
