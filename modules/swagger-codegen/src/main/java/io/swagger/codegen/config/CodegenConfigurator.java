@@ -60,6 +60,10 @@ public class CodegenConfigurator {
     private Map<String, String> additionalProperties = new HashMap<String, String>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
+    private String gitUserId;
+    private String gitRepoId;
+    private String releaseNote;
+    private String releaseVersion;
 
     private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
@@ -292,6 +296,42 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setLibrary(String library) {
         this.library = library;
+        return this;
+    }
+
+    public String getGitUserId() {
+        return gitUserId;
+    }
+
+    public CodegenConfigurator setGitUserId(String gitUserId) {
+        this.gitUserId = gitUserId;
+        return this;
+    }
+
+    public String getGitRepoId() {
+        return gitRepoId;
+    }
+
+    public CodegenConfigurator setGitRepoId(String gitRepoId) {
+        this.gitRepoId = gitRepoId;
+        return this;
+    }
+
+    public String getReleaseNote() {
+        return releaseNote;
+    }
+
+    public CodegenConfigurator setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+        return this;
+    }
+
+    public String getReleaseVersion() {
+        return releaseVersion;
+    }
+
+    public CodegenConfigurator setReleaseVersion(String releaseVersion) {
+        this.releaseVersion = releaseVersion;
         return this;
     }
 
