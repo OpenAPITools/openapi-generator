@@ -10,26 +10,27 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-# **{{{operationId}}}**
-> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
+# **{{operationId}}**
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}{{#hasParams}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}
 
-{{{summary}}}{{#notes}}
+{{summary}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{notes}}{{/notes}}
 
 ### Example
 ```ruby
-api = {{moduleName}}::{{classname}}.new
-{{#allParams}}{{#required}}{{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::{{dataType}}.new{{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}} # [{{{dataType}}}] {{description}}
-{{/required}}{{/allParams}}
+api = {{{moduleName}}}::{{{classname}}}.new{{#hasParams}}
+{{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
+{{{paramName}}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::{{{baseType}}}.new{{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}} # [{{{dataType}}}] {{{description}}}
+{{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
 opts = { {{#allParams}}{{^required}}
-  {{paramName}}: {{{example}}},{{/required}}{{/allParams}}
-}
+  {{{paramName}}}: {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::{{{baseType}}}.new{{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} # [{{{dataType}}}] {{{description}}}{{/required}}{{/allParams}}
+}{{/hasOptionalParams}}{{/hasParams}}
 
 begin
-  {{#returnType}}result = {{/returnType}}api.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
-rescue {{moduleName}}::ApiError => e
-  puts "Exception when calling {{operationId}}: #{e}"
+  {{#returnType}}result = {{/returnType}}api.{{{operationId}}}{{#hasParams}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}
+rescue {{{moduleName}}}::ApiError => e
+  puts "Exception when calling {{{operationId}}}: #{e}"
 end
 ```
 
@@ -42,11 +43,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil (empty response body){{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}nil (empty response body){{/returnType}}
 
 ### Authorization
 
-{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
 
 ### HTTP reuqest headers
 

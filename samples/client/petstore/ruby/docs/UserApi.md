@@ -26,7 +26,7 @@ This can only be done by the logged in user.
 api = Petstore::UserApi.new
 
 opts = { 
-  body: ,
+  body: Petstore::User.new # [User] Created user object
 }
 
 begin
@@ -69,7 +69,7 @@ Creates list of users with given input array
 api = Petstore::UserApi.new
 
 opts = { 
-  body: ,
+  body: [Petstore::User.new] # [Array<User>] List of user object
 }
 
 begin
@@ -112,7 +112,7 @@ Creates list of users with given input array
 api = Petstore::UserApi.new
 
 opts = { 
-  body: ,
+  body: [Petstore::User.new] # [Array<User>] List of user object
 }
 
 begin
@@ -144,7 +144,7 @@ No authorization required
 
 
 # **delete_user**
-> delete_user(username, opts)
+> delete_user(username)
 
 Delete user
 
@@ -153,13 +153,12 @@ This can only be done by the logged in user.
 ### Example
 ```ruby
 api = Petstore::UserApi.new
+
 username = "username_example" # [String] The name that needs to be deleted
 
-opts = { 
-}
 
 begin
-  api.delete_user(username, opts)
+  api.delete_user(username)
 rescue Petstore::ApiError => e
   puts "Exception when calling delete_user: #{e}"
 end
@@ -187,7 +186,7 @@ No authorization required
 
 
 # **get_user_by_name**
-> User get_user_by_name(username, opts)
+> User get_user_by_name(username)
 
 Get user by user name
 
@@ -196,13 +195,12 @@ Get user by user name
 ### Example
 ```ruby
 api = Petstore::UserApi.new
+
 username = "username_example" # [String] The name that needs to be fetched. Use user1 for testing.
 
-opts = { 
-}
 
 begin
-  result = api.get_user_by_name(username, opts)
+  result = api.get_user_by_name(username)
 rescue Petstore::ApiError => e
   puts "Exception when calling get_user_by_name: #{e}"
 end
@@ -241,8 +239,8 @@ Logs user into the system
 api = Petstore::UserApi.new
 
 opts = { 
-  username: "username_example",
-  password: "password_example",
+  username: "username_example", # [String] The user name for login
+  password: "password_example" # [String] The password for login in clear text
 }
 
 begin
@@ -275,7 +273,7 @@ No authorization required
 
 
 # **logout_user**
-> logout_user(opts)
+> logout_user
 
 Logs out current logged in user session
 
@@ -285,11 +283,8 @@ Logs out current logged in user session
 ```ruby
 api = Petstore::UserApi.new
 
-opts = { 
-}
-
 begin
-  api.logout_user(opts)
+  api.logout_user
 rescue Petstore::ApiError => e
   puts "Exception when calling logout_user: #{e}"
 end
@@ -323,10 +318,11 @@ This can only be done by the logged in user.
 ### Example
 ```ruby
 api = Petstore::UserApi.new
+
 username = "username_example" # [String] name that need to be deleted
 
 opts = { 
-  body: ,
+  body: Petstore::User.new # [User] Updated user object
 }
 
 begin
