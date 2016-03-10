@@ -54,6 +54,19 @@ namespace IO.Swagger.Test
 
         
         /// <summary>
+        /// Test DeleteOrder
+        /// </summary>
+        [Test]
+        public void DeleteOrderTest()
+        {
+            // TODO: add unit test for the method 'DeleteOrder'
+            string orderId = null; // TODO: replace null with proper value
+            
+            instance.DeleteOrder(orderId);
+             
+        }
+        
+        /// <summary>
         /// Test FindOrdersByStatus
         /// </summary>
         [Test]
@@ -91,19 +104,6 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
-        /// Test PlaceOrder
-        /// </summary>
-        [Test]
-        public void PlaceOrderTest()
-        {
-            // TODO: add unit test for the method 'PlaceOrder'
-            Order body = null; // TODO: replace null with proper value
-            
-            var response = instance.PlaceOrder(body);
-            Assert.IsInstanceOf<Order> (response, "response is Order"); 
-        }
-        
-        /// <summary>
         /// Test GetOrderById
         /// </summary>
         [Test]
@@ -117,16 +117,16 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
-        /// Test DeleteOrder
+        /// Test PlaceOrder
         /// </summary>
         [Test]
-        public void DeleteOrderTest()
+        public void PlaceOrderTest()
         {
-            // TODO: add unit test for the method 'DeleteOrder'
-            string orderId = null; // TODO: replace null with proper value
+            // TODO: add unit test for the method 'PlaceOrder'
+            Order body = null; // TODO: replace null with proper value
             
-            instance.DeleteOrder(orderId);
-             
+            var response = instance.PlaceOrder(body);
+            Assert.IsInstanceOf<Order> (response, "response is Order"); 
         }
         
     }
