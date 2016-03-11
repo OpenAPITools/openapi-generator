@@ -63,6 +63,18 @@ A single status value can be provided as a string
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure API key authorization: test_api_client_id
+  config.api_key['x-test_api_client_id'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['x-test_api_client_id'] = "Token"
+
+  # Configure API key authorization: test_api_client_secret
+  config.api_key['x-test_api_client_secret'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['x-test_api_client_secret'] = "Token"
+end
+
 api = Petstore::StoreApi.new
 
 opts = { 
@@ -106,6 +118,13 @@ Returns a map of status codes to quantities
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure API key authorization: api_key
+  config.api_key['api_key'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['api_key'] = "Token"
+end
+
 api = Petstore::StoreApi.new
 
 begin
@@ -142,6 +161,13 @@ Returns an arbitrary object which is actually a map of status codes to quantitie
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure API key authorization: api_key
+  config.api_key['api_key'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['api_key'] = "Token"
+end
+
 api = Petstore::StoreApi.new
 
 begin
@@ -178,6 +204,18 @@ For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values w
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure API key authorization: test_api_key_query
+  config.api_key['test_api_key_query'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['test_api_key_query'] = "Token"
+
+  # Configure API key authorization: test_api_key_header
+  config.api_key['test_api_key_header'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['test_api_key_header'] = "Token"
+end
+
 api = Petstore::StoreApi.new
 
 order_id = "order_id_example" # [String] ID of pet that needs to be fetched
@@ -220,6 +258,18 @@ Place an order for a pet
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure API key authorization: test_api_client_id
+  config.api_key['x-test_api_client_id'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['x-test_api_client_id'] = "Token"
+
+  # Configure API key authorization: test_api_client_secret
+  config.api_key['x-test_api_client_secret'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['x-test_api_client_secret'] = "Token"
+end
+
 api = Petstore::StoreApi.new
 
 opts = { 
