@@ -120,22 +120,6 @@ public class DefaultCodegen {
             this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
         }
 
-        if (StringUtils.isEmpty(this.getGitRepoId()))
-            this.setGitRepoId("YOUR_GIT_REPO_ID");
-        additionalProperties.put(CodegenConstants.GIT_REPO_ID, this.getGitRepoId());
-
-        if (StringUtils.isEmpty(this.getGitUserId()))
-            this.setGitUserId("YOUR_GIT_USER_ID");
-        additionalProperties.put(CodegenConstants.GIT_USER_ID, this.getGitUserId());
-
-        if (StringUtils.isEmpty(this.getReleaseNote()))
-            this.setReleaseNote("Minor update");
-        additionalProperties.put(CodegenConstants.RELEASE_NOTE, this.getReleaseNote());
-
-        if (StringUtils.isEmpty(this.getReleaseVersion()))
-            this.setReleaseVersion("0.1.0");
-        additionalProperties.put(CodegenConstants.RELEASE_VERSION, this.getReleaseVersion());
-
     }
 
     // override with any special post-processing for all models

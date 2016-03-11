@@ -362,6 +362,10 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
         checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
+        checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
+        checkAndSetAdditionalProperty(gitRepoId, CodegenConstants.GIT_REPO_ID);
+        checkAndSetAdditionalProperty(releaseVersion, CodegenConstants.RELEASE_VERSION);
+        checkAndSetAdditionalProperty(releaseNote, CodegenConstants.RELEASE_NOTE);
 
         handleDynamicProperties(config);
 
