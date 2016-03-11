@@ -2342,7 +2342,7 @@ public class DefaultCodegen {
     /**
      * Set library template (sub-template).
      *
-     * @param string library name 
+     * @param library Library template 
      */
     public void setLibrary(String library) {
         if (library != null && !supportedLibraries.containsKey(library))
@@ -2362,7 +2362,7 @@ public class DefaultCodegen {
     /**
      * Set Git user ID.
      *
-     * @param string Git user ID 
+     * @param gitUserId Git user ID 
      */
     public void setGitUserId(String gitUserId) {
         this.gitUserId = gitUserId;
@@ -2380,7 +2380,7 @@ public class DefaultCodegen {
     /**
      * Set Git repo ID.
      *
-     * @param string Git repo ID 
+     * @param gitRepoId Git repo ID 
      */
     public void setGitRepoId(String gitRepoId) {
         this.gitRepoId = gitRepoId;
@@ -2398,7 +2398,7 @@ public class DefaultCodegen {
     /**
      * Set release note.
      *
-     * @param string Release note
+     * @param releaseNote Release note
      */
     public void setReleaseNote(String releaseNote) {
         this.releaseNote = releaseNote;
@@ -2416,7 +2416,7 @@ public class DefaultCodegen {
     /**
      * Set release version.
      *
-     * @param string Release version
+     * @param releaseVersion Release version
      */
     public void setReleaseVersion(String releaseVersion) {
         this.releaseVersion = releaseVersion;
