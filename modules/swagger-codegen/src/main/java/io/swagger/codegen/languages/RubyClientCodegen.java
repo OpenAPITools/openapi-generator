@@ -532,19 +532,65 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        // NOTE: Can not get default value from ArrayProperty
-        //String defaultValue = p.defaultValue;
-        //if (!StringUtils.isEmpty(defaultValue)) {
-        //    p.example = defaultValue;
-        //    return;
-        //}
-        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) || Boolean.TRUE.equals(p.isByteArray)) {
-            p.example = "\"" + escapeText(p.example) + "\"";
-        } else if (Boolean.TRUE.equals(p.isFile)) {
-            p.example = "File.new(\"" + escapeText(p.example) + "\")";
-        } else if (Boolean.TRUE.equals(p.isDateTime) || Boolean.TRUE.equals(p.isDate)) {
-            p.example = "Date.parse(\"" + escapeText(p.example) + "\")";
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
         }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("String".equals(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Integer".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Float".equals(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("BOOLEAN".equals(type)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if ("File".equals(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "File.new(\"" + escapeText(example) + "\")";
+        } else if ("Date".equals(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "Date.parse(\"" + escapeText(example) + "\")";
+        } else if ("DateTime".equals(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "DateTime.parse(\"" + escapeText(example) + "\")";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = moduleName + "::" + type + ".new";
+        }
+
+        if (example == null) {
+            example = "nil";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key': " + example + "}";
+        }
+
+        p.example = example;
     }
 
     public void setGemName(String gemName) {

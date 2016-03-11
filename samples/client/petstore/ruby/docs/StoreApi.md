@@ -66,7 +66,7 @@ A single status value can be provided as a string
 api = Petstore::StoreApi.new
 
 opts = { 
-  status: "status_example" # [String] Status value that needs to be considered for query
+  status: "placed" # [String] Status value that needs to be considered for query
 }
 
 begin

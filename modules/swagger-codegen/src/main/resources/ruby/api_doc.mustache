@@ -21,10 +21,10 @@ Method | HTTP request | Description
 ```ruby
 api = {{{moduleName}}}::{{{classname}}}.new{{#hasParams}}
 {{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
-{{{paramName}}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::{{{baseType}}}.new{{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}} # [{{{dataType}}}] {{{description}}}
+{{{paramName}}} = {{{example}}} # [{{{dataType}}}] {{{description}}}
 {{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
 opts = { {{#allParams}}{{^required}}
-  {{{paramName}}}: {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::{{{baseType}}}.new{{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} # [{{{dataType}}}] {{{description}}}{{/required}}{{/allParams}}
+  {{{paramName}}}: {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} # [{{{dataType}}}] {{{description}}}{{/required}}{{/allParams}}
 }{{/hasOptionalParams}}{{/hasParams}}
 
 begin

@@ -72,7 +72,7 @@ Fake endpoint to test byte array in body parameter for adding a new pet to the s
 api = Petstore::PetApi.new
 
 opts = { 
-  body: Petstore::String.new # [String] Pet object in the form of byte array
+  body: "B" # [String] Pet object in the form of byte array
 }
 
 begin
@@ -161,7 +161,7 @@ Multiple status values can be provided with comma separated strings
 api = Petstore::PetApi.new
 
 opts = { 
-  status: [] # [Array<String>] Status values that need to be considered for query
+  status: ["available"] # [Array<String>] Status values that need to be considered for query
 }
 
 begin
@@ -204,7 +204,7 @@ Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 
 api = Petstore::PetApi.new
 
 opts = { 
-  tags: [] # [Array<String>] Tags to filter by
+  tags: ["tags_example"] # [Array<String>] Tags to filter by
 }
 
 begin
