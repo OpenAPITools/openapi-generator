@@ -60,10 +60,10 @@ public class CodegenConfigurator {
     private Map<String, String> additionalProperties = new HashMap<String, String>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
-    private String gitUserId;
-    private String gitRepoId;
-    private String releaseNote;
-    private String releaseVersion;
+    private String gitUserId="YOUR_GIT_USR_ID";
+    private String gitRepoId="YOUR_GIT_REPO_ID";
+    private String releaseNote="Minor update";
+    private String releaseVersion="0.1.0";
 
     private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
