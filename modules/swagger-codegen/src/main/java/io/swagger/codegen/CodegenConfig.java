@@ -167,4 +167,21 @@ public interface CodegenConfig {
      * @return libray template
      */
     String getLibrary();
+
+    void setGitUserId(String gitUserId);
+
+    String getGitUserId();
+
+    void setGitRepoId(String gitRepoId);
+
+    String getGitRepoId();
+
+    void setReleaseNote(String releaseNote);
+
+    String getReleaseNote();
+
+    void setReleaseVersion(String releaseVersion);
+
+    String getReleaseVersion();
+
 }

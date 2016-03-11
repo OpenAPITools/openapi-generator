@@ -83,6 +83,7 @@ public class DefaultCodegen {
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
+    protected String gitUserId, gitRepoId, releaseNote, releaseVersion;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -118,6 +119,7 @@ public class DefaultCodegen {
         if(additionalProperties.containsKey(CodegenConstants.MODEL_NAME_SUFFIX)){
             this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
         }
+
     }
 
     // override with any special post-processing for all models
@@ -2337,6 +2339,11 @@ public class DefaultCodegen {
         return supportedLibraries;
     }
 
+    /**
+     * Set library template (sub-template).
+     *
+     * @param library Library template 
+     */
     public void setLibrary(String library) {
         if (library != null && !supportedLibraries.containsKey(library))
             throw new RuntimeException("unknown library: " + library);
@@ -2350,6 +2357,78 @@ public class DefaultCodegen {
      */
     public String getLibrary() {
         return library;
+    }
+
+    /**
+     * Set Git user ID.
+     *
+     * @param gitUserId Git user ID 
+     */
+    public void setGitUserId(String gitUserId) {
+        this.gitUserId = gitUserId;
+    }
+
+    /**
+     * Git user ID
+     *
+     * @return Git user ID
+     */
+    public String getGitUserId() {
+        return gitUserId;
+    }
+
+    /**
+     * Set Git repo ID.
+     *
+     * @param gitRepoId Git repo ID 
+     */
+    public void setGitRepoId(String gitRepoId) {
+        this.gitRepoId = gitRepoId;
+    }
+
+    /**
+     * Git repo ID
+     *
+     * @return Git repo ID
+     */
+    public String getGitRepoId() {
+        return gitRepoId;
+    }
+
+    /**
+     * Set release note.
+     *
+     * @param releaseNote Release note
+     */
+    public void setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+    }
+
+    /**
+     * Release note
+     *
+     * @return Release note
+     */
+    public String getReleaseNote() {
+        return releaseNote;
+    }
+
+    /**
+     * Set release version.
+     *
+     * @param releaseVersion Release version
+     */
+    public void setReleaseVersion(String releaseVersion) {
+        this.releaseVersion = releaseVersion;
+    }
+
+    /**
+     * Release version
+     *
+     * @return Release version
+     */
+    public String getReleaseVersion() {
+        return releaseVersion;
     }
 
     @SuppressWarnings("static-method")

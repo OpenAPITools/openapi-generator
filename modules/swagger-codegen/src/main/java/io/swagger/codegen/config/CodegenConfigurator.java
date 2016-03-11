@@ -60,6 +60,10 @@ public class CodegenConfigurator {
     private Map<String, String> additionalProperties = new HashMap<String, String>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
+    private String gitUserId="YOUR_GIT_USR_ID";
+    private String gitRepoId="YOUR_GIT_REPO_ID";
+    private String releaseNote="Minor update";
+    private String releaseVersion="0.1.0";
 
     private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
@@ -295,6 +299,42 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public String getGitUserId() {
+        return gitUserId;
+    }
+
+    public CodegenConfigurator setGitUserId(String gitUserId) {
+        this.gitUserId = gitUserId;
+        return this;
+    }
+
+    public String getGitRepoId() {
+        return gitRepoId;
+    }
+
+    public CodegenConfigurator setGitRepoId(String gitRepoId) {
+        this.gitRepoId = gitRepoId;
+        return this;
+    }
+
+    public String getReleaseNote() {
+        return releaseNote;
+    }
+
+    public CodegenConfigurator setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+        return this;
+    }
+
+    public String getReleaseVersion() {
+        return releaseVersion;
+    }
+
+    public CodegenConfigurator setReleaseVersion(String releaseVersion) {
+        this.releaseVersion = releaseVersion;
+        return this;
+    }
+
     public ClientOptInput toClientOptInput() {
 
         Validate.notEmpty(lang, "language must be specified");
@@ -322,6 +362,10 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
         checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
+        checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
+        checkAndSetAdditionalProperty(gitRepoId, CodegenConstants.GIT_REPO_ID);
+        checkAndSetAdditionalProperty(releaseVersion, CodegenConstants.RELEASE_VERSION);
+        checkAndSetAdditionalProperty(releaseNote, CodegenConstants.RELEASE_NOTE);
 
         handleDynamicProperties(config);
 
