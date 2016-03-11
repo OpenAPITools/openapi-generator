@@ -2,19 +2,63 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.client.model.Tag;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-03T10:48:49.300+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-10T11:48:21.307-08:00")
 public class InlineResponse200   {
   
+  private List<String> photoUrls = new ArrayList<String>();
   private String name = null;
   private Long id = null;
   private Object category = null;
+  private List<Tag> tags = new ArrayList<Tag>();
+
+
+  public enum StatusEnum {
+    AVAILABLE("available"),
+    PENDING("pending"),
+    SOLD("sold");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return value;
+    }
+  }
+
+  private StatusEnum status = null;
+
+  
+  /**
+   **/
+  public InlineResponse200 photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("photoUrls")
+  public List<String> getPhotoUrls() {
+    return photoUrls;
+  }
+  public void setPhotoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+  }
 
   
   /**
@@ -68,6 +112,41 @@ public class InlineResponse200   {
   }
 
   
+  /**
+   **/
+  public InlineResponse200 tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("tags")
+  public List<Tag> getTags() {
+    return tags;
+  }
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
+  }
+
+  
+  /**
+   * pet status in the store
+   **/
+  public InlineResponse200 status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "pet status in the store")
+  @JsonProperty("status")
+  public StatusEnum getStatus() {
+    return status;
+  }
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
+  
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -78,14 +157,17 @@ public class InlineResponse200   {
       return false;
     }
     InlineResponse200 inlineResponse200 = (InlineResponse200) o;
-    return Objects.equals(this.name, inlineResponse200.name) &&
+    return Objects.equals(this.photoUrls, inlineResponse200.photoUrls) &&
+        Objects.equals(this.name, inlineResponse200.name) &&
         Objects.equals(this.id, inlineResponse200.id) &&
-        Objects.equals(this.category, inlineResponse200.category);
+        Objects.equals(this.category, inlineResponse200.category) &&
+        Objects.equals(this.tags, inlineResponse200.tags) &&
+        Objects.equals(this.status, inlineResponse200.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, id, category);
+    return Objects.hash(photoUrls, name, id, category, tags, status);
   }
 
   @Override
@@ -93,9 +175,12 @@ public class InlineResponse200   {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineResponse200 {\n");
     
+    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }

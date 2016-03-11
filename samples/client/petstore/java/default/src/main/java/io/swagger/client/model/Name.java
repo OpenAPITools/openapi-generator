@@ -10,42 +10,24 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-10T11:48:21.307-08:00")
-public class Category   {
+public class Name   {
   
-  private Long id = null;
-  private String name = null;
+  private Integer name = null;
 
   
   /**
    **/
-  public Category id(Long id) {
-    this.id = id;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("id")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  
-  /**
-   **/
-  public Category name(String name) {
+  public Name name(Integer name) {
     this.name = name;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("name")
-  public String getName() {
+  public Integer getName() {
     return name;
   }
-  public void setName(String name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
@@ -59,22 +41,20 @@ public class Category   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Category category = (Category) o;
-    return Objects.equals(this.id, category.id) &&
-        Objects.equals(this.name, category.name);
+    Name name = (Name) o;
+    return Objects.equals(this.name, name.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Name {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
