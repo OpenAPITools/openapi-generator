@@ -557,7 +557,7 @@
         <commons-lang-version>2.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
-        <jmustache-version>1.9</jmustache-version>
+        <jmustache-version>1.12</jmustache-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.18.1</surefire-version>
         <jmockit-version>1.19</jmockit-version>
