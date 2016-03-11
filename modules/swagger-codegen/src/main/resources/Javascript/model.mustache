@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined, '../ApiClient'{{#imports}}, './{{import}}'{{/imports}}], factory);
+    define(['../ApiClient'{{#imports}}, './{{import}}'{{/imports}}], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined, require('../ApiClient'){{#imports}}, require('./{{import}}'){{/imports}});
+    module.exports = factory(require('../ApiClient'){{#imports}}, require('./{{import}}'){{/imports}});
   } else {
     // Browser globals (root is window)
     if (!root.{{moduleName}}) {
       root.{{moduleName}} = {};
     }
-    factory(root.{{moduleName}}, root.{{moduleName}}.ApiClient{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
+    root.{{moduleName}}.{{classname}} = factory(root.{{moduleName}}.ApiClient{{#imports}}, root.{{moduleName}}.{{import}}{{/imports}});
   }
-}(this, function(module, ApiClient{{#imports}}, {{import}}{{/imports}}) {
+}(this, function(ApiClient{{#imports}}, {{import}}{{/imports}}) {
   'use strict';
   {{#models}}{{#model}}
   {{#description}}/**
@@ -75,10 +75,6 @@
 
   {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
   {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
-
-  if (module) {
-    module.{{classname}} = {{classname}};
-  }
 
   return {{classname}};
   {{/model}}
