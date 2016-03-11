@@ -106,16 +106,16 @@ public class Generate implements Runnable {
     @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
     private String library;
     
-    @Option(name = {"--git-user-id"}, title = "git user id", description = CodegenConstants.GIT_USER_ID)
+    @Option(name = {"--git-user-id"}, title = "git user id", description = CodegenConstants.GIT_USER_ID_DESC)
     private String gitUserId;
 
-    @Option(name = {"--git-repo-id"}, title = "git repo id", description = CodegenConstants.GIT_REPO_ID)
+    @Option(name = {"--git-repo-id"}, title = "git repo id", description = CodegenConstants.GIT_REPO_ID_DESC)
     private String gitRepoId;
 
-    @Option(name = {"--release-note"}, title = "release note", description = CodegenConstants.RELEASE_NOTE)
+    @Option(name = {"--release-note"}, title = "release note", description = CodegenConstants.RELEASE_NOTE_DESC)
     private String releaseNote;
 
-    @Option(name = {"--release-version"}, title = "release version", description = CodegenConstants.RELEASE_VERSION)
+    @Option(name = {"--release-version"}, title = "release version", description = CodegenConstants.RELEASE_VERSION_DESC)
     private String releaseVersion;
 
     @Override
@@ -195,19 +195,19 @@ public class Generate implements Runnable {
             configurator.setLibrary(library);
         }
 
-        if(isNotEmpty(gitUserId)) {
+        if (isNotEmpty(gitUserId)) {
             configurator.setGitUserId(gitUserId);
         }
 
-        if(isNotEmpty(gitRepoId)) {
+        if (isNotEmpty(gitRepoId)) {
             configurator.setGitRepoId(gitRepoId);
         }
 
-        if(isNotEmpty(releaseNote)) {
+        if (isNotEmpty(releaseNote)) {
             configurator.setReleaseNote(releaseNote);
         }
 
-        if(isNotEmpty(releaseVersion)) {
+        if (isNotEmpty(releaseVersion)) {
             configurator.setReleaseVersion(releaseVersion);
         }
 
