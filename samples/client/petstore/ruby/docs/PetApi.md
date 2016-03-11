@@ -26,6 +26,11 @@ Add a new pet to the store
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 opts = { 
@@ -69,6 +74,11 @@ Fake endpoint to test byte array in body parameter for adding a new pet to the s
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 opts = { 
@@ -112,6 +122,11 @@ Deletes a pet
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 pet_id = 789 # [Integer] Pet id to delete
@@ -158,6 +173,11 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 opts = { 
@@ -201,6 +221,11 @@ Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 opts = { 
@@ -244,6 +269,16 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+
+  # Configure API key authorization: api_key
+  config.api_key['api_key'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['api_key'] = "Token"
+end
+
 api = Petstore::PetApi.new
 
 pet_id = 789 # [Integer] ID of pet that needs to be fetched
@@ -286,6 +321,16 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+
+  # Configure API key authorization: api_key
+  config.api_key['api_key'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['api_key'] = "Token"
+end
+
 api = Petstore::PetApi.new
 
 pet_id = 789 # [Integer] ID of pet that needs to be fetched
@@ -328,6 +373,16 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+
+  # Configure API key authorization: api_key
+  config.api_key['api_key'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['api_key'] = "Token"
+end
+
 api = Petstore::PetApi.new
 
 pet_id = 789 # [Integer] ID of pet that needs to be fetched
@@ -370,6 +425,11 @@ Update an existing pet
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 opts = { 
@@ -413,6 +473,11 @@ Updates a pet in the store with form data
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 pet_id = "pet_id_example" # [String] ID of pet that needs to be updated
@@ -461,6 +526,11 @@ uploads an image
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
+end
+
 api = Petstore::PetApi.new
 
 pet_id = 789 # [Integer] ID of pet to update
