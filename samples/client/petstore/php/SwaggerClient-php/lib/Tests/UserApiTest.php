@@ -96,6 +96,26 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Test case for deleteUser
+     *
+     * Delete user
+     *
+     */
+    public function test_deleteUser() {
+
+    }
+    
+    /**
+     * Test case for getUserByName
+     *
+     * Get user by user name
+     *
+     */
+    public function test_getUserByName() {
+
+    }
+    
+    /**
      * Test case for loginUser
      *
      * Logs user into the system
@@ -116,32 +136,12 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test case for getUserByName
-     *
-     * Get user by user name
-     *
-     */
-    public function test_getUserByName() {
-
-    }
-    
-    /**
      * Test case for updateUser
      *
      * Updated user
      *
      */
     public function test_updateUser() {
-
-    }
-    
-    /**
-     * Test case for deleteUser
-     *
-     * Delete user
-     *
-     */
-    public function test_deleteUser() {
 
     }
     

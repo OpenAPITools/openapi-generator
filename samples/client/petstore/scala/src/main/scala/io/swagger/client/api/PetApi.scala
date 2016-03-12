@@ -1,6 +1,7 @@
 package io.swagger.client.api
 
 import io.swagger.client.model.Pet
+import io.swagger.client.model.Inline_response_200
 import java.io.File
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException
@@ -22,53 +23,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
-  
-  /**
-   * Update an existing pet
-   * 
-   * @param body Pet object that needs to be added to the store
-   * @return void
-   */
-  def updatePet (body: Pet)  = {
-    // create path and map variables
-    val path = "/pet".replaceAll("\\{format\\}","json")
-
-    val contentTypes = List("application/json", "application/xml", "application/json")
-    val contentType = contentTypes(0)
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    
-
-    
-    
-    
-
-    var postBody: AnyRef = body
-
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
-      postBody = mp
-    }
-    else {
-      
-    }
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
   
   /**
    * Add a new pet to the store
@@ -118,9 +72,107 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   }
   
   /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * 
+   * @param body Pet object in the form of byte array
+   * @return void
+   */
+  def addPetUsingByteArray (body: String)  = {
+    // create path and map variables
+    val path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json")
+
+    val contentTypes = List("application/json", "application/xml", "application/json")
+    val contentType = contentTypes(0)
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
+
+    
+
+    
+    
+    
+
+    var postBody: AnyRef = body
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        case s: String =>
+           
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  /**
+   * Deletes a pet
+   * 
+   * @param petId Pet id to delete
+   * @param apiKey 
+   * @return void
+   */
+  def deletePet (petId: Long, apiKey: String)  = {
+    // create path and map variables
+    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
+
+    
+
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
+
+    
+
+    
+    
+    headerParams += "api_key" -> apiKey
+    
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        case s: String =>
+           
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  /**
    * Finds Pets by status
-   * Multiple status values can be provided with comma seperated strings
-   * @param status Status values that need to be considered for filter
+   * Multiple status values can be provided with comma separated strings
+   * @param status Status values that need to be considered for query
    * @return List[Pet]
    */
   def findPetsByStatus (status: List[String] /* = available */) : Option[List[Pet]] = {
@@ -266,6 +318,153 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   }
   
   /**
+   * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return Inline_response_200
+   */
+  def getPetByIdInObject (petId: Long) : Option[Inline_response_200] = {
+    // create path and map variables
+    val path = "/pet/{petId}?response=inline_arbitrary_object".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
+
+    
+
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
+
+    
+
+    
+    
+    
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        case s: String =>
+           Some(ApiInvoker.deserialize(s, "", classOf[Inline_response_200]).asInstanceOf[Inline_response_200])
+         
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return String
+   */
+  def petPetIdtestingByteArraytrueGet (petId: Long) : Option[String] = {
+    // create path and map variables
+    val path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
+
+    
+
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
+
+    
+
+    
+    
+    
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        case s: String =>
+           Some(ApiInvoker.deserialize(s, "", classOf[String]).asInstanceOf[String])
+         
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+   */
+  def updatePet (body: Pet)  = {
+    // create path and map variables
+    val path = "/pet".replaceAll("\\{format\\}","json")
+
+    val contentTypes = List("application/json", "application/xml", "application/json")
+    val contentType = contentTypes(0)
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
+
+    
+
+    
+    
+    
+
+    var postBody: AnyRef = body
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        case s: String =>
+           
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  /**
    * Updates a pet in the store with form data
    * 
    * @param petId ID of pet that needs to be updated
@@ -312,57 +511,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     try {
       apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
-  
-  /**
-   * Deletes a pet
-   * 
-   * @param petId Pet id to delete
-   * @param apiKey 
-   * @return void
-   */
-  def deletePet (petId: Long, apiKey: String)  = {
-    // create path and map variables
-    val path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}",apiInvoker.escape(petId))
-
-    
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    
-
-    
-    
-    headerParams += "api_key" -> apiKey
-    
-
-    var postBody: AnyRef = null
-
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
-      postBody = mp
-    }
-    else {
-      
-    }
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
            
         case _ => None

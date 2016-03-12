@@ -66,22 +66,32 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
     
     /**
-     * Test case for updatePet
-     *
-     * Update an existing pet
-     *
-     */
-    public function test_updatePet() {
-
-    }
-    
-    /**
      * Test case for addPet
      *
      * Add a new pet to the store
      *
      */
     public function test_addPet() {
+
+    }
+    
+    /**
+     * Test case for addPetUsingByteArray
+     *
+     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+     *
+     */
+    public function test_addPetUsingByteArray() {
+
+    }
+    
+    /**
+     * Test case for deletePet
+     *
+     * Deletes a pet
+     *
+     */
+    public function test_deletePet() {
 
     }
     
@@ -116,36 +126,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test case for updatePetWithForm
-     *
-     * Updates a pet in the store with form data
-     *
-     */
-    public function test_updatePetWithForm() {
-
-    }
-    
-    /**
-     * Test case for deletePet
-     *
-     * Deletes a pet
-     *
-     */
-    public function test_deletePet() {
-
-    }
-    
-    /**
-     * Test case for uploadFile
-     *
-     * uploads an image
-     *
-     */
-    public function test_uploadFile() {
-
-    }
-    
-    /**
      * Test case for getPetByIdInObject
      *
      * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
@@ -166,12 +146,32 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test case for addPetUsingByteArray
+     * Test case for updatePet
      *
-     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+     * Update an existing pet
      *
      */
-    public function test_addPetUsingByteArray() {
+    public function test_updatePet() {
+
+    }
+    
+    /**
+     * Test case for updatePetWithForm
+     *
+     * Updates a pet in the store with form data
+     *
+     */
+    public function test_updatePetWithForm() {
+
+    }
+    
+    /**
+     * Test case for uploadFile
+     *
+     * uploads an image
+     *
+     */
+    public function test_uploadFile() {
 
     }
     

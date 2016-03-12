@@ -153,6 +153,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
                 + File.separator + "lib" + File.separator + "ext", "flexunit-cilistener-4.1.0_RC2-28-3.5.0.12683.swc"));
         supportingFiles.add(new SupportingFile("flexunit-core-flex-4.0.0.2-sdk3.5.0.12683.swc", sourceFolder
                 + File.separator + "lib" + File.separator + "ext", "flexunit-core-flex-4.0.0.2-sdk3.5.0.12683.swc"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }
 
     private static String dropDots(String str) {

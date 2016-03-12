@@ -13,14 +13,12 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-10T11:48:21.307-08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-12T17:08:42.639+08:00")
 public class InlineResponse200   {
   
-  private List<String> photoUrls = new ArrayList<String>();
-  private String name = null;
+  private List<Tag> tags = new ArrayList<Tag>();
   private Long id = null;
   private Object category = null;
-  private List<Tag> tags = new ArrayList<Tag>();
 
 
   public enum StatusEnum {
@@ -42,39 +40,24 @@ public class InlineResponse200   {
   }
 
   private StatusEnum status = null;
+  private String name = null;
+  private List<String> photoUrls = new ArrayList<String>();
 
   
   /**
    **/
-  public InlineResponse200 photoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
+  public InlineResponse200 tags(List<Tag> tags) {
+    this.tags = tags;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("photoUrls")
-  public List<String> getPhotoUrls() {
-    return photoUrls;
+  @JsonProperty("tags")
+  public List<Tag> getTags() {
+    return tags;
   }
-  public void setPhotoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-  }
-
-  
-  /**
-   **/
-  public InlineResponse200 name(String name) {
-    this.name = name;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "doggie", value = "")
-  @JsonProperty("name")
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
   }
 
   
@@ -113,23 +96,6 @@ public class InlineResponse200   {
 
   
   /**
-   **/
-  public InlineResponse200 tags(List<Tag> tags) {
-    this.tags = tags;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("tags")
-  public List<Tag> getTags() {
-    return tags;
-  }
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
-  }
-
-  
-  /**
    * pet status in the store
    **/
   public InlineResponse200 status(StatusEnum status) {
@@ -147,6 +113,40 @@ public class InlineResponse200   {
   }
 
   
+  /**
+   **/
+  public InlineResponse200 name(String name) {
+    this.name = name;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "doggie", value = "")
+  @JsonProperty("name")
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  
+  /**
+   **/
+  public InlineResponse200 photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("photoUrls")
+  public List<String> getPhotoUrls() {
+    return photoUrls;
+  }
+  public void setPhotoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+  }
+
+  
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -157,17 +157,17 @@ public class InlineResponse200   {
       return false;
     }
     InlineResponse200 inlineResponse200 = (InlineResponse200) o;
-    return Objects.equals(this.photoUrls, inlineResponse200.photoUrls) &&
-        Objects.equals(this.name, inlineResponse200.name) &&
+    return Objects.equals(this.tags, inlineResponse200.tags) &&
         Objects.equals(this.id, inlineResponse200.id) &&
         Objects.equals(this.category, inlineResponse200.category) &&
-        Objects.equals(this.tags, inlineResponse200.tags) &&
-        Objects.equals(this.status, inlineResponse200.status);
+        Objects.equals(this.status, inlineResponse200.status) &&
+        Objects.equals(this.name, inlineResponse200.name) &&
+        Objects.equals(this.photoUrls, inlineResponse200.photoUrls);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(photoUrls, name, id, category, tags, status);
+    return Objects.hash(tags, id, category, status, name, photoUrls);
   }
 
   @Override
@@ -175,12 +175,12 @@ public class InlineResponse200   {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineResponse200 {\n");
     
-    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("}");
     return sb.toString();
   }

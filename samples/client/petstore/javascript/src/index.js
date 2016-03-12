@@ -1,26 +1,27 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './model/Order', './model/SpecialModelName', './model/User', './model/Category', './model/ObjectReturn', './model/InlineResponse200', './model/Tag', './model/Pet', './api/UserApi', './api/StoreApi', './api/PetApi'], factory);
+    define(['./ApiClient', './model/Category', './model/InlineResponse200', './model/ModelReturn', './model/Name', './model/Order', './model/Pet', './model/SpecialModelName', './model/Tag', './model/User', './api/PetApi', './api/StoreApi', './api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Order'), require('./model/SpecialModelName'), require('./model/User'), require('./model/Category'), require('./model/ObjectReturn'), require('./model/InlineResponse200'), require('./model/Tag'), require('./model/Pet'), require('./api/UserApi'), require('./api/StoreApi'), require('./api/PetApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/Category'), require('./model/InlineResponse200'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, Order, SpecialModelName, User, Category, ObjectReturn, InlineResponse200, Tag, Pet, UserApi, StoreApi, PetApi) {
+}(function(ApiClient, Category, InlineResponse200, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, PetApi, StoreApi, UserApi) {
   'use strict';
 
   return {
     ApiClient: ApiClient,
-    Order: Order,
-    SpecialModelName: SpecialModelName,
-    User: User,
     Category: Category,
-    ObjectReturn: ObjectReturn,
     InlineResponse200: InlineResponse200,
-    Tag: Tag,
+    ModelReturn: ModelReturn,
+    Name: Name,
+    Order: Order,
     Pet: Pet,
-    UserApi: UserApi,
+    SpecialModelName: SpecialModelName,
+    Tag: Tag,
+    User: User,
+    PetApi: PetApi,
     StoreApi: StoreApi,
-    PetApi: PetApi
+    UserApi: UserApi
   };
 }));

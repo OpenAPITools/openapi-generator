@@ -22,19 +22,6 @@
 +(SWGPetApi*) sharedAPI;
 ///
 ///
-/// Update an existing pet
-/// 
-///
-/// @param body Pet object that needs to be added to the store
-/// 
-///
-/// @return 
--(NSNumber*) updatePetWithBody: (SWGPet*) body
-    completionHandler: (void (^)(NSError* error)) handler;
-
-
-///
-///
 /// Add a new pet to the store
 /// 
 ///
@@ -43,6 +30,34 @@
 ///
 /// @return 
 -(NSNumber*) addPetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler;
+
+
+///
+///
+/// Fake endpoint to test byte array in body parameter for adding a new pet to the store
+/// 
+///
+/// @param body Pet object in the form of byte array
+/// 
+///
+/// @return 
+-(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
+    completionHandler: (void (^)(NSError* error)) handler;
+
+
+///
+///
+/// Deletes a pet
+/// 
+///
+/// @param petId Pet id to delete
+/// @param apiKey 
+/// 
+///
+/// @return 
+-(NSNumber*) deletePetWithPetId: (NSNumber*) petId
+    apiKey: (NSString*) apiKey
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -87,55 +102,6 @@
 
 ///
 ///
-/// Updates a pet in the store with form data
-/// 
-///
-/// @param petId ID of pet that needs to be updated
-/// @param name Updated name of the pet
-/// @param status Updated status of the pet
-/// 
-///
-/// @return 
--(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
-    name: (NSString*) name
-    status: (NSString*) status
-    completionHandler: (void (^)(NSError* error)) handler;
-
-
-///
-///
-/// Deletes a pet
-/// 
-///
-/// @param petId Pet id to delete
-/// @param apiKey 
-/// 
-///
-/// @return 
--(NSNumber*) deletePetWithPetId: (NSNumber*) petId
-    apiKey: (NSString*) apiKey
-    completionHandler: (void (^)(NSError* error)) handler;
-
-
-///
-///
-/// uploads an image
-/// 
-///
-/// @param petId ID of pet to update
-/// @param additionalMetadata Additional data to pass to server
-/// @param file file to upload
-/// 
-///
-/// @return 
--(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
-    additionalMetadata: (NSString*) additionalMetadata
-    file: (NSURL*) file
-    completionHandler: (void (^)(NSError* error)) handler;
-
-
-///
-///
 /// Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
 /// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 ///
@@ -162,14 +128,48 @@
 
 ///
 ///
-/// Fake endpoint to test byte array in body parameter for adding a new pet to the store
+/// Update an existing pet
 /// 
 ///
-/// @param body Pet object in the form of byte array
+/// @param body Pet object that needs to be added to the store
 /// 
 ///
 /// @return 
--(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
+-(NSNumber*) updatePetWithBody: (SWGPet*) body
+    completionHandler: (void (^)(NSError* error)) handler;
+
+
+///
+///
+/// Updates a pet in the store with form data
+/// 
+///
+/// @param petId ID of pet that needs to be updated
+/// @param name Updated name of the pet
+/// @param status Updated status of the pet
+/// 
+///
+/// @return 
+-(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
+    name: (NSString*) name
+    status: (NSString*) status
+    completionHandler: (void (^)(NSError* error)) handler;
+
+
+///
+///
+/// uploads an image
+/// 
+///
+/// @param petId ID of pet to update
+/// @param additionalMetadata Additional data to pass to server
+/// @param file file to upload
+/// 
+///
+/// @return 
+-(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
+    additionalMetadata: (NSString*) additionalMetadata
+    file: (NSURL*) file
     completionHandler: (void (^)(NSError* error)) handler;
 
 
