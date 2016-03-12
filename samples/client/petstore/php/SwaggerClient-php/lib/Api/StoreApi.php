@@ -92,6 +92,93 @@ class StoreApi
   
     
     /**
+     * deleteOrder
+     *
+     * Delete purchase order by ID
+     *
+     * @param string $order_id ID of the order that needs to be deleted (required)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function deleteOrder($order_id)
+    {
+        list($response, $statusCode, $httpHeader) = $this->deleteOrderWithHttpInfo ($order_id);
+        return $response; 
+    }
+
+
+    /**
+     * deleteOrderWithHttpInfo
+     *
+     * Delete purchase order by ID
+     *
+     * @param string $order_id ID of the order that needs to be deleted (required)
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function deleteOrderWithHttpInfo($order_id)
+    {
+        
+        // verify the required parameter 'order_id' is set
+        if ($order_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
+        }
+  
+        // parse inputs
+        $resourcePath = "/store/order/{orderId}";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+  
+        
+        
+        // path params
+        
+        if ($order_id !== null) {
+            $resourcePath = str_replace(
+                "{" . "orderId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($order_id),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'DELETE',
+                $queryParams, $httpBody,
+                $headerParams
+            );
+            
+            return array(null, $statusCode, $httpHeader);
+            
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
+  
+            throw $e;
+        }
+    }
+    
+    /**
      * findOrdersByStatus
      *
      * Finds orders by status
@@ -369,107 +456,6 @@ class StoreApi
     }
     
     /**
-     * placeOrder
-     *
-     * Place an order for a pet
-     *
-     * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (optional)
-     * @return \Swagger\Client\Model\Order
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function placeOrder($body = null)
-    {
-        list($response, $statusCode, $httpHeader) = $this->placeOrderWithHttpInfo ($body);
-        return $response; 
-    }
-
-
-    /**
-     * placeOrderWithHttpInfo
-     *
-     * Place an order for a pet
-     *
-     * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (optional)
-     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function placeOrderWithHttpInfo($body = null)
-    {
-        
-  
-        // parse inputs
-        $resourcePath = "/store/order";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-  
-        
-        
-        
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        
-        // body params
-        $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
-        }
-  
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        
-        // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_id');
-        if (strlen($apiKey) !== 0) {
-            $headerParams['x-test_api_client_id'] = $apiKey;
-        }
-        
-        
-        // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_secret');
-        if (strlen($apiKey) !== 0) {
-            $headerParams['x-test_api_client_secret'] = $apiKey;
-        }
-        
-        
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'POST',
-                $queryParams, $httpBody,
-                $headerParams, '\Swagger\Client\Model\Order'
-            );
-            
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
-
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
-            }
-  
-            throw $e;
-        }
-    }
-    
-    /**
      * getOrderById
      *
      * Find purchase order by ID
@@ -579,40 +565,36 @@ class StoreApi
     }
     
     /**
-     * deleteOrder
+     * placeOrder
      *
-     * Delete purchase order by ID
+     * Place an order for a pet
      *
-     * @param string $order_id ID of the order that needs to be deleted (required)
-     * @return void
+     * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (optional)
+     * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deleteOrder($order_id)
+    public function placeOrder($body = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->deleteOrderWithHttpInfo ($order_id);
+        list($response, $statusCode, $httpHeader) = $this->placeOrderWithHttpInfo ($body);
         return $response; 
     }
 
 
     /**
-     * deleteOrderWithHttpInfo
+     * placeOrderWithHttpInfo
      *
-     * Delete purchase order by ID
+     * Place an order for a pet
      *
-     * @param string $order_id ID of the order that needs to be deleted (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (optional)
+     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
-    public function deleteOrderWithHttpInfo($order_id)
+    public function placeOrderWithHttpInfo($body = null)
     {
         
-        // verify the required parameter 'order_id' is set
-        if ($order_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
-        }
   
         // parse inputs
-        $resourcePath = "/store/order/{orderId}";
+        $resourcePath = "/store/order";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -625,20 +607,16 @@ class StoreApi
   
         
         
-        // path params
         
-        if ($order_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "orderId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($order_id),
-                $resourcePath
-            );
-        }
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
         
-        
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -647,18 +625,40 @@ class StoreApi
             $httpBody = $formParams; // for HTTP post (form)
         }
         
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_id');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['x-test_api_client_id'] = $apiKey;
+        }
+        
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_secret');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['x-test_api_client_secret'] = $apiKey;
+        }
+        
+        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'DELETE',
+                $resourcePath, 'POST',
                 $queryParams, $httpBody,
-                $headerParams
+                $headerParams, '\Swagger\Client\Model\Order'
             );
             
-            return array(null, $statusCode, $httpHeader);
+            if (!$response) {
+                return array(null, $statusCode, $httpHeader);
+            }
+
+            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
+            case 200:
+                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
+                $e->setResponseObject($data);
+                break;
             }
   
             throw $e;

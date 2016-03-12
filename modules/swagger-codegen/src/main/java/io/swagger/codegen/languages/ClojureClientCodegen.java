@@ -143,6 +143,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         final String baseNamespaceFolder = sourceFolder + File.separator + namespaceToFolder(baseNamespace);
         supportingFiles.add(new SupportingFile("project.mustache", "", "project.clj"));
         supportingFiles.add(new SupportingFile("core.mustache", baseNamespaceFolder, "core.clj"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }
 
     @Override
