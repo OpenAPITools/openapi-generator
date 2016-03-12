@@ -1091,7 +1091,12 @@
           "400": {
             "description": "Invalid username supplied"
           }
-        }
+        },
+        "security": [
+          {
+            "test_http_basic": []
+          }
+        ]
       }
     }
   },
@@ -1129,6 +1134,9 @@
       "type": "apiKey",
       "name": "test_api_key_query",
       "in": "query"
+    },
+    "test_http_basic": {
+      "type": "basic"
     }
   },
   "definitions": {

@@ -228,7 +228,7 @@ namespace {{packageName}}.Api
             // http basic authentication required
             if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
             {
-                localVarHeaderParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
             }{{/isBasic}}{{#isOAuth}}
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
@@ -340,7 +340,7 @@ namespace {{packageName}}.Api
             // http basic authentication required
             if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
             {
-                localVarHeaderParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
             }{{/isBasic}}{{#isOAuth}}
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
