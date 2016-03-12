@@ -1,7 +1,6 @@
 package io.swagger.client.api
 
 import io.swagger.client.model.Order
-import io.swagger.client.model.Any
 import io.swagger.client.ApiInvoker
 import io.swagger.client.ApiException
 
