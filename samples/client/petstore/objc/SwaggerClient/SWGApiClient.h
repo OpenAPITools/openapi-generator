@@ -12,14 +12,15 @@
  * Do not edit the class manually.
  */
 
-#import "SWGUser.h"
 #import "SWGCategory.h"
-#import "SWGPet.h"
-#import "SWGTag.h"
-#import "SWGReturn.h"
-#import "SWGOrder.h"
-#import "SWGSpecialModelName_.h"
 #import "SWGInlineResponse200.h"
+#import "SWGName.h"
+#import "SWGOrder.h"
+#import "SWGPet.h"
+#import "SWGReturn.h"
+#import "SWGSpecialModelName_.h"
+#import "SWGTag.h"
+#import "SWGUser.h"
 
 
 @class SWGConfiguration;
