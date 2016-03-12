@@ -175,6 +175,128 @@ public class UserAPI: APIBase {
 
     /**
      
+     Delete user
+     
+     - parameter username: (path) The name that needs to be deleted
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func deleteUser(username username: String, completion: ((error: ErrorType?) -> Void)) {
+        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
+            completion(error: error);
+        }
+    }
+
+    /**
+     
+     Delete user
+     
+     - parameter username: (path) The name that needs to be deleted
+     - returns: Promise<Void>
+     */
+    public class func deleteUser(username username: String) -> Promise<Void> {
+        let deferred = Promise<Void>.pendingPromise()
+        deleteUser(username: username) { error in
+            if let error = error {
+                deferred.reject(error)
+            } else {
+                deferred.fulfill()
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     
+     Delete user
+     
+     - DELETE /user/{username}
+     - This can only be done by the logged in user.
+     
+     - parameter username: (path) The name that needs to be deleted
+
+     - returns: RequestBuilder<Void> 
+     */
+    public class func deleteUserWithRequestBuilder(username username: String) -> RequestBuilder<Void> {
+        var path = "/user/{username}"
+        path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
+        let URLString = PetstoreClientAPI.basePath + path
+        
+        let nillableParameters: [String:AnyObject?] = [:]
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: parameters, isBody: true)
+    }
+
+    /**
+     
+     Get user by user name
+     
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func getUserByName(username username: String, completion: ((data: User?, error: ErrorType?) -> Void)) {
+        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+    /**
+     
+     Get user by user name
+     
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+     - returns: Promise<User>
+     */
+    public class func getUserByName(username username: String) -> Promise<User> {
+        let deferred = Promise<User>.pendingPromise()
+        getUserByName(username: username) { data, error in
+            if let error = error {
+                deferred.reject(error)
+            } else {
+                deferred.fulfill(data!)
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     
+     Get user by user name
+     
+     - GET /user/{username}
+     - 
+     - examples: [{example={
+  "id" : 1,
+  "username" : "johnp",
+  "firstName" : "John",
+  "lastName" : "Public",
+  "email" : "johnp@swagger.io",
+  "password" : "-secret-",
+  "phone" : "0123456789",
+  "userStatus" : 0
+}, contentType=application/json}]
+     
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+
+     - returns: RequestBuilder<User> 
+     */
+    public class func getUserByNameWithRequestBuilder(username username: String) -> RequestBuilder<User> {
+        var path = "/user/{username}"
+        path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
+        let URLString = PetstoreClientAPI.basePath + path
+        
+        let nillableParameters: [String:AnyObject?] = [:]
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+    }
+
+    /**
+     
      Logs user into the system
      
      - parameter username: (query) The user name for login
@@ -289,72 +411,6 @@ public class UserAPI: APIBase {
 
     /**
      
-     Get user by user name
-     
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func getUserByName(username username: String, completion: ((data: User?, error: ErrorType?) -> Void)) {
-        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
-        }
-    }
-
-    /**
-     
-     Get user by user name
-     
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
-     - returns: Promise<User>
-     */
-    public class func getUserByName(username username: String) -> Promise<User> {
-        let deferred = Promise<User>.pendingPromise()
-        getUserByName(username: username) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     
-     Get user by user name
-     
-     - GET /user/{username}
-     - 
-     - examples: [{example={
-  "id" : 1,
-  "username" : "johnp",
-  "firstName" : "John",
-  "lastName" : "Public",
-  "email" : "johnp@swagger.io",
-  "password" : "-secret-",
-  "phone" : "0123456789",
-  "userStatus" : 0
-}, contentType=application/json}]
-     
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
-
-     - returns: RequestBuilder<User> 
-     */
-    public class func getUserByNameWithRequestBuilder(username username: String) -> RequestBuilder<User> {
-        var path = "/user/{username}"
-        path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
-        let URLString = PetstoreClientAPI.basePath + path
-        
-        let nillableParameters: [String:AnyObject?] = [:]
-        let parameters = APIHelper.rejectNil(nillableParameters)
-
-        let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
-    }
-
-    /**
-     
      Updated user
      
      - parameter username: (path) name that need to be deleted
@@ -409,62 +465,6 @@ public class UserAPI: APIBase {
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: URLString, parameters: parameters, isBody: true)
-    }
-
-    /**
-     
-     Delete user
-     
-     - parameter username: (path) The name that needs to be deleted
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    public class func deleteUser(username username: String, completion: ((error: ErrorType?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(error: error);
-        }
-    }
-
-    /**
-     
-     Delete user
-     
-     - parameter username: (path) The name that needs to be deleted
-     - returns: Promise<Void>
-     */
-    public class func deleteUser(username username: String) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        deleteUser(username: username) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     
-     Delete user
-     
-     - DELETE /user/{username}
-     - This can only be done by the logged in user.
-     
-     - parameter username: (path) The name that needs to be deleted
-
-     - returns: RequestBuilder<Void> 
-     */
-    public class func deleteUserWithRequestBuilder(username username: String) -> RequestBuilder<Void> {
-        var path = "/user/{username}"
-        path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
-        let URLString = PetstoreClientAPI.basePath + path
-        
-        let nillableParameters: [String:AnyObject?] = [:]
-        let parameters = APIHelper.rejectNil(nillableParameters)
-
-        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: parameters, isBody: true)
     }
 
 }

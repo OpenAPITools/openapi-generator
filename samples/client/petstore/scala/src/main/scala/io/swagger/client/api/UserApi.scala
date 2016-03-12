@@ -164,6 +164,105 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   }
   
   /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return void
+   */
+  def deleteUser (username: String)  = {
+    // create path and map variables
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
+
+    
+
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
+
+    
+
+    
+    
+    
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        case s: String =>
+           
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return User
+   */
+  def getUserByName (username: String) : Option[User] = {
+    // create path and map variables
+    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
+
+    
+
+    val contentTypes = List("application/json")
+    val contentType = contentTypes(0)
+
+    // query params
+    val queryParams = new HashMap[String, String]
+    val headerParams = new HashMap[String, String]
+    val formParams = new HashMap[String, String]
+
+    
+
+    
+    
+    
+
+    var postBody: AnyRef = null
+
+    if(contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart()
+      
+      postBody = mp
+    }
+    else {
+      
+    }
+
+    try {
+      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
+        case s: String =>
+           Some(ApiInvoker.deserialize(s, "", classOf[User]).asInstanceOf[User])
+         
+        case _ => None
+      }
+    } catch {
+      case ex: ApiException if ex.code == 404 => None
+      case ex: ApiException => throw ex
+    }
+  }
+  
+  /**
    * Logs user into the system
    * 
    * @param username The user name for login
@@ -261,56 +360,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   }
   
   /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-   */
-  def getUserByName (username: String) : Option[User] = {
-    // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
-
-    
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    
-
-    
-    
-    
-
-    var postBody: AnyRef = null
-
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
-      postBody = mp
-    }
-    else {
-      
-    }
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           Some(ApiInvoker.deserialize(s, "", classOf[User]).asInstanceOf[User])
-         
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
-  
-  /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
@@ -350,55 +399,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     try {
       apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
-  }
-  
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return void
-   */
-  def deleteUser (username: String)  = {
-    // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
-
-    
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    // query params
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    
-
-    
-    
-    
-
-    var postBody: AnyRef = null
-
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
-      postBody = mp
-    }
-    else {
-      
-    }
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
            
         case _ => None

@@ -150,6 +150,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
     }
 
 

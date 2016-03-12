@@ -267,6 +267,160 @@ class UserApi(object):
                                             callback=params.get('callback'))
         return response
 
+    def delete_user(self, username, **kwargs):
+        """
+        Delete user
+        This can only be done by the logged in user.
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_user(username, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str username: The name that needs to be deleted (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['username']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_user" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        # verify the required parameter 'username' is set
+        if ('username' not in params) or (params['username'] is None):
+            raise ValueError("Missing the required parameter `username` when calling `delete_user`")
+
+        resource_path = '/user/{username}'.replace('{format}', 'json')
+        path_params = {}
+        if 'username' in params:
+            path_params['username'] = params['username']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = []
+
+        response = self.api_client.call_api(resource_path, 'DELETE',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type=None,
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
+    def get_user_by_name(self, username, **kwargs):
+        """
+        Get user by user name
+        
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_user_by_name(username, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
+        :return: User
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['username']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_user_by_name" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        # verify the required parameter 'username' is set
+        if ('username' not in params) or (params['username'] is None):
+            raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")
+
+        resource_path = '/user/{username}'.replace('{format}', 'json')
+        path_params = {}
+        if 'username' in params:
+            path_params['username'] = params['username']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = []
+
+        response = self.api_client.call_api(resource_path, 'GET',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type='User',
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
     def login_user(self, **kwargs):
         """
         Logs user into the system
@@ -415,83 +569,6 @@ class UserApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def get_user_by_name(self, username, **kwargs):
-        """
-        Get user by user name
-        
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_user_by_name(username, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
-        :return: User
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['username']
-        all_params.append('callback')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_user_by_name" % key
-                )
-            params[key] = val
-        del params['kwargs']
-
-        # verify the required parameter 'username' is set
-        if ('username' not in params) or (params['username'] is None):
-            raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")
-
-        resource_path = '/user/{username}'.replace('{format}', 'json')
-        path_params = {}
-        if 'username' in params:
-            path_params['username'] = params['username']
-
-        query_params = {}
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
-        if not header_params['Accept']:
-            del header_params['Accept']
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type([])
-
-        # Authentication setting
-        auth_settings = []
-
-        response = self.api_client.call_api(resource_path, 'GET',
-                                            path_params,
-                                            query_params,
-                                            header_params,
-                                            body=body_params,
-                                            post_params=form_params,
-                                            files=local_var_files,
-                                            response_type='User',
-                                            auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
-
     def update_user(self, username, **kwargs):
         """
         Updated user
@@ -561,83 +638,6 @@ class UserApi(object):
         auth_settings = []
 
         response = self.api_client.call_api(resource_path, 'PUT',
-                                            path_params,
-                                            query_params,
-                                            header_params,
-                                            body=body_params,
-                                            post_params=form_params,
-                                            files=local_var_files,
-                                            response_type=None,
-                                            auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
-
-    def delete_user(self, username, **kwargs):
-        """
-        Delete user
-        This can only be done by the logged in user.
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_user(username, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str username: The name that needs to be deleted (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['username']
-        all_params.append('callback')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_user" % key
-                )
-            params[key] = val
-        del params['kwargs']
-
-        # verify the required parameter 'username' is set
-        if ('username' not in params) or (params['username'] is None):
-            raise ValueError("Missing the required parameter `username` when calling `delete_user`")
-
-        resource_path = '/user/{username}'.replace('{format}', 'json')
-        path_params = {}
-        if 'username' in params:
-            path_params['username'] = params['username']
-
-        query_params = {}
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
-        if not header_params['Accept']:
-            del header_params['Accept']
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type([])
-
-        # Authentication setting
-        auth_settings = []
-
-        response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
                                             query_params,
                                             header_params,

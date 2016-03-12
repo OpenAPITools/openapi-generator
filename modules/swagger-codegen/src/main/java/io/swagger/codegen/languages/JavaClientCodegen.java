@@ -301,6 +301,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             importMapping.put("LocalDate", "java.time.LocalDate");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         }
+
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
     }
 
     private boolean usesAnyRetrofitLibrary() {

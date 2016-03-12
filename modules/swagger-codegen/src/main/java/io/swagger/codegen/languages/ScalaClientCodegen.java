@@ -72,6 +72,8 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.scala"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
         importMapping.remove("List");
         importMapping.remove("Set");

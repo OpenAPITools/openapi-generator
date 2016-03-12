@@ -210,6 +210,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor" + java.io.File.separator, "packages.config"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
 
         if (optionalAssemblyInfoFlag) {
             supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));

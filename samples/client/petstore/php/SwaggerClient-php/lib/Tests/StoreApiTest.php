@@ -66,6 +66,16 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
 
     
     /**
+     * Test case for deleteOrder
+     *
+     * Delete purchase order by ID
+     *
+     */
+    public function test_deleteOrder() {
+
+    }
+    
+    /**
      * Test case for findOrdersByStatus
      *
      * Finds orders by status
@@ -96,16 +106,6 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test case for placeOrder
-     *
-     * Place an order for a pet
-     *
-     */
-    public function test_placeOrder() {
-
-    }
-    
-    /**
      * Test case for getOrderById
      *
      * Find purchase order by ID
@@ -116,12 +116,12 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test case for deleteOrder
+     * Test case for placeOrder
      *
-     * Delete purchase order by ID
+     * Place an order for a pet
      *
      */
-    public function test_deleteOrder() {
+    public function test_placeOrder() {
 
     }
     

@@ -71,81 +71,6 @@ static SWGPetApi* singletonAPI = nil;
 #pragma mark - Api Methods
 
 ///
-/// Update an existing pet
-/// 
-///  @param body Pet object that needs to be added to the store
-///
-///  @returns void
-///
--(NSNumber*) updatePetWithBody: (SWGPet*) body
-    completionHandler: (void (^)(NSError* error)) handler {
-
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/json", @"application/xml"]];
-
-    // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    bodyParam = body;
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"PUT"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: localVarFiles
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: nil
-                           completionBlock: ^(id data, NSError *error) {
-                               handler(error);
-                           }
-          ];
-}
-
-///
 /// Add a new pet to the store
 /// 
 ///  @param body Pet object that needs to be added to the store
@@ -204,6 +129,170 @@ static SWGPetApi* singletonAPI = nil;
     
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
+          ];
+}
+
+///
+/// Fake endpoint to test byte array in body parameter for adding a new pet to the store
+/// 
+///  @param body Pet object in the form of byte array
+///
+///  @returns void
+///
+-(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
+    completionHandler: (void (^)(NSError* error)) handler {
+
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet?testing_byte_array=true"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/json", @"application/xml"]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    bodyParam = body;
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
+          ];
+}
+
+///
+/// Deletes a pet
+/// 
+///  @param petId Pet id to delete
+///
+///  @param apiKey 
+///
+///  @returns void
+///
+-(NSNumber*) deletePetWithPetId: (NSNumber*) petId
+    apiKey: (NSString*) apiKey
+    completionHandler: (void (^)(NSError* error)) handler {
+
+    
+    // verify the required parameter 'petId' is set
+    if (petId == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `deletePet`"];
+    }
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (petId != nil) {
+        pathParams[@"petId"] = petId;
+    }
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    if (apiKey != nil) {
+        headerParams[@"api_key"] = apiKey;
+    }
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
@@ -466,295 +555,6 @@ static SWGPetApi* singletonAPI = nil;
 }
 
 ///
-/// Updates a pet in the store with form data
-/// 
-///  @param petId ID of pet that needs to be updated
-///
-///  @param name Updated name of the pet
-///
-///  @param status Updated status of the pet
-///
-///  @returns void
-///
--(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
-    name: (NSString*) name
-    status: (NSString*) status
-    completionHandler: (void (^)(NSError* error)) handler {
-
-    
-    // verify the required parameter 'petId' is set
-    if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `updatePetWithForm`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (petId != nil) {
-        pathParams[@"petId"] = petId;
-    }
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/x-www-form-urlencoded"]];
-
-    // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
-    if (name) {
-        formParams[@"name"] = name;
-    }
-    
-    
-    
-    if (status) {
-        formParams[@"status"] = status;
-    }
-    
-    
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"POST"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: localVarFiles
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: nil
-                           completionBlock: ^(id data, NSError *error) {
-                               handler(error);
-                           }
-          ];
-}
-
-///
-/// Deletes a pet
-/// 
-///  @param petId Pet id to delete
-///
-///  @param apiKey 
-///
-///  @returns void
-///
--(NSNumber*) deletePetWithPetId: (NSNumber*) petId
-    apiKey: (NSString*) apiKey
-    completionHandler: (void (^)(NSError* error)) handler {
-
-    
-    // verify the required parameter 'petId' is set
-    if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `deletePet`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (petId != nil) {
-        pathParams[@"petId"] = petId;
-    }
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    if (apiKey != nil) {
-        headerParams[@"api_key"] = apiKey;
-    }
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"DELETE"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: localVarFiles
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: nil
-                           completionBlock: ^(id data, NSError *error) {
-                               handler(error);
-                           }
-          ];
-}
-
-///
-/// uploads an image
-/// 
-///  @param petId ID of pet to update
-///
-///  @param additionalMetadata Additional data to pass to server
-///
-///  @param file file to upload
-///
-///  @returns void
-///
--(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
-    additionalMetadata: (NSString*) additionalMetadata
-    file: (NSURL*) file
-    completionHandler: (void (^)(NSError* error)) handler {
-
-    
-    // verify the required parameter 'petId' is set
-    if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `uploadFile`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}/uploadImage"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (petId != nil) {
-        pathParams[@"petId"] = petId;
-    }
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"multipart/form-data"]];
-
-    // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth"];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
-    if (additionalMetadata) {
-        formParams[@"additionalMetadata"] = additionalMetadata;
-    }
-    
-    
-    
-    localVarFiles[@"file"] = file;
-    
-    
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"POST"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: localVarFiles
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: nil
-                           completionBlock: ^(id data, NSError *error) {
-                               handler(error);
-                           }
-          ];
-}
-
-///
 /// Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
 /// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 ///  @param petId ID of pet that needs to be fetched
@@ -921,18 +721,18 @@ static SWGPetApi* singletonAPI = nil;
 }
 
 ///
-/// Fake endpoint to test byte array in body parameter for adding a new pet to the store
+/// Update an existing pet
 /// 
-///  @param body Pet object in the form of byte array
+///  @param body Pet object that needs to be added to the store
 ///
 ///  @returns void
 ///
--(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
+-(NSNumber*) updatePetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler {
 
     
 
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet?testing_byte_array=true"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
     // remove format in URL if needed
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
@@ -974,6 +774,206 @@ static SWGPetApi* singletonAPI = nil;
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
+          ];
+}
+
+///
+/// Updates a pet in the store with form data
+/// 
+///  @param petId ID of pet that needs to be updated
+///
+///  @param name Updated name of the pet
+///
+///  @param status Updated status of the pet
+///
+///  @returns void
+///
+-(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
+    name: (NSString*) name
+    status: (NSString*) status
+    completionHandler: (void (^)(NSError* error)) handler {
+
+    
+    // verify the required parameter 'petId' is set
+    if (petId == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `updatePetWithForm`"];
+    }
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (petId != nil) {
+        pathParams[@"petId"] = petId;
+    }
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"application/x-www-form-urlencoded"]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+    if (name) {
+        formParams[@"name"] = name;
+    }
+    
+    
+    
+    if (status) {
+        formParams[@"status"] = status;
+    }
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
+          ];
+}
+
+///
+/// uploads an image
+/// 
+///  @param petId ID of pet to update
+///
+///  @param additionalMetadata Additional data to pass to server
+///
+///  @param file file to upload
+///
+///  @returns void
+///
+-(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
+    additionalMetadata: (NSString*) additionalMetadata
+    file: (NSURL*) file
+    completionHandler: (void (^)(NSError* error)) handler {
+
+    
+    // verify the required parameter 'petId' is set
+    if (petId == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `uploadFile`"];
+    }
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}/uploadImage"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (petId != nil) {
+        pathParams[@"petId"] = petId;
+    }
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[@"multipart/form-data"]];
+
+    // Authentication setting
+    NSArray *authSettings = @[@"petstore_auth"];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+    if (additionalMetadata) {
+        formParams[@"additionalMetadata"] = additionalMetadata;
+    }
+    
+    
+    
+    localVarFiles[@"file"] = file;
+    
+    
     
 
     

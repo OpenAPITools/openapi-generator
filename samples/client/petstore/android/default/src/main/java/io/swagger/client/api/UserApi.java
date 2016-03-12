@@ -198,6 +198,122 @@ public class UserApi {
   }
   
   /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return void
+   */
+  public void  deleteUser (String username) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
+    }
+    
+
+    // create path and map variables
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] localVarContentTypes = {
+      
+    };
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
+
+    if (localVarContentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      localVarPostBody = localVarBuilder.build();
+    } else {
+      // normal form params
+      
+    }
+
+    try {
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return ;
+      }
+      else {
+        return ;
+      }
+    } catch (ApiException ex) {
+      throw ex;
+    }
+  }
+  
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return User
+   */
+  public User  getUserByName (String username) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
+    }
+    
+
+    // create path and map variables
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] localVarContentTypes = {
+      
+    };
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
+
+    if (localVarContentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      localVarPostBody = localVarBuilder.build();
+    } else {
+      // normal form params
+      
+    }
+
+    try {
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
+      }
+      else {
+        return null;
+      }
+    } catch (ApiException ex) {
+      throw ex;
+    }
+  }
+  
+  /**
    * Logs user into the system
    * 
    * @param username The user name for login
@@ -308,64 +424,6 @@ public class UserApi {
   }
   
   /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-   */
-  public User  getUserByName (String username) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
-    }
-    
-
-    // create path and map variables
-    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String[] localVarContentTypes = {
-      
-    };
-    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
-
-    if (localVarContentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      localVarPostBody = localVarBuilder.build();
-    } else {
-      // normal form params
-      
-    }
-
-    try {
-      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(localVarResponse != null){
-        return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
-      }
-      else {
-        return null;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
-  }
-  
-  /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
@@ -413,64 +471,6 @@ public class UserApi {
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
-      if(localVarResponse != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    } catch (ApiException ex) {
-      throw ex;
-    }
-  }
-  
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return void
-   */
-  public void  deleteUser (String username) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
-    }
-    
-
-    // create path and map variables
-    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String[] localVarContentTypes = {
-      
-    };
-    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
-
-    if (localVarContentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      localVarPostBody = localVarBuilder.build();
-    } else {
-      // normal form params
-      
-    }
-
-    try {
-      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
       if(localVarResponse != null){
         return ;
       }
