@@ -714,6 +714,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Ergon](http://www.ergon.ch/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
+- [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
