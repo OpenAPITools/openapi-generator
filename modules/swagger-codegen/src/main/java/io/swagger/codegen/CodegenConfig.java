@@ -184,4 +184,8 @@ public interface CodegenConfig {
 
     String getReleaseVersion();
 
+    void setHttpUserAgent(String httpUserAgent);
+
+    String getHttpUserAgent();
+
 }
