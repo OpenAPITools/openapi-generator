@@ -64,6 +64,7 @@ public class CodegenConfigurator {
     private String gitRepoId="YOUR_GIT_REPO_ID";
     private String releaseNote="Minor update";
     private String releaseVersion="0.1.0";
+    private String httpUserAgent;
 
     private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
@@ -334,6 +335,15 @@ public class CodegenConfigurator {
         this.releaseVersion = releaseVersion;
         return this;
     }
+    
+    public String getHttpUserAgent() {
+        return httpUserAgent;
+    }
+
+    public CodegenConfigurator setHttpUserAgent(String httpUserAgent) {
+        this.httpUserAgent= httpUserAgent;
+        return this;
+    }
 
     public ClientOptInput toClientOptInput() {
 
@@ -366,6 +376,7 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(gitRepoId, CodegenConstants.GIT_REPO_ID);
         checkAndSetAdditionalProperty(releaseVersion, CodegenConstants.RELEASE_VERSION);
         checkAndSetAdditionalProperty(releaseNote, CodegenConstants.RELEASE_NOTE);
+        checkAndSetAdditionalProperty(httpUserAgent, CodegenConstants.HTTP_USER_AGENT);
 
         handleDynamicProperties(config);
 
