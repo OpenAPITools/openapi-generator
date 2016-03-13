@@ -1001,6 +1001,13 @@ namespace IO.Swagger.Api
             
             
 
+            // authentication (test_http_basic) required
+            
+            // http basic authentication required
+            if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
+            {
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
+            }
             
     
             // make the HTTP request
@@ -1079,6 +1086,14 @@ namespace IO.Swagger.Api
             
             
 
+            
+            // authentication (test_http_basic) required
+            
+            // http basic authentication required
+            if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
+            {
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
+            }
             
 
             // make the HTTP request
