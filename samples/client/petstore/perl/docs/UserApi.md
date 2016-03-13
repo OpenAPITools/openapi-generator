@@ -1,5 +1,10 @@
 # WWW::SwaggerClient::UserApi
 
+## Load the API package
+```perl
+use WWW::SwaggerClient::Object::UserApi;
+```
+
 All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
@@ -23,6 +28,8 @@ This can only be done by the logged in user.
 
 ### Example 
 ```perl
+use Data::Dumper;
+
 my $api = WWW::SwaggerClient::UserApi->new();
 my $body = WWW::SwaggerClient::Object::User->new(); # [User] Created user object
 
@@ -30,7 +37,7 @@ eval {
     $api->create_user(body => $body);
 };
 if ($@) {
-    warn "Exception when calling create_user: $@\n";
+    warn "Exception when calling UserApi->create_user: $@\n";
 }
 ```
 
@@ -53,7 +60,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
 > create_users_with_array_input(body => $body)
@@ -64,6 +71,8 @@ Creates list of users with given input array
 
 ### Example 
 ```perl
+use Data::Dumper;
+
 my $api = WWW::SwaggerClient::UserApi->new();
 my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # [ARRAY[User]] List of user object
 
@@ -71,7 +80,7 @@ eval {
     $api->create_users_with_array_input(body => $body);
 };
 if ($@) {
-    warn "Exception when calling create_users_with_array_input: $@\n";
+    warn "Exception when calling UserApi->create_users_with_array_input: $@\n";
 }
 ```
 
@@ -94,7 +103,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
 > create_users_with_list_input(body => $body)
@@ -105,6 +114,8 @@ Creates list of users with given input array
 
 ### Example 
 ```perl
+use Data::Dumper;
+
 my $api = WWW::SwaggerClient::UserApi->new();
 my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # [ARRAY[User]] List of user object
 
@@ -112,7 +123,7 @@ eval {
     $api->create_users_with_list_input(body => $body);
 };
 if ($@) {
-    warn "Exception when calling create_users_with_list_input: $@\n";
+    warn "Exception when calling UserApi->create_users_with_list_input: $@\n";
 }
 ```
 
@@ -135,7 +146,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_user**
 > delete_user(username => $username)
@@ -146,6 +157,12 @@ This can only be done by the logged in user.
 
 ### Example 
 ```perl
+use Data::Dumper;
+
+# Configure HTTP basic authorization: test_http_basic
+WWW::SwaggerClient::Configuration::username = 'YOUR_USERNAME';
+WWW::SwaggerClient::Configuration::password = 'YOUR_PASSWORD';
+
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] The name that needs to be deleted
 
@@ -153,7 +170,7 @@ eval {
     $api->delete_user(username => $username);
 };
 if ($@) {
-    warn "Exception when calling delete_user: $@\n";
+    warn "Exception when calling UserApi->delete_user: $@\n";
 }
 ```
 
@@ -169,14 +186,14 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[test_http_basic](../README.md#test_http_basic)
 
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_user_by_name**
 > User get_user_by_name(username => $username)
@@ -187,14 +204,17 @@ Get user by user name
 
 ### Example 
 ```perl
+use Data::Dumper;
+
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] The name that needs to be fetched. Use user1 for testing.
 
 eval { 
     my $result = $api->get_user_by_name(username => $username);
+    print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling get_user_by_name: $@\n";
+    warn "Exception when calling UserApi->get_user_by_name: $@\n";
 }
 ```
 
@@ -217,7 +237,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **login_user**
 > string login_user(username => $username, password => $password)
@@ -228,15 +248,18 @@ Logs user into the system
 
 ### Example 
 ```perl
+use Data::Dumper;
+
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] The user name for login
 my $password = 'password_example'; # [string] The password for login in clear text
 
 eval { 
     my $result = $api->login_user(username => $username, password => $password);
+    print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling login_user: $@\n";
+    warn "Exception when calling UserApi->login_user: $@\n";
 }
 ```
 
@@ -260,7 +283,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **logout_user**
 > logout_user()
@@ -271,13 +294,15 @@ Logs out current logged in user session
 
 ### Example 
 ```perl
+use Data::Dumper;
+
 my $api = WWW::SwaggerClient::UserApi->new();
 
 eval { 
     $api->logout_user();
 };
 if ($@) {
-    warn "Exception when calling logout_user: $@\n";
+    warn "Exception when calling UserApi->logout_user: $@\n";
 }
 ```
 
@@ -297,7 +322,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
 > update_user(username => $username, body => $body)
@@ -308,6 +333,8 @@ This can only be done by the logged in user.
 
 ### Example 
 ```perl
+use Data::Dumper;
+
 my $api = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # [string] name that need to be deleted
 my $body = WWW::SwaggerClient::Object::User->new(); # [User] Updated user object
@@ -316,7 +343,7 @@ eval {
     $api->update_user(username => $username, body => $body);
 };
 if ($@) {
-    warn "Exception when calling update_user: $@\n";
+    warn "Exception when calling UserApi->update_user: $@\n";
 }
 ```
 
@@ -340,5 +367,5 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
 
-
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -1,6 +1,6 @@
 # WWW::SwaggerClient::Object::InlineResponse200
 
-## Import the module
+## Load the model package
 ```perl
 use WWW::SwaggerClient::Object::InlineResponse200;
 ```
@@ -14,5 +14,7 @@ Name | Type | Description | Notes
 **status** | **string** | pet status in the store | [optional] 
 **name** | **string** |  | [optional] 
 **photo_urls** | **ARRAY[string]** |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 
