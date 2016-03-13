@@ -216,7 +216,21 @@ spec. If so, this is available via the `class_documentation()` and
         my $omdoc = $api->get_pet_by_id->(pet_id => $pet_id)->method_documentation->{method_name}; 
         
 
-Each of these calls returns a hashref with various useful pieces of information.	
+Each of these calls returns a hashref with various useful pieces of information.
+
+# LOAD THE MODULES
+
+To load the API packages:
+```perl
+{{#apiInfo}}{{#apis}}use {{moduleName}}::{{classname}};
+{{/apis}}{{/apiInfo}}
+```
+
+To load the models:
+```perl
+{{#models}}{{#model}}use {{moduleName}}::Object::{{classname}};
+{{/model}}{{/models}}
+````
 
 # DOCUMENTATION FOR API ENDPOINTS
 
@@ -246,7 +260,7 @@ Class | Method | HTTP request | Description
 - **Flow**: {{{flow}}}
 - **Authorizatoin URL**: {{{authorizationUrl}}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
-{{#scopes}}-- {{{scope}}}: {{{description}}}
+{{#scopes}} - **{{{scope}}}**: {{{description}}}
 {{/scopes}}
 {{/isOAuth}}
 
