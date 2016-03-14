@@ -1,6 +1,6 @@
 # WWW::SwaggerClient::Object::Pet
 
-## Import the module
+## Load the model package
 ```perl
 use WWW::SwaggerClient::Object::Pet;
 ```
@@ -14,5 +14,7 @@ Name | Type | Description | Notes
 **photo_urls** | **ARRAY[string]** |  | 
 **tags** | [**ARRAY[Tag]**](Tag.md) |  | [optional] 
 **status** | **string** | pet status in the store | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

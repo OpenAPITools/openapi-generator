@@ -307,7 +307,7 @@ sub delete_user {
     
 
     # authentication setting, if any
-    my $auth_settings = [qw()];
+    my $auth_settings = [qw(test_http_basic )];
 
     # make the API Call
     

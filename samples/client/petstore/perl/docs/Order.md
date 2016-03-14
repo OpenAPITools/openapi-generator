@@ -1,6 +1,6 @@
 # WWW::SwaggerClient::Object::Order
 
-## Import the module
+## Load the model package
 ```perl
 use WWW::SwaggerClient::Object::Order;
 ```
@@ -14,5 +14,7 @@ Name | Type | Description | Notes
 **ship_date** | **DateTime** |  | [optional] 
 **status** | **string** | Order Status | [optional] 
 **complete** | **boolean** |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 
