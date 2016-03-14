@@ -171,6 +171,13 @@ module Petstore
             key: 'x-test_api_client_id',
             value: api_key_with_prefix('x-test_api_client_id')
           },
+        'test_http_basic' =>
+          {
+            type: 'basic',
+            in: 'header',
+            key: 'Authorization',
+            value: basic_auth_token
+          },
         'test_api_client_secret' =>
           {
             type: 'api_key',

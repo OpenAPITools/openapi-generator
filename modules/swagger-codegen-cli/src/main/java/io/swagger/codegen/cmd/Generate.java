@@ -115,7 +115,7 @@ public class Generate implements Runnable {
     @Option(name = {"--release-note"}, title = "release note", description = CodegenConstants.RELEASE_NOTE_DESC)
     private String releaseNote;
 
-    @Option(name = {"--http-user-agent"}, title = "http user agent", description = CodegenConstants.HTTP_USER_AGENT)
+    @Option(name = {"--http-user-agent"}, title = "http user agent", description = CodegenConstants.HTTP_USER_AGENT_DESC)
     private String httpUserAgent;
 
     @Override

@@ -101,6 +101,6 @@ public class CodegenConstants {
     public static final String RELEASE_NOTE_DESC = "Release note, default to 'Minor update'.";
 
     public static final String HTTP_USER_AGENT = "httpUserAgent";
-    public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'Swagger-Codegen/{releaseVersion}}/{language}'";
+    public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'Swagger-Codegen/{packageVersion}}/{language}'";
 
 }
