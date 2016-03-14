@@ -14,11 +14,11 @@ You can install the bindings via [Composer](http://getcomposer.org/). Add this t
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/{{composerVendorName}}/{{composerProjectName}}.git"
+      "url": "https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}{{composerVendorName}}{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{composerProjectName}}{{/gitRepoId}}.git"
     }
   ],
   "require": {
-    "{{composerVendorName}}/{{composerProjectName}}": "*@dev"
+    "{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}{{composerVendorName}}{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{composerProjectName}}{{/gitRepoId}}": "*@dev"
   }
 }
 ```
@@ -39,6 +39,42 @@ To run the unit tests:
 composer install
 ./vendor/bin/phpunit lib/Tests
 ```
+
+## Documentation for API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{nickname}}**]({{apiDocPath}}{{classname}}.md#{{nickname}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+## Documentation For Models
+
+{{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{/model}}{{/models}}
+
+## Documentation For Authorization
+
+{{^authMethods}} All endpoints do not require authorization.
+{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
+{{#authMethods}}## {{{name}}}
+
+{{#isApiKey}}- **Type**: API key 
+- **API key parameter name**: {{{keyParamName}}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+{{/isApiKey}}
+{{#isBasic}}- **Type**: HTTP basic authentication
+{{/isBasic}}
+{{#isOAuth}}- **Type**: OAuth
+- **Flow**: {{{flow}}}
+- **Authorizatoin URL**: {{{authorizationUrl}}}
+- **Scopes**: {{^scopes}}N/A{{/scopes}}
+{{#scopes}} - **{{{scope}}}**: {{{description}}}
+{{/scopes}}
+{{/isOAuth}}
+
+{{/authMethods}}
 
 ## Author
 
