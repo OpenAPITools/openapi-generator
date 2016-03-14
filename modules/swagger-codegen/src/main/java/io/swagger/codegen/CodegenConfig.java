@@ -180,10 +180,6 @@ public interface CodegenConfig {
 
     String getReleaseNote();
 
-    void setReleaseVersion(String releaseVersion);
-
-    String getReleaseVersion();
-
     void setHttpUserAgent(String httpUserAgent);
 
     String getHttpUserAgent();

@@ -83,7 +83,7 @@ public class DefaultCodegen {
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
-    protected String gitUserId, gitRepoId, releaseNote, releaseVersion;
+    protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
 
     public List<CliOption> cliOptions() {
@@ -2412,24 +2412,6 @@ public class DefaultCodegen {
      */
     public String getReleaseNote() {
         return releaseNote;
-    }
-
-    /**
-     * Set release version.
-     *
-     * @param releaseVersion Release version
-     */
-    public void setReleaseVersion(String releaseVersion) {
-        this.releaseVersion = releaseVersion;
-    }
-
-    /**
-     * Release version
-     *
-     * @return Release version
-     */
-    public String getReleaseVersion() {
-        return releaseVersion;
     }
 
     /**
