@@ -26,6 +26,8 @@ Add a new pet to the store
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -74,6 +76,8 @@ Fake endpoint to test byte array in body parameter for adding a new pet to the s
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -122,6 +126,8 @@ Deletes a pet
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -173,6 +179,8 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -186,6 +194,7 @@ opts = {
 
 begin
   result = api.find_pets_by_status(opts)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling find_pets_by_status: #{e}"
 end
@@ -221,6 +230,8 @@ Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -234,6 +245,7 @@ opts = {
 
 begin
   result = api.find_pets_by_tags(opts)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling find_pets_by_tags: #{e}"
 end
@@ -269,6 +281,8 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -286,6 +300,7 @@ pet_id = 789 # [Integer] ID of pet that needs to be fetched
 
 begin
   result = api.get_pet_by_id(pet_id)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling get_pet_by_id: #{e}"
 end
@@ -321,6 +336,8 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -338,6 +355,7 @@ pet_id = 789 # [Integer] ID of pet that needs to be fetched
 
 begin
   result = api.get_pet_by_id_in_object(pet_id)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling get_pet_by_id_in_object: #{e}"
 end
@@ -373,6 +391,8 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -390,6 +410,7 @@ pet_id = 789 # [Integer] ID of pet that needs to be fetched
 
 begin
   result = api.pet_pet_idtesting_byte_arraytrue_get(pet_id)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling pet_pet_idtesting_byte_arraytrue_get: #{e}"
 end
@@ -425,6 +446,8 @@ Update an existing pet
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -473,6 +496,8 @@ Updates a pet in the store with form data
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"
@@ -526,6 +551,8 @@ uploads an image
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = "YOUR ACCESS TOKEN"

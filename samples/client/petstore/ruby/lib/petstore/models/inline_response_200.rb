@@ -18,34 +18,34 @@ require 'date'
 
 module Petstore
   class InlineResponse200
-    attr_accessor :tags
+    attr_accessor :photo_urls
+
+    attr_accessor :name
 
     attr_accessor :id
 
     attr_accessor :category
 
+    attr_accessor :tags
+
     # pet status in the store
     attr_accessor :status
-
-    attr_accessor :name
-
-    attr_accessor :photo_urls
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         
-        :'tags' => :'tags',
+        :'photo_urls' => :'photoUrls',
+        
+        :'name' => :'name',
         
         :'id' => :'id',
         
         :'category' => :'category',
         
-        :'status' => :'status',
+        :'tags' => :'tags',
         
-        :'name' => :'name',
-        
-        :'photo_urls' => :'photoUrls'
+        :'status' => :'status'
         
       }
     end
@@ -53,12 +53,12 @@ module Petstore
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'tags' => :'Array<Tag>',
+        :'photo_urls' => :'Array<String>',
+        :'name' => :'String',
         :'id' => :'Integer',
         :'category' => :'Object',
-        :'status' => :'String',
-        :'name' => :'String',
-        :'photo_urls' => :'Array<String>'
+        :'tags' => :'Array<Tag>',
+        :'status' => :'String'
         
       }
     end
@@ -70,10 +70,14 @@ module Petstore
       attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
 
       
-      if attributes[:'tags']
-        if (value = attributes[:'tags']).is_a?(Array)
-          self.tags = value
+      if attributes[:'photoUrls']
+        if (value = attributes[:'photoUrls']).is_a?(Array)
+          self.photo_urls = value
         end
+      end
+      
+      if attributes[:'name']
+        self.name = attributes[:'name']
       end
       
       if attributes[:'id']
@@ -84,18 +88,14 @@ module Petstore
         self.category = attributes[:'category']
       end
       
+      if attributes[:'tags']
+        if (value = attributes[:'tags']).is_a?(Array)
+          self.tags = value
+        end
+      end
+      
       if attributes[:'status']
         self.status = attributes[:'status']
-      end
-      
-      if attributes[:'name']
-        self.name = attributes[:'name']
-      end
-      
-      if attributes[:'photoUrls']
-        if (value = attributes[:'photoUrls']).is_a?(Array)
-          self.photo_urls = value
-        end
       end
       
     end
@@ -113,12 +113,12 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          tags == o.tags &&
+          photo_urls == o.photo_urls &&
+          name == o.name &&
           id == o.id &&
           category == o.category &&
-          status == o.status &&
-          name == o.name &&
-          photo_urls == o.photo_urls
+          tags == o.tags &&
+          status == o.status
     end
 
     # @see the `==` method
@@ -128,7 +128,7 @@ module Petstore
 
     # Calculate hash code according to all attributes.
     def hash
-      [tags, id, category, status, name, photo_urls].hash
+      [photo_urls, name, id, category, tags, status].hash
     end
 
     # build the object from hash

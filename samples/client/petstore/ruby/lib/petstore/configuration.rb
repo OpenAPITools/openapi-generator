@@ -157,26 +157,12 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
-        'test_api_key_header' =>
+        'petstore_auth' =>
           {
-            type: 'api_key',
+            type: 'oauth2',
             in: 'header',
-            key: 'test_api_key_header',
-            value: api_key_with_prefix('test_api_key_header')
-          },
-        'api_key' =>
-          {
-            type: 'api_key',
-            in: 'header',
-            key: 'api_key',
-            value: api_key_with_prefix('api_key')
-          },
-        'test_api_client_secret' =>
-          {
-            type: 'api_key',
-            in: 'header',
-            key: 'x-test_api_client_secret',
-            value: api_key_with_prefix('x-test_api_client_secret')
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
           },
         'test_api_client_id' =>
           {
@@ -185,6 +171,27 @@ module Petstore
             key: 'x-test_api_client_id',
             value: api_key_with_prefix('x-test_api_client_id')
           },
+        'test_api_client_secret' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'x-test_api_client_secret',
+            value: api_key_with_prefix('x-test_api_client_secret')
+          },
+        'api_key' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'api_key',
+            value: api_key_with_prefix('api_key')
+          },
+        'test_http_basic' =>
+          {
+            type: 'basic',
+            in: 'header',
+            key: 'Authorization',
+            value: basic_auth_token
+          },
         'test_api_key_query' =>
           {
             type: 'api_key',
@@ -192,12 +199,12 @@ module Petstore
             key: 'test_api_key_query',
             value: api_key_with_prefix('test_api_key_query')
           },
-        'petstore_auth' =>
+        'test_api_key_header' =>
           {
-            type: 'oauth2',
+            type: 'api_key',
             in: 'header',
-            key: 'Authorization',
-            value: "Bearer #{access_token}"
+            key: 'test_api_key_header',
+            value: api_key_with_prefix('test_api_key_header')
           },
       }
     end
