@@ -45,6 +45,110 @@ public class StoreApi {
   }
 
   
+  /* Build call for deleteOrder */
+  private Call deleteOrderCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
+       throw new ApiException("Missing the required parameter 'orderId' when calling deleteOrder(Async)");
+    }
+    
+
+    // create path and map variables
+    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public void deleteOrder(String orderId) throws ApiException {
+    deleteOrderWithHttpInfo(orderId);
+  }
+
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+    Call call = deleteOrderCall(orderId, null, null);
+    return apiClient.execute(call);
+  }
+
+  /**
+   * Delete purchase order by ID (asynchronously)
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call deleteOrderAsync(String orderId, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = deleteOrderCall(orderId, progressListener, progressRequestListener);
+    apiClient.executeAsync(call, callback);
+    return call;
+  }
+  
   /* Build call for findOrdersByStatus */
   private Call findOrdersByStatusCall(String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = null;
@@ -347,6 +451,114 @@ public class StoreApi {
     return call;
   }
   
+  /* Build call for getOrderById */
+  private Call getOrderByIdCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
+       throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
+    }
+    
+
+    // create path and map variables
+    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] { "test_api_key_header", "test_api_key_query" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Find purchase order by ID
+   * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+   * @param orderId ID of pet that needs to be fetched
+   * @return Order
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public Order getOrderById(String orderId) throws ApiException {
+    ApiResponse<Order> resp = getOrderByIdWithHttpInfo(orderId);
+    return resp.getData();
+  }
+
+  /**
+   * Find purchase order by ID
+   * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+   * @param orderId ID of pet that needs to be fetched
+   * @return ApiResponse<Order>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Order> getOrderByIdWithHttpInfo(String orderId) throws ApiException {
+    Call call = getOrderByIdCall(orderId, null, null);
+    Type localVarReturnType = new TypeToken<Order>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
+  }
+
+  /**
+   * Find purchase order by ID (asynchronously)
+   * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+   * @param orderId ID of pet that needs to be fetched
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call getOrderByIdAsync(String orderId, final ApiCallback<Order> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = getOrderByIdCall(orderId, progressListener, progressRequestListener);
+    Type localVarReturnType = new TypeToken<Order>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
+    return call;
+  }
+  
   /* Build call for placeOrder */
   private Call placeOrderCall(Order body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = body;
@@ -446,218 +658,6 @@ public class StoreApi {
     Call call = placeOrderCall(body, progressListener, progressRequestListener);
     Type localVarReturnType = new TypeToken<Order>(){}.getType();
     apiClient.executeAsync(call, localVarReturnType, callback);
-    return call;
-  }
-  
-  /* Build call for getOrderById */
-  private Call getOrderByIdCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'orderId' is set
-    if (orderId == null) {
-       throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
-    }
-    
-
-    // create path and map variables
-    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
-
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    final String[] localVarAccepts = {
-      "application/json", "application/xml"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-    localVarHeaderParams.put("Content-Type", localVarContentType);
-
-    if(progressListener != null) {
-      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
-      @Override
-      public Response intercept(Interceptor.Chain chain) throws IOException {
-        Response originalResponse = chain.proceed(chain.request());
-        return originalResponse.newBuilder()
-                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                .build();
-        }
-      });
-    }
-
-    String[] localVarAuthNames = new String[] { "test_api_key_query", "test_api_key_header" };
-    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-  }
-
-  /**
-   * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
-   * @return Order
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public Order getOrderById(String orderId) throws ApiException {
-    ApiResponse<Order> resp = getOrderByIdWithHttpInfo(orderId);
-    return resp.getData();
-  }
-
-  /**
-   * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
-   * @return ApiResponse<Order>
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public ApiResponse<Order> getOrderByIdWithHttpInfo(String orderId) throws ApiException {
-    Call call = getOrderByIdCall(orderId, null, null);
-    Type localVarReturnType = new TypeToken<Order>(){}.getType();
-    return apiClient.execute(call, localVarReturnType);
-  }
-
-  /**
-   * Find purchase order by ID (asynchronously)
-   * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
-   * @param callback The callback to be executed when the API call finishes
-   * @return The request call
-   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-   */
-  public Call getOrderByIdAsync(String orderId, final ApiCallback<Order> callback) throws ApiException {
-
-    ProgressResponseBody.ProgressListener progressListener = null;
-    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-    if (callback != null) {
-      progressListener = new ProgressResponseBody.ProgressListener() {
-        @Override
-        public void update(long bytesRead, long contentLength, boolean done) {
-          callback.onDownloadProgress(bytesRead, contentLength, done);
-        }
-      };
-
-      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-        @Override
-        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-          callback.onUploadProgress(bytesWritten, contentLength, done);
-        }
-      };
-    }
-
-    Call call = getOrderByIdCall(orderId, progressListener, progressRequestListener);
-    Type localVarReturnType = new TypeToken<Order>(){}.getType();
-    apiClient.executeAsync(call, localVarReturnType, callback);
-    return call;
-  }
-  
-  /* Build call for deleteOrder */
-  private Call deleteOrderCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'orderId' is set
-    if (orderId == null) {
-       throw new ApiException("Missing the required parameter 'orderId' when calling deleteOrder(Async)");
-    }
-    
-
-    // create path and map variables
-    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
-
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    final String[] localVarAccepts = {
-      "application/json", "application/xml"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-    localVarHeaderParams.put("Content-Type", localVarContentType);
-
-    if(progressListener != null) {
-      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
-      @Override
-      public Response intercept(Interceptor.Chain chain) throws IOException {
-        Response originalResponse = chain.proceed(chain.request());
-        return originalResponse.newBuilder()
-                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                .build();
-        }
-      });
-    }
-
-    String[] localVarAuthNames = new String[] {  };
-    return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-  }
-
-  /**
-   * Delete purchase order by ID
-   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public void deleteOrder(String orderId) throws ApiException {
-    deleteOrderWithHttpInfo(orderId);
-  }
-
-  /**
-   * Delete purchase order by ID
-   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
-   * @return ApiResponse<Void>
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
-    Call call = deleteOrderCall(orderId, null, null);
-    return apiClient.execute(call);
-  }
-
-  /**
-   * Delete purchase order by ID (asynchronously)
-   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
-   * @param callback The callback to be executed when the API call finishes
-   * @return The request call
-   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-   */
-  public Call deleteOrderAsync(String orderId, final ApiCallback<Void> callback) throws ApiException {
-
-    ProgressResponseBody.ProgressListener progressListener = null;
-    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-    if (callback != null) {
-      progressListener = new ProgressResponseBody.ProgressListener() {
-        @Override
-        public void update(long bytesRead, long contentLength, boolean done) {
-          callback.onDownloadProgress(bytesRead, contentLength, done);
-        }
-      };
-
-      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-        @Override
-        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-          callback.onUploadProgress(bytesWritten, contentLength, done);
-        }
-      };
-    }
-
-    Call call = deleteOrderCall(orderId, progressListener, progressRequestListener);
-    apiClient.executeAsync(call, callback);
     return call;
   }
   
