@@ -63,7 +63,6 @@ public class CodegenConfigurator {
     private String gitUserId="YOUR_GIT_USR_ID";
     private String gitRepoId="YOUR_GIT_REPO_ID";
     private String releaseNote="Minor update";
-    private String releaseVersion="0.1.0";
     private String httpUserAgent;
 
     private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
@@ -327,15 +326,6 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public String getReleaseVersion() {
-        return releaseVersion;
-    }
-
-    public CodegenConfigurator setReleaseVersion(String releaseVersion) {
-        this.releaseVersion = releaseVersion;
-        return this;
-    }
-    
     public String getHttpUserAgent() {
         return httpUserAgent;
     }
@@ -374,7 +364,6 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
         checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
         checkAndSetAdditionalProperty(gitRepoId, CodegenConstants.GIT_REPO_ID);
-        checkAndSetAdditionalProperty(releaseVersion, CodegenConstants.RELEASE_VERSION);
         checkAndSetAdditionalProperty(releaseNote, CodegenConstants.RELEASE_NOTE);
         checkAndSetAdditionalProperty(httpUserAgent, CodegenConstants.HTTP_USER_AGENT);
 
