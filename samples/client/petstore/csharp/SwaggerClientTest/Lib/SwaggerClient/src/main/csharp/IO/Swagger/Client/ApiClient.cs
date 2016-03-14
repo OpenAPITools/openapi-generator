@@ -84,6 +84,9 @@ namespace IO.Swagger.Client
             String contentType)
         {
             var request = new RestRequest(path, method);
+
+            // add user agent header
+            request.AddHeader("User-Agent", Configuration.HttpUserAgent);
    
             // add path parameter, if any
             foreach(var param in pathParams)

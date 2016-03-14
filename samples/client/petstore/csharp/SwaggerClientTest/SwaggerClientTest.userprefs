@@ -2,9 +2,16 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
     <Files>
-      <File FileName="TestPet.cs" Line="189" Column="4" />
+      <File FileName="TestPet.cs" Line="69" Column="32" />
       <File FileName="TestOrder.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="SwaggerClientTest" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

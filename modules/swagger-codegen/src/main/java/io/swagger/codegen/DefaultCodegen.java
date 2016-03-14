@@ -84,6 +84,7 @@ public class DefaultCodegen {
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
     protected String gitUserId, gitRepoId, releaseNote, releaseVersion;
+    protected String httpUserAgent;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -2429,6 +2430,24 @@ public class DefaultCodegen {
      */
     public String getReleaseVersion() {
         return releaseVersion;
+    }
+
+    /**
+     * Set HTTP user agent.
+     *
+     * @param httpUserAgent HTTP user agent
+     */
+    public void setHttpUserAgent(String httpUserAgent) {
+        this.httpUserAgent = httpUserAgent;
+    }
+
+    /**
+     * HTTP user agent 
+     *
+     * @return HTTP user agent
+     */
+    public String getHttpUserAgent() {
+        return httpUserAgent;
     }
 
     @SuppressWarnings("static-method")
