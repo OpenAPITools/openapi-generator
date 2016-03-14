@@ -51,6 +51,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [ASP.NET 5 Web API](#aspnet-5-web-api)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Workflow Integration](#workflow-integration)
+  - [Github Integration](#github-integration)
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
@@ -686,6 +687,26 @@ Note!  The templates are included in the library generated.  If you want to modi
 
 You can use the [swagger-codegen-maven-plugin](modules/swagger-codegen-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
 
+## GitHub Integration
+
+To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline the process. For example:
+
+ 1) Create a new repository in GitHub (Ref: https://help.github.com/articles/creating-a-new-repository/)
+ 
+ 2) Generate the SDK
+```
+ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+ -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l perl \
+ --git-user-id "wing328" \
+ --git-repo-id "petstore-perl" \
+ --release-note "Github integration demo" \
+ -o /var/tmp/perl/petstore
+```
+ 3) Push the SDK to GitHub
+```
+cd /var/tmp/perl/petstore
+/bin/sh ./git_push.sh
+```
 
 ## Online generators
 
