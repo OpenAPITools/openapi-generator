@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-11T21:48:33.457Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-14T22:17:50.356+08:00")
 public interface UserApi extends ApiClient.Api {
 
 
@@ -54,6 +54,32 @@ public interface UserApi extends ApiClient.Api {
   void createUsersWithListInput(List<User> body);
   
   /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return void
+   */
+  @RequestLine("DELETE /user/{username}")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  void deleteUser(@Param("username") String username);
+  
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return User
+   */
+  @RequestLine("GET /user/{username}")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  User getUserByName(@Param("username") String username);
+  
+  /**
    * Logs user into the system
    * 
    * @param username The user name for login
@@ -80,19 +106,6 @@ public interface UserApi extends ApiClient.Api {
   void logoutUser();
   
   /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-   */
-  @RequestLine("GET /user/{username}")
-  @Headers({
-    "Content-type: application/json",
-    "Accepts: application/json",
-  })
-  User getUserByName(@Param("username") String username);
-  
-  /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
@@ -105,18 +118,5 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void updateUser(@Param("username") String username, User body);
-  
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return void
-   */
-  @RequestLine("DELETE /user/{username}")
-  @Headers({
-    "Content-type: application/json",
-    "Accepts: application/json",
-  })
-  void deleteUser(@Param("username") String username);
   
 }

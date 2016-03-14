@@ -9,8 +9,8 @@ import retrofit2.http.*;
 import okhttp3.RequestBody;
 
 import io.swagger.client.model.Pet;
-import java.io.File;
 import io.swagger.client.model.InlineResponse200;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,19 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface PetApi {
-  
-  /**
-   * Update an existing pet
-   * 
-   * @param body Pet object that needs to be added to the store
-   * @return Call<Void>
-   */
-  
-  @PUT("pet")
-  Call<Void> updatePet(
-    @Body Pet body
-  );
-
   
   /**
    * Add a new pet to the store
@@ -42,6 +29,33 @@ public interface PetApi {
   @POST("pet")
   Call<Void> addPet(
     @Body Pet body
+  );
+
+  
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * 
+   * @param body Pet object in the form of byte array
+   * @return Call<Void>
+   */
+  
+  @POST("pet?testing_byte_array=true")
+  Call<Void> addPetUsingByteArray(
+    @Body byte[] body
+  );
+
+  
+  /**
+   * Deletes a pet
+   * 
+   * @param petId Pet id to delete
+   * @param apiKey 
+   * @return Call<Void>
+   */
+  
+  @DELETE("pet/{petId}")
+  Call<Void> deletePet(
+    @Path("petId") Long petId, @Header("api_key") String apiKey
   );
 
   
@@ -85,52 +99,6 @@ public interface PetApi {
 
   
   /**
-   * Updates a pet in the store with form data
-   * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
-   * @return Call<Void>
-   */
-  
-  @FormUrlEncoded
-  @POST("pet/{petId}")
-  Call<Void> updatePetWithForm(
-    @Path("petId") String petId, @Field("name") String name, @Field("status") String status
-  );
-
-  
-  /**
-   * Deletes a pet
-   * 
-   * @param petId Pet id to delete
-   * @param apiKey 
-   * @return Call<Void>
-   */
-  
-  @DELETE("pet/{petId}")
-  Call<Void> deletePet(
-    @Path("petId") Long petId, @Header("api_key") String apiKey
-  );
-
-  
-  /**
-   * uploads an image
-   * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
-   * @return Call<Void>
-   */
-  
-  @Multipart
-  @POST("pet/{petId}/uploadImage")
-  Call<Void> uploadFile(
-    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file\"; filename=\"file\"") RequestBody file
-  );
-
-  
-  /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
@@ -157,15 +125,47 @@ public interface PetApi {
 
   
   /**
-   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Update an existing pet
    * 
-   * @param body Pet object in the form of byte array
+   * @param body Pet object that needs to be added to the store
    * @return Call<Void>
    */
   
-  @POST("pet?testing_byte_array=true")
-  Call<Void> addPetUsingByteArray(
-    @Body byte[] body
+  @PUT("pet")
+  Call<Void> updatePet(
+    @Body Pet body
+  );
+
+  
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @return Call<Void>
+   */
+  
+  @FormUrlEncoded
+  @POST("pet/{petId}")
+  Call<Void> updatePetWithForm(
+    @Path("petId") String petId, @Field("name") String name, @Field("status") String status
+  );
+
+  
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return Call<Void>
+   */
+  
+  @Multipart
+  @POST("pet/{petId}/uploadImage")
+  Call<Void> uploadFile(
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file\"; filename=\"file\"") RequestBody file
   );
 
   

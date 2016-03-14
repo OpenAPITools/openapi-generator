@@ -15,20 +15,14 @@ import com.google.gson.annotations.SerializedName;
 @ApiModel(description = "")
 public class InlineResponse200   {
   
-  @SerializedName("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>();
-  
-  @SerializedName("name")
-  private String name = null;
+  @SerializedName("tags")
+  private List<Tag> tags = new ArrayList<Tag>();
   
   @SerializedName("id")
   private Long id = null;
   
   @SerializedName("category")
   private Object category = null;
-  
-  @SerializedName("tags")
-  private List<Tag> tags = new ArrayList<Tag>();
   
 
 public enum StatusEnum {
@@ -56,27 +50,22 @@ public enum StatusEnum {
   @SerializedName("status")
   private StatusEnum status = null;
   
+  @SerializedName("name")
+  private String name = null;
+  
+  @SerializedName("photoUrls")
+  private List<String> photoUrls = new ArrayList<String>();
+  
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  public List<String> getPhotoUrls() {
-    return photoUrls;
+  public List<Tag> getTags() {
+    return tags;
   }
-  public void setPhotoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
   }
 
   
@@ -103,17 +92,6 @@ public enum StatusEnum {
 
   
   /**
-   **/
-  @ApiModelProperty(value = "")
-  public List<Tag> getTags() {
-    return tags;
-  }
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
-  }
-
-  
-  /**
    * pet status in the store
    **/
   @ApiModelProperty(value = "pet status in the store")
@@ -122,6 +100,28 @@ public enum StatusEnum {
   }
   public void setStatus(StatusEnum status) {
     this.status = status;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<String> getPhotoUrls() {
+    return photoUrls;
+  }
+  public void setPhotoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
   }
 
   
@@ -135,17 +135,17 @@ public enum StatusEnum {
       return false;
     }
     InlineResponse200 inlineResponse200 = (InlineResponse200) o;
-    return Objects.equals(photoUrls, inlineResponse200.photoUrls) &&
-        Objects.equals(name, inlineResponse200.name) &&
+    return Objects.equals(tags, inlineResponse200.tags) &&
         Objects.equals(id, inlineResponse200.id) &&
         Objects.equals(category, inlineResponse200.category) &&
-        Objects.equals(tags, inlineResponse200.tags) &&
-        Objects.equals(status, inlineResponse200.status);
+        Objects.equals(status, inlineResponse200.status) &&
+        Objects.equals(name, inlineResponse200.name) &&
+        Objects.equals(photoUrls, inlineResponse200.photoUrls);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(photoUrls, name, id, category, tags, status);
+    return Objects.hash(tags, id, category, status, name, photoUrls);
   }
 
   @Override
@@ -153,12 +153,12 @@ public enum StatusEnum {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineResponse200 {\n");
     
-    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("}");
     return sb.toString();
   }
