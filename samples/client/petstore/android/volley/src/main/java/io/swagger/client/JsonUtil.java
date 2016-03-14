@@ -35,24 +35,40 @@ public class JsonUtil {
   public static Type getListTypeForDeserialization(Class cls) {
     String className = cls.getSimpleName();
     
+    if ("Category".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Category>>(){}.getType();
+    }
+    
+    if ("InlineResponse200".equalsIgnoreCase(className)) {
+      return new TypeToken<List<InlineResponse200>>(){}.getType();
+    }
+    
+    if ("ModelReturn".equalsIgnoreCase(className)) {
+      return new TypeToken<List<ModelReturn>>(){}.getType();
+    }
+    
+    if ("Name".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Name>>(){}.getType();
+    }
+    
     if ("Order".equalsIgnoreCase(className)) {
       return new TypeToken<List<Order>>(){}.getType();
     }
     
-    if ("User".equalsIgnoreCase(className)) {
-      return new TypeToken<List<User>>(){}.getType();
+    if ("Pet".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Pet>>(){}.getType();
     }
     
-    if ("Category".equalsIgnoreCase(className)) {
-      return new TypeToken<List<Category>>(){}.getType();
+    if ("SpecialModelName".equalsIgnoreCase(className)) {
+      return new TypeToken<List<SpecialModelName>>(){}.getType();
     }
     
     if ("Tag".equalsIgnoreCase(className)) {
       return new TypeToken<List<Tag>>(){}.getType();
     }
     
-    if ("Pet".equalsIgnoreCase(className)) {
-      return new TypeToken<List<Pet>>(){}.getType();
+    if ("User".equalsIgnoreCase(className)) {
+      return new TypeToken<List<User>>(){}.getType();
     }
     
     return new TypeToken<List<Object>>(){}.getType();
@@ -61,24 +77,40 @@ public class JsonUtil {
   public static Type getTypeForDeserialization(Class cls) {
     String className = cls.getSimpleName();
     
+    if ("Category".equalsIgnoreCase(className)) {
+      return new TypeToken<Category>(){}.getType();
+    }
+    
+    if ("InlineResponse200".equalsIgnoreCase(className)) {
+      return new TypeToken<InlineResponse200>(){}.getType();
+    }
+    
+    if ("ModelReturn".equalsIgnoreCase(className)) {
+      return new TypeToken<ModelReturn>(){}.getType();
+    }
+    
+    if ("Name".equalsIgnoreCase(className)) {
+      return new TypeToken<Name>(){}.getType();
+    }
+    
     if ("Order".equalsIgnoreCase(className)) {
       return new TypeToken<Order>(){}.getType();
     }
     
-    if ("User".equalsIgnoreCase(className)) {
-      return new TypeToken<User>(){}.getType();
+    if ("Pet".equalsIgnoreCase(className)) {
+      return new TypeToken<Pet>(){}.getType();
     }
     
-    if ("Category".equalsIgnoreCase(className)) {
-      return new TypeToken<Category>(){}.getType();
+    if ("SpecialModelName".equalsIgnoreCase(className)) {
+      return new TypeToken<SpecialModelName>(){}.getType();
     }
     
     if ("Tag".equalsIgnoreCase(className)) {
       return new TypeToken<Tag>(){}.getType();
     }
     
-    if ("Pet".equalsIgnoreCase(className)) {
-      return new TypeToken<Pet>(){}.getType();
+    if ("User".equalsIgnoreCase(className)) {
+      return new TypeToken<User>(){}.getType();
     }
     
     return new TypeToken<Object>(){}.getType();
