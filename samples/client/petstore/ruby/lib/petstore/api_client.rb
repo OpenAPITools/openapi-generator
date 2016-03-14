@@ -33,7 +33,7 @@ module Petstore
 
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = "ruby-swagger-#{VERSION}"
+      @user_agent = "Swagger-Codegen/#{VERSION}/ruby"
       @default_headers = {
         'Content-Type' => "application/json",
         'User-Agent' => @user_agent
