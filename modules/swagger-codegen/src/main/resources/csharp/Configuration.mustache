@@ -35,7 +35,7 @@ namespace {{packageName}}.Client
                              string tempFolderPath = null,
                              string dateTimeFormat = null,
                              int timeout = 100000,
-                             string httpUserAgent = "{{#httpUserAgent}}{{.}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{packageVersion}}/csharp{{/httpUserAgent}}"
+                             string userAgent = "{{#httpUserAgent}}{{.}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{packageVersion}}/csharp{{/httpUserAgent}}"
                             )
         {
             setApiClientUsingDefault(apiClient);
@@ -43,7 +43,7 @@ namespace {{packageName}}.Client
             Username = username;
             Password = password;
             AccessToken = accessToken;
-            HttpUserAgent = httpUserAgent;
+            UserAgent = userAgent;
 
             if (defaultHeader != null)
                 DefaultHeader = defaultHeader;
@@ -152,7 +152,7 @@ namespace {{packageName}}.Client
         /// Gets or sets the HTTP user agent.
         /// </summary>
         /// <value>Http user agent.</value>
-        public String HttpUserAgent { get; set; }
+        public String UserAgent { get; set; }
 
         /// <summary>
         /// Gets or sets the username (HTTP basic authentication).

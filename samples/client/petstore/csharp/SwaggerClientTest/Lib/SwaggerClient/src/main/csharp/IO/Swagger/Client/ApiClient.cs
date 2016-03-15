@@ -85,9 +85,6 @@ namespace IO.Swagger.Client
         {
             var request = new RestRequest(path, method);
 
-            // add user agent header
-            request.AddHeader("User-Agent", Configuration.HttpUserAgent);
-   
             // add path parameter, if any
             foreach(var param in pathParams)
                 request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment); 
@@ -145,6 +142,11 @@ namespace IO.Swagger.Client
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams,
                 pathParams, contentType);
+
+            // set timeout
+            RestClient.Timeout = Configuration.Timeout;
+            // set user agent
+            RestClient.UserAgent = Configuration.UserAgent;
 
             var response = RestClient.Execute(request);
             return (Object) response;
