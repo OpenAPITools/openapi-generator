@@ -7,8 +7,8 @@ import retrofit.http.*;
 import retrofit.mime.*;
 
 import io.swagger.client.model.Pet;
-import java.io.File;
 import io.swagger.client.model.InlineResponse200;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,32 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface PetApi {
-  
-  /**
-   * Update an existing pet
-   * Sync method
-   * 
-   * @param body Pet object that needs to be added to the store
-   * @return Void
-   */
-  
-  @PUT("/pet")
-  Void updatePet(
-    @Body Pet body
-  );
-
-  /**
-   * Update an existing pet
-   * Async method
-   * @param body Pet object that needs to be added to the store
-   * @param cb callback method
-   * @return void
-   */
-  
-  @PUT("/pet")
-  void updatePet(
-    @Body Pet body, Callback<Void> cb
-  );
   
   /**
    * Add a new pet to the store
@@ -67,6 +41,60 @@ public interface PetApi {
   @POST("/pet")
   void addPet(
     @Body Pet body, Callback<Void> cb
+  );
+  
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Sync method
+   * 
+   * @param body Pet object in the form of byte array
+   * @return Void
+   */
+  
+  @POST("/pet?testing_byte_array=true")
+  Void addPetUsingByteArray(
+    @Body byte[] body
+  );
+
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Async method
+   * @param body Pet object in the form of byte array
+   * @param cb callback method
+   * @return void
+   */
+  
+  @POST("/pet?testing_byte_array=true")
+  void addPetUsingByteArray(
+    @Body byte[] body, Callback<Void> cb
+  );
+  
+  /**
+   * Deletes a pet
+   * Sync method
+   * 
+   * @param petId Pet id to delete
+   * @param apiKey 
+   * @return Void
+   */
+  
+  @DELETE("/pet/{petId}")
+  Void deletePet(
+    @Path("petId") Long petId, @Header("api_key") String apiKey
+  );
+
+  /**
+   * Deletes a pet
+   * Async method
+   * @param petId Pet id to delete
+   * @param apiKey 
+   * @param cb callback method
+   * @return void
+   */
+  
+  @DELETE("/pet/{petId}")
+  void deletePet(
+    @Path("petId") Long petId, @Header("api_key") String apiKey, Callback<Void> cb
   );
   
   /**
@@ -148,98 +176,6 @@ public interface PetApi {
   );
   
   /**
-   * Updates a pet in the store with form data
-   * Sync method
-   * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
-   * @return Void
-   */
-  
-  @FormUrlEncoded
-  @POST("/pet/{petId}")
-  Void updatePetWithForm(
-    @Path("petId") String petId, @Field("name") String name, @Field("status") String status
-  );
-
-  /**
-   * Updates a pet in the store with form data
-   * Async method
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
-   * @param cb callback method
-   * @return void
-   */
-  
-  @FormUrlEncoded
-  @POST("/pet/{petId}")
-  void updatePetWithForm(
-    @Path("petId") String petId, @Field("name") String name, @Field("status") String status, Callback<Void> cb
-  );
-  
-  /**
-   * Deletes a pet
-   * Sync method
-   * 
-   * @param petId Pet id to delete
-   * @param apiKey 
-   * @return Void
-   */
-  
-  @DELETE("/pet/{petId}")
-  Void deletePet(
-    @Path("petId") Long petId, @Header("api_key") String apiKey
-  );
-
-  /**
-   * Deletes a pet
-   * Async method
-   * @param petId Pet id to delete
-   * @param apiKey 
-   * @param cb callback method
-   * @return void
-   */
-  
-  @DELETE("/pet/{petId}")
-  void deletePet(
-    @Path("petId") Long petId, @Header("api_key") String apiKey, Callback<Void> cb
-  );
-  
-  /**
-   * uploads an image
-   * Sync method
-   * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
-   * @return Void
-   */
-  
-  @Multipart
-  @POST("/pet/{petId}/uploadImage")
-  Void uploadFile(
-    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file
-  );
-
-  /**
-   * uploads an image
-   * Async method
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
-   * @param cb callback method
-   * @return void
-   */
-  
-  @Multipart
-  @POST("/pet/{petId}/uploadImage")
-  void uploadFile(
-    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<Void> cb
-  );
-  
-  /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Sync method
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -292,29 +228,93 @@ public interface PetApi {
   );
   
   /**
-   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Update an existing pet
    * Sync method
    * 
-   * @param body Pet object in the form of byte array
+   * @param body Pet object that needs to be added to the store
    * @return Void
    */
   
-  @POST("/pet?testing_byte_array=true")
-  Void addPetUsingByteArray(
-    @Body byte[] body
+  @PUT("/pet")
+  Void updatePet(
+    @Body Pet body
   );
 
   /**
-   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Update an existing pet
    * Async method
-   * @param body Pet object in the form of byte array
+   * @param body Pet object that needs to be added to the store
    * @param cb callback method
    * @return void
    */
   
-  @POST("/pet?testing_byte_array=true")
-  void addPetUsingByteArray(
-    @Body byte[] body, Callback<Void> cb
+  @PUT("/pet")
+  void updatePet(
+    @Body Pet body, Callback<Void> cb
+  );
+  
+  /**
+   * Updates a pet in the store with form data
+   * Sync method
+   * 
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @return Void
+   */
+  
+  @FormUrlEncoded
+  @POST("/pet/{petId}")
+  Void updatePetWithForm(
+    @Path("petId") String petId, @Field("name") String name, @Field("status") String status
+  );
+
+  /**
+   * Updates a pet in the store with form data
+   * Async method
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @param cb callback method
+   * @return void
+   */
+  
+  @FormUrlEncoded
+  @POST("/pet/{petId}")
+  void updatePetWithForm(
+    @Path("petId") String petId, @Field("name") String name, @Field("status") String status, Callback<Void> cb
+  );
+  
+  /**
+   * uploads an image
+   * Sync method
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return Void
+   */
+  
+  @Multipart
+  @POST("/pet/{petId}/uploadImage")
+  Void uploadFile(
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file
+  );
+
+  /**
+   * uploads an image
+   * Async method
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @param cb callback method
+   * @return void
+   */
+  
+  @Multipart
+  @POST("/pet/{petId}/uploadImage")
+  void uploadFile(
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<Void> cb
   );
   
 }

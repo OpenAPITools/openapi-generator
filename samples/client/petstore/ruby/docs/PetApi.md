@@ -284,13 +284,13 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 require 'petstore'
 
 Petstore.configure do |config|
-  # Configure OAuth2 access token for authorization: petstore_auth
-  config.access_token = "YOUR ACCESS TOKEN"
-
   # Configure API key authorization: api_key
   config.api_key['api_key'] = "YOUR API KEY"
   # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
   #config.api_key_prefix['api_key'] = "Token"
+
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
 end
 
 api = Petstore::PetApi.new
@@ -318,7 +318,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP reuqest headers
 
@@ -339,13 +339,13 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 require 'petstore'
 
 Petstore.configure do |config|
-  # Configure OAuth2 access token for authorization: petstore_auth
-  config.access_token = "YOUR ACCESS TOKEN"
-
   # Configure API key authorization: api_key
   config.api_key['api_key'] = "YOUR API KEY"
   # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
   #config.api_key_prefix['api_key'] = "Token"
+
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
 end
 
 api = Petstore::PetApi.new
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP reuqest headers
 
@@ -394,13 +394,13 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 require 'petstore'
 
 Petstore.configure do |config|
-  # Configure OAuth2 access token for authorization: petstore_auth
-  config.access_token = "YOUR ACCESS TOKEN"
-
   # Configure API key authorization: api_key
   config.api_key['api_key'] = "YOUR API KEY"
   # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
   #config.api_key_prefix['api_key'] = "Token"
+
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = "YOUR ACCESS TOKEN"
 end
 
 api = Petstore::PetApi.new
@@ -428,7 +428,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP reuqest headers
 
