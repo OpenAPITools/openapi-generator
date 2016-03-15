@@ -94,6 +94,58 @@ public interface UserApi {
   );
   
   /**
+   * Delete user
+   * Sync method
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return Void
+   */
+  
+  @DELETE("/user/{username}")
+  Void deleteUser(
+    @Path("username") String username
+  );
+
+  /**
+   * Delete user
+   * Async method
+   * @param username The name that needs to be deleted
+   * @param cb callback method
+   * @return void
+   */
+  
+  @DELETE("/user/{username}")
+  void deleteUser(
+    @Path("username") String username, Callback<Void> cb
+  );
+  
+  /**
+   * Get user by user name
+   * Sync method
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return User
+   */
+  
+  @GET("/user/{username}")
+  User getUserByName(
+    @Path("username") String username
+  );
+
+  /**
+   * Get user by user name
+   * Async method
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param cb callback method
+   * @return void
+   */
+  
+  @GET("/user/{username}")
+  void getUserByName(
+    @Path("username") String username, Callback<User> cb
+  );
+  
+  /**
    * Logs user into the system
    * Sync method
    * 
@@ -145,32 +197,6 @@ public interface UserApi {
   );
   
   /**
-   * Get user by user name
-   * Sync method
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-   */
-  
-  @GET("/user/{username}")
-  User getUserByName(
-    @Path("username") String username
-  );
-
-  /**
-   * Get user by user name
-   * Async method
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/user/{username}")
-  void getUserByName(
-    @Path("username") String username, Callback<User> cb
-  );
-  
-  /**
    * Updated user
    * Sync method
    * This can only be done by the logged in user.
@@ -196,32 +222,6 @@ public interface UserApi {
   @PUT("/user/{username}")
   void updateUser(
     @Path("username") String username, @Body User body, Callback<Void> cb
-  );
-  
-  /**
-   * Delete user
-   * Sync method
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return Void
-   */
-  
-  @DELETE("/user/{username}")
-  Void deleteUser(
-    @Path("username") String username
-  );
-
-  /**
-   * Delete user
-   * Async method
-   * @param username The name that needs to be deleted
-   * @param cb callback method
-   * @return void
-   */
-  
-  @DELETE("/user/{username}")
-  void deleteUser(
-    @Path("username") String username, Callback<Void> cb
   );
   
 }

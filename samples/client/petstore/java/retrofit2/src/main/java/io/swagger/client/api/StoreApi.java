@@ -18,6 +18,19 @@ import java.util.Map;
 public interface StoreApi {
   
   /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted
+   * @return Call<Void>
+   */
+  
+  @DELETE("store/order/{orderId}")
+  Call<Void> deleteOrder(
+    @Path("orderId") String orderId
+  );
+
+  
+  /**
    * Finds orders by status
    * A single status value can be provided as a string
    * @param status Status value that needs to be considered for query
@@ -53,19 +66,6 @@ public interface StoreApi {
 
   
   /**
-   * Place an order for a pet
-   * 
-   * @param body order placed for purchasing the pet
-   * @return Call<Order>
-   */
-  
-  @POST("store/order")
-  Call<Order> placeOrder(
-    @Body Order body
-  );
-
-  
-  /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched
@@ -79,15 +79,15 @@ public interface StoreApi {
 
   
   /**
-   * Delete purchase order by ID
-   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
-   * @return Call<Void>
+   * Place an order for a pet
+   * 
+   * @param body order placed for purchasing the pet
+   * @return Call<Order>
    */
   
-  @DELETE("store/order/{orderId}")
-  Call<Void> deleteOrder(
-    @Path("orderId") String orderId
+  @POST("store/order")
+  Call<Order> placeOrder(
+    @Body Order body
   );
 
   

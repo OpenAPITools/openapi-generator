@@ -10,10 +10,23 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-03T12:04:41.120+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-14T22:17:50.356+08:00")
 public interface StoreApi extends ApiClient.Api {
 
 
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted
+   * @return void
+   */
+  @RequestLine("DELETE /store/order/{orderId}")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  void deleteOrder(@Param("orderId") String orderId);
+  
   /**
    * Finds orders by status
    * A single status value can be provided as a string
@@ -52,19 +65,6 @@ public interface StoreApi extends ApiClient.Api {
   Object getInventoryInObject();
   
   /**
-   * Place an order for a pet
-   * 
-   * @param body order placed for purchasing the pet
-   * @return Order
-   */
-  @RequestLine("POST /store/order")
-  @Headers({
-    "Content-type: application/json",
-    "Accepts: application/json",
-  })
-  Order placeOrder(Order body);
-  
-  /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched
@@ -78,16 +78,16 @@ public interface StoreApi extends ApiClient.Api {
   Order getOrderById(@Param("orderId") String orderId);
   
   /**
-   * Delete purchase order by ID
-   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
-   * @return void
+   * Place an order for a pet
+   * 
+   * @param body order placed for purchasing the pet
+   * @return Order
    */
-  @RequestLine("DELETE /store/order/{orderId}")
+  @RequestLine("POST /store/order")
   @Headers({
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void deleteOrder(@Param("orderId") String orderId);
+  Order placeOrder(Order body);
   
 }
