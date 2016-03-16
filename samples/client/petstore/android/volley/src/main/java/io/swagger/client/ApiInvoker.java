@@ -185,25 +185,13 @@ public class ApiInvoker {
 
   public static void initializeInstance(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery, int connectionTimeout) {
      INSTANCE = new ApiInvoker(cache, network, threadPoolSize, delivery, connectionTimeout);
-     setUserAgent("Android-Volley-Swagger");
+     setUserAgent("Swagger-Codegen/1.0.0/android");
 
      // Setup authentications (key: authentication name, value: authentication).
      INSTANCE.authentications = new HashMap<String, Authentication>();
      
      
-     
-     
-     INSTANCE.authentications.put("petstore_auth", new OAuth());
-     
-     
-     
-     INSTANCE.authentications.put("test_api_client_id", new ApiKeyAuth("header", "x-test_api_client_id"));
-     
-     
-     
-     
-     
-     INSTANCE.authentications.put("test_api_client_secret", new ApiKeyAuth("header", "x-test_api_client_secret"));
+     INSTANCE.authentications.put("test_api_key_header", new ApiKeyAuth("header", "test_api_key_header"));
      
      
      
@@ -215,15 +203,33 @@ public class ApiInvoker {
      
      
      
+     
+     INSTANCE.authentications.put("test_http_basic", new HttpBasicAuth());
+     
+     
+     
+     
+     INSTANCE.authentications.put("test_api_client_secret", new ApiKeyAuth("header", "x-test_api_client_secret"));
+     
+     
+     
+     
+     
+     INSTANCE.authentications.put("test_api_client_id", new ApiKeyAuth("header", "x-test_api_client_id"));
+     
+     
+     
+     
+     
      INSTANCE.authentications.put("test_api_key_query", new ApiKeyAuth("query", "test_api_key_query"));
      
      
      
      
      
-     INSTANCE.authentications.put("test_api_key_header", new ApiKeyAuth("header", "test_api_key_header"));
      
      
+     INSTANCE.authentications.put("petstore_auth", new OAuth());
      
      
      // Prevent the authentications from being modified.

@@ -415,6 +415,18 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-resteasy-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-server</id>
             <activation>
                 <property>
@@ -473,6 +485,7 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/server/petstore/jaxrs</module>
+                <module>samples/server/petstore/jaxrs-resteasy</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
             </modules>
@@ -549,7 +562,7 @@
         <swagger-parser-version>1.0.18-SNAPSHOT</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
-        <swagger-core-version>1.5.7</swagger-core-version>
+        <swagger-core-version>1.5.8</swagger-core-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>

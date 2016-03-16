@@ -21,6 +21,8 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::StoreApi.new
 
 order_id = "order_id_example" # [String] ID of the order that needs to be deleted
@@ -63,6 +65,8 @@ A single status value can be provided as a string
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure API key authorization: test_api_client_id
   config.api_key['x-test_api_client_id'] = "YOUR API KEY"
@@ -83,6 +87,7 @@ opts = {
 
 begin
   result = api.find_orders_by_status(opts)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling find_orders_by_status: #{e}"
 end
@@ -118,6 +123,8 @@ Returns a map of status codes to quantities
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure API key authorization: api_key
   config.api_key['api_key'] = "YOUR API KEY"
@@ -129,6 +136,7 @@ api = Petstore::StoreApi.new
 
 begin
   result = api.get_inventory
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling get_inventory: #{e}"
 end
@@ -161,6 +169,8 @@ Returns an arbitrary object which is actually a map of status codes to quantitie
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure API key authorization: api_key
   config.api_key['api_key'] = "YOUR API KEY"
@@ -172,6 +182,7 @@ api = Petstore::StoreApi.new
 
 begin
   result = api.get_inventory_in_object
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling get_inventory_in_object: #{e}"
 end
@@ -204,16 +215,18 @@ For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values w
 
 ### Example
 ```ruby
-Petstore.configure do |config|
-  # Configure API key authorization: test_api_key_query
-  config.api_key['test_api_key_query'] = "YOUR API KEY"
-  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
-  #config.api_key_prefix['test_api_key_query'] = "Token"
+require 'petstore'
 
+Petstore.configure do |config|
   # Configure API key authorization: test_api_key_header
   config.api_key['test_api_key_header'] = "YOUR API KEY"
   # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
   #config.api_key_prefix['test_api_key_header'] = "Token"
+
+  # Configure API key authorization: test_api_key_query
+  config.api_key['test_api_key_query'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['test_api_key_query'] = "Token"
 end
 
 api = Petstore::StoreApi.new
@@ -223,6 +236,7 @@ order_id = "order_id_example" # [String] ID of pet that needs to be fetched
 
 begin
   result = api.get_order_by_id(order_id)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling get_order_by_id: #{e}"
 end
@@ -240,7 +254,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[test_api_key_query](../README.md#test_api_key_query), [test_api_key_header](../README.md#test_api_key_header)
+[test_api_key_header](../README.md#test_api_key_header), [test_api_key_query](../README.md#test_api_key_query)
 
 ### HTTP reuqest headers
 
@@ -258,6 +272,8 @@ Place an order for a pet
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure API key authorization: test_api_client_id
   config.api_key['x-test_api_client_id'] = "YOUR API KEY"
@@ -278,6 +294,7 @@ opts = {
 
 begin
   result = api.place_order(opts)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling place_order: #{e}"
 end

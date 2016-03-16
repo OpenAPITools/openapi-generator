@@ -5,7 +5,6 @@ import io.swagger.api.PettestingByteArraytrueApiService;
 import io.swagger.api.factories.PettestingByteArraytrueApiServiceFactory;
 
 
-
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
@@ -19,11 +18,9 @@ import javax.ws.rs.*;
 @Path("/pet?testing_byte_array=true")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-02-04T01:58:20.368+07:00")
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-03-16T14:27:58.108+08:00")
 public class PettestingByteArraytrueApi  {
    private final PettestingByteArraytrueApiService delegate = PettestingByteArraytrueApiServiceFactory.getPettestingByteArraytrueApi();
-
 
     @POST
     
@@ -33,6 +30,4 @@ public class PettestingByteArraytrueApi  {
     throws NotFoundException {
         return delegate.addPetUsingByteArray(body,securityContext);
     }
-
 }
-

@@ -57,7 +57,7 @@ class ObjectSerializer
         if (is_scalar($data) || null === $data) {
             $sanitized = $data;
         } elseif ($data instanceof \DateTime) {
-            $sanitized = $data->format(\DateTime::ISO8601);
+            $sanitized = $data->format(\DateTime::ATOM);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
@@ -172,7 +172,7 @@ class ObjectSerializer
     public function toString($value)
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
-            return $value->format(\DateTime::ISO8601);
+            return $value->format(\DateTime::ATOM);
         } else {
             return $value;
         }
@@ -245,7 +245,17 @@ class ObjectSerializer
             settype($data, 'array');
             $deserialized = $data;
         } elseif ($class === '\DateTime') {
-            $deserialized = new \DateTime($data);
+            // Some API's return an invalid, empty string as a
+            // date-time property. DateTime::__construct() will return
+            // the current time for empty input which is probably not
+            // what is meant. The invalid empty string is probably to
+            // be interpreted as a missing field/value. Let's handle
+            // this graceful.
+            if (!empty($data)) {
+                $deserialized = new \DateTime($data);
+            } else {
+                $deserialized = null;
+            }
         } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
             settype($data, $class);
             $deserialized = $data;
