@@ -23,6 +23,8 @@ This can only be done by the logged in user.
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::UserApi.new
 
 opts = { 
@@ -66,6 +68,8 @@ Creates list of users with given input array
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::UserApi.new
 
 opts = { 
@@ -109,6 +113,8 @@ Creates list of users with given input array
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::UserApi.new
 
 opts = { 
@@ -152,6 +158,8 @@ This can only be done by the logged in user.
 
 ### Example
 ```ruby
+require 'petstore'
+
 Petstore.configure do |config|
   # Configure HTTP basic authorization: test_http_basic
   config.username = 'YOUR USERNAME'
@@ -200,6 +208,8 @@ Get user by user name
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::UserApi.new
 
 username = "username_example" # [String] The name that needs to be fetched. Use user1 for testing.
@@ -207,6 +217,7 @@ username = "username_example" # [String] The name that needs to be fetched. Use 
 
 begin
   result = api.get_user_by_name(username)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling get_user_by_name: #{e}"
 end
@@ -242,6 +253,8 @@ Logs user into the system
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::UserApi.new
 
 opts = { 
@@ -251,6 +264,7 @@ opts = {
 
 begin
   result = api.login_user(opts)
+  p result
 rescue Petstore::ApiError => e
   puts "Exception when calling login_user: #{e}"
 end
@@ -287,6 +301,8 @@ Logs out current logged in user session
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::UserApi.new
 
 begin
@@ -323,6 +339,8 @@ This can only be done by the logged in user.
 
 ### Example
 ```ruby
+require 'petstore'
+
 api = Petstore::UserApi.new
 
 username = "username_example" # [String] name that need to be deleted
