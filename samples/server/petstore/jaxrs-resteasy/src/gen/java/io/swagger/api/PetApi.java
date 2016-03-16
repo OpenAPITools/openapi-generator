@@ -5,8 +5,8 @@ import io.swagger.api.PetApiService;
 import io.swagger.api.factories.PetApiServiceFactory;
 
 import io.swagger.model.Pet;
+import io.swagger.model.InlineResponse200;
 import java.io.File;
-
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -22,20 +22,9 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 @Path("/pet")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-02-04T01:58:20.368+07:00")
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-03-16T14:27:58.108+08:00")
 public class PetApi  {
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
-
-
-    @PUT
-    
-    @Consumes({ "application/json", "application/xml" })
-    @Produces({ "application/json", "application/xml" })
-    public Response updatePet( Pet body,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.updatePet(body,securityContext);
-    }
 
     @POST
     
@@ -45,43 +34,6 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.addPet(body,securityContext);
     }
-
-    @GET
-    @Path("/findByStatus")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response findPetsByStatus( @QueryParam("status") List<String> status,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.findPetsByStatus(status,securityContext);
-    }
-
-    @GET
-    @Path("/findByTags")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response findPetsByTags( @QueryParam("tags") List<String> tags,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.findPetsByTags(tags,securityContext);
-    }
-
-    @GET
-    @Path("/{petId}")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response getPetById( @PathParam("petId") Long petId,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.getPetById(petId,securityContext);
-    }
-
-    @POST
-    @Path("/{petId}")
-    @Consumes({ "application/x-www-form-urlencoded" })
-    @Produces({ "application/json", "application/xml" })
-    public Response updatePetWithForm( @PathParam("petId") String petId,@FormParam("name")  String name,@FormParam("status")  String status,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.updatePetWithForm(petId,name,status,securityContext);
-    }
-
     @DELETE
     @Path("/{petId}")
     
@@ -90,7 +42,62 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.deletePet(petId,apiKey,securityContext);
     }
-
+    @GET
+    @Path("/findByStatus")
+    
+    @Produces({ "application/json", "application/xml" })
+    public Response findPetsByStatus( @QueryParam("status") List<String> status,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.findPetsByStatus(status,securityContext);
+    }
+    @GET
+    @Path("/findByTags")
+    
+    @Produces({ "application/json", "application/xml" })
+    public Response findPetsByTags( @QueryParam("tags") List<String> tags,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.findPetsByTags(tags,securityContext);
+    }
+    @GET
+    @Path("/{petId}")
+    
+    @Produces({ "application/json", "application/xml" })
+    public Response getPetById( @PathParam("petId") Long petId,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.getPetById(petId,securityContext);
+    }
+    @GET
+    @Path("/{petId}?response=inline_arbitrary_object")
+    
+    @Produces({ "application/json", "application/xml" })
+    public Response getPetByIdInObject( @PathParam("petId") Long petId,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.getPetByIdInObject(petId,securityContext);
+    }
+    @GET
+    @Path("/{petId}?testing_byte_array=true")
+    
+    @Produces({ "application/json", "application/xml" })
+    public Response petPetIdtestingByteArraytrueGet( @PathParam("petId") Long petId,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.petPetIdtestingByteArraytrueGet(petId,securityContext);
+    }
+    @PUT
+    
+    @Consumes({ "application/json", "application/xml" })
+    @Produces({ "application/json", "application/xml" })
+    public Response updatePet( Pet body,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.updatePet(body,securityContext);
+    }
+    @POST
+    @Path("/{petId}")
+    @Consumes({ "application/x-www-form-urlencoded" })
+    @Produces({ "application/json", "application/xml" })
+    public Response updatePetWithForm( @PathParam("petId") String petId,@FormParam("name")  String name,@FormParam("status")  String status,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.updatePetWithForm(petId,name,status,securityContext);
+    }
     @POST
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
@@ -99,15 +106,4 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.uploadFile(input,petId,securityContext);
     }
-
-    @GET
-    @Path("/{petId}?testing_byte_array=true")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response getPetByIdWithByteArray( @PathParam("petId") Long petId,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.getPetByIdWithByteArray(petId,securityContext);
-    }
-
 }
-
