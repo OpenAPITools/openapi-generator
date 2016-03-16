@@ -435,7 +435,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else if (p instanceof FloatProperty) {
             FloatProperty dp = (FloatProperty) p;
             if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+                return String.format("%1$sF", dp.getDefault());
             }
         } else if (p instanceof IntegerProperty) {
             IntegerProperty dp = (IntegerProperty) p;
