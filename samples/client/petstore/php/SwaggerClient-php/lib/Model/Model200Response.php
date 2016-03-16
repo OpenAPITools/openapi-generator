@@ -1,6 +1,6 @@
 <?php
 /**
- * InlineResponse200
+ * Model200Response
  *
  * PHP version 5
  *
@@ -35,7 +35,7 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 /**
- * InlineResponse200 Class Doc Comment
+ * Model200Response Class Doc Comment
  *
  * @category    Class
  * @description 
@@ -44,19 +44,14 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class InlineResponse200 implements ArrayAccess
+class Model200Response implements ArrayAccess
 {
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'tags' => '\Swagger\Client\Model\Tag[]',
-        'id' => 'int',
-        'category' => 'object',
-        'status' => 'string',
-        'name' => 'string',
-        'photo_urls' => 'string[]'
+        'name' => 'int'
     );
   
     /** 
@@ -64,12 +59,7 @@ class InlineResponse200 implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'tags' => 'tags',
-        'id' => 'id',
-        'category' => 'category',
-        'status' => 'status',
-        'name' => 'name',
-        'photo_urls' => 'photoUrls'
+        'name' => 'name'
     );
   
     /**
@@ -77,12 +67,7 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'tags' => 'setTags',
-        'id' => 'setId',
-        'category' => 'setCategory',
-        'status' => 'setStatus',
-        'name' => 'setName',
-        'photo_urls' => 'setPhotoUrls'
+        'name' => 'setName'
     );
   
     /**
@@ -90,50 +75,15 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'tags' => 'getTags',
-        'id' => 'getId',
-        'category' => 'getCategory',
-        'status' => 'getStatus',
-        'name' => 'getName',
-        'photo_urls' => 'getPhotoUrls'
+        'name' => 'getName'
     );
   
     
     /**
-      * $tags 
-      * @var \Swagger\Client\Model\Tag[]
-      */
-    protected $tags;
-    
-    /**
-      * $id 
+      * $name 
       * @var int
       */
-    protected $id;
-    
-    /**
-      * $category 
-      * @var object
-      */
-    protected $category;
-    
-    /**
-      * $status pet status in the store
-      * @var string
-      */
-    protected $status;
-    
-    /**
-      * $name 
-      * @var string
-      */
     protected $name;
-    
-    /**
-      * $photo_urls 
-      * @var string[]
-      */
-    protected $photo_urls;
     
 
     /**
@@ -143,105 +93,13 @@ class InlineResponse200 implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->tags = $data["tags"];
-            $this->id = $data["id"];
-            $this->category = $data["category"];
-            $this->status = $data["status"];
             $this->name = $data["name"];
-            $this->photo_urls = $data["photo_urls"];
         }
-    }
-    
-    /**
-     * Gets tags
-     * @return \Swagger\Client\Model\Tag[]
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-  
-    /**
-     * Sets tags
-     * @param \Swagger\Client\Model\Tag[] $tags 
-     * @return $this
-     */
-    public function setTags($tags)
-    {
-        
-        $this->tags = $tags;
-        return $this;
-    }
-    
-    /**
-     * Gets id
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-  
-    /**
-     * Sets id
-     * @param int $id 
-     * @return $this
-     */
-    public function setId($id)
-    {
-        
-        $this->id = $id;
-        return $this;
-    }
-    
-    /**
-     * Gets category
-     * @return object
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-  
-    /**
-     * Sets category
-     * @param object $category 
-     * @return $this
-     */
-    public function setCategory($category)
-    {
-        
-        $this->category = $category;
-        return $this;
-    }
-    
-    /**
-     * Gets status
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-  
-    /**
-     * Sets status
-     * @param string $status pet status in the store
-     * @return $this
-     */
-    public function setStatus($status)
-    {
-        $allowed_values = array("available", "pending", "sold");
-        if (!in_array($status, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
-        }
-        $this->status = $status;
-        return $this;
     }
     
     /**
      * Gets name
-     * @return string
+     * @return int
      */
     public function getName()
     {
@@ -250,34 +108,13 @@ class InlineResponse200 implements ArrayAccess
   
     /**
      * Sets name
-     * @param string $name 
+     * @param int $name 
      * @return $this
      */
     public function setName($name)
     {
         
         $this->name = $name;
-        return $this;
-    }
-    
-    /**
-     * Gets photo_urls
-     * @return string[]
-     */
-    public function getPhotoUrls()
-    {
-        return $this->photo_urls;
-    }
-  
-    /**
-     * Sets photo_urls
-     * @param string[] $photo_urls 
-     * @return $this
-     */
-    public function setPhotoUrls($photo_urls)
-    {
-        
-        $this->photo_urls = $photo_urls;
         return $this;
     }
     
