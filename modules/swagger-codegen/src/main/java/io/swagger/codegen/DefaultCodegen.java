@@ -83,7 +83,7 @@ public class DefaultCodegen {
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
-    protected String gitUserId, gitRepoId, releaseNote, releaseVersion;
+    protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
 
     public List<CliOption> cliOptions() {
@@ -1575,7 +1575,6 @@ public class DefaultCodegen {
         // legacy support
         op.nickname = op.operationId;
 
-
         if (op.allParams.size() > 0) {
             op.hasParams = true;
         }
@@ -2075,6 +2074,7 @@ public class DefaultCodegen {
             LOGGER.warn("generated unique operationId `" + uniqueName + "`");
         }
         co.operationId = uniqueName;
+        co.operationIdLowerCase = uniqueName.toLowerCase();
         opList.add(co);
         co.baseName = tag;
     }
@@ -2412,24 +2412,6 @@ public class DefaultCodegen {
      */
     public String getReleaseNote() {
         return releaseNote;
-    }
-
-    /**
-     * Set release version.
-     *
-     * @param releaseVersion Release version
-     */
-    public void setReleaseVersion(String releaseVersion) {
-        this.releaseVersion = releaseVersion;
-    }
-
-    /**
-     * Release version
-     *
-     * @return Release version
-     */
-    public String getReleaseVersion() {
-        return releaseVersion;
     }
 
     /**

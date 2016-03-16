@@ -57,6 +57,32 @@ public interface UserApi {
 
   
   /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return Call<Void>
+   */
+  
+  @DELETE("user/{username}")
+  Call<Void> deleteUser(
+    @Path("username") String username
+  );
+
+  
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return Call<User>
+   */
+  
+  @GET("user/{username}")
+  Call<User> getUserByName(
+    @Path("username") String username
+  );
+
+  
+  /**
    * Logs user into the system
    * 
    * @param username The user name for login
@@ -82,19 +108,6 @@ public interface UserApi {
 
   
   /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return Call<User>
-   */
-  
-  @GET("user/{username}")
-  Call<User> getUserByName(
-    @Path("username") String username
-  );
-
-  
-  /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted
@@ -105,19 +118,6 @@ public interface UserApi {
   @PUT("user/{username}")
   Call<Void> updateUser(
     @Path("username") String username, @Body User body
-  );
-
-  
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return Call<Void>
-   */
-  
-  @DELETE("user/{username}")
-  Call<Void> deleteUser(
-    @Path("username") String username
   );
 
   

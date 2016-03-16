@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -35,6 +36,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
     protected String variableNamingConvention= "snake_case";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public PhpClientCodegen() {
         super();
@@ -48,6 +51,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = invokerPackage + "\\Api";
         modelPackage = invokerPackage + "\\Model";
         testPackage = invokerPackage + "\\Tests";
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -110,8 +116,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption(PACKAGE_PATH, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory under packagePath to serve as source root."));
-        cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
-        cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
+        cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next swagger-codegen release"));
+        cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next swagger-codegen release"));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
@@ -217,6 +223,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         supportingFiles.add(new SupportingFile("configuration.mustache", toPackagePath(invokerPackage, srcBasePath), "Configuration.php"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiClient.php"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiException.php"));
@@ -252,6 +262,28 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelTestFileFolder() {
         return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        //return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return (outputFolder + "/" + getPackagePath() + "/" + apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        //return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        return (outputFolder + "/" + getPackagePath() + "/" + modelDocPath);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
     }
 
     @Override
@@ -375,6 +407,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
         // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
             name = modelNamePrefix + name + modelNameSuffix;
@@ -458,6 +496,71 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return null;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("String".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Integer".equals(type) || "int".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "True";
+            }
+        } else if ("\\SplFileObject".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Date".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "new \\DateTime(\"" + escapeText(example) + "\")";
+        } else if ("DateTime".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "new \\DateTime(\"" + escapeText(example) + "\")";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + type + "()";
+        } else {
+            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
+
+        if (example == null) {
+            example = "NULL";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "array(" + example + ")";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "array('key' => " + example + ")";
+        }
+
+        p.example = example;
     }
 
 }

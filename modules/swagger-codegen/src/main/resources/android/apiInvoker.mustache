@@ -83,7 +83,7 @@ public class ApiInvoker {
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
 
     // Set default User-Agent.
-    setUserAgent("Android-Java-Swagger");
+    setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{artifactVersion}}}/android{{/httpUserAgent}}");
   }
 
   public static void setUserAgent(String userAgent) {

@@ -136,7 +136,7 @@ namespace SwaggerClientTest.TestPet
 		public void TestGetPetById ()
 		{
 			// set timeout to 10 seconds
-			Configuration c1 = new Configuration (timeout: 10000);
+			Configuration c1 = new Configuration (timeout: 10000, userAgent: "TEST_USER_AGENT");
 
 			PetApi petApi = new PetApi (c1);
 			Pet response = petApi.GetPetById (petId);
