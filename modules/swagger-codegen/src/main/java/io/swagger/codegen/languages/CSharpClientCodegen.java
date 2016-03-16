@@ -299,11 +299,16 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
 
+                //handle float defaults
+                if((var.defaultValue != null) && (var.datatype.startsWith("float"))) {
+                	var.defaultValue = String.format("%1$sF", var.defaultValue);
+                }
+                
                 // handle ArrayProperty
                 if (var.items != null) {
                     allowableValues = var.items.allowableValues;
                 }
-
+                
                 if (allowableValues == null) {
                     continue;
                 }
