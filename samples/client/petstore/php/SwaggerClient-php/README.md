@@ -89,10 +89,25 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-## test_api_key_header
+## petstore_auth
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorizatoin URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+ - **write:pets**: modify pets in your account
+ - **read:pets**: read your pets
+
+## test_api_client_id
 
 - **Type**: API key 
-- **API key parameter name**: test_api_key_header
+- **API key parameter name**: x-test_api_client_id
+- **Location**: HTTP header
+
+## test_api_client_secret
+
+- **Type**: API key 
+- **API key parameter name**: x-test_api_client_secret
 - **Location**: HTTP header
 
 ## api_key
@@ -105,32 +120,17 @@ Class | Method | HTTP request | Description
 
 - **Type**: HTTP basic authentication
 
-## test_api_client_secret
-
-- **Type**: API key 
-- **API key parameter name**: x-test_api_client_secret
-- **Location**: HTTP header
-
-## test_api_client_id
-
-- **Type**: API key 
-- **API key parameter name**: x-test_api_client_id
-- **Location**: HTTP header
-
 ## test_api_key_query
 
 - **Type**: API key 
 - **API key parameter name**: test_api_key_query
 - **Location**: URL query string
 
-## petstore_auth
+## test_api_key_header
 
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorizatoin URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
+- **Type**: API key 
+- **API key parameter name**: test_api_key_header
+- **Location**: HTTP header
 
 
 ## Author
