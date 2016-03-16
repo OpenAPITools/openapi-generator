@@ -1313,7 +1313,19 @@
       }
     },
     "Name": {
-      "descripton": "Model for testing reserved words",
+      "descripton": "Model for testing model name same as property name",
+      "properties": {
+        "name": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Name"
+      }
+    },
+    "200_response": {
+      "descripton": "Model for testing model name starting with number",
       "properties": {
         "name": {
           "type": "integer",
