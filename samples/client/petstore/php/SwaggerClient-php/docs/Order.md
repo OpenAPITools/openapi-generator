@@ -1,9 +1,4 @@
-# ::Object::Order
-
-## Load the model package
-```perl
-use ::Object::Order;
-```
+# Order
 
 ## Properties
 Name | Type | Description | Notes

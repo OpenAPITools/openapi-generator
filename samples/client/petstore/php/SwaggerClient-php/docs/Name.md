@@ -1,9 +1,4 @@
-# ::Object::Name
-
-## Load the model package
-```perl
-use ::Object::Name;
-```
+# Name
 
 ## Properties
 Name | Type | Description | Notes

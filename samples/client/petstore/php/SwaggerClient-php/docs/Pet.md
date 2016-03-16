@@ -1,9 +1,4 @@
-# ::Object::Pet
-
-## Load the model package
-```perl
-use ::Object::Pet;
-```
+# Pet
 
 ## Properties
 Name | Type | Description | Notes

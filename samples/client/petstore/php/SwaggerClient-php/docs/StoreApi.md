@@ -1,9 +1,4 @@
-# ::StoreApi
-
-## Load the API package
-```perl
-use ::Object::StoreApi;
-```
+# Swagger\Client\StoreApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -18,25 +13,26 @@ Method | HTTP request | Description
 
 
 # **deleteOrder**
-> deleteOrder(order_id => $order_id)
+> deleteOrder($order_id)
 
 Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::StoreApi->new();
-my $order_id = order_id_example; # [string] ID of the order that needs to be deleted
+$api_instance = new Swagger\Client\StoreApi();
+$order_id = "order_id_example"; // string | ID of the order that needs to be deleted
 
-eval { 
-    $api->deleteOrder(order_id => $order_id);
-};
-if ($@) {
-    warn "Exception when calling StoreApi->deleteOrder: $@\n";
+try { 
+    $api_instance->deleteOrder($order_id);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreApi->deleteOrder: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -61,35 +57,36 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **findOrdersByStatus**
-> \Swagger\Client\Model\Order[] findOrdersByStatus(status => $status)
+> \Swagger\Client\Model\Order[] findOrdersByStatus($status)
 
 Finds orders by status
 
 A single status value can be provided as a string
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-# Configure API key authorization: test_api_client_id
-::Configuration::api_key->{'x-test_api_client_id'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'x-test_api_client_id'} = "BEARER";
-# Configure API key authorization: test_api_client_secret
-::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
+// Configure API key authorization: test_api_client_id
+Swagger\Client::getDefaultConfiguration->setApiKey('x-test_api_client_id', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('x-test_api_client_id', 'BEARER');
+// Configure API key authorization: test_api_client_secret
+Swagger\Client::getDefaultConfiguration->setApiKey('x-test_api_client_secret', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('x-test_api_client_secret', 'BEARER');
 
-my $api = ::StoreApi->new();
-my $status = placed; # [string] Status value that needs to be considered for query
+$api_instance = new Swagger\Client\StoreApi();
+$status = "placed"; // string | Status value that needs to be considered for query
 
-eval { 
-    my $result = $api->findOrdersByStatus(status => $status);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling StoreApi->findOrdersByStatus: $@\n";
+try { 
+    $result = $api_instance->findOrdersByStatus($status);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreApi->findOrdersByStatus: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -121,23 +118,24 @@ Returns pet inventories by status
 Returns a map of status codes to quantities
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-# Configure API key authorization: api_key
-::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'api_key'} = "BEARER";
+// Configure API key authorization: api_key
+Swagger\Client::getDefaultConfiguration->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('api_key', 'BEARER');
 
-my $api = ::StoreApi->new();
+$api_instance = new Swagger\Client\StoreApi();
 
-eval { 
-    my $result = $api->getInventory();
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling StoreApi->getInventory: $@\n";
+try { 
+    $result = $api_instance->getInventory();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreApi->getInventory: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -166,23 +164,24 @@ Fake endpoint to test arbitrary object return by 'Get inventory'
 Returns an arbitrary object which is actually a map of status codes to quantities
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-# Configure API key authorization: api_key
-::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'api_key'} = "BEARER";
+// Configure API key authorization: api_key
+Swagger\Client::getDefaultConfiguration->setApiKey('api_key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('api_key', 'BEARER');
 
-my $api = ::StoreApi->new();
+$api_instance = new Swagger\Client\StoreApi();
 
-eval { 
-    my $result = $api->getInventoryInObject();
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling StoreApi->getInventoryInObject: $@\n";
+try { 
+    $result = $api_instance->getInventoryInObject();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreApi->getInventoryInObject: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -204,35 +203,36 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getOrderById**
-> \Swagger\Client\Model\Order getOrderById(order_id => $order_id)
+> \Swagger\Client\Model\Order getOrderById($order_id)
 
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-# Configure API key authorization: test_api_key_header
-::Configuration::api_key->{'test_api_key_header'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'test_api_key_header'} = "BEARER";
-# Configure API key authorization: test_api_key_query
-::Configuration::api_key->{'test_api_key_query'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'test_api_key_query'} = "BEARER";
+// Configure API key authorization: test_api_key_header
+Swagger\Client::getDefaultConfiguration->setApiKey('test_api_key_header', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('test_api_key_header', 'BEARER');
+// Configure API key authorization: test_api_key_query
+Swagger\Client::getDefaultConfiguration->setApiKey('test_api_key_query', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('test_api_key_query', 'BEARER');
 
-my $api = ::StoreApi->new();
-my $order_id = order_id_example; # [string] ID of pet that needs to be fetched
+$api_instance = new Swagger\Client\StoreApi();
+$order_id = "order_id_example"; // string | ID of pet that needs to be fetched
 
-eval { 
-    my $result = $api->getOrderById(order_id => $order_id);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling StoreApi->getOrderById: $@\n";
+try { 
+    $result = $api_instance->getOrderById($order_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreApi->getOrderById: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -257,35 +257,36 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **placeOrder**
-> \Swagger\Client\Model\Order placeOrder(body => $body)
+> \Swagger\Client\Model\Order placeOrder($body)
 
 Place an order for a pet
 
 
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-# Configure API key authorization: test_api_client_id
-::Configuration::api_key->{'x-test_api_client_id'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'x-test_api_client_id'} = "BEARER";
-# Configure API key authorization: test_api_client_secret
-::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
+// Configure API key authorization: test_api_client_id
+Swagger\Client::getDefaultConfiguration->setApiKey('x-test_api_client_id', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('x-test_api_client_id', 'BEARER');
+// Configure API key authorization: test_api_client_secret
+Swagger\Client::getDefaultConfiguration->setApiKey('x-test_api_client_secret', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client::getDefaultConfiguration->setApiKeyPrefix('x-test_api_client_secret', 'BEARER');
 
-my $api = ::StoreApi->new();
-my $body = ::Object::\Swagger\Client\Model\Order->new(); # [\Swagger\Client\Model\Order] order placed for purchasing the pet
+$api_instance = new Swagger\Client\StoreApi();
+$body = new \Swagger\Client\Model\Order(); // \Swagger\Client\Model\Order | order placed for purchasing the pet
 
-eval { 
-    my $result = $api->placeOrder(body => $body);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling StoreApi->placeOrder: $@\n";
+try { 
+    $result = $api_instance->placeOrder($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters

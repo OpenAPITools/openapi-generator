@@ -1,9 +1,4 @@
-# ::Object::Tag
-
-## Load the model package
-```perl
-use ::Object::Tag;
-```
+# Tag
 
 ## Properties
 Name | Type | Description | Notes
