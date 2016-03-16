@@ -528,7 +528,7 @@ Swagger\Client::getDefaultConfiguration->setAccessToken('YOUR_ACCESS_TOKEN');
 $api_instance = new Swagger\Client\PetApi();
 $pet_id = 789; // int | ID of pet to update
 $additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
-$file = new \SplFileObject(); // \SplFileObject | file to upload
+$file = "/path/to/file.txt"; // \SplFileObject | file to upload
 
 try { 
     $api_instance->uploadFile($pet_id, $additional_metadata, $file);

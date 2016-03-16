@@ -516,25 +516,25 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "56";
             }
-        } else if ("Float".equals(type)) {
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "3.4";
             }
-        } else if ("BOOLEAN".equals(type)) {
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "True";
             }
-        } else if ("File".equals(type)) {
+        } else if ("\\SplFileObject".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = escapeText(example);
-        } else if ("Date".equals(type)) {
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
             example = "new \\DateTime(\"" + escapeText(example) + "\")";
-        } else if ("DateTime".equals(type)) {
+        } else if ("DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
