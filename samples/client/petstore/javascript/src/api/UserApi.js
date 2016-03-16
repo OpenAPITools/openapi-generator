@@ -145,7 +145,7 @@
       var formParams = {
       };
 
-      var authNames = [];
+      var authNames = ['test_http_basic'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = null;

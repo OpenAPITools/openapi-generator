@@ -224,7 +224,7 @@
       var formParams = {
       };
 
-      var authNames = ['api_key', 'petstore_auth'];
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Pet;
@@ -263,7 +263,7 @@
       var formParams = {
       };
 
-      var authNames = ['api_key', 'petstore_auth'];
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = InlineResponse200;
@@ -302,7 +302,7 @@
       var formParams = {
       };
 
-      var authNames = ['api_key', 'petstore_auth'];
+      var authNames = ['petstore_auth', 'api_key'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = 'String';

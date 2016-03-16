@@ -588,7 +588,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            example = "{'key': " + example + "}";
+            example = "{'key' => " + example + "}";
         }
 
         p.example = example;
