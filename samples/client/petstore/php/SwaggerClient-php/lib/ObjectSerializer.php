@@ -57,7 +57,7 @@ class ObjectSerializer
         if (is_scalar($data) || null === $data) {
             $sanitized = $data;
         } elseif ($data instanceof \DateTime) {
-            $sanitized = $data->format(\DateTime::ISO8601);
+            $sanitized = $data->format(\DateTime::ATOM);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
@@ -172,7 +172,7 @@ class ObjectSerializer
     public function toString($value)
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
-            return $value->format(\DateTime::ISO8601);
+            return $value->format(\DateTime::ATOM);
         } else {
             return $value;
         }
@@ -256,7 +256,7 @@ class ObjectSerializer
             } else {
                 $deserialized = null;
             }
-        } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
+        } elseif (in_array($class, array('void', 'bool', 'string', 'double', 'byte', 'mixed', 'integer', 'float', 'int', 'DateTime', 'number', 'boolean', 'object'))) {
             settype($data, $class);
             $deserialized = $data;
         } elseif ($class === '\SplFileObject') {
