@@ -1,18 +1,17 @@
 package io.swagger.model;
 
 import java.util.Objects;
+import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.model.Category;
 import io.swagger.model.Tag;
-import java.util.*;
+import java.util.List;
 
 
 
 
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-02-04T01:58:20.368+07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-03-16T14:27:58.108+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -165,6 +164,4 @@ public class Pet   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
-
 
