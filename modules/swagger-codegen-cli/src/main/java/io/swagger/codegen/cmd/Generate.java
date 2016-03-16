@@ -115,8 +115,8 @@ public class Generate implements Runnable {
     @Option(name = {"--release-note"}, title = "release note", description = CodegenConstants.RELEASE_NOTE_DESC)
     private String releaseNote;
 
-    @Option(name = {"--release-version"}, title = "release version", description = CodegenConstants.RELEASE_VERSION_DESC)
-    private String releaseVersion;
+    @Option(name = {"--http-user-agent"}, title = "http user agent", description = CodegenConstants.HTTP_USER_AGENT_DESC)
+    private String httpUserAgent;
 
     @Override
     public void run() {
@@ -207,8 +207,8 @@ public class Generate implements Runnable {
             configurator.setReleaseNote(releaseNote);
         }
 
-        if (isNotEmpty(releaseVersion)) {
-            configurator.setReleaseVersion(releaseVersion);
+        if (isNotEmpty(httpUserAgent)) {
+            configurator.setHttpUserAgent(httpUserAgent);
         }
 
         applySystemPropertiesKvp(systemProperties, configurator);

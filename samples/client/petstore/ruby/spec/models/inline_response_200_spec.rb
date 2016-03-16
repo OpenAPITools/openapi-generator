@@ -36,7 +36,6 @@ describe 'InlineResponse200' do
       @instance.should be_a(Petstore::InlineResponse200) 
     end
   end
-  
   describe 'test attribute "tags"' do
     it 'should work' do
        # assertion here

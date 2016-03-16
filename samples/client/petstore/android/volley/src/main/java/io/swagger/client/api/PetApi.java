@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.InlineResponse200;
 import java.io.File;
 
 import org.apache.http.HttpEntity;
@@ -44,135 +45,6 @@ public class PetApi {
     return basePath;
   }
 
-  
-  /**
-  * Update an existing pet
-  * 
-   * @param body Pet object that needs to be added to the store
-   * @return void
-  */
-  public void updatePet (Pet body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = body;
-  
-
-  // create path and map variables
-  String path = "/pet".replaceAll("\\{format\\}","json");
-
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
-
-  
-
-  
-
-      String[] contentTypes = {
-  "application/json","application/xml"
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-      } else {
-      // normal form params
-  
-      }
-
-      String[] authNames = new String[] { "petstore_auth" };
-
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
-      }
-  }
-
-      /**
-   * Update an existing pet
-   * 
-   * @param body Pet object that needs to be added to the store
-  */
-  public void updatePet (Pet body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
-
-  
-
-    // create path and map variables
-    String path = "/pet".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String[] contentTypes = {
-      "application/json","application/xml"
-    };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-    } else {
-      // normal form params
-      
-    }
-
-      String[] authNames = new String[] { "petstore_auth" };
-
-    try {
-      apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames,
-        new Response.Listener<String>() {
-          @Override
-          public void onResponse(String localVarResponse) {
-            
-              
-              responseListener.onResponse(localVarResponse);
-              
-            
-          }
-      }, new Response.ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError error) {
-            errorListener.onErrorResponse(error);
-          }
-      });
-    } catch (ApiException ex) {
-      errorListener.onErrorResponse(new VolleyError(ex));
-    }
-  }
   
   /**
   * Add a new pet to the store
@@ -283,6 +155,281 @@ public class PetApi {
 
     try {
       apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            
+              
+              responseListener.onResponse(localVarResponse);
+              
+            
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  
+  /**
+  * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+  * 
+   * @param body Pet object in the form of byte array
+   * @return void
+  */
+  public void addPetUsingByteArray (byte[] body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = body;
+  
+
+  // create path and map variables
+  String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  
+
+  
+
+      String[] contentTypes = {
+  "application/json","application/xml"
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+  
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  
+      }
+
+      String[] authNames = new String[] { "petstore_auth" };
+
+      try {
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return ;
+        } else {
+           return ;
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * 
+   * @param body Pet object in the form of byte array
+  */
+  public void addPetUsingByteArray (byte[] body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = body;
+
+  
+
+    // create path and map variables
+    String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] contentTypes = {
+      "application/json","application/xml"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
+
+      String[] authNames = new String[] { "petstore_auth" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            
+              
+              responseListener.onResponse(localVarResponse);
+              
+            
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  
+  /**
+  * Deletes a pet
+  * 
+   * @param petId Pet id to delete
+   * @param apiKey 
+   * @return void
+  */
+  public void deletePet (Long petId, String apiKey) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = null;
+  
+      // verify the required parameter 'petId' is set
+      if (petId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling deletePet",
+      new ApiException(400, "Missing the required parameter 'petId' when calling deletePet"));
+      }
+  
+
+  // create path and map variables
+  String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  
+
+  
+          headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
+  
+
+      String[] contentTypes = {
+  
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+  
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  
+      }
+
+      String[] authNames = new String[] { "petstore_auth" };
+
+      try {
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return ;
+        } else {
+           return ;
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * Deletes a pet
+   * 
+   * @param petId Pet id to delete   * @param apiKey 
+  */
+  public void deletePet (Long petId, String apiKey, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+  
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+       VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling deletePet",
+         new ApiException(400, "Missing the required parameter 'petId' when calling deletePet"));
+    }
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+    headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
+    
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
+
+      String[] authNames = new String[] { "petstore_auth" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
@@ -626,7 +773,7 @@ public class PetApi {
   
       }
 
-      String[] authNames = new String[] { "petstore_auth", "api_key" };
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -696,7 +843,7 @@ public class PetApi {
       
     }
 
-      String[] authNames = new String[] { "petstore_auth", "api_key" };
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -712,6 +859,427 @@ public class PetApi {
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
+            
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  
+  /**
+  * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+  * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return InlineResponse200
+  */
+  public InlineResponse200 getPetByIdInObject (Long petId) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = null;
+  
+      // verify the required parameter 'petId' is set
+      if (petId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling getPetByIdInObject",
+      new ApiException(400, "Missing the required parameter 'petId' when calling getPetByIdInObject"));
+      }
+  
+
+  // create path and map variables
+  String path = "/pet/{petId}?response=inline_arbitrary_object".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  
+
+  
+
+      String[] contentTypes = {
+  
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+  
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  
+      }
+
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
+
+      try {
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (InlineResponse200) ApiInvoker.deserialize(localVarResponse, "", InlineResponse200.class);
+        } else {
+           return null;
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+  */
+  public void getPetByIdInObject (Long petId, final Response.Listener<InlineResponse200> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+  
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+       VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling getPetByIdInObject",
+         new ApiException(400, "Missing the required parameter 'petId' when calling getPetByIdInObject"));
+    }
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}?response=inline_arbitrary_object".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
+
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            
+            try {
+              responseListener.onResponse((InlineResponse200) ApiInvoker.deserialize(localVarResponse,  "", InlineResponse200.class));
+              
+              
+            
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+            
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  
+  /**
+  * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+  * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+   * @return byte[]
+  */
+  public byte[] petPetIdtestingByteArraytrueGet (Long petId) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = null;
+  
+      // verify the required parameter 'petId' is set
+      if (petId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet",
+      new ApiException(400, "Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet"));
+      }
+  
+
+  // create path and map variables
+  String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  
+
+  
+
+      String[] contentTypes = {
+  
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+  
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  
+      }
+
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
+
+      try {
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (byte[]) ApiInvoker.deserialize(localVarResponse, "", byte[].class);
+        } else {
+           return null;
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+   * @param petId ID of pet that needs to be fetched
+  */
+  public void petPetIdtestingByteArraytrueGet (Long petId, final Response.Listener<byte[]> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+  
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+       VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet",
+         new ApiException(400, "Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet"));
+    }
+    
+
+    // create path and map variables
+    String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
+
+      String[] authNames = new String[] { "api_key", "petstore_auth" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            
+            try {
+              responseListener.onResponse((byte[]) ApiInvoker.deserialize(localVarResponse,  "", byte[].class));
+              
+              
+            
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+            
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  
+  /**
+  * Update an existing pet
+  * 
+   * @param body Pet object that needs to be added to the store
+   * @return void
+  */
+  public void updatePet (Pet body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = body;
+  
+
+  // create path and map variables
+  String path = "/pet".replaceAll("\\{format\\}","json");
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  
+
+  
+
+      String[] contentTypes = {
+  "application/json","application/xml"
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+  
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  
+      }
+
+      String[] authNames = new String[] { "petstore_auth" };
+
+      try {
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return ;
+        } else {
+           return ;
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store
+  */
+  public void updatePet (Pet body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = body;
+
+  
+
+    // create path and map variables
+    String path = "/pet".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] contentTypes = {
+      "application/json","application/xml"
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
+
+      String[] authNames = new String[] { "petstore_auth" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            
+              
+              responseListener.onResponse(localVarResponse);
+              
             
           }
       }, new Response.ErrorListener() {
@@ -889,152 +1457,6 @@ public class PetApi {
   }
   
   /**
-  * Deletes a pet
-  * 
-   * @param petId Pet id to delete
-   * @param apiKey 
-   * @return void
-  */
-  public void deletePet (Long petId, String apiKey) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'petId' is set
-      if (petId == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling deletePet",
-      new ApiException(400, "Missing the required parameter 'petId' when calling deletePet"));
-      }
-  
-
-  // create path and map variables
-  String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
-
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
-
-  
-
-  
-          headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
-  
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-      } else {
-      // normal form params
-  
-      }
-
-      String[] authNames = new String[] { "petstore_auth" };
-
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
-      }
-  }
-
-      /**
-   * Deletes a pet
-   * 
-   * @param petId Pet id to delete   * @param apiKey 
-  */
-  public void deletePet (Long petId, String apiKey, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = null;
-
-  
-    // verify the required parameter 'petId' is set
-    if (petId == null) {
-       VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling deletePet",
-         new ApiException(400, "Missing the required parameter 'petId' when calling deletePet"));
-    }
-    
-
-    // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    
-
-    
-    headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
-    
-
-    String[] contentTypes = {
-      
-    };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-    } else {
-      // normal form params
-      
-    }
-
-      String[] authNames = new String[] { "petstore_auth" };
-
-    try {
-      apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,
-        new Response.Listener<String>() {
-          @Override
-          public void onResponse(String localVarResponse) {
-            
-              
-              responseListener.onResponse(localVarResponse);
-              
-            
-          }
-      }, new Response.ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError error) {
-            errorListener.onErrorResponse(error);
-          }
-      });
-    } catch (ApiException ex) {
-      errorListener.onErrorResponse(new VolleyError(ex));
-    }
-  }
-  
-  /**
   * uploads an image
   * 
    * @param petId ID of pet to update
@@ -1170,281 +1592,6 @@ public class PetApi {
       // normal form params
       formParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
       
-      
-    }
-
-      String[] authNames = new String[] { "petstore_auth" };
-
-    try {
-      apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
-        new Response.Listener<String>() {
-          @Override
-          public void onResponse(String localVarResponse) {
-            
-              
-              responseListener.onResponse(localVarResponse);
-              
-            
-          }
-      }, new Response.ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError error) {
-            errorListener.onErrorResponse(error);
-          }
-      });
-    } catch (ApiException ex) {
-      errorListener.onErrorResponse(new VolleyError(ex));
-    }
-  }
-  
-  /**
-  * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-  * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
-   * @return byte[]
-  */
-  public byte[] petPetIdtestingByteArraytrueGet (Long petId) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'petId' is set
-      if (petId == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet",
-      new ApiException(400, "Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet"));
-      }
-  
-
-  // create path and map variables
-  String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
-
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
-
-  
-
-  
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-      } else {
-      // normal form params
-  
-      }
-
-      String[] authNames = new String[] { "petstore_auth", "api_key" };
-
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return (byte[]) ApiInvoker.deserialize(localVarResponse, "", byte[].class);
-        } else {
-           return null;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
-      }
-  }
-
-      /**
-   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
-  */
-  public void petPetIdtestingByteArraytrueGet (Long petId, final Response.Listener<byte[]> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = null;
-
-  
-    // verify the required parameter 'petId' is set
-    if (petId == null) {
-       VolleyError error = new VolleyError("Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet",
-         new ApiException(400, "Missing the required parameter 'petId' when calling petPetIdtestingByteArraytrueGet"));
-    }
-    
-
-    // create path and map variables
-    String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String[] contentTypes = {
-      
-    };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-    } else {
-      // normal form params
-      
-    }
-
-      String[] authNames = new String[] { "petstore_auth", "api_key" };
-
-    try {
-      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
-        new Response.Listener<String>() {
-          @Override
-          public void onResponse(String localVarResponse) {
-            
-            try {
-              responseListener.onResponse((byte[]) ApiInvoker.deserialize(localVarResponse,  "", byte[].class));
-              
-              
-            
-            } catch (ApiException exception) {
-               errorListener.onErrorResponse(new VolleyError(exception));
-            }
-            
-          }
-      }, new Response.ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError error) {
-            errorListener.onErrorResponse(error);
-          }
-      });
-    } catch (ApiException ex) {
-      errorListener.onErrorResponse(new VolleyError(ex));
-    }
-  }
-  
-  /**
-  * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-  * 
-   * @param body Pet object in the form of byte array
-   * @return void
-  */
-  public void addPetUsingByteArray (byte[] body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = body;
-  
-
-  // create path and map variables
-  String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
-
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
-
-  
-
-  
-
-      String[] contentTypes = {
-  "application/json","application/xml"
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-      } else {
-      // normal form params
-  
-      }
-
-      String[] authNames = new String[] { "petstore_auth" };
-
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
-      }
-  }
-
-      /**
-   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-   * 
-   * @param body Pet object in the form of byte array
-  */
-  public void addPetUsingByteArray (byte[] body, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = body;
-
-  
-
-    // create path and map variables
-    String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String[] contentTypes = {
-      "application/json","application/xml"
-    };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-    } else {
-      // normal form params
       
     }
 

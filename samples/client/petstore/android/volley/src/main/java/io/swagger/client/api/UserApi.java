@@ -433,6 +433,293 @@ public class UserApi {
   }
   
   /**
+  * Delete user
+  * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+   * @return void
+  */
+  public void deleteUser (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = null;
+  
+      // verify the required parameter 'username' is set
+      if (username == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'username' when calling deleteUser",
+      new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"));
+      }
+  
+
+  // create path and map variables
+  String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  
+
+  
+
+      String[] contentTypes = {
+  
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+  
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  
+      }
+
+      String[] authNames = new String[] { "test_http_basic" };
+
+      try {
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return ;
+        } else {
+           return ;
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted
+  */
+  public void deleteUser (String username, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+  
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling deleteUser",
+         new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"));
+    }
+    
+
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
+
+      String[] authNames = new String[] { "test_http_basic" };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            
+              
+              responseListener.onResponse(localVarResponse);
+              
+            
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  
+  /**
+  * Get user by user name
+  * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @return User
+  */
+  public User getUserByName (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+     Object postBody = null;
+  
+      // verify the required parameter 'username' is set
+      if (username == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByName",
+      new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
+      }
+  
+
+  // create path and map variables
+  String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+
+  // query params
+  List<Pair> queryParams = new ArrayList<Pair>();
+      // header params
+      Map<String, String> headerParams = new HashMap<String, String>();
+      // form params
+      Map<String, String> formParams = new HashMap<String, String>();
+
+  
+
+  
+
+      String[] contentTypes = {
+  
+      };
+      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+      if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+  
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+      } else {
+      // normal form params
+  
+      }
+
+      String[] authNames = new String[] {  };
+
+      try {
+        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+        if(localVarResponse != null){
+           return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
+        } else {
+           return null;
+        }
+      } catch (ApiException ex) {
+         throw ex;
+      } catch (InterruptedException ex) {
+         throw ex;
+      } catch (ExecutionException ex) {
+         if(ex.getCause() instanceof VolleyError) {
+            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+         }
+         throw ex;
+      } catch (TimeoutException ex) {
+         throw ex;
+      }
+  }
+
+      /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.
+  */
+  public void getUserByName (String username, final Response.Listener<User> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+  
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByName",
+         new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
+    }
+    
+
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    
+
+    
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+      
+    }
+
+      String[] authNames = new String[] {  };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            
+            try {
+              responseListener.onResponse((User) ApiInvoker.deserialize(localVarResponse,  "", User.class));
+              
+              
+            
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+            
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  
+  /**
   * Logs user into the system
   * 
    * @param username The user name for login
@@ -704,152 +991,6 @@ public class UserApi {
   }
   
   /**
-  * Get user by user name
-  * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-  */
-  public User getUserByName (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'username' is set
-      if (username == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByName",
-      new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
-      }
-  
-
-  // create path and map variables
-  String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
-
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
-
-  
-
-  
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-      } else {
-      // normal form params
-  
-      }
-
-      String[] authNames = new String[] {  };
-
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
-        } else {
-           return null;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
-      }
-  }
-
-      /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-  */
-  public void getUserByName (String username, final Response.Listener<User> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = null;
-
-  
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByName",
-         new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
-    }
-    
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String[] contentTypes = {
-      
-    };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-    } else {
-      // normal form params
-      
-    }
-
-      String[] authNames = new String[] {  };
-
-    try {
-      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
-        new Response.Listener<String>() {
-          @Override
-          public void onResponse(String localVarResponse) {
-            
-            try {
-              responseListener.onResponse((User) ApiInvoker.deserialize(localVarResponse,  "", User.class));
-              
-              
-            
-            } catch (ApiException exception) {
-               errorListener.onErrorResponse(new VolleyError(exception));
-            }
-            
-          }
-      }, new Response.ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError error) {
-            errorListener.onErrorResponse(error);
-          }
-      });
-    } catch (ApiException ex) {
-      errorListener.onErrorResponse(new VolleyError(ex));
-    }
-  }
-  
-  /**
   * Updated user
   * This can only be done by the logged in user.
    * @param username name that need to be deleted
@@ -971,147 +1112,6 @@ public class UserApi {
 
     try {
       apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames,
-        new Response.Listener<String>() {
-          @Override
-          public void onResponse(String localVarResponse) {
-            
-              
-              responseListener.onResponse(localVarResponse);
-              
-            
-          }
-      }, new Response.ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError error) {
-            errorListener.onErrorResponse(error);
-          }
-      });
-    } catch (ApiException ex) {
-      errorListener.onErrorResponse(new VolleyError(ex));
-    }
-  }
-  
-  /**
-  * Delete user
-  * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return void
-  */
-  public void deleteUser (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'username' is set
-      if (username == null) {
-      VolleyError error = new VolleyError("Missing the required parameter 'username' when calling deleteUser",
-      new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"));
-      }
-  
-
-  // create path and map variables
-  String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
-
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
-
-  
-
-  
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-      } else {
-      // normal form params
-  
-      }
-
-      String[] authNames = new String[] {  };
-
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
-      }
-  }
-
-      /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-  */
-  public void deleteUser (String username, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) {
-    Object postBody = null;
-
-  
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling deleteUser",
-         new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"));
-    }
-    
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
-    // form params
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    
-
-    
-
-    String[] contentTypes = {
-      
-    };
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if (contentType.startsWith("multipart/form-data")) {
-      // file uploading
-      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-      
-
-      HttpEntity httpEntity = localVarBuilder.build();
-      postBody = httpEntity;
-    } else {
-      // normal form params
-      
-    }
-
-      String[] authNames = new String[] {  };
-
-    try {
-      apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {

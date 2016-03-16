@@ -3,8 +3,8 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Pet;
-import java.io.File;
 import io.swagger.client.model.InlineResponse200;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,23 +12,10 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-03T12:04:41.120+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-14T22:17:50.356+08:00")
 public interface PetApi extends ApiClient.Api {
 
 
-  /**
-   * Update an existing pet
-   * 
-   * @param body Pet object that needs to be added to the store
-   * @return void
-   */
-  @RequestLine("PUT /pet")
-  @Headers({
-    "Content-type: application/json",
-    "Accepts: application/json",
-  })
-  void updatePet(Pet body);
-  
   /**
    * Add a new pet to the store
    * 
@@ -41,6 +28,34 @@ public interface PetApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void addPet(Pet body);
+  
+  /**
+   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * 
+   * @param body Pet object in the form of byte array
+   * @return void
+   */
+  @RequestLine("POST /pet?testing_byte_array=true")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+  })
+  void addPetUsingByteArray(byte[] body);
+  
+  /**
+   * Deletes a pet
+   * 
+   * @param petId Pet id to delete
+   * @param apiKey 
+   * @return void
+   */
+  @RequestLine("DELETE /pet/{petId}")
+  @Headers({
+    "Content-type: application/json",
+    "Accepts: application/json",
+    "apiKey: {apiKey}"
+  })
+  void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
   
   /**
    * Finds Pets by status
@@ -82,51 +97,6 @@ public interface PetApi extends ApiClient.Api {
   Pet getPetById(@Param("petId") Long petId);
   
   /**
-   * Updates a pet in the store with form data
-   * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
-   * @return void
-   */
-  @RequestLine("POST /pet/{petId}")
-  @Headers({
-    "Content-type: application/x-www-form-urlencoded",
-    "Accepts: application/json",
-  })
-  void updatePetWithForm(@Param("petId") String petId, @Param("name") String name, @Param("status") String status);
-  
-  /**
-   * Deletes a pet
-   * 
-   * @param petId Pet id to delete
-   * @param apiKey 
-   * @return void
-   */
-  @RequestLine("DELETE /pet/{petId}")
-  @Headers({
-    "Content-type: application/json",
-    "Accepts: application/json",
-    "apiKey: {apiKey}"
-  })
-  void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
-  
-  /**
-   * uploads an image
-   * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
-   * @return void
-   */
-  @RequestLine("POST /pet/{petId}/uploadImage")
-  @Headers({
-    "Content-type: multipart/form-data",
-    "Accepts: application/json",
-  })
-  void uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
-  
-  /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
    * @param petId ID of pet that needs to be fetched
@@ -153,16 +123,46 @@ public interface PetApi extends ApiClient.Api {
   byte[] petPetIdtestingByteArraytrueGet(@Param("petId") Long petId);
   
   /**
-   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+   * Update an existing pet
    * 
-   * @param body Pet object in the form of byte array
+   * @param body Pet object that needs to be added to the store
    * @return void
    */
-  @RequestLine("POST /pet?testing_byte_array=true")
+  @RequestLine("PUT /pet")
   @Headers({
     "Content-type: application/json",
     "Accepts: application/json",
   })
-  void addPetUsingByteArray(byte[] body);
+  void updatePet(Pet body);
+  
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated
+   * @param name Updated name of the pet
+   * @param status Updated status of the pet
+   * @return void
+   */
+  @RequestLine("POST /pet/{petId}")
+  @Headers({
+    "Content-type: application/x-www-form-urlencoded",
+    "Accepts: application/json",
+  })
+  void updatePetWithForm(@Param("petId") String petId, @Param("name") String name, @Param("status") String status);
+  
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update
+   * @param additionalMetadata Additional data to pass to server
+   * @param file file to upload
+   * @return void
+   */
+  @RequestLine("POST /pet/{petId}/uploadImage")
+  @Headers({
+    "Content-type: multipart/form-data",
+    "Accepts: application/json",
+  })
+  void uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
   
 }

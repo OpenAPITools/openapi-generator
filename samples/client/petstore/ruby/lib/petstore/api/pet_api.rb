@@ -360,7 +360,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['petstore_auth', 'api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -420,7 +420,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['petstore_auth', 'api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -480,7 +480,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['petstore_auth', 'api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
