@@ -18,7 +18,10 @@ Method | HTTP request | Description
 {{notes}}{{/notes}}
 
 ### Example
-```ruby{{#hasAuthMethods}}
+```ruby
+require '{{{gemName}}}'
+{{#hasAuthMethods}}
+
 {{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
@@ -41,7 +44,8 @@ opts = { {{#allParams}}{{^required}}
 }{{/hasOptionalParams}}{{/hasParams}}
 
 begin
-  {{#returnType}}result = {{/returnType}}api.{{{operationId}}}{{#hasParams}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}
+  {{#returnType}}result = {{/returnType}}api.{{{operationId}}}{{#hasParams}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}{{#returnType}}
+  p result{{/returnType}}
 rescue {{{moduleName}}}::ApiError => e
   puts "Exception when calling {{{operationId}}}: #{e}"
 end

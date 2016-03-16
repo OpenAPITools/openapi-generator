@@ -231,6 +231,13 @@ class Configuration(object):
                     'key': 'api_key',
                     'value': self.get_api_key_with_prefix('api_key')
                 },
+            'test_http_basic':
+                {
+                    'type': 'basic',
+                    'in': 'header',
+                    'key': 'Authorization',
+                    'value': self.get_basic_auth_token()
+                },
             'test_api_client_secret':
                 {
                     'type': 'api_key',

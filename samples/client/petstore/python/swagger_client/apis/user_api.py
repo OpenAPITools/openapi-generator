@@ -330,7 +330,7 @@ class UserApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['test_http_basic']
 
         response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,

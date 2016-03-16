@@ -152,6 +152,12 @@ This can only be done by the logged in user.
 
 ### Example
 ```ruby
+Petstore.configure do |config|
+  # Configure HTTP basic authorization: test_http_basic
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'
+end
+
 api = Petstore::UserApi.new
 
 username = "username_example" # [String] The name that needs to be deleted
@@ -176,7 +182,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[test_http_basic](../README.md#test_http_basic)
 
 ### HTTP reuqest headers
 
