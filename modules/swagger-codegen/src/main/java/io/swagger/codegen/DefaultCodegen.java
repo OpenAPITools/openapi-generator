@@ -1575,7 +1575,6 @@ public class DefaultCodegen {
         // legacy support
         op.nickname = op.operationId;
 
-
         if (op.allParams.size() > 0) {
             op.hasParams = true;
         }
@@ -2075,6 +2074,7 @@ public class DefaultCodegen {
             LOGGER.warn("generated unique operationId `" + uniqueName + "`");
         }
         co.operationId = uniqueName;
+        co.operationIdLowerCase = uniqueName.toLowerCase();
         opList.add(co);
         co.baseName = tag;
     }
