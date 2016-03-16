@@ -1,9 +1,4 @@
-# ::Object::ModelReturn
-
-## Load the model package
-```perl
-use ::Object::ModelReturn;
-```
+# ModelReturn
 
 ## Properties
 Name | Type | Description | Notes

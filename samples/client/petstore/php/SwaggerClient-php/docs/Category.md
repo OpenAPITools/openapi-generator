@@ -1,9 +1,4 @@
-# ::Object::Category
-
-## Load the model package
-```perl
-use ::Object::Category;
-```
+# Category
 
 ## Properties
 Name | Type | Description | Notes

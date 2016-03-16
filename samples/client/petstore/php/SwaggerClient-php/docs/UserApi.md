@@ -1,9 +1,4 @@
-# ::UserApi
-
-## Load the API package
-```perl
-use ::Object::UserApi;
-```
+# Swagger\Client\UserApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -20,25 +15,26 @@ Method | HTTP request | Description
 
 
 # **createUser**
-> createUser(body => $body)
+> createUser($body)
 
 Create user
 
 This can only be done by the logged in user.
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::UserApi->new();
-my $body = ::Object::\Swagger\Client\Model\User->new(); # [\Swagger\Client\Model\User] Created user object
+$api_instance = new Swagger\Client\UserApi();
+$body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Created user object
 
-eval { 
-    $api->createUser(body => $body);
-};
-if ($@) {
-    warn "Exception when calling UserApi->createUser: $@\n";
+try { 
+    $api_instance->createUser($body);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -63,25 +59,26 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body => $body)
+> createUsersWithArrayInput($body)
 
 Creates list of users with given input array
 
 
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::UserApi->new();
-my $body = (::Object::\Swagger\Client\Model\User[]->new()); # [\Swagger\Client\Model\User[]] List of user object
+$api_instance = new Swagger\Client\UserApi();
+$body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
 
-eval { 
-    $api->createUsersWithArrayInput(body => $body);
-};
-if ($@) {
-    warn "Exception when calling UserApi->createUsersWithArrayInput: $@\n";
+try { 
+    $api_instance->createUsersWithArrayInput($body);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -106,25 +103,26 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithListInput**
-> createUsersWithListInput(body => $body)
+> createUsersWithListInput($body)
 
 Creates list of users with given input array
 
 
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::UserApi->new();
-my $body = (::Object::\Swagger\Client\Model\User[]->new()); # [\Swagger\Client\Model\User[]] List of user object
+$api_instance = new Swagger\Client\UserApi();
+$body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
 
-eval { 
-    $api->createUsersWithListInput(body => $body);
-};
-if ($@) {
-    warn "Exception when calling UserApi->createUsersWithListInput: $@\n";
+try { 
+    $api_instance->createUsersWithListInput($body);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -149,29 +147,30 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deleteUser**
-> deleteUser(username => $username)
+> deleteUser($username)
 
 Delete user
 
 This can only be done by the logged in user.
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-# Configure HTTP basic authorization: test_http_basic
-::Configuration::username = 'YOUR_USERNAME';
-::Configuration::password = 'YOUR_PASSWORD';
+// Configure HTTP basic authorization: test_http_basic
+Swagger\Client::getDefaultConfiguration->setUsername('YOUR_USERNAME');
+Swagger\Client::getDefaultConfiguration->setPassword('YOUR_PASSWORD');
 
-my $api = ::UserApi->new();
-my $username = username_example; # [string] The name that needs to be deleted
+$api_instance = new Swagger\Client\UserApi();
+$username = "username_example"; // string | The name that needs to be deleted
 
-eval { 
-    $api->deleteUser(username => $username);
-};
-if ($@) {
-    warn "Exception when calling UserApi->deleteUser: $@\n";
+try { 
+    $api_instance->deleteUser($username);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -196,26 +195,27 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getUserByName**
-> \Swagger\Client\Model\User getUserByName(username => $username)
+> \Swagger\Client\Model\User getUserByName($username)
 
 Get user by user name
 
 
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::UserApi->new();
-my $username = username_example; # [string] The name that needs to be fetched. Use user1 for testing.
+$api_instance = new Swagger\Client\UserApi();
+$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing.
 
-eval { 
-    my $result = $api->getUserByName(username => $username);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling UserApi->getUserByName: $@\n";
+try { 
+    $result = $api_instance->getUserByName($username);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -240,27 +240,28 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **loginUser**
-> string loginUser(username => $username, password => $password)
+> string loginUser($username, $password)
 
 Logs user into the system
 
 
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::UserApi->new();
-my $username = username_example; # [string] The user name for login
-my $password = password_example; # [string] The password for login in clear text
+$api_instance = new Swagger\Client\UserApi();
+$username = "username_example"; // string | The user name for login
+$password = "password_example"; // string | The password for login in clear text
 
-eval { 
-    my $result = $api->loginUser(username => $username, password => $password);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling UserApi->loginUser: $@\n";
+try { 
+    $result = $api_instance->loginUser($username, $password);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -293,17 +294,18 @@ Logs out current logged in user session
 
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::UserApi->new();
+$api_instance = new Swagger\Client\UserApi();
 
-eval { 
-    $api->logoutUser();
-};
-if ($@) {
-    warn "Exception when calling UserApi->logoutUser: $@\n";
+try { 
+    $api_instance->logoutUser();
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters
@@ -325,26 +327,27 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUser**
-> updateUser(username => $username, body => $body)
+> updateUser($username, $body)
 
 Updated user
 
 This can only be done by the logged in user.
 
 ### Example 
-```perl
-use Data::Dumper;
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
 
-my $api = ::UserApi->new();
-my $username = username_example; # [string] name that need to be deleted
-my $body = ::Object::\Swagger\Client\Model\User->new(); # [\Swagger\Client\Model\User] Updated user object
+$api_instance = new Swagger\Client\UserApi();
+$username = "username_example"; // string | name that need to be deleted
+$body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Updated user object
 
-eval { 
-    $api->updateUser(username => $username, body => $body);
-};
-if ($@) {
-    warn "Exception when calling UserApi->updateUser: $@\n";
+try { 
+    $api_instance->updateUser($username, $body);
+} catch (Exception $e) {
+    echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), "\n";
 }
+?>
 ```
 
 ### Parameters

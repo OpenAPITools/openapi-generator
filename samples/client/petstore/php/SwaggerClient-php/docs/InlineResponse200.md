@@ -1,9 +1,4 @@
-# ::Object::InlineResponse200
-
-## Load the model package
-```perl
-use ::Object::InlineResponse200;
-```
+# InlineResponse200
 
 ## Properties
 Name | Type | Description | Notes

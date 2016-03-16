@@ -1,9 +1,4 @@
-# ::Object::User
-
-## Load the model package
-```perl
-use ::Object::User;
-```
+# User
 
 ## Properties
 Name | Type | Description | Notes
