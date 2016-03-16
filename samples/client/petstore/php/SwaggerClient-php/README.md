@@ -14,11 +14,11 @@ You can install the bindings via [Composer](http://getcomposer.org/). Add this t
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/swagger/swagger-client.git"
+      "url": "https://github.com/YOUR_GIT_USR_ID/YOUR_GIT_REPO_ID.git"
     }
   ],
   "require": {
-    "swagger/swagger-client": "*@dev"
+    "YOUR_GIT_USR_ID/YOUR_GIT_REPO_ID": "*@dev"
   }
 }
 ```
@@ -39,6 +39,99 @@ To run the unit tests:
 composer install
 ./vendor/bin/phpunit lib/Tests
 ```
+
+## Documentation for API Endpoints
+
+All URIs are relative to *http://petstore.swagger.io/v2*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+*PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
+*PetApi* | [**addPetUsingByteArray**](docs/PetApi.md#addpetusingbytearray) | **POST** /pet?testing_byte_array=true | Fake endpoint to test byte array in body parameter for adding a new pet to the store
+*PetApi* | [**deletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**findPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**findPetsByTags**](docs/PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**getPetById**](docs/PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**getPetByIdInObject**](docs/PetApi.md#getpetbyidinobject) | **GET** /pet/{petId}?response=inline_arbitrary_object | Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+*PetApi* | [**petPetIdtestingByteArraytrueGet**](docs/PetApi.md#petpetidtestingbytearraytrueget) | **GET** /pet/{petId}?testing_byte_array=true | Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+*PetApi* | [**updatePet**](docs/PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
+*PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**uploadFile**](docs/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*StoreApi* | [**findOrdersByStatus**](docs/StoreApi.md#findordersbystatus) | **GET** /store/findByStatus | Finds orders by status
+*StoreApi* | [**getInventory**](docs/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**getInventoryInObject**](docs/StoreApi.md#getinventoryinobject) | **GET** /store/inventory?response=arbitrary_object | Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+*StoreApi* | [**getOrderById**](docs/StoreApi.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+*StoreApi* | [**placeOrder**](docs/StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
+*UserApi* | [**createUser**](docs/UserApi.md#createuser) | **POST** /user | Create user
+*UserApi* | [**createUsersWithArrayInput**](docs/UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**createUsersWithListInput**](docs/UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**deleteUser**](docs/UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
+*UserApi* | [**getUserByName**](docs/UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
+*UserApi* | [**loginUser**](docs/UserApi.md#loginuser) | **GET** /user/login | Logs user into the system
+*UserApi* | [**logoutUser**](docs/UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
+*UserApi* | [**updateUser**](docs/UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
+
+
+## Documentation For Models
+
+ - [Category](docs/Category.md)
+ - [InlineResponse200](docs/InlineResponse200.md)
+ - [ModelReturn](docs/ModelReturn.md)
+ - [Name](docs/Name.md)
+ - [Order](docs/Order.md)
+ - [Pet](docs/Pet.md)
+ - [SpecialModelName](docs/SpecialModelName.md)
+ - [Tag](docs/Tag.md)
+ - [User](docs/User.md)
+
+
+## Documentation For Authorization
+
+
+## test_api_key_header
+
+- **Type**: API key 
+- **API key parameter name**: test_api_key_header
+- **Location**: HTTP header
+
+## api_key
+
+- **Type**: API key 
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+## test_http_basic
+
+- **Type**: HTTP basic authentication
+
+## test_api_client_secret
+
+- **Type**: API key 
+- **API key parameter name**: x-test_api_client_secret
+- **Location**: HTTP header
+
+## test_api_client_id
+
+- **Type**: API key 
+- **API key parameter name**: x-test_api_client_id
+- **Location**: HTTP header
+
+## test_api_key_query
+
+- **Type**: API key 
+- **API key parameter name**: test_api_key_query
+- **Location**: URL query string
+
+## petstore_auth
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorizatoin URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+ - **write:pets**: modify pets in your account
+ - **read:pets**: read your pets
+
 
 ## Author
 
