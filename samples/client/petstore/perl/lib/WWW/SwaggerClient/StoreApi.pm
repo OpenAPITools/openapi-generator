@@ -128,7 +128,7 @@ sub delete_order {
 #
 # Finds orders by status
 # 
-# @param string $status Status value that needs to be considered for query (optional)
+# @param string $status Status value that needs to be considered for query (optional, default to placed)
 {
     my $params = {
     'status' => {

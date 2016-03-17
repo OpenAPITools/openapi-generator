@@ -58,7 +58,7 @@ sub new {
 #
 # {{{summary}}}
 # 
-{{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
+{{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
 {
     my $params = {
