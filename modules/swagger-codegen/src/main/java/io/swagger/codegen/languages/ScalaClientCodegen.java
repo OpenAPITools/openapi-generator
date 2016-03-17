@@ -305,6 +305,13 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
             return modelName;
         }
 
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
         return camelizedName;
     }
 

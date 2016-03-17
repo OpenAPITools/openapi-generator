@@ -23,6 +23,7 @@ require 'petstore/configuration'
 # Models
 require 'petstore/models/category'
 require 'petstore/models/inline_response_200'
+require 'petstore/models/model_200_response'
 require 'petstore/models/model_return'
 require 'petstore/models/name'
 require 'petstore/models/order'

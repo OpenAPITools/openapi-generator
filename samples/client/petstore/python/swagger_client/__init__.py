@@ -3,6 +3,7 @@ from __future__ import absolute_import
 # import models into sdk package
 from .models.category import Category
 from .models.inline_response_200 import InlineResponse200
+from .models.model_200_response import Model200Response
 from .models.model_return import ModelReturn
 from .models.name import Name
 from .models.order import Order

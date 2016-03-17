@@ -293,6 +293,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name;
         }
 
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
         // add prefix/suffic to model name
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
