@@ -14,69 +14,87 @@
   }
 }(this, function(ApiClient{{#imports}}, {{import}}{{/imports}}) {
   'use strict';
-  {{#models}}{{#model}}
-  {{#description}}/**
-   * {{description}}
-   **/{{/description}}
-  var {{classname}} = function {{classname}}({{#vars}}{{#required}}{{name}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/vars}}) { {{#parent}}/* extends {{{parent}}}*/{{/parent}}
-    {{#vars}}{{#required}}
-    /**{{#description}}
-     * {{{description}}}{{/description}}
-     * datatype: {{{datatypeWithEnum}}}
-     * required {{#minimum}}
-     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-     * maximum: {{maximum}}{{/maximum}}
-     **/
-    this['{{baseName}}'] = {{name}};{{/required}}{{^required}}{{#defaultValue}}
-    /**{{#description}}
-     * {{{description}}}{{/description}}
-     * datatype: {{{datatypeWithEnum}}}
-     * required {{#minimum}}
-     * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-     * maximum: {{maximum}}{{/maximum}}
-     **/
-    this['{{baseName}}'] = {{{defaultValue}}};{{/defaultValue}}{{/required}}{{/vars}}
-  };
 
-  {{classname}}.constructFromObject = function(data) {
-    if (!data) {
-      return null;
-    }
-    var _this = new {{classname}}();
-    {{#vars}}
-    if (data['{{baseName}}']) {
-      _this['{{baseName}}']{{{defaultValueWithParam}}}
-    }
-    {{/vars}}
-    return _this;
+{{#models}}{{#model}}{{#emitJSDoc}}  /**
+   * The {{classname}} model module.
+   * @module {{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+   * @version {{projectVersion}}
+   */
+
+  /**
+   * Constructs a new <code>{{classname}}</code>.{{#description}}
+   * {{description}}{{/description}}
+   * @alias module:{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+   * @class{{#useInheritance}}{{#parent}}
+   * @extends module:{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{parent}}{{/parent}}{{#interfaces}}
+   * @implements module:{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+   * @param {{.}}{{/vendorExtensions.x-all-required}}
+   */{{/emitJSDoc}}
+  var exports = function({{#vendorExtensions.x-all-required}}{{.}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) {
+{{#useInheritance}}{{#parentModel}}    {{classname}}.call(this{{#vendorExtensions.x-all-required}}, {{.}}{{/vendorExtensions.x-all-required}});{{/parentModel}}
+{{#interfaceModels}}    {{classname}}.call(this{{#vendorExtensions.x-all-required}}, {{.}}{{/vendorExtensions.x-all-required}});
+{{/interfaceModels}}{{/useInheritance}}{{#vars}}{{#required}}    this['{{baseName}}'] = {{name}};{{/required}}
+{{/vars}}  };
+
+{{#emitJSDoc}}  /**
+   * Constructs a <code>{{classname}}</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {{=< >=}}{module:<#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> obj Optional instance to populate.
+   * @return {{=< >=}}{module:<#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
+   */
+{{/emitJSDoc}}  exports.constructFromObject = function(data, obj) {
+    if (data) { {{!// TODO: support polymorphism: discriminator property on data determines class to instantiate.}}
+      obj = obj || new exports();
+{{#useInheritance}}{{#parent}}      {{.}}.constructFromObject(data, obj);{{/parent}}
+{{#interfaces}}      {{.}}.constructFromObject(data, obj);
+{{/interfaces}}{{/useInheritance}}{{#vars}}      if (data.hasOwnProperty('{{baseName}}')) {
+        obj['{{baseName}}']{{{defaultValueWithParam}}}
+      }
+{{/vars}}    }
+    return obj;
   }
-
-  {{^omitModelMethods}}
-  {{#vars}}
+{{#useInheritance}}{{#parent}}
+  exports.prototype = Object.create({{parent}}.prototype);
+  exports.prototype.constructor = exports;
+{{/parent}}{{/useInheritance}}
+{{#vars}}{{#emitJSDoc}}
   /**{{#description}}
-   * get {{{description}}}{{/description}}{{#minimum}}
+   * {{{description}}}{{/description}}
+   * @member {{{vendorExtensions.x-jsdoc-type}}} {{baseName}}{{#defaultValue}}
+   * @default {{{defaultValue}}}{{/defaultValue}}
+   */
+{{/emitJSDoc}}  exports.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+{{/vars}}{{#useInheritance}}{{#interfaceModels}}
+  // Implement {{classname}} interface:{{#allVars}}{{#emitJSDoc}}
+  /**{{#description}}
+   * {{{description}}}{{/description}}
+   * @member {{{vendorExtensions.x-jsdoc-type}}} {{baseName}}{{#defaultValue}}
+   * @default {{{defaultValue}}}{{/defaultValue}}
+   */
+{{/emitJSDoc}}  exports.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+{{/allVars}}{{/interfaceModels}}{{/useInheritance}}
+{{#emitModelMethods}}{{#vars}}{{#emitJSDoc}}  /**{{#description}}
+   * Returns {{{description}}}{{/description}}{{#minimum}}
    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
    * maximum: {{maximum}}{{/maximum}}
-   * @return {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%>
-   **/
-  {{classname}}.prototype.{{getter}} = function() {
+   * @return {{{vendorExtensions.x-jsdoc-type}}}
+   */
+{{/emitJSDoc}}  exports.prototype.{{getter}} = function() {
     return this['{{baseName}}'];
   }
 
-  /**{{#description}}
-   * set {{{description}}}{{/description}}
-   * @param {{=<% %>=}}{<% datatypeWithEnum %>}<%={{ }}=%> {{name}}
-   **/
-  {{classname}}.prototype.{{setter}} = function({{name}}) {
+{{#emitJSDoc}}  /**{{#description}}
+   * Sets {{{description}}}{{/description}}
+   * @param {{{vendorExtensions.x-jsdoc-type}}} {{name}}{{#description}} {{{description}}}{{/description}}
+   */
+{{/emitJSDoc}}  exports.prototype.{{setter}} = function({{name}}) {
     this['{{baseName}}'] = {{name}};
   }
-  {{/vars}}
-  {{/omitModelMethods}}
 
-  {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-  {{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
+{{/vars}}{{/emitModelMethods}}
+{{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/items}}*/{{/items.isEnum}}{{/vars}}
 
-  return {{classname}};
-  {{/model}}
-  {{/models}}
-}));
+  return exports;
+{{/model}}{{/models}}}));

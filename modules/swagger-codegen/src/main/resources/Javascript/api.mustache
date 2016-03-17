@@ -1,10 +1,10 @@
 {{=< >=}}(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'<#imports>, '../model/<import>'</imports>], factory);
+    define(['../ApiClient'<#imports>, '../<#modelPackage><modelPackage>/</modelPackage><import>'</imports>], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient')<#imports>, require('../model/<import>')</imports>);
+    module.exports = factory(require('../ApiClient')<#imports>, require('../<#modelPackage><modelPackage>/</modelPackage><import>')</imports>);
   } else {
     // Browser globals (root is window)
     if (!root.<moduleName>) {
@@ -15,28 +15,50 @@
 }(this, function(ApiClient<#imports>, <import></imports>) {
   'use strict';
 
-  var <classname> = function <classname>(apiClient) {
-    this.apiClient = apiClient || ApiClient.default;
+<#emitJSDoc>  /**
+   * <baseName> service.
+   * @module <#apiPackage><apiPackage>/</apiPackage><classname>
+   * @version <projectVersion>
+   */
 
-    var self = this;
-    <#operations>
-    <#operation>
+  /**
+   * Constructs a new <classname>. <#description>
+   * <description></description>
+   * @alias module:<#apiPackage><apiPackage>/</apiPackage><classname>
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use, defaulting to {@link module:ApiClient#instance}
+   * if unspecified.
+   */
+</emitJSDoc>  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+<#operations><#operation><#emitJSDoc><^usePromises>
     /**
-     * <summary>
-     * <notes><#allParams>
-     * @param {<dataType>} <#required><paramName></required><^required>opts['<paramName>']</required> <description></allParams><^usePromises>
-     * @param {function} callback the callback function, accepting three arguments: error, data, response</usePromises><#returnType>
-     *   data is of type: <&returnType></returnType>
+     * Callback function to receive the result of the <nickname> operation.
+     * @callback module:<#apiPackage><apiPackage>/</apiPackage><classname>~<nickname>Callback
+     * @param {String} error Error message, if any.
+     * @param <#vendorExtensions.x-jsdoc-type><&vendorExtensions.x-jsdoc-type> data The data returned by the service call.</vendorExtensions.x-jsdoc-type><^vendorExtensions.x-jsdoc-type>data This operation does not return a value.</vendorExtensions.x-jsdoc-type>
+     * @param {String} response The complete HTTP response.
+     */</usePromises>
+
+    /**<#summary>
+     * <summary></summary><#notes>
+     * <notes></notes><#allParams><#required>
+     * @param <&vendorExtensions.x-jsdoc-type> <paramName> <description></required></allParams><#hasOptionalParams>
+     * @param {Object} opts Optional parameters<#allParams><^required>
+     * @param <&vendorExtensions.x-jsdoc-type> opts.<paramName> <description></required></allParams></hasOptionalParams><^usePromises>
+     * @param {module:<#apiPackage><apiPackage>/</apiPackage><classname>~<nickname>Callback} callback The callback function, accepting three arguments: error, data, response</usePromises><#returnType>
+     * data is of type: <&vendorExtensions.x-jsdoc-type></returnType>
      */
-    self.<nickname> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
+</emitJSDoc>    this.<nickname> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
       opts = opts || {};</hasOptionalParams>
       var postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
-      <#allParams><#required>
+<#allParams><#required>
       // verify the required parameter '<paramName>' is set
-      if (<paramName> == null) {
+      if (<paramName> == undefined || <paramName> == null) {
         throw "Missing the required parameter '<paramName>' when calling <nickname>";
       }
-      </required></allParams>
+</required></allParams>
 
       var pathParams = {<#pathParams>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
@@ -61,11 +83,8 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
       );
-
     }
-    </operation>
-    </operations>
-  };
+</operation></operations>  };
 
-  return <classname>;
+  return exports;
 }));<={{ }}=>

@@ -15,46 +15,74 @@
 }(this, function(superagent) {
   'use strict';
 
-  var ApiClient = function ApiClient() {
-    /**
-     * The base path to put in front of every API call's (relative) path.
+{{#emitJSDoc}}  /**
+   * @module ApiClient
+   * @version {{projectVersion}}
+   */
+
+  /**
+   * Manages low level client-server communications, parameter marshalling, etc. There should not be any need for an
+   * application to use this class directly - the *Api and model classes provide the public API for the service. The
+   * contents of this file should be regarded as internal but are documented for completeness.
+   * @alias module:ApiClient
+   * @class
+   */
+{{/emitJSDoc}}  var exports = function() {
+{{#emitJSDoc}}    /**
+     * The base URL against which to resolve every API call's (relative) path.
+     * @type {String}
+     * @default {{basePath}}
      */
-    this.basePath = '{{basePath}}'.replace(/\/+$/, '');
-{{=< >=}}
-    this.authentications = {<#authMethods><#isBasic>
+{{/emitJSDoc}}    this.basePath = '{{basePath}}'.replace(/\/+$/, '');
+
+{{#emitJSDoc}}    /**
+     * The authentication methods to be included for all API calls.
+     * @type {Array.<String>}
+     */
+{{/emitJSDoc}}{{=< >=}}    this.authentications = {<#authMethods><#isBasic>
       '<name>': {type: 'basic'}</isBasic><#isApiKey>
-      '<name>': {type: 'apiKey', in: <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}</isApiKey><#isOAuth>
+      '<name>': {type: 'apiKey', 'in': <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}</isApiKey><#isOAuth>
       '<name>': {type: 'oauth2'}</isOAuth><#hasMore>,</hasMore></authMethods>
     };
 <={{ }}=>
-    /**
+{{#emitJSDoc}}    /**
      * The default HTTP headers to be included for all API calls.
+     * @type {Array.<String>}
+     * @default {}
      */
-    this.defaultHeaders = {};
+{{/emitJSDoc}}    this.defaultHeaders = {};
 
     /**
      * The default HTTP timeout for all API calls.
+     * @type {Number}
+     * @default 60000
      */
     this.timeout = 60000;
   };
 
-  ApiClient.prototype.paramToString = function paramToString(param) {
-    if (param == null) {
-      // return empty string for null and undefined
+{{#emitJSDoc}}  /**
+   * Returns a string representation for an actual parameter.
+   * @param param The actual parameter.
+   * @returns {String} The string representation of <code>param</code>.
+   */
+{{/emitJSDoc}}  exports.prototype.paramToString = function(param) {
+    if (param == undefined || param == null) {
       return '';
-    } else if (param instanceof Date) {
-      return param.toJSON();
-    } else {
-      return param.toString();
     }
+    if (param instanceof Date) {
+      return param.toJSON();
+    }
+    return param.toString();
   };
 
-  /**
-   * Build full URL by appending the given path to base path and replacing
-   * path parameter placeholders with parameter values.
+{{#emitJSDoc}}  /**
+   * Builds full URL by appending the given path to the base URL and replacing path parameter place-holders with parameter values.
    * NOTE: query parameters are not handled here.
+   * @param {String} path The path to append to the base URL.
+   * @param {Object} pathParams The parameter values to append.
+   * @returns {String} The encoded path with parameter values substituted.
    */
-  ApiClient.prototype.buildUrl = function buildUrl(path, pathParams) {
+{{/emitJSDoc}}  exports.prototype.buildUrl = function(path, pathParams) {
     if (!path.match(/^\//)) {
       path = '/' + path;
     }
@@ -72,35 +100,41 @@
     return url;
   };
 
-  /**
-   * Check if the given MIME is a JSON MIME.
-   * JSON MIME examples:
-   *   application/json
-   *   application/json; charset=UTF8
-   *   APPLICATION/JSON
+{{#emitJSDoc}}  /**
+   * Checks whether the given content type represents JSON.<br>
+   * JSON content type examples:<br>
+   * <ul>
+   * <li>application/json</li>
+   * <li>application/json; charset=UTF8</li>
+   * <li>APPLICATION/JSON</li>
+   * </ul>
+   * @param {String} contentType The MIME content type to check.
+   * @returns {Boolean} <code>true</code> if <code>contentType</code> represents JSON, otherwise <code>false</code>.
    */
-  ApiClient.prototype.isJsonMime = function isJsonMime(mime) {
-    return Boolean(mime != null && mime.match(/^application\/json(;.*)?$/i));
+{{/emitJSDoc}}  exports.prototype.isJsonMime = function(contentType) {
+    return Boolean(contentType != null && contentType.match(/^application\/json(;.*)?$/i));
   };
 
-  /**
-   * Choose a MIME from the given MIMEs with JSON preferred,
-   * i.e. return JSON if included, otherwise return the first one.
+{{#emitJSDoc}}  /**
+   * Chooses a content type from the given array, with JSON preferred; i.e. return JSON if included, otherwise return the first.
+   * @param {Array.<String>} contentTypes
+   * @returns {String} The chosen content type, preferring JSON.
    */
-  ApiClient.prototype.jsonPreferredMime = function jsonPreferredMime(mimes) {
-    var len = mimes.length;
-    for (var i = 0; i < len; i++) {
-      if (this.isJsonMime(mimes[i])) {
-        return mimes[i];
+{{/emitJSDoc}}  exports.prototype.jsonPreferredMime = function(contentTypes) {
+    for (var i = 0; i < contentTypes.length; i++) {
+      if (this.isJsonMime(contentTypes[i])) {
+        return contentTypes[i];
       }
     }
-    return mimes[0];
+    return contentTypes[0];
   };
 
-  /**
-   * Check if the given parameter value is like file content.
+{{#emitJSDoc}}  /**
+   * Checks whether the given parameter value represents file-like content.
+   * @param param The parameter to check.
+   * @returns {Boolean} <code>true</code> if <code>param</code> represents a file. 
    */
-  ApiClient.prototype.isFileParam = function isFileParam(param) {
+{{/emitJSDoc}}  exports.prototype.isFileParam = function(param) {
     // fs.ReadStream in Node.js (but not in runtime like browserify)
     if (typeof window === 'undefined' &&
         typeof require === 'function' &&
@@ -123,16 +157,20 @@
     return false;
   };
 
-  /**
-   * Normalize parameters values:
-   *   remove nils,
-   *   keep files and arrays,
-   *   format to string with `paramToString` for other cases.
+{{#emitJSDoc}}  /**
+   * Normalizes parameter values:
+   * <ul>
+   * <li>remove nils</li>
+   * <li>keep files and arrays</li>
+   * <li>format to string with `paramToString` for other cases</li>
+   * </ul>
+   * @param {Object.<String, Object>} params The parameters as object properties.
+   * @returns {Object.<String, Object>} normalized parameters.
    */
-  ApiClient.prototype.normalizeParams = function normalizeParams(params) {
+{{/emitJSDoc}}  exports.prototype.normalizeParams = function(params) {
     var newParams = {};
     for (var key in params) {
-      if (params.hasOwnProperty(key) && params[key] != null) {
+      if (params.hasOwnProperty(key) && params[key] != undefined && params[key] != null) {
         var value = params[key];
         if (this.isFileParam(value) || Array.isArray(value)) {
           newParams[key] = value;
@@ -144,11 +182,47 @@
     return newParams;
   };
 
-  /**
-   * Build parameter value according to the given collection format.
-   * @param {String} collectionFormat one of 'csv', 'ssv', 'tsv', 'pipes' and 'multi'
+{{#emitJSDoc}}  /**
+   * Enumeration of collection format separator strategies.
+   * @enum {String} 
+   * @readonly
    */
-  ApiClient.prototype.buildCollectionParam = function buildCollectionParam(param, collectionFormat) {
+  exports.CollectionFormatEnum = {
+    /**
+     * Comma-separated values. Value: <code>csv</code>
+     * @const
+     */
+    CSV: ',',
+    /**
+     * Space-separated values. Value: <code>ssv</code>
+     * @const
+     */
+    SSV: ' ',
+    /**
+     * Tab-separated values. Value: <code>tsv</code>
+     * @const
+     */
+    TSV: '\t',
+    /**
+     * Pipe(|)-separated values. Value: <code>pipes</code>
+     * @const
+     */
+    PIPES: '|',
+    /**
+     * Native array. Value: <code>multi</code>
+     * @const
+     */
+    MULTI: 'multi'
+  };
+
+  /**
+   * Builds a string representation of an array-type actual parameter, according to the given collection format.
+   * @param {Array} param An array parameter.
+   * @param {module:ApiClient.CollectionFormatEnum} collectionFormat The array element separator strategy.
+   * @returns {String|Array} A string representation of the supplied collection, using the specified delimiter. Returns
+   * <code>param</code> as is if <code>collectionFormat</code> is <code>multi</code>.
+   */
+{{/emitJSDoc}}  exports.prototype.buildCollectionParam = function buildCollectionParam(param, collectionFormat) {
     if (param == null) {
       return null;
     }
@@ -162,14 +236,19 @@
       case 'pipes':
         return param.map(this.paramToString).join('|');
       case 'multi':
-        // return the array directly as Superagent will handle it as expected
+        // return the array directly as SuperAgent will handle it as expected
         return param.map(this.paramToString);
       default:
         throw new Error('Unknown collection format: ' + collectionFormat);
     }
   };
 
-  ApiClient.prototype.applyAuthToRequest = function applyAuthToRequest(request, authNames) {
+{{#emitJSDoc}}  /**
+   * Applies authentication headers to the request.
+   * @param {Object} request The request object created by a <code>superagent()</code> call.
+   * @param {Array.<String>} authNames An array of authentication method names.
+   */
+{{/emitJSDoc}}  exports.prototype.applyAuthToRequest = function(request, authNames) {
     var _this = this;
     authNames.forEach(function(authName) {
       var auth = _this.authentications[authName];
@@ -187,7 +266,7 @@
             } else {
               data[auth.name] = auth.apiKey;
             }
-            if (auth.in === 'header') {
+            if (auth['in'] === 'header') {
               request.set(data);
             } else {
               request.query(data);
@@ -205,24 +284,58 @@
     });
   };
 
-  ApiClient.prototype.deserialize = function deserialize(response, returnType) {
+{{#emitJSDoc}}  /**
+   * Deserializes an HTTP response body into a value of the specified type.
+   * @param {Object} response A SuperAgent response object.
+   * @param {(String|Array.<String>|Object.<String, Object>|Function)} returnType The type to return. Pass a string for simple types
+   * or the constructor function for a complex type. Pass an array containing the type name to return an array of that type. To
+   * return an object, pass an object with one property whose name is the key type and whose value is the corresponding value type:
+   * all properties on <code>data<code> will be converted to this type.
+   * @returns A value of the specified type.
+   */
+{{/emitJSDoc}}  exports.prototype.deserialize = function deserialize(response, returnType) {
     if (response == null || returnType == null) {
       return null;
     }
-    // Rely on Superagent for parsing response body.
+    // Rely on SuperAgent for parsing response body.
     // See http://visionmedia.github.io/superagent/#parsing-response-bodies
     var data = response.body;
     if (data == null) {
-      // Superagent does not always produce a body; use the unparsed response
-      // as a fallback
+      // SuperAgent does not always produce a body; use the unparsed response as a fallback
       data = response.text;
     }
-    return ApiClient.convertToType(data, returnType);
+    return exports.convertToType(data, returnType);
   };
 
-  ApiClient.prototype.callApi = function callApi(path, httpMethod, pathParams,
-      queryParams, headerParams, formParams, bodyParam, authNames, contentTypes,
-      accepts, returnType{{^usePromises}}, callback{{/usePromises}}) {
+{{#emitJSDoc}}{{^usePromises}}  /**
+   * Callback function to receive the result of the operation.
+   * @callback module:ApiClient~callApiCallback
+   * @param {String} error Error message, if any.
+   * @param data The data returned by the service call.
+   * @param {String} response The complete HTTP response.
+   */
+
+{{/usePromises}}  /**
+   * Invokes the REST service using the supplied settings and parameters.
+   * @param {String} path The base URL to invoke.
+   * @param {String} httpMethod The HTTP method to use.
+   * @param {Object.<String, String>} pathParams A map of path parameters and their values.
+   * @param {Object.<String, Object>} queryParams A map of query parameters and their values.
+   * @param {Object.<String, Object>} headerParams A map of header parameters and their values.
+   * @param {Object.<String, Object>} formParams A map of form parameters and their values.
+   * @param {Object} bodyParam The value to pass as the request body.
+   * @param {Array.<String>} authNames An array of authentication type names.
+   * @param {Array.<String>} contentTypes An array of request MIME types.
+   * @param {Array.<String>} accepts An array of acceptable response MIME types.
+   * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
+   * constructor for a complex type.{{^usePromises}}
+   * @param {module:ApiClient~callApiCallback} callback The callback function.
+{{/usePromises}}   * @returns {{#usePromises}}{Promise} A Promise object{{/usePromises}}{{^usePromises}}{Object} The SuperAgent request object{{/usePromises}}.
+   */
+{{/emitJSDoc}}  exports.prototype.callApi = function callApi(path, httpMethod, pathParams,
+      queryParams, headerParams, formParams, bodyParam, authNames, contentTypes, accepts,
+      returnType{{^usePromises}}, callback{{/usePromises}}) {
+
     var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
@@ -236,7 +349,7 @@
     // set header parameters
     request.set(this.defaultHeaders).set(this.normalizeParams(headerParams));
 
-    //set request timeout
+    // set request timeout
     request.timeout(this.timeout);
 
     var contentType = this.jsonPreferredMime(contentTypes);
@@ -269,21 +382,17 @@
       request.accept(accept);
     }
 
-    {{#usePromises}}
-    return new Promise( function(resolve,reject) {
+{{#usePromises}}    return new Promise(function(resolve, reject) {
       request.end(function(error, response) {
         if (error) {
           reject(error);
-        }
-        else {
+        } else {
           var data = _this.deserialize(response, returnType);
           resolve(data);
         }
       });
-    });
-    {{/usePromises}}
-    {{^usePromises}}
-    request.end(function(error, response) {
+    });{{/usePromises}}
+{{^usePromises}}    request.end(function(error, response) {
       if (callback) {
         var data = null;
         if (!error) {
@@ -294,15 +403,27 @@
     });
 
     return request;
-    {{/usePromises}}
+{{/usePromises}}  };
+
+{{#emitJSDoc}}  /**
+   * Parses an ISO-8601 string representation of a date value.
+   * @param {String} str The date value as a string.
+   * @returns {Date} The parsed date object.
+   */
+{{/emitJSDoc}}  exports.parseDate = function(str) {
+    return new Date(str.replace(/T/i, ' '));
   };
 
-  ApiClient.parseDate = function parseDate(str) {
-    str = str.replace(/T/i, ' ');
-    return new Date(str);
-  };
-
-  ApiClient.convertToType = function convertToType(data, type) {
+{{#emitJSDoc}}  /**
+   * Converts a value to the specified type.
+   * @param {(String|Object)} data The data to convert, as a string or object.
+   * @param {(String|Array.<String>|Object.<String, Object>|Function)} type The type to return. Pass a string for simple types
+   * or the constructor function for a complex type. Pass an array containing the type name to return an array of that type. To
+   * return an object, pass an object with one property whose name is the key type and whose value is the corresponding value type:
+   * all properties on <code>data<code> will be converted to this type.
+   * @returns An instance of the specified type.
+   */
+{{/emitJSDoc}}  exports.convertToType = function(data, type) {
     switch (type) {
       case 'Boolean':
         return Boolean(data);
@@ -320,13 +441,12 @@
           return data;
         } else if (typeof type === 'function') {
           // for model type like: User
-          var model = type.constructFromObject(data);
-          return model;
+          return type.constructFromObject(data);
         } else if (Array.isArray(type)) {
           // for array type like: ['String']
           var itemType = type[0];
           return data.map(function(item) {
-            return ApiClient.convertToType(item, itemType);
+            return exports.convertToType(item, itemType);
           });
         } else if (typeof type === 'object') {
           // for plain object type like: {'String': 'Integer'}
@@ -341,8 +461,8 @@
           var result = {};
           for (var k in data) {
             if (data.hasOwnProperty(k)) {
-              var key = ApiClient.convertToType(k, keyType);
-              var value = ApiClient.convertToType(data[k], valueType);
+              var key = exports.convertToType(k, keyType);
+              var value = exports.convertToType(data[k], valueType);
               result[key] = value;
             }
           }
@@ -354,7 +474,11 @@
     }
   };
 
-  ApiClient.default = new ApiClient();
+{{#emitJSDoc}}  /**
+   * The default API client implementation.
+   * @type {module:ApiClient}
+   */
+{{/emitJSDoc}}  exports.instance = new exports();
 
-  return ApiClient;
+  return exports;
 }));
