@@ -36,11 +36,11 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $body = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
-    $api->add_pet(body => $body);
+    $api_instance->add_pet(body => $body);
 };
 if ($@) {
     warn "Exception when calling PetApi->add_pet: $@\n";
@@ -82,11 +82,11 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $body = WWW::SwaggerClient::Object::string->new(); # string | Pet object in the form of byte array
 
 eval { 
-    $api->add_pet_using_byte_array(body => $body);
+    $api_instance->add_pet_using_byte_array(body => $body);
 };
 if ($@) {
     warn "Exception when calling PetApi->add_pet_using_byte_array: $@\n";
@@ -128,12 +128,12 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # int | Pet id to delete
 my $api_key = 'api_key_example'; # string | 
 
 eval { 
-    $api->delete_pet(pet_id => $pet_id, api_key => $api_key);
+    $api_instance->delete_pet(pet_id => $pet_id, api_key => $api_key);
 };
 if ($@) {
     warn "Exception when calling PetApi->delete_pet: $@\n";
@@ -176,11 +176,11 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $status = (); # ARRAY[string] | Status values that need to be considered for query
 
 eval { 
-    my $result = $api->find_pets_by_status(status => $status);
+    my $result = $api_instance->find_pets_by_status(status => $status);
     print Dumper($result);
 };
 if ($@) {
@@ -223,11 +223,11 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $tags = (); # ARRAY[string] | Tags to filter by
 
 eval { 
-    my $result = $api->find_pets_by_tags(tags => $tags);
+    my $result = $api_instance->find_pets_by_tags(tags => $tags);
     print Dumper($result);
 };
 if ($@) {
@@ -274,11 +274,11 @@ WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # int | ID of pet that needs to be fetched
 
 eval { 
-    my $result = $api->get_pet_by_id(pet_id => $pet_id);
+    my $result = $api_instance->get_pet_by_id(pet_id => $pet_id);
     print Dumper($result);
 };
 if ($@) {
@@ -325,11 +325,11 @@ WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # int | ID of pet that needs to be fetched
 
 eval { 
-    my $result = $api->get_pet_by_id_in_object(pet_id => $pet_id);
+    my $result = $api_instance->get_pet_by_id_in_object(pet_id => $pet_id);
     print Dumper($result);
 };
 if ($@) {
@@ -376,11 +376,11 @@ WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # int | ID of pet that needs to be fetched
 
 eval { 
-    my $result = $api->pet_pet_idtesting_byte_arraytrue_get(pet_id => $pet_id);
+    my $result = $api_instance->pet_pet_idtesting_byte_arraytrue_get(pet_id => $pet_id);
     print Dumper($result);
 };
 if ($@) {
@@ -423,11 +423,11 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $body = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
 
 eval { 
-    $api->update_pet(body => $body);
+    $api_instance->update_pet(body => $body);
 };
 if ($@) {
     warn "Exception when calling PetApi->update_pet: $@\n";
@@ -469,13 +469,13 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 'pet_id_example'; # string | ID of pet that needs to be updated
 my $name = 'name_example'; # string | Updated name of the pet
 my $status = 'status_example'; # string | Updated status of the pet
 
 eval { 
-    $api->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
+    $api_instance->update_pet_with_form(pet_id => $pet_id, name => $name, status => $status);
 };
 if ($@) {
     warn "Exception when calling PetApi->update_pet_with_form: $@\n";
@@ -519,13 +519,13 @@ use Data::Dumper;
 # Configure OAuth2 access token for authorization: petstore_auth
 WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
-my $api = WWW::SwaggerClient::PetApi->new();
+my $api_instance = WWW::SwaggerClient::PetApi->new();
 my $pet_id = 789; # int | ID of pet to update
 my $additional_metadata = 'additional_metadata_example'; # string | Additional data to pass to server
 my $file = '/path/to/file.txt'; # File | file to upload
 
 eval { 
-    $api->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
+    $api_instance->upload_file(pet_id => $pet_id, additional_metadata => $additional_metadata, file => $file);
 };
 if ($@) {
     warn "Exception when calling PetApi->upload_file: $@\n";

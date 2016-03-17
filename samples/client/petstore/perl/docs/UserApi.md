@@ -30,11 +30,11 @@ This can only be done by the logged in user.
 ```perl
 use Data::Dumper;
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $body = WWW::SwaggerClient::Object::User->new(); # User | Created user object
 
 eval { 
-    $api->create_user(body => $body);
+    $api_instance->create_user(body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->create_user: $@\n";
@@ -73,11 +73,11 @@ Creates list of users with given input array
 ```perl
 use Data::Dumper;
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # ARRAY[User] | List of user object
 
 eval { 
-    $api->create_users_with_array_input(body => $body);
+    $api_instance->create_users_with_array_input(body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->create_users_with_array_input: $@\n";
@@ -116,11 +116,11 @@ Creates list of users with given input array
 ```perl
 use Data::Dumper;
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # ARRAY[User] | List of user object
 
 eval { 
-    $api->create_users_with_list_input(body => $body);
+    $api_instance->create_users_with_list_input(body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->create_users_with_list_input: $@\n";
@@ -163,11 +163,11 @@ use Data::Dumper;
 WWW::SwaggerClient::Configuration::username = 'YOUR_USERNAME';
 WWW::SwaggerClient::Configuration::password = 'YOUR_PASSWORD';
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The name that needs to be deleted
 
 eval { 
-    $api->delete_user(username => $username);
+    $api_instance->delete_user(username => $username);
 };
 if ($@) {
     warn "Exception when calling UserApi->delete_user: $@\n";
@@ -206,11 +206,11 @@ Get user by user name
 ```perl
 use Data::Dumper;
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing.
 
 eval { 
-    my $result = $api->get_user_by_name(username => $username);
+    my $result = $api_instance->get_user_by_name(username => $username);
     print Dumper($result);
 };
 if ($@) {
@@ -250,12 +250,12 @@ Logs user into the system
 ```perl
 use Data::Dumper;
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The user name for login
 my $password = 'password_example'; # string | The password for login in clear text
 
 eval { 
-    my $result = $api->login_user(username => $username, password => $password);
+    my $result = $api_instance->login_user(username => $username, password => $password);
     print Dumper($result);
 };
 if ($@) {
@@ -296,10 +296,10 @@ Logs out current logged in user session
 ```perl
 use Data::Dumper;
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 
 eval { 
-    $api->logout_user();
+    $api_instance->logout_user();
 };
 if ($@) {
     warn "Exception when calling UserApi->logout_user: $@\n";
@@ -335,12 +335,12 @@ This can only be done by the logged in user.
 ```perl
 use Data::Dumper;
 
-my $api = WWW::SwaggerClient::UserApi->new();
+my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | name that need to be deleted
 my $body = WWW::SwaggerClient::Object::User->new(); # User | Updated user object
 
 eval { 
-    $api->update_user(username => $username, body => $body);
+    $api_instance->update_user(username => $username, body => $body);
 };
 if ($@) {
     warn "Exception when calling UserApi->update_user: $@\n";
