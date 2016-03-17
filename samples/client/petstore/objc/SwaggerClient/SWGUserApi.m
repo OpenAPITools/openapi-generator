@@ -72,7 +72,7 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Create user
 /// This can only be done by the logged in user.
-///  @param body Created user object
+///  @param body Created user object (optional)
 ///
 ///  @returns void
 ///
@@ -147,7 +147,7 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Creates list of users with given input array
 /// 
-///  @param body List of user object
+///  @param body List of user object (optional)
 ///
 ///  @returns void
 ///
@@ -222,7 +222,7 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Creates list of users with given input array
 /// 
-///  @param body List of user object
+///  @param body List of user object (optional)
 ///
 ///  @returns void
 ///
@@ -297,7 +297,7 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Delete user
 /// This can only be done by the logged in user.
-///  @param username The name that needs to be deleted
+///  @param username The name that needs to be deleted 
 ///
 ///  @returns void
 ///
@@ -380,7 +380,7 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Get user by user name
 /// 
-///  @param username The name that needs to be fetched. Use user1 for testing.
+///  @param username The name that needs to be fetched. Use user1 for testing. 
 ///
 ///  @returns SWGUser*
 ///
@@ -463,9 +463,9 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Logs user into the system
 /// 
-///  @param username The user name for login
+///  @param username The user name for login (optional)
 ///
-///  @param password The password for login in clear text
+///  @param password The password for login in clear text (optional)
 ///
 ///  @returns NSString*
 ///
@@ -622,9 +622,9 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Updated user
 /// This can only be done by the logged in user.
-///  @param username name that need to be deleted
+///  @param username name that need to be deleted 
 ///
-///  @param body Updated user object
+///  @param body Updated user object (optional)
 ///
 ///  @returns void
 ///

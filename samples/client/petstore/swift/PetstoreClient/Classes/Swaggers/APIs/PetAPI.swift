@@ -15,7 +15,7 @@ public class PetAPI: APIBase {
      
      Add a new pet to the store
      
-     - parameter body: (body) Pet object that needs to be added to the store
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func addPet(body body: Pet?, completion: ((error: ErrorType?) -> Void)) {
@@ -28,7 +28,7 @@ public class PetAPI: APIBase {
      
      Add a new pet to the store
      
-     - parameter body: (body) Pet object that needs to be added to the store
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - returns: Promise<Void>
      */
     public class func addPet(body body: Pet?) -> Promise<Void> {
@@ -53,7 +53,7 @@ public class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      
-     - parameter body: (body) Pet object that needs to be added to the store
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -72,7 +72,7 @@ public class PetAPI: APIBase {
      
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
      
-     - parameter body: (body) Pet object in the form of byte array
+     - parameter body: (body) Pet object in the form of byte array (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func addPetUsingByteArray(body body: String?, completion: ((error: ErrorType?) -> Void)) {
@@ -85,7 +85,7 @@ public class PetAPI: APIBase {
      
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
      
-     - parameter body: (body) Pet object in the form of byte array
+     - parameter body: (body) Pet object in the form of byte array (optional)
      - returns: Promise<Void>
      */
     public class func addPetUsingByteArray(body body: String?) -> Promise<Void> {
@@ -110,7 +110,7 @@ public class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      
-     - parameter body: (body) Pet object in the form of byte array
+     - parameter body: (body) Pet object in the form of byte array (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -129,7 +129,7 @@ public class PetAPI: APIBase {
      
      Deletes a pet
      
-     - parameter petId: (path) Pet id to delete
+     - parameter petId: (path) Pet id to delete 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func deletePet(petId petId: Int, completion: ((error: ErrorType?) -> Void)) {
@@ -142,7 +142,7 @@ public class PetAPI: APIBase {
      
      Deletes a pet
      
-     - parameter petId: (path) Pet id to delete
+     - parameter petId: (path) Pet id to delete 
      - returns: Promise<Void>
      */
     public class func deletePet(petId petId: Int) -> Promise<Void> {
@@ -167,7 +167,7 @@ public class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      
-     - parameter petId: (path) Pet id to delete
+     - parameter petId: (path) Pet id to delete 
 
      - returns: RequestBuilder<Void> 
      */
@@ -188,7 +188,7 @@ public class PetAPI: APIBase {
      
      Finds Pets by status
      
-     - parameter status: (query) Status values that need to be considered for query
+     - parameter status: (query) Status values that need to be considered for query (optional, default to available)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func findPetsByStatus(status status: [String]?, completion: ((data: [Pet]?, error: ErrorType?) -> Void)) {
@@ -201,7 +201,7 @@ public class PetAPI: APIBase {
      
      Finds Pets by status
      
-     - parameter status: (query) Status values that need to be considered for query
+     - parameter status: (query) Status values that need to be considered for query (optional, default to available)
      - returns: Promise<[Pet]>
      */
     public class func findPetsByStatus(status status: [String]?) -> Promise<[Pet]> {
@@ -272,7 +272,7 @@ public class PetAPI: APIBase {
   <status>string</status>
 </Pet>, contentType=application/xml}]
      
-     - parameter status: (query) Status values that need to be considered for query
+     - parameter status: (query) Status values that need to be considered for query (optional, default to available)
 
      - returns: RequestBuilder<[Pet]> 
      */
@@ -294,7 +294,7 @@ public class PetAPI: APIBase {
      
      Finds Pets by tags
      
-     - parameter tags: (query) Tags to filter by
+     - parameter tags: (query) Tags to filter by (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func findPetsByTags(tags tags: [String]?, completion: ((data: [Pet]?, error: ErrorType?) -> Void)) {
@@ -307,7 +307,7 @@ public class PetAPI: APIBase {
      
      Finds Pets by tags
      
-     - parameter tags: (query) Tags to filter by
+     - parameter tags: (query) Tags to filter by (optional)
      - returns: Promise<[Pet]>
      */
     public class func findPetsByTags(tags tags: [String]?) -> Promise<[Pet]> {
@@ -378,7 +378,7 @@ public class PetAPI: APIBase {
   <status>string</status>
 </Pet>, contentType=application/xml}]
      
-     - parameter tags: (query) Tags to filter by
+     - parameter tags: (query) Tags to filter by (optional)
 
      - returns: RequestBuilder<[Pet]> 
      */
@@ -400,7 +400,7 @@ public class PetAPI: APIBase {
      
      Find pet by ID
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func getPetById(petId petId: Int, completion: ((data: Pet?, error: ErrorType?) -> Void)) {
@@ -413,7 +413,7 @@ public class PetAPI: APIBase {
      
      Find pet by ID
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
      - returns: Promise<Pet>
      */
     public class func getPetById(petId petId: Int) -> Promise<Pet> {
@@ -487,7 +487,7 @@ public class PetAPI: APIBase {
   <status>string</status>
 </Pet>, contentType=application/xml}]
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<Pet> 
      */
@@ -508,7 +508,7 @@ public class PetAPI: APIBase {
      
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func getPetByIdInObject(petId petId: Int, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
@@ -521,7 +521,7 @@ public class PetAPI: APIBase {
      
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
      - returns: Promise<InlineResponse200>
      */
     public class func getPetByIdInObject(petId petId: Int) -> Promise<InlineResponse200> {
@@ -583,7 +583,7 @@ public class PetAPI: APIBase {
   <photoUrls>string</photoUrls>
 </null>, contentType=application/xml}]
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<InlineResponse200> 
      */
@@ -604,7 +604,7 @@ public class PetAPI: APIBase {
      
      Fake endpoint to test byte array return by 'Find pet by ID'
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func petPetIdtestingByteArraytrueGet(petId petId: Int, completion: ((data: String?, error: ErrorType?) -> Void)) {
@@ -617,7 +617,7 @@ public class PetAPI: APIBase {
      
      Fake endpoint to test byte array return by 'Find pet by ID'
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
      - returns: Promise<String>
      */
     public class func petPetIdtestingByteArraytrueGet(petId petId: Int) -> Promise<String> {
@@ -647,7 +647,7 @@ public class PetAPI: APIBase {
      - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
      - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
      
-     - parameter petId: (path) ID of pet that needs to be fetched
+     - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<String> 
      */
@@ -668,7 +668,7 @@ public class PetAPI: APIBase {
      
      Update an existing pet
      
-     - parameter body: (body) Pet object that needs to be added to the store
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func updatePet(body body: Pet?, completion: ((error: ErrorType?) -> Void)) {
@@ -681,7 +681,7 @@ public class PetAPI: APIBase {
      
      Update an existing pet
      
-     - parameter body: (body) Pet object that needs to be added to the store
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - returns: Promise<Void>
      */
     public class func updatePet(body body: Pet?) -> Promise<Void> {
@@ -706,7 +706,7 @@ public class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      
-     - parameter body: (body) Pet object that needs to be added to the store
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -725,9 +725,9 @@ public class PetAPI: APIBase {
      
      Updates a pet in the store with form data
      
-     - parameter petId: (path) ID of pet that needs to be updated
-     - parameter name: (form) Updated name of the pet
-     - parameter status: (form) Updated status of the pet
+     - parameter petId: (path) ID of pet that needs to be updated 
+     - parameter name: (form) Updated name of the pet (optional)
+     - parameter status: (form) Updated status of the pet (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func updatePetWithForm(petId petId: String, name: String?, status: String?, completion: ((error: ErrorType?) -> Void)) {
@@ -740,9 +740,9 @@ public class PetAPI: APIBase {
      
      Updates a pet in the store with form data
      
-     - parameter petId: (path) ID of pet that needs to be updated
-     - parameter name: (form) Updated name of the pet
-     - parameter status: (form) Updated status of the pet
+     - parameter petId: (path) ID of pet that needs to be updated 
+     - parameter name: (form) Updated name of the pet (optional)
+     - parameter status: (form) Updated status of the pet (optional)
      - returns: Promise<Void>
      */
     public class func updatePetWithForm(petId petId: String, name: String?, status: String?) -> Promise<Void> {
@@ -767,9 +767,9 @@ public class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      
-     - parameter petId: (path) ID of pet that needs to be updated
-     - parameter name: (form) Updated name of the pet
-     - parameter status: (form) Updated status of the pet
+     - parameter petId: (path) ID of pet that needs to be updated 
+     - parameter name: (form) Updated name of the pet (optional)
+     - parameter status: (form) Updated status of the pet (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -793,9 +793,9 @@ public class PetAPI: APIBase {
      
      uploads an image
      
-     - parameter petId: (path) ID of pet to update
-     - parameter additionalMetadata: (form) Additional data to pass to server
-     - parameter _file: (form) file to upload
+     - parameter petId: (path) ID of pet to update 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter _file: (form) file to upload (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func uploadFile(petId petId: Int, additionalMetadata: String?, _file: NSURL?, completion: ((error: ErrorType?) -> Void)) {
@@ -808,9 +808,9 @@ public class PetAPI: APIBase {
      
      uploads an image
      
-     - parameter petId: (path) ID of pet to update
-     - parameter additionalMetadata: (form) Additional data to pass to server
-     - parameter _file: (form) file to upload
+     - parameter petId: (path) ID of pet to update 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter _file: (form) file to upload (optional)
      - returns: Promise<Void>
      */
     public class func uploadFile(petId petId: Int, additionalMetadata: String?, _file: NSURL?) -> Promise<Void> {
@@ -835,9 +835,9 @@ public class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      
-     - parameter petId: (path) ID of pet to update
-     - parameter additionalMetadata: (form) Additional data to pass to server
-     - parameter _file: (form) file to upload
+     - parameter petId: (path) ID of pet to update 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter _file: (form) file to upload (optional)
 
      - returns: RequestBuilder<Void> 
      */

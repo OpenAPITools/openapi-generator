@@ -183,7 +183,7 @@ class StoreApi
      *
      * Finds orders by status
      *
-     * @param string $status Status value that needs to be considered for query (optional)
+     * @param string $status Status value that needs to be considered for query (optional, default to placed)
      * @return \Swagger\Client\Model\Order[]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -199,7 +199,7 @@ class StoreApi
      *
      * Finds orders by status
      *
-     * @param string $status Status value that needs to be considered for query (optional)
+     * @param string $status Status value that needs to be considered for query (optional, default to placed)
      * @return Array of \Swagger\Client\Model\Order[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */

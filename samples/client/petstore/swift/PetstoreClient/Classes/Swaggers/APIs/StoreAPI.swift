@@ -15,7 +15,7 @@ public class StoreAPI: APIBase {
      
      Delete purchase order by ID
      
-     - parameter orderId: (path) ID of the order that needs to be deleted
+     - parameter orderId: (path) ID of the order that needs to be deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func deleteOrder(orderId orderId: String, completion: ((error: ErrorType?) -> Void)) {
@@ -28,7 +28,7 @@ public class StoreAPI: APIBase {
      
      Delete purchase order by ID
      
-     - parameter orderId: (path) ID of the order that needs to be deleted
+     - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: Promise<Void>
      */
     public class func deleteOrder(orderId orderId: String) -> Promise<Void> {
@@ -50,7 +50,7 @@ public class StoreAPI: APIBase {
      - DELETE /store/order/{orderId}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      
-     - parameter orderId: (path) ID of the order that needs to be deleted
+     - parameter orderId: (path) ID of the order that needs to be deleted 
 
      - returns: RequestBuilder<Void> 
      */
@@ -71,7 +71,7 @@ public class StoreAPI: APIBase {
      
      Finds orders by status
      
-     - parameter status: (query) Status value that needs to be considered for query
+     - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func findOrdersByStatus(status status: String?, completion: ((data: [Order]?, error: ErrorType?) -> Void)) {
@@ -84,7 +84,7 @@ public class StoreAPI: APIBase {
      
      Finds orders by status
      
-     - parameter status: (query) Status value that needs to be considered for query
+     - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
      - returns: Promise<[Order]>
      */
     public class func findOrdersByStatus(status status: String?) -> Promise<[Order]> {
@@ -142,7 +142,7 @@ public class StoreAPI: APIBase {
   <complete>true</complete>
 </Order>, contentType=application/xml}]
      
-     - parameter status: (query) Status value that needs to be considered for query
+     - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
 
      - returns: RequestBuilder<[Order]> 
      */
@@ -280,7 +280,7 @@ public class StoreAPI: APIBase {
      
      Find purchase order by ID
      
-     - parameter orderId: (path) ID of pet that needs to be fetched
+     - parameter orderId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func getOrderById(orderId orderId: String, completion: ((data: Order?, error: ErrorType?) -> Void)) {
@@ -293,7 +293,7 @@ public class StoreAPI: APIBase {
      
      Find purchase order by ID
      
-     - parameter orderId: (path) ID of pet that needs to be fetched
+     - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Promise<Order>
      */
     public class func getOrderById(orderId orderId: String) -> Promise<Order> {
@@ -351,7 +351,7 @@ public class StoreAPI: APIBase {
   <complete>true</complete>
 </Order>, contentType=application/xml}]
      
-     - parameter orderId: (path) ID of pet that needs to be fetched
+     - parameter orderId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<Order> 
      */
@@ -372,7 +372,7 @@ public class StoreAPI: APIBase {
      
      Place an order for a pet
      
-     - parameter body: (body) order placed for purchasing the pet
+     - parameter body: (body) order placed for purchasing the pet (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func placeOrder(body body: Order?, completion: ((data: Order?, error: ErrorType?) -> Void)) {
@@ -385,7 +385,7 @@ public class StoreAPI: APIBase {
      
      Place an order for a pet
      
-     - parameter body: (body) order placed for purchasing the pet
+     - parameter body: (body) order placed for purchasing the pet (optional)
      - returns: Promise<Order>
      */
     public class func placeOrder(body body: Order?) -> Promise<Order> {
@@ -443,7 +443,7 @@ public class StoreAPI: APIBase {
   <complete>true</complete>
 </Order>, contentType=application/xml}]
      
-     - parameter body: (body) order placed for purchasing the pet
+     - parameter body: (body) order placed for purchasing the pet (optional)
 
      - returns: RequestBuilder<Order> 
      */

@@ -75,7 +75,7 @@ static {{classname}}* singletonAPI = nil;
 ///
 /// {{{summary}}}
 /// {{{notes}}}
-/// {{#allParams}} @param {{paramName}} {{{description}}}
+/// {{#allParams}} @param {{paramName}} {{{description}}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 ///
 /// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 ///
