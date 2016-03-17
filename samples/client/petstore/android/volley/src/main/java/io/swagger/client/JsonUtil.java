@@ -43,6 +43,10 @@ public class JsonUtil {
       return new TypeToken<List<InlineResponse200>>(){}.getType();
     }
     
+    if ("Model200Response".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Model200Response>>(){}.getType();
+    }
+    
     if ("ModelReturn".equalsIgnoreCase(className)) {
       return new TypeToken<List<ModelReturn>>(){}.getType();
     }
@@ -83,6 +87,10 @@ public class JsonUtil {
     
     if ("InlineResponse200".equalsIgnoreCase(className)) {
       return new TypeToken<InlineResponse200>(){}.getType();
+    }
+    
+    if ("Model200Response".equalsIgnoreCase(className)) {
+      return new TypeToken<Model200Response>(){}.getType();
     }
     
     if ("ModelReturn".equalsIgnoreCase(className)) {
