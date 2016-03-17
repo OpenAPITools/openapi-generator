@@ -62,7 +62,7 @@
     /**
      * Finds orders by status
      * A single status value can be provided as a string
-     * @param {String} opts['status'] Status value that needs to be considered for query
+     * @param {String} opts['status'] Status value that needs to be considered for query (default to placed)
      * @param {function} callback the callback function, accepting three arguments: error, data, response
      *   data is of type: [Order]
      */

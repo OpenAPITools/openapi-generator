@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-@ApiModel(description = "")
+
 public class Pet   {
   
   @SerializedName("id")

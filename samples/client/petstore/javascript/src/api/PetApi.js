@@ -131,7 +131,7 @@
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
-     * @param {[String]} opts['status'] Status values that need to be considered for query
+     * @param {[String]} opts['status'] Status values that need to be considered for query (default to available)
      * @param {function} callback the callback function, accepting three arguments: error, data, response
      *   data is of type: [Pet]
      */

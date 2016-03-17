@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-14T22:17:48.808+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T16:00:50.657+08:00")
 public class UserApi {
   private ApiClient apiClient;
 
@@ -38,7 +38,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @throws ApiException if fails to make API call
    */
   public void createUser(User body) throws ApiException {
@@ -78,7 +78,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @throws ApiException if fails to make API call
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
@@ -118,7 +118,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @throws ApiException if fails to make API call
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
@@ -158,7 +158,7 @@ public class UserApi {
   /**
    * Delete user
    * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
+   * @param username The name that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
   public void deleteUser(String username) throws ApiException {
@@ -204,7 +204,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    * @throws ApiException if fails to make API call
    */
@@ -252,8 +252,8 @@ public class UserApi {
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
@@ -338,8 +338,8 @@ public class UserApi {
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @throws ApiException if fails to make API call
    */
   public void updateUser(String username, User body) throws ApiException {

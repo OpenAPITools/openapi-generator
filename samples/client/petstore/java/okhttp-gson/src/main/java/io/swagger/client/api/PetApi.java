@@ -92,7 +92,7 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void addPet(Pet body) throws ApiException {
@@ -102,7 +102,7 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -114,7 +114,7 @@ public class PetApi {
   /**
    * Add a new pet to the store (asynchronously)
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -190,7 +190,7 @@ public class PetApi {
   /**
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store
    * 
-   * @param body Pet object in the form of byte array
+   * @param body Pet object in the form of byte array (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void addPetUsingByteArray(byte[] body) throws ApiException {
@@ -200,7 +200,7 @@ public class PetApi {
   /**
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store
    * 
-   * @param body Pet object in the form of byte array
+   * @param body Pet object in the form of byte array (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -212,7 +212,7 @@ public class PetApi {
   /**
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store (asynchronously)
    * 
-   * @param body Pet object in the form of byte array
+   * @param body Pet object in the form of byte array (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -296,8 +296,8 @@ public class PetApi {
   /**
    * Deletes a pet
    * 
-   * @param petId Pet id to delete
-   * @param apiKey 
+   * @param petId Pet id to delete (required)
+   * @param apiKey  (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
@@ -307,8 +307,8 @@ public class PetApi {
   /**
    * Deletes a pet
    * 
-   * @param petId Pet id to delete
-   * @param apiKey 
+   * @param petId Pet id to delete (required)
+   * @param apiKey  (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -320,8 +320,8 @@ public class PetApi {
   /**
    * Deletes a pet (asynchronously)
    * 
-   * @param petId Pet id to delete
-   * @param apiKey 
+   * @param petId Pet id to delete (required)
+   * @param apiKey  (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -399,7 +399,7 @@ public class PetApi {
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
-   * @param status Status values that need to be considered for query
+   * @param status Status values that need to be considered for query (optional, default to available)
    * @return List<Pet>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -411,7 +411,7 @@ public class PetApi {
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
-   * @param status Status values that need to be considered for query
+   * @param status Status values that need to be considered for query (optional, default to available)
    * @return ApiResponse<List<Pet>>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -424,7 +424,7 @@ public class PetApi {
   /**
    * Finds Pets by status (asynchronously)
    * Multiple status values can be provided with comma separated strings
-   * @param status Status values that need to be considered for query
+   * @param status Status values that need to be considered for query (optional, default to available)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -503,7 +503,7 @@ public class PetApi {
   /**
    * Finds Pets by tags
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-   * @param tags Tags to filter by
+   * @param tags Tags to filter by (optional)
    * @return List<Pet>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -515,7 +515,7 @@ public class PetApi {
   /**
    * Finds Pets by tags
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-   * @param tags Tags to filter by
+   * @param tags Tags to filter by (optional)
    * @return ApiResponse<List<Pet>>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -528,7 +528,7 @@ public class PetApi {
   /**
    * Finds Pets by tags (asynchronously)
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-   * @param tags Tags to filter by
+   * @param tags Tags to filter by (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -604,14 +604,14 @@ public class PetApi {
       });
     }
 
-    String[] localVarAuthNames = new String[] { "api_key", "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
     return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Find pet by ID
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @return Pet
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -623,7 +623,7 @@ public class PetApi {
   /**
    * Find pet by ID
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @return ApiResponse<Pet>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -636,7 +636,7 @@ public class PetApi {
   /**
    * Find pet by ID (asynchronously)
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -712,14 +712,14 @@ public class PetApi {
       });
     }
 
-    String[] localVarAuthNames = new String[] { "api_key", "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
     return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @return InlineResponse200
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -731,7 +731,7 @@ public class PetApi {
   /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @return ApiResponse<InlineResponse200>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -744,7 +744,7 @@ public class PetApi {
   /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; (asynchronously)
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -820,14 +820,14 @@ public class PetApi {
       });
     }
 
-    String[] localVarAuthNames = new String[] { "api_key", "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
     return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @return byte[]
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -839,7 +839,7 @@ public class PetApi {
   /**
    * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @return ApiResponse<byte[]>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -852,7 +852,7 @@ public class PetApi {
   /**
    * Fake endpoint to test byte array return by &#39;Find pet by ID&#39; (asynchronously)
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched (required)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -929,7 +929,7 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updatePet(Pet body) throws ApiException {
@@ -939,7 +939,7 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -951,7 +951,7 @@ public class PetApi {
   /**
    * Update an existing pet (asynchronously)
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1037,9 +1037,9 @@ public class PetApi {
   /**
    * Updates a pet in the store with form data
    * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
+   * @param petId ID of pet that needs to be updated (required)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updatePetWithForm(String petId, String name, String status) throws ApiException {
@@ -1049,9 +1049,9 @@ public class PetApi {
   /**
    * Updates a pet in the store with form data
    * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
+   * @param petId ID of pet that needs to be updated (required)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -1063,9 +1063,9 @@ public class PetApi {
   /**
    * Updates a pet in the store with form data (asynchronously)
    * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
+   * @param petId ID of pet that needs to be updated (required)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1151,9 +1151,9 @@ public class PetApi {
   /**
    * uploads an image
    * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
+   * @param petId ID of pet to update (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
@@ -1163,9 +1163,9 @@ public class PetApi {
   /**
    * uploads an image
    * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
+   * @param petId ID of pet to update (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -1177,9 +1177,9 @@ public class PetApi {
   /**
    * uploads an image (asynchronously)
    * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
+   * @param petId ID of pet to update (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object

@@ -90,7 +90,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUser(User body) throws ApiException {
@@ -100,7 +100,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -112,7 +112,7 @@ public class UserApi {
   /**
    * Create user (asynchronously)
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -188,7 +188,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
@@ -198,7 +198,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -210,7 +210,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array (asynchronously)
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -286,7 +286,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
@@ -296,7 +296,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -308,7 +308,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array (asynchronously)
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -390,7 +390,7 @@ public class UserApi {
   /**
    * Delete user
    * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
+   * @param username The name that needs to be deleted (required)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deleteUser(String username) throws ApiException {
@@ -400,7 +400,7 @@ public class UserApi {
   /**
    * Delete user
    * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
+   * @param username The name that needs to be deleted (required)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -412,7 +412,7 @@ public class UserApi {
   /**
    * Delete user (asynchronously)
    * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
+   * @param username The name that needs to be deleted (required)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -494,7 +494,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -506,7 +506,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return ApiResponse<User>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -519,7 +519,7 @@ public class UserApi {
   /**
    * Get user by user name (asynchronously)
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -600,8 +600,8 @@ public class UserApi {
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return String
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -613,8 +613,8 @@ public class UserApi {
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return ApiResponse<String>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -627,8 +627,8 @@ public class UserApi {
   /**
    * Logs user into the system (asynchronously)
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -806,8 +806,8 @@ public class UserApi {
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updateUser(String username, User body) throws ApiException {
@@ -817,8 +817,8 @@ public class UserApi {
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -830,8 +830,8 @@ public class UserApi {
   /**
    * Updated user (asynchronously)
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object

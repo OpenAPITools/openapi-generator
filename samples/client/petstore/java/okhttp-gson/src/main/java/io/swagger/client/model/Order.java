@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-@ApiModel(description = "")
+
 public class Order   {
   
   @SerializedName("id")
