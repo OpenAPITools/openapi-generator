@@ -25,7 +25,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @return void
    */
   def createUser (body: User)  = {
@@ -72,7 +72,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return void
    */
   def createUsersWithArrayInput (body: List[User])  = {
@@ -119,7 +119,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return void
    */
   def createUsersWithListInput (body: List[User])  = {
@@ -166,7 +166,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Delete user
    * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
+   * @param username The name that needs to be deleted 
    * @return void
    */
   def deleteUser (username: String)  = {
@@ -215,7 +215,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. 
    * @return User
    */
   def getUserByName (username: String) : Option[User] = {
@@ -265,8 +265,8 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return String
    */
   def loginUser (username: String, password: String) : Option[String] = {
@@ -362,8 +362,8 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted 
+   * @param body Updated user object (optional)
    * @return void
    */
   def updateUser (username: String, body: User)  = {
