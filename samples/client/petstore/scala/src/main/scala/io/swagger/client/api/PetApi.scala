@@ -27,7 +27,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @return void
    */
   def addPet (body: Pet)  = {
@@ -74,7 +74,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store
    * 
-   * @param body Pet object in the form of byte array
+   * @param body Pet object in the form of byte array (optional)
    * @return void
    */
   def addPetUsingByteArray (body: String)  = {
@@ -121,8 +121,8 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Deletes a pet
    * 
-   * @param petId Pet id to delete
-   * @param apiKey 
+   * @param petId Pet id to delete 
+   * @param apiKey  (optional)
    * @return void
    */
   def deletePet (petId: Long, apiKey: String)  = {
@@ -172,7 +172,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
-   * @param status Status values that need to be considered for query
+   * @param status Status values that need to be considered for query (optional, default to available)
    * @return List[Pet]
    */
   def findPetsByStatus (status: List[String] /* = available */) : Option[List[Pet]] = {
@@ -221,7 +221,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Finds Pets by tags
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
-   * @param tags Tags to filter by
+   * @param tags Tags to filter by (optional)
    * @return List[Pet]
    */
   def findPetsByTags (tags: List[String]) : Option[List[Pet]] = {
@@ -270,7 +270,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Find pet by ID
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched 
    * @return Pet
    */
   def getPetById (petId: Long) : Option[Pet] = {
@@ -320,7 +320,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched 
    * @return InlineResponse200
    */
   def getPetByIdInObject (petId: Long) : Option[InlineResponse200] = {
@@ -370,7 +370,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-   * @param petId ID of pet that needs to be fetched
+   * @param petId ID of pet that needs to be fetched 
    * @return String
    */
   def petPetIdtestingByteArraytrueGet (petId: Long) : Option[String] = {
@@ -420,7 +420,7 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store (optional)
    * @return void
    */
   def updatePet (body: Pet)  = {
@@ -467,9 +467,9 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * Updates a pet in the store with form data
    * 
-   * @param petId ID of pet that needs to be updated
-   * @param name Updated name of the pet
-   * @param status Updated status of the pet
+   * @param petId ID of pet that needs to be updated 
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @return void
    */
   def updatePetWithForm (petId: String, name: String, status: String)  = {
@@ -524,9 +524,9 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   /**
    * uploads an image
    * 
-   * @param petId ID of pet to update
-   * @param additionalMetadata Additional data to pass to server
-   * @param file file to upload
+   * @param petId ID of pet to update 
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return void
    */
   def uploadFile (petId: Long, additionalMetadata: String, file: File)  = {

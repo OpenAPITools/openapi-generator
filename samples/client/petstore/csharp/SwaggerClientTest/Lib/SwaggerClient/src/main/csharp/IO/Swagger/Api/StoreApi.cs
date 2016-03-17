@@ -46,7 +46,7 @@ namespace IO.Swagger.Api
         /// A single status value can be provided as a string
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
         /// <returns>List&lt;Order&gt;</returns>
         List<Order> FindOrdersByStatus (string status = null);
   
@@ -57,7 +57,7 @@ namespace IO.Swagger.Api
         /// A single status value can be provided as a string
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
         /// <returns>ApiResponse of List&lt;Order&gt;</returns>
         ApiResponse<List<Order>> FindOrdersByStatusWithHttpInfo (string status = null);
         
@@ -130,7 +130,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
         /// <returns>Order</returns>
         Order PlaceOrder (Order body = null);
   
@@ -141,7 +141,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
         /// <returns>ApiResponse of Order</returns>
         ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
         
@@ -178,7 +178,7 @@ namespace IO.Swagger.Api
         /// A single status value can be provided as a string
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
         /// <returns>Task of List&lt;Order&gt;</returns>
         System.Threading.Tasks.Task<List<Order>> FindOrdersByStatusAsync (string status = null);
 
@@ -189,7 +189,7 @@ namespace IO.Swagger.Api
         /// A single status value can be provided as a string
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
         /// <returns>Task of ApiResponse (List&lt;Order&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<Order>>> FindOrdersByStatusAsyncWithHttpInfo (string status = null);
         
@@ -262,7 +262,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
         /// <returns>Task of Order</returns>
         System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
 
@@ -273,7 +273,7 @@ namespace IO.Swagger.Api
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null);
         
@@ -529,7 +529,7 @@ namespace IO.Swagger.Api
         /// Finds orders by status A single status value can be provided as a string
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param> 
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param> 
         /// <returns>List&lt;Order&gt;</returns>
         public List<Order> FindOrdersByStatus (string status = null)
         {
@@ -541,7 +541,7 @@ namespace IO.Swagger.Api
         /// Finds orders by status A single status value can be provided as a string
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param> 
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param> 
         /// <returns>ApiResponse of List&lt;Order&gt;</returns>
         public ApiResponse< List<Order> > FindOrdersByStatusWithHttpInfo (string status = null)
         {
@@ -617,7 +617,7 @@ namespace IO.Swagger.Api
         /// Finds orders by status A single status value can be provided as a string
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
         /// <returns>Task of List&lt;Order&gt;</returns>
         public async System.Threading.Tasks.Task<List<Order>> FindOrdersByStatusAsync (string status = null)
         {
@@ -630,7 +630,7 @@ namespace IO.Swagger.Api
         /// Finds orders by status A single status value can be provided as a string
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status value that needs to be considered for query</param>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
         /// <returns>Task of ApiResponse (List&lt;Order&gt;)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<List<Order>>> FindOrdersByStatusAsyncWithHttpInfo (string status = null)
         {
@@ -1209,7 +1209,7 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param> 
+        /// <param name="body">order placed for purchasing the pet (optional)</param> 
         /// <returns>Order</returns>
         public Order PlaceOrder (Order body = null)
         {
@@ -1221,7 +1221,7 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param> 
+        /// <param name="body">order placed for purchasing the pet (optional)</param> 
         /// <returns>ApiResponse of Order</returns>
         public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body = null)
         {
@@ -1303,7 +1303,7 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null)
         {
@@ -1316,7 +1316,7 @@ namespace IO.Swagger.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null)
         {

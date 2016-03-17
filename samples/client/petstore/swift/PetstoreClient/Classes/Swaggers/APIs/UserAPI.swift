@@ -15,7 +15,7 @@ public class UserAPI: APIBase {
      
      Create user
      
-     - parameter body: (body) Created user object
+     - parameter body: (body) Created user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func createUser(body body: User?, completion: ((error: ErrorType?) -> Void)) {
@@ -28,7 +28,7 @@ public class UserAPI: APIBase {
      
      Create user
      
-     - parameter body: (body) Created user object
+     - parameter body: (body) Created user object (optional)
      - returns: Promise<Void>
      */
     public class func createUser(body body: User?) -> Promise<Void> {
@@ -50,7 +50,7 @@ public class UserAPI: APIBase {
      - POST /user
      - This can only be done by the logged in user.
      
-     - parameter body: (body) Created user object
+     - parameter body: (body) Created user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -69,7 +69,7 @@ public class UserAPI: APIBase {
      
      Creates list of users with given input array
      
-     - parameter body: (body) List of user object
+     - parameter body: (body) List of user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func createUsersWithArrayInput(body body: [User]?, completion: ((error: ErrorType?) -> Void)) {
@@ -82,7 +82,7 @@ public class UserAPI: APIBase {
      
      Creates list of users with given input array
      
-     - parameter body: (body) List of user object
+     - parameter body: (body) List of user object (optional)
      - returns: Promise<Void>
      */
     public class func createUsersWithArrayInput(body body: [User]?) -> Promise<Void> {
@@ -104,7 +104,7 @@ public class UserAPI: APIBase {
      - POST /user/createWithArray
      - 
      
-     - parameter body: (body) List of user object
+     - parameter body: (body) List of user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -123,7 +123,7 @@ public class UserAPI: APIBase {
      
      Creates list of users with given input array
      
-     - parameter body: (body) List of user object
+     - parameter body: (body) List of user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func createUsersWithListInput(body body: [User]?, completion: ((error: ErrorType?) -> Void)) {
@@ -136,7 +136,7 @@ public class UserAPI: APIBase {
      
      Creates list of users with given input array
      
-     - parameter body: (body) List of user object
+     - parameter body: (body) List of user object (optional)
      - returns: Promise<Void>
      */
     public class func createUsersWithListInput(body body: [User]?) -> Promise<Void> {
@@ -158,7 +158,7 @@ public class UserAPI: APIBase {
      - POST /user/createWithList
      - 
      
-     - parameter body: (body) List of user object
+     - parameter body: (body) List of user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -177,7 +177,7 @@ public class UserAPI: APIBase {
      
      Delete user
      
-     - parameter username: (path) The name that needs to be deleted
+     - parameter username: (path) The name that needs to be deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func deleteUser(username username: String, completion: ((error: ErrorType?) -> Void)) {
@@ -190,7 +190,7 @@ public class UserAPI: APIBase {
      
      Delete user
      
-     - parameter username: (path) The name that needs to be deleted
+     - parameter username: (path) The name that needs to be deleted 
      - returns: Promise<Void>
      */
     public class func deleteUser(username username: String) -> Promise<Void> {
@@ -215,7 +215,7 @@ public class UserAPI: APIBase {
        - type: basic
        - name: test_http_basic
      
-     - parameter username: (path) The name that needs to be deleted
+     - parameter username: (path) The name that needs to be deleted 
 
      - returns: RequestBuilder<Void> 
      */
@@ -236,7 +236,7 @@ public class UserAPI: APIBase {
      
      Get user by user name
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func getUserByName(username username: String, completion: ((data: User?, error: ErrorType?) -> Void)) {
@@ -249,7 +249,7 @@ public class UserAPI: APIBase {
      
      Get user by user name
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: Promise<User>
      */
     public class func getUserByName(username username: String) -> Promise<User> {
@@ -281,7 +281,7 @@ public class UserAPI: APIBase {
   "userStatus" : 0
 }, contentType=application/json}]
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
 
      - returns: RequestBuilder<User> 
      */
@@ -302,8 +302,8 @@ public class UserAPI: APIBase {
      
      Logs user into the system
      
-     - parameter username: (query) The user name for login
-     - parameter password: (query) The password for login in clear text
+     - parameter username: (query) The user name for login (optional)
+     - parameter password: (query) The password for login in clear text (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func loginUser(username username: String?, password: String?, completion: ((data: String?, error: ErrorType?) -> Void)) {
@@ -316,8 +316,8 @@ public class UserAPI: APIBase {
      
      Logs user into the system
      
-     - parameter username: (query) The user name for login
-     - parameter password: (query) The password for login in clear text
+     - parameter username: (query) The user name for login (optional)
+     - parameter password: (query) The password for login in clear text (optional)
      - returns: Promise<String>
      */
     public class func loginUser(username username: String?, password: String?) -> Promise<String> {
@@ -341,8 +341,8 @@ public class UserAPI: APIBase {
      - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
      - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
      
-     - parameter username: (query) The user name for login
-     - parameter password: (query) The password for login in clear text
+     - parameter username: (query) The user name for login (optional)
+     - parameter password: (query) The password for login in clear text (optional)
 
      - returns: RequestBuilder<String> 
      */
@@ -416,8 +416,8 @@ public class UserAPI: APIBase {
      
      Updated user
      
-     - parameter username: (path) name that need to be deleted
-     - parameter body: (body) Updated user object
+     - parameter username: (path) name that need to be deleted 
+     - parameter body: (body) Updated user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func updateUser(username username: String, body: User?, completion: ((error: ErrorType?) -> Void)) {
@@ -430,8 +430,8 @@ public class UserAPI: APIBase {
      
      Updated user
      
-     - parameter username: (path) name that need to be deleted
-     - parameter body: (body) Updated user object
+     - parameter username: (path) name that need to be deleted 
+     - parameter body: (body) Updated user object (optional)
      - returns: Promise<Void>
      */
     public class func updateUser(username username: String, body: User?) -> Promise<Void> {
@@ -453,8 +453,8 @@ public class UserAPI: APIBase {
      - PUT /user/{username}
      - This can only be done by the logged in user.
      
-     - parameter username: (path) name that need to be deleted
-     - parameter body: (body) Updated user object
+     - parameter username: (path) name that need to be deleted 
+     - parameter body: (body) Updated user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
