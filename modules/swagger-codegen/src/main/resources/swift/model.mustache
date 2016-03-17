@@ -25,8 +25,10 @@ public class {{classname}}: JSONEncodable {
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
-        var nillableDictionary = [String:AnyObject?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}
-        nillableDictionary["{{baseName}}"] = self.{{name}}{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
+        var nillableDictionary = [String:AnyObject?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}{{#isInteger}}{{^isLong}}
+        nillableDictionary["{{baseName}}"] = self.{{name}} != nil ? NSNumber(int: self.{{name}}!) : nil{{/isLong}}{{/isInteger}}{{^isInteger}}{{#isLong}}
+        nillableDictionary["{{baseName}}"] = self.{{name}} != nil ? NSNumber(longLong: self.{{name}}!) : nil{{/isLong}}{{/isInteger}}{{^isInteger}}{{^isLong}}
+        nillableDictionary["{{baseName}}"] = self.{{name}}{{/isLong}}{{/isInteger}}{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.rawValue{{/isEnum}}{{^isPrimitiveType}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isPrimitiveType}}{{/isNotContainer}}{{#isContainer}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isContainer}}{{/vars}}

@@ -56,6 +56,12 @@ class Decoders {
     
     static func decode<T>(clazz clazz: T.Type, source: AnyObject) -> T {
         initialize()
+        if T.self is Int32.Type && source is NSNumber {
+            return source.intValue as! T;
+        }
+        if T.self is Int64.Type && source is NSNumber {
+            return source.longLongValue as! T;
+        }
         if source is T {
             return source as! T
         }

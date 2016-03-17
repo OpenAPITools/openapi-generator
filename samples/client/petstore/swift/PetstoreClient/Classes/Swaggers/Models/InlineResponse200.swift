@@ -16,13 +16,13 @@ public class InlineResponse200: JSONEncodable {
         case Sold = "sold"
     }
     
-    public var tags: [Tag]?
-    public var id: Int?
+    public var photoUrls: [String]?
+    public var name: String?
+    public var id: Int64?
     public var category: AnyObject?
+    public var tags: [Tag]?
     /** pet status in the store */
     public var status: Status?
-    public var name: String?
-    public var photoUrls: [String]?
     
 
     public init() {}
@@ -30,12 +30,12 @@ public class InlineResponse200: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["tags"] = self.tags?.encodeToJSON()
-        nillableDictionary["id"] = self.id
-        nillableDictionary["category"] = self.category
-        nillableDictionary["status"] = self.status?.rawValue
-        nillableDictionary["name"] = self.name
         nillableDictionary["photoUrls"] = self.photoUrls?.encodeToJSON()
+        nillableDictionary["name"] = self.name
+        nillableDictionary["id"] = self.id != nil ? NSNumber(longLong: self.id!) : nil
+        nillableDictionary["category"] = self.category
+        nillableDictionary["tags"] = self.tags?.encodeToJSON()
+        nillableDictionary["status"] = self.status?.rawValue
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

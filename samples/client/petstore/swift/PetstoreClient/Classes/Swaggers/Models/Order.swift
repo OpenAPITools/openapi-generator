@@ -16,9 +16,9 @@ public class Order: JSONEncodable {
         case Delivered = "delivered"
     }
     
-    public var id: Int?
-    public var petId: Int?
-    public var quantity: Int?
+    public var id: Int64?
+    public var petId: Int64?
+    public var quantity: Int32?
     public var shipDate: NSDate?
     /** Order Status */
     public var status: Status?
@@ -30,9 +30,9 @@ public class Order: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
-        nillableDictionary["petId"] = self.petId
-        nillableDictionary["quantity"] = self.quantity
+        nillableDictionary["id"] = self.id != nil ? NSNumber(longLong: self.id!) : nil
+        nillableDictionary["petId"] = self.petId != nil ? NSNumber(longLong: self.petId!) : nil
+        nillableDictionary["quantity"] = self.quantity != nil ? NSNumber(int: self.quantity!) : nil
         nillableDictionary["shipDate"] = self.shipDate?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["complete"] = self.complete
