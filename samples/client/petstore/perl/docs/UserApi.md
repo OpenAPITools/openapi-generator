@@ -31,7 +31,7 @@ This can only be done by the logged in user.
 use Data::Dumper;
 
 my $api = WWW::SwaggerClient::UserApi->new();
-my $body = WWW::SwaggerClient::Object::User->new(); # [User] Created user object
+my $body = WWW::SwaggerClient::Object::User->new(); # User | Created user object
 
 eval { 
     $api->create_user(body => $body);
@@ -74,7 +74,7 @@ Creates list of users with given input array
 use Data::Dumper;
 
 my $api = WWW::SwaggerClient::UserApi->new();
-my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # [ARRAY[User]] List of user object
+my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # ARRAY[User] | List of user object
 
 eval { 
     $api->create_users_with_array_input(body => $body);
@@ -117,7 +117,7 @@ Creates list of users with given input array
 use Data::Dumper;
 
 my $api = WWW::SwaggerClient::UserApi->new();
-my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # [ARRAY[User]] List of user object
+my $body = (WWW::SwaggerClient::Object::ARRAY[User]->new()); # ARRAY[User] | List of user object
 
 eval { 
     $api->create_users_with_list_input(body => $body);
@@ -164,7 +164,7 @@ WWW::SwaggerClient::Configuration::username = 'YOUR_USERNAME';
 WWW::SwaggerClient::Configuration::password = 'YOUR_PASSWORD';
 
 my $api = WWW::SwaggerClient::UserApi->new();
-my $username = 'username_example'; # [string] The name that needs to be deleted
+my $username = 'username_example'; # string | The name that needs to be deleted
 
 eval { 
     $api->delete_user(username => $username);
@@ -207,7 +207,7 @@ Get user by user name
 use Data::Dumper;
 
 my $api = WWW::SwaggerClient::UserApi->new();
-my $username = 'username_example'; # [string] The name that needs to be fetched. Use user1 for testing.
+my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing.
 
 eval { 
     my $result = $api->get_user_by_name(username => $username);
@@ -251,8 +251,8 @@ Logs user into the system
 use Data::Dumper;
 
 my $api = WWW::SwaggerClient::UserApi->new();
-my $username = 'username_example'; # [string] The user name for login
-my $password = 'password_example'; # [string] The password for login in clear text
+my $username = 'username_example'; # string | The user name for login
+my $password = 'password_example'; # string | The password for login in clear text
 
 eval { 
     my $result = $api->login_user(username => $username, password => $password);
@@ -336,8 +336,8 @@ This can only be done by the logged in user.
 use Data::Dumper;
 
 my $api = WWW::SwaggerClient::UserApi->new();
-my $username = 'username_example'; # [string] name that need to be deleted
-my $body = WWW::SwaggerClient::Object::User->new(); # [User] Updated user object
+my $username = 'username_example'; # string | name that need to be deleted
+my $body = WWW::SwaggerClient::Object::User->new(); # User | Updated user object
 
 eval { 
     $api->update_user(username => $username, body => $body);
