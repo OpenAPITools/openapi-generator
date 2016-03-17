@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+#import "SWG200Response.h"
 #import "SWGCategory.h"
 #import "SWGInlineResponse200.h"
 #import "SWGName.h"

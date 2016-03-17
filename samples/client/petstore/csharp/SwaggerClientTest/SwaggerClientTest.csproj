@@ -65,6 +65,7 @@
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ModelReturn.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Name.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Task.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Model200Response.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

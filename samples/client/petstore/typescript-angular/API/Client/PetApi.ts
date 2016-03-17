@@ -27,17 +27,17 @@ namespace API.Client {
         }
 
         /**
-         * Update an existing pet
+         * Add a new pet to the store
          * 
          * @param body Pet object that needs to be added to the store
          */
-        public updatePet (body?: Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+        public addPet (body?: Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
             const localVarPath = this.basePath + '/pet';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
-                method: 'PUT',
+                method: 'POST',
                 url: localVarPath,
                 json: true,
                 data: body,
@@ -54,12 +54,12 @@ namespace API.Client {
             return this.$http(httpRequestParams);
         }
         /**
-         * Add a new pet to the store
+         * Fake endpoint to test byte array in body parameter for adding a new pet to the store
          * 
-         * @param body Pet object that needs to be added to the store
+         * @param body Pet object in the form of byte array
          */
-        public addPet (body?: Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/pet';
+        public addPetUsingByteArray (body?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const localVarPath = this.basePath + '/pet?testing_byte_array=true';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -68,6 +68,40 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
+                
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
+         * Deletes a pet
+         * 
+         * @param petId Pet id to delete
+         * @param apiKey 
+         */
+        public deletePet (petId: number, apiKey?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const localVarPath = this.basePath + '/pet/{petId}'
+                .replace('{' + 'petId' + '}', String(petId));
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling deletePet');
+            }
+            headerParams['api_key'] = apiKey;
+
+            let httpRequestParams: any = {
+                method: 'DELETE',
+                url: localVarPath,
+                json: true,
                 
                 
                 params: queryParameters,
@@ -172,112 +206,25 @@ namespace API.Client {
             return this.$http(httpRequestParams);
         }
         /**
-         * Updates a pet in the store with form data
-         * 
-         * @param petId ID of pet that needs to be updated
-         * @param name Updated name of the pet
-         * @param status Updated status of the pet
+         * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+         * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+         * @param petId ID of pet that needs to be fetched
          */
-        public updatePetWithForm (petId: string, name?: string, status?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/pet/{petId}'
-                .replace('{' + 'petId' + '}', String(petId));
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let formParams: any = {};
-
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling updatePetWithForm');
-            }
-            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
-
-            formParams['name'] = name;
-
-            formParams['status'] = status;
-
-            let httpRequestParams: any = {
-                method: 'POST',
-                url: localVarPath,
-                json: false,
-                
-                data: this.$httpParamSerializer(formParams),
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * Deletes a pet
-         * 
-         * @param petId Pet id to delete
-         * @param apiKey 
-         */
-        public deletePet (petId: number, apiKey?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/pet/{petId}'
+        public getPetByIdInObject (petId: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<InlineResponse200> {
+            const localVarPath = this.basePath + '/pet/{petId}?response=inline_arbitrary_object'
                 .replace('{' + 'petId' + '}', String(petId));
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             // verify required parameter 'petId' is set
             if (!petId) {
-                throw new Error('Missing required parameter petId when calling deletePet');
+                throw new Error('Missing required parameter petId when calling getPetByIdInObject');
             }
-            headerParams['api_key'] = apiKey;
-
             let httpRequestParams: any = {
-                method: 'DELETE',
+                method: 'GET',
                 url: localVarPath,
                 json: true,
                 
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * uploads an image
-         * 
-         * @param petId ID of pet to update
-         * @param additionalMetadata Additional data to pass to server
-         * @param file file to upload
-         */
-        public uploadFile (petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
-                .replace('{' + 'petId' + '}', String(petId));
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let formParams: any = {};
-
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling uploadFile');
-            }
-            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
-
-            formParams['additionalMetadata'] = additionalMetadata;
-
-            formParams['file'] = file;
-
-            let httpRequestParams: any = {
-                method: 'POST',
-                url: localVarPath,
-                json: false,
-                
-                data: this.$httpParamSerializer(formParams),
                 
                 params: queryParameters,
                 headers: headerParams
@@ -321,21 +268,105 @@ namespace API.Client {
             return this.$http(httpRequestParams);
         }
         /**
-         * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+         * Update an existing pet
          * 
-         * @param body Pet object in the form of byte array
+         * @param body Pet object that needs to be added to the store
          */
-        public addPetUsingByteArray (body?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/pet?testing_byte_array=true';
+        public updatePet (body?: Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const localVarPath = this.basePath + '/pet';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
-                method: 'POST',
+                method: 'PUT',
                 url: localVarPath,
                 json: true,
                 data: body,
                 
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
+         * Updates a pet in the store with form data
+         * 
+         * @param petId ID of pet that needs to be updated
+         * @param name Updated name of the pet
+         * @param status Updated status of the pet
+         */
+        public updatePetWithForm (petId: string, name?: string, status?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const localVarPath = this.basePath + '/pet/{petId}'
+                .replace('{' + 'petId' + '}', String(petId));
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let formParams: any = {};
+
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling updatePetWithForm');
+            }
+            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            formParams['name'] = name;
+
+            formParams['status'] = status;
+
+            let httpRequestParams: any = {
+                method: 'POST',
+                url: localVarPath,
+                json: false,
+                
+                data: this.$httpParamSerializer(formParams),
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
+         * uploads an image
+         * 
+         * @param petId ID of pet to update
+         * @param additionalMetadata Additional data to pass to server
+         * @param file file to upload
+         */
+        public uploadFile (petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
+                .replace('{' + 'petId' + '}', String(petId));
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let formParams: any = {};
+
+            // verify required parameter 'petId' is set
+            if (!petId) {
+                throw new Error('Missing required parameter petId when calling uploadFile');
+            }
+            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            formParams['additionalMetadata'] = additionalMetadata;
+
+            formParams['file'] = file;
+
+            let httpRequestParams: any = {
+                method: 'POST',
+                url: localVarPath,
+                json: false,
+                
+                data: this.$httpParamSerializer(formParams),
                 
                 params: queryParameters,
                 headers: headerParams

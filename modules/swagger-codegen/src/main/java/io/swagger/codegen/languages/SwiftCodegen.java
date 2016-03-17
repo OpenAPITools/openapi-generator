@@ -271,6 +271,13 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             return modelName;
         }
 
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            String modelName = "Model" + name; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
         return name;
     }
 
