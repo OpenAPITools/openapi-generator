@@ -29,7 +29,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 use Data::Dumper;
 
 my $api = WWW::SwaggerClient::StoreApi->new();
-my $order_id = 'order_id_example'; # [string] ID of the order that needs to be deleted
+my $order_id = 'order_id_example'; # string | ID of the order that needs to be deleted
 
 eval { 
     $api->delete_order(order_id => $order_id);
@@ -81,7 +81,7 @@ WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR
 #WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
 
 my $api = WWW::SwaggerClient::StoreApi->new();
-my $status = 'status_example'; # [string] Status value that needs to be considered for query
+my $status = 'status_example'; # string | Status value that needs to be considered for query
 
 eval { 
     my $result = $api->find_orders_by_status(status => $status);
@@ -224,7 +224,7 @@ WWW::SwaggerClient::Configuration::api_key->{'test_api_key_query'} = 'YOUR_API_K
 #WWW::SwaggerClient::Configuration::api_key_prefix->{'test_api_key_query'} = "BEARER";
 
 my $api = WWW::SwaggerClient::StoreApi->new();
-my $order_id = 'order_id_example'; # [string] ID of pet that needs to be fetched
+my $order_id = 'order_id_example'; # string | ID of pet that needs to be fetched
 
 eval { 
     my $result = $api->get_order_by_id(order_id => $order_id);
@@ -277,7 +277,7 @@ WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR
 #WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
 
 my $api = WWW::SwaggerClient::StoreApi->new();
-my $body = WWW::SwaggerClient::Object::Order->new(); # [Order] order placed for purchasing the pet
+my $body = WWW::SwaggerClient::Object::Order->new(); # Order | order placed for purchasing the pet
 
 eval { 
     my $result = $api->place_order(body => $body);
