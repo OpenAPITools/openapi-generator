@@ -214,13 +214,14 @@ class ObjectSerializer
     /**
      * Deserialize a JSON string into an object
      *
-     * @param mixed  $data       object or primitive to be deserialized
-     * @param string $class      class name is passed as a string
-     * @param string $httpHeaders HTTP headers
+     * @param mixed  $data          object or primitive to be deserialized
+     * @param string $class         class name is passed as a string
+     * @param string $httpHeaders   HTTP headers
+     * @param string $discriminator discriminator if polymorphism is used
      *
      * @return object an instance of $class
      */
-    public static function deserialize($data, $class, $httpHeaders=null)
+    public static function deserialize($data, $class, $httpHeaders=null, $discriminator=null)
     {
         if (null === $data) {
             $deserialized = null;
@@ -231,14 +232,14 @@ class ObjectSerializer
                 $subClass_array = explode(',', $inner, 2);
                 $subClass = $subClass_array[1];
                 foreach ($data as $key => $value) {
-                    $deserialized[$key] = self::deserialize($value, $subClass);
+                    $deserialized[$key] = self::deserialize($value, $subClass, null, $discriminator);
                 }
             }
         } elseif (strcasecmp(substr($class, -2), '[]') == 0) {
             $subClass = substr($class, 0, -2);
             $values = array();
             foreach ($data as $key => $value) {
-                $values[] = self::deserialize($value, $subClass);
+                $values[] = self::deserialize($value, $subClass, null, $discriminator);
             }
             $deserialized = $values;
         } elseif ($class === 'object') {
@@ -271,6 +272,13 @@ class ObjectSerializer
             error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.\n", 3, Configuration::getDefaultConfiguration()->getDebugFile());
       
         } else {
+            // If a discriminator is defined and points to a valid subclass, use it.
+            if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
+                $subclass = '\{{invokerPackage}}\Model\\' . $data->{$discriminator};
+                if (is_subclass_of($subclass, $class)) {
+                    $class = $subclass;
+                }
+            }
             $instance = new $class();
             foreach ($instance::swaggerTypes() as $property => $type) {
                 $propertySetter = $instance::setters()[$property];
@@ -281,7 +289,7 @@ class ObjectSerializer
      
                 $propertyValue = $data->{$instance::attributeMap()[$property]};
                 if (isset($propertyValue)) {
-                    $instance->$propertySetter(self::deserialize($propertyValue, $type));
+                    $instance->$propertySetter(self::deserialize($propertyValue, $type, null, $discriminator));
                 }
             }
             $deserialized = $instance;
