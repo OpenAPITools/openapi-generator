@@ -267,7 +267,7 @@ sub delete_pet {
 #
 # Finds Pets by status
 # 
-# @param ARRAY[string] $status Status values that need to be considered for query (optional)
+# @param ARRAY[string] $status Status values that need to be considered for query (optional, default to available)
 {
     my $params = {
     'status' => {
