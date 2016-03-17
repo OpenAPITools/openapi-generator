@@ -14,6 +14,7 @@ describe('ApiClient', function() {
       expect(apiClient.authentications).to.eql({
         petstore_auth: {type: 'oauth2'},
         api_key: {type: 'apiKey', in: 'header', name: 'api_key'},
+        test_http_basic: {type: 'basic'},
         test_api_client_id: {
           type: 'apiKey',
           in: 'header',

@@ -184,7 +184,7 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_key_header', 'test_api_key_query'];
+      var authNames = ['test_api_key_query', 'test_api_key_header'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;

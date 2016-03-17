@@ -31,8 +31,12 @@
     }
     var _this = new InlineResponse200();
     
-    if (data['tags']) {
-      _this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+    if (data['photoUrls']) {
+      _this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
+    }
+    
+    if (data['name']) {
+      _this['name'] = ApiClient.convertToType(data['name'], 'String');
     }
     
     if (data['id']) {
@@ -43,16 +47,12 @@
       _this['category'] = ApiClient.convertToType(data['category'], Object);
     }
     
+    if (data['tags']) {
+      _this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+    }
+    
     if (data['status']) {
       _this['status'] = ApiClient.convertToType(data['status'], 'String');
-    }
-    
-    if (data['name']) {
-      _this['name'] = ApiClient.convertToType(data['name'], 'String');
-    }
-    
-    if (data['photoUrls']) {
-      _this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
     }
     
     return _this;
@@ -61,17 +61,31 @@
   
   
   /**
-   * @return {[Tag]}
+   * @return {[String]}
    **/
-  InlineResponse200.prototype.getTags = function() {
-    return this['tags'];
+  InlineResponse200.prototype.getPhotoUrls = function() {
+    return this['photoUrls'];
   }
 
   /**
-   * @param {[Tag]} tags
+   * @param {[String]} photoUrls
    **/
-  InlineResponse200.prototype.setTags = function(tags) {
-    this['tags'] = tags;
+  InlineResponse200.prototype.setPhotoUrls = function(photoUrls) {
+    this['photoUrls'] = photoUrls;
+  }
+  
+  /**
+   * @return {String}
+   **/
+  InlineResponse200.prototype.getName = function() {
+    return this['name'];
+  }
+
+  /**
+   * @param {String} name
+   **/
+  InlineResponse200.prototype.setName = function(name) {
+    this['name'] = name;
   }
   
   /**
@@ -103,6 +117,20 @@
   }
   
   /**
+   * @return {[Tag]}
+   **/
+  InlineResponse200.prototype.getTags = function() {
+    return this['tags'];
+  }
+
+  /**
+   * @param {[Tag]} tags
+   **/
+  InlineResponse200.prototype.setTags = function(tags) {
+    this['tags'] = tags;
+  }
+  
+  /**
    * get pet status in the store
    * @return {StatusEnum}
    **/
@@ -116,34 +144,6 @@
    **/
   InlineResponse200.prototype.setStatus = function(status) {
     this['status'] = status;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  InlineResponse200.prototype.getName = function() {
-    return this['name'];
-  }
-
-  /**
-   * @param {String} name
-   **/
-  InlineResponse200.prototype.setName = function(name) {
-    this['name'] = name;
-  }
-  
-  /**
-   * @return {[String]}
-   **/
-  InlineResponse200.prototype.getPhotoUrls = function() {
-    return this['photoUrls'];
-  }
-
-  /**
-   * @param {[String]} photoUrls
-   **/
-  InlineResponse200.prototype.setPhotoUrls = function(photoUrls) {
-    this['photoUrls'] = photoUrls;
   }
   
   
