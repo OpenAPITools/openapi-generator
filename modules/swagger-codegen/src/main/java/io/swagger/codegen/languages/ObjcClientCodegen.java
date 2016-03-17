@@ -324,6 +324,14 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             type = "model_" + type; // e.g. return => ModelReturn (after camelize)
         }
 
+        // model name starts with number
+        /* no need for the fix below as objc model starts with prefix (e.g. SWG)
+        if (type.matches("^\\d.*")) {
+            LOGGER.warn(type + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + type));
+            type = "model_" + type; // e.g. 200Response => Model200Response (after camelize)
+        }
+        */
+
         return toModelNameWithoutReservedWordCheck(type);
     }
 

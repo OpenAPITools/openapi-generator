@@ -121,6 +121,13 @@
                        @"key": @"api_key",
                        @"value": [self getApiKeyWithPrefix:@"api_key"]
                    },
+               @"test_http_basic":
+                   @{
+                       @"type": @"basic",
+                       @"in": @"header",
+                       @"key": @"Authorization",
+                       @"value": [self getBasicAuthToken]
+                   },
                @"test_api_client_secret":
                    @{
                        @"type": @"api_key",
