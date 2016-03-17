@@ -64,6 +64,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String localVariablePrefix = "";
     protected boolean usePromises = false;
     protected boolean omitModelMethods = false;
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public JavascriptClientCodegen() {
         super();
@@ -73,6 +75,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         templateDir = "Javascript";
         apiPackage = "api";
         modelPackage = "model";
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
         setReservedWordsLowerCase(
@@ -238,10 +242,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(USE_PROMISES, usePromises);
         additionalProperties.put(OMIT_MODEL_METHODS, omitModelMethods);
 
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("index.mustache", sourceFolder, "index.js"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", sourceFolder, "ApiClient.js"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
@@ -257,6 +266,26 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
     }
 
     @Override
@@ -405,6 +434,84 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
     }
 
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        typeMapping.put("array", "Array");
+        typeMapping.put("List", "Array");
+        typeMapping.put("map", "Object");
+        typeMapping.put("object", "Object");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("char", "String");
+        typeMapping.put("string", "String");
+        typeMapping.put("short", "Integer");
+        typeMapping.put("int", "Integer");
+        typeMapping.put("integer", "Integer");
+        typeMapping.put("long", "Integer");
+        typeMapping.put("float", "Number");
+        typeMapping.put("double", "Number");
+        typeMapping.put("number", "Number");
+        typeMapping.put("DateTime", "Date");
+        typeMapping.put("Date", "Date");
+        typeMapping.put("file", "File");
+        // binary not supported in JavaScript client right now, using String as a workaround
+        typeMapping.put("binary", "String");
+
+        if ("String".equals(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Integer".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Number".equals(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("Boolean".equals(type)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if ("File".equals(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Date".equals(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "new Date(\"" + escapeText(example) + "\")";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + moduleName + "." + type + "()";
+        }
+
+        if (example == null) {
+            example = "null";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{key: " + example + "}";
+        }
+
+        p.example = example;
+    }
+
     /**
      * Normalize type by wrapping primitive types with single quotes.
      *
@@ -458,6 +565,32 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
       if (op.returnType != null) {
         op.returnType = normalizeType(op.returnType);
       }
+
+      // Set vendor-extension to be used in template:
+      //     x-codegen-hasMoreRequired
+      //     x-codegen-hasMoreOptional
+      //     x-codegen-hasRequiredParams
+      CodegenParameter lastRequired = null;
+      CodegenParameter lastOptional = null;
+      for (CodegenParameter p : op.allParams) {
+          if (p.required != null && p.required) {
+              lastRequired = p;
+          } else {
+              lastOptional = p;
+          }
+      }
+      for (CodegenParameter p : op.allParams) {
+          if (p == lastRequired) {
+              p.vendorExtensions.put("x-codegen-hasMoreRequired", false);
+          } else if (p == lastOptional) {
+              p.vendorExtensions.put("x-codegen-hasMoreOptional", false);
+          } else {
+              p.vendorExtensions.put("x-codegen-hasMoreRequired", true);
+              p.vendorExtensions.put("x-codegen-hasMoreOptional", true);
+          }
+      }
+      op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
+
       return op;
     }
 
