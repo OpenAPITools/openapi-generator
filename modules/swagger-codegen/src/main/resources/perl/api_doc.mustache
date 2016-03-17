@@ -37,12 +37,12 @@ use Data::Dumper;
 {{{moduleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 
-my $api = {{moduleName}}::{{classname}}->new();
-{{#allParams}}my ${{paramName}} = {{#isListContainer}}({{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}){{/isListContainer}}; # [{{{dataType}}}] {{description}}
+my $api_instance = {{moduleName}}::{{classname}}->new();
+{{#allParams}}my ${{paramName}} = {{#isListContainer}}({{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}){{/isListContainer}}; # {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 eval { 
-    {{#returnType}}my $result = {{/returnType}}$api->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
     print Dumper($result);{{/returnType}}
 };
 if ($@) {
