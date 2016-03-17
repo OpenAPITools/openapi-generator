@@ -10,7 +10,7 @@ import Foundation
 
 public class Model200Response: JSONEncodable {
 
-    public var name: Int?
+    public var name: Int32?
     
 
     public init() {}
@@ -18,7 +18,7 @@ public class Model200Response: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["name"] = self.name
+        nillableDictionary["name"] = self.name != nil ? NSNumber(int: self.name!) : nil
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

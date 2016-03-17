@@ -10,7 +10,7 @@ import Foundation
 
 public class SpecialModelName: JSONEncodable {
 
-    public var specialPropertyName: Int?
+    public var specialPropertyName: Int64?
     
 
     public init() {}
@@ -18,7 +18,7 @@ public class SpecialModelName: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["$special[property.name]"] = self.specialPropertyName
+        nillableDictionary["$special[property.name]"] = self.specialPropertyName != nil ? NSNumber(longLong: self.specialPropertyName!) : nil
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

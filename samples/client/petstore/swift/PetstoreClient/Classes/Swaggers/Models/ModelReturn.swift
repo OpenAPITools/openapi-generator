@@ -10,7 +10,7 @@ import Foundation
 
 public class ModelReturn: JSONEncodable {
 
-    public var _return: Int?
+    public var _return: Int32?
     
 
     public init() {}
@@ -18,7 +18,7 @@ public class ModelReturn: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["return"] = self._return
+        nillableDictionary["return"] = self._return != nil ? NSNumber(int: self._return!) : nil
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

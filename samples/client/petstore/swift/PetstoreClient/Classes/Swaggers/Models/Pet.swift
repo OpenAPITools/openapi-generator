@@ -16,7 +16,7 @@ public class Pet: JSONEncodable {
         case Sold = "sold"
     }
     
-    public var id: Int?
+    public var id: Int64?
     public var category: Category?
     public var name: String?
     public var photoUrls: [String]?
@@ -30,7 +30,7 @@ public class Pet: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
+        nillableDictionary["id"] = self.id != nil ? NSNumber(longLong: self.id!) : nil
         nillableDictionary["category"] = self.category?.encodeToJSON()
         nillableDictionary["name"] = self.name
         nillableDictionary["photoUrls"] = self.photoUrls?.encodeToJSON()
