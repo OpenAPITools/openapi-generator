@@ -298,12 +298,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
-
+                
                 // handle ArrayProperty
                 if (var.items != null) {
                     allowableValues = var.items.allowableValues;
                 }
-
+                
                 if (allowableValues == null) {
                     continue;
                 }
