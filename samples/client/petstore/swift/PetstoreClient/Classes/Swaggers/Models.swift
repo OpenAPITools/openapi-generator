@@ -156,6 +156,19 @@ class Decoders {
             }
 			
 
+			// Decoder for [Model200Response]
+            Decoders.addDecoder(clazz: [Model200Response].self) { (source: AnyObject) -> [Model200Response] in
+                return Decoders.decode(clazz: [Model200Response].self, source: source)
+            }
+			// Decoder for Model200Response
+            Decoders.addDecoder(clazz: Model200Response.self) { (source: AnyObject) -> Model200Response in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Model200Response()
+                instance.name = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["name"])
+                return instance
+            }
+			
+
 			// Decoder for [ModelReturn]
             Decoders.addDecoder(clazz: [ModelReturn].self) { (source: AnyObject) -> [ModelReturn] in
                 return Decoders.decode(clazz: [ModelReturn].self, source: source)

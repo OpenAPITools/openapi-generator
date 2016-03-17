@@ -211,6 +211,9 @@ public class UserAPI: APIBase {
      
      - DELETE /user/{username}
      - This can only be done by the logged in user.
+     - BASIC:
+       - type: basic
+       - name: test_http_basic
      
      - parameter username: (path) The name that needs to be deleted
 
