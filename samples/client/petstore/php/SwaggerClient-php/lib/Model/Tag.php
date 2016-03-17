@@ -55,6 +55,10 @@ class Tag implements ArrayAccess
         'name' => 'string'
     );
   
+    static function swaggerTypes() {
+        return self::$swaggerTypes;
+    }
+
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
       * @var string[] 
@@ -64,6 +68,10 @@ class Tag implements ArrayAccess
         'name' => 'name'
     );
   
+    static function attributeMap() {
+        return self::$attributeMap;
+    }
+
     /**
       * Array of attributes to setter functions (for deserialization of responses)
       * @var string[]
@@ -73,6 +81,10 @@ class Tag implements ArrayAccess
         'name' => 'setName'
     );
   
+    static function setters() {
+        return self::$setters;
+    }
+
     /**
       * Array of attributes to getter functions (for serialization of requests)
       * @var string[]
@@ -82,6 +94,10 @@ class Tag implements ArrayAccess
         'name' => 'getName'
     );
   
+    static function getters() {
+        return self::$getters;
+    }
+
     
     /**
       * $id 
