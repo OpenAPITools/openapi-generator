@@ -26,7 +26,7 @@ This can only be done by the logged in user.
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'body': new SwaggerPetstore.User() // {User} Created user object
@@ -73,7 +73,7 @@ Creates list of users with given input array
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'body': [new SwaggerPetstore.User()] // {[User]} List of user object
@@ -120,7 +120,7 @@ Creates list of users with given input array
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'body': [new SwaggerPetstore.User()] // {[User]} List of user object
@@ -173,7 +173,7 @@ var test_http_basic = defaultClient.authentications['test_http_basic'];
 test_http_basic.username = 'YOUR USERNAME'
 test_http_basic.password = 'YOUR PASSWORD'
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var username = "username_example"; // {String} The name that needs to be deleted
 
@@ -219,7 +219,7 @@ Get user by user name
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var username = "username_example"; // {String} The name that needs to be fetched. Use user1 for testing.
 
@@ -265,7 +265,7 @@ Logs user into the system
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'username': "username_example", // {String} The user name for login
@@ -314,7 +314,7 @@ Logs out current logged in user session
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var callback = function(error, data, response) {
   if (error) {
@@ -354,7 +354,7 @@ This can only be done by the logged in user.
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var username = "username_example"; // {String} name that need to be deleted
 
