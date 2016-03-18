@@ -11,6 +11,7 @@ import Foundation
 public class Name: JSONEncodable {
 
     public var name: Int?
+    public var snakeCase: Int?
     
 
     public init() {}
@@ -19,6 +20,7 @@ public class Name: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["name"] = self.name
+        nillableDictionary["snake_case"] = self.snakeCase
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
