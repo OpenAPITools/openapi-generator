@@ -47,23 +47,27 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
-    private static final String PROJECT_NAME = "projectName";
-    private static final String MODULE_NAME = "moduleName";
-    private static final String PROJECT_DESCRIPTION = "projectDescription";
-    private static final String PROJECT_VERSION = "projectVersion";
-    private static final String PROJECT_LICENSE_NAME = "projectLicenseName";
-    private static final String USE_PROMISES = "usePromises";
-    private static final String OMIT_MODEL_METHODS = "omitModelMethods";
+    public static final String PROJECT_NAME = "projectName";
+    public static final String MODULE_NAME = "moduleName";
+    public static final String PROJECT_DESCRIPTION = "projectDescription";
+    public static final String PROJECT_VERSION = "projectVersion";
+    public static final String PROJECT_LICENSE_NAME = "projectLicenseName";
+    public static final String USE_PROMISES = "usePromises";
+    public static final String USE_INHERITANCE = "useInheritance";
+    public static final String EMIT_MODEL_METHODS = "emitModelMethods";
+    public static final String EMIT_JS_DOC = "emitJSDoc";
 
     protected String projectName;
     protected String moduleName;
     protected String projectDescription;
     protected String projectVersion;
+    protected String projectLicenseName;
 
     protected String sourceFolder = "src";
     protected String localVariablePrefix = "";
-    protected boolean usePromises = false;
-    protected boolean omitModelMethods = false;
+    protected boolean usePromises;
+    protected boolean emitModelMethods;
+    protected boolean emitJSDoc = true;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -105,8 +109,36 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         );
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
+        instantiationTypes.put("array", "Array");
+        instantiationTypes.put("list", "Array");
+        instantiationTypes.put("map", "Object");
+        typeMapping.clear();
+        typeMapping.put("array", "Array");
+        typeMapping.put("map", "Object");
+        typeMapping.put("List", "Array");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("string", "String");
+        typeMapping.put("int", "Integer"); // Huh? What is JS Integer?
+        typeMapping.put("float", "Number");
+        typeMapping.put("number", "Number");
+        typeMapping.put("DateTime", "Date"); // Should this be dateTime?
+        typeMapping.put("Date", "Date"); // Should this be date?
+        typeMapping.put("long", "Integer");
+        typeMapping.put("short", "Integer");
+        typeMapping.put("char", "String");
+        typeMapping.put("double", "Number");
+        typeMapping.put("object", "Object");
+        typeMapping.put("integer", "Integer");
+        // binary not supported in JavaScript client right now, using String as a workaround
+        typeMapping.put("ByteArray", "String"); // I don't see ByteArray defined in the Swagger docs.
+        typeMapping.put("binary", "String");
+
+        importMapping.clear();
+
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue("src"));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(PROJECT_NAME,
                 "name of the project (Default: generated from info.title or \"swagger-js-client\")"));
         cliOptions.add(new CliOption(MODULE_NAME,
@@ -120,9 +152,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(USE_PROMISES,
                 "use Promises as return values from the client API, instead of superagent callbacks")
                 .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(OMIT_MODEL_METHODS,
-                "omits generation of getters and setters for model classes")
+        cliOptions.add(new CliOption(EMIT_MODEL_METHODS,
+                "generate getters and setters for model properties")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(EMIT_JS_DOC,
+                "generate JSDoc comments")
+                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(USE_INHERITANCE,
+                "use JavaScript prototype chains & delegation for inheritance")
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -144,58 +182,46 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public void processOpts() {
         super.processOpts();
 
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
-        typeMapping.put("map", "Object");
-        typeMapping.put("object", "Object");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("char", "String");
-        typeMapping.put("string", "String");
-        typeMapping.put("short", "Integer");
-        typeMapping.put("int", "Integer");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Integer");
-        typeMapping.put("float", "Number");
-        typeMapping.put("double", "Number");
-        typeMapping.put("number", "Number");
-        typeMapping.put("DateTime", "Date");
-        typeMapping.put("Date", "Date");
-        typeMapping.put("file", "File");
-        // binary not supported in JavaScript client right now, using String as a workaround
-        typeMapping.put("binary", "String");
-
-        importMapping.clear();
+        if (additionalProperties.containsKey(PROJECT_NAME)) {
+            setProjectName(((String) additionalProperties.get(PROJECT_NAME)));
+        }
+        if (additionalProperties.containsKey(MODULE_NAME)) {
+            setModuleName(((String) additionalProperties.get(MODULE_NAME)));
+        }
+        if (additionalProperties.containsKey(PROJECT_DESCRIPTION)) {
+            setProjectDescription(((String) additionalProperties.get(PROJECT_DESCRIPTION)));
+        }
+        if (additionalProperties.containsKey(PROJECT_VERSION)) {
+            setProjectVersion(((String) additionalProperties.get(PROJECT_VERSION)));
+        }
+        if (additionalProperties.containsKey(PROJECT_LICENSE_NAME)) {
+            setProjectLicenseName(((String) additionalProperties.get(PROJECT_LICENSE_NAME)));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
+            setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        }
+        if (additionalProperties.containsKey(USE_PROMISES)) {
+            setUsePromises(Boolean.parseBoolean((String)additionalProperties.get(USE_PROMISES)));
+        }
+        if (additionalProperties.containsKey(USE_INHERITANCE)) {
+            setUseInheritance(Boolean.parseBoolean((String)additionalProperties.get(USE_INHERITANCE)));
+        } else {
+            supportsInheritance = true;
+        }
+        if (additionalProperties.containsKey(EMIT_MODEL_METHODS)) {
+            setEmitModelMethods(Boolean.parseBoolean((String)additionalProperties.get(EMIT_MODEL_METHODS)));
+        }
+        if (additionalProperties.containsKey(EMIT_JS_DOC)) {
+            setEmitJSDoc(Boolean.parseBoolean((String)additionalProperties.get(EMIT_JS_DOC)));
+        }
     }
 
     @Override
     public void preprocessSwagger(Swagger swagger) {
         super.preprocessSwagger(swagger);
-
-        if (additionalProperties.containsKey(PROJECT_NAME)) {
-            projectName = ((String) additionalProperties.get(PROJECT_NAME));
-        }
-        if (additionalProperties.containsKey(MODULE_NAME)) {
-            moduleName = ((String) additionalProperties.get(MODULE_NAME));
-        }
-        if (additionalProperties.containsKey(PROJECT_DESCRIPTION)) {
-            projectDescription = ((String) additionalProperties.get(PROJECT_DESCRIPTION));
-        }
-        if (additionalProperties.containsKey(PROJECT_VERSION)) {
-            projectVersion = ((String) additionalProperties.get(PROJECT_VERSION));
-        }
-        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
-            localVariablePrefix = (String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX);
-        }
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            sourceFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
-        }
-        if (additionalProperties.containsKey(USE_PROMISES)) {
-            usePromises = Boolean.parseBoolean((String)additionalProperties.get(USE_PROMISES));
-        }
-        if (additionalProperties.containsKey(OMIT_MODEL_METHODS)) {
-            omitModelMethods =  Boolean.parseBoolean((String)additionalProperties.get(OMIT_MODEL_METHODS));
-        }
 
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
@@ -211,9 +237,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 // when projectDescription is not specified, use info.description
                 projectDescription = info.getDescription();
             }
-            if (info.getLicense() != null) {
-                License license = info.getLicense();
-                if (additionalProperties.get(PROJECT_LICENSE_NAME) == null) {
+            if (additionalProperties.get(PROJECT_LICENSE_NAME) == null) {
+                // when projectLicense is not specified, use info.license
+                if (info.getLicense() != null) {
+                    License license = info.getLicense();
                     additionalProperties.put(PROJECT_LICENSE_NAME, license.getName());
                 }
             }
@@ -237,10 +264,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(MODULE_NAME, moduleName);
         additionalProperties.put(PROJECT_DESCRIPTION, escapeText(projectDescription));
         additionalProperties.put(PROJECT_VERSION, projectVersion);
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         additionalProperties.put(USE_PROMISES, usePromises);
-        additionalProperties.put(OMIT_MODEL_METHODS, omitModelMethods);
+        additionalProperties.put(USE_INHERITANCE, supportsInheritance);
+        additionalProperties.put(EMIT_MODEL_METHODS, emitModelMethods);
+        additionalProperties.put(EMIT_JS_DOC, emitJSDoc);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -260,12 +291,56 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + '/' + sourceFolder + '/' + apiPackage().replace('.', '/');
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + '/' + sourceFolder + '/' + modelPackage().replace('.', '/');
+    }
+
+    public void setSourceFolder(String sourceFolder) {
+        this.sourceFolder = sourceFolder;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void setLocalVariablePrefix(String localVariablePrefix) {
+        this.localVariablePrefix = localVariablePrefix;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public void setProjectVersion(String projectVersion) {
+        this.projectVersion = projectVersion;
+    }
+
+    public void setProjectLicenseName(String projectLicenseName) {
+        this.projectLicenseName = projectLicenseName;
+    }
+
+    public void setUsePromises(boolean usePromises) {
+        this.usePromises = usePromises;
+    }
+
+    public void setUseInheritance(boolean useInheritance) {
+        this.supportsInheritance = useInheritance;
+    }
+
+    public void setEmitModelMethods(boolean emitModelMethods) {
+        this.emitModelMethods = emitModelMethods;
+    }
+
+    public void setEmitJSDoc(boolean emitJSDoc) {
+        this.emitJSDoc = emitJSDoc;
     }
 
     @Override
@@ -607,6 +682,92 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
+    private String trimBrackets(String s) {
+        if (s != null) {
+            int beginIdx = s.charAt(0) == '[' ? 1 : 0;
+            int endIdx = s.length();
+            if (s.charAt(endIdx - 1) == ']')
+                endIdx--;
+            return s.substring(beginIdx, endIdx);
+        }
+        return null;
+    }
+
+    private String getModelledType(String dataType) {
+        return "module:" + (StringUtils.isEmpty(modelPackage) ? "" : (modelPackage + "/")) + dataType;
+    }
+
+    private String getJSDocTypeWithBraces(CodegenModel cm, CodegenProperty cp) {
+        return "{" + getJSDocType(cm, cp) + "}";
+    }
+
+    private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
+        if (Boolean.TRUE.equals(cp.isContainer)) {
+            if (cp.containerType.equals("array"))
+                return "Array.<" + getJSDocType(cm, cp.items) + ">";
+            else if (cp.containerType.equals("map"))
+                return "Object.<String, " + getJSDocType(cm, cp.items) + ">";
+        }
+        String dataType = trimBrackets(cp.datatypeWithEnum);
+        if (cp.isEnum) {
+            dataType = cm.classname + '.' + dataType;
+        }
+        if (isModelledType(cp))
+            dataType = getModelledType(dataType);
+        return dataType;
+    }
+
+    private boolean isModelledType(CodegenProperty cp) {
+        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
+        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.datatype : cp.baseType);
+    }
+
+    private String getJSDocTypeWithBraces(CodegenParameter cp) {
+        return "{" + getJSDocType(cp) + "}";
+    }
+
+    private String getJSDocType(CodegenParameter cp) {
+        String dataType = trimBrackets(cp.dataType);
+        if (isModelledType(cp))
+            dataType = getModelledType(dataType);
+        if (Boolean.TRUE.equals(cp.isListContainer)) {
+            return "Array.<" + dataType + ">";
+        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+            return "Object.<String, " + dataType + ">";
+        }
+        return dataType;
+    }
+
+    private boolean isModelledType(CodegenParameter cp) {
+        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
+        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
+    }
+
+    private String getJSDocTypeWithBraces(CodegenOperation co) {
+        String jsDocType = getJSDocType(co);
+        return jsDocType == null ? null : "{" + jsDocType + "}";
+    }
+
+    private String getJSDocType(CodegenOperation co) {
+        String returnType = trimBrackets(co.returnType);
+        if (returnType != null) {
+            if (isModelledType(co))
+                returnType = getModelledType(returnType);
+            if (Boolean.TRUE.equals(co.isListContainer)) {
+                return "Array.<" + returnType + ">";
+            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+                return "Object.<String, " + returnType + ">";
+            }
+        }
+        return returnType;
+    }
+
+    private boolean isModelledType(CodegenOperation co) {
+        // This seems to be the only way to tell whether an operation return type is modelled.
+        return !Boolean.TRUE.equals(co.returnTypeIsPrimitive);
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         // Generate and store argument list string of each operation into
@@ -615,7 +776,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
-                List<String> argList = new ArrayList();
+                List<String> argList = new ArrayList<String>();
                 boolean hasOptionalParams = false;
                 for (CodegenParameter p : operation.allParams) {
                     if (p.required != null && p.required) {
@@ -631,19 +792,45 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     argList.add("callback");
                 }
                 operation.vendorExtensions.put("x-codegen-argList", StringUtils.join(argList, ", "));
+
+                // Store JSDoc type specification into vendor-extension: x-jsdoc-type.
+                for (CodegenParameter cp : operation.allParams) {
+                    String jsdocType = getJSDocTypeWithBraces(cp);
+                    cp.vendorExtensions.put("x-jsdoc-type", jsdocType);
+                }
+                String jsdocType = getJSDocTypeWithBraces(operation);
+                operation.vendorExtensions.put("x-jsdoc-type", jsdocType);
             }
         }
         return objs;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // Collect each model's required property names in *document order*.
+            // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts names
+            // alphabetically and in any case the document order of 'required' and 'properties' can differ.
+            List<String> required = new ArrayList<String>();
+            List<String> allRequired = supportsInheritance ? new ArrayList<String>() : required;
+            cm.vendorExtensions.put("x-required", required);
+            cm.vendorExtensions.put("x-all-required", allRequired);
+
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
+
+                // Add JSDoc @type value for this property.
+                String jsDocType = getJSDocTypeWithBraces(cm, var);
+                var.vendorExtensions.put("x-jsdoc-type", jsDocType);
+
+                if (Boolean.TRUE.equals(var.required)) {
+                    required.add(var.name);
+                }
 
                 // handle ArrayProperty
                 if (var.items != null) {
@@ -679,6 +866,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
                 allowableValues.put("enumVars", enumVars);
             }
+
+            if (supportsInheritance) {
+                for (CodegenProperty var : cm.allVars) {
+                    if (Boolean.TRUE.equals(var.required)) {
+                        allRequired.add(var.name);
+                    }
+                }
+            }
+
             // set vendor-extension: x-codegen-hasMoreRequired
             CodegenProperty lastRequired = null;
             for (CodegenProperty var : cm.vars) {

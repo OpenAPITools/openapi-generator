@@ -45,9 +45,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -124,8 +127,36 @@ public class DefaultCodegen {
     }
 
     // override with any special post-processing for all models
-    @SuppressWarnings("static-method")
+    @SuppressWarnings({ "static-method", "unchecked" })
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        if (supportsInheritance) {
+            // Index all CodegenModels by name.
+            Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
+            for (Entry<String, Object> entry : objs.entrySet()) {
+                String modelName = entry.getKey();
+                Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+                List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+                for (Map<String, Object> mo : models) {
+                    CodegenModel cm = (CodegenModel) mo.get("model");
+                    allModels.put(modelName, cm);
+                }
+            }
+            // Fix up all parent and interface CodegenModel references.
+            for (CodegenModel cm : allModels.values()) {
+                if (cm.parent != null) {
+                    cm.parentModel = allModels.get(cm.parent);
+                }
+                if (cm.interfaces != null && !cm.interfaces.isEmpty()) {
+                    cm.interfaceModels = new ArrayList<CodegenModel>(cm.interfaces.size());
+                    for (String intf : cm.interfaces) {
+                        CodegenModel intfModel = allModels.get(intf);
+                        if (intfModel != null) {
+                            cm.interfaceModels.add(intfModel);
+                        }
+                    }
+                }
+            }
+        }
         return objs;
     }
 
@@ -945,8 +976,18 @@ public class DefaultCodegen {
             // TODO
         } else if (model instanceof ComposedModel) {
             final ComposedModel composed = (ComposedModel) model;
-            Map<String, Property> properties = new HashMap<String, Property>();
+            Map<String, Property> properties = new LinkedHashMap<String, Property>();
             List<String> required = new ArrayList<String>();
+            Map<String, Property> allProperties;
+            List<String> allRequired;
+            if (supportsInheritance) {
+                allProperties = new LinkedHashMap<String, Property>();
+                allRequired = new ArrayList<String>();
+                m.allVars = new ArrayList<CodegenProperty>();
+            } else {
+                allProperties = null;
+                allRequired = null;
+            }
             // parent model
             final RefModel parent = (RefModel) composed.getParent();
             if (parent != null) {
@@ -954,31 +995,29 @@ public class DefaultCodegen {
                 m.parentSchema = parentRef;
                 m.parent = toModelName(parent.getSimpleRef());
                 addImport(m, m.parent);
-                if (!supportsInheritance && allDefinitions != null) {
+                if (allDefinitions != null) {
                     final Model parentModel = allDefinitions.get(m.parentSchema);
-                    if (parentModel instanceof ModelImpl) {
-                        final ModelImpl _parent = (ModelImpl) parentModel;
-                        if (_parent.getProperties() != null) {
-                            properties.putAll(_parent.getProperties());
-                        }
-                        if (_parent.getRequired() != null) {
-                            required.addAll(_parent.getRequired());
-                        }
+                    if (supportsInheritance) {
+                        addProperties(allProperties, allRequired, parentModel, allDefinitions);
+                    } else {
+                        addProperties(properties, required, parentModel, allDefinitions);
                     }
                 }
             }
             // interfaces (intermediate models)
-            if (allDefinitions != null && composed.getInterfaces() != null) {
+            if (composed.getInterfaces() != null) {
+                if (m.interfaces == null)
+                    m.interfaces = new ArrayList<String>();
                 for (RefModel _interface : composed.getInterfaces()) {
                     final String interfaceRef = toModelName(_interface.getSimpleRef());
-                    final Model interfaceModel = allDefinitions.get(interfaceRef);
-                    if (interfaceModel instanceof ModelImpl) {
-                        final ModelImpl _interfaceModel = (ModelImpl) interfaceModel;
-                        if (_interfaceModel.getProperties() != null) {
-                            properties.putAll(_interfaceModel.getProperties());
-                        }
-                        if (_interfaceModel.getRequired() != null) {
-                            required.addAll(_interfaceModel.getRequired());
+                    m.interfaces.add(interfaceRef);
+                    addImport(m, interfaceRef);
+                    if (allDefinitions != null) {
+                        final Model interfaceModel = allDefinitions.get(interfaceRef);
+                        if (supportsInheritance) {
+                            addProperties(allProperties, allRequired, interfaceModel, allDefinitions);
+                        } else {
+                            addProperties(properties, required, interfaceModel, allDefinitions);
                         }
                     }
                 }
@@ -990,15 +1029,12 @@ public class DefaultCodegen {
                 child = allDefinitions.get(childRef);
             }
             if (child != null && child instanceof ModelImpl) {
-                final ModelImpl _child = (ModelImpl) child;
-                if (_child.getProperties() != null) {
-                    properties.putAll(_child.getProperties());
-                }
-                if (_child.getRequired() != null) {
-                    required.addAll(_child.getRequired());
+                addProperties(properties, required, child, allDefinitions);
+                if (supportsInheritance) {
+                    addProperties(allProperties, allRequired, child, allDefinitions);
                 }
             }
-            addVars(m, properties, required);
+            addVars(m, properties, required, allProperties, allRequired);
         } else {
             ModelImpl impl = (ModelImpl) model;
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
@@ -1014,12 +1050,34 @@ public class DefaultCodegen {
             addVars(m, impl.getProperties(), impl.getRequired());
         }
 
-        if(m.vars != null) {
+        if (m.vars != null) {
             for(CodegenProperty prop : m.vars) {
                 postProcessModelProperty(m, prop);
             }
         }
         return m;
+    }
+
+    protected void addProperties(Map<String, Property> properties, List<String> required, Model model,
+            Map<String, Model> allDefinitions) {
+
+        if (model instanceof ModelImpl) {
+            ModelImpl mi = (ModelImpl) model;
+            if (mi.getProperties() != null) {
+                properties.putAll(mi.getProperties());
+            }
+            if (mi.getRequired() != null) {
+                required.addAll(mi.getRequired());
+            }
+        } else if (model instanceof RefModel) {
+            String interfaceRef = toModelName(((RefModel) model).getSimpleRef());
+            Model interfaceModel = allDefinitions.get(interfaceRef);
+            addProperties(properties, required, interfaceModel, allDefinitions);
+        } else if (model instanceof ComposedModel) {
+            for (Model component :((ComposedModel) model).getAllOf()) {
+                addProperties(properties, required, component, allDefinitions);
+            }
+        }
     }
 
     /**
@@ -1263,6 +1321,7 @@ public class DefaultCodegen {
             property.containerType = "map";
             MapProperty ap = (MapProperty) p;
             CodegenProperty cp = fromProperty("inner", ap.getAdditionalProperties());
+            property.items = cp;
 
             property.baseType = getSwaggerType(p);
             if (!languageSpecificPrimitives.contains(cp.baseType)) {
@@ -2167,44 +2226,64 @@ public class DefaultCodegen {
         }
     }
 
-    private void addVars(CodegenModel m, Map<String, Property> properties, Collection<String> required) {
-        if (properties != null && properties.size() > 0) {
+    private void addVars(CodegenModel m, Map<String, Property> properties, List<String> required) {
+        addVars(m, properties, required, null, null);
+    }
+
+    private void addVars(CodegenModel m, Map<String, Property> properties, List<String> required,
+            Map<String, Property> allProperties, List<String> allRequired) {
+
+        if (properties != null && !properties.isEmpty()) {
             m.hasVars = true;
             m.hasEnums = false;
-            final int totalCount = properties.size();
-            final Set<String> mandatory = required == null ? Collections.<String>emptySet() : new HashSet<String>(required);
-            int count = 0;
-            for (Map.Entry<String, Property> entry : properties.entrySet()) {
-                final String key = entry.getKey();
-                final Property prop = entry.getValue();
 
-                if (prop == null) {
-                    LOGGER.warn("null property for " + key);
-                } else {
-                    final CodegenProperty cp = fromProperty(key, prop);
-                    cp.required = mandatory.contains(key) ? true : null;
-                    if (cp.isEnum) {
-                        m.hasEnums = true;
-                    }
-                    count += 1;
-                    if (count != totalCount) {
-                        cp.hasMore = true;
-                    }
-                    if (cp.isContainer != null) {
-                        addImport(m, typeMapping.get("array"));
-                    }
-                    addImport(m, cp.baseType);
-                    addImport(m, cp.complexType);
-                    m.vars.add(cp);
-                }
-            }
 
-            m.mandatory = mandatory;
-
+            Set<String> mandatory = required == null ? Collections.<String> emptySet()
+                    : new TreeSet<String>(required);
+            addVars(m, m.vars, properties, mandatory);
+            m.allMandatory = m.mandatory = mandatory;
         } else {
             m.emptyVars = true;
             m.hasVars = false;
             m.hasEnums = false;
+        }
+
+        if (allProperties != null) {
+            Set<String> allMandatory = allRequired == null ? Collections.<String> emptySet()
+                    : new TreeSet<String>(allRequired);
+            addVars(m, m.allVars, allProperties, allMandatory);
+            m.allMandatory = allMandatory;
+        }
+    }
+
+    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Property> properties, Set<String> mandatory) {
+        final int totalCount = properties.size();
+        int count = 0;
+        for (Map.Entry<String, Property> entry : properties.entrySet()) {
+            final String key = entry.getKey();
+            final Property prop = entry.getValue();
+
+            if (prop == null) {
+                LOGGER.warn("null property for " + key);
+            } else {
+                final CodegenProperty cp = fromProperty(key, prop);
+                cp.required = mandatory.contains(key) ? true : null;
+                if (cp.isEnum) {
+                    // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
+                    // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
+                    m.hasEnums = true;
+                }
+                count++;
+                if (count != totalCount) {
+                    cp.hasMore = true;
+                }
+                if (cp.isContainer != null) {
+                    addImport(m, typeMapping.get("array"));
+                }
+                addImport(m, cp.baseType);
+                addImport(m, cp.complexType);
+                vars.add(cp);
+            }
         }
     }
 
