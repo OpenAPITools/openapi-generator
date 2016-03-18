@@ -218,15 +218,15 @@ For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values w
 require 'petstore'
 
 Petstore.configure do |config|
-  # Configure API key authorization: test_api_key_header
-  config.api_key['test_api_key_header'] = "YOUR API KEY"
-  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
-  #config.api_key_prefix['test_api_key_header'] = "Token"
-
   # Configure API key authorization: test_api_key_query
   config.api_key['test_api_key_query'] = "YOUR API KEY"
   # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
   #config.api_key_prefix['test_api_key_query'] = "Token"
+
+  # Configure API key authorization: test_api_key_header
+  config.api_key['test_api_key_header'] = "YOUR API KEY"
+  # Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to nil)
+  #config.api_key_prefix['test_api_key_header'] = "Token"
 end
 
 api = Petstore::StoreApi.new
@@ -254,7 +254,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[test_api_key_header](../README.md#test_api_key_header), [test_api_key_query](../README.md#test_api_key_query)
+[test_api_key_query](../README.md#test_api_key_query), [test_api_key_header](../README.md#test_api_key_header)
 
 ### HTTP reuqest headers
 
