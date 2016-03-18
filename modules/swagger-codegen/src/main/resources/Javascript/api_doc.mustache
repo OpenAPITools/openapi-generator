@@ -39,7 +39,7 @@ var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var api = new {{{moduleName}}}.{{{classname}}}(){{#hasParams}}
+var apiInstance = new {{{moduleName}}}.{{{classname}}}(){{#hasParams}}
 {{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
 var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}
 {{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
@@ -47,7 +47,7 @@ var opts = { {{#allParams}}{{^required}}
   '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}{{/required}}{{/allParams}}
 };{{/hasOptionalParams}}{{/hasParams}}
 {{#usePromises}}
-api.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
+apiInstance.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
   {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
 }, function(error) {
   console.error(error);

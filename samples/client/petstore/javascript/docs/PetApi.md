@@ -34,7 +34,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'body': new SwaggerPetstore.Pet() // {Pet} Pet object that needs to be added to the store
@@ -86,7 +86,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'body': "B" // {String} Pet object in the form of byte array
@@ -138,7 +138,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} Pet id to delete
 
@@ -193,7 +193,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'status': ["available"] // {[String]} Status values that need to be considered for query
@@ -245,7 +245,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'tags': ["tags_example"] // {[String]} Tags to filter by
@@ -303,7 +303,7 @@ api_key.apiKey = "YOUR API KEY"
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet that needs to be fetched
 
@@ -360,7 +360,7 @@ api_key.apiKey = "YOUR API KEY"
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet that needs to be fetched
 
@@ -417,7 +417,7 @@ api_key.apiKey = "YOUR API KEY"
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet that needs to be fetched
 
@@ -468,7 +468,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'body': new SwaggerPetstore.Pet() // {Pet} Pet object that needs to be added to the store
@@ -520,7 +520,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = "petId_example"; // {String} ID of pet that needs to be updated
 
@@ -577,7 +577,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet to update
 
