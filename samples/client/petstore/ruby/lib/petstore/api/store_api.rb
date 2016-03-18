@@ -86,7 +86,7 @@ module Petstore
     # Finds orders by status
     # A single status value can be provided as a string
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :status Status value that needs to be considered for query
+    # @option opts [String] :status Status value that needs to be considered for query (default to placed)
     # @return [Array<Order>]
     def find_orders_by_status(opts = {})
       data, status_code, headers = find_orders_by_status_with_http_info(opts)
@@ -301,7 +301,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['test_api_key_header', 'test_api_key_query']
+      auth_names = ['test_api_key_query', 'test_api_key_header']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
