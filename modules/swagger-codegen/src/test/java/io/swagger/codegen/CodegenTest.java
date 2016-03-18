@@ -175,6 +175,17 @@ public class CodegenTest {
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
     
+    @Test(description = "discriminator is present")
+    public void discriminatorTest() {
+        final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/discriminatorTest.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/pets";
+        final Operation p = model.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions());
+
+        Assert.assertEquals(op.discriminator, "className");
+    }
+
     @Test(description = "use operation consumes and produces")
     public void localConsumesAndProducesTest() {
         final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/globalConsumesAndProduces.json");

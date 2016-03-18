@@ -1451,6 +1451,16 @@ public class DefaultCodegen {
                     op.defaultResponse = toDefaultValue(responseProperty);
                     op.returnType = cm.datatype;
                     op.hasReference = definitions != null && definitions.containsKey(op.returnBaseType);
+
+                    // lookup discriminator
+                    if (definitions != null) {
+                        Model m = definitions.get(op.returnBaseType);
+                        if (m != null) {
+                            CodegenModel cmod = fromModel(op.returnBaseType, m, definitions);
+                            op.discriminator = cmod.discriminator;
+                        }
+                    }
+
                     if (cm.isContainer != null) {
                         op.returnContainer = cm.containerType;
                         if ("map".equals(cm.containerType)) {
