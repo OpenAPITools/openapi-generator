@@ -223,7 +223,7 @@ use \{{invokerPackage}}\ObjectSerializer;
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\{{invokerPackage}}\ObjectSerializer::deserialize($response, '{{returnType}}', $httpHeader), $statusCode, $httpHeader);
+            return array(\{{invokerPackage}}\ObjectSerializer::deserialize($response, '{{returnType}}', $httpHeader{{#discriminator}}, '{{discriminator}}'{{/discriminator}}), $statusCode, $httpHeader);
             {{/returnType}}{{^returnType}}
             return array(null, $statusCode, $httpHeader);
             {{/returnType}}

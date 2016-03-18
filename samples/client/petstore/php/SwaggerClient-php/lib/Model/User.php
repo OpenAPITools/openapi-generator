@@ -61,6 +61,10 @@ class User implements ArrayAccess
         'user_status' => 'int'
     );
   
+    static function swaggerTypes() {
+        return self::$swaggerTypes;
+    }
+
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
       * @var string[] 
@@ -76,6 +80,10 @@ class User implements ArrayAccess
         'user_status' => 'userStatus'
     );
   
+    static function attributeMap() {
+        return self::$attributeMap;
+    }
+
     /**
       * Array of attributes to setter functions (for deserialization of responses)
       * @var string[]
@@ -91,6 +99,10 @@ class User implements ArrayAccess
         'user_status' => 'setUserStatus'
     );
   
+    static function setters() {
+        return self::$setters;
+    }
+
     /**
       * Array of attributes to getter functions (for serialization of requests)
       * @var string[]
@@ -106,6 +118,10 @@ class User implements ArrayAccess
         'user_status' => 'getUserStatus'
     );
   
+    static function getters() {
+        return self::$getters;
+    }
+
     
     /**
       * $id 
