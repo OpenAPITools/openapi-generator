@@ -96,7 +96,7 @@ public class StoreApi {
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
+   * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void deleteOrder(String orderId) throws ApiException {
@@ -106,7 +106,7 @@ public class StoreApi {
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
+   * @param orderId ID of the order that needs to be deleted (required)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -118,7 +118,7 @@ public class StoreApi {
   /**
    * Delete purchase order by ID (asynchronously)
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
+   * @param orderId ID of the order that needs to be deleted (required)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -196,7 +196,7 @@ public class StoreApi {
   /**
    * Finds orders by status
    * A single status value can be provided as a string
-   * @param status Status value that needs to be considered for query
+   * @param status Status value that needs to be considered for query (optional, default to placed)
    * @return List<Order>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -208,7 +208,7 @@ public class StoreApi {
   /**
    * Finds orders by status
    * A single status value can be provided as a string
-   * @param status Status value that needs to be considered for query
+   * @param status Status value that needs to be considered for query (optional, default to placed)
    * @return ApiResponse<List<Order>>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -221,7 +221,7 @@ public class StoreApi {
   /**
    * Finds orders by status (asynchronously)
    * A single status value can be provided as a string
-   * @param status Status value that needs to be considered for query
+   * @param status Status value that needs to be considered for query (optional, default to placed)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -495,14 +495,14 @@ public class StoreApi {
       });
     }
 
-    String[] localVarAuthNames = new String[] { "test_api_key_header", "test_api_key_query" };
+    String[] localVarAuthNames = new String[] { "test_api_key_query", "test_api_key_header" };
     return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
+   * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -514,7 +514,7 @@ public class StoreApi {
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
+   * @param orderId ID of pet that needs to be fetched (required)
    * @return ApiResponse<Order>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -527,7 +527,7 @@ public class StoreApi {
   /**
    * Find purchase order by ID (asynchronously)
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
+   * @param orderId ID of pet that needs to be fetched (required)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -604,7 +604,7 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet
+   * @param body order placed for purchasing the pet (optional)
    * @return Order
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -616,7 +616,7 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet
+   * @param body order placed for purchasing the pet (optional)
    * @return ApiResponse<Order>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -629,7 +629,7 @@ public class StoreApi {
   /**
    * Place an order for a pet (asynchronously)
    * 
-   * @param body order placed for purchasing the pet
+   * @param body order placed for purchasing the pet (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
