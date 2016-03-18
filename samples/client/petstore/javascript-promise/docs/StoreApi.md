@@ -1,3 +1,4 @@
+
 # SwaggerPetstore.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -213,17 +214,17 @@ For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values w
 var SwaggerPetstore = require('swagger-petstore');
 var defaultClient = SwaggerPetstore.ApiClient.default;
 
-// Configure API key authorization: test_api_key_query
-var test_api_key_query = defaultClient.authentications['test_api_key_query'];
-test_api_key_query.apiKey = "YOUR API KEY"
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//test_api_key_query.apiKeyPrefix['test_api_key_query'] = "Token"
-
 // Configure API key authorization: test_api_key_header
 var test_api_key_header = defaultClient.authentications['test_api_key_header'];
 test_api_key_header.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //test_api_key_header.apiKeyPrefix['test_api_key_header'] = "Token"
+
+// Configure API key authorization: test_api_key_query
+var test_api_key_query = defaultClient.authentications['test_api_key_query'];
+test_api_key_query.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//test_api_key_query.apiKeyPrefix['test_api_key_query'] = "Token"
 
 var api = new SwaggerPetstore.StoreApi()
 
@@ -249,7 +250,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[test_api_key_query](../README.md#test_api_key_query), [test_api_key_header](../README.md#test_api_key_header)
+[test_api_key_header](../README.md#test_api_key_header), [test_api_key_query](../README.md#test_api_key_query)
 
 ### HTTP reuqest headers
 

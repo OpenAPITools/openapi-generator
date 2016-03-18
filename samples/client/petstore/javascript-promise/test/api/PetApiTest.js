@@ -3,25 +3,45 @@ if (typeof module === 'object' && module.exports) {
   var SwaggerPetstore = require('../../src/index');
 }
 
+// When testing in the Node.js environment, ApiClient will need access to a Promise constructor.
+if (typeof Promise == 'undefined')
+  Promise = require('promise');
+
 var api;
 
 beforeEach(function() {
   api = new SwaggerPetstore.PetApi();
 });
 
+var getProperty = function(object, getter, property) {
+  // Use getter method if present; otherwise, get the property directly.
+  if (typeof object[getter] === 'function')
+    return object[getter]();
+  else
+    return object[property];
+}
+
+var setProperty = function(object, setter, property, value) {
+  // Use setter method if present; otherwise, set the property directly.
+  if (typeof object[setter] === 'function')
+    object[setter](value);
+  else
+    object[property] = value;
+}
+
 var createRandomPet = function() {
   var id = new Date().getTime();
   var pet = new SwaggerPetstore.Pet();
-  pet.setId(id);
-  pet.setName("gorilla" + id);
+  setProperty(pet, "setId", "id", id);
+  setProperty(pet, "setName", "name", "gorilla" + id);
 
   var category = new SwaggerPetstore.Category();
-  category.setName("really-happy");
-  pet.setCategory(category);
+  setProperty(category, "setName", "name", "really-happy");
+  setProperty(pet, "setCategory", "category", category);
 
-  pet.setStatus('available');
+  setProperty(pet, "setStatus", "status", "available");
   var photos = ["http://foo.bar.com/1", "http://foo.bar.com/2"];
-  pet.setPhotoUrls(photos);
+  setProperty(pet, "setPhotoUrls", "photoUrls", photos);
 
   return pet;
 };
@@ -34,14 +54,13 @@ describe('PetApi', function() {
             return api.getPetById(pet.id)
         })
         .then(function(fetched) {
-            //expect(response.status).to.be(200);
-            //expect(response.ok).to.be(true);
-            //expect(response.get('Content-Type')).to.be('application/json');
             expect(fetched).to.be.ok();
             expect(fetched.id).to.be(pet.id);
-            expect(fetched.getPhotoUrls()).to.eql(pet.getPhotoUrls());
-            expect(fetched.getCategory()).to.be.ok();
-            expect(fetched.getCategory().getName()).to.be(pet.getCategory().getName());
+            expect(getProperty(fetched, "getPhotoUrls", "photoUrls"))
+              .to.eql(getProperty(pet, "getPhotoUrls", "photoUrls"));
+            expect(getProperty(fetched, "getCategory", "category")).to.be.ok();
+            expect(getProperty(getProperty(fetched, "getCategory", "category"), "getName", "name"))
+              .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
 
             api.deletePet(pet.id);
             done();   

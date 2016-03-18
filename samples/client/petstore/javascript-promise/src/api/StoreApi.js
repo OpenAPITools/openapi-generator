@@ -15,25 +15,42 @@
 }(this, function(ApiClient, Order) {
   'use strict';
 
-  var StoreApi = function StoreApi(apiClient) {
-    this.apiClient = apiClient || ApiClient.default;
+  /**
+   * Store service.
+   * @module api/StoreApi
+   * @version 1.0.0
+   */
 
-    var self = this;
-    
-    
+  /**
+   * Constructs a new StoreApi. 
+   * @alias module:api/StoreApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use, defaulting to {@link module:ApiClient#instance}
+   * if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param {String} orderId ID of the order that needs to be deleted
      */
-    self.deleteOrder = function(orderId) {
+    this.deleteOrder = function(orderId) {
       var postBody = null;
-      
       // verify the required parameter 'orderId' is set
       if (orderId == null) {
         throw "Missing the required parameter 'orderId' when calling deleteOrder";
       }
       
+
+      // verify the required parameter 'orderId' is set
+      if (orderId == undefined || orderId == null) {
+        throw "Missing the required parameter 'orderId' when calling deleteOrder";
+      }
+
 
       var pathParams = {
         'orderId': orderId
@@ -55,19 +72,20 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Finds orders by status
      * A single status value can be provided as a string
-     * @param {String} opts['status'] Status value that needs to be considered for query (default to placed)
-     *   data is of type: [Order]
+     * @param {Object} opts Optional parameters
+     * @param {module:model/String} opts.status Status value that needs to be considered for query
+     * data is of type: {Array.<module:model/Order>}
      */
-    self.findOrdersByStatus = function(opts) {
+    this.findOrdersByStatus = function(opts) {
       opts = opts || {};
       var postBody = null;
-      
+
 
       var pathParams = {
       };
@@ -89,17 +107,17 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     *   data is of type: {'String': 'Integer'}
+     * data is of type: {Object.<String, {'String': 'Integer'}>}
      */
-    self.getInventory = function() {
+    this.getInventory = function() {
       var postBody = null;
-      
+
 
       var pathParams = {
       };
@@ -120,17 +138,17 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
      * Returns an arbitrary object which is actually a map of status codes to quantities
-     *   data is of type: Object
+     * data is of type: {Object}
      */
-    self.getInventoryInObject = function() {
+    this.getInventoryInObject = function() {
       var postBody = null;
-      
+
 
       var pathParams = {
       };
@@ -151,23 +169,23 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
      * @param {String} orderId ID of pet that needs to be fetched
-     *   data is of type: Order
+     * data is of type: {module:model/Order}
      */
-    self.getOrderById = function(orderId) {
+    this.getOrderById = function(orderId) {
       var postBody = null;
-      
+
       // verify the required parameter 'orderId' is set
-      if (orderId == null) {
+      if (orderId == undefined || orderId == null) {
         throw "Missing the required parameter 'orderId' when calling getOrderById";
       }
-      
+
 
       var pathParams = {
         'orderId': orderId
@@ -179,7 +197,7 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_key_query', 'test_api_key_header'];
+      var authNames = ['test_api_key_header', 'test_api_key_query'];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -189,19 +207,20 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Place an order for a pet
      * 
-     * @param {Order} opts['body'] order placed for purchasing the pet
-     *   data is of type: Order
+     * @param {Object} opts Optional parameters
+     * @param {module:model/Order} opts.body order placed for purchasing the pet
+     * data is of type: {module:model/Order}
      */
-    self.placeOrder = function(opts) {
+    this.placeOrder = function(opts) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
 
       var pathParams = {
       };
@@ -222,11 +241,8 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
-    
   };
 
-  return StoreApi;
+  return exports;
 }));

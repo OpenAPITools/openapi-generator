@@ -14,174 +14,113 @@
   }
 }(this, function(ApiClient) {
   'use strict';
-  
-  
-  var User = function User() { 
-    
+
+  /**
+   * The User model module.
+   * @module model/User
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new <code>User</code>.
+   * @alias module:model/User
+   * @class
+   */
+  var exports = function() {
+
+
+
+
+
+
+
+
+
   };
 
-  User.constructFromObject = function(data) {
-    if (!data) {
-      return null;
+  /**
+   * Constructs a <code>User</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/User} obj Optional instance to populate.
+   * @return {module:model/User} The populated <code>User</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) { 
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('id')) {
+        obj['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      }
+      if (data.hasOwnProperty('username')) {
+        obj['username'] = ApiClient.convertToType(data['username'], 'String');
+      }
+      if (data.hasOwnProperty('firstName')) {
+        obj['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
+      }
+      if (data.hasOwnProperty('lastName')) {
+        obj['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+      }
+      if (data.hasOwnProperty('email')) {
+        obj['email'] = ApiClient.convertToType(data['email'], 'String');
+      }
+      if (data.hasOwnProperty('password')) {
+        obj['password'] = ApiClient.convertToType(data['password'], 'String');
+      }
+      if (data.hasOwnProperty('phone')) {
+        obj['phone'] = ApiClient.convertToType(data['phone'], 'String');
+      }
+      if (data.hasOwnProperty('userStatus')) {
+        obj['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
+      }
     }
-    var _this = new User();
-    
-    if (data['id']) {
-      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
-    }
-    
-    if (data['username']) {
-      _this['username'] = ApiClient.convertToType(data['username'], 'String');
-    }
-    
-    if (data['firstName']) {
-      _this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
-    }
-    
-    if (data['lastName']) {
-      _this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
-    }
-    
-    if (data['email']) {
-      _this['email'] = ApiClient.convertToType(data['email'], 'String');
-    }
-    
-    if (data['password']) {
-      _this['password'] = ApiClient.convertToType(data['password'], 'String');
-    }
-    
-    if (data['phone']) {
-      _this['phone'] = ApiClient.convertToType(data['phone'], 'String');
-    }
-    
-    if (data['userStatus']) {
-      _this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
-    }
-    
-    return _this;
+    return obj;
   }
 
-  
-  
-  /**
-   * @return {Integer}
-   **/
-  User.prototype.getId = function() {
-    return this['id'];
-  }
 
   /**
-   * @param {Integer} id
-   **/
-  User.prototype.setId = function(id) {
-    this['id'] = id;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  User.prototype.getUsername = function() {
-    return this['username'];
-  }
+   * @member {Integer} id
+   */
+  exports.prototype['id'] = undefined;
 
   /**
-   * @param {String} username
-   **/
-  User.prototype.setUsername = function(username) {
-    this['username'] = username;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  User.prototype.getFirstName = function() {
-    return this['firstName'];
-  }
+   * @member {String} username
+   */
+  exports.prototype['username'] = undefined;
 
   /**
-   * @param {String} firstName
-   **/
-  User.prototype.setFirstName = function(firstName) {
-    this['firstName'] = firstName;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  User.prototype.getLastName = function() {
-    return this['lastName'];
-  }
+   * @member {String} firstName
+   */
+  exports.prototype['firstName'] = undefined;
 
   /**
-   * @param {String} lastName
-   **/
-  User.prototype.setLastName = function(lastName) {
-    this['lastName'] = lastName;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  User.prototype.getEmail = function() {
-    return this['email'];
-  }
+   * @member {String} lastName
+   */
+  exports.prototype['lastName'] = undefined;
 
   /**
-   * @param {String} email
-   **/
-  User.prototype.setEmail = function(email) {
-    this['email'] = email;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  User.prototype.getPassword = function() {
-    return this['password'];
-  }
+   * @member {String} email
+   */
+  exports.prototype['email'] = undefined;
 
   /**
-   * @param {String} password
-   **/
-  User.prototype.setPassword = function(password) {
-    this['password'] = password;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  User.prototype.getPhone = function() {
-    return this['phone'];
-  }
+   * @member {String} password
+   */
+  exports.prototype['password'] = undefined;
 
   /**
-   * @param {String} phone
-   **/
-  User.prototype.setPhone = function(phone) {
-    this['phone'] = phone;
-  }
-  
-  /**
-   * get User Status
-   * @return {Integer}
-   **/
-  User.prototype.getUserStatus = function() {
-    return this['userStatus'];
-  }
+   * @member {String} phone
+   */
+  exports.prototype['phone'] = undefined;
 
   /**
-   * set User Status
-   * @param {Integer} userStatus
-   **/
-  User.prototype.setUserStatus = function(userStatus) {
-    this['userStatus'] = userStatus;
-  }
-  
-  
+   * User Status
+   * @member {Integer} userStatus
+   */
+  exports.prototype['userStatus'] = undefined;
 
-  
 
-  return User;
-  
-  
+
+
+  return exports;
 }));
