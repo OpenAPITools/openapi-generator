@@ -14,162 +14,119 @@
   }
 }(this, function(ApiClient, Tag) {
   'use strict';
-  
-  
-  var InlineResponse200 = function InlineResponse200(id) { 
+
+  /**
+   * The InlineResponse200 model module.
+   * @module model/InlineResponse200
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new <code>InlineResponse200</code>.
+   * @alias module:model/InlineResponse200
+   * @class
+   * @param id
+   */
+  var exports = function(id) {
+
+
+    this['id'] = id;
+
+
+
+
+  };
+
+  /**
+   * Constructs a <code>InlineResponse200</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/InlineResponse200} obj Optional instance to populate.
+   * @return {module:model/InlineResponse200} The populated <code>InlineResponse200</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) { 
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('tags')) {
+        obj['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+      }
+      if (data.hasOwnProperty('id')) {
+        obj['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      }
+      if (data.hasOwnProperty('category')) {
+        obj['category'] = ApiClient.convertToType(data['category'], Object);
+      }
+      if (data.hasOwnProperty('status')) {
+        obj['status'] = ApiClient.convertToType(data['status'], 'String');
+      }
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'String');
+      }
+      if (data.hasOwnProperty('photoUrls')) {
+        obj['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
+      }
+    }
+    return obj;
+  }
+
+
+  /**
+   * @member {Array.<module:model/Tag>} tags
+   */
+  exports.prototype['tags'] = undefined;
+
+  /**
+   * @member {Integer} id
+   */
+  exports.prototype['id'] = undefined;
+
+  /**
+   * @member {Object} category
+   */
+  exports.prototype['category'] = undefined;
+
+  /**
+   * pet status in the store
+   * @member {module:model/InlineResponse200.StatusEnum} status
+   */
+  exports.prototype['status'] = undefined;
+
+  /**
+   * @member {String} name
+   */
+  exports.prototype['name'] = undefined;
+
+  /**
+   * @member {Array.<String>} photoUrls
+   */
+  exports.prototype['photoUrls'] = undefined;
+
+
+  /**
+   * Allowed values for the <code>status</code> property.
+   * @enum {String}
+   * @readonly
+   */
+  exports.StatusEnum = { 
+    /**
+     * value: available
+     * @const
+     */
+    AVAILABLE: "available",
     
     /**
-     * datatype: Integer
-     * required 
-     **/
-    this['id'] = id;
+     * value: pending
+     * @const
+     */
+    PENDING: "pending",
+    
+    /**
+     * value: sold
+     * @const
+     */
+    SOLD: "sold"
   };
 
-  InlineResponse200.constructFromObject = function(data) {
-    if (!data) {
-      return null;
-    }
-    var _this = new InlineResponse200();
-    
-    if (data['photoUrls']) {
-      _this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
-    }
-    
-    if (data['name']) {
-      _this['name'] = ApiClient.convertToType(data['name'], 'String');
-    }
-    
-    if (data['id']) {
-      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
-    }
-    
-    if (data['category']) {
-      _this['category'] = ApiClient.convertToType(data['category'], Object);
-    }
-    
-    if (data['tags']) {
-      _this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
-    }
-    
-    if (data['status']) {
-      _this['status'] = ApiClient.convertToType(data['status'], 'String');
-    }
-    
-    return _this;
-  }
-
-  
-  
-  /**
-   * @return {[String]}
-   **/
-  InlineResponse200.prototype.getPhotoUrls = function() {
-    return this['photoUrls'];
-  }
-
-  /**
-   * @param {[String]} photoUrls
-   **/
-  InlineResponse200.prototype.setPhotoUrls = function(photoUrls) {
-    this['photoUrls'] = photoUrls;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  InlineResponse200.prototype.getName = function() {
-    return this['name'];
-  }
-
-  /**
-   * @param {String} name
-   **/
-  InlineResponse200.prototype.setName = function(name) {
-    this['name'] = name;
-  }
-  
-  /**
-   * @return {Integer}
-   **/
-  InlineResponse200.prototype.getId = function() {
-    return this['id'];
-  }
-
-  /**
-   * @param {Integer} id
-   **/
-  InlineResponse200.prototype.setId = function(id) {
-    this['id'] = id;
-  }
-  
-  /**
-   * @return {Object}
-   **/
-  InlineResponse200.prototype.getCategory = function() {
-    return this['category'];
-  }
-
-  /**
-   * @param {Object} category
-   **/
-  InlineResponse200.prototype.setCategory = function(category) {
-    this['category'] = category;
-  }
-  
-  /**
-   * @return {[Tag]}
-   **/
-  InlineResponse200.prototype.getTags = function() {
-    return this['tags'];
-  }
-
-  /**
-   * @param {[Tag]} tags
-   **/
-  InlineResponse200.prototype.setTags = function(tags) {
-    this['tags'] = tags;
-  }
-  
-  /**
-   * get pet status in the store
-   * @return {StatusEnum}
-   **/
-  InlineResponse200.prototype.getStatus = function() {
-    return this['status'];
-  }
-
-  /**
-   * set pet status in the store
-   * @param {StatusEnum} status
-   **/
-  InlineResponse200.prototype.setStatus = function(status) {
-    this['status'] = status;
-  }
-  
-  
-
-  var StatusEnum = {
-
-	  /**
-	   * @const
-	   */
-	  AVAILABLE: "available",
-	  
-	  /**
-	   * @const
-	   */
-	  PENDING: "pending",
-	  
-	  /**
-	   * @const
-	   */
-	  SOLD: "sold"
-  };
-
-  InlineResponse200.StatusEnum = StatusEnum;
-
-
-  return InlineResponse200;
-  
-  
+  return exports;
 }));

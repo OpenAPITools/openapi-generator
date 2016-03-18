@@ -14,46 +14,49 @@
   }
 }(this, function(ApiClient) {
   'use strict';
-  
-  
-  var SpecialModelName = function SpecialModelName() { 
-    
+
+  /**
+   * The SpecialModelName model module.
+   * @module model/SpecialModelName
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new <code>SpecialModelName</code>.
+   * @alias module:model/SpecialModelName
+   * @class
+   */
+  var exports = function() {
+
+
   };
 
-  SpecialModelName.constructFromObject = function(data) {
-    if (!data) {
-      return null;
+  /**
+   * Constructs a <code>SpecialModelName</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/SpecialModelName} obj Optional instance to populate.
+   * @return {module:model/SpecialModelName} The populated <code>SpecialModelName</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) { 
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('$special[property.name]')) {
+        obj['$special[property.name]'] = ApiClient.convertToType(data['$special[property.name]'], 'Integer');
+      }
     }
-    var _this = new SpecialModelName();
-    
-    if (data['$special[property.name]']) {
-      _this['$special[property.name]'] = ApiClient.convertToType(data['$special[property.name]'], 'Integer');
-    }
-    
-    return _this;
+    return obj;
   }
 
-  
-  
-  /**
-   * @return {Integer}
-   **/
-  SpecialModelName.prototype.getSpecialPropertyName = function() {
-    return this['$special[property.name]'];
-  }
 
   /**
-   * @param {Integer} specialPropertyName
-   **/
-  SpecialModelName.prototype.setSpecialPropertyName = function(specialPropertyName) {
-    this['$special[property.name]'] = specialPropertyName;
-  }
-  
-  
+   * @member {Integer} $special[property.name]
+   */
+  exports.prototype['$special[property.name]'] = undefined;
 
-  
 
-  return SpecialModelName;
-  
-  
+
+
+  return exports;
 }));
