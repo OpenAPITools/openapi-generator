@@ -118,6 +118,81 @@
     }
     
     /**
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param {String} username The name that needs to be deleted
+     */
+    self.deleteUser = function(username) {
+      var postBody = null;
+      
+      // verify the required parameter 'username' is set
+      if (username == null) {
+        throw "Missing the required parameter 'username' when calling deleteUser";
+      }
+      
+
+      var pathParams = {
+        'username': username
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['test_http_basic'];
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/user/{username}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+
+    }
+    
+    /**
+     * Get user by user name
+     * 
+     * @param {String} username The name that needs to be fetched. Use user1 for testing.
+     *   data is of type: User
+     */
+    self.getUserByName = function(username) {
+      var postBody = null;
+      
+      // verify the required parameter 'username' is set
+      if (username == null) {
+        throw "Missing the required parameter 'username' when calling getUserByName";
+      }
+      
+
+      var pathParams = {
+        'username': username
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+      var returnType = User;
+
+      return this.apiClient.callApi(
+        '/user/{username}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+
+    }
+    
+    /**
      * Logs user into the system
      * 
      * @param {String} opts['username'] The user name for login
@@ -184,44 +259,6 @@
     }
     
     /**
-     * Get user by user name
-     * 
-     * @param {String} username The name that needs to be fetched. Use user1 for testing.
-     *   data is of type: User
-     */
-    self.getUserByName = function(username) {
-      var postBody = null;
-      
-      // verify the required parameter 'username' is set
-      if (username == null) {
-        throw "Missing the required parameter 'username' when calling getUserByName";
-      }
-      
-
-      var pathParams = {
-        'username': username
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = [];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = User;
-
-      return this.apiClient.callApi(
-        '/user/{username}', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-
-    }
-    
-    /**
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
@@ -254,43 +291,6 @@
 
       return this.apiClient.callApi(
         '/user/{username}', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-
-    }
-    
-    /**
-     * Delete user
-     * This can only be done by the logged in user.
-     * @param {String} username The name that needs to be deleted
-     */
-    self.deleteUser = function(username) {
-      var postBody = null;
-      
-      // verify the required parameter 'username' is set
-      if (username == null) {
-        throw "Missing the required parameter 'username' when calling deleteUser";
-      }
-      
-
-      var pathParams = {
-        'username': username
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = [];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = null;
-
-      return this.apiClient.callApi(
-        '/user/{username}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
