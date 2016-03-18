@@ -112,21 +112,25 @@ public class ApiClientTest {
     }
 
     @Test
-    public void testSetUsername() {
-        try {
-            apiClient.setUsername("my-username");
-            fail("there should be no HTTP basic authentications");
-        } catch (RuntimeException e) {
+    public void testSetUsernameAndPassword() {
+        HttpBasicAuth auth = null;
+        for (Authentication _auth : apiClient.getAuthentications().values()) {
+            if (_auth instanceof HttpBasicAuth) {
+                auth = (HttpBasicAuth) _auth;
+                break;
+            }
         }
-    }
+        auth.setUsername(null);
+        auth.setPassword(null);
 
-    @Test
-    public void testSetPassword() {
-        try {
-            apiClient.setPassword("my-password");
-            fail("there should be no HTTP basic authentications");
-        } catch (RuntimeException e) {
-        }
+        apiClient.setUsername("my-username");
+        apiClient.setPassword("my-password");
+        assertEquals("my-username", auth.getUsername());
+        assertEquals("my-password", auth.getPassword());
+
+        // reset values
+        auth.setUsername(null);
+        auth.setPassword(null);
     }
 
     @Test
