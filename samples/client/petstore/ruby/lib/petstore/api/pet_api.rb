@@ -201,7 +201,7 @@ module Petstore
     # Finds Pets by status
     # Multiple status values can be provided with comma separated strings
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<String>] :status Status values that need to be considered for query
+    # @option opts [Array<String>] :status Status values that need to be considered for query (default to available)
     # @return [Array<Pet>]
     def find_pets_by_status(opts = {})
       data, status_code, headers = find_pets_by_status_with_http_info(opts)
@@ -360,7 +360,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['petstore_auth', 'api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -420,7 +420,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['petstore_auth', 'api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -480,7 +480,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['api_key', 'petstore_auth']
+      auth_names = ['petstore_auth', 'api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

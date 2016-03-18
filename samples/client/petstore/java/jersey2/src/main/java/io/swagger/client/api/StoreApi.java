@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-14T22:17:48.808+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T16:00:50.657+08:00")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -38,7 +38,7 @@ public class StoreApi {
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
+   * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
   public void deleteOrder(String orderId) throws ApiException {
@@ -84,7 +84,7 @@ public class StoreApi {
   /**
    * Finds orders by status
    * A single status value can be provided as a string
-   * @param status Status value that needs to be considered for query
+   * @param status Status value that needs to be considered for query (optional, default to placed)
    * @return List<Order>
    * @throws ApiException if fails to make API call
    */
@@ -210,7 +210,7 @@ public class StoreApi {
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
+   * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException if fails to make API call
    */
@@ -247,7 +247,7 @@ public class StoreApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "test_api_key_header", "test_api_key_query" };
+    String[] localVarAuthNames = new String[] { "test_api_key_query", "test_api_key_header" };
 
     
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
@@ -258,7 +258,7 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet
+   * @param body order placed for purchasing the pet (optional)
    * @return Order
    * @throws ApiException if fails to make API call
    */
