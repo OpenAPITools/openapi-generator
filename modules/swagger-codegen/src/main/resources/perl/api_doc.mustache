@@ -27,14 +27,14 @@ Method | HTTP request | Description
 use Data::Dumper;
 {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
 # Configure HTTP basic authorization: {{{name}}}
-{{{moduleName}}}::Configuration::username = 'YOUR_USERNAME';
-{{{moduleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
+${{{moduleName}}}::Configuration::username = 'YOUR_USERNAME';
+${{{moduleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-{{{moduleName}}}::Configuration::api_key->{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
+${{{moduleName}}}::Configuration::api_key->{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#{{{moduleName}}}::Configuration::api_key_prefix->{'{{{keyParamName}}}'} = "BEARER";{{/isApiKey}}{{#isOAuth}}
+#${{{moduleName}}}::Configuration::api_key_prefix->{'{{{keyParamName}}}'} = "BEARER";{{/isApiKey}}{{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-{{{moduleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
+${{{moduleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 
 my $api_instance = {{moduleName}}::{{classname}}->new();

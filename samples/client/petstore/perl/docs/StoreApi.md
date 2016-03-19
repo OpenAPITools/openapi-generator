@@ -72,13 +72,13 @@ A single status value can be provided as a string
 use Data::Dumper;
 
 # Configure API key authorization: test_api_client_id
-WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_id'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_id'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_id'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_id'} = "BEARER";
 # Configure API key authorization: test_api_client_secret
-WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
 
 my $api_instance = WWW::SwaggerClient::StoreApi->new();
 my $status = 'status_example'; # string | Status value that needs to be considered for query
@@ -125,9 +125,9 @@ Returns a map of status codes to quantities
 use Data::Dumper;
 
 # Configure API key authorization: api_key
-WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "BEARER";
 
 my $api_instance = WWW::SwaggerClient::StoreApi->new();
 
@@ -170,9 +170,9 @@ Returns an arbitrary object which is actually a map of status codes to quantitie
 use Data::Dumper;
 
 # Configure API key authorization: api_key
-WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "BEARER";
 
 my $api_instance = WWW::SwaggerClient::StoreApi->new();
 
@@ -215,13 +215,13 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 use Data::Dumper;
 
 # Configure API key authorization: test_api_key_header
-WWW::SwaggerClient::Configuration::api_key->{'test_api_key_header'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'test_api_key_header'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'test_api_key_header'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'test_api_key_header'} = "BEARER";
 # Configure API key authorization: test_api_key_query
-WWW::SwaggerClient::Configuration::api_key->{'test_api_key_query'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'test_api_key_query'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'test_api_key_query'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'test_api_key_query'} = "BEARER";
 
 my $api_instance = WWW::SwaggerClient::StoreApi->new();
 my $order_id = 'order_id_example'; # string | ID of pet that needs to be fetched
@@ -268,13 +268,13 @@ Place an order for a pet
 use Data::Dumper;
 
 # Configure API key authorization: test_api_client_id
-WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_id'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_id'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_id'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_id'} = "BEARER";
 # Configure API key authorization: test_api_client_secret
-WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR_API_KEY';
+$WWW::SwaggerClient::Configuration::api_key->{'x-test_api_client_secret'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-#WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'x-test_api_client_secret'} = "BEARER";
 
 my $api_instance = WWW::SwaggerClient::StoreApi->new();
 my $body = WWW::SwaggerClient::Object::Order->new(); # Order | order placed for purchasing the pet
