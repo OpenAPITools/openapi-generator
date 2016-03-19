@@ -15,22 +15,42 @@
 }(this, function(ApiClient, User) {
   'use strict';
 
-  var UserApi = function UserApi(apiClient) {
-    this.apiClient = apiClient || ApiClient.default;
+  /**
+   * User service.
+   * @module api/UserApi
+   * @version 1.0.0
+   */
 
-    var self = this;
-    
-    
+  /**
+   * Constructs a new UserApi. 
+   * @alias module:api/UserApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use, defaulting to {@link module:ApiClient#instance}
+   * if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+    /**
+     * Callback function to receive the result of the createUser operation.
+     * @callback module:api/UserApi~createUserCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {User} opts['body'] Created user object
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     * @param {Object} opts Optional parameters
+     * @param {module:model/User} opts.body Created user object
+     * @param {module:api/UserApi~createUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    self.createUser = function(opts, callback) {
+    this.createUser = function(opts, callback) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
 
       var pathParams = {
       };
@@ -51,19 +71,27 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
+
+    /**
+     * Callback function to receive the result of the createUsersWithArrayInput operation.
+     * @callback module:api/UserApi~createUsersWithArrayInputCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Creates list of users with given input array
      * 
-     * @param {[User]} opts['body'] List of user object
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     * @param {Object} opts Optional parameters
+     * @param {Array.<module:model/User>} opts.body List of user object
+     * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    self.createUsersWithArrayInput = function(opts, callback) {
+    this.createUsersWithArrayInput = function(opts, callback) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
 
       var pathParams = {
       };
@@ -84,19 +112,27 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
+
+    /**
+     * Callback function to receive the result of the createUsersWithListInput operation.
+     * @callback module:api/UserApi~createUsersWithListInputCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Creates list of users with given input array
      * 
-     * @param {[User]} opts['body'] List of user object
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     * @param {Object} opts Optional parameters
+     * @param {Array.<module:model/User>} opts.body List of user object
+     * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    self.createUsersWithListInput = function(opts, callback) {
+    this.createUsersWithListInput = function(opts, callback) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
 
       var pathParams = {
       };
@@ -117,23 +153,30 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
+
+    /**
+     * Callback function to receive the result of the deleteUser operation.
+     * @callback module:api/UserApi~deleteUserCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Delete user
      * This can only be done by the logged in user.
      * @param {String} username The name that needs to be deleted
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     * @param {module:api/UserApi~deleteUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    self.deleteUser = function(username, callback) {
+    this.deleteUser = function(username, callback) {
       var postBody = null;
-      
+
       // verify the required parameter 'username' is set
-      if (username == null) {
+      if (username == undefined || username == null) {
         throw "Missing the required parameter 'username' when calling deleteUser";
       }
-      
+
 
       var pathParams = {
         'username': username
@@ -155,24 +198,31 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
+
+    /**
+     * Callback function to receive the result of the getUserByName operation.
+     * @callback module:api/UserApi~getUserByNameCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/User} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Get user by user name
      * 
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
-     *   data is of type: User
+     * @param {module:api/UserApi~getUserByNameCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {module:model/User}
      */
-    self.getUserByName = function(username, callback) {
+    this.getUserByName = function(username, callback) {
       var postBody = null;
-      
+
       // verify the required parameter 'username' is set
-      if (username == null) {
+      if (username == undefined || username == null) {
         throw "Missing the required parameter 'username' when calling getUserByName";
       }
-      
+
 
       var pathParams = {
         'username': username
@@ -194,21 +244,29 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
+
+    /**
+     * Callback function to receive the result of the loginUser operation.
+     * @callback module:api/UserApi~loginUserCallback
+     * @param {String} error Error message, if any.
+     * @param {'String'} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Logs user into the system
      * 
-     * @param {String} opts['username'] The user name for login
-     * @param {String} opts['password'] The password for login in clear text
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
-     *   data is of type: 'String'
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.username The user name for login
+     * @param {String} opts.password The password for login in clear text
+     * @param {module:api/UserApi~loginUserCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {'String'}
      */
-    self.loginUser = function(opts, callback) {
+    this.loginUser = function(opts, callback) {
       opts = opts || {};
       var postBody = null;
-      
+
 
       var pathParams = {
       };
@@ -231,17 +289,24 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
+
+    /**
+     * Callback function to receive the result of the logoutUser operation.
+     * @callback module:api/UserApi~logoutUserCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Logs out current logged in user session
      * 
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     * @param {module:api/UserApi~logoutUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    self.logoutUser = function(callback) {
+    this.logoutUser = function(callback) {
       var postBody = null;
-      
+
 
       var pathParams = {
       };
@@ -262,25 +327,33 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
+
+    /**
+     * Callback function to receive the result of the updateUser operation.
+     * @callback module:api/UserApi~updateUserCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
     /**
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {User} opts['body'] Updated user object
-     * @param {function} callback the callback function, accepting three arguments: error, data, response
+     * @param {Object} opts Optional parameters
+     * @param {module:model/User} opts.body Updated user object
+     * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    self.updateUser = function(username, opts, callback) {
+    this.updateUser = function(username, opts, callback) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
       // verify the required parameter 'username' is set
-      if (username == null) {
+      if (username == undefined || username == null) {
         throw "Missing the required parameter 'username' when calling updateUser";
       }
-      
+
 
       var pathParams = {
         'username': username
@@ -302,11 +375,8 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-
     }
-    
-    
   };
 
-  return UserApi;
+  return exports;
 }));
