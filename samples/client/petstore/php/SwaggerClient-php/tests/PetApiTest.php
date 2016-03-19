@@ -43,7 +43,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $new_pet->setTags(array($tag));
         $new_pet->setCategory($category);
   
-        $pet_api = new Swagger\Client\Api\PetAPI();
+        $pet_api = new Swagger\Client\Api\PetApi();
         // add a new pet (model)
         $add_response = $pet_api->addPet($new_pet);
     }
@@ -74,14 +74,14 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $defaultHeader = $api_client->getConfig()->getDefaultHeaders();
         $this->assertFalse(isset($defaultHeader['test2']));
   
-        $pet_api2 = new Swagger\Client\Api\PetAPI();
+        $pet_api2 = new Swagger\Client\Api\PetApi();
         $config3 = new Swagger\Client\Configuration();
         $apiClient3 = new Swagger\Client\ApiClient($config3);
         $apiClient3->getConfig()->setUserAgent('api client 3');
         $config4 = new Swagger\Client\Configuration();
         $apiClient4 = new Swagger\Client\ApiClient($config4);
         $apiClient4->getConfig()->setUserAgent('api client 4');
-        $pet_api3 = new Swagger\Client\Api\PetAPI($apiClient3);
+        $pet_api3 = new Swagger\Client\Api\PetApi($apiClient3);
   
         // 2 different api clients are not the same 
         $this->assertNotEquals($apiClient3, $apiClient4);
@@ -98,7 +98,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     {
         // initialize the API client without host
         $pet_id = 10005;  // ID of pet that needs to be fetched
-        $pet_api = new Swagger\Client\Api\PetAPI();
+        $pet_api = new Swagger\Client\Api\PetApi();
         $pet_api->getApiClient()->getConfig()->setApiKey('api_key', '111222333444555');
         // return Pet (model)
         $response = $pet_api->getPetById($pet_id);
@@ -116,7 +116,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     {
         // initialize the API client without host
         $pet_id = 10005;  // ID of pet that needs to be fetched
-        $pet_api = new Swagger\Client\Api\PetAPI();
+        $pet_api = new Swagger\Client\Api\PetApi();
         $pet_api->getApiClient()->getConfig()->setApiKey('api_key', '111222333444555');
         // return Pet (inline model)
         $response = $pet_api->getPetByIdInObject($pet_id);
@@ -139,7 +139,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     {
         // initialize the API client without host
         $pet_id = 10005;  // ID of pet that needs to be fetched
-        $pet_api = new Swagger\Client\Api\PetAPI();
+        $pet_api = new Swagger\Client\Api\PetApi();
         $pet_api->getApiClient()->getConfig()->setApiKey('api_key', '111222333444555');
         // return Pet (model)
         list($response, $status_code, $response_headers) = $pet_api->getPetByIdWithHttpInfo($pet_id);
@@ -159,7 +159,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         // initialize the API client
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // return Pet (model)
         $response = $pet_api->findPetsByStatus("available");
         $this->assertGreaterThan(0, count($response)); // at least one object returned
@@ -179,7 +179,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         // initialize the API client
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // return Pet (model)
         $response = $pet_api->findPetsByTags("test php tag");
         $this->assertGreaterThan(0, count($response)); // at least one object returned
@@ -200,7 +200,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
         $pet_id = 10001;  // ID of pet that needs to be fetched
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // create updated pet object
         $updated_pet = new Swagger\Client\Model\Pet;
         $updated_pet->setId($pet_id);
@@ -224,7 +224,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
         $pet_id = 10001;  // ID of pet that needs to be fetched
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // update Pet (form)
         list($update_response, $status_code, $http_headers) = $pet_api->updatePetWithFormWithHttpInfo($pet_id, 'update pet with form with http info');
         // return nothing (void)
@@ -243,7 +243,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
         $pet_id = 10001;  // ID of pet that needs to be fetched
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // update Pet (form)
         $update_response = $pet_api->updatePetWithForm($pet_id, 'update pet with form', 'sold');
         // return nothing (void)
@@ -264,7 +264,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $new_pet = new Swagger\Client\Model\Pet;
         $new_pet->setId($new_pet_id);
         $new_pet->setName("PHP Unit Test 2");
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // add a new pet (model)
         $add_response = $pet_api->addPet($new_pet);
         // return nothing (void)
@@ -298,7 +298,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $new_pet->setTags(array($tag));
         $new_pet->setCategory($category);
 
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // add a new pet (model)
         $object_serializer = new Swagger\Client\ObjectSerializer();
         $pet_json_string = json_encode($object_serializer->sanitizeForSerialization($new_pet));
@@ -319,7 +319,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         // initialize the API client
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // upload file
         $pet_id = 10001;
         $add_response = $pet_api->uploadFile($pet_id, "test meta", "./composer.json");
@@ -349,7 +349,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $config = new Swagger\Client\Configuration();
         $config->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\APIClient($config);
-        $pet_api = new Swagger\Client\Api\PetAPI($api_client);
+        $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // test getPetByIdWithByteArray 
         $pet_id = 10005;
         $bytes = $pet_api->petPetIdtestingByteArraytrueGet($pet_id);
