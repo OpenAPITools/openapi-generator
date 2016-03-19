@@ -110,15 +110,24 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
+    'snake_case' => {
+    	datatype => 'int',
+    	base_name => 'snake_case',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
     
 });
 
 __PACKAGE__->swagger_types( {
-    'name' => 'int'
+    'name' => 'int',
+    'snake_case' => 'int'
 } );
 
 __PACKAGE__->attribute_map( {
-    'name' => 'name'
+    'name' => 'name',
+    'snake_case' => 'snake_case'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});
