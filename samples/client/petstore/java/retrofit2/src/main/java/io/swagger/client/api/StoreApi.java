@@ -10,17 +10,21 @@ import okhttp3.RequestBody;
 
 import io.swagger.client.model.Order;
 
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 public interface StoreApi {
   
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted
+   * @param orderId ID of the order that needs to be deleted (required)
    * @return Call<Void>
    */
   
@@ -33,7 +37,7 @@ public interface StoreApi {
   /**
    * Finds orders by status
    * A single status value can be provided as a string
-   * @param status Status value that needs to be considered for query
+   * @param status Status value that needs to be considered for query (optional, default to placed)
    * @return Call<List<Order>>
    */
   
@@ -68,7 +72,7 @@ public interface StoreApi {
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched
+   * @param orderId ID of pet that needs to be fetched (required)
    * @return Call<Order>
    */
   
@@ -81,7 +85,7 @@ public interface StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet
+   * @param body order placed for purchasing the pet (optional)
    * @return Call<Order>
    */
   
@@ -92,3 +96,4 @@ public interface StoreApi {
 
   
 }
+

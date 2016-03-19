@@ -7,12 +7,14 @@ import io.swagger.client.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.google.gson.annotations.SerializedName;
 
 
 
 
-@ApiModel(description = "")
+
+
 public class InlineResponse200   {
   
   @SerializedName("photoUrls")
@@ -174,3 +176,5 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
+
