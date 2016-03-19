@@ -12,35 +12,35 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public class Category   {
-  
-  @SerializedName("id")
-  private Long id = null;
+public class Name   {
   
   @SerializedName("name")
-  private String name = null;
+  private Integer name = null;
+  
+  @SerializedName("snake_case")
+  private Integer snakeCase = null;
   
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public String getName() {
+  public Integer getName() {
     return name;
   }
-  public void setName(String name) {
+  public void setName(Integer name) {
     this.name = name;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Integer getSnakeCase() {
+    return snakeCase;
+  }
+  public void setSnakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
   }
 
   
@@ -53,23 +53,23 @@ public class Category   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Category category = (Category) o;
-    return Objects.equals(id, category.id) &&
-        Objects.equals(name, category.name);
+    Name name = (Name) o;
+    return Objects.equals(name, name.name) &&
+        Objects.equals(snakeCase, name.snakeCase);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(name, snakeCase);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Name {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("}");
     return sb.toString();
   }
