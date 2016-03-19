@@ -14,8 +14,8 @@ module {{moduleName}}
     end
 {{#operation}}
 {{newline}}
-    # {{summary}}
-    # {{notes}}
+    # {{{summary}}}
+    # {{{notes}}}
 {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
 {{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}

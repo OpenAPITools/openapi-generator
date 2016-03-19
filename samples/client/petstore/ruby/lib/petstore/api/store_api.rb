@@ -25,7 +25,7 @@ module Petstore
     end
 
     # Delete purchase order by ID
-    # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    # For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     # @param order_id ID of the order that needs to be deleted
     # @param [Hash] opts the optional parameters
     # @return [nil]
@@ -200,7 +200,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+    # Fake endpoint to test arbitrary object return by 'Get inventory'
     # Returns an arbitrary object which is actually a map of status codes to quantities
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -256,7 +256,7 @@ module Petstore
     end
 
     # Find purchase order by ID
-    # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+    # For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     # @param order_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Order]
@@ -301,7 +301,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['test_api_key_query', 'test_api_key_header']
+      auth_names = ['test_api_key_header', 'test_api_key_query']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
