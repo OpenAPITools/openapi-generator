@@ -46,5 +46,15 @@ describe 'Name' do
     end
   end
 
+  describe 'test attribute "snake_case"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
 end
 
