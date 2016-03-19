@@ -160,8 +160,8 @@ This can only be done by the logged in user.
 use Data::Dumper;
 
 # Configure HTTP basic authorization: test_http_basic
-WWW::SwaggerClient::Configuration::username = 'YOUR_USERNAME';
-WWW::SwaggerClient::Configuration::password = 'YOUR_PASSWORD';
+$WWW::SwaggerClient::Configuration::username = 'YOUR_USERNAME';
+$WWW::SwaggerClient::Configuration::password = 'YOUR_PASSWORD';
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The name that needs to be deleted
