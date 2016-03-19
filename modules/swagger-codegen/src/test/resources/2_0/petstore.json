@@ -1318,6 +1318,10 @@
         "name": {
           "type": "integer",
           "format": "int32"
+        },
+        "snake_case": {
+          "type": "integer",
+          "format": "int32"
         }
       },
       "xml": {
