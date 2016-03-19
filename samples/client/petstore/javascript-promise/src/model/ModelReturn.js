@@ -14,46 +14,49 @@
   }
 }(this, function(ApiClient) {
   'use strict';
-  
-  
-  var ModelReturn = function ModelReturn() { 
-    
+
+  /**
+   * The ModelReturn model module.
+   * @module model/ModelReturn
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new <code>ModelReturn</code>.
+   * @alias module:model/ModelReturn
+   * @class
+   */
+  var exports = function() {
+
+
   };
 
-  ModelReturn.constructFromObject = function(data) {
-    if (!data) {
-      return null;
+  /**
+   * Constructs a <code>ModelReturn</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/ModelReturn} obj Optional instance to populate.
+   * @return {module:model/ModelReturn} The populated <code>ModelReturn</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) { 
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('return')) {
+        obj['return'] = ApiClient.convertToType(data['return'], 'Integer');
+      }
     }
-    var _this = new ModelReturn();
-    
-    if (data['return']) {
-      _this['return'] = ApiClient.convertToType(data['return'], 'Integer');
-    }
-    
-    return _this;
+    return obj;
   }
 
-  
-  
-  /**
-   * @return {Integer}
-   **/
-  ModelReturn.prototype.getReturn = function() {
-    return this['return'];
-  }
 
   /**
-   * @param {Integer} _return
-   **/
-  ModelReturn.prototype.setReturn = function(_return) {
-    this['return'] = _return;
-  }
-  
-  
+   * @member {Integer} return
+   */
+  exports.prototype['return'] = undefined;
 
-  
 
-  return ModelReturn;
-  
-  
+
+
+  return exports;
 }));

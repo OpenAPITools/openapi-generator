@@ -177,7 +177,7 @@ class Decoders {
             Decoders.addDecoder(clazz: ModelReturn.self) { (source: AnyObject) -> ModelReturn in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = ModelReturn()
-                instance._return = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["_return"])
+                instance._return = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["return"])
                 return instance
             }
 			
@@ -191,6 +191,7 @@ class Decoders {
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = Name()
                 instance.name = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["name"])
+                instance.snakeCase = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["snake_case"])
                 return instance
             }
 			
@@ -239,7 +240,7 @@ class Decoders {
             Decoders.addDecoder(clazz: SpecialModelName.self) { (source: AnyObject) -> SpecialModelName in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = SpecialModelName()
-                instance.specialPropertyName = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["specialPropertyName"])
+                instance.specialPropertyName = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["$special[property.name]"])
                 return instance
             }
 			

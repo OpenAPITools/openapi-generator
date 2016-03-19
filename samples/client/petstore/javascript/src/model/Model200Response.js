@@ -14,46 +14,49 @@
   }
 }(this, function(ApiClient) {
   'use strict';
-  
-  
-  var Model200Response = function Model200Response() { 
-    
+
+  /**
+   * The Model200Response model module.
+   * @module model/Model200Response
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new <code>Model200Response</code>.
+   * @alias module:model/Model200Response
+   * @class
+   */
+  var exports = function() {
+
+
   };
 
-  Model200Response.constructFromObject = function(data) {
-    if (!data) {
-      return null;
+  /**
+   * Constructs a <code>Model200Response</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/Model200Response} obj Optional instance to populate.
+   * @return {module:model/Model200Response} The populated <code>Model200Response</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) { 
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'Integer');
+      }
     }
-    var _this = new Model200Response();
-    
-    if (data['name']) {
-      _this['name'] = ApiClient.convertToType(data['name'], 'Integer');
-    }
-    
-    return _this;
+    return obj;
   }
 
-  
-  
-  /**
-   * @return {Integer}
-   **/
-  Model200Response.prototype.getName = function() {
-    return this['name'];
-  }
 
   /**
-   * @param {Integer} name
-   **/
-  Model200Response.prototype.setName = function(name) {
-    this['name'] = name;
-  }
-  
-  
+   * @member {Integer} name
+   */
+  exports.prototype['name'] = undefined;
 
-  
 
-  return Model200Response;
-  
-  
+
+
+  return exports;
 }));
