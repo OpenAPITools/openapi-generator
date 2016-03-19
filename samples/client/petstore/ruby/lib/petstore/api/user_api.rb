@@ -24,7 +24,7 @@ module Petstore
       @api_client = api_client
     end
 
-    # Create user}
+    # Create user
     # This can only be done by the logged in user.
     # @param [Hash] opts the optional parameters
     # @option opts [User] :body Created user object
@@ -80,7 +80,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Creates list of users with given input array}
+    # Creates list of users with given input array
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Array<User>] :body List of user object
@@ -136,7 +136,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Creates list of users with given input array}
+    # Creates list of users with given input array
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Array<User>] :body List of user object
@@ -192,7 +192,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Delete user}
+    # Delete user
     # This can only be done by the logged in user.
     # @param username The name that needs to be deleted
     # @param [Hash] opts the optional parameters
@@ -251,7 +251,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Get user by user name}
+    # Get user by user name
     # 
     # @param username The name that needs to be fetched. Use user1 for testing.
     # @param [Hash] opts the optional parameters
@@ -311,7 +311,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Logs user into the system}
+    # Logs user into the system
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :username The user name for login
@@ -372,7 +372,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Logs out current logged in user session}
+    # Logs out current logged in user session
     # 
     # @param [Hash] opts the optional parameters
     # @return [nil]
@@ -426,7 +426,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Updated user}
+    # Updated user
     # This can only be done by the logged in user.
     # @param username name that need to be deleted
     # @param [Hash] opts the optional parameters

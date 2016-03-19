@@ -24,7 +24,7 @@ module Petstore
       @api_client = api_client
     end
 
-    # Delete purchase order by ID}
+    # Delete purchase order by ID
     # For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     # @param order_id ID of the order that needs to be deleted
     # @param [Hash] opts the optional parameters
@@ -83,7 +83,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Finds orders by status}
+    # Finds orders by status
     # A single status value can be provided as a string
     # @param [Hash] opts the optional parameters
     # @option opts [String] :status Status value that needs to be considered for query (default to placed)
@@ -145,7 +145,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Returns pet inventories by status}
+    # Returns pet inventories by status
     # Returns a map of status codes to quantities
     # @param [Hash] opts the optional parameters
     # @return [Hash<String, Integer>]
@@ -200,7 +200,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;}
+    # Fake endpoint to test arbitrary object return by 'Get inventory'
     # Returns an arbitrary object which is actually a map of status codes to quantities
     # @param [Hash] opts the optional parameters
     # @return [Object]
@@ -255,7 +255,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Find purchase order by ID}
+    # Find purchase order by ID
     # For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     # @param order_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
@@ -315,7 +315,7 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Place an order for a pet}
+    # Place an order for a pet
     # 
     # @param [Hash] opts the optional parameters
     # @option opts [Order] :body order placed for purchasing the pet
