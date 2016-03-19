@@ -62,17 +62,17 @@ Please follow the installation procedure and then run the following:
 require_once(__DIR__ . '/vendor/autoload.php');
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
-{{{invokerPackage}}}::getDefaultConfiguration->setUsername('YOUR_USERNAME');
-{{{invokerPackage}}}::getDefaultConfiguration->setPassword('YOUR_PASSWORD');{{/isBasic}}{{#isApiKey}}
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');{{/isBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
-{{{invokerPackage}}}::getDefaultConfiguration->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// {{{invokerPackage}}}::getDefaultConfiguration->setApiKeyPrefix('{{{keyParamName}}}', 'BEARER');{{/isApiKey}}{{#isOAuth}}
+// {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'BEARER');{{/isApiKey}}{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
-{{{invokerPackage}}}::getDefaultConfiguration->setAccessToken('YOUR_ACCESS_TOKEN');{{/isOAuth}}{{/authMethods}}
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 
-$api_instance = new {{invokerPackage}}\{{classname}}();
+$api_instance = new {{invokerPackage}}\Api\{{classname}}();
 {{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
