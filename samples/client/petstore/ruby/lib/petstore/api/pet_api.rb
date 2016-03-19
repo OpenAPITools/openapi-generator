@@ -315,7 +315,7 @@ module Petstore
     end
 
     # Find pet by ID
-    # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+    # Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
     # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Pet]
@@ -360,7 +360,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['petstore_auth', 'api_key']
+      auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -374,8 +374,8 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
-    # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+    # Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+    # Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
     # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [InlineResponse200]
@@ -420,7 +420,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['petstore_auth', 'api_key']
+      auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -434,8 +434,8 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-    # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+    # Fake endpoint to test byte array return by 'Find pet by ID'
+    # Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
     # @param pet_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [String]
@@ -480,7 +480,7 @@ module Petstore
       # http body (model)
       post_body = nil
       
-      auth_names = ['petstore_auth', 'api_key']
+      auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

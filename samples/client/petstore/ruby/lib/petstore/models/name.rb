@@ -20,11 +20,15 @@ module Petstore
   class Name
     attr_accessor :name
 
+    attr_accessor :snake_case
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         
-        :'name' => :'name'
+        :'name' => :'name',
+        
+        :'snake_case' => :'snake_case'
         
       }
     end
@@ -32,7 +36,8 @@ module Petstore
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'name' => :'Integer'
+        :'name' => :'Integer',
+        :'snake_case' => :'Integer'
         
       }
     end
@@ -48,13 +53,18 @@ module Petstore
         self.name = attributes[:'name']
       end
       
+      if attributes[:'snake_case']
+        self.snake_case = attributes[:'snake_case']
+      end
+      
     end
 
     # Check equality by comparing each attribute.
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name
+          name == o.name &&
+          snake_case == o.snake_case
     end
 
     # @see the `==` method
@@ -64,7 +74,7 @@ module Petstore
 
     # Calculate hash code according to all attributes.
     def hash
-      [name].hash
+      [name, snake_case].hash
     end
 
     # build the object from hash

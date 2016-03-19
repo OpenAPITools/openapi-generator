@@ -24,7 +24,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.StoreApi()
+var apiInstance = new SwaggerPetstore.StoreApi()
 
 var orderId = "orderId_example"; // {String} ID of the order that needs to be deleted
 
@@ -83,7 +83,7 @@ test_api_client_secret.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //test_api_client_secret.apiKeyPrefix['x-test_api_client_secret'] = "Token"
 
-var api = new SwaggerPetstore.StoreApi()
+var apiInstance = new SwaggerPetstore.StoreApi()
 
 var opts = { 
   'status': "placed" // {String} Status value that needs to be considered for query
@@ -137,7 +137,7 @@ api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix['api_key'] = "Token"
 
-var api = new SwaggerPetstore.StoreApi()
+var apiInstance = new SwaggerPetstore.StoreApi()
 
 var callback = function(error, data, response) {
   if (error) {
@@ -184,7 +184,7 @@ api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix['api_key'] = "Token"
 
-var api = new SwaggerPetstore.StoreApi()
+var apiInstance = new SwaggerPetstore.StoreApi()
 
 var callback = function(error, data, response) {
   if (error) {
@@ -237,7 +237,7 @@ test_api_key_query.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //test_api_key_query.apiKeyPrefix['test_api_key_query'] = "Token"
 
-var api = new SwaggerPetstore.StoreApi()
+var apiInstance = new SwaggerPetstore.StoreApi()
 
 var orderId = "orderId_example"; // {String} ID of pet that needs to be fetched
 
@@ -296,7 +296,7 @@ test_api_client_secret.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //test_api_client_secret.apiKeyPrefix['x-test_api_client_secret'] = "Token"
 
-var api = new SwaggerPetstore.StoreApi()
+var apiInstance = new SwaggerPetstore.StoreApi()
 
 var opts = { 
   'body': new SwaggerPetstore.Order() // {Order} order placed for purchasing the pet

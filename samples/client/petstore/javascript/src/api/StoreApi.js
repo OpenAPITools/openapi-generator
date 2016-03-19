@@ -25,7 +25,7 @@
    * Constructs a new StoreApi. 
    * @alias module:api/StoreApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, defaulting to {@link module:ApiClient#instance}
+   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
    * if unspecified.
    */
   var exports = function(apiClient) {
@@ -89,7 +89,7 @@
      * Finds orders by status
      * A single status value can be provided as a string
      * @param {Object} opts Optional parameters
-     * @param {module:model/String} opts.status Status value that needs to be considered for query
+     * @param {module:model/String} opts.status Status value that needs to be considered for query (default to placed)
      * @param {module:api/StoreApi~findOrdersByStatusCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {Array.<module:model/Order>}
      */
