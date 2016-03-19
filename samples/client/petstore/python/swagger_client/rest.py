@@ -133,7 +133,6 @@ class RESTClientObject(object):
             headers['Content-Type'] = 'application/json'
 
         try:
-            print(method)
             # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
                 if query_params:
