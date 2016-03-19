@@ -14,64 +14,58 @@
   }
 }(this, function(ApiClient) {
   'use strict';
-  
-  
-  var Category = function Category() { 
-    
+
+  /**
+   * The Category model module.
+   * @module model/Category
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new <code>Category</code>.
+   * @alias module:model/Category
+   * @class
+   */
+  var exports = function() {
+
+
+
   };
 
-  Category.constructFromObject = function(data) {
-    if (!data) {
-      return null;
+  /**
+   * Constructs a <code>Category</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/Category} obj Optional instance to populate.
+   * @return {module:model/Category} The populated <code>Category</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) { 
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('id')) {
+        obj['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      }
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'String');
+      }
     }
-    var _this = new Category();
-    
-    if (data['id']) {
-      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
-    }
-    
-    if (data['name']) {
-      _this['name'] = ApiClient.convertToType(data['name'], 'String');
-    }
-    
-    return _this;
+    return obj;
   }
 
-  
-  
-  /**
-   * @return {Integer}
-   **/
-  Category.prototype.getId = function() {
-    return this['id'];
-  }
 
   /**
-   * @param {Integer} id
-   **/
-  Category.prototype.setId = function(id) {
-    this['id'] = id;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  Category.prototype.getName = function() {
-    return this['name'];
-  }
+   * @member {Integer} id
+   */
+  exports.prototype['id'] = undefined;
 
   /**
-   * @param {String} name
-   **/
-  Category.prototype.setName = function(name) {
-    this['name'] = name;
-  }
-  
-  
+   * @member {String} name
+   */
+  exports.prototype['name'] = undefined;
 
-  
 
-  return Category;
-  
-  
+
+
+  return exports;
 }));
