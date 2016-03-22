@@ -12,7 +12,7 @@ Method | HTTP request | Description
 {{#operation}}
 <a name="{{operationId}}"></a>
 # **{{operationId}}**
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}{{#hasParams}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}){{/hasParams}}
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}})
 
 {{summary}}{{#notes}}
 
@@ -26,25 +26,25 @@ var defaultClient = {{{moduleName}}}.ApiClient.default;
 {{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.username = 'YOUR USERNAME'
-{{{name}}}.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+{{{name}}}.username = 'YOUR USERNAME';
+{{{name}}}.password = 'YOUR PASSWORD';{{/isBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.apiKey = "YOUR API KEY"
+{{{name}}}.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//{{{name}}}.apiKeyPrefix['{{{keyParamName}}}'] = "Token"{{/isApiKey}}{{#isOAuth}}
+//{{{name}}}.apiKeyPrefix = 'Token';{{/isApiKey}}{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.accessToken = "YOUR ACCESS TOKEN"{{/isOAuth}}
+{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';{{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var apiInstance = new {{{moduleName}}}.{{{classname}}}(){{#hasParams}}
+var apiInstance = new {{{moduleName}}}.{{{classname}}}();{{#hasParams}}
 {{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
-var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}
+var {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
 var opts = { {{#allParams}}{{^required}}
-  '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}{{/required}}{{/allParams}}
+  '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{{dataType}}} | {{{description}}}{{/required}}{{/allParams}}
 };{{/hasOptionalParams}}{{/hasParams}}
 {{#usePromises}}
 apiInstance.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
@@ -61,7 +61,7 @@ var callback = function(error, data, response) {
     {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
   }
 };
-api.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}callback);
+apiInstance.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}{{#hasParams}}, {{/hasParams}}callback);
 {{/usePromises}}
 ```
 
