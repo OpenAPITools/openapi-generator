@@ -34,6 +34,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final String NET45 = "v4.5";
     private static final String NET35 = "v3.5";
+    private static final String UWP = "uwp";
     private static final String DATA_TYPE_WITH_ENUM_EXTENSION = "plainDatatypeWithEnum";
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
@@ -48,6 +49,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String targetFramework = NET45;
     protected String targetFrameworkNuget = "net45";
     protected boolean supportsAsync = Boolean.TRUE;
+    protected boolean supportsUWP = Boolean.FALSE;
 
 
     protected final Map<String, String> frameworks;
@@ -89,6 +91,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         frameworks = new ImmutableMap.Builder<String, String>()
                 .put(NET35, ".NET Framework 3.5 compatible")
                 .put(NET45, ".NET Framework 4.5+ compatible")
+                .put(UWP, "Universal Windows Platform (beta support)")
                 .build();
         framework.defaultValue(this.targetFramework);
         framework.setEnum(frameworks);
@@ -156,6 +159,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if(additionalProperties.containsKey("supportsAsync")){
                 additionalProperties.remove("supportsAsync");
             }
+        } else if (UWP.equals(this.targetFramework)){
+            setTargetFrameworkNuget("uwp");
+            setSupportsAsync(Boolean.TRUE);
+            setSupportsUWP(Boolean.TRUE);
+            additionalProperties.put("supportsAsync", this.supportsUWP);
+            additionalProperties.put("supportsUWP", this.supportsAsync);
+
         } else {
             setTargetFrameworkNuget("net45");
             setSupportsAsync(Boolean.TRUE);
@@ -452,5 +462,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsAsync(Boolean supportsAsync){
         this.supportsAsync = supportsAsync;
+    }
+
+    public void setSupportsUWP(Boolean supportsUWP){
+        this.supportsUWP = supportsUWP;
     }
 }

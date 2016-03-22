@@ -31,7 +31,7 @@ namespace IO.Swagger.Test
         {
             instance = new Name();
         }
-
+    
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Test
         public void Cleanup()
         {
 
-        }
+        }   
 
         /// <summary>
         /// Test an instance of Name
@@ -50,22 +50,25 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<Name> (instance, "instance is a Name");
         }
 
+        
         /// <summary>
-        /// Test the property '_Name'
+        /// Test the property '_Name' 
         /// </summary>
         [Test]
         public void _NameTest()
         {
-            // TODO: unit test for the property '_Name'
+            // TODO: unit test for the property '_Name' 
         }
+        
         /// <summary>
-        /// Test the property 'SnakeCase'
+        /// Test the property 'SnakeCase' 
         /// </summary>
         [Test]
         public void SnakeCaseTest()
         {
-            // TODO: unit test for the property 'SnakeCase'
+            // TODO: unit test for the property 'SnakeCase' 
         }
+        
 
     }
 
