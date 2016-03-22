@@ -103,7 +103,16 @@ namespace {{packageName}}.Client
 
             // add file parameter, if any
             foreach(var param in fileParams)
+            {
+                {{^supportsUWP}}
                 request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+                {{/supportsUWP}}
+                {{#supportsUWP}}
+                byte[] paramWriter = null;
+                param.Value.Writer = delegate (Stream stream) { paramWriter = ToByteArray(stream); };
+                request.AddFile(param.Value.Name, paramWriter, param.Value.FileName, param.Value.ContentType);
+                {{/supportsUWP}}
+            }
 
             if (postBody != null) // http body (model or byte[]) parameter
             {
@@ -148,7 +157,15 @@ namespace {{packageName}}.Client
             // set user agent
             RestClient.UserAgent = Configuration.UserAgent;
 
+            {{^supportsUWP}}
             var response = RestClient.Execute(request);
+            {{/supportsUWP}}
+            {{#supportsUWP}}
+            // TODO: This is obviously not a valid response, but it prevents compiling-errors
+            // 'RestClient.CallApiAsync(..)' is used instead, because 'RestClient.ExecuteAsync(...)' 
+            // is available for Windows UWP, while 'RestClient.CallApi(...)' is not
+            var response = new object(); 
+            {{/supportsUWP}}
             return (Object) response;
         }
         {{#supportsAsync}}
@@ -444,5 +461,20 @@ namespace {{packageName}}.Client
                 return filename;
             }
         }
+        {{#supportsUWP}}
+        /// <summary>
+        /// Convert stream to byte array
+        /// </summary>
+        /// <param name="stream">IO stream</param>
+        /// <returns>Byte array</returns>
+        public static byte[] ToByteArray(Stream stream)
+        {
+            stream.Position = 0;
+            byte[] buffer = new byte[stream.Length];
+            for (int totalBytesCopied = 0; totalBytesCopied < stream.Length;)
+                totalBytesCopied += stream.Read(buffer, totalBytesCopied, Convert.ToInt32(stream.Length) - totalBytesCopied);
+            return buffer;
+        }
+        {{/supportsUWP}}
     }
 }
