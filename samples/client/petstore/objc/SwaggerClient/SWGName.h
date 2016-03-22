@@ -17,4 +17,6 @@
 
 @property(nonatomic) NSNumber* name;
 
+@property(nonatomic) NSNumber* snakeCase;
+
 @end
