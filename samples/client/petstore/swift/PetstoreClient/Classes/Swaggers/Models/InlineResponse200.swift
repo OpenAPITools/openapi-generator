@@ -32,7 +32,7 @@ public class InlineResponse200: JSONEncodable {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["photoUrls"] = self.photoUrls?.encodeToJSON()
         nillableDictionary["name"] = self.name
-        nillableDictionary["id"] = self.id != nil ? NSNumber(longLong: self.id!) : nil
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["category"] = self.category
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue

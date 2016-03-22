@@ -18,7 +18,7 @@ public class SpecialModelName: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["$special[property.name]"] = self.specialPropertyName != nil ? NSNumber(longLong: self.specialPropertyName!) : nil
+        nillableDictionary["$special[property.name]"] = self.specialPropertyName?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

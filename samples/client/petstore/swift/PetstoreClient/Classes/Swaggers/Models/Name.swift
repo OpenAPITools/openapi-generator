@@ -19,8 +19,8 @@ public class Name: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["name"] = self.name != nil ? NSNumber(int: self.name!) : nil
-        nillableDictionary["snake_case"] = self.snakeCase != nil ? NSNumber(int: self.snakeCase!) : nil
+        nillableDictionary["name"] = self.name?.encodeToJSON()
+        nillableDictionary["snake_case"] = self.snakeCase?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

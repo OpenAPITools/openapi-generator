@@ -18,7 +18,7 @@ public class ModelReturn: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["return"] = self._return != nil ? NSNumber(int: self._return!) : nil
+        nillableDictionary["return"] = self._return?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
