@@ -733,7 +733,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Cupix](http://www.cupix.com)
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
-- [Eureka](http://eure.jp/)
+- [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [LANDR Audio](https://www.landr.com/)
