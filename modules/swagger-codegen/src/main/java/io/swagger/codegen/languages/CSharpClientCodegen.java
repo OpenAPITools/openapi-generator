@@ -91,7 +91,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         frameworks = new ImmutableMap.Builder<String, String>()
                 .put(NET35, ".NET Framework 3.5 compatible")
                 .put(NET45, ".NET Framework 4.5+ compatible")
-                .put(UWP, "Universal Windows Platform (beta support)")
+                .put(UWP, "Universal Windows Platform - beta support")
                 .build();
         framework.defaultValue(this.targetFramework);
         framework.setEnum(frameworks);
