@@ -53,6 +53,10 @@ static void (^reachabilityChangeBlock)(int);
     cacheEnabled = enabled;
 }
 
++(void) setReachabilityStatus:(AFNetworkReachabilityStatus)status {
+    reachabilityStatus = status;
+}
+
 - (void)setHeaderValue:(NSString*) value
                 forKey:(NSString*) forKey {
     [self.requestSerializer setValue:value forHTTPHeaderField:forKey];
@@ -236,6 +240,10 @@ static void (^reachabilityChangeBlock)(int);
 
 +(AFNetworkReachabilityStatus) getReachabilityStatus {
     return reachabilityStatus;
+}
+
++(bool) getOfflineState {
+    return offlineState;
 }
 
 +(void) setReachabilityChangeBlock:(void(^)(int))changeBlock {
