@@ -74,6 +74,20 @@ extern NSString *const SWGResponseObjectErrorKey;
 +(void) setOfflineState:(BOOL) state;
 
 /**
+ * Gets if the client is unreachable
+ *
+ * @return The client offline state
+ */
++(bool) getOfflineState;
+
+/**
+ * Sets the client reachability, this may be override by the reachability manager if reachability changes
+ *
+ * @param The client reachability.
+ */
++(void) setReachabilityStatus:(AFNetworkReachabilityStatus) status;
+
+/**
  * Gets the client reachability
  *
  * @return The client reachability.
