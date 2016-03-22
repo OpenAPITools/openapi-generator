@@ -30,9 +30,9 @@ public class Order: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id != nil ? NSNumber(longLong: self.id!) : nil
-        nillableDictionary["petId"] = self.petId != nil ? NSNumber(longLong: self.petId!) : nil
-        nillableDictionary["quantity"] = self.quantity != nil ? NSNumber(int: self.quantity!) : nil
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["petId"] = self.petId?.encodeToJSON()
+        nillableDictionary["quantity"] = self.quantity?.encodeToJSON()
         nillableDictionary["shipDate"] = self.shipDate?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["complete"] = self.complete

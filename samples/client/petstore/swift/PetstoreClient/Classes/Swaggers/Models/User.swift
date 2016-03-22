@@ -26,14 +26,14 @@ public class User: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id != nil ? NSNumber(longLong: self.id!) : nil
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["username"] = self.username
         nillableDictionary["firstName"] = self.firstName
         nillableDictionary["lastName"] = self.lastName
         nillableDictionary["email"] = self.email
         nillableDictionary["password"] = self.password
         nillableDictionary["phone"] = self.phone
-        nillableDictionary["userStatus"] = self.userStatus != nil ? NSNumber(int: self.userStatus!) : nil
+        nillableDictionary["userStatus"] = self.userStatus?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
