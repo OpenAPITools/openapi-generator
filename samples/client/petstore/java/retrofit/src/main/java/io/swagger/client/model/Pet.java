@@ -8,9 +8,7 @@ import io.swagger.client.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.google.gson.annotations.SerializedName;
-
 
 
 
@@ -177,5 +175,3 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
-

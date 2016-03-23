@@ -20,7 +20,7 @@ mvn deploy
 
 Refer to the [official documentation](https://maven.apache.org/plugins/maven-deploy-plugin/usage.html) for more information.
 
-After the client libarary is installed/deployed, you can use it in your Maven project by adding the following to your *pom.xml*:
+After the client library is installed/deployed, you can use it in your Maven project by adding the following to your *pom.xml*:
 
 ```xml
 <dependency>

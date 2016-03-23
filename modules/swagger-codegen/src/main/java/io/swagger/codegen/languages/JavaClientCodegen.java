@@ -549,16 +549,17 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if ("Long".equals(type)) {
             if (example == null) {
-                example = "56L";
+                example = "56";
             }
+            example = example + "L";
         } else if ("Float".equals(type)) {
             if (example == null) {
-                example = "3.4F";
+                example = "3.4";
             }
+            example = example + "F";
         } else if ("Double".equals(type)) {
-            if (example == null) {
-                example = "3.4D";
-            }
+            example = "3.4";
+            example = example + "D";
         } else if ("Boolean".equals(type)) {
             if (example == null) {
                 example = "true";

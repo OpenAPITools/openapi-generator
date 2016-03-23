@@ -4,9 +4,7 @@ import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 import com.google.gson.annotations.SerializedName;
-
 
 
 
@@ -85,5 +83,3 @@ public class Tag   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
-

@@ -55,6 +55,8 @@ public class ApiClient {
                 auth = new ApiKeyAuth("header", "x-test_api_client_secret");
             } else if (authName == "api_key") { 
                 auth = new ApiKeyAuth("header", "api_key");
+            } else if (authName == "test_http_basic") { 
+                auth = new HttpBasicAuth();
             } else if (authName == "test_api_key_query") { 
                 auth = new ApiKeyAuth("query", "test_api_key_query");
             } else if (authName == "test_api_key_header") { 

@@ -10,14 +10,10 @@ import io.swagger.client.model.Pet;
 import io.swagger.client.model.InlineResponse200;
 import java.io.File;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 
 public interface PetApi {
   
@@ -322,4 +318,3 @@ public interface PetApi {
   );
   
 }
-

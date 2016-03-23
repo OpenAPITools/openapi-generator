@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
-
 import com.google.gson.annotations.SerializedName;
-
 
 
 
@@ -171,5 +169,3 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
-
