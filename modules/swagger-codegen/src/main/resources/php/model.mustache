@@ -114,6 +114,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function __construct(array $data = null)
     {
+        {{#parent}}parent::__construct($data);{{/parent}}
         if ($data != null) {
             {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
             {{/hasMore}}{{/vars}}
