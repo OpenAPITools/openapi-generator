@@ -20,7 +20,9 @@ mvn deploy
 
 Refer to the [official documentation](https://maven.apache.org/plugins/maven-deploy-plugin/usage.html) for more information.
 
-After the client library is installed/deployed, you can use it in your Maven project by adding the following to your *pom.xml*:
+### Maven users
+
+Add this dependency to your project's POM:
 
 ```xml
 <dependency>
@@ -31,33 +33,61 @@ After the client library is installed/deployed, you can use it in your Maven pro
 </dependency>
 ```
 
+### Gradle users
+
+Add this dependency to your project's build file:
+
+```groovy
+compile "io.swagger:swagger-java-client:1.0.0"
+```
+
+### Others
+
+At first generate the JAR by executing:
+
+    mvn package
+
+Then manually install the following JARs:
+
+* target/swagger-java-client-1.0.0.jar
+* target/lib/*.jar
+
 ## Getting Started
 
 Please follow the [installation](#installation) instruction and execute the following Java code:
 
 ```java
 
-// Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.model.*;
-//import io.swagger.client.api.PetApi;
+import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.PetApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+import java.io.File;
+import java.util.*;
 
-// Configure OAuth2 access token for authorization: petstore_auth
-OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+public class PetApiExample {
 
-PetApi apiInstance = new PetApi();
-Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
-try {
-    apiInstance.addPet(body);
-} catch (ApiException e) {
-    System.err.println("Exception when calling PetApi#addPet");
-    e.printStackTrace();
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        
+        // Configure OAuth2 access token for authorization: petstore_auth
+        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+        
+        
+
+        PetApi apiInstance = new PetApi();
+        
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        
+        try {
+            apiInstance.addPet(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#addPet");
+            e.printStackTrace();
+        }
+    }
 }
 
 ```
