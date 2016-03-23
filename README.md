@@ -740,6 +740,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
+- [Kuary](https://kuary.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [OSDN](https://osdn.jp)
