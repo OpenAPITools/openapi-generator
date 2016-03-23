@@ -273,9 +273,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // library-specific files
         if (StringUtils.isEmpty(getLibrary())) {
+            // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
             apiDocTemplateFiles.put("api_doc.mustache", ".md");
         } else if ("okhttp-gson".equals(getLibrary())) {
+            // generate markdown docs
+            modelDocTemplateFiles.put("model_doc.mustache", ".md");
+            apiDocTemplateFiles.put("api_doc.mustache", ".md");
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -288,6 +292,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
         } else if("jersey2".equals(getLibrary())) {
+            // generate markdown docs
+            modelDocTemplateFiles.put("model_doc.mustache", ".md");
+            apiDocTemplateFiles.put("api_doc.mustache", ".md");
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
         }
 
