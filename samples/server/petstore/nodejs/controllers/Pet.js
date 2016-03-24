@@ -37,3 +37,11 @@ module.exports.deletePet = function deletePet (req, res, next) {
 module.exports.uploadFile = function uploadFile (req, res, next) {
   Pet.uploadFile(req.swagger.params, res, next);
 };
+
+module.exports.getPetByIdWithByteArray = function getPetByIdWithByteArray (req, res, next) {
+  Pet.getPetByIdWithByteArray(req.swagger.params, res, next);
+};
+
+module.exports.addPetUsingByteArray = function addPetUsingByteArray (req, res, next) {
+  Pet.addPetUsingByteArray(req.swagger.params, res, next);
+};

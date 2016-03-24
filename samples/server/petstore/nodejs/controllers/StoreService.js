@@ -37,7 +37,7 @@ var examples = {};
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-11-18T02:43:54.540+0000"
+  "shipDate" : "2016-01-24T14:07:57.768+0000"
 };
   
 
@@ -66,7 +66,7 @@ var examples = {};
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2015-11-18T02:43:54.544+0000"
+  "shipDate" : "2016-01-24T14:07:57.780+0000"
 };
   
 
