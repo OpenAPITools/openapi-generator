@@ -26,12 +26,12 @@ This can only be done by the logged in user.
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'body': new SwaggerPetstore.User() // {User} Created user object
 };
-api.createUser(opts).then(function() {
+apiInstance.createUser(opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -70,12 +70,12 @@ Creates list of users with given input array
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'body': [new SwaggerPetstore.User()] // {[User]} List of user object
 };
-api.createUsersWithArrayInput(opts).then(function() {
+apiInstance.createUsersWithArrayInput(opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -114,12 +114,12 @@ Creates list of users with given input array
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'body': [new SwaggerPetstore.User()] // {[User]} List of user object
 };
-api.createUsersWithListInput(opts).then(function() {
+apiInstance.createUsersWithListInput(opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -164,11 +164,11 @@ var test_http_basic = defaultClient.authentications['test_http_basic'];
 test_http_basic.username = 'YOUR USERNAME'
 test_http_basic.password = 'YOUR PASSWORD'
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var username = "username_example"; // {String} The name that needs to be deleted
 
-api.deleteUser(username).then(function() {
+apiInstance.deleteUser(username).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -207,11 +207,11 @@ Get user by user name
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var username = "username_example"; // {String} The name that needs to be fetched. Use user1 for testing.
 
-api.getUserByName(username).then(function(data) {
+apiInstance.getUserByName(username).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -250,13 +250,13 @@ Logs user into the system
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var opts = { 
   'username': "username_example", // {String} The user name for login
   'password': "password_example" // {String} The password for login in clear text
 };
-api.loginUser(opts).then(function(data) {
+apiInstance.loginUser(opts).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -296,8 +296,8 @@ Logs out current logged in user session
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
-api.logoutUser().then(function() {
+var apiInstance = new SwaggerPetstore.UserApi()
+apiInstance.logoutUser().then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -333,14 +333,14 @@ This can only be done by the logged in user.
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var api = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi()
 
 var username = "username_example"; // {String} name that need to be deleted
 
 var opts = { 
   'body': new SwaggerPetstore.User() // {User} Updated user object
 };
-api.updateUser(username, opts).then(function() {
+apiInstance.updateUser(username, opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
