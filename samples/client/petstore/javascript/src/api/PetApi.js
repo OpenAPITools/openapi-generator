@@ -25,11 +25,7 @@
    * Constructs a new PetApi. 
    * @alias module:api/PetApi
    * @class
-<<<<<<< HEAD
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, defaulting to {@link module:ApiClient#instance}
-=======
    * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
->>>>>>> update js doc
    * if unspecified.
    */
   var exports = function(apiClient) {
@@ -179,11 +175,7 @@
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param {Object} opts Optional parameters
-<<<<<<< HEAD
-     * @param {Array.<String>} opts.status Status values that need to be considered for query
-=======
      * @param {Array.<String>} opts.status Status values that need to be considered for query (default to available)
->>>>>>> update js doc
      * @param {module:api/PetApi~findPetsByStatusCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {Array.<module:model/Pet>}
      */

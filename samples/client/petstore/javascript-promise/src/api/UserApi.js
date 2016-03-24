@@ -25,7 +25,7 @@
    * Constructs a new UserApi. 
    * @alias module:api/UserApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, defaulting to {@link module:ApiClient#instance}
+   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
    * if unspecified.
    */
   var exports = function(apiClient) {
@@ -139,11 +139,6 @@
      */
     this.deleteUser = function(username) {
       var postBody = null;
-      // verify the required parameter 'username' is set
-      if (username == null) {
-        throw "Missing the required parameter 'username' when calling deleteUser";
-      }
-      
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
@@ -182,11 +177,6 @@
      */
     this.getUserByName = function(username) {
       var postBody = null;
-      // verify the required parameter 'username' is set
-      if (username == null) {
-        throw "Missing the required parameter 'username' when calling getUserByName";
-      }
-      
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
