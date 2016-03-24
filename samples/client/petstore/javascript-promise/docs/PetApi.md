@@ -1,4 +1,3 @@
-
 # SwaggerPetstore.PetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -35,12 +34,12 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'body': new SwaggerPetstore.Pet() // {Pet} Pet object that needs to be added to the store
 };
-api.addPet(opts).then(function() {
+apiInstance.addPet(opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -84,12 +83,12 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'body': "B" // {String} Pet object in the form of byte array
 };
-api.addPetUsingByteArray(opts).then(function() {
+apiInstance.addPetUsingByteArray(opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -133,14 +132,14 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} Pet id to delete
 
 var opts = { 
   'apiKey': "apiKey_example" // {String} 
 };
-api.deletePet(petId, opts).then(function() {
+apiInstance.deletePet(petId, opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -185,12 +184,12 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'status': ["available"] // {[String]} Status values that need to be considered for query
 };
-api.findPetsByStatus(opts).then(function(data) {
+apiInstance.findPetsByStatus(opts).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -234,12 +233,12 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'tags': ["tags_example"] // {[String]} Tags to filter by
 };
-api.findPetsByTags(opts).then(function(data) {
+apiInstance.findPetsByTags(opts).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -289,11 +288,11 @@ api_key.apiKey = "YOUR API KEY"
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet that needs to be fetched
 
-api.getPetById(petId).then(function(data) {
+apiInstance.getPetById(petId).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -343,11 +342,11 @@ api_key.apiKey = "YOUR API KEY"
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet that needs to be fetched
 
-api.getPetByIdInObject(petId).then(function(data) {
+apiInstance.getPetByIdInObject(petId).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -397,11 +396,11 @@ api_key.apiKey = "YOUR API KEY"
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet that needs to be fetched
 
-api.petPetIdtestingByteArraytrueGet(petId).then(function(data) {
+apiInstance.petPetIdtestingByteArraytrueGet(petId).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -445,12 +444,12 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var opts = { 
   'body': new SwaggerPetstore.Pet() // {Pet} Pet object that needs to be added to the store
 };
-api.updatePet(opts).then(function() {
+apiInstance.updatePet(opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -494,7 +493,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = "petId_example"; // {String} ID of pet that needs to be updated
 
@@ -502,7 +501,7 @@ var opts = {
   'name': "name_example", // {String} Updated name of the pet
   'status': "status_example" // {String} Updated status of the pet
 };
-api.updatePetWithForm(petId, opts).then(function() {
+apiInstance.updatePetWithForm(petId, opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -548,7 +547,7 @@ var defaultClient = SwaggerPetstore.ApiClient.default;
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new SwaggerPetstore.PetApi()
+var apiInstance = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Integer} ID of pet to update
 
@@ -556,7 +555,7 @@ var opts = {
   'additionalMetadata': "additionalMetadata_example", // {String} Additional data to pass to server
   'file': "/path/to/file.txt" // {File} file to upload
 };
-api.uploadFile(petId, opts).then(function() {
+apiInstance.uploadFile(petId, opts).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);

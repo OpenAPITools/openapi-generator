@@ -1,4 +1,3 @@
-
 # SwaggerPetstore.InlineResponse200
 
 ## Properties
