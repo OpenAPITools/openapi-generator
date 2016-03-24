@@ -25,7 +25,7 @@
    * Constructs a new StoreApi. 
    * @alias module:api/StoreApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, defaulting to {@link module:ApiClient#instance}
+   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
    * if unspecified.
    */
   var exports = function(apiClient) {
@@ -40,11 +40,6 @@
      */
     this.deleteOrder = function(orderId) {
       var postBody = null;
-      // verify the required parameter 'orderId' is set
-      if (orderId == null) {
-        throw "Missing the required parameter 'orderId' when calling deleteOrder";
-      }
-      
 
       // verify the required parameter 'orderId' is set
       if (orderId == undefined || orderId == null) {
@@ -79,7 +74,7 @@
      * Finds orders by status
      * A single status value can be provided as a string
      * @param {Object} opts Optional parameters
-     * @param {module:model/String} opts.status Status value that needs to be considered for query
+     * @param {module:model/String} opts.status Status value that needs to be considered for query (default to placed)
      * data is of type: {Array.<module:model/Order>}
      */
     this.findOrdersByStatus = function(opts) {
