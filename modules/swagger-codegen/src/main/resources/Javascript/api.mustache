@@ -1,7 +1,7 @@
 {{=< >=}}(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'<#imports>, '../<#modelPackage><modelPackage>/</modelPackage><import>'</imports>], factory);
+    define(['<#invokerPackage><invokerPackage>/</invokerPackage>ApiClient'<#imports>, '<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><import>'</imports>], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient')<#imports>, require('../<#modelPackage><modelPackage>/</modelPackage><import>')</imports>);
@@ -17,17 +17,17 @@
 
 <#emitJSDoc>  /**
    * <baseName> service.
-   * @module <#apiPackage><apiPackage>/</apiPackage><classname>
+   * @module <#invokerPackage><invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><classname>
    * @version <projectVersion>
    */
 
   /**
    * Constructs a new <classname>. <#description>
    * <description></description>
-   * @alias module:<#apiPackage><apiPackage>/</apiPackage><classname>
+   * @alias module:<#invokerPackage><invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><classname>
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
-   * if unspecified.
+   * @param {module:<#invokerPackage><invokerPackage>/</invokerPackage>ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:<#invokerPackage><invokerPackage>/</invokerPackage>ApiClient#instance} if unspecified.
    */
 </emitJSDoc>  var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
@@ -35,7 +35,7 @@
 <#operations><#operation><#emitJSDoc><^usePromises>
     /**
      * Callback function to receive the result of the <nickname> operation.
-     * @callback module:<#apiPackage><apiPackage>/</apiPackage><classname>~<nickname>Callback
+     * @callback module:<#invokerPackage><invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><classname>~<nickname>Callback
      * @param {String} error Error message, if any.
      * @param <#vendorExtensions.x-jsdoc-type><&vendorExtensions.x-jsdoc-type> data The data returned by the service call.</vendorExtensions.x-jsdoc-type><^vendorExtensions.x-jsdoc-type>data This operation does not return a value.</vendorExtensions.x-jsdoc-type>
      * @param {String} response The complete HTTP response.
@@ -47,7 +47,7 @@
      * @param <&vendorExtensions.x-jsdoc-type> <paramName> <description></required></allParams><#hasOptionalParams>
      * @param {Object} opts Optional parameters<#allParams><^required>
      * @param <&vendorExtensions.x-jsdoc-type> opts.<paramName> <description><#defaultValue> (default to <.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
-     * @param {module:<#apiPackage><apiPackage>/</apiPackage><classname>~<nickname>Callback} callback The callback function, accepting three arguments: error, data, response</usePromises><#returnType>
+     * @param {module:<#invokerPackage><invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><classname>~<nickname>Callback} callback The callback function, accepting three arguments: error, data, response</usePromises><#returnType>
      * data is of type: <&vendorExtensions.x-jsdoc-type></returnType>
      */
 </emitJSDoc>    this.<nickname> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>

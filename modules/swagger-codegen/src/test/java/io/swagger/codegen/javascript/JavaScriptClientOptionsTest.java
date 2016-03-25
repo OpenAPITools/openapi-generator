@@ -30,6 +30,8 @@ public class JavaScriptClientOptionsTest extends AbstractOptionsTest {
     protected void setExpectations() {
         // Commented generic options not yet supported by JavaScript codegen.
         new Expectations(clientCodegen) {{
+            clientCodegen.setInvokerPackage(JavaScriptOptionsProvider.INVOKER_PACKAGE_VALUE);
+            times = 1;
             clientCodegen.setModelPackage(JavaScriptOptionsProvider.MODEL_PACKAGE_VALUE);
             times = 1;
             clientCodegen.setApiPackage(JavaScriptOptionsProvider.API_PACKAGE_VALUE);
