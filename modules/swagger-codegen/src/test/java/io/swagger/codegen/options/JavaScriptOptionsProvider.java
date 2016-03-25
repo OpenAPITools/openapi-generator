@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class JavaScriptOptionsProvider implements OptionsProvider {
     public static final String ARTIFACT_ID_VALUE = "swagger-javascript-client-test";
+    public static final String INVOKER_PACKAGE_VALUE = "invoker";
     public static final String MODEL_PACKAGE_VALUE = "model";
     public static final String API_PACKAGE_VALUE = "api";
-//    public static final String INVOKER_PACKAGE_VALUE = "js";
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String GROUP_ID_VALUE = "io.swagger.test";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
@@ -38,11 +38,11 @@ public class JavaScriptOptionsProvider implements OptionsProvider {
     public JavaScriptOptionsProvider() {
         // Commented generic options not yet supported by JavaScript codegen.
         options = new ImmutableMap.Builder<String, String>()
+                .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
                 .put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
-//                .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
 //                .put(CodegenConstants.GROUP_ID, GROUP_ID_VALUE)
 //                .put(CodegenConstants.ARTIFACT_ID, ARTIFACT_ID_VALUE)
 //                .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)

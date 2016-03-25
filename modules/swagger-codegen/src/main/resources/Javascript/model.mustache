@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'{{#imports}}, './{{import}}'{{/imports}}], factory);
+    define(['{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient'{{#imports}}, '{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{import}}'{{/imports}}], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'){{#imports}}, require('./{{import}}'){{/imports}});
@@ -17,17 +17,17 @@
 
 {{#models}}{{#model}}{{#emitJSDoc}}  /**
    * The {{classname}} model module.
-   * @module {{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+   * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
    * @version {{projectVersion}}
    */
 
   /**
    * Constructs a new <code>{{classname}}</code>.{{#description}}
    * {{description}}{{/description}}
-   * @alias module:{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+   * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
    * @class{{#useInheritance}}{{#parent}}
-   * @extends module:{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{parent}}{{/parent}}{{#interfaces}}
-   * @implements module:{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+   * @extends module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{parent}}{{/parent}}{{#interfaces}}
+   * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
    * @param {{.}}{{/vendorExtensions.x-all-required}}
    */{{/emitJSDoc}}
   var exports = function({{#vendorExtensions.x-all-required}}{{.}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) {
@@ -40,8 +40,8 @@
    * Constructs a <code>{{classname}}</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {{=< >=}}{module:<#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> obj Optional instance to populate.
-   * @return {{=< >=}}{module:<#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
+   * @param {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> obj Optional instance to populate.
+   * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
    */
 {{/emitJSDoc}}  exports.constructFromObject = function(data, obj) {
     if (data) { {{!// TODO: support polymorphism: discriminator property on data determines class to instantiate.}}
