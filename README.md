@@ -87,7 +87,7 @@ To build from source, you need the following installed and available in your $PA
 
 * [Java 7 or 8](http://java.oracle.com)
 
-* [Apache maven 3.0.3 or greater](http://maven.apache.org/)
+* [Apache maven 3.3.3 or greater](http://maven.apache.org/)
 
 #### OS X Users
 Don't forget to install Java 7 or 8. You probably have 1.6.
