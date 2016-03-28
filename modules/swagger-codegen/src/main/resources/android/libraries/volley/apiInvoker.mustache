@@ -197,7 +197,8 @@ public class ApiInvoker {
      INSTANCE.authentications.put("{{name}}", new HttpBasicAuth());
      {{/isBasic}}
      {{#isOAuth}}
-     INSTANCE.authentications.put("{{name}}", new OAuth());
+     // TODO: comment out below as OAuth does not exist
+     //INSTANCE.authentications.put("{{name}}", new OAuth());
      {{/isOAuth}}
      {{/authMethods}}
      // Prevent the authentications from being modified.
