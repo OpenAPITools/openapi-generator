@@ -108,6 +108,7 @@ class Model200Response implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        
         if ($data != null) {
             $this->name = $data["name"];
         }
