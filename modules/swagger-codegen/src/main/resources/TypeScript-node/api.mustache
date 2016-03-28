@@ -216,8 +216,6 @@ export class {{classname}} {
 {{/isFile}}
 
 {{/formParams}}
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>();
-
         let requestOptions: request.Options = {
             method: '{{httpMethod}}',
             qs: queryParameters,
@@ -242,20 +240,21 @@ export class {{classname}} {
                 requestOptions.form = formParams;
             }
         }
-
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        
+        return new Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
 
-        return localVarDeferred.promise;
     }
 {{/operation}}
 }
