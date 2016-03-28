@@ -1,6 +1,6 @@
 <?php
 /**
- * InlineResponse200
+ * Animal
  *
  * PHP version 5
  *
@@ -35,7 +35,7 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 /**
- * InlineResponse200 Class Doc Comment
+ * Animal Class Doc Comment
  *
  * @category    Class
  * @description 
@@ -44,19 +44,14 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class InlineResponse200 implements ArrayAccess
+class Animal implements ArrayAccess
 {
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'photo_urls' => 'string[]',
-        'name' => 'string',
-        'id' => 'int',
-        'category' => 'object',
-        'tags' => '\Swagger\Client\Model\Tag[]',
-        'status' => 'string'
+        'class_name' => 'string'
     );
   
     static function swaggerTypes() {
@@ -68,12 +63,7 @@ class InlineResponse200 implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'photo_urls' => 'photoUrls',
-        'name' => 'name',
-        'id' => 'id',
-        'category' => 'category',
-        'tags' => 'tags',
-        'status' => 'status'
+        'class_name' => 'className'
     );
   
     static function attributeMap() {
@@ -85,12 +75,7 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'photo_urls' => 'setPhotoUrls',
-        'name' => 'setName',
-        'id' => 'setId',
-        'category' => 'setCategory',
-        'tags' => 'setTags',
-        'status' => 'setStatus'
+        'class_name' => 'setClassName'
     );
   
     static function setters() {
@@ -102,12 +87,7 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'photo_urls' => 'getPhotoUrls',
-        'name' => 'getName',
-        'id' => 'getId',
-        'category' => 'getCategory',
-        'tags' => 'getTags',
-        'status' => 'getStatus'
+        'class_name' => 'getClassName'
     );
   
     static function getters() {
@@ -116,40 +96,10 @@ class InlineResponse200 implements ArrayAccess
 
     
     /**
-      * $photo_urls 
-      * @var string[]
-      */
-    protected $photo_urls;
-    
-    /**
-      * $name 
+      * $class_name 
       * @var string
       */
-    protected $name;
-    
-    /**
-      * $id 
-      * @var int
-      */
-    protected $id;
-    
-    /**
-      * $category 
-      * @var object
-      */
-    protected $category;
-    
-    /**
-      * $tags 
-      * @var \Swagger\Client\Model\Tag[]
-      */
-    protected $tags;
-    
-    /**
-      * $status pet status in the store
-      * @var string
-      */
-    protected $status;
+    protected $class_name;
     
 
     /**
@@ -160,141 +110,28 @@ class InlineResponse200 implements ArrayAccess
     {
         
         if ($data != null) {
-            $this->photo_urls = $data["photo_urls"];
-            $this->name = $data["name"];
-            $this->id = $data["id"];
-            $this->category = $data["category"];
-            $this->tags = $data["tags"];
-            $this->status = $data["status"];
+            $this->class_name = $data["class_name"];
         }
     }
     
     /**
-     * Gets photo_urls
-     * @return string[]
-     */
-    public function getPhotoUrls()
-    {
-        return $this->photo_urls;
-    }
-  
-    /**
-     * Sets photo_urls
-     * @param string[] $photo_urls 
-     * @return $this
-     */
-    public function setPhotoUrls($photo_urls)
-    {
-        
-        $this->photo_urls = $photo_urls;
-        return $this;
-    }
-    
-    /**
-     * Gets name
+     * Gets class_name
      * @return string
      */
-    public function getName()
+    public function getClassName()
     {
-        return $this->name;
+        return $this->class_name;
     }
   
     /**
-     * Sets name
-     * @param string $name 
+     * Sets class_name
+     * @param string $class_name 
      * @return $this
      */
-    public function setName($name)
+    public function setClassName($class_name)
     {
         
-        $this->name = $name;
-        return $this;
-    }
-    
-    /**
-     * Gets id
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-  
-    /**
-     * Sets id
-     * @param int $id 
-     * @return $this
-     */
-    public function setId($id)
-    {
-        
-        $this->id = $id;
-        return $this;
-    }
-    
-    /**
-     * Gets category
-     * @return object
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-  
-    /**
-     * Sets category
-     * @param object $category 
-     * @return $this
-     */
-    public function setCategory($category)
-    {
-        
-        $this->category = $category;
-        return $this;
-    }
-    
-    /**
-     * Gets tags
-     * @return \Swagger\Client\Model\Tag[]
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-  
-    /**
-     * Sets tags
-     * @param \Swagger\Client\Model\Tag[] $tags 
-     * @return $this
-     */
-    public function setTags($tags)
-    {
-        
-        $this->tags = $tags;
-        return $this;
-    }
-    
-    /**
-     * Gets status
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-  
-    /**
-     * Sets status
-     * @param string $status pet status in the store
-     * @return $this
-     */
-    public function setStatus($status)
-    {
-        $allowed_values = array("available", "pending", "sold");
-        if (!in_array($status, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
-        }
-        $this->status = $status;
+        $this->class_name = $class_name;
         return $this;
     }
     
