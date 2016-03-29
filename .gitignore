@@ -43,6 +43,7 @@ samples/server-generator/scalatra/output/.history
 # nodejs
 samples/server-generator/node/output/node_modules
 samples/server/petstore/nodejs/node_modules
+samples/server/petstore/nodejs-server/node_modules
 
 # qt5 cpp
 samples/client/petstore/qt5cpp/PetStore/moc_*
