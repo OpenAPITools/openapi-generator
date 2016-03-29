@@ -63,11 +63,13 @@ module Petstore
       }
     end
 
+    # Initializes the object
+    # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       return unless attributes.is_a?(Hash)
 
       # convert string to symbol for hash key
-      attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+      attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
       
       if attributes[:'tags']
@@ -101,6 +103,7 @@ module Petstore
     end
 
     # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] status Object to be assigned
     def status=(status)
       allowed_values = ["available", "pending", "sold"]
       if status && !allowed_values.include?(status)
@@ -109,7 +112,8 @@ module Petstore
       @status = status
     end
 
-    # Check equality by comparing each attribute.
+    # Checks equality by comparing each attribute.
+    # @param [Object] Object to be compared 
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
@@ -122,24 +126,28 @@ module Petstore
     end
 
     # @see the `==` method
+    # @param [Object] Object to be compared 
     def eql?(o)
       self == o
     end
 
-    # Calculate hash code according to all attributes.
+    # Calculates hash code according to all attributes.
+    # @return [Fixnum] Hash code
     def hash
       [tags, id, category, status, name, photo_urls].hash
     end
 
-    # build the object from hash
+    # Builds the object from hash
+    # @param [Hash] attributes Model attributes in the form of hash
+    # @return [Object] Returns the model itself
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.swagger_types.each_pair do |key, type|
         if type =~ /^Array<(.*)>/i
+          # check to ensure the input is an array given that the the attribute
+          # is documented as an array but the input is not
           if attributes[self.class.attribute_map[key]].is_a?(Array)
             self.send("#{key}=", attributes[self.class.attribute_map[key]].map{ |v| _deserialize($1, v) } )
-          else
-            #TODO show warning in debug mode
           end
         elsif !attributes[self.class.attribute_map[key]].nil?
           self.send("#{key}=", _deserialize(type, attributes[self.class.attribute_map[key]]))
@@ -151,6 +159,10 @@ module Petstore
       self
     end
 
+    # Deserializes the data based on type
+    # @param string type Data type
+    # @param string value Value to be deserialized
+    # @return [Object] Deserialized data
     def _deserialize(type, value)
       case type.to_sym
       when :DateTime
@@ -184,21 +196,25 @@ module Petstore
           end
         end
       else # model
-        _model = Petstore.const_get(type).new
-        _model.build_from_hash(value)
+        temp_model = Petstore.const_get(type).new
+        temp_model.build_from_hash(value)
       end
     end
 
+    # Returns the string representation of the object
+    # @return [String] String presentation of the object
     def to_s
       to_hash.to_s
     end
 
-    # to_body is an alias to to_body (backward compatibility))
+    # to_body is an alias to to_hash (backward compatibility)
+    # @return [Hash] Returns the object in the form of hash
     def to_body
       to_hash
     end
 
-    # return the object in the form of hash
+    # Returns the object in the form of hash
+    # @return [Hash] Returns the object in the form of hash
     def to_hash
       hash = {}
       self.class.attribute_map.each_pair do |attr, param|
@@ -209,8 +225,10 @@ module Petstore
       hash
     end
 
-    # Method to output non-array value in the form of hash
+    # Outputs non-array value in the form of hash
     # For object, use to_hash. Otherwise, just return the value
+    # @param [Object] value Any valid value 
+    # @return [Hash] Returns the value in the form of hash
     def _to_hash(value)
       if value.is_a?(Array)
         value.compact.map{ |v| _to_hash(v) }

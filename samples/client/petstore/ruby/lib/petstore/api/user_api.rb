@@ -54,12 +54,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -110,12 +110,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -166,12 +166,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -225,12 +225,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -257,7 +257,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [User]
     def get_user_by_name(username, opts = {})
-      data, status_code, headers = get_user_by_name_with_http_info(username, opts)
+      data, _status_code, _headers = get_user_by_name_with_http_info(username, opts)
       return data
     end
 
@@ -284,12 +284,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -318,7 +318,7 @@ module Petstore
     # @option opts [String] :password The password for login in clear text
     # @return [String]
     def login_user(opts = {})
-      data, status_code, headers = login_user_with_http_info(opts)
+      data, _status_code, _headers = login_user_with_http_info(opts)
       return data
     end
 
@@ -345,12 +345,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -400,12 +400,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -461,12 +461,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
