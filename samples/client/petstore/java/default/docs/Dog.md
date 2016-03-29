@@ -1,10 +1,11 @@
 
-# Model200Response
+# Dog
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **Integer** |  |  [optional]
+**className** | **String** |  | 
+**breed** | **String** |  |  [optional]
 
 
 

@@ -1,3 +1,4 @@
+
 # Order
 
 ## Properties
@@ -7,7 +8,17 @@ Name | Type | Description | Notes
 **petId** | **Long** |  |  [optional]
 **quantity** | **Integer** |  |  [optional]
 **shipDate** | [**Date**](Date.md) |  |  [optional]
-**status** | **String** | Order Status |  [optional]
+**status** | [**StatusEnum**](#StatusEnum) | Order Status |  [optional]
 **complete** | **Boolean** |  |  [optional]
+
+
+<a name="StatusEnum"></a>
+## Enum: StatusEnum
+Name | Value
+---- | -----
+PLACED | placed
+APPROVED | approved
+DELIVERED | delivered
+
 
 

@@ -1,10 +1,11 @@
 
-# Model200Response
+# Cat
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **Integer** |  |  [optional]
+**className** | **String** |  | 
+**declawed** | **Boolean** |  |  [optional]
 
 
 

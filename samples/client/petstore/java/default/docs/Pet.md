@@ -1,3 +1,4 @@
+
 # Pet
 
 ## Properties
@@ -8,6 +9,16 @@ Name | Type | Description | Notes
 **name** | **String** |  | 
 **photoUrls** | **List&lt;String&gt;** |  | 
 **tags** | [**List&lt;Tag&gt;**](Tag.md) |  |  [optional]
-**status** | **String** | pet status in the store |  [optional]
+**status** | [**StatusEnum**](#StatusEnum) | pet status in the store |  [optional]
+
+
+<a name="StatusEnum"></a>
+## Enum: StatusEnum
+Name | Value
+---- | -----
+AVAILABLE | available
+PENDING | pending
+SOLD | sold
+
 
 
