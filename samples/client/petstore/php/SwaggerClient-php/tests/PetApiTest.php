@@ -375,6 +375,33 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    // test inheritance in the model
+    public function testInheritance()
+    {
+        $new_dog = new Swagger\Client\Model\Dog;
+        // the object should be an instance of the derived class
+        $this->assertInstanceOf('Swagger\Client\Model\Dog', $new_dog);
+        // the object should also be an instance of the parent class
+        $this->assertInstanceOf('Swagger\Client\Model\Animal', $new_dog);
+    }
+
+    // test inheritance constructor is working with data
+    // initialization
+    public function testInheritanceConstructorDataInitialization()
+    {
+        // initialize the object with data in the constructor
+        $data = array(
+            'class_name' => 'Dog',
+            'breed' => 'Great Dane'
+        );
+        $new_dog = new Swagger\Client\Model\Dog($data);
+
+        // the property on the derived class should be set
+        $this->assertSame('Great Dane', $new_dog->getBreed());
+        // the property on the parent class should be set
+        $this->assertSame('Dog', $new_dog->getClassName());
+    }
+
 }
 
 ?>
