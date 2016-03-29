@@ -54,7 +54,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional]
 
 ### Return type
 
@@ -106,7 +106,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **byte[]**| Pet object in the form of byte array | [optional] 
+ **body** | **byte[]**| Pet object in the form of byte array | [optional]
 
 ### Return type
 
@@ -159,8 +159,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| Pet id to delete | 
- **apiKey** | **String**|  | [optional] 
+ **petId** | **Long**| Pet id to delete |
+ **apiKey** | **String**|  | [optional]
 
 ### Return type
 
@@ -266,7 +266,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [optional] 
+ **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [optional]
 
 ### Return type
 
@@ -325,7 +325,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be fetched | 
+ **petId** | **Long**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -384,7 +384,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be fetched | 
+ **petId** | **Long**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -443,7 +443,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be fetched | 
+ **petId** | **Long**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -495,7 +495,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional]
 
 ### Return type
 
@@ -549,9 +549,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **String**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | [optional] 
- **status** | **String**| Updated status of the pet | [optional] 
+ **petId** | **String**| ID of pet that needs to be updated |
+ **name** | **String**| Updated name of the pet | [optional]
+ **status** | **String**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -605,9 +605,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to update | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **File**| file to upload | [optional] 
+ **petId** | **Long**| ID of pet to update |
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
+ **file** | **File**| file to upload | [optional]
 
 ### Return type
 

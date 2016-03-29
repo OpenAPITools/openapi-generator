@@ -127,7 +127,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [Animal](docs/Animal.md)
+ - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
+ - [Dog](docs/Dog.md)
  - [InlineResponse200](docs/InlineResponse200.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelReturn](docs/ModelReturn.md)

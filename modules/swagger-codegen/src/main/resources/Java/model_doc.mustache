@@ -1,9 +1,3 @@
-{{#models}}{{#model}}# {{classname}}
-
-## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{datatype}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{datatype}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}} [optional]{{/required}}{{#readOnly}} [readonly]{{/readOnly}}
-{{/vars}}
-
+{{#models}}{{#model}}
+{{#isEnum}}{{>enum_outer_doc}}{{/isEnum}}{{^isEnum}}{{>pojo_doc}}{{/isEnum}}
 {{/model}}{{/models}}

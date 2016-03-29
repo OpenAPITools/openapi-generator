@@ -43,7 +43,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | [optional] 
+ **body** | [**User**](User.md)| Created user object | [optional]
 
 ### Return type
 
@@ -87,7 +87,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | [optional] 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | [optional]
 
 ### Return type
 
@@ -131,7 +131,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | [optional] 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | [optional]
 
 ### Return type
 
@@ -184,7 +184,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | 
+ **username** | **String**| The name that needs to be deleted |
 
 ### Return type
 
@@ -229,7 +229,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -275,8 +275,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | [optional] 
- **password** | **String**| The password for login in clear text | [optional] 
+ **username** | **String**| The user name for login | [optional]
+ **password** | **String**| The password for login in clear text | [optional]
 
 ### Return type
 
@@ -361,8 +361,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | [optional] 
+ **username** | **String**| name that need to be deleted |
+ **body** | [**User**](User.md)| Updated user object | [optional]
 
 ### Return type
 

@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | 
+ **orderId** | **String**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -102,7 +102,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | **String**| Status value that needs to be considered for query | [optional] [default to placed]
+ **status** | **String**| Status value that needs to be considered for query | [optional] [default to placed] [enum: placed, approved, delivered]
 
 ### Return type
 
@@ -265,7 +265,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of pet that needs to be fetched | 
+ **orderId** | **String**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -326,7 +326,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | [optional] 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | [optional]
 
 ### Return type
 
