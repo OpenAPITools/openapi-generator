@@ -102,7 +102,7 @@ class UserApi
      */
     public function createUser($body = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->createUserWithHttpInfo ($body);
+        list($response) = $this->createUserWithHttpInfo ($body);
         return $response; 
     }
 
@@ -126,11 +126,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
@@ -181,7 +181,7 @@ class UserApi
      */
     public function createUsersWithArrayInput($body = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->createUsersWithArrayInputWithHttpInfo ($body);
+        list($response) = $this->createUsersWithArrayInputWithHttpInfo ($body);
         return $response; 
     }
 
@@ -205,11 +205,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
@@ -260,7 +260,7 @@ class UserApi
      */
     public function createUsersWithListInput($body = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->createUsersWithListInputWithHttpInfo ($body);
+        list($response) = $this->createUsersWithListInputWithHttpInfo ($body);
         return $response; 
     }
 
@@ -284,11 +284,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
@@ -339,7 +339,7 @@ class UserApi
      */
     public function deleteUser($username)
     {
-        list($response, $statusCode, $httpHeader) = $this->deleteUserWithHttpInfo ($username);
+        list($response) = $this->deleteUserWithHttpInfo ($username);
         return $response; 
     }
 
@@ -367,11 +367,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
@@ -431,7 +431,7 @@ class UserApi
      */
     public function getUserByName($username)
     {
-        list($response, $statusCode, $httpHeader) = $this->getUserByNameWithHttpInfo ($username);
+        list($response) = $this->getUserByNameWithHttpInfo ($username);
         return $response; 
     }
 
@@ -459,11 +459,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
@@ -501,12 +501,12 @@ class UserApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\User', $e->getResponseHeaders());
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\User', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;
             }
@@ -527,7 +527,7 @@ class UserApi
      */
     public function loginUser($username = null, $password = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->loginUserWithHttpInfo ($username, $password);
+        list($response) = $this->loginUserWithHttpInfo ($username, $password);
         return $response; 
     }
 
@@ -552,11 +552,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         // query params
         
@@ -594,12 +594,12 @@ class UserApi
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
             
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;
             }
@@ -618,7 +618,7 @@ class UserApi
      */
     public function logoutUser()
     {
-        list($response, $statusCode, $httpHeader) = $this->logoutUserWithHttpInfo ();
+        list($response) = $this->logoutUserWithHttpInfo ();
         return $response; 
     }
 
@@ -641,11 +641,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
@@ -693,7 +693,7 @@ class UserApi
      */
     public function updateUser($username, $body = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->updateUserWithHttpInfo ($username, $body);
+        list($response) = $this->updateUserWithHttpInfo ($username, $body);
         return $response; 
     }
 
@@ -722,11 +722,11 @@ class UserApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
