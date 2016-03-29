@@ -90,10 +90,19 @@ public class Generator {
             throw new BadRequestException("The swagger specification supplied was not valid");
         }
 
+        String destPath = null;
+
+        if(opts != null && opts.getOptions() != null) {
+            destPath = opts.getOptions().get("outputFolder");
+        }
+        if(destPath == null) {
+            destPath = language + "-"
+                    + type.getTypeName();
+        }
+
         ClientOptInput clientOptInput = new ClientOptInput();
         ClientOpts clientOpts = new ClientOpts();
-        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + language + "-"
-                + type.getTypeName();
+        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
         String outputFilename = outputFolder + "-bundle.zip";
 
         clientOptInput

@@ -1,6 +1,6 @@
 <?php
 /**
- * SpecialModelName
+ * Dog
  *
  * PHP version 5
  *
@@ -35,7 +35,7 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 /**
- * SpecialModelName Class Doc Comment
+ * Dog Class Doc Comment
  *
  * @category    Class
  * @description 
@@ -44,18 +44,18 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class SpecialModelName implements ArrayAccess
+class Dog extends Animal implements ArrayAccess
 {
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'special_property_name' => 'int'
+        'breed' => 'string'
     );
   
     static function swaggerTypes() {
-        return self::$swaggerTypes;
+        return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     /** 
@@ -63,11 +63,11 @@ class SpecialModelName implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'special_property_name' => '$special[property.name]'
+        'breed' => 'breed'
     );
   
     static function attributeMap() {
-        return self::$attributeMap;
+        return parent::attributeMap() + self::$attributeMap;
     }
 
     /**
@@ -75,11 +75,11 @@ class SpecialModelName implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'special_property_name' => 'setSpecialPropertyName'
+        'breed' => 'setBreed'
     );
   
     static function setters() {
-        return self::$setters;
+        return parent::setters() + self::$setters;
     }
 
     /**
@@ -87,19 +87,19 @@ class SpecialModelName implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'special_property_name' => 'getSpecialPropertyName'
+        'breed' => 'getBreed'
     );
   
     static function getters() {
-        return self::$getters;
+        return parent::getters() + self::$getters;
     }
 
     
     /**
-      * $special_property_name 
-      * @var int
+      * $breed 
+      * @var string
       */
-    protected $special_property_name;
+    protected $breed;
     
 
     /**
@@ -108,30 +108,30 @@ class SpecialModelName implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
+        parent::__construct($data);
         if ($data != null) {
-            $this->special_property_name = $data["special_property_name"];
+            $this->breed = $data["breed"];
         }
     }
     
     /**
-     * Gets special_property_name
-     * @return int
+     * Gets breed
+     * @return string
      */
-    public function getSpecialPropertyName()
+    public function getBreed()
     {
-        return $this->special_property_name;
+        return $this->breed;
     }
   
     /**
-     * Sets special_property_name
-     * @param int $special_property_name 
+     * Sets breed
+     * @param string $breed 
      * @return $this
      */
-    public function setSpecialPropertyName($special_property_name)
+    public function setBreed($breed)
     {
         
-        $this->special_property_name = $special_property_name;
+        $this->breed = $breed;
         return $this;
     }
     

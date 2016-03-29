@@ -1,6 +1,6 @@
 <?php
 /**
- * SpecialModelName
+ * Cat
  *
  * PHP version 5
  *
@@ -35,7 +35,7 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 /**
- * SpecialModelName Class Doc Comment
+ * Cat Class Doc Comment
  *
  * @category    Class
  * @description 
@@ -44,18 +44,18 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class SpecialModelName implements ArrayAccess
+class Cat extends Animal implements ArrayAccess
 {
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'special_property_name' => 'int'
+        'declawed' => 'bool'
     );
   
     static function swaggerTypes() {
-        return self::$swaggerTypes;
+        return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     /** 
@@ -63,11 +63,11 @@ class SpecialModelName implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'special_property_name' => '$special[property.name]'
+        'declawed' => 'declawed'
     );
   
     static function attributeMap() {
-        return self::$attributeMap;
+        return parent::attributeMap() + self::$attributeMap;
     }
 
     /**
@@ -75,11 +75,11 @@ class SpecialModelName implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'special_property_name' => 'setSpecialPropertyName'
+        'declawed' => 'setDeclawed'
     );
   
     static function setters() {
-        return self::$setters;
+        return parent::setters() + self::$setters;
     }
 
     /**
@@ -87,19 +87,19 @@ class SpecialModelName implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'special_property_name' => 'getSpecialPropertyName'
+        'declawed' => 'getDeclawed'
     );
   
     static function getters() {
-        return self::$getters;
+        return parent::getters() + self::$getters;
     }
 
     
     /**
-      * $special_property_name 
-      * @var int
+      * $declawed 
+      * @var bool
       */
-    protected $special_property_name;
+    protected $declawed;
     
 
     /**
@@ -108,30 +108,30 @@ class SpecialModelName implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
+        parent::__construct($data);
         if ($data != null) {
-            $this->special_property_name = $data["special_property_name"];
+            $this->declawed = $data["declawed"];
         }
     }
     
     /**
-     * Gets special_property_name
-     * @return int
+     * Gets declawed
+     * @return bool
      */
-    public function getSpecialPropertyName()
+    public function getDeclawed()
     {
-        return $this->special_property_name;
+        return $this->declawed;
     }
   
     /**
-     * Sets special_property_name
-     * @param int $special_property_name 
+     * Sets declawed
+     * @param bool $declawed 
      * @return $this
      */
-    public function setSpecialPropertyName($special_property_name)
+    public function setDeclawed($declawed)
     {
         
-        $this->special_property_name = $special_property_name;
+        $this->declawed = $declawed;
         return $this;
     }
     
