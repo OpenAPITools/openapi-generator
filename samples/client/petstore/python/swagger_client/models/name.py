@@ -37,14 +37,17 @@ class Name(object):
                                   and the value is json key in definition.
         """
         self.swagger_types = {
-            'name': 'int'
+            'name': 'int',
+            'snake_case': 'int'
         }
 
         self.attribute_map = {
-            'name': 'name'
+            'name': 'name',
+            'snake_case': 'snake_case'
         }
 
         self._name = None
+        self._snake_case = None
 
     @property
     def name(self):
@@ -67,6 +70,28 @@ class Name(object):
         :type: int
         """
         self._name = name
+
+    @property
+    def snake_case(self):
+        """
+        Gets the snake_case of this Name.
+
+
+        :return: The snake_case of this Name.
+        :rtype: int
+        """
+        return self._snake_case
+
+    @snake_case.setter
+    def snake_case(self, snake_case):
+        """
+        Sets the snake_case of this Name.
+
+
+        :param snake_case: The snake_case of this Name.
+        :type: int
+        """
+        self._snake_case = snake_case
 
     def to_dict(self):
         """
