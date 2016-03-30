@@ -21,7 +21,10 @@ require 'petstore/version'
 require 'petstore/configuration'
 
 # Models
+require 'petstore/models/animal'
+require 'petstore/models/cat'
 require 'petstore/models/category'
+require 'petstore/models/dog'
 require 'petstore/models/inline_response_200'
 require 'petstore/models/model_200_response'
 require 'petstore/models/model_return'
