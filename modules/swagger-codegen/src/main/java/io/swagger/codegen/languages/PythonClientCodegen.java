@@ -42,6 +42,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
         languageSpecificPrimitives.add("date");
+        languageSpecificPrimitives.add("object");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -434,11 +435,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type)) {
+        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "'" + escapeText(example) + "'";
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -451,24 +452,24 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (example == null) {
                 example = "True";
             }
-        } else if ("\\SplFileObject".equalsIgnoreCase(type)) {
+        } else if ("file".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = "'" + escapeText(example) + "'";
         } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
-            example = "new \\DateTime(\"" + escapeText(example) + "\")";
+            example = "'" + escapeText(example) + "'";
         } else if ("DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "new \\DateTime(\"" + escapeText(example) + "\")";
+            example = "'" + escapeText(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
-            example = "new " + type + "()";
+            example = this.packageName + "." + type + "()";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }
@@ -476,9 +477,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (example == null) {
             example = "NULL";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            example = "array(" + example + ")";
+            example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            example = "array('key' => " + example + ")";
+            example = "{'key': " + example + "}";
         }
 
         p.example = example;

@@ -1,4 +1,4 @@
-# \PetApi
+# swagger_client\PetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -18,29 +18,32 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet($body)
+> add_pet(body=body)
 
 Add a new pet to the store
 
 
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$body = new Pet(); // Pet | Pet object that needs to be added to the store
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $api_instance->add_pet($body);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->add_pet: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+body = swagger_client.Pet() # Pet | Pet object that needs to be added to the store (optional)
+
+try: 
+    # Add a new pet to the store
+    api_instance.add_pet(body=body);
+except ApiException as e:
+    print "Exception when calling PetApi->add_pet: %s\n" % e
 ```
 
 ### Parameters
@@ -65,29 +68,32 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **add_pet_using_byte_array**
-> add_pet_using_byte_array($body)
+> add_pet_using_byte_array(body=body)
 
 Fake endpoint to test byte array in body parameter for adding a new pet to the store
 
 
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$body = B; // str | Pet object in the form of byte array
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $api_instance->add_pet_using_byte_array($body);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->add_pet_using_byte_array: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+body = 'B' # str | Pet object in the form of byte array (optional)
+
+try: 
+    # Fake endpoint to test byte array in body parameter for adding a new pet to the store
+    api_instance.add_pet_using_byte_array(body=body);
+except ApiException as e:
+    print "Exception when calling PetApi->add_pet_using_byte_array: %s\n" % e
 ```
 
 ### Parameters
@@ -112,30 +118,33 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_pet**
-> delete_pet($pet_id, $api_key)
+> delete_pet(pet_id, api_key=api_key)
 
 Deletes a pet
 
 
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$pet_id = 789; // int | Pet id to delete
-$api_key = api_key_example; // str | 
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $api_instance->delete_pet($pet_id, $api_key);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->delete_pet: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+pet_id = 789 # int | Pet id to delete
+api_key = 'api_key_example' # str |  (optional)
+
+try: 
+    # Deletes a pet
+    api_instance.delete_pet(pet_id, api_key=api_key);
+except ApiException as e:
+    print "Exception when calling PetApi->delete_pet: %s\n" % e
 ```
 
 ### Parameters
@@ -161,30 +170,33 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
-> list[Pet] find_pets_by_status($status)
+> list[Pet] find_pets_by_status(status=status)
 
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$status = array(available); // list[str] | Status values that need to be considered for query
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $result = $api_instance->find_pets_by_status($status);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->find_pets_by_status: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+status = ['available'] # list[str] | Status values that need to be considered for query (optional) (default to available)
+
+try: 
+    # Finds Pets by status
+    api_response = api_instance.find_pets_by_status(status=status);
+    pprint(api_response)
+except ApiException as e:
+    print "Exception when calling PetApi->find_pets_by_status: %s\n" % e
 ```
 
 ### Parameters
@@ -209,30 +221,33 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
-> list[Pet] find_pets_by_tags($tags)
+> list[Pet] find_pets_by_tags(tags=tags)
 
 Finds Pets by tags
 
 Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$tags = NULL; // list[str] | Tags to filter by
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $result = $api_instance->find_pets_by_tags($tags);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->find_pets_by_tags: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+tags = ['tags_example'] # list[str] | Tags to filter by (optional)
+
+try: 
+    # Finds Pets by tags
+    api_response = api_instance.find_pets_by_tags(tags=tags);
+    pprint(api_response)
+except ApiException as e:
+    print "Exception when calling PetApi->find_pets_by_tags: %s\n" % e
 ```
 
 ### Parameters
@@ -257,34 +272,37 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_pet_by_id**
-> Pet get_pet_by_id($pet_id)
+> Pet get_pet_by_id(pet_id)
 
 Find pet by ID
 
 Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure API key authorization: api_key
-\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// \Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'BEARER');
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$pet_id = 789; // int | ID of pet that needs to be fetched
+# Configure API key authorization: api_key
+swagger_client.configuration.api_key['api_key'] = 'YOUR_API_KEY';
+# Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+# swagger_client.configuration.api_key_prefix['api_key'] = 'BEARER'
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $result = $api_instance->get_pet_by_id($pet_id);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->get_pet_by_id: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+pet_id = 789 # int | ID of pet that needs to be fetched
+
+try: 
+    # Find pet by ID
+    api_response = api_instance.get_pet_by_id(pet_id);
+    pprint(api_response)
+except ApiException as e:
+    print "Exception when calling PetApi->get_pet_by_id: %s\n" % e
 ```
 
 ### Parameters
@@ -309,34 +327,37 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_pet_by_id_in_object**
-> InlineResponse200 get_pet_by_id_in_object($pet_id)
+> InlineResponse200 get_pet_by_id_in_object(pet_id)
 
 Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
 
 Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure API key authorization: api_key
-\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// \Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'BEARER');
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$pet_id = 789; // int | ID of pet that needs to be fetched
+# Configure API key authorization: api_key
+swagger_client.configuration.api_key['api_key'] = 'YOUR_API_KEY';
+# Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+# swagger_client.configuration.api_key_prefix['api_key'] = 'BEARER'
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $result = $api_instance->get_pet_by_id_in_object($pet_id);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->get_pet_by_id_in_object: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+pet_id = 789 # int | ID of pet that needs to be fetched
+
+try: 
+    # Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+    api_response = api_instance.get_pet_by_id_in_object(pet_id);
+    pprint(api_response)
+except ApiException as e:
+    print "Exception when calling PetApi->get_pet_by_id_in_object: %s\n" % e
 ```
 
 ### Parameters
@@ -361,34 +382,37 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **pet_pet_idtesting_byte_arraytrue_get**
-> str pet_pet_idtesting_byte_arraytrue_get($pet_id)
+> str pet_pet_idtesting_byte_arraytrue_get(pet_id)
 
 Fake endpoint to test byte array return by 'Find pet by ID'
 
 Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure API key authorization: api_key
-\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// \Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'BEARER');
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$pet_id = 789; // int | ID of pet that needs to be fetched
+# Configure API key authorization: api_key
+swagger_client.configuration.api_key['api_key'] = 'YOUR_API_KEY';
+# Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+# swagger_client.configuration.api_key_prefix['api_key'] = 'BEARER'
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $result = $api_instance->pet_pet_idtesting_byte_arraytrue_get($pet_id);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->pet_pet_idtesting_byte_arraytrue_get: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+pet_id = 789 # int | ID of pet that needs to be fetched
+
+try: 
+    # Fake endpoint to test byte array return by 'Find pet by ID'
+    api_response = api_instance.pet_pet_idtesting_byte_arraytrue_get(pet_id);
+    pprint(api_response)
+except ApiException as e:
+    print "Exception when calling PetApi->pet_pet_idtesting_byte_arraytrue_get: %s\n" % e
 ```
 
 ### Parameters
@@ -413,29 +437,32 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet($body)
+> update_pet(body=body)
 
 Update an existing pet
 
 
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$body = new Pet(); // Pet | Pet object that needs to be added to the store
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $api_instance->update_pet($body);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->update_pet: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+body = swagger_client.Pet() # Pet | Pet object that needs to be added to the store (optional)
+
+try: 
+    # Update an existing pet
+    api_instance.update_pet(body=body);
+except ApiException as e:
+    print "Exception when calling PetApi->update_pet: %s\n" % e
 ```
 
 ### Parameters
@@ -460,31 +487,34 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet_with_form**
-> update_pet_with_form($pet_id, $name, $status)
+> update_pet_with_form(pet_id, name=name, status=status)
 
 Updates a pet in the store with form data
 
 
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$pet_id = pet_id_example; // str | ID of pet that needs to be updated
-$name = name_example; // str | Updated name of the pet
-$status = status_example; // str | Updated status of the pet
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $api_instance->update_pet_with_form($pet_id, $name, $status);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->update_pet_with_form: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+pet_id = 'pet_id_example' # str | ID of pet that needs to be updated
+name = 'name_example' # str | Updated name of the pet (optional)
+status = 'status_example' # str | Updated status of the pet (optional)
+
+try: 
+    # Updates a pet in the store with form data
+    api_instance.update_pet_with_form(pet_id, name=name, status=status);
+except ApiException as e:
+    print "Exception when calling PetApi->update_pet_with_form: %s\n" % e
 ```
 
 ### Parameters
@@ -511,31 +541,34 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file**
-> upload_file($pet_id, $additional_metadata, $file)
+> upload_file(pet_id, additional_metadata=additional_metadata, file=file)
 
 uploads an image
 
 
 
 ### Example 
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
+```python
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+import time
 
-// Configure OAuth2 access token for authorization: petstore_auth
-\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new \Api\PetApi();
-$pet_id = 789; // int | ID of pet to update
-$additional_metadata = additional_metadata_example; // str | Additional data to pass to server
-$file = new file(); // file | file to upload
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-try { 
-    $api_instance->upload_file($pet_id, $additional_metadata, $file);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->upload_file: ', $e->getMessage(), "\n";
-}
-?>
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+pet_id = 789 # int | ID of pet to update
+additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+file = '/path/to/file.txt' # file | file to upload (optional)
+
+try: 
+    # uploads an image
+    api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file);
+except ApiException as e:
+    print "Exception when calling PetApi->upload_file: %s\n" % e
 ```
 
 ### Parameters

@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **tags** | [**list[Tag]**](Tag.md) |  | [optional] 
 **id** | **int** |  | 
-**category** | [**object**](object.md) |  | [optional] 
+**category** | **object** |  | [optional] 
 **status** | **str** | pet status in the store | [optional] 
 **name** | **str** |  | [optional] 
 **photo_urls** | **list[str]** |  | [optional] 
