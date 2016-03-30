@@ -525,16 +525,16 @@ class StoreApi
         }
         
         // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('test_api_key_query');
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('test_api_key_header');
         if (strlen($apiKey) !== 0) {
-            $queryParams['test_api_key_query'] = $apiKey;
+            $headerParams['test_api_key_header'] = $apiKey;
         }
         
         
         // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('test_api_key_header');
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('test_api_key_query');
         if (strlen($apiKey) !== 0) {
-            $headerParams['test_api_key_header'] = $apiKey;
+            $queryParams['test_api_key_query'] = $apiKey;
         }
         
         
