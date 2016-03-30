@@ -51,12 +51,12 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'photo_urls' => 'string[]',
-        'name' => 'string',
+        'tags' => '\Swagger\Client\Model\Tag[]',
         'id' => 'int',
         'category' => 'object',
-        'tags' => '\Swagger\Client\Model\Tag[]',
-        'status' => 'string'
+        'status' => 'string',
+        'name' => 'string',
+        'photo_urls' => 'string[]'
     );
   
     static function swaggerTypes() {
@@ -68,12 +68,12 @@ class InlineResponse200 implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'photo_urls' => 'photoUrls',
-        'name' => 'name',
+        'tags' => 'tags',
         'id' => 'id',
         'category' => 'category',
-        'tags' => 'tags',
-        'status' => 'status'
+        'status' => 'status',
+        'name' => 'name',
+        'photo_urls' => 'photoUrls'
     );
   
     static function attributeMap() {
@@ -85,12 +85,12 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'photo_urls' => 'setPhotoUrls',
-        'name' => 'setName',
+        'tags' => 'setTags',
         'id' => 'setId',
         'category' => 'setCategory',
-        'tags' => 'setTags',
-        'status' => 'setStatus'
+        'status' => 'setStatus',
+        'name' => 'setName',
+        'photo_urls' => 'setPhotoUrls'
     );
   
     static function setters() {
@@ -102,12 +102,12 @@ class InlineResponse200 implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'photo_urls' => 'getPhotoUrls',
-        'name' => 'getName',
+        'tags' => 'getTags',
         'id' => 'getId',
         'category' => 'getCategory',
-        'tags' => 'getTags',
-        'status' => 'getStatus'
+        'status' => 'getStatus',
+        'name' => 'getName',
+        'photo_urls' => 'getPhotoUrls'
     );
   
     static function getters() {
@@ -116,16 +116,10 @@ class InlineResponse200 implements ArrayAccess
 
     
     /**
-      * $photo_urls 
-      * @var string[]
+      * $tags 
+      * @var \Swagger\Client\Model\Tag[]
       */
-    protected $photo_urls;
-    
-    /**
-      * $name 
-      * @var string
-      */
-    protected $name;
+    protected $tags;
     
     /**
       * $id 
@@ -140,16 +134,22 @@ class InlineResponse200 implements ArrayAccess
     protected $category;
     
     /**
-      * $tags 
-      * @var \Swagger\Client\Model\Tag[]
-      */
-    protected $tags;
-    
-    /**
       * $status pet status in the store
       * @var string
       */
     protected $status;
+    
+    /**
+      * $name 
+      * @var string
+      */
+    protected $name;
+    
+    /**
+      * $photo_urls 
+      * @var string[]
+      */
+    protected $photo_urls;
     
 
     /**
@@ -160,54 +160,33 @@ class InlineResponse200 implements ArrayAccess
     {
         
         if ($data != null) {
-            $this->photo_urls = $data["photo_urls"];
-            $this->name = $data["name"];
+            $this->tags = $data["tags"];
             $this->id = $data["id"];
             $this->category = $data["category"];
-            $this->tags = $data["tags"];
             $this->status = $data["status"];
+            $this->name = $data["name"];
+            $this->photo_urls = $data["photo_urls"];
         }
     }
     
     /**
-     * Gets photo_urls
-     * @return string[]
+     * Gets tags
+     * @return \Swagger\Client\Model\Tag[]
      */
-    public function getPhotoUrls()
+    public function getTags()
     {
-        return $this->photo_urls;
+        return $this->tags;
     }
   
     /**
-     * Sets photo_urls
-     * @param string[] $photo_urls 
+     * Sets tags
+     * @param \Swagger\Client\Model\Tag[] $tags 
      * @return $this
      */
-    public function setPhotoUrls($photo_urls)
+    public function setTags($tags)
     {
         
-        $this->photo_urls = $photo_urls;
-        return $this;
-    }
-    
-    /**
-     * Gets name
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-  
-    /**
-     * Sets name
-     * @param string $name 
-     * @return $this
-     */
-    public function setName($name)
-    {
-        
-        $this->name = $name;
+        $this->tags = $tags;
         return $this;
     }
     
@@ -254,27 +233,6 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
-     * Gets tags
-     * @return \Swagger\Client\Model\Tag[]
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-  
-    /**
-     * Sets tags
-     * @param \Swagger\Client\Model\Tag[] $tags 
-     * @return $this
-     */
-    public function setTags($tags)
-    {
-        
-        $this->tags = $tags;
-        return $this;
-    }
-    
-    /**
      * Gets status
      * @return string
      */
@@ -295,6 +253,48 @@ class InlineResponse200 implements ArrayAccess
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
         }
         $this->status = $status;
+        return $this;
+    }
+    
+    /**
+     * Gets name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+  
+    /**
+     * Sets name
+     * @param string $name 
+     * @return $this
+     */
+    public function setName($name)
+    {
+        
+        $this->name = $name;
+        return $this;
+    }
+    
+    /**
+     * Gets photo_urls
+     * @return string[]
+     */
+    public function getPhotoUrls()
+    {
+        return $this->photo_urls;
+    }
+  
+    /**
+     * Sets photo_urls
+     * @param string[] $photo_urls 
+     * @return $this
+     */
+    public function setPhotoUrls($photo_urls)
+    {
+        
+        $this->photo_urls = $photo_urls;
         return $this;
     }
     
