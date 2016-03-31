@@ -15,35 +15,43 @@ namespace IO.Swagger.Model
     /// 
     /// </summary>
     [DataContract]
-    public partial class Name :  IEquatable<Name>
+    public partial class Dog : Animal,  IEquatable<Dog>
     { 
     
         /// <summary>
-        /// Initializes a new instance of the <see cref="Name" /> class.
-        /// Initializes a new instance of the <see cref="Name" />class.
+        /// Initializes a new instance of the <see cref="Dog" /> class.
+        /// Initializes a new instance of the <see cref="Dog" />class.
         /// </summary>
-        /// <param name="_Name">_Name.</param>
-        /// <param name="SnakeCase">SnakeCase.</param>
+        /// <param name="ClassName">ClassName (required).</param>
+        /// <param name="Breed">Breed.</param>
 
-        public Name(int? _Name = null, int? SnakeCase = null)
+        public Dog(string ClassName = null, string Breed = null)
         {
-            this._Name = _Name;
-            this.SnakeCase = SnakeCase;
+            // to ensure "ClassName" is required (not null)
+            if (ClassName == null)
+            {
+                throw new InvalidDataException("ClassName is a required property for Dog and cannot be null");
+            }
+            else
+            {
+                this.ClassName = ClassName;
+            }
+            this.Breed = Breed;
             
         }
         
     
         /// <summary>
-        /// Gets or Sets _Name
+        /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public int? _Name { get; set; }
+        [DataMember(Name="className", EmitDefaultValue=false)]
+        public string ClassName { get; set; }
     
         /// <summary>
-        /// Gets or Sets SnakeCase
+        /// Gets or Sets Breed
         /// </summary>
-        [DataMember(Name="snake_case", EmitDefaultValue=false)]
-        public int? SnakeCase { get; set; }
+        [DataMember(Name="breed", EmitDefaultValue=false)]
+        public string Breed { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -52,9 +60,9 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Name {\n");
-            sb.Append("  _Name: ").Append(_Name).Append("\n");
-            sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
+            sb.Append("class Dog {\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+            sb.Append("  Breed: ").Append(Breed).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -64,7 +72,7 @@ namespace IO.Swagger.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public  new string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -77,15 +85,15 @@ namespace IO.Swagger.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as Name);
+            return this.Equals(obj as Dog);
         }
 
         /// <summary>
-        /// Returns true if Name instances are equal
+        /// Returns true if Dog instances are equal
         /// </summary>
-        /// <param name="other">Instance of Name to be compared</param>
+        /// <param name="other">Instance of Dog to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Name other)
+        public bool Equals(Dog other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -93,14 +101,14 @@ namespace IO.Swagger.Model
 
             return 
                 (
-                    this._Name == other._Name ||
-                    this._Name != null &&
-                    this._Name.Equals(other._Name)
+                    this.ClassName == other.ClassName ||
+                    this.ClassName != null &&
+                    this.ClassName.Equals(other.ClassName)
                 ) && 
                 (
-                    this.SnakeCase == other.SnakeCase ||
-                    this.SnakeCase != null &&
-                    this.SnakeCase.Equals(other.SnakeCase)
+                    this.Breed == other.Breed ||
+                    this.Breed != null &&
+                    this.Breed.Equals(other.Breed)
                 );
         }
 
@@ -116,11 +124,11 @@ namespace IO.Swagger.Model
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
                 
-                if (this._Name != null)
-                    hash = hash * 59 + this._Name.GetHashCode();
+                if (this.ClassName != null)
+                    hash = hash * 59 + this.ClassName.GetHashCode();
                 
-                if (this.SnakeCase != null)
-                    hash = hash * 59 + this.SnakeCase.GetHashCode();
+                if (this.Breed != null)
+                    hash = hash * 59 + this.Breed.GetHashCode();
                 
                 return hash;
             }
