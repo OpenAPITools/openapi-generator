@@ -158,6 +158,7 @@ class Order implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        
         if ($data != null) {
             $this->id = $data["id"];
             $this->pet_id = $data["pet_id"];
