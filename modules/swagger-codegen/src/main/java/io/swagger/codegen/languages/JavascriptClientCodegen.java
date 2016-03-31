@@ -12,9 +12,12 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.DefaultCodegen;
+import io.swagger.models.ArrayModel;
+import io.swagger.models.ComposedModel;
 import io.swagger.models.Info;
 import io.swagger.models.License;
 import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
@@ -704,6 +707,19 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+        }
+        if (model instanceof ArrayModel) {
+            ArrayModel am = (ArrayModel) model;
+            if (am.getItems() != null) {
+                codegenModel.vendorExtensions.put("x-isArray", true);
+                codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(am.getItems()));
+            }
+        } else if (model instanceof ModelImpl) {
+            ModelImpl mm = (ModelImpl)model;
+            if (mm.getAdditionalProperties() != null) {
+                codegenModel.vendorExtensions.put("x-isMap", true);
+                codegenModel.vendorExtensions.put("x-itemType", getSwaggerType(mm.getAdditionalProperties()));
+            }
         }
 
         return codegenModel;
