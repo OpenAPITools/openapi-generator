@@ -18,6 +18,10 @@ namespace IO.Swagger.Model
     public partial class InlineResponse200 :  IEquatable<InlineResponse200>
     { 
     
+        /// <summary>
+        /// pet status in the store
+        /// </summary>
+        /// <value>pet status in the store</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum StatusEnum {
             
@@ -30,6 +34,7 @@ namespace IO.Swagger.Model
             [EnumMember(Value = "sold")]
             Sold
         }
+
     
         /// <summary>
         /// pet status in the store
