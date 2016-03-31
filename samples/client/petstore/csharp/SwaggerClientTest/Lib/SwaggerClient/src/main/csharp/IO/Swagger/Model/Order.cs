@@ -18,6 +18,10 @@ namespace IO.Swagger.Model
     public partial class Order :  IEquatable<Order>
     { 
     
+        /// <summary>
+        /// Order Status
+        /// </summary>
+        /// <value>Order Status</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum StatusEnum {
             
@@ -30,6 +34,7 @@ namespace IO.Swagger.Model
             [EnumMember(Value = "delivered")]
             Delivered
         }
+
     
         /// <summary>
         /// Order Status
