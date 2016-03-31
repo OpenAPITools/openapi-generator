@@ -108,7 +108,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [SwaggerPetstore.Animal](docs/Animal.md)
+ - [SwaggerPetstore.Cat](docs/Cat.md)
  - [SwaggerPetstore.Category](docs/Category.md)
+ - [SwaggerPetstore.Dog](docs/Dog.md)
  - [SwaggerPetstore.InlineResponse200](docs/InlineResponse200.md)
  - [SwaggerPetstore.Model200Response](docs/Model200Response.md)
  - [SwaggerPetstore.ModelReturn](docs/ModelReturn.md)

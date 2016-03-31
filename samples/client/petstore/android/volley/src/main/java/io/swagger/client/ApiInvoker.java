@@ -229,7 +229,8 @@ public class ApiInvoker {
      
      
      
-     INSTANCE.authentications.put("petstore_auth", new OAuth());
+     // TODO: comment out below as OAuth does not exist
+     //INSTANCE.authentications.put("petstore_auth", new OAuth());
      
      
      // Prevent the authentications from being modified.

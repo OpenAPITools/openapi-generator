@@ -20,9 +20,13 @@ namespace {{packageName}}.Model
     public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{#isEnum}}
     
+        /// <summary>
+        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{{description}}}</value>{{/description}}
         [JsonConverter(typeof(StringEnumConverter))]
-        {{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-        {{>enumClass}}{{/items}}{{/items.isEnum}}{{/vars}}
+{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/items}}{{/items.isEnum}}{{/vars}}
     {{#vars}}{{#isEnum}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
