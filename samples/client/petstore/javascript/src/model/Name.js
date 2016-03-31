@@ -29,6 +29,7 @@
   var exports = function() {
 
 
+
   };
 
   /**
@@ -45,6 +46,9 @@
       if (data.hasOwnProperty('name')) {
         obj['name'] = ApiClient.convertToType(data['name'], 'Integer');
       }
+      if (data.hasOwnProperty('snake_case')) {
+        obj['snake_case'] = ApiClient.convertToType(data['snake_case'], 'Integer');
+      }
     }
     return obj;
   }
@@ -54,6 +58,11 @@
    * @member {Integer} name
    */
   exports.prototype['name'] = undefined;
+
+  /**
+   * @member {Integer} snake_case
+   */
+  exports.prototype['snake_case'] = undefined;
 
 
 

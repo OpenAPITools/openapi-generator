@@ -87,7 +87,7 @@ To build from source, you need the following installed and available in your $PA
 
 * [Java 7 or 8](http://java.oracle.com)
 
-* [Apache maven 3.0.3 or greater](http://maven.apache.org/)
+* [Apache maven 3.3.3 or greater](http://maven.apache.org/)
 
 #### OS X Users
 Don't forget to install Java 7 or 8. You probably have 1.6.
@@ -740,6 +740,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
+- [Kuary](https://kuary.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [OSDN](https://osdn.jp)

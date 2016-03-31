@@ -158,6 +158,7 @@ class InlineResponse200 implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        
         if ($data != null) {
             $this->tags = $data["tags"];
             $this->id = $data["id"];

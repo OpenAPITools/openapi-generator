@@ -60,6 +60,15 @@ namespace IO.Swagger.Test
             // TODO: unit test for the property '_Name' 
         }
         
+        /// <summary>
+        /// Test the property 'SnakeCase' 
+        /// </summary>
+        [Test]
+        public void SnakeCaseTest()
+        {
+            // TODO: unit test for the property 'SnakeCase' 
+        }
+        
 
     }
 

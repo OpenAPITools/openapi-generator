@@ -108,6 +108,7 @@ class SpecialModelName implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        
         if ($data != null) {
             $this->special_property_name = $data["special_property_name"];
         }
