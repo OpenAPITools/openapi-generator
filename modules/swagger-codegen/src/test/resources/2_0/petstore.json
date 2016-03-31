@@ -1339,6 +1339,42 @@
       "xml": {
         "name": "Name"
       }
+    },
+    "Dog" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Animal"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "breed" : {
+            "type" : "string"
+          }
+        }
+      } ]
+    },
+    "Cat" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Animal"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "declawed" : {
+            "type" : "boolean"
+          }
+        }
+      } ]
+    },
+    "Animal" : {
+      "type" : "object",
+      "discriminator": "className",
+      "required": [
+        "className"
+      ],
+      "properties" : {
+        "className" : {
+          "type" : "string"
+        }
+      }
     }
   }
 }
