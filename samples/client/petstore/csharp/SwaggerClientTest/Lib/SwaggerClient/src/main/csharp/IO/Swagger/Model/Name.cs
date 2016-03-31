@@ -23,10 +23,12 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="Name" />class.
         /// </summary>
         /// <param name="_Name">_Name.</param>
+        /// <param name="SnakeCase">SnakeCase.</param>
 
-        public Name(int? _Name = null)
+        public Name(int? _Name = null, int? SnakeCase = null)
         {
             this._Name = _Name;
+            this.SnakeCase = SnakeCase;
             
         }
         
@@ -38,6 +40,12 @@ namespace IO.Swagger.Model
         public int? _Name { get; set; }
     
         /// <summary>
+        /// Gets or Sets SnakeCase
+        /// </summary>
+        [DataMember(Name="snake_case", EmitDefaultValue=false)]
+        public int? SnakeCase { get; set; }
+    
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -46,6 +54,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  _Name: ").Append(_Name).Append("\n");
+            sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             
             sb.Append("}\n");
             return sb.ToString();
@@ -87,6 +96,11 @@ namespace IO.Swagger.Model
                     this._Name == other._Name ||
                     this._Name != null &&
                     this._Name.Equals(other._Name)
+                ) && 
+                (
+                    this.SnakeCase == other.SnakeCase ||
+                    this.SnakeCase != null &&
+                    this.SnakeCase.Equals(other.SnakeCase)
                 );
         }
 
@@ -104,6 +118,9 @@ namespace IO.Swagger.Model
                 
                 if (this._Name != null)
                     hash = hash * 59 + this._Name.GetHashCode();
+                
+                if (this.SnakeCase != null)
+                    hash = hash * 59 + this.SnakeCase.GetHashCode();
                 
                 return hash;
             }
