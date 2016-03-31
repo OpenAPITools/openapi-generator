@@ -36,6 +36,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String license = "MIT";
     protected String gitRepoURL = "https://github.com/swagger-api/swagger-codegen";
     protected String[] specialWords = {"new", "copy"};
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public ObjcClientCodegen() {
         super();
@@ -46,6 +48,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".m");
         embeddedTemplateDir = templateDir = "objc";
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         defaultIncludes.clear();
         defaultIncludes.add("bool");
@@ -198,6 +202,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(AUTHOR_EMAIL, authorEmail);
         additionalProperties.put(GIT_REPO_URL, gitRepoURL);
         additionalProperties.put(LICENSE, license);
+
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         String swaggerFolder = podName;
 
@@ -389,6 +397,26 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separatorChar + apiDocPath);
+    }
+ 
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separatorChar + modelDocPath);
+    }
+ 
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+ 
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
+    }
+
+    @Override
     public String apiFileFolder() {
         return outputFolder + File.separatorChar + apiPackage();
     }
@@ -561,5 +589,72 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         return null;
     }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("NSString".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("NSNumber".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        /* OBJC uses NSNumber to represent both int, long, double and float
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "3.4";
+            } */
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "True";
+            }
+        } else if ("NSURL".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("NSDate".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("DateTime".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = this.packageName + "." + type + "()";
+        } else {
+            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
+
+        if (example == null) {
+            example = "NULL";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key': " + example + "}";
+        }
+
+        p.example = example;
+    }
+
 
 }
