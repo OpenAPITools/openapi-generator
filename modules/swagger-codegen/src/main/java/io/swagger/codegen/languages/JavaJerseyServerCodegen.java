@@ -6,11 +6,8 @@ import io.swagger.models.Operation;
 import java.io.File;
 import java.util.*;
 
-public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen
-{
-
-    public JavaJerseyServerCodegen()
-    {
+public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
+    public JavaJerseyServerCodegen() {
         super();
 
         sourceFolder = "src/gen/java";
@@ -43,6 +40,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen
         Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Jersey core 1.18.1");
+        supportedLibraries.put("jersey2", "Jersey core 2.x");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
@@ -85,12 +83,31 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen
         supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
         supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
+        supportingFiles.add(new SupportingFile("jacksonJsonProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JacksonJsonProvider.java"));
         writeOptional(outputFolder, new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
 
         if ( additionalProperties.containsKey("dateLibrary") ) {
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
             additionalProperties.put(dateLibrary, "true");
+        }
+        if(DEFAULT_LIBRARY.equals(library)) {
+            if(templateDir.startsWith(JAXRS_TEMPLATE_DIRECTORY_NAME)) {
+                // set to the default location
+                templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "jersey1_18";
+            }
+            else {
+                templateDir += File.separator + "jersey1_18";
+            }
+        }
+        if("jersey2".equals(library)) {
+            if(templateDir.startsWith(JAXRS_TEMPLATE_DIRECTORY_NAME)) {
+                // set to the default location
+                templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "jersey2";
+            }
+            else {
+                templateDir += File.separator + "jersey2";
+            }
         }
 
         if ( "joda".equals(dateLibrary) ) {
