@@ -18,7 +18,7 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 The SDK requires [**ARC (Automatic Reference Counting)**](http://stackoverflow.com/questions/7778356/how-to-enable-disable-automatic-reference-counting) to be enabled in the Xcode project.
 
-## Installation
+## Installation & Usage
 ### Install from Github using [CocoaPods](https://cocoapods.org/)
 
 Add the following to the Podfile:
@@ -33,23 +33,22 @@ To specify a particular commit, append `, :commit => '11aa22'`
 
 ### Install from local path using [CocoaPods](https://cocoapods.org/)
 
-Put the SDK under your project folder (e.g. ./vendor/{{podName}}) and then add the following to the Podfile:
+Put the SDK under your project folder (e.g. /path/to/objc_project/Vendor/{{podName}}) and then add the following to the Podfile:
 
 ```ruby
-pod '{{podName}}', :path => './vendor/{{podName}}'
+pod '{{podName}}', :path => 'Vendor/{{podName}}'
 ```
 
-## Usage
+### Usage
 
 Import the following:
 ```objc
 #import <{{podName}}/{{{classPrefix}}}ApiClient.h>
 #import <{{podName}}/{{{classPrefix}}}Configuration.h>
 // load models
-{{#models}}{{#model}}#import <{{podName}}/{{{classname}}}>
-{{/model}}{{/models}}
-// load API classes for accessing endpoints
-{{#apiInfo}}{{#apis}}#import <{{podName}}/{{{classname}}}>
+{{#models}}{{#model}}#import <{{podName}}/{{{classname}}}.h>
+{{/model}}{{/models}}// load API classes for accessing endpoints
+{{#apiInfo}}{{#apis}}#import <{{podName}}/{{{classname}}}.h>
 {{/apis}}{{/apiInfo}}
 ```
 
@@ -62,28 +61,48 @@ It's recommended to create an instance of ApiClient per thread in a multi-thread
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```objc
-
-{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
-// Configure HTTP basic authorization: {{{name}}}
-{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
-{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');{{/isBasic}}{{#isApiKey}}
-// Configure API key authorization: {{{name}}}
-{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+{{#hasAuthMethods}}
+{{classPrefix}}Configuration *apiConfig = [{{classPrefix}}Configuration sharedConfig];
+{{#authMethods}}{{#isBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
+[apiConfig setUsername:@"YOUR_USERNAME"];
+[apiConfig setPassword:@"YOUR_PASSWORD"];
+{{/isBasic}}{{#isApiKey}}
+// Configure API key authorization: (authentication scheme: {{{name}}})
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"{{{keyParamName}}}"];
 // Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'BEARER');{{/isApiKey}}{{#isOAuth}}
-// Configure OAuth2 access token for authorization: {{{name}}}
-{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');{{/isOAuth}}{{/authMethods}}
+//[apiConfig setApiKeyPrefix:@"BEARER" forApiKeyIdentifier:@"{{{keyParamName}}}"];
+{{/isApiKey}}{{#isOAuth}}
+// Configure OAuth2 access token for authorization: (authentication scheme: {{{name}}})
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 
-$api_instance = new {{invokerPackage}}\Api\{{classname}}();
-{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+{{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{description}}}{{#optional}} (optional){{/optional}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
-try {
-    {{#returnType}}$result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
-    print_r($result);{{/returnType}}
-} catch (Exception $e) {
-    echo 'Exception when calling {{classname}}->{{operationId}}: ', $e->getMessage(), "\n";
+@try
+{
+    {{classname}} *apiInstance = [[{{classname}} alloc] init];
+
+{{#summary}}    // {{{.}}}
+{{/summary}}    [apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+    {{paramName}}{{/secondaryParam}}:{{paramName}}{{/allParams}}
+              {{#hasParams}}completionHandler: {{/hasParams}}^({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) {
+{{#returnType}}
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+{{/returnType}}
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+}
+@catch (NSException *exception)
+{
+    NSLog(@"Exception when calling {{classname}}->{{operationId}}: %@ ", exception.name);
+    NSLog(@"Reason: %@ ", exception.reason);
 }
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
 ```
