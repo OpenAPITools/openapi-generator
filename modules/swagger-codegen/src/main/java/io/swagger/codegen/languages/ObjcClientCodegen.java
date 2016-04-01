@@ -625,11 +625,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "True";
             }
-        } else if ("NSURL".equalsIgnoreCase(type)) {
+        } else if ("NSURL*".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "@\"" + escapeText(example) + "\"";
+            //[NSURL fileURLWithPath:@"path/to/file"]
+            example = "[NSURL fileURLWithPath:@\"" + escapeText(example) + "\"]";
         /*} else if ("NSDate".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";

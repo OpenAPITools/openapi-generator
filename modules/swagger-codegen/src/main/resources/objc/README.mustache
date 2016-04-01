@@ -78,7 +78,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 {{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 
-{{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{description}}}{{#optional}} (optional){{/optional}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
 @try
