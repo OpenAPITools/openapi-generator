@@ -399,12 +399,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + File.separatorChar + apiDocPath);
+        return (outputFolder + "/" + apiDocPath).replace("/", File.separator);
     }
  
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separatorChar + modelDocPath);
+        return (outputFolder + "/" + modelDocPath).replace("/", File.separator);
     }
  
     @Override
@@ -606,15 +606,16 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             type = p.dataType;
         }
 
-        if ("NSString".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+        if ("NSString*".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "'" + escapeText(example) + "'";
-        } else if ("NSNumber".equals(type)) {
+            example = "@\"" + escapeText(example) + "\"";
+        } else if ("NSNumber*".equals(type)) {
             if (example == null) {
                 example = "56";
             }
+            example = "@" + example;
         /* OBJC uses NSNumber to represent both int, long, double and float
         } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
             if (example == null) {
@@ -628,20 +629,22 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "'" + escapeText(example) + "'";
-        } else if ("NSDate".equalsIgnoreCase(type)) {
+            example = "@\"" + escapeText(example) + "\"";
+        /*} else if ("NSDate".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
-            example = "'" + escapeText(example) + "'";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
+            example = "'" + escapeText(example) + "'";*/
+        } else if ("NSDate*".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "@\"" + escapeText(example) + "\"";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
-            example = this.podName+ "." + type + "()";
+            type = type.replace("*", "");
+            // e.g. [[SWGPet alloc] init
+            example = "[[" + type + " alloc] init]";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }
@@ -649,9 +652,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (example == null) {
             example = "NULL";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            example = "[" + example + "]";
+            example = "@[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            example = "{'key': " + example + "}";
+            example = "@{@\"key\" : " + example + "}";
         }
 
         p.example = example;
