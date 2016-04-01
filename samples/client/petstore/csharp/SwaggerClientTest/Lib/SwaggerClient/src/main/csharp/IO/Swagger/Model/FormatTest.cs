@@ -34,7 +34,7 @@ namespace IO.Swagger.Model
         /// <param name="Date">Date.</param>
         /// <param name="DateTime">DateTime.</param>
 
-        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, ByteArray _Byte = null, byte[] Binary = null, DateTime? Date = null, string DateTime = null)
+        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, string DateTime = null)
         {
             // to ensure "Number" is required (not null)
             if (Number == null)
@@ -105,7 +105,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets _Byte
         /// </summary>
         [DataMember(Name="byte", EmitDefaultValue=false)]
-        public ByteArray _Byte { get; set; }
+        public byte[] _Byte { get; set; }
     
         /// <summary>
         /// Gets or Sets Binary

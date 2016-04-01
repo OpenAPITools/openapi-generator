@@ -2220,9 +2220,13 @@ public class DefaultCodegen {
     }
 
     private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Property> properties, Set<String> mandatory) {
-        final int totalCount = properties.size();
-        int count = 0;
-        for (Map.Entry<String, Property> entry : properties.entrySet()) {
+        List<Map.Entry<String, Property>> propertyList = new ArrayList<Map.Entry<String, Property>>(properties.entrySet());
+        final int totalCount = propertyList.size();
+        //for (Iterator<Map.Entry<String, Property>> it = properties.entrySet().iterator(); it.hasNext(); ) {
+        //for (Map.Entry<String, Property> entry : properties.entrySet()) {
+        for (int i = 0; i < totalCount; i++) {
+            Map.Entry<String, Property> entry = propertyList.get(i);
+            
             final String key = entry.getKey();
             final Property prop = entry.getValue();
 
@@ -2236,13 +2240,22 @@ public class DefaultCodegen {
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     m.hasEnums = true;
                 }
-                count++;
-                if (count != totalCount) {
+
+                if (i+1 != totalCount) {
                     cp.hasMore = true;
+                    // check the next entry
+                    //Map.Entry<String, Property> nextEntry = propertyList.get(i+1);
+                    //final Property nextProp = propertyList.get(i+1).getValue();
+                    if (!Boolean.TRUE.equals(propertyList.get(i+1).getValue().getReadOnly())) {
+                        cp.hasMoreNonReadOnly = true;
+                        LOGGER.info("set hasMoreNonReadONly to true");
+                    }
                 }
+
                 if (cp.isContainer != null) {
                     addImport(m, typeMapping.get("array"));
                 }
+
                 addImport(m, cp.baseType);
                 addImport(m, cp.complexType);
                 vars.add(cp);

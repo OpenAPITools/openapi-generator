@@ -1314,12 +1314,16 @@
     },
     "Name": {
       "description": "Model for testing model name same as property name",
+      "required": [
+        "name"
+      ],
       "properties": {
         "name": {
           "type": "integer",
           "format": "int32"
         },
         "snake_case": {
+          "readOnly": true,
           "type": "integer",
           "format": "int32"
         }
