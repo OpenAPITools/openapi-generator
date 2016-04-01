@@ -1375,6 +1375,59 @@
           "type" : "string"
         }
       }
+    },
+    "format_test" : {
+      "type" : "object",
+      "required": [
+        "number"
+      ],
+      "properties" : {
+        "integer" : {
+          "type": "integer"
+        },
+        "int32" : {
+          "type": "integer",
+          "format": "int32"
+        },
+        "int64" : {
+          "type": "integer",
+          "format": "int64"
+        },
+        "number" : {
+          "type": "number"
+        },
+        "float" : {
+          "type": "number",
+          "format": "float"
+        },
+        "double" : {
+          "type": "number",
+          "format": "double"
+        },
+        "string" : {
+          "type": "string"
+        },
+        "byte" : {
+          "type": "string",
+          "format": "byte"
+        },
+        "binary" : {
+          "type": "string",
+          "format": "binary"
+        },
+        "date" : {
+          "type": "string",
+          "format": "date"
+        },
+        "dateTime" : {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateTime" : {
+          "type": "string",
+          "format": "password"
+        }
+      }
     }
   }
 }
