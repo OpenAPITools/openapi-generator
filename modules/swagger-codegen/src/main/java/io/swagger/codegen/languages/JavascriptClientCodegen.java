@@ -298,6 +298,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return "_" + name;
     }
 
+    /**
+     * Concatenates an array of path segments into a path string.
+     * @param segments The path segments to concatenate. A segment may contain either of the file separator characters '\' or '/'.
+     * A segment is ignored if it is <code>null</code>, empty or &quot;.&quot;.
+     * @return A path string using the correct platform-specific file separator character.
+     */
     private String createPath(String... segments) {
         StringBuilder buf = new StringBuilder();
         for (String segment : segments) {
@@ -704,8 +710,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
 
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
-            final Model parentModel = allDefinitions.get(toModelName(codegenModel.parent));
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
             codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         if (model instanceof ArrayModel) {
