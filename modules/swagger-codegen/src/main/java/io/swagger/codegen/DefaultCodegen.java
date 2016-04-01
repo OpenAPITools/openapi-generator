@@ -2220,10 +2220,9 @@ public class DefaultCodegen {
     }
 
     private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Property> properties, Set<String> mandatory) {
+        // convert set to list so that we can access the next entry in the loop
         List<Map.Entry<String, Property>> propertyList = new ArrayList<Map.Entry<String, Property>>(properties.entrySet());
         final int totalCount = propertyList.size();
-        //for (Iterator<Map.Entry<String, Property>> it = properties.entrySet().iterator(); it.hasNext(); ) {
-        //for (Map.Entry<String, Property> entry : properties.entrySet()) {
         for (int i = 0; i < totalCount; i++) {
             Map.Entry<String, Property> entry = propertyList.get(i);
             
@@ -2243,12 +2242,9 @@ public class DefaultCodegen {
 
                 if (i+1 != totalCount) {
                     cp.hasMore = true;
-                    // check the next entry
-                    //Map.Entry<String, Property> nextEntry = propertyList.get(i+1);
-                    //final Property nextProp = propertyList.get(i+1).getValue();
+                    // check the next entry to see if it's read only
                     if (!Boolean.TRUE.equals(propertyList.get(i+1).getValue().getReadOnly())) {
-                        cp.hasMoreNonReadOnly = true;
-                        LOGGER.info("set hasMoreNonReadONly to true");
+                        cp.hasMoreNonReadOnly = true; // next entry is not ready only
                     }
                 }
 
