@@ -13,7 +13,10 @@
  */
 
 #import "SWG200Response.h"
+#import "SWGAnimal.h"
+#import "SWGCat.h"
 #import "SWGCategory.h"
+#import "SWGDog.h"
 #import "SWGInlineResponse200.h"
 #import "SWGName.h"
 #import "SWGOrder.h"
@@ -81,7 +84,7 @@ extern NSString *const SWGResponseObjectErrorKey;
 +(bool) getOfflineState;
 
 /**
- * Sets the client reachability, this may be override by the reachability manager if reachability changes
+ * Sets the client reachability, this may be overridden by the reachability manager if reachability changes
  *
  * @param The client reachability.
  */
