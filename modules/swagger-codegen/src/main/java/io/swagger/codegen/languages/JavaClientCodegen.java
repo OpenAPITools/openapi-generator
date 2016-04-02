@@ -697,63 +697,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-
-            for (CodegenProperty var : cm.vars) {
-                Map<String, Object> allowableValues = var.allowableValues;
-
-                // handle ArrayProperty
-                if (var.items != null) {
-                    allowableValues = var.items.allowableValues;
-                }
-
-                if (allowableValues == null) {
-                    continue;
-                }
-                List<String> values = (List<String>) allowableValues.get("values");
-                if (values == null) {
-                    continue;
-                }
-
-                // put "enumVars" map into `allowableValues", including `name` and `value`
-                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
-                String commonPrefix = findCommonPrefixOfVars(values);
-                int truncateIdx = commonPrefix.length();
-                for (String value : values) {
-                    Map<String, String> enumVar = new HashMap<String, String>();
-                    String enumName;
-                    if (truncateIdx == 0) {
-                        enumName = value;
-                    } else {
-                        enumName = value.substring(truncateIdx);
-                        if ("".equals(enumName)) {
-                            enumName = value;
-                        }
-                    }
-                    enumVar.put("name", toEnumVarName(enumName));
-                    enumVar.put("value", value);
-                    enumVars.add(enumVar);
-                }
-                allowableValues.put("enumVars", enumVars);
-                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
-                if (var.defaultValue != null) {
-                    String enumName = null;
-                    for (Map<String, String> enumVar : enumVars) {
-                        if (var.defaultValue.equals(enumVar.get("value"))) {
-                            enumName = enumVar.get("name");
-                            break;
-                        }
-                    }
-                    if (enumName != null) {
-                        var.defaultValue = var.datatypeWithEnum + "." + enumName;
-                    }
-                }
-            }
-        }
-        return objs;
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -850,14 +794,16 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return super.needToImport(type) && type.indexOf(".") < 0;
     }
 
-    private static String findCommonPrefixOfVars(List<String> vars) {
+    @Override
+    public String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
         // exclude trailing characters that should be part of a valid variable
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 
-    private static String toEnumVarName(String value) {
+    @Override
+    public String toEnumVarName(String value) {
         String var = value.replaceAll("\\W+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;

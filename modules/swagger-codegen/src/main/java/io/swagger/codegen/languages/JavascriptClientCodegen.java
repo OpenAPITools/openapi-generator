@@ -930,14 +930,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             && !languageSpecificPrimitives.contains(type);
     }
 
-    private static String findCommonPrefixOfVars(List<String> vars) {
+    @Override
+    public String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
         // exclude trailing characters that should be part of a valid variable
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 
-    private static String toEnumVarName(String value) {
+    @Override
+    public String toEnumVarName(String value) {
         String var = value.replaceAll("\\W+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;

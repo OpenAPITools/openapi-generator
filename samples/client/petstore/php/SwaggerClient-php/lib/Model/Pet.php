@@ -47,12 +47,6 @@ use \ArrayAccess;
 class Pet implements ArrayAccess
 {
     /**
-      * The original name of the model.
-      * @var string
-      */
-    static $swaggerModelName = 'Pet';
-
-    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -64,14 +58,14 @@ class Pet implements ArrayAccess
         'tags' => '\Swagger\Client\Model\Tag[]',
         'status' => 'string'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
+      * @var string[]
       */
     static $attributeMap = array(
         'id' => 'id',
@@ -81,7 +75,7 @@ class Pet implements ArrayAccess
         'tags' => 'tags',
         'status' => 'status'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -98,7 +92,7 @@ class Pet implements ArrayAccess
         'tags' => 'setTags',
         'status' => 'setStatus'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
@@ -115,41 +109,55 @@ class Pet implements ArrayAccess
         'tags' => 'getTags',
         'status' => 'getStatus'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    const STATUS_AVAILABLE = "available";
+    const STATUS_PENDING = "pending";
+    const STATUS_SOLD = "sold";
+    
+
+    
+
+    
     /**
       * $id 
       * @var int
       */
     protected $id;
+    
     /**
       * $category 
       * @var \Swagger\Client\Model\Category
       */
     protected $category;
+    
     /**
       * $name 
       * @var string
       */
     protected $name;
+    
     /**
       * $photo_urls 
       * @var string[]
       */
     protected $photo_urls;
+    
     /**
       * $tags 
       * @var \Swagger\Client\Model\Tag[]
       */
     protected $tags;
+    
     /**
       * $status pet status in the store
       * @var string
       */
     protected $status;
+    
 
     /**
      * Constructor
@@ -157,7 +165,6 @@ class Pet implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
         
         if ($data != null) {
             $this->id = $data["id"];
@@ -168,6 +175,7 @@ class Pet implements ArrayAccess
             $this->status = $data["status"];
         }
     }
+    
     /**
      * Gets id
      * @return int
@@ -176,7 +184,7 @@ class Pet implements ArrayAccess
     {
         return $this->id;
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -188,6 +196,7 @@ class Pet implements ArrayAccess
         $this->id = $id;
         return $this;
     }
+    
     /**
      * Gets category
      * @return \Swagger\Client\Model\Category
@@ -196,7 +205,7 @@ class Pet implements ArrayAccess
     {
         return $this->category;
     }
-  
+
     /**
      * Sets category
      * @param \Swagger\Client\Model\Category $category 
@@ -208,6 +217,7 @@ class Pet implements ArrayAccess
         $this->category = $category;
         return $this;
     }
+    
     /**
      * Gets name
      * @return string
@@ -216,7 +226,7 @@ class Pet implements ArrayAccess
     {
         return $this->name;
     }
-  
+
     /**
      * Sets name
      * @param string $name 
@@ -228,6 +238,7 @@ class Pet implements ArrayAccess
         $this->name = $name;
         return $this;
     }
+    
     /**
      * Gets photo_urls
      * @return string[]
@@ -236,7 +247,7 @@ class Pet implements ArrayAccess
     {
         return $this->photo_urls;
     }
-  
+
     /**
      * Sets photo_urls
      * @param string[] $photo_urls 
@@ -248,6 +259,7 @@ class Pet implements ArrayAccess
         $this->photo_urls = $photo_urls;
         return $this;
     }
+    
     /**
      * Gets tags
      * @return \Swagger\Client\Model\Tag[]
@@ -256,7 +268,7 @@ class Pet implements ArrayAccess
     {
         return $this->tags;
     }
-  
+
     /**
      * Sets tags
      * @param \Swagger\Client\Model\Tag[] $tags 
@@ -268,6 +280,7 @@ class Pet implements ArrayAccess
         $this->tags = $tags;
         return $this;
     }
+    
     /**
      * Gets status
      * @return string
@@ -276,7 +289,7 @@ class Pet implements ArrayAccess
     {
         return $this->status;
     }
-  
+
     /**
      * Sets status
      * @param string $status pet status in the store
@@ -291,6 +304,7 @@ class Pet implements ArrayAccess
         $this->status = $status;
         return $this;
     }
+    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -300,7 +314,7 @@ class Pet implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -310,7 +324,7 @@ class Pet implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -321,7 +335,7 @@ class Pet implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -331,17 +345,17 @@ class Pet implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
+        if (defined('JSON_PRETTY_PRINT')) {
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
-
-        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

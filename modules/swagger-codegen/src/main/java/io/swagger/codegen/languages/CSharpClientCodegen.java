@@ -436,14 +436,16 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return codegenModel;
     }
 
-    private String findCommonPrefixOfVars(List<String> vars) {
+    @Override
+    public String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
         // exclude trailing characters that should be part of a valid variable
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 
-    private String toEnumVarName(String value) {
+    @Override
+    public String toEnumVarName(String value) {
         String var = value.replaceAll("_", " ");
         var = WordUtils.capitalizeFully(var);
         var = var.replaceAll("\\W+", "");

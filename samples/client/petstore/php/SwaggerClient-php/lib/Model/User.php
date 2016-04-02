@@ -47,12 +47,6 @@ use \ArrayAccess;
 class User implements ArrayAccess
 {
     /**
-      * The original name of the model.
-      * @var string
-      */
-    static $swaggerModelName = 'User';
-
-    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -66,14 +60,14 @@ class User implements ArrayAccess
         'phone' => 'string',
         'user_status' => 'int'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
+      * @var string[]
       */
     static $attributeMap = array(
         'id' => 'id',
@@ -85,7 +79,7 @@ class User implements ArrayAccess
         'phone' => 'phone',
         'user_status' => 'userStatus'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -104,7 +98,7 @@ class User implements ArrayAccess
         'phone' => 'setPhone',
         'user_status' => 'setUserStatus'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
@@ -123,51 +117,64 @@ class User implements ArrayAccess
         'phone' => 'getPhone',
         'user_status' => 'getUserStatus'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
+    
     /**
       * $id 
       * @var int
       */
     protected $id;
+    
     /**
       * $username 
       * @var string
       */
     protected $username;
+    
     /**
       * $first_name 
       * @var string
       */
     protected $first_name;
+    
     /**
       * $last_name 
       * @var string
       */
     protected $last_name;
+    
     /**
       * $email 
       * @var string
       */
     protected $email;
+    
     /**
       * $password 
       * @var string
       */
     protected $password;
+    
     /**
       * $phone 
       * @var string
       */
     protected $phone;
+    
     /**
       * $user_status User Status
       * @var int
       */
     protected $user_status;
+    
 
     /**
      * Constructor
@@ -175,7 +182,6 @@ class User implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
         
         if ($data != null) {
             $this->id = $data["id"];
@@ -188,6 +194,7 @@ class User implements ArrayAccess
             $this->user_status = $data["user_status"];
         }
     }
+    
     /**
      * Gets id
      * @return int
@@ -196,7 +203,7 @@ class User implements ArrayAccess
     {
         return $this->id;
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -208,6 +215,7 @@ class User implements ArrayAccess
         $this->id = $id;
         return $this;
     }
+    
     /**
      * Gets username
      * @return string
@@ -216,7 +224,7 @@ class User implements ArrayAccess
     {
         return $this->username;
     }
-  
+
     /**
      * Sets username
      * @param string $username 
@@ -228,6 +236,7 @@ class User implements ArrayAccess
         $this->username = $username;
         return $this;
     }
+    
     /**
      * Gets first_name
      * @return string
@@ -236,7 +245,7 @@ class User implements ArrayAccess
     {
         return $this->first_name;
     }
-  
+
     /**
      * Sets first_name
      * @param string $first_name 
@@ -248,6 +257,7 @@ class User implements ArrayAccess
         $this->first_name = $first_name;
         return $this;
     }
+    
     /**
      * Gets last_name
      * @return string
@@ -256,7 +266,7 @@ class User implements ArrayAccess
     {
         return $this->last_name;
     }
-  
+
     /**
      * Sets last_name
      * @param string $last_name 
@@ -268,6 +278,7 @@ class User implements ArrayAccess
         $this->last_name = $last_name;
         return $this;
     }
+    
     /**
      * Gets email
      * @return string
@@ -276,7 +287,7 @@ class User implements ArrayAccess
     {
         return $this->email;
     }
-  
+
     /**
      * Sets email
      * @param string $email 
@@ -288,6 +299,7 @@ class User implements ArrayAccess
         $this->email = $email;
         return $this;
     }
+    
     /**
      * Gets password
      * @return string
@@ -296,7 +308,7 @@ class User implements ArrayAccess
     {
         return $this->password;
     }
-  
+
     /**
      * Sets password
      * @param string $password 
@@ -308,6 +320,7 @@ class User implements ArrayAccess
         $this->password = $password;
         return $this;
     }
+    
     /**
      * Gets phone
      * @return string
@@ -316,7 +329,7 @@ class User implements ArrayAccess
     {
         return $this->phone;
     }
-  
+
     /**
      * Sets phone
      * @param string $phone 
@@ -328,6 +341,7 @@ class User implements ArrayAccess
         $this->phone = $phone;
         return $this;
     }
+    
     /**
      * Gets user_status
      * @return int
@@ -336,7 +350,7 @@ class User implements ArrayAccess
     {
         return $this->user_status;
     }
-  
+
     /**
      * Sets user_status
      * @param int $user_status User Status
@@ -348,6 +362,7 @@ class User implements ArrayAccess
         $this->user_status = $user_status;
         return $this;
     }
+    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -357,7 +372,7 @@ class User implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -367,7 +382,7 @@ class User implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -378,7 +393,7 @@ class User implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -388,17 +403,17 @@ class User implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
+        if (defined('JSON_PRETTY_PRINT')) {
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
-
-        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

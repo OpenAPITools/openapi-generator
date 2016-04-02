@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-02T17:10:39.649+08:00")
 public class SpecialModelName   {
   
   private Long specialPropertyName = null;
@@ -31,6 +31,7 @@ public class SpecialModelName   {
     this.specialPropertyName = specialPropertyName;
   }
 
+  
 
   @Override
   public boolean equals(java.lang.Object o) {
