@@ -47,9 +47,9 @@ use \ArrayAccess;
 class ModelReturn implements ArrayAccess
 {
     /**
-      * Array of property to type mappings. Used for (de)serialization 
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
     static $swaggerTypes = array(
         'return' => 'int'
     );
@@ -59,9 +59,9 @@ class ModelReturn implements ArrayAccess
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[]
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'return' => 'return'
     );
@@ -71,9 +71,9 @@ class ModelReturn implements ArrayAccess
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'return' => 'setReturn'
     );
@@ -83,9 +83,9 @@ class ModelReturn implements ArrayAccess
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'return' => 'getReturn'
     );
@@ -100,9 +100,9 @@ class ModelReturn implements ArrayAccess
 
     
     /**
-      * $return 
-      * @var int
-      */
+     * $return 
+     * @var int
+     */
     protected $return;
     
 

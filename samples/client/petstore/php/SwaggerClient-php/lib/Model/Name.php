@@ -47,9 +47,9 @@ use \ArrayAccess;
 class Name implements ArrayAccess
 {
     /**
-      * Array of property to type mappings. Used for (de)serialization 
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
     static $swaggerTypes = array(
         'name' => 'int',
         'snake_case' => 'int'
@@ -60,9 +60,9 @@ class Name implements ArrayAccess
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[]
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'name' => 'name',
         'snake_case' => 'snake_case'
@@ -73,9 +73,9 @@ class Name implements ArrayAccess
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'name' => 'setName',
         'snake_case' => 'setSnakeCase'
@@ -86,9 +86,9 @@ class Name implements ArrayAccess
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'name' => 'getName',
         'snake_case' => 'getSnakeCase'
@@ -104,15 +104,15 @@ class Name implements ArrayAccess
 
     
     /**
-      * $name 
-      * @var int
-      */
+     * $name 
+     * @var int
+     */
     protected $name;
     
     /**
-      * $snake_case 
-      * @var int
-      */
+     * $snake_case 
+     * @var int
+     */
     protected $snake_case;
     
 

@@ -47,9 +47,9 @@ use \ArrayAccess;
 class User implements ArrayAccess
 {
     /**
-      * Array of property to type mappings. Used for (de)serialization 
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
     static $swaggerTypes = array(
         'id' => 'int',
         'username' => 'string',
@@ -66,9 +66,9 @@ class User implements ArrayAccess
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[]
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'id' => 'id',
         'username' => 'username',
@@ -85,9 +85,9 @@ class User implements ArrayAccess
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'id' => 'setId',
         'username' => 'setUsername',
@@ -104,9 +104,9 @@ class User implements ArrayAccess
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'id' => 'getId',
         'username' => 'getUsername',
@@ -128,51 +128,51 @@ class User implements ArrayAccess
 
     
     /**
-      * $id 
-      * @var int
-      */
+     * $id 
+     * @var int
+     */
     protected $id;
     
     /**
-      * $username 
-      * @var string
-      */
+     * $username 
+     * @var string
+     */
     protected $username;
     
     /**
-      * $first_name 
-      * @var string
-      */
+     * $first_name 
+     * @var string
+     */
     protected $first_name;
     
     /**
-      * $last_name 
-      * @var string
-      */
+     * $last_name 
+     * @var string
+     */
     protected $last_name;
     
     /**
-      * $email 
-      * @var string
-      */
+     * $email 
+     * @var string
+     */
     protected $email;
     
     /**
-      * $password 
-      * @var string
-      */
+     * $password 
+     * @var string
+     */
     protected $password;
     
     /**
-      * $phone 
-      * @var string
-      */
+     * $phone 
+     * @var string
+     */
     protected $phone;
     
     /**
-      * $user_status User Status
-      * @var int
-      */
+     * $user_status User Status
+     * @var int
+     */
     protected $user_status;
     
 
