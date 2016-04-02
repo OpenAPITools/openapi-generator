@@ -114,9 +114,9 @@ class Pet implements ArrayAccess
         return self::$getters;
     }
 
-    const STATUS_AVAILABLE = "available";
-    const STATUS_PENDING = "pending";
-    const STATUS_SOLD = "sold";
+    const STATUS_AVAILABLE = ""available"";
+    const STATUS_PENDING = ""pending"";
+    const STATUS_SOLD = ""sold"";
     
 
     
@@ -189,7 +189,7 @@ class Pet implements ArrayAccess
     }
     
     /**
-     * Gets id
+     * Gets id.
      * @return int
      */
     public function getId()
@@ -198,7 +198,7 @@ class Pet implements ArrayAccess
     }
 
     /**
-     * Sets id
+     * Sets id.
      * @param int $id 
      * @return $this
      */
@@ -210,7 +210,7 @@ class Pet implements ArrayAccess
     }
     
     /**
-     * Gets category
+     * Gets category.
      * @return \Swagger\Client\Model\Category
      */
     public function getCategory()
@@ -219,7 +219,7 @@ class Pet implements ArrayAccess
     }
 
     /**
-     * Sets category
+     * Sets category.
      * @param \Swagger\Client\Model\Category $category 
      * @return $this
      */
@@ -231,7 +231,7 @@ class Pet implements ArrayAccess
     }
     
     /**
-     * Gets name
+     * Gets name.
      * @return string
      */
     public function getName()
@@ -240,7 +240,7 @@ class Pet implements ArrayAccess
     }
 
     /**
-     * Sets name
+     * Sets name.
      * @param string $name 
      * @return $this
      */
@@ -252,7 +252,7 @@ class Pet implements ArrayAccess
     }
     
     /**
-     * Gets photo_urls
+     * Gets photo_urls.
      * @return string[]
      */
     public function getPhotoUrls()
@@ -261,7 +261,7 @@ class Pet implements ArrayAccess
     }
 
     /**
-     * Sets photo_urls
+     * Sets photo_urls.
      * @param string[] $photo_urls 
      * @return $this
      */
@@ -273,7 +273,7 @@ class Pet implements ArrayAccess
     }
     
     /**
-     * Gets tags
+     * Gets tags.
      * @return \Swagger\Client\Model\Tag[]
      */
     public function getTags()
@@ -282,7 +282,7 @@ class Pet implements ArrayAccess
     }
 
     /**
-     * Sets tags
+     * Sets tags.
      * @param \Swagger\Client\Model\Tag[] $tags 
      * @return $this
      */
@@ -294,7 +294,7 @@ class Pet implements ArrayAccess
     }
     
     /**
-     * Gets status
+     * Gets status.
      * @return string
      */
     public function getStatus()
@@ -303,7 +303,7 @@ class Pet implements ArrayAccess
     }
 
     /**
-     * Sets status
+     * Sets status.
      * @param string $status pet status in the store
      * @return $this
      */
@@ -359,7 +359,7 @@ class Pet implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -371,3 +371,5 @@ class Pet implements ArrayAccess
         }
     }
 }
+
+?>

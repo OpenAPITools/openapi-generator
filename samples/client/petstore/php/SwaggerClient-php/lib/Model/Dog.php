@@ -119,7 +119,7 @@ class Dog extends Animal implements ArrayAccess
     }
     
     /**
-     * Gets breed
+     * Gets breed.
      * @return string
      */
     public function getBreed()
@@ -128,7 +128,7 @@ class Dog extends Animal implements ArrayAccess
     }
 
     /**
-     * Sets breed
+     * Sets breed.
      * @param string $breed 
      * @return $this
      */
@@ -181,7 +181,7 @@ class Dog extends Animal implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -193,3 +193,5 @@ class Dog extends Animal implements ArrayAccess
         }
     }
 }
+
+?>

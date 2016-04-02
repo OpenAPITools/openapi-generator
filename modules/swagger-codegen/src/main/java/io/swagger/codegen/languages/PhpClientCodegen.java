@@ -570,9 +570,28 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toEnumVarName(String name) {
+        String enumName = sanitizeName(underscore(name).toUpperCase());
+
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
     public String toEnumName(CodegenProperty property) {
-        LOGGER.info("php toEnumName:" + underscore(property.name).toUpperCase());
-        return underscore(property.name).toUpperCase();
+        String enumName = toModelName(property.name) + "Enum";
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
     }
 
     @Override

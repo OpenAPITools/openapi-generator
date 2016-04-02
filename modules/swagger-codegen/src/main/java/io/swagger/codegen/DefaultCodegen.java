@@ -145,6 +145,33 @@ public class DefaultCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                Map<String, Object> allowableValues = cm.allowableValues;
+
+                List<String> values = (List<String>) allowableValues.get("values");
+                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                String commonPrefix = findCommonPrefixOfVars(values);
+                int truncateIdx = commonPrefix.length();
+                for (String value : values) {
+                    Map<String, String> enumVar = new HashMap<String, String>();
+                    String enumName;
+                    if (truncateIdx == 0) {
+                        enumName = value;
+                    } else {
+                        enumName = value.substring(truncateIdx);
+                        if ("".equals(enumName)) {
+                            enumName = value;
+                        }
+                    }
+                    enumVar.put("name", toEnumVarName(enumName));
+                    enumVar.put("value", toEnumValue(value, cm.dataType));
+                    enumVars.add(enumVar);
+                }
+                cm.allowableValues.put("enumVars", enumVars);
+            }
+
+            // for enum model's properties
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
 
@@ -177,7 +204,7 @@ public class DefaultCodegen {
                         }
                     }
                     enumVar.put("name", toEnumVarName(enumName));
-                    enumVar.put("value", value);
+                    enumVar.put("value", toEnumValue(value, var.datatype));
                     enumVars.add(enumVar);
                 }
                 allowableValues.put("enumVars", enumVars);
@@ -212,6 +239,21 @@ public class DefaultCodegen {
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 
+    /**
+     * Return the value in the language specifed format
+     * e.g. status => "status"
+     * 
+     * @param value enum variable name
+     * @return the sanitized variable name for enum
+     */
+    public String toEnumValue(String value, String datatype) {
+        if ("number".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+    
     /**
      * Return the sanitized variable name for enum
      * 
@@ -549,7 +591,7 @@ public class DefaultCodegen {
     /**
      * Return the Enum name (e.g. StatusEnum given 'status')
      *
-     * @param property Codegen property object
+     * @param property Codegen property
      * @return the Enum name
      */
     @SuppressWarnings("static-method")
@@ -1105,7 +1147,9 @@ public class DefaultCodegen {
             ModelImpl impl = (ModelImpl) model;
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
                 m.isEnum = true;
-                m.allowableValues = impl.getEnum();
+                // comment out below as allowableValues is not set in post processing model enum
+                m.allowableValues = new HashMap<String, Object>();
+                m.allowableValues.put("values", impl.getEnum());
                 Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
                 m.dataType = getSwaggerType(p);
             }

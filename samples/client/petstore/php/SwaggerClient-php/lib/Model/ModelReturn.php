@@ -119,7 +119,7 @@ class ModelReturn implements ArrayAccess
     }
     
     /**
-     * Gets return
+     * Gets return.
      * @return int
      */
     public function getReturn()
@@ -128,7 +128,7 @@ class ModelReturn implements ArrayAccess
     }
 
     /**
-     * Sets return
+     * Sets return.
      * @param int $return 
      * @return $this
      */
@@ -181,7 +181,7 @@ class ModelReturn implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -193,3 +193,5 @@ class ModelReturn implements ArrayAccess
         }
     }
 }
+
+?>

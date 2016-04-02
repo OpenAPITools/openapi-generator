@@ -114,9 +114,9 @@ class Order implements ArrayAccess
         return self::$getters;
     }
 
-    const STATUS_PLACED = "placed";
-    const STATUS_APPROVED = "approved";
-    const STATUS_DELIVERED = "delivered";
+    const STATUS_PLACED = ""placed"";
+    const STATUS_APPROVED = ""approved"";
+    const STATUS_DELIVERED = ""delivered"";
     
 
     
@@ -189,7 +189,7 @@ class Order implements ArrayAccess
     }
     
     /**
-     * Gets id
+     * Gets id.
      * @return int
      */
     public function getId()
@@ -198,7 +198,7 @@ class Order implements ArrayAccess
     }
 
     /**
-     * Sets id
+     * Sets id.
      * @param int $id 
      * @return $this
      */
@@ -210,7 +210,7 @@ class Order implements ArrayAccess
     }
     
     /**
-     * Gets pet_id
+     * Gets pet_id.
      * @return int
      */
     public function getPetId()
@@ -219,7 +219,7 @@ class Order implements ArrayAccess
     }
 
     /**
-     * Sets pet_id
+     * Sets pet_id.
      * @param int $pet_id 
      * @return $this
      */
@@ -231,7 +231,7 @@ class Order implements ArrayAccess
     }
     
     /**
-     * Gets quantity
+     * Gets quantity.
      * @return int
      */
     public function getQuantity()
@@ -240,7 +240,7 @@ class Order implements ArrayAccess
     }
 
     /**
-     * Sets quantity
+     * Sets quantity.
      * @param int $quantity 
      * @return $this
      */
@@ -252,7 +252,7 @@ class Order implements ArrayAccess
     }
     
     /**
-     * Gets ship_date
+     * Gets ship_date.
      * @return \DateTime
      */
     public function getShipDate()
@@ -261,7 +261,7 @@ class Order implements ArrayAccess
     }
 
     /**
-     * Sets ship_date
+     * Sets ship_date.
      * @param \DateTime $ship_date 
      * @return $this
      */
@@ -273,7 +273,7 @@ class Order implements ArrayAccess
     }
     
     /**
-     * Gets status
+     * Gets status.
      * @return string
      */
     public function getStatus()
@@ -282,7 +282,7 @@ class Order implements ArrayAccess
     }
 
     /**
-     * Sets status
+     * Sets status.
      * @param string $status Order Status
      * @return $this
      */
@@ -297,7 +297,7 @@ class Order implements ArrayAccess
     }
     
     /**
-     * Gets complete
+     * Gets complete.
      * @return bool
      */
     public function getComplete()
@@ -306,7 +306,7 @@ class Order implements ArrayAccess
     }
 
     /**
-     * Sets complete
+     * Sets complete.
      * @param bool $complete 
      * @return $this
      */
@@ -359,7 +359,7 @@ class Order implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -371,3 +371,5 @@ class Order implements ArrayAccess
         }
     }
 }
+
+?>

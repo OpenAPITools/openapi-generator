@@ -130,7 +130,7 @@ class Name implements ArrayAccess
     }
     
     /**
-     * Gets name
+     * Gets name.
      * @return int
      */
     public function getName()
@@ -139,7 +139,7 @@ class Name implements ArrayAccess
     }
 
     /**
-     * Sets name
+     * Sets name.
      * @param int $name 
      * @return $this
      */
@@ -151,7 +151,7 @@ class Name implements ArrayAccess
     }
     
     /**
-     * Gets snake_case
+     * Gets snake_case.
      * @return int
      */
     public function getSnakeCase()
@@ -160,7 +160,7 @@ class Name implements ArrayAccess
     }
 
     /**
-     * Sets snake_case
+     * Sets snake_case.
      * @param int $snake_case 
      * @return $this
      */
@@ -213,7 +213,7 @@ class Name implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -225,3 +225,5 @@ class Name implements ArrayAccess
         }
     }
 }
+
+?>
