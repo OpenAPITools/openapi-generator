@@ -47,9 +47,9 @@ use \ArrayAccess;
 class Pet implements ArrayAccess
 {
     /**
-      * Array of property to type mappings. Used for (de)serialization 
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
     static $swaggerTypes = array(
         'id' => 'int',
         'category' => '\Swagger\Client\Model\Category',
@@ -64,9 +64,9 @@ class Pet implements ArrayAccess
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[]
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'id' => 'id',
         'category' => 'category',
@@ -81,9 +81,9 @@ class Pet implements ArrayAccess
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'id' => 'setId',
         'category' => 'setCategory',
@@ -98,9 +98,9 @@ class Pet implements ArrayAccess
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'id' => 'getId',
         'category' => 'getCategory',
@@ -120,42 +120,54 @@ class Pet implements ArrayAccess
     
 
     
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getStatusAllowableValues() {
+        return [
+            self::STATUS_AVAILABLE,
+            self::STATUS_PENDING,
+            self::STATUS_SOLD,
+        ];
+    }
+    
 
     
     /**
-      * $id 
-      * @var int
-      */
+     * $id 
+     * @var int
+     */
     protected $id;
     
     /**
-      * $category 
-      * @var \Swagger\Client\Model\Category
-      */
+     * $category 
+     * @var \Swagger\Client\Model\Category
+     */
     protected $category;
     
     /**
-      * $name 
-      * @var string
-      */
+     * $name 
+     * @var string
+     */
     protected $name;
     
     /**
-      * $photo_urls 
-      * @var string[]
-      */
+     * $photo_urls 
+     * @var string[]
+     */
     protected $photo_urls;
     
     /**
-      * $tags 
-      * @var \Swagger\Client\Model\Tag[]
-      */
+     * $tags 
+     * @var \Swagger\Client\Model\Tag[]
+     */
     protected $tags;
     
     /**
-      * $status pet status in the store
-      * @var string
-      */
+     * $status pet status in the store
+     * @var string
+     */
     protected $status;
     
 

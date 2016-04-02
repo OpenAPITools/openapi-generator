@@ -47,9 +47,9 @@ use \ArrayAccess;
 class InlineResponse200 implements ArrayAccess
 {
     /**
-      * Array of property to type mappings. Used for (de)serialization 
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
     static $swaggerTypes = array(
         'tags' => '\Swagger\Client\Model\Tag[]',
         'id' => 'int',
@@ -64,9 +64,9 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[]
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'tags' => 'tags',
         'id' => 'id',
@@ -81,9 +81,9 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'tags' => 'setTags',
         'id' => 'setId',
@@ -98,9 +98,9 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'tags' => 'getTags',
         'id' => 'getId',
@@ -120,42 +120,54 @@ class InlineResponse200 implements ArrayAccess
     
 
     
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getStatusAllowableValues() {
+        return [
+            self::STATUS_AVAILABLE,
+            self::STATUS_PENDING,
+            self::STATUS_SOLD,
+        ];
+    }
+    
 
     
     /**
-      * $tags 
-      * @var \Swagger\Client\Model\Tag[]
-      */
+     * $tags 
+     * @var \Swagger\Client\Model\Tag[]
+     */
     protected $tags;
     
     /**
-      * $id 
-      * @var int
-      */
+     * $id 
+     * @var int
+     */
     protected $id;
     
     /**
-      * $category 
-      * @var object
-      */
+     * $category 
+     * @var object
+     */
     protected $category;
     
     /**
-      * $status pet status in the store
-      * @var string
-      */
+     * $status pet status in the store
+     * @var string
+     */
     protected $status;
     
     /**
-      * $name 
-      * @var string
-      */
+     * $name 
+     * @var string
+     */
     protected $name;
     
     /**
-      * $photo_urls 
-      * @var string[]
-      */
+     * $photo_urls 
+     * @var string[]
+     */
     protected $photo_urls;
     
 

@@ -47,9 +47,9 @@ use \ArrayAccess;
 class Cat extends Animal implements ArrayAccess
 {
     /**
-      * Array of property to type mappings. Used for (de)serialization 
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
     static $swaggerTypes = array(
         'declawed' => 'bool'
     );
@@ -59,9 +59,9 @@ class Cat extends Animal implements ArrayAccess
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[]
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'declawed' => 'declawed'
     );
@@ -71,9 +71,9 @@ class Cat extends Animal implements ArrayAccess
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'declawed' => 'setDeclawed'
     );
@@ -83,9 +83,9 @@ class Cat extends Animal implements ArrayAccess
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'declawed' => 'getDeclawed'
     );
@@ -100,9 +100,9 @@ class Cat extends Animal implements ArrayAccess
 
     
     /**
-      * $declawed 
-      * @var bool
-      */
+     * $declawed 
+     * @var bool
+     */
     protected $declawed;
     
 

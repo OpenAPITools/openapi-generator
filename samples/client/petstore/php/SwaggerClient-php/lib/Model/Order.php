@@ -47,9 +47,9 @@ use \ArrayAccess;
 class Order implements ArrayAccess
 {
     /**
-      * Array of property to type mappings. Used for (de)serialization 
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
     static $swaggerTypes = array(
         'id' => 'int',
         'pet_id' => 'int',
@@ -64,9 +64,9 @@ class Order implements ArrayAccess
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[]
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'id' => 'id',
         'pet_id' => 'petId',
@@ -81,9 +81,9 @@ class Order implements ArrayAccess
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'id' => 'setId',
         'pet_id' => 'setPetId',
@@ -98,9 +98,9 @@ class Order implements ArrayAccess
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'id' => 'getId',
         'pet_id' => 'getPetId',
@@ -120,42 +120,54 @@ class Order implements ArrayAccess
     
 
     
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getStatusAllowableValues() {
+        return [
+            self::STATUS_PLACED,
+            self::STATUS_APPROVED,
+            self::STATUS_DELIVERED,
+        ];
+    }
+    
 
     
     /**
-      * $id 
-      * @var int
-      */
+     * $id 
+     * @var int
+     */
     protected $id;
     
     /**
-      * $pet_id 
-      * @var int
-      */
+     * $pet_id 
+     * @var int
+     */
     protected $pet_id;
     
     /**
-      * $quantity 
-      * @var int
-      */
+     * $quantity 
+     * @var int
+     */
     protected $quantity;
     
     /**
-      * $ship_date 
-      * @var \DateTime
-      */
+     * $ship_date 
+     * @var \DateTime
+     */
     protected $ship_date;
     
     /**
-      * $status Order Status
-      * @var string
-      */
+     * $status Order Status
+     * @var string
+     */
     protected $status;
     
     /**
-      * $complete 
-      * @var bool
-      */
+     * $complete 
+     * @var bool
+     */
     protected $complete;
     
 
