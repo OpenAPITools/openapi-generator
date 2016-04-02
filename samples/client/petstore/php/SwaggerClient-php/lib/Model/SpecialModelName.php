@@ -119,7 +119,7 @@ class SpecialModelName implements ArrayAccess
     }
     
     /**
-     * Gets special_property_name
+     * Gets special_property_name.
      * @return int
      */
     public function getSpecialPropertyName()
@@ -128,7 +128,7 @@ class SpecialModelName implements ArrayAccess
     }
 
     /**
-     * Sets special_property_name
+     * Sets special_property_name.
      * @param int $special_property_name 
      * @return $this
      */
@@ -181,7 +181,7 @@ class SpecialModelName implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -193,3 +193,5 @@ class SpecialModelName implements ArrayAccess
         }
     }
 }
+
+?>

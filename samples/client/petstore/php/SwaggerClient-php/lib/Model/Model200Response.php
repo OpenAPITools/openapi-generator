@@ -119,7 +119,7 @@ class Model200Response implements ArrayAccess
     }
     
     /**
-     * Gets name
+     * Gets name.
      * @return int
      */
     public function getName()
@@ -128,7 +128,7 @@ class Model200Response implements ArrayAccess
     }
 
     /**
-     * Sets name
+     * Sets name.
      * @param int $name 
      * @return $this
      */
@@ -181,7 +181,7 @@ class Model200Response implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -193,3 +193,5 @@ class Model200Response implements ArrayAccess
         }
     }
 }
+
+?>

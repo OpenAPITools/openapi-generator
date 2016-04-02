@@ -114,9 +114,9 @@ class InlineResponse200 implements ArrayAccess
         return self::$getters;
     }
 
-    const STATUS_AVAILABLE = "available";
-    const STATUS_PENDING = "pending";
-    const STATUS_SOLD = "sold";
+    const STATUS_AVAILABLE = ""available"";
+    const STATUS_PENDING = ""pending"";
+    const STATUS_SOLD = ""sold"";
     
 
     
@@ -189,7 +189,7 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
-     * Gets tags
+     * Gets tags.
      * @return \Swagger\Client\Model\Tag[]
      */
     public function getTags()
@@ -198,7 +198,7 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-     * Sets tags
+     * Sets tags.
      * @param \Swagger\Client\Model\Tag[] $tags 
      * @return $this
      */
@@ -210,7 +210,7 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
-     * Gets id
+     * Gets id.
      * @return int
      */
     public function getId()
@@ -219,7 +219,7 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-     * Sets id
+     * Sets id.
      * @param int $id 
      * @return $this
      */
@@ -231,7 +231,7 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
-     * Gets category
+     * Gets category.
      * @return object
      */
     public function getCategory()
@@ -240,7 +240,7 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-     * Sets category
+     * Sets category.
      * @param object $category 
      * @return $this
      */
@@ -252,7 +252,7 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
-     * Gets status
+     * Gets status.
      * @return string
      */
     public function getStatus()
@@ -261,7 +261,7 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-     * Sets status
+     * Sets status.
      * @param string $status pet status in the store
      * @return $this
      */
@@ -276,7 +276,7 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
-     * Gets name
+     * Gets name.
      * @return string
      */
     public function getName()
@@ -285,7 +285,7 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-     * Sets name
+     * Sets name.
      * @param string $name 
      * @return $this
      */
@@ -297,7 +297,7 @@ class InlineResponse200 implements ArrayAccess
     }
     
     /**
-     * Gets photo_urls
+     * Gets photo_urls.
      * @return string[]
      */
     public function getPhotoUrls()
@@ -306,7 +306,7 @@ class InlineResponse200 implements ArrayAccess
     }
 
     /**
-     * Sets photo_urls
+     * Sets photo_urls.
      * @param string[] $photo_urls 
      * @return $this
      */
@@ -359,7 +359,7 @@ class InlineResponse200 implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -371,3 +371,5 @@ class InlineResponse200 implements ArrayAccess
         }
     }
 }
+
+?>

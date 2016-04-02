@@ -130,7 +130,7 @@ class Category implements ArrayAccess
     }
     
     /**
-     * Gets id
+     * Gets id.
      * @return int
      */
     public function getId()
@@ -139,7 +139,7 @@ class Category implements ArrayAccess
     }
 
     /**
-     * Sets id
+     * Sets id.
      * @param int $id 
      * @return $this
      */
@@ -151,7 +151,7 @@ class Category implements ArrayAccess
     }
     
     /**
-     * Gets name
+     * Gets name.
      * @return string
      */
     public function getName()
@@ -160,7 +160,7 @@ class Category implements ArrayAccess
     }
 
     /**
-     * Sets name
+     * Sets name.
      * @param string $name 
      * @return $this
      */
@@ -213,7 +213,7 @@ class Category implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -225,3 +225,5 @@ class Category implements ArrayAccess
         }
     }
 }
+
+?>

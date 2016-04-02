@@ -196,7 +196,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets id
+     * Gets id.
      * @return int
      */
     public function getId()
@@ -205,7 +205,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets id
+     * Sets id.
      * @param int $id 
      * @return $this
      */
@@ -217,7 +217,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets username
+     * Gets username.
      * @return string
      */
     public function getUsername()
@@ -226,7 +226,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets username
+     * Sets username.
      * @param string $username 
      * @return $this
      */
@@ -238,7 +238,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets first_name
+     * Gets first_name.
      * @return string
      */
     public function getFirstName()
@@ -247,7 +247,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets first_name
+     * Sets first_name.
      * @param string $first_name 
      * @return $this
      */
@@ -259,7 +259,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets last_name
+     * Gets last_name.
      * @return string
      */
     public function getLastName()
@@ -268,7 +268,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets last_name
+     * Sets last_name.
      * @param string $last_name 
      * @return $this
      */
@@ -280,7 +280,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets email
+     * Gets email.
      * @return string
      */
     public function getEmail()
@@ -289,7 +289,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets email
+     * Sets email.
      * @param string $email 
      * @return $this
      */
@@ -301,7 +301,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets password
+     * Gets password.
      * @return string
      */
     public function getPassword()
@@ -310,7 +310,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets password
+     * Sets password.
      * @param string $password 
      * @return $this
      */
@@ -322,7 +322,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets phone
+     * Gets phone.
      * @return string
      */
     public function getPhone()
@@ -331,7 +331,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets phone
+     * Sets phone.
      * @param string $phone 
      * @return $this
      */
@@ -343,7 +343,7 @@ class User implements ArrayAccess
     }
     
     /**
-     * Gets user_status
+     * Gets user_status.
      * @return int
      */
     public function getUserStatus()
@@ -352,7 +352,7 @@ class User implements ArrayAccess
     }
 
     /**
-     * Sets user_status
+     * Sets user_status.
      * @param int $user_status User Status
      * @return $this
      */
@@ -405,7 +405,7 @@ class User implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -417,3 +417,5 @@ class User implements ArrayAccess
         }
     }
 }
+
+?>

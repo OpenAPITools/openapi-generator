@@ -119,7 +119,7 @@ class Cat extends Animal implements ArrayAccess
     }
     
     /**
-     * Gets declawed
+     * Gets declawed.
      * @return bool
      */
     public function getDeclawed()
@@ -128,7 +128,7 @@ class Cat extends Animal implements ArrayAccess
     }
 
     /**
-     * Sets declawed
+     * Sets declawed.
      * @param bool $declawed 
      * @return $this
      */
@@ -181,7 +181,7 @@ class Cat extends Animal implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -193,3 +193,5 @@ class Cat extends Animal implements ArrayAccess
         }
     }
 }
+
+?>

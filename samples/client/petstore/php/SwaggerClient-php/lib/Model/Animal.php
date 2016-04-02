@@ -119,7 +119,7 @@ class Animal implements ArrayAccess
     }
     
     /**
-     * Gets class_name
+     * Gets class_name.
      * @return string
      */
     public function getClassName()
@@ -128,7 +128,7 @@ class Animal implements ArrayAccess
     }
 
     /**
-     * Sets class_name
+     * Sets class_name.
      * @param string $class_name 
      * @return $this
      */
@@ -181,7 +181,7 @@ class Animal implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object
+     * Gets the string presentation of the object.
      * @return string
      */
     public function __toString()
@@ -193,3 +193,5 @@ class Animal implements ArrayAccess
         }
     }
 }
+
+?>

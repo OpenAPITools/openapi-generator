@@ -1376,6 +1376,10 @@
         }
       }
     },
+    "EnumClass" : {
+      "type": "string",
+      "enum": ["_abc", "-efg", "(xyz)"]
+    },
     "Enum_Test" : {
       "type" : "object",
       "properties" : {
