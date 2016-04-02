@@ -47,12 +47,6 @@ use \ArrayAccess;
 class Order implements ArrayAccess
 {
     /**
-      * The original name of the model.
-      * @var string
-      */
-    static $swaggerModelName = 'Order';
-
-    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -64,14 +58,14 @@ class Order implements ArrayAccess
         'status' => 'string',
         'complete' => 'bool'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
+      * @var string[]
       */
     static $attributeMap = array(
         'id' => 'id',
@@ -81,7 +75,7 @@ class Order implements ArrayAccess
         'status' => 'status',
         'complete' => 'complete'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -98,7 +92,7 @@ class Order implements ArrayAccess
         'status' => 'setStatus',
         'complete' => 'setComplete'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
@@ -115,41 +109,55 @@ class Order implements ArrayAccess
         'status' => 'getStatus',
         'complete' => 'getComplete'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    const STATUS_PLACED = "placed";
+    const STATUS_APPROVED = "approved";
+    const STATUS_DELIVERED = "delivered";
+    
+
+    
+
+    
     /**
       * $id 
       * @var int
       */
     protected $id;
+    
     /**
       * $pet_id 
       * @var int
       */
     protected $pet_id;
+    
     /**
       * $quantity 
       * @var int
       */
     protected $quantity;
+    
     /**
       * $ship_date 
       * @var \DateTime
       */
     protected $ship_date;
+    
     /**
       * $status Order Status
       * @var string
       */
     protected $status;
+    
     /**
       * $complete 
       * @var bool
       */
-    protected $complete = false;
+    protected $complete;
+    
 
     /**
      * Constructor
@@ -157,7 +165,6 @@ class Order implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
         
         if ($data != null) {
             $this->id = $data["id"];
@@ -168,6 +175,7 @@ class Order implements ArrayAccess
             $this->complete = $data["complete"];
         }
     }
+    
     /**
      * Gets id
      * @return int
@@ -176,7 +184,7 @@ class Order implements ArrayAccess
     {
         return $this->id;
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -188,6 +196,7 @@ class Order implements ArrayAccess
         $this->id = $id;
         return $this;
     }
+    
     /**
      * Gets pet_id
      * @return int
@@ -196,7 +205,7 @@ class Order implements ArrayAccess
     {
         return $this->pet_id;
     }
-  
+
     /**
      * Sets pet_id
      * @param int $pet_id 
@@ -208,6 +217,7 @@ class Order implements ArrayAccess
         $this->pet_id = $pet_id;
         return $this;
     }
+    
     /**
      * Gets quantity
      * @return int
@@ -216,7 +226,7 @@ class Order implements ArrayAccess
     {
         return $this->quantity;
     }
-  
+
     /**
      * Sets quantity
      * @param int $quantity 
@@ -228,6 +238,7 @@ class Order implements ArrayAccess
         $this->quantity = $quantity;
         return $this;
     }
+    
     /**
      * Gets ship_date
      * @return \DateTime
@@ -236,7 +247,7 @@ class Order implements ArrayAccess
     {
         return $this->ship_date;
     }
-  
+
     /**
      * Sets ship_date
      * @param \DateTime $ship_date 
@@ -248,6 +259,7 @@ class Order implements ArrayAccess
         $this->ship_date = $ship_date;
         return $this;
     }
+    
     /**
      * Gets status
      * @return string
@@ -256,7 +268,7 @@ class Order implements ArrayAccess
     {
         return $this->status;
     }
-  
+
     /**
      * Sets status
      * @param string $status Order Status
@@ -271,6 +283,7 @@ class Order implements ArrayAccess
         $this->status = $status;
         return $this;
     }
+    
     /**
      * Gets complete
      * @return bool
@@ -279,7 +292,7 @@ class Order implements ArrayAccess
     {
         return $this->complete;
     }
-  
+
     /**
      * Sets complete
      * @param bool $complete 
@@ -291,6 +304,7 @@ class Order implements ArrayAccess
         $this->complete = $complete;
         return $this;
     }
+    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -300,7 +314,7 @@ class Order implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -310,7 +324,7 @@ class Order implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -321,7 +335,7 @@ class Order implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -331,17 +345,17 @@ class Order implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
+        if (defined('JSON_PRETTY_PRINT')) {
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
-
-        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

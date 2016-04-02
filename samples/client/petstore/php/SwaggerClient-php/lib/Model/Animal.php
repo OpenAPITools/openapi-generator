@@ -47,31 +47,25 @@ use \ArrayAccess;
 class Animal implements ArrayAccess
 {
     /**
-      * The original name of the model.
-      * @var string
-      */
-    static $swaggerModelName = 'Animal';
-
-    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
         'class_name' => 'string'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
+      * @var string[]
       */
     static $attributeMap = array(
         'class_name' => 'className'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +77,7 @@ class Animal implements ArrayAccess
     static $setters = array(
         'class_name' => 'setClassName'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
@@ -95,16 +89,22 @@ class Animal implements ArrayAccess
     static $getters = array(
         'class_name' => 'getClassName'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
+    
     /**
       * $class_name 
       * @var string
       */
     protected $class_name;
+    
 
     /**
      * Constructor
@@ -113,14 +113,11 @@ class Animal implements ArrayAccess
     public function __construct(array $data = null)
     {
         
-        // Initialize discriminator property with the model name.
-        $discrimintor = array_search('className', self::$attributeMap);
-        $this->{$discrimintor} = static::$swaggerModelName;
-
         if ($data != null) {
             $this->class_name = $data["class_name"];
         }
     }
+    
     /**
      * Gets class_name
      * @return string
@@ -129,7 +126,7 @@ class Animal implements ArrayAccess
     {
         return $this->class_name;
     }
-  
+
     /**
      * Sets class_name
      * @param string $class_name 
@@ -141,6 +138,7 @@ class Animal implements ArrayAccess
         $this->class_name = $class_name;
         return $this;
     }
+    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -150,7 +148,7 @@ class Animal implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -160,7 +158,7 @@ class Animal implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -171,7 +169,7 @@ class Animal implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -181,17 +179,17 @@ class Animal implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
+        if (defined('JSON_PRETTY_PRINT')) {
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
-
-        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ModelReturn Class Doc Comment
  *
  * @category    Class
- * @description Model for testing reserved words
+ * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -47,31 +47,25 @@ use \ArrayAccess;
 class ModelReturn implements ArrayAccess
 {
     /**
-      * The original name of the model.
-      * @var string
-      */
-    static $swaggerModelName = 'Return';
-
-    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
         'return' => 'int'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
+      * @var string[]
       */
     static $attributeMap = array(
         'return' => 'return'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +77,7 @@ class ModelReturn implements ArrayAccess
     static $setters = array(
         'return' => 'setReturn'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
@@ -95,16 +89,22 @@ class ModelReturn implements ArrayAccess
     static $getters = array(
         'return' => 'getReturn'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
+    
     /**
       * $return 
       * @var int
       */
     protected $return;
+    
 
     /**
      * Constructor
@@ -113,11 +113,11 @@ class ModelReturn implements ArrayAccess
     public function __construct(array $data = null)
     {
         
-        
         if ($data != null) {
             $this->return = $data["return"];
         }
     }
+    
     /**
      * Gets return
      * @return int
@@ -126,7 +126,7 @@ class ModelReturn implements ArrayAccess
     {
         return $this->return;
     }
-  
+
     /**
      * Sets return
      * @param int $return 
@@ -138,6 +138,7 @@ class ModelReturn implements ArrayAccess
         $this->return = $return;
         return $this;
     }
+    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -147,7 +148,7 @@ class ModelReturn implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -157,7 +158,7 @@ class ModelReturn implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -168,7 +169,7 @@ class ModelReturn implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -178,17 +179,17 @@ class ModelReturn implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
+        if (defined('JSON_PRETTY_PRINT')) {
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
-
-        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

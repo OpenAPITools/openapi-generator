@@ -13,7 +13,7 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-13T14:36:33.302+02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-02T17:10:39.649+08:00")
 public class InlineResponse200   {
   
   private List<Tag> tags = new ArrayList<Tag>();
@@ -60,7 +60,7 @@ public class InlineResponse200   {
     this.tags = tags;
   }
 
-
+  
   /**
    **/
   public InlineResponse200 id(Long id) {
@@ -77,7 +77,7 @@ public class InlineResponse200   {
     this.id = id;
   }
 
-
+  
   /**
    **/
   public InlineResponse200 category(Object category) {
@@ -94,7 +94,7 @@ public class InlineResponse200   {
     this.category = category;
   }
 
-
+  
   /**
    * pet status in the store
    **/
@@ -112,7 +112,7 @@ public class InlineResponse200   {
     this.status = status;
   }
 
-
+  
   /**
    **/
   public InlineResponse200 name(String name) {
@@ -129,7 +129,7 @@ public class InlineResponse200   {
     this.name = name;
   }
 
-
+  
   /**
    **/
   public InlineResponse200 photoUrls(List<String> photoUrls) {
@@ -146,6 +146,7 @@ public class InlineResponse200   {
     this.photoUrls = photoUrls;
   }
 
+  
 
   @Override
   public boolean equals(java.lang.Object o) {

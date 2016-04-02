@@ -47,12 +47,6 @@ use \ArrayAccess;
 class InlineResponse200 implements ArrayAccess
 {
     /**
-      * The original name of the model.
-      * @var string
-      */
-    static $swaggerModelName = 'inline_response_200';
-
-    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -64,14 +58,14 @@ class InlineResponse200 implements ArrayAccess
         'name' => 'string',
         'photo_urls' => 'string[]'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
+      * @var string[]
       */
     static $attributeMap = array(
         'tags' => 'tags',
@@ -81,7 +75,7 @@ class InlineResponse200 implements ArrayAccess
         'name' => 'name',
         'photo_urls' => 'photoUrls'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -98,7 +92,7 @@ class InlineResponse200 implements ArrayAccess
         'name' => 'setName',
         'photo_urls' => 'setPhotoUrls'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
@@ -115,41 +109,55 @@ class InlineResponse200 implements ArrayAccess
         'name' => 'getName',
         'photo_urls' => 'getPhotoUrls'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    const STATUS_AVAILABLE = "available";
+    const STATUS_PENDING = "pending";
+    const STATUS_SOLD = "sold";
+    
+
+    
+
+    
     /**
       * $tags 
       * @var \Swagger\Client\Model\Tag[]
       */
     protected $tags;
+    
     /**
       * $id 
       * @var int
       */
     protected $id;
+    
     /**
       * $category 
       * @var object
       */
     protected $category;
+    
     /**
       * $status pet status in the store
       * @var string
       */
     protected $status;
+    
     /**
       * $name 
       * @var string
       */
     protected $name;
+    
     /**
       * $photo_urls 
       * @var string[]
       */
     protected $photo_urls;
+    
 
     /**
      * Constructor
@@ -157,7 +165,6 @@ class InlineResponse200 implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
         
         if ($data != null) {
             $this->tags = $data["tags"];
@@ -168,6 +175,7 @@ class InlineResponse200 implements ArrayAccess
             $this->photo_urls = $data["photo_urls"];
         }
     }
+    
     /**
      * Gets tags
      * @return \Swagger\Client\Model\Tag[]
@@ -176,7 +184,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return $this->tags;
     }
-  
+
     /**
      * Sets tags
      * @param \Swagger\Client\Model\Tag[] $tags 
@@ -188,6 +196,7 @@ class InlineResponse200 implements ArrayAccess
         $this->tags = $tags;
         return $this;
     }
+    
     /**
      * Gets id
      * @return int
@@ -196,7 +205,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return $this->id;
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -208,6 +217,7 @@ class InlineResponse200 implements ArrayAccess
         $this->id = $id;
         return $this;
     }
+    
     /**
      * Gets category
      * @return object
@@ -216,7 +226,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return $this->category;
     }
-  
+
     /**
      * Sets category
      * @param object $category 
@@ -228,6 +238,7 @@ class InlineResponse200 implements ArrayAccess
         $this->category = $category;
         return $this;
     }
+    
     /**
      * Gets status
      * @return string
@@ -236,7 +247,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return $this->status;
     }
-  
+
     /**
      * Sets status
      * @param string $status pet status in the store
@@ -251,6 +262,7 @@ class InlineResponse200 implements ArrayAccess
         $this->status = $status;
         return $this;
     }
+    
     /**
      * Gets name
      * @return string
@@ -259,7 +271,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return $this->name;
     }
-  
+
     /**
      * Sets name
      * @param string $name 
@@ -271,6 +283,7 @@ class InlineResponse200 implements ArrayAccess
         $this->name = $name;
         return $this;
     }
+    
     /**
      * Gets photo_urls
      * @return string[]
@@ -279,7 +292,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return $this->photo_urls;
     }
-  
+
     /**
      * Sets photo_urls
      * @param string[] $photo_urls 
@@ -291,6 +304,7 @@ class InlineResponse200 implements ArrayAccess
         $this->photo_urls = $photo_urls;
         return $this;
     }
+    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -300,7 +314,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -310,7 +324,7 @@ class InlineResponse200 implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -321,7 +335,7 @@ class InlineResponse200 implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -331,17 +345,17 @@ class InlineResponse200 implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
+        if (defined('JSON_PRETTY_PRINT')) {
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
-
-        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
