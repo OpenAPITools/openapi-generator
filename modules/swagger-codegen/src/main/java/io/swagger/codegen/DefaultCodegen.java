@@ -262,6 +262,7 @@ public class DefaultCodegen {
      */
     public String toEnumVarName(String value) {
         String var = value.replaceAll("\\W+", "_").toUpperCase();
+        LOGGER.info("toEnumVarName: " + value + " => " + var);
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {
