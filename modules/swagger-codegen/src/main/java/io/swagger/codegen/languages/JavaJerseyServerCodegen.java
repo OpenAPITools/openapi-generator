@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.*;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
+    boolean showGenerationTimestamp = false;
+
     public JavaJerseyServerCodegen() {
         super();
 
@@ -46,6 +48,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(library);
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
         cliOptions.add(new CliOption("title", "a title describing the application"));
+        cliOptions.add(new CliOption("showGenerationTimestamp", "shows the timestamp when files were generated"));
     }
 
     @Override
@@ -84,7 +87,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
         supportingFiles.add(new SupportingFile("jacksonJsonProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JacksonJsonProvider.java"));
-        supportingFiles.add(new SupportingFile("bootstrap.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java"));
+        writeOptional(outputFolder, new SupportingFile("bootstrap.mustache", (implFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java"));
 
         writeOptional(outputFolder, new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
@@ -93,7 +96,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
             additionalProperties.put(dateLibrary, "true");
         }
-        if(DEFAULT_LIBRARY.equals(library)) {
+        if(DEFAULT_LIBRARY.equals(library) || library == null) {
             if(templateDir.startsWith(JAXRS_TEMPLATE_DIRECTORY_NAME)) {
                 // set to the default location
                 templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "jersey1_18";
@@ -147,5 +150,9 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         opList.add(co);
         co.baseName = basePath;
-    } 
+    }
+
+    public void showGenerationTimestamp(boolean showGenerationTimestamp) {
+        this.showGenerationTimestamp = showGenerationTimestamp;
+    }
 }
