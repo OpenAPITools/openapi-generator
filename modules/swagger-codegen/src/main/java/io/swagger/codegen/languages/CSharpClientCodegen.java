@@ -306,11 +306,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
+    /*
+     *
+     */
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-        Map<String, Object> objs = super.postProcessModels(objMap);
-
-        List<Object> models = (List<Object>) objs.get("models");
+    	objMap = super.postProcessModels(objMap);
+    	
+        List<Object> models = (List<Object>) objMap.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
@@ -325,11 +328,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 if (allowableValues == null) {
                     continue;
                 }
+
                 List<String> values = (List<String>) allowableValues.get("values");
+
                 if (values == null) {
                     continue;
                 }
-
+                
                 // put "enumVars" map into `allowableValues", including `name` and `value`
                 List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
                 String commonPrefix = findCommonPrefixOfVars(values);
@@ -351,6 +356,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     enumVars.add(enumVar);
                 }
                 allowableValues.put("enumVars", enumVars);
+                
                 // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
 
                 // HACK: strip ? from enum
@@ -362,21 +368,21 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     String enumName = null;
 
                     for (Map<String, String> enumVar : enumVars) {
-
                         if (var.defaultValue.replace("\"", "").equals(enumVar.get("value"))) {
                             enumName = enumVar.get("name");
                             break;
                         }
                     }
+
                     if (enumName != null && var.vendorExtensions.containsKey(DATA_TYPE_WITH_ENUM_EXTENSION)) {
                         var.defaultValue = var.vendorExtensions.get(DATA_TYPE_WITH_ENUM_EXTENSION) + "." + enumName;
                     }
                 }
-
             }
         }
 
-        return objs;
+    	return super.postProcessModels(objMap);
+        //return objs;
     }
 
     public void setTargetFramework(String dotnetFramework) {

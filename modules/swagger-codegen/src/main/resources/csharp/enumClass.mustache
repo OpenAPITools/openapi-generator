@@ -1,6 +1,6 @@
-        public enum {{vendorExtensions.plainDatatypeWithEnum}} {
+        public enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
             {{#allowableValues}}{{#enumVars}}
-            [EnumMember(Value = "{{jsonname}}")]
+            [EnumMember(Value = {{{value}}})]
             {{name}}{{^-last}},
             {{/-last}}{{#-last}}{{/-last}}{{/enumVars}}{{/allowableValues}}
         }
