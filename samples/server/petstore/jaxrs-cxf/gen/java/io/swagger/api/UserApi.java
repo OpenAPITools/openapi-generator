@@ -6,6 +6,8 @@ import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.jaxrs.ext.multipart.*;
+
 @Path("/")
 public interface UserApi  {
     @POST
@@ -23,6 +25,16 @@ public interface UserApi  {
     
     @Produces({ "application/json", "application/xml" })
     public Response createUsersWithListInput(List<User> body);
+    @DELETE
+    @Path("/user/{username}")
+    
+    @Produces({ "application/json", "application/xml" })
+    public Response deleteUser(@PathParam("username") String username);
+    @GET
+    @Path("/user/{username}")
+    
+    @Produces({ "application/json", "application/xml" })
+    public Response getUserByName(@PathParam("username") String username);
     @GET
     @Path("/user/login")
     
@@ -33,20 +45,10 @@ public interface UserApi  {
     
     @Produces({ "application/json", "application/xml" })
     public Response logoutUser();
-    @GET
-    @Path("/user/{username}")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response getUserByName(@PathParam("username") String username);
     @PUT
     @Path("/user/{username}")
     
     @Produces({ "application/json", "application/xml" })
     public Response updateUser(@PathParam("username") String username,User body);
-    @DELETE
-    @Path("/user/{username}")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response deleteUser(@PathParam("username") String username);
 }
 
