@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-01-31T21:10:14.319Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-02T17:03:59.929-06:00")
 public class Order   {
   
   private Long id = null;
@@ -39,11 +39,16 @@ public class Order   {
   }
 
   private StatusEnum status = null;
-  private Boolean complete = null;
+  private Boolean complete = false;
 
   
   /**
    **/
+  public Order id(Long id) {
+    this.id = id;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -57,6 +62,11 @@ public class Order   {
   
   /**
    **/
+  public Order petId(Long petId) {
+    this.petId = petId;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
@@ -70,6 +80,11 @@ public class Order   {
   
   /**
    **/
+  public Order quantity(Integer quantity) {
+    this.quantity = quantity;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
@@ -83,6 +98,11 @@ public class Order   {
   
   /**
    **/
+  public Order shipDate(Date shipDate) {
+    this.shipDate = shipDate;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
@@ -97,6 +117,11 @@ public class Order   {
   /**
    * Order Status
    **/
+  public Order status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
@@ -110,6 +135,11 @@ public class Order   {
   
   /**
    **/
+  public Order complete(Boolean complete) {
+    this.complete = complete;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")

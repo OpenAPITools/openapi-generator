@@ -9,6 +9,7 @@ import io.swagger.models.parameters.*;
 import io.swagger.models.properties.*;
 import io.swagger.models.properties.PropertyBuilder.PropertyId;
 import io.swagger.util.Json;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -169,11 +170,7 @@ public class DefaultCodegen {
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
         if (input != null) {
-            String output = input.trim().replaceAll("\n", "\\\\n");
-            output = output.replace("\r", "\\r");
-            output = output.replace("\"", "\\\"");
-
-            return output;
+            return StringEscapeUtils.escapeJava(input).replace("\\/", "/");
         }
         return input;
     }
