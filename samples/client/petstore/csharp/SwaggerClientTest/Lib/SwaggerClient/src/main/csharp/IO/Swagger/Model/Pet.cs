@@ -13,25 +13,34 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// Pet
     /// </summary>
     [DataContract]
     public partial class Pet :  IEquatable<Pet>
     { 
-
         /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum StatusEnum {
+        public enum StatusEnum
+        {
             
+            /// <summary>
+            /// Enum Available for "available"
+            /// </summary>
             [EnumMember(Value = "available")]
             Available,
             
+            /// <summary>
+            /// Enum Pending for "pending"
+            /// </summary>
             [EnumMember(Value = "pending")]
             Pending,
             
+            /// <summary>
+            /// Enum Sold for "sold"
+            /// </summary>
             [EnumMember(Value = "sold")]
             Sold
         }
@@ -81,7 +90,7 @@ namespace IO.Swagger.Model
             this.Status = Status;
             
         }
-
+        
     
         /// <summary>
         /// Gets or Sets Id
@@ -127,10 +136,11 @@ namespace IO.Swagger.Model
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
             sb.Append("  Tags: ").Append(Tags).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
+            
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -206,18 +216,25 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                
                 if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
+                
                 if (this.Category != null)
                     hash = hash * 59 + this.Category.GetHashCode();
+                
                 if (this.Name != null)
                     hash = hash * 59 + this.Name.GetHashCode();
+                
                 if (this.PhotoUrls != null)
                     hash = hash * 59 + this.PhotoUrls.GetHashCode();
+                
                 if (this.Tags != null)
                     hash = hash * 59 + this.Tags.GetHashCode();
+                
                 if (this.Status != null)
                     hash = hash * 59 + this.Status.GetHashCode();
+                
                 return hash;
             }
         }

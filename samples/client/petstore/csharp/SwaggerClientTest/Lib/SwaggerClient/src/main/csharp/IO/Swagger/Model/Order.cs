@@ -13,25 +13,34 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// Order
     /// </summary>
     [DataContract]
     public partial class Order :  IEquatable<Order>
     { 
-
         /// <summary>
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum StatusEnum {
+        public enum StatusEnum
+        {
             
+            /// <summary>
+            /// Enum Placed for "placed"
+            /// </summary>
             [EnumMember(Value = "placed")]
             Placed,
             
+            /// <summary>
+            /// Enum Approved for "approved"
+            /// </summary>
             [EnumMember(Value = "approved")]
             Approved,
             
+            /// <summary>
+            /// Enum Delivered for "delivered"
+            /// </summary>
             [EnumMember(Value = "delivered")]
             Delivered
         }
@@ -48,38 +57,36 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// Initializes a new instance of the <see cref="Order" />class.
         /// </summary>
-        /// <param name="Id">Id.</param>
         /// <param name="PetId">PetId.</param>
         /// <param name="Quantity">Quantity.</param>
         /// <param name="ShipDate">ShipDate.</param>
-        /// <param name="Status">Order Status.</param>
-        /// <param name="Complete">Complete (default to false).</param>
+        /// <param name="Status">Order Status (default to StatusEnum.Placed).</param>
+        /// <param name="Complete">Complete.</param>
 
-        public Order(long? Id = null, long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
+        public Order(long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
         {
-            this.Id = Id;
             this.PetId = PetId;
             this.Quantity = Quantity;
             this.ShipDate = ShipDate;
-            this.Status = Status;
-            // use default value if no "Complete" provided
-            if (Complete == null)
+            // use default value if no "Status" provided
+            if (Status == null)
             {
-                this.Complete = false;
+                this.Status = StatusEnum.Placed;
             }
             else
             {
-                this.Complete = Complete;
+                this.Status = Status;
             }
+            this.Complete = Complete;
             
         }
-
+        
     
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        public long? Id { get; private set; }
     
         /// <summary>
         /// Gets or Sets PetId
@@ -119,10 +126,11 @@ namespace IO.Swagger.Model
             sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Complete: ").Append(Complete).Append("\n");
+            
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -198,18 +206,25 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                
                 if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
+                
                 if (this.PetId != null)
                     hash = hash * 59 + this.PetId.GetHashCode();
+                
                 if (this.Quantity != null)
                     hash = hash * 59 + this.Quantity.GetHashCode();
+                
                 if (this.ShipDate != null)
                     hash = hash * 59 + this.ShipDate.GetHashCode();
+                
                 if (this.Status != null)
                     hash = hash * 59 + this.Status.GetHashCode();
+                
                 if (this.Complete != null)
                     hash = hash * 59 + this.Complete.GetHashCode();
+                
                 return hash;
             }
         }

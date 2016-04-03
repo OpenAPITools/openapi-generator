@@ -306,83 +306,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
-    /*
-     *
-     */
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-    	objMap = super.postProcessModels(objMap);
-    	
-        List<Object> models = (List<Object>) objMap.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            for (CodegenProperty var : cm.vars) {
-                Map<String, Object> allowableValues = var.allowableValues;
-
-                // handle ArrayProperty
-                if (var.items != null) {
-                    allowableValues = var.items.allowableValues;
-                }
-
-                if (allowableValues == null) {
-                    continue;
-                }
-
-                List<String> values = (List<String>) allowableValues.get("values");
-
-                if (values == null) {
-                    continue;
-                }
-                
-                // put "enumVars" map into `allowableValues", including `name` and `value`
-                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
-                String commonPrefix = findCommonPrefixOfVars(values);
-                int truncateIdx = commonPrefix.length();
-                for (String value : values) {
-                    Map<String, String> enumVar = new HashMap<String, String>();
-                    String enumName;
-                    if (truncateIdx == 0) {
-                        enumName = value;
-                    } else {
-                        enumName = value.substring(truncateIdx);
-                        if ("".equals(enumName)) {
-                            enumName = value;
-                        }
-                    }
-                    enumVar.put("name", toEnumVarName(enumName));
-                    enumVar.put("jsonname", value);
-                    enumVar.put("value", value);
-                    enumVars.add(enumVar);
-                }
-                allowableValues.put("enumVars", enumVars);
-                
-                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
-
-                // HACK: strip ? from enum
-                if (var.datatypeWithEnum != null) {
-                    var.vendorExtensions.put(DATA_TYPE_WITH_ENUM_EXTENSION, var.datatypeWithEnum.substring(0, var.datatypeWithEnum.length() - 1));
-                }
-
-                if (var.defaultValue != null) {
-                    String enumName = null;
-
-                    for (Map<String, String> enumVar : enumVars) {
-                        if (var.defaultValue.replace("\"", "").equals(enumVar.get("value"))) {
-                            enumName = enumVar.get("name");
-                            break;
-                        }
-                    }
-
-                    if (enumName != null && var.vendorExtensions.containsKey(DATA_TYPE_WITH_ENUM_EXTENSION)) {
-                        var.defaultValue = var.vendorExtensions.get(DATA_TYPE_WITH_ENUM_EXTENSION) + "." + enumName;
-                    }
-                }
-            }
-        }
-
     	return super.postProcessModels(objMap);
-        //return objs;
     }
 
     public void setTargetFramework(String dotnetFramework) {
