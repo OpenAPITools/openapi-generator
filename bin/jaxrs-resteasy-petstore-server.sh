@@ -26,6 +26,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -t modules/swagger-codegen/src/main/resources/JavaJaxRS -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l jaxrs-resteasy -o samples/server/petstore/jaxrs-resteasy"
+ags="$@ generate -t modules/swagger-codegen/src/main/resources/JavaJaxRS -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l jaxrs-resteasy -o samples/server/petstore/jaxrs-resteasy -DhideGenerationTimestamp=true"
 
 java $JAVA_OPTS -jar $executable $ags

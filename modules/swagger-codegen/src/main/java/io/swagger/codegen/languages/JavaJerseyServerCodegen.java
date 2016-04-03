@@ -7,8 +7,6 @@ import java.io.File;
 import java.util.*;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
-    boolean showGenerationTimestamp = false;
-
     public JavaJerseyServerCodegen() {
         super();
 
@@ -48,7 +46,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(library);
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
         cliOptions.add(new CliOption("title", "a title describing the application"));
-        cliOptions.add(new CliOption("showGenerationTimestamp", "shows the timestamp when files were generated"));
     }
 
     @Override
@@ -152,7 +149,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         co.baseName = basePath;
     }
 
-    public void showGenerationTimestamp(boolean showGenerationTimestamp) {
-        this.showGenerationTimestamp = showGenerationTimestamp;
+    public void hideGenerationTimestamp(boolean hideGenerationTimestamp) {
+        this.hideGenerationTimestamp = hideGenerationTimestamp;
     }
 }

@@ -1,10 +1,8 @@
 package io.swagger.codegen.options;
 
-import io.swagger.codegen.Codegen;
+import com.google.common.collect.ImmutableMap;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.languages.JavaClientCodegen;
-
-import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
@@ -46,6 +44,7 @@ public class JavaOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true")
                 .put(JavaClientCodegen.USE_RX_JAVA, "false")
                 .put(JavaClientCodegen.DATE_LIBRARY, "joda")
+                .put("hideGenerationTimestamp", "true")
                 .build();
     }
 
