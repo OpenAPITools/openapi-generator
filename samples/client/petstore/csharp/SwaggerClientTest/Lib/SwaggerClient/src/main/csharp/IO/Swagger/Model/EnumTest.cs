@@ -13,21 +13,27 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// EnumTest
     /// </summary>
     [DataContract]
     public partial class EnumTest :  IEquatable<EnumTest>
     { 
-    
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum EnumStringEnum {
+        public enum EnumStringEnum
+        {
             
+            /// <summary>
+            /// Enum Upper for "UPPER"
+            /// </summary>
             [EnumMember(Value = "UPPER")]
             Upper,
             
+            /// <summary>
+            /// Enum Lower for "lower"
+            /// </summary>
             [EnumMember(Value = "lower")]
             Lower
         }

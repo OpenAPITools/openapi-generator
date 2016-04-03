@@ -1274,6 +1274,7 @@
         },
         "status": {
           "type": "string",
+          "default": "placed",
           "description": "Order Status",
           "enum": [
             "placed",
@@ -1378,6 +1379,7 @@
     },
     "EnumClass" : {
       "type": "string",
+      "default": "-efg",
       "enum": ["_abc", "-efg", "(xyz)"]
     },
     "Enum_Test" : {

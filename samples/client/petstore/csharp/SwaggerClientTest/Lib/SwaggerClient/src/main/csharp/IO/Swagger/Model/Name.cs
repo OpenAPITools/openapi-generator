@@ -13,7 +13,7 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// Model for testing model name same as property name
+    /// Name
     /// </summary>
     [DataContract]
     public partial class Name :  IEquatable<Name>
@@ -23,24 +23,16 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// Initializes a new instance of the <see cref="Name" />class.
         /// </summary>
-        /// <param name="_Name">_Name (required).</param>
-        /// <param name="Property">Property.</param>
+        /// <param name="_Name">_Name.</param>
+        /// <param name="SnakeCase">SnakeCase.</param>
 
-        public Name(int? _Name = null, string Property = null)
+        public Name(int? _Name = null, int? SnakeCase = null)
         {
-            // to ensure "_Name" is required (not null)
-            if (_Name == null)
-            {
-                throw new InvalidDataException("_Name is a required property for Name and cannot be null");
-            }
-            else
-            {
-                this._Name = _Name;
-            }
-            this.Property = Property;
+            this._Name = _Name;
+            this.SnakeCase = SnakeCase;
             
         }
-
+        
     
         /// <summary>
         /// Gets or Sets _Name
@@ -52,13 +44,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name="snake_case", EmitDefaultValue=false)]
-        public int? SnakeCase { get; private set; }
-    
-        /// <summary>
-        /// Gets or Sets Property
-        /// </summary>
-        [DataMember(Name="property", EmitDefaultValue=false)]
-        public string Property { get; set; }
+        public int? SnakeCase { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,11 +56,11 @@ namespace IO.Swagger.Model
             sb.Append("class Name {\n");
             sb.Append("  _Name: ").Append(_Name).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
-            sb.Append("  Property: ").Append(Property).Append("\n");
+            
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -116,11 +102,6 @@ namespace IO.Swagger.Model
                     this.SnakeCase == other.SnakeCase ||
                     this.SnakeCase != null &&
                     this.SnakeCase.Equals(other.SnakeCase)
-                ) && 
-                (
-                    this.Property == other.Property ||
-                    this.Property != null &&
-                    this.Property.Equals(other.Property)
                 );
         }
 
@@ -135,12 +116,13 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                
                 if (this._Name != null)
                     hash = hash * 59 + this._Name.GetHashCode();
+                
                 if (this.SnakeCase != null)
                     hash = hash * 59 + this.SnakeCase.GetHashCode();
-                if (this.Property != null)
-                    hash = hash * 59 + this.Property.GetHashCode();
+                
                 return hash;
             }
         }

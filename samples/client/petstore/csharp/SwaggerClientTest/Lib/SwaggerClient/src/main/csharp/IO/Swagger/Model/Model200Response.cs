@@ -13,7 +13,7 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// Model for testing model name starting with number
+    /// Model200Response
     /// </summary>
     [DataContract]
     public partial class Model200Response :  IEquatable<Model200Response>
@@ -30,7 +30,7 @@ namespace IO.Swagger.Model
             this.Name = Name;
             
         }
-
+        
     
         /// <summary>
         /// Gets or Sets Name
@@ -47,10 +47,11 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -101,8 +102,10 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                
                 if (this.Name != null)
                     hash = hash * 59 + this.Name.GetHashCode();
+                
                 return hash;
             }
         }
