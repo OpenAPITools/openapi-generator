@@ -2,7 +2,6 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-01-31T21:10:14.319Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-02T17:03:59.929-06:00")
 public class Tag   {
   
   private Long id = null;
@@ -19,6 +18,11 @@ public class Tag   {
   
   /**
    **/
+  public Tag id(Long id) {
+    this.id = id;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -32,6 +36,11 @@ public class Tag   {
   
   /**
    **/
+  public Tag name(String name) {
+    this.name = name;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
