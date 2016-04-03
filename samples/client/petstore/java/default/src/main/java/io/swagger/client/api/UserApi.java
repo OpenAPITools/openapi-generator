@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T16:01:11.428+08:00")
+
 public class UserApi {
   private ApiClient apiClient;
 
@@ -204,7 +204,7 @@ public class UserApi {
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @return User
    * @throws ApiException if fails to make API call
    */

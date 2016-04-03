@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T16:01:11.428+08:00")
+
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -247,7 +247,7 @@ public class StoreApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "test_api_key_query", "test_api_key_header" };
+    String[] localVarAuthNames = new String[] { "test_api_key_header", "test_api_key_query" };
 
     
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};

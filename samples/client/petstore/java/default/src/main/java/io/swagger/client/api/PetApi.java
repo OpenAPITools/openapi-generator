@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T16:01:11.428+08:00")
+
 public class PetApi {
   private ApiClient apiClient;
 
@@ -294,7 +294,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
+    String[] localVarAuthNames = new String[] { "api_key", "petstore_auth" };
 
     
     GenericType<Pet> localVarReturnType = new GenericType<Pet>() {};
@@ -342,7 +342,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
+    String[] localVarAuthNames = new String[] { "api_key", "petstore_auth" };
 
     
     GenericType<InlineResponse200> localVarReturnType = new GenericType<InlineResponse200>() {};
@@ -390,7 +390,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "petstore_auth", "api_key" };
+    String[] localVarAuthNames = new String[] { "api_key", "petstore_auth" };
 
     
     GenericType<byte[]> localVarReturnType = new GenericType<byte[]>() {};
