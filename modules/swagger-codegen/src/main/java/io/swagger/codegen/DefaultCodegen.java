@@ -2,55 +2,22 @@ package io.swagger.codegen;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-
 import io.swagger.codegen.examples.ExampleGenerator;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.ComposedModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Operation;
-import io.swagger.models.RefModel;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.ApiKeyAuthDefinition;
-import io.swagger.models.auth.BasicAuthDefinition;
-import io.swagger.models.auth.In;
-import io.swagger.models.auth.OAuth2Definition;
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.parameters.BodyParameter;
-import io.swagger.models.parameters.CookieParameter;
-import io.swagger.models.parameters.FormParameter;
-import io.swagger.models.parameters.HeaderParameter;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.parameters.PathParameter;
-import io.swagger.models.parameters.QueryParameter;
-import io.swagger.models.parameters.SerializableParameter;
+import io.swagger.models.*;
+import io.swagger.models.auth.*;
+import io.swagger.models.parameters.*;
 import io.swagger.models.properties.*;
 import io.swagger.models.properties.PropertyBuilder.PropertyId;
 import io.swagger.util.Json;
-
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -203,11 +170,7 @@ public class DefaultCodegen {
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
         if (input != null) {
-            input = input.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-            String output = input.replaceAll("\n", "\\\\n");
-            output = output.replace("\r", "\\r");
-            output = output.replace("\"", "\\\"");
-            return output;
+            return StringEscapeUtils.escapeJava(input).replace("\\/", "/");
         }
         return input;
     }

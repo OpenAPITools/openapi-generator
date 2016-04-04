@@ -19,19 +19,19 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-01-31T21:10:14.319Z")
+
 public abstract class StoreApiService {
+  
+      public abstract Response deleteOrder(Long orderId,SecurityContext securityContext)
+      throws NotFoundException;
   
       public abstract Response getInventory(SecurityContext securityContext)
       throws NotFoundException;
   
+      public abstract Response getOrderById(Long orderId,SecurityContext securityContext)
+      throws NotFoundException;
+  
       public abstract Response placeOrder(Order body,SecurityContext securityContext)
-      throws NotFoundException;
-  
-      public abstract Response getOrderById(String orderId,SecurityContext securityContext)
-      throws NotFoundException;
-  
-      public abstract Response deleteOrder(String orderId,SecurityContext securityContext)
       throws NotFoundException;
   
 }
