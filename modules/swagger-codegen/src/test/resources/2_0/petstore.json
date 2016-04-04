@@ -1301,7 +1301,7 @@
       }
     },
     "Return": {
-      "descripton": "Model for testing reserved words",
+      "description": "Model for testing reserved words",
       "properties": {
         "return": {
           "type": "integer",
@@ -1313,7 +1313,7 @@
       }
     },
     "Name": {
-      "descripton": "Model for testing model name same as property name",
+      "description": "Model for testing model name same as property name",
       "properties": {
         "name": {
           "type": "integer",
@@ -1329,7 +1329,7 @@
       }
     },
     "200_response": {
-      "descripton": "Model for testing model name starting with number",
+      "description": "Model for testing model name starting with number",
       "properties": {
         "name": {
           "type": "integer",
