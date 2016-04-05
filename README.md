@@ -46,6 +46,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Scala Scalatra](#scala-scalatra)
       - [Java JAX-RS (Java JAX-RS (Jersey v1.18)](#java-jax-rs-jersey-v118)
       - [Java JAX-RS (Apache CXF 2 / 3)](#java-jax-rs-apache-cxf-2--3)
+      - [Java JAX-RS (Resteasy)](#java-jax-rs-resteasy)      
       - [Java Spring MVC](#java-spring-mvc)
       - [Haskell Servant](#haskell-servant)
       - [ASP.NET 5 Web API](#aspnet-5-web-api)
@@ -387,6 +388,7 @@ JavaCXFServerCodegen.java
 JavaClientCodegen.java
 JavaInflectorServerCodegen.java
 JavaJerseyServerCodegen.java
+JavaResteasyServerCodegen.java
 JavascriptClientCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
@@ -645,6 +647,14 @@ You must register this class into your JAX-RS configuration file:
 
 This is no longer necessary if you are using CXF >=v3.x
 
+### Java JAX-RS (Resteasy)
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l jaxrs-resteasy \
+  -o samples/server/petstore/jaxrs-resteasy
+```
 
 ### Java Spring MVC
 
