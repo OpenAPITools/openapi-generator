@@ -446,6 +446,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         StringBuilder sb = new StringBuilder();
         for (char c : string.toCharArray()) {
             if (specialCharReplacements.containsKey(c)) {
+                sb.append("'");
                 sb.append(specialCharReplacements.get(c));
             } else {
                 sb.append(c);
