@@ -181,9 +181,13 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String title = swagger.getInfo().getTitle();
 
         // Drop any API suffix
-        title = title.trim();
-        if (title.toUpperCase().endsWith("API")) {
-            title = title.substring(0, title.length() - 3);
+        if(title == null) {
+            title = "Swagger";
+        } else {
+            title = title.trim();
+            if (title.toUpperCase().endsWith("API")) {
+                title = title.substring(0, title.length() - 3);
+            }
         }
 
         String[] words = title.split(" ");
