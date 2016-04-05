@@ -267,6 +267,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             type = typeMapping.get(swaggerType);
             if (languageSpecificPrimitives.contains(type))
                 return toModelName(type);
+        } else if(swaggerType == "object") {
+            type = "Value";
         } else {
             type = swaggerType;
         }
