@@ -1,22 +1,25 @@
 {-# LANGUAGE DataKinds, TypeFamilies, TypeOperators, FlexibleInstances, OverloadedStrings, ViewPatterns #-}
 {-# LANGUAGE RecordWildCards, GeneralizedNewtypeDeriving, DeriveTraversable, FlexibleContexts, DeriveGeneric #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 module {{title}}.API (
   -- * Client and Server
   ServerConfig(..),
   {{title}}Backend,
   create{{title}}Client,
   run{{title}}Server,
+  Client(..),
   -- ** Servant
   {{title}}API,
   ) where
 
 import {{title}}.Types
 
+import Data.Aeson (Value)
 import Data.Coerce (coerce)
 import Servant.API
 import Servant (serve, ServantErr)
+import Web.HttpApiData
 import qualified Network.Wai.Handler.Warp as Warp
-import Control.Monad.Trans.Either (EitherT)
 import qualified Data.Text as T
 import Data.Text (Text)
 import Servant.Common.BaseUrl(BaseUrl(..))
@@ -28,6 +31,13 @@ import GHC.Exts (IsString(..))
 import qualified Data.Map as Map
 import GHC.Generics (Generic)
 import Data.Monoid ((<>))
+import Servant.API.Verbs (Verb, StdMethod(HEAD))
+import Control.Monad.Except (ExceptT)
+import           Network.HTTP.Client        (Manager)
+
+
+-- | HEAD with 200 status code.
+type Head = Verb 'HEAD 200
 
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasFormParams}}
@@ -39,15 +49,15 @@ data {{vendorExtensions.x-formName}} = {{vendorExtensions.x-formName}}
 instance FromFormUrlEncoded {{vendorExtensions.x-formName}} where
     fromFormUrlEncoded inputs = {{vendorExtensions.x-formName}} <$> {{#formParams}} lookupEither "{{baseName}}" inputs{{#hasMore}} <*> {{/hasMore}}{{/formParams}}
 instance ToFormUrlEncoded {{vendorExtensions.x-formName}} where
-    toFormUrlEncoded value = [{{#formParams}}("{{baseName}}", toText $ {{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} value){{#hasMore}}, {{/hasMore}}{{/formParams}}]
+    toFormUrlEncoded value = [{{#formParams}}("{{baseName}}", toQueryParam $ {{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} value){{#hasMore}}, {{/hasMore}}{{/formParams}}]
 {{/hasFormParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 -- For the form data code generation.
-lookupEither :: FromText b => Text -> [(Text, Text)] -> Either String b
+lookupEither :: FromHttpApiData b => Text -> [(Text, Text)] -> Either Text b
 lookupEither key assocs =
-  case lookup key assocs >>= fromText of
-    Nothing -> Left $ T.unpack $ "Could not find parameter " <> key <> " in form data"
-    Just value -> Right value
+  case lookup key assocs of
+    Nothing -> Left $ "Could not find parameter " <> key <> " in form data"
+    Just value -> parseQueryParam value
 
 {{#apiInfo}}
 -- | Servant type-level API, generated from the Swagger spec for {{title}}.
@@ -74,41 +84,41 @@ data CollectionFormat = CommaSeparated -- ^ CSV format for multiple parameters.
                       | PipeSeparated -- ^ `value1|value2|value2`
                       | MultiParamArray -- ^ Using multiple GET parameters, e.g. `foo=bar&foo=baz`. Only for GET params.
 
-instance FromText a => FromText (QueryList 'CommaSeparated a) where
-    fromText = parseSeparatedQueryList ','
+instance FromHttpApiData a => FromHttpApiData (QueryList 'CommaSeparated a) where
+    parseQueryParam = parseSeparatedQueryList ','
 
-instance FromText a => FromText (QueryList 'TabSeparated a) where
-    fromText = parseSeparatedQueryList '\t'
+instance FromHttpApiData a => FromHttpApiData (QueryList 'TabSeparated a) where
+    parseQueryParam = parseSeparatedQueryList '\t'
 
-instance FromText a => FromText (QueryList 'SpaceSeparated a) where
-    fromText = parseSeparatedQueryList ' '
+instance FromHttpApiData a => FromHttpApiData (QueryList 'SpaceSeparated a) where
+    parseQueryParam = parseSeparatedQueryList ' '
 
-instance FromText a => FromText (QueryList 'PipeSeparated a) where
-    fromText = parseSeparatedQueryList '|'
+instance FromHttpApiData a => FromHttpApiData (QueryList 'PipeSeparated a) where
+    parseQueryParam = parseSeparatedQueryList '|'
 
-instance FromText a => FromText (QueryList 'MultiParamArray a) where
-    fromText = error "unimplemented FromText for MultiParamArray collection format"
+instance FromHttpApiData a => FromHttpApiData (QueryList 'MultiParamArray a) where
+    parseQueryParam = error "unimplemented FromHttpApiData for MultiParamArray collection format"
 
-parseSeparatedQueryList :: FromText a => Char -> Text -> Maybe (QueryList p a)
-parseSeparatedQueryList char = fmap QueryList . mapM fromText . T.split (== char)
+parseSeparatedQueryList :: FromHttpApiData a => Char -> Text -> Either Text (QueryList p a)
+parseSeparatedQueryList char = fmap QueryList . mapM parseQueryParam . T.split (== char)
 
-instance ToText a => ToText (QueryList 'CommaSeparated a) where
-    toText = formatSeparatedQueryList ','
+instance ToHttpApiData a => ToHttpApiData (QueryList 'CommaSeparated a) where
+    toQueryParam = formatSeparatedQueryList ','
 
-instance ToText a => ToText (QueryList 'TabSeparated a) where
-    toText = formatSeparatedQueryList '\t'
+instance ToHttpApiData a => ToHttpApiData (QueryList 'TabSeparated a) where
+    toQueryParam = formatSeparatedQueryList '\t'
 
-instance ToText a => ToText (QueryList 'SpaceSeparated a) where
-    toText = formatSeparatedQueryList ' '
+instance ToHttpApiData a => ToHttpApiData (QueryList 'SpaceSeparated a) where
+    toQueryParam = formatSeparatedQueryList ' '
 
-instance ToText a => ToText (QueryList 'PipeSeparated a) where
-    toText = formatSeparatedQueryList '|'
+instance ToHttpApiData a => ToHttpApiData (QueryList 'PipeSeparated a) where
+    toQueryParam = formatSeparatedQueryList '|'
 
-instance ToText a => ToText (QueryList 'MultiParamArray a) where
-    toText = error "unimplemented ToText for MultiParamArray collection format"
+instance ToHttpApiData a => ToHttpApiData (QueryList 'MultiParamArray a) where
+    toQueryParam = error "unimplemented ToHttpApiData for MultiParamArray collection format"
 
-formatSeparatedQueryList :: ToText a => Char ->  QueryList p a -> Text
-formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toText . fromQueryList
+formatSeparatedQueryList :: ToHttpApiData a => Char ->  QueryList p a -> Text
+formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryParam . fromQueryList
 
 
 {{#apiInfo}}
@@ -123,21 +133,23 @@ data {{title}}Backend m = {{title}}Backend {
   }
 {{/apiInfo}}
 
+newtype Client a = Client { runClient :: Manager -> BaseUrl -> ExceptT ServantError IO a }
+
 
 {{#apiInfo}}
-create{{title}}Client :: ServerConfig -> {{title}}Backend (EitherT ServantError IO)
+create{{title}}Client :: ServerConfig -> {{title}}Backend Client
 create{{title}}Client clientConfig = {{title}}Backend{..}
   where
     -- Use a strange variable name to avoid conflicts in autogenerated code... (no hygienic templates)
     servantBaseUrlForClient3928 = BaseUrl Http (configHost clientConfig) (configPort clientConfig)
     ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{#hasMore}} :<|>
      {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-     {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API) servantBaseUrlForClient3928
+     {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API)
 {{/apiInfo}}
 
 {{#apiInfo}}
 -- | Run the {{title}} server at the provided host and port.
-run{{title}}Server :: MonadIO m => ServerConfig -> {{title}}Backend (EitherT ServantErr IO)  -> m ()
+run{{title}}Server :: MonadIO m => ServerConfig -> {{title}}Backend (ExceptT ServantErr IO)  -> m ()
 run{{title}}Server ServerConfig{..} backend =
   liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
 
