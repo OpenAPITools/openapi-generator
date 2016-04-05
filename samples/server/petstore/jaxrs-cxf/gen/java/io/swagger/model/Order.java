@@ -45,7 +45,7 @@ public enum Order {
 
   private StatusEnum status = null;
 
-  private Boolean complete = null;
+  private Boolean complete = false;
 
   
   /**

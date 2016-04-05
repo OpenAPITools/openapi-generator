@@ -1,7 +1,7 @@
 package io.swagger.api;
 
-import io.swagger.model.Order;
 import java.util.Map;
+import io.swagger.model.Order;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -13,32 +13,22 @@ public interface StoreApi  {
     @DELETE
     @Path("/store/order/{orderId}")
     
-    @Produces({ "application/json", "application/xml" })
-    public Response deleteOrder(@PathParam("orderId") String orderId);
-    @GET
-    @Path("/store/findByStatus")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response findOrdersByStatus(@QueryParam("status") String status);
+    @Produces({ "application/xml", "application/json" })
+    public Response deleteOrder(@PathParam("orderId") Long orderId);
     @GET
     @Path("/store/inventory")
     
-    @Produces({ "application/json", "application/xml" })
+    @Produces({ "application/json" })
     public Response getInventory();
-    @GET
-    @Path("/store/inventory?response=arbitrary_object")
-    
-    @Produces({ "application/json", "application/xml" })
-    public Response getInventoryInObject();
     @GET
     @Path("/store/order/{orderId}")
     
-    @Produces({ "application/json", "application/xml" })
-    public Response getOrderById(@PathParam("orderId") String orderId);
+    @Produces({ "application/xml", "application/json" })
+    public Response getOrderById(@PathParam("orderId") Long orderId);
     @POST
     @Path("/store/order")
     
-    @Produces({ "application/json", "application/xml" })
+    @Produces({ "application/xml", "application/json" })
     public Response placeOrder(Order body);
 }
 
