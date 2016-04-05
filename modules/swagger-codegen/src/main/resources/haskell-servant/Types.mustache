@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module {{title}}.Types (
 {{#models}}
@@ -11,10 +12,11 @@ module {{title}}.Types (
 
 import Data.List (stripPrefix)
 import Data.Maybe (fromMaybe)
-import Data.Aeson (FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
+import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Types (Options(..), defaultOptions)
 import Data.Text (Text)
 import qualified Data.Text as T
+import qualified Data.Map as Map
 import GHC.Generics (Generic)
 import Data.Function ((&))
 {{#imports}}import {{import}}
