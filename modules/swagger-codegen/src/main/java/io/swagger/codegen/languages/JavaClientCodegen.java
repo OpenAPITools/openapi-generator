@@ -42,6 +42,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
     protected boolean useRxJava = false;
+    protected boolean hideGenerationTimestamp = false;
+
 
     public JavaClientCodegen() {
         super();
@@ -99,6 +101,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .SERIALIZE_BIG_DECIMAL_AS_STRING_DESC));
         cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util"));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
+        cliOptions.add(new CliOption("hideGenerationTimestamp", "hides the timestamp when files were generated"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.1.1");

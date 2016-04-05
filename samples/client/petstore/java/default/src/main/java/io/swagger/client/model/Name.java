@@ -9,10 +9,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T10:45:51.189+08:00")
+
 public class Name   {
   
   private Integer name = null;
+  private Integer snakeCase = null;
 
   
   /**
@@ -32,6 +33,23 @@ public class Name   {
   }
 
   
+  /**
+   **/
+  public Name snakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("snake_case")
+  public Integer getSnakeCase() {
+    return snakeCase;
+  }
+  public void setSnakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
+  }
+
+  
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -42,12 +60,13 @@ public class Name   {
       return false;
     }
     Name name = (Name) o;
-    return Objects.equals(this.name, name.name);
+    return Objects.equals(this.name, name.name) &&
+        Objects.equals(this.snakeCase, name.snakeCase);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, snakeCase);
   }
 
   @Override
@@ -56,6 +75,7 @@ public class Name   {
     sb.append("class Name {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("}");
     return sb.toString();
   }
