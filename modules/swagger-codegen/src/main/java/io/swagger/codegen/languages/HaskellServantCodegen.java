@@ -249,7 +249,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             Property inner = mp.getAdditionalProperties();
             return "Map.Map String " + getTypeDeclaration(inner);
         }
-        return super.getTypeDeclaration(p);
+        return fixModelChars(super.getTypeDeclaration(p));
     }
 
     /**
@@ -459,10 +459,18 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         return sb.toString();
     }
 
+    // Remove characters from a string that do not belong in a model classname
+    private String fixModelChars(String string) {
+        return string.replace(".", "").replace("-", "");
+    }
+
     // Override fromModel to create the appropriate model namings
     @Override
     public CodegenModel fromModel(String name, Model mod, Map<String, Model> allDefinitions) {
         CodegenModel model = super.fromModel(name, mod, allDefinitions);
+
+        // Clean up the class name to remove invalid characters
+        model.classname = fixModelChars(model.classname);
 
         // From the model name, compute the prefix for the fields.
         String prefix = camelize(model.classname, true);
@@ -491,5 +499,4 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         p.vendorExtensions.put("x-formParamName", camelize(p.baseName));
         return p;
     }
-
 }
