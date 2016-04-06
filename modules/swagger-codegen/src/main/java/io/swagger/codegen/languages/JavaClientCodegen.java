@@ -793,7 +793,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean needToImport(String type) {
         return super.needToImport(type) && type.indexOf(".") < 0;
     }
-
+/*
     @Override
     public String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
@@ -801,9 +801,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
-
+*/
     @Override
-    public String toEnumVarName(String value) {
+    public String toEnumVarName(String value, String datatype) {
         String var = value.replaceAll("\\W+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;

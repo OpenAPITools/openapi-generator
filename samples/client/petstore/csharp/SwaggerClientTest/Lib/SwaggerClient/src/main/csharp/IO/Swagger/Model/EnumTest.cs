@@ -38,12 +38,38 @@ namespace IO.Swagger.Model
             Lower
         }
 
+        /// <summary>
+        /// Gets or Sets EnumInteger
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum EnumIntegerEnum
+        {
+            
+            /// <summary>
+            /// Enum NUMBER_1 for 1
+            /// </summary>
+            [EnumMember(Value = "1")]
+            NUMBER_1 = 1,
+            
+            /// <summary>
+            /// Enum NUMBER_MINUS1 for -1
+            /// </summary>
+            [EnumMember(Value = "-1")]
+            NUMBER_MINUS1 = -1
+        }
+
     
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
         [DataMember(Name="enum_string", EmitDefaultValue=false)]
         public EnumStringEnum? EnumString { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets EnumInteger
+        /// </summary>
+        [DataMember(Name="enum_integer", EmitDefaultValue=false)]
+        public EnumIntegerEnum? EnumInteger { get; set; }
     
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
@@ -53,7 +79,7 @@ namespace IO.Swagger.Model
         /// <param name="EnumInteger">EnumInteger.</param>
         /// <param name="EnumNumber">EnumNumber.</param>
 
-        public EnumTest(EnumStringEnum? EnumString = null, int? EnumInteger = null, double? EnumNumber = null)
+        public EnumTest(EnumStringEnum? EnumString = null, EnumIntegerEnum? EnumInteger = null, double? EnumNumber = null)
         {
             this.EnumString = EnumString;
             this.EnumInteger = EnumInteger;
@@ -61,12 +87,6 @@ namespace IO.Swagger.Model
             
         }
         
-    
-        /// <summary>
-        /// Gets or Sets EnumInteger
-        /// </summary>
-        [DataMember(Name="enum_integer", EmitDefaultValue=false)]
-        public int? EnumInteger { get; set; }
     
         /// <summary>
         /// Gets or Sets EnumNumber

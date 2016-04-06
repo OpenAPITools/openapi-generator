@@ -871,7 +871,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 if (allowableValues == null) {
                     continue;
                 }
-                List<String> values = (List<String>) allowableValues.get("values");
+                List<Object> values = (List<Object>) allowableValues.get("values");
                 if (values == null) {
                     continue;
                 }
@@ -880,19 +880,19 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
                 String commonPrefix = findCommonPrefixOfVars(values);
                 int truncateIdx = commonPrefix.length();
-                for (String value : values) {
+                for (Object value : values) {
                     Map<String, String> enumVar = new HashMap<String, String>();
                     String enumName;
                     if (truncateIdx == 0) {
-                        enumName = value;
+                        enumName = value.toString();
                     } else {
-                        enumName = value.substring(truncateIdx);
+                        enumName = value.toString().substring(truncateIdx);
                         if ("".equals(enumName)) {
-                            enumName = value;
+                            enumName = value.toString();
                         }
                     }
-                    enumVar.put("name", toEnumVarName(enumName));
-                    enumVar.put("value", value);
+                    enumVar.put("name", toEnumVarName(enumName, var.datatype));
+                    enumVar.put("value", value.toString());
                     enumVars.add(enumVar);
                 }
                 allowableValues.put("enumVars", enumVars);
@@ -929,7 +929,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return !defaultIncludes.contains(type)
             && !languageSpecificPrimitives.contains(type);
     }
-
+/*
     @Override
     public String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
@@ -937,9 +937,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
-
+*/
     @Override
-    public String toEnumVarName(String value) {
+    public String toEnumVarName(String value, String datatype) {
         String var = value.replaceAll("\\W+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;

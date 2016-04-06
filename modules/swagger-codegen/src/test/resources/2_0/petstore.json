@@ -1391,6 +1391,7 @@
         },
         "enum_integer" : {
           "type" : "integer",
+          "format" : "int32",
           "enum" : [1, -1]
         },
         "enum_number" : {

@@ -570,7 +570,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toEnumVarName(String name) {
+    public String toEnumVarName(String name, String datatype) {
         String enumName = sanitizeName(underscore(name).toUpperCase());
 
         enumName = enumName.replaceFirst("^_", "");
