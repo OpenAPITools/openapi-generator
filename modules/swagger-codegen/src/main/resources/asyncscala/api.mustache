@@ -2,9 +2,8 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-import io.swagger.client._
-import scala.concurrent.{ Future, Await }
-import scala.concurrent.duration._
+import com.wordnik.swagger.client._
+import scala.concurrent.Future
 import collection.mutable
 
 {{#operations}}
