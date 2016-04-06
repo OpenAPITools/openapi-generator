@@ -21,6 +21,7 @@ public class SwaggerCodegen {
 
 
     public static void main(String[] args) {
+        @SuppressWarnings("unchecked")
         Cli.CliBuilder<Runnable> builder = Cli.<Runnable>builder("swagger-codegen-cli")
                 .withDescription("Swagger code generator CLI. More info on swagger.io")
                 .withDefaultCommand(Langs.class)

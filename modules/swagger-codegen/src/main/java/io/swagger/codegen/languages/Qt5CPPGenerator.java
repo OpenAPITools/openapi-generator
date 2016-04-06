@@ -76,7 +76,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "sample1",  // replace with static values
                         "sample2")
@@ -121,6 +121,9 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "QMap");
         typeMapping.put("file", "SWGHttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "QString");
 
         importMapping = new HashMap<String, String>();
 

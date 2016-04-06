@@ -112,6 +112,24 @@ describe Petstore::ApiClient do
   end
 
   describe "#deserialize" do
+    it "handles Array<Integer>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '[12, 34]')
+      data = api_client.deserialize(response, 'Array<Integer>')
+      data.should be_a(Array)
+      data.should == [12, 34]
+    end
+
+    it "handles Array<Array<Integer>>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '[[12, 34], [56]]')
+      data = api_client.deserialize(response, 'Array<Array<Integer>>')
+      data.should be_a(Array)
+      data.should == [[12, 34], [56]]
+    end
+
     it "handles Hash<String, String>" do
       api_client = Petstore::ApiClient.new
       headers = {'Content-Type' => 'application/json'}
@@ -126,6 +144,21 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '{"pet": {"id": 1}}')
       data = api_client.deserialize(response, 'Hash<String, Pet>')
+      data.should be_a(Hash)
+      data.keys.should == [:pet]
+      pet = data[:pet]
+      pet.should be_a(Petstore::Pet)
+      pet.id.should == 1
+    end
+
+    it "handles Hash<String, Hash<String, Pet>>" do
+      api_client = Petstore::ApiClient.new
+      headers = {'Content-Type' => 'application/json'}
+      response = double('response', headers: headers, body: '{"data": {"pet": {"id": 1}}}')
+      result = api_client.deserialize(response, 'Hash<String, Hash<String, Pet>>')
+      result.should be_a(Hash)
+      result.keys.should == [:data]
+      data = result[:data]
       data.should be_a(Hash)
       data.keys.should == [:pet]
       pet = data[:pet]
@@ -222,6 +255,22 @@ describe Petstore::ApiClient do
       api_client.select_header_content_type(['APPLICATION/JSON', 'text/html']).should == 'APPLICATION/JSON'
       api_client.select_header_content_type(['application/xml']).should == 'application/xml'
       api_client.select_header_content_type(['text/plain', 'application/xml']).should == 'text/plain'
+    end
+  end
+
+  describe "#sanitize_filename" do
+    let(:api_client) { Petstore::ApiClient.new }
+
+    it "works" do
+      api_client.sanitize_filename('sun').should == 'sun'
+      api_client.sanitize_filename('sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('../sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('/var/tmp/sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('./sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('..\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('\var\tmp\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('c:\var\tmp\sun.gif').should == 'sun.gif'
+      api_client.sanitize_filename('.\sun.gif').should == 'sun.gif'
     end
   end
 

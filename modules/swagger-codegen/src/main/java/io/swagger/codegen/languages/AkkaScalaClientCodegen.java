@@ -63,7 +63,9 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
      * unmarshalling problems and any other RuntimeException will be considered as ApiErrors.
      */
     protected boolean onlyOneSuccess = true;
-    Logger LOGGER = LoggerFactory.getLogger(AkkaScalaClientCodegen.class);
+
+    @SuppressWarnings("hiding")
+    protected Logger LOGGER = LoggerFactory.getLogger(AkkaScalaClientCodegen.class);
 
     public AkkaScalaClientCodegen() {
         super();
@@ -74,7 +76,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         apiPackage = mainPackage + ".api";
         modelPackage = mainPackage + ".model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "abstract", "case", "catch", "class", "def", "do", "else", "extends",
                         "false", "final", "finally", "for", "forSome", "if", "implicit",
@@ -274,7 +276,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
         }
-        if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !reservedWords.contains(identifier)) {
+        if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !isReservedWord(identifier)) {
             return identifier;
         }
         return escapeReservedWord(identifier);

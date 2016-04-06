@@ -36,7 +36,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  */
 public class CodegenConfigurator {
 
-    public static final Logger LOG = LoggerFactory.getLogger(CodegenConfigurator.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
     private String lang;
     private String inputSpec;
@@ -48,6 +48,8 @@ public class CodegenConfigurator {
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
+    private String modelNamePrefix;
+    private String modelNameSuffix;
     private String groupId;
     private String artifactId;
     private String artifactVersion;
@@ -58,6 +60,10 @@ public class CodegenConfigurator {
     private Map<String, String> additionalProperties = new HashMap<String, String>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
+    private String gitUserId="YOUR_GIT_USR_ID";
+    private String gitRepoId="YOUR_GIT_REPO_ID";
+    private String releaseNote="Minor update";
+    private String httpUserAgent;
 
     private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
@@ -94,6 +100,24 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setModelPackage(String modelPackage) {
         this.modelPackage = modelPackage;
+        return this;
+    }
+
+    public String getModelNamePrefix() {
+        return modelNamePrefix;
+    }
+
+    public CodegenConfigurator setModelNamePrefix(String prefix) {
+        this.modelNamePrefix = prefix;
+        return this;
+    }
+
+    public String getModelNameSuffix() {
+        return modelNameSuffix;
+    }
+
+    public CodegenConfigurator setModelNameSuffix(String suffix) {
+        this.modelNameSuffix = suffix;
         return this;
     }
 
@@ -275,6 +299,42 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public String getGitUserId() {
+        return gitUserId;
+    }
+
+    public CodegenConfigurator setGitUserId(String gitUserId) {
+        this.gitUserId = gitUserId;
+        return this;
+    }
+
+    public String getGitRepoId() {
+        return gitRepoId;
+    }
+
+    public CodegenConfigurator setGitRepoId(String gitRepoId) {
+        this.gitRepoId = gitRepoId;
+        return this;
+    }
+
+    public String getReleaseNote() {
+        return releaseNote;
+    }
+
+    public CodegenConfigurator setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+        return this;
+    }
+
+    public String getHttpUserAgent() {
+        return httpUserAgent;
+    }
+
+    public CodegenConfigurator setHttpUserAgent(String httpUserAgent) {
+        this.httpUserAgent= httpUserAgent;
+        return this;
+    }
+
     public ClientOptInput toClientOptInput() {
 
         Validate.notEmpty(lang, "language must be specified");
@@ -300,6 +360,12 @@ public class CodegenConfigurator {
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
+        checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
+        checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
+        checkAndSetAdditionalProperty(gitRepoId, CodegenConstants.GIT_REPO_ID);
+        checkAndSetAdditionalProperty(releaseNote, CodegenConstants.RELEASE_NOTE);
+        checkAndSetAdditionalProperty(httpUserAgent, CodegenConstants.HTTP_USER_AGENT);
 
         handleDynamicProperties(config);
 
@@ -349,7 +415,7 @@ public class CodegenConfigurator {
         if (!verbose) {
             return;
         }
-        LOG.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
+        LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
                 "\n - [debugSwagger] prints the swagger specification as interpreted by the codegen" +
                 "\n - [debugModels] prints models passed to the template engine" +
                 "\n - [debugOperations] prints operations passed to the template engine" +
@@ -392,7 +458,7 @@ public class CodegenConfigurator {
             try {
                 return Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
             } catch (IOException e) {
-                LOG.error("Unable to deserialize config file: " + configFile, e);
+                LOGGER.error("Unable to deserialize config file: " + configFile, e);
             }
         }
         return null;

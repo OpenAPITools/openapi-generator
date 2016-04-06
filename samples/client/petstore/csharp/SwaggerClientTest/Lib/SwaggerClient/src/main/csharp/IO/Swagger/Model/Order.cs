@@ -4,71 +4,96 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace IO.Swagger.Model
 {
-
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public class Order :  IEquatable<Order>
-    {
+    public partial class Order :  IEquatable<Order>
+    { 
+    
         /// <summary>
-        /// Initializes a new instance of the <see cref="Order" /> class.
+        /// Order Status
         /// </summary>
-        public Order()
-        {
+        /// <value>Order Status</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum StatusEnum {
             
+            [EnumMember(Value = "placed")]
+            Placed,
+            
+            [EnumMember(Value = "approved")]
+            Approved,
+            
+            [EnumMember(Value = "delivered")]
+            Delivered
         }
 
-        
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
-  
-        
-        /// <summary>
-        /// Gets or Sets PetId
-        /// </summary>
-        [DataMember(Name="petId", EmitDefaultValue=false)]
-        public long? PetId { get; set; }
-  
-        
-        /// <summary>
-        /// Gets or Sets Quantity
-        /// </summary>
-        [DataMember(Name="quantity", EmitDefaultValue=false)]
-        public int? Quantity { get; set; }
-  
-        
-        /// <summary>
-        /// Gets or Sets ShipDate
-        /// </summary>
-        [DataMember(Name="shipDate", EmitDefaultValue=false)]
-        public DateTime? ShipDate { get; set; }
-  
-        
+    
         /// <summary>
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
         [DataMember(Name="status", EmitDefaultValue=false)]
-        public string Status { get; set; }
-  
+        public StatusEnum? Status { get; set; }
+    
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Order" /> class.
+        /// Initializes a new instance of the <see cref="Order" />class.
+        /// </summary>
+        /// <param name="PetId">PetId.</param>
+        /// <param name="Quantity">Quantity.</param>
+        /// <param name="ShipDate">ShipDate.</param>
+        /// <param name="Status">Order Status.</param>
+        /// <param name="Complete">Complete.</param>
+
+        public Order(long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
+        {
+            this.PetId = PetId;
+            this.Quantity = Quantity;
+            this.ShipDate = ShipDate;
+            this.Status = Status;
+            this.Complete = Complete;
+            
+        }
         
+    
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name="id", EmitDefaultValue=false)]
+        public long? Id { get; private set; }
+    
+        /// <summary>
+        /// Gets or Sets PetId
+        /// </summary>
+        [DataMember(Name="petId", EmitDefaultValue=false)]
+        public long? PetId { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets Quantity
+        /// </summary>
+        [DataMember(Name="quantity", EmitDefaultValue=false)]
+        public int? Quantity { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets ShipDate
+        /// </summary>
+        [DataMember(Name="shipDate", EmitDefaultValue=false)]
+        public DateTime? ShipDate { get; set; }
+    
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name="complete", EmitDefaultValue=false)]
         public bool? Complete { get; set; }
-  
-        
-  
+    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -111,7 +136,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if Order instances are equal
         /// </summary>
-        /// <param name="obj">Instance of Order to be compared</param>
+        /// <param name="other">Instance of Order to be compared</param>
         /// <returns>Boolean</returns>
         public bool Equals(Order other)
         {
@@ -165,22 +190,22 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 
                 if (this.Id != null)
-                    hash = hash * 57 + this.Id.GetHashCode();
+                    hash = hash * 59 + this.Id.GetHashCode();
                 
                 if (this.PetId != null)
-                    hash = hash * 57 + this.PetId.GetHashCode();
+                    hash = hash * 59 + this.PetId.GetHashCode();
                 
                 if (this.Quantity != null)
-                    hash = hash * 57 + this.Quantity.GetHashCode();
+                    hash = hash * 59 + this.Quantity.GetHashCode();
                 
                 if (this.ShipDate != null)
-                    hash = hash * 57 + this.ShipDate.GetHashCode();
+                    hash = hash * 59 + this.ShipDate.GetHashCode();
                 
                 if (this.Status != null)
-                    hash = hash * 57 + this.Status.GetHashCode();
+                    hash = hash * 59 + this.Status.GetHashCode();
                 
                 if (this.Complete != null)
-                    hash = hash * 57 + this.Complete.GetHashCode();
+                    hash = hash * 59 + this.Complete.GetHashCode();
                 
                 return hash;
             }

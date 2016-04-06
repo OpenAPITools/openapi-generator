@@ -12,7 +12,7 @@ GEM
     addressable (2.3.8)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
-    autotest-fsevent (0.2.10)
+    autotest-fsevent (0.2.11)
       sys-uname
     autotest-growl (0.2.16)
     autotest-rails-pure (4.1.2)
@@ -51,7 +51,7 @@ PLATFORMS
 
 DEPENDENCIES
   autotest (~> 4.4, >= 4.4.6)
-  autotest-fsevent (~> 0.2, >= 0.2.10)
+  autotest-fsevent (~> 0.2, >= 0.2.11)
   autotest-growl (~> 0.2, >= 0.2.16)
   autotest-rails-pure (~> 4.1, >= 4.1.2)
   petstore!

@@ -143,6 +143,13 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         final String baseNamespaceFolder = sourceFolder + File.separator + namespaceToFolder(baseNamespace);
         supportingFiles.add(new SupportingFile("project.mustache", "", "project.clj"));
         supportingFiles.add(new SupportingFile("core.mustache", baseNamespaceFolder, "core.clj"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+    }
+
+    @Override
+    public String sanitizeTag(String tag) {
+        return tag.replaceAll("[^a-zA-Z_]+", "_");
     }
 
     @Override
@@ -161,6 +168,11 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
+    public String toApiFilename(String name) {
+        return underscore(toApiName(name));
+    }
+
+    @Override
     public String toApiName(String name) {
         return dashize(name);
     }
@@ -172,7 +184,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toVarName(String name) {
-        name = name.replaceAll("[^a-zA-Z0-9_-]+", "");
+        name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         name = dashize(name);
         return name;
     }
@@ -196,6 +208,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         return operations;
     }
 
+    @SuppressWarnings("static-method")
     protected String namespaceToFolder(String ns) {
         return ns.replace(".", File.separator).replace("-", "_");
     }

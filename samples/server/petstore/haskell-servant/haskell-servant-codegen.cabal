@@ -1,0 +1,64 @@
+name:                haskell-servant-codegen
+version:             0.1.0.0
+synopsis:            Swagger-codegen example for Haskell servant
+description:         Please see README.md
+homepage:            https://github.com/swagger-api/swagger-codegen#readme
+license:             Apache-2.0
+license-file:        LICENSE
+author:              Masahiro Yamauchi
+maintainer:          sgt.yamauchi@gmail.com
+copyright:           2015- Masahiro Yamauchi
+category:            Web
+build-type:          Simple
+-- extra-source-files:
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      lib
+  exposed-modules:     Utils
+                     , Model.User
+                     , Model.Category
+                     , Model.Pet
+                     , Model.Tag
+                     , Model.Order
+                     , Api.UserApi
+                     , Api.PetApi
+                     , Api.StoreApi
+                     , Apis
+  ghc-options:         -Wall
+  build-depends:       base
+                     , aeson
+                     , text
+                     , split
+                     , containers
+                     , network-uri
+                     , QuickCheck
+                     , servant
+                     , servant-client
+  default-language:    Haskell2010
+
+executable client
+  hs-source-dirs:      client
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , either
+                     , transformers
+                     , split
+                     , network-uri
+                     , QuickCheck
+                     , servant
+                     , servant-client
+                     , haskell-servant-codegen
+  default-language:    Haskell2010
+
+executable server
+  hs-source-dirs:      server
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , warp
+                     , servant-server
+                     , servant-mock
+                     , haskell-servant-codegen
+  default-language:    Haskell2010

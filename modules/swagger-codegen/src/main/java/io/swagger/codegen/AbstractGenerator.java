@@ -10,12 +10,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public abstract class AbstractGenerator {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public abstract class AbstractGenerator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGenerator.class);
+
+    @SuppressWarnings("static-method")
     public File writeToFile(String filename, String contents) throws IOException {
-        System.out.println("writing file " + filename);
+        LOGGER.info("writing file " + filename);
         File output = new File(filename);
 
         if (output.getParent() != null && !new File(output.getParent()).exists()) {
@@ -36,10 +42,10 @@ public abstract class AbstractGenerator {
             if (reader == null) {
                 throw new RuntimeException("no file found");
             }
-            java.util.Scanner s = new java.util.Scanner(reader).useDelimiter("\\A");
+            Scanner s = new Scanner(reader).useDelimiter("\\A");
             return s.hasNext() ? s.next() : "";
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         throw new RuntimeException("can't load template " + name);
     }
@@ -48,14 +54,11 @@ public abstract class AbstractGenerator {
         try {
             InputStream is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
             if (is == null) {
-                is = new FileInputStream(new File(name));
-            }
-            if (is == null) {
-                throw new RuntimeException("no file found");
+                is = new FileInputStream(new File(name)); // May throw but never return a null value
             }
             return new InputStreamReader(is);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         throw new RuntimeException("can't load template " + name);
     }
@@ -63,6 +66,10 @@ public abstract class AbstractGenerator {
     /**
      * Get the template file path with template dir prepended, and use the
      * library template if exists.
+     *
+     * @param config Codegen config
+     * @param templateFile Template file
+     * @return String Full template file path
      */
     public String getFullTemplateFile(CodegenConfig config, String templateFile) {
         String library = config.getLibrary();
@@ -96,6 +103,7 @@ public abstract class AbstractGenerator {
         return this.getClass().getClassLoader().getResource(getCPResourcePath(name)) != null;
     }
 
+    @SuppressWarnings("static-method")
     public String getCPResourcePath(String name) {
         if (!"/".equals(File.separator)) {
             return name.replaceAll(Pattern.quote(File.separator), "/");

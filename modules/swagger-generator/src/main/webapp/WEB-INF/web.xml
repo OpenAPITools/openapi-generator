@@ -17,7 +17,8 @@
             <param-name>jersey.config.server.provider.classnames</param-name>
             <param-value>
                 io.swagger.online.ExceptionWriter,
-                io.swagger.jersey.listing.ApiListingResourceJSON,
+                io.swagger.generator.util.JacksonJsonProvider,
+                io.swagger.jaxrs.listing.ApiListingResource,
                 io.swagger.jersey.listing.JerseyApiDeclarationProvider,
                 io.swagger.jersey.listing.JerseyResourceListingProvider
             </param-value>

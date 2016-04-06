@@ -1,27 +1,44 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CliOption;
 import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.IntegerProperty;
+import io.swagger.models.properties.FloatProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.BinaryProperty;
+import io.swagger.models.properties.ByteArrayProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DateProperty;
+
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.regex.Matcher;
 
 import org.apache.commons.lang.StringUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
-    protected String moduleName = "SwaggerClient";
+    protected String moduleName = "WWW::SwaggerClient";
+    protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
     protected String moduleVersion = "1.0.0";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
+
+    protected static int emptyFunctionNameCounter = 0;
 
     public PerlClientCodegen() {
         super();
@@ -29,10 +46,14 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separatorChar + "perl";
         modelTemplateFiles.put("object.mustache", ".pm");
         apiTemplateFiles.put("api.mustache", ".pm");
+        modelTestTemplateFiles.put("object_test.mustache", ".t");
+        apiTestTemplateFiles.put("api_test.mustache", ".t");
+        modelDocTemplateFiles.put("object_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "perl";
 
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "else", "lock", "qw",
                         "__END__", "elsif", "lt", "qx",
@@ -43,7 +64,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "cmp", "ge", "package", "until",
                         "continue", "gt", "q", "while",
                         "CORE", "if", "qq", "xor",
-                        "do", "le", "qr", "y"
+                        "do", "le", "qr", "y",
+                        "return"
                 )
         );
 
@@ -70,9 +92,12 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "ARRAY");
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "string");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase).").defaultValue("SwaggerClient"));
+        cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase or Long::Module).").defaultValue("SwaggerClient"));
         cliOptions.add(new CliOption(MODULE_VERSION, "Perl module version.").defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
@@ -94,17 +119,24 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(MODULE_NAME)) {
             setModuleName((String) additionalProperties.get(MODULE_NAME));
+            setModulePathPart(moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator)));
         } else {
             additionalProperties.put(MODULE_NAME, moduleName);
         }
 
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiClient.pm"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Configuration.pm"));
-        supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "ApiFactory.pm"));
-        supportingFiles.add(new SupportingFile("Role.mustache", ("lib/WWW/" + moduleName).replace('/', File.separatorChar), "Role.pm"));
-        supportingFiles.add(new SupportingFile("AutoDoc.mustache", ("lib/WWW/" + moduleName + "/Role").replace('/', File.separatorChar), "AutoDoc.pm"));
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "ApiClient.pm"));
+        supportingFiles.add(new SupportingFile("Configuration.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "Configuration.pm"));
+        supportingFiles.add(new SupportingFile("ApiFactory.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "ApiFactory.pm"));
+        supportingFiles.add(new SupportingFile("Role.mustache", ("lib/" + modulePathPart).replace('/', File.separatorChar), "Role.pm"));
+        supportingFiles.add(new SupportingFile("AutoDoc.mustache", ("lib/" + modulePathPart + "/Role").replace('/', File.separatorChar), "AutoDoc.pm"));
         supportingFiles.add(new SupportingFile("autodoc.script.mustache", "bin", "autodoc"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
     }
 
     @Override
@@ -129,12 +161,32 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/lib/WWW/" + moduleName + apiPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/lib/" + modulePathPart + apiPackage()).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/lib/WWW/" + moduleName + modelPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/lib/" + modulePathPart + modelPackage()).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + "/t").replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + "/t").replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
     @Override
@@ -166,12 +218,48 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (type == null) {
             return null;
         }
-        return type;
+        return toModelName(type);
     }
 
     @Override
     public String toDefaultValue(Property p) {
-        return "null";
+        if (p instanceof StringProperty) {
+            StringProperty dp = (StringProperty) p;
+            if (dp.getDefault() != null) {
+                return "'" + dp.getDefault().toString() + "'";
+            }
+        } else if (p instanceof BooleanProperty) {
+            BooleanProperty dp = (BooleanProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof DateProperty) {
+            // TODO
+        } else if (p instanceof DateTimeProperty) {
+            // TODO
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        }
+
+        return null;
     }
 
 
@@ -179,14 +267,13 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name);
+        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
         if (name.matches("^\\d.*")) {
             name = "_" + name;
         }
-
         return name;
     }
 
@@ -198,9 +285,27 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
-            escapeReservedWord(name); // e.g. return => _return
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name;
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
+        // add prefix/suffic to model name
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
         }
 
         // camelize the model name
@@ -215,9 +320,29 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + "Test";
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelFilename(name);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "Test";
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiFilename(name);
+    }
+
+    @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. phone_number_api.rb => PhoneNumberApi.rb
         return camelize(name) + "Api";
@@ -234,14 +359,17 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty
+        //rename to empty_function_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
+            operationId = underscore("empty_function_name_" + emptyFunctionNameCounter++);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            return underscore("call_" + operationId);
         }
 
         return underscore(operationId);
@@ -251,7 +379,27 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.moduleName = moduleName;
     }
 
+    public void setModulePathPart(String modulePathPart) {
+        this.modulePathPart = modulePathPart;
+    }
+
     public void setModuleVersion(String moduleVersion) {
         this.moduleVersion = moduleVersion;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        if (Boolean.TRUE.equals(p.isString) || Boolean.TRUE.equals(p.isBinary) || 
+                Boolean.TRUE.equals(p.isByteArray) || Boolean.TRUE.equals(p.isFile)) {
+            p.example = "'" + p.example + "'";
+        } else if (Boolean.TRUE.equals(p.isBoolean)) {
+            if (Boolean.parseBoolean(p.example))
+                p.example = new String("1");
+            else
+                p.example = new String("0");
+        } else if (Boolean.TRUE.equals(p.isDateTime) || Boolean.TRUE.equals(p.isDate)) {
+            p.example = "DateTime->from_epoch(epoch => str2time('" + p.example + "'))";
+        }
+
     }
 }

@@ -7,13 +7,18 @@ import java.util.List;
 
 public class CodegenParameter {
     public Boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
-            isCookieParam, isBodyParam, isFile, notFile, hasMore, isContainer, 
-            secondaryParam, isBinary, isCollectionFormatMulti;
-    public String baseName, paramName, dataType, collectionFormat, description, baseType, defaultValue;
+            isCookieParam, isBodyParam, hasMore, isContainer,
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType;
+    public String baseName, paramName, dataType, datatypeWithEnum, collectionFormat, description, baseType, defaultValue;
+    public String example; // example value (x-example)
     public String jsonSchema;
+    public Boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
+    public Boolean isListContainer, isMapContainer;
+    public Boolean isFile, notFile;
     public boolean isEnum;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
+    public CodegenProperty items;
     public Map<String, Object> vendorExtensions;
 
     /**
@@ -78,6 +83,7 @@ public class CodegenParameter {
         output.baseName = this.baseName;
         output.paramName = this.paramName;
         output.dataType = this.dataType;
+        output.datatypeWithEnum = this.datatypeWithEnum;
         output.collectionFormat = this.collectionFormat;
         output.isCollectionFormatMulti = this.isCollectionFormatMulti;
         output.description = this.description;
@@ -102,6 +108,7 @@ public class CodegenParameter {
         output.multipleOf = this.multipleOf;
         output.jsonSchema = this.jsonSchema;
         output.defaultValue = this.defaultValue;
+        output.example = this.example;
         output.isEnum = this.isEnum;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
@@ -109,7 +116,22 @@ public class CodegenParameter {
         if (this.allowableValues != null) {
             output.allowableValues = new HashMap<String, Object>(this.allowableValues);
         }
+        if (this.items != null) {
+            output.items = this.items;
+        }
         output.vendorExtensions = this.vendorExtensions;
+        output.isBinary = this.isBinary;
+        output.isByteArray = this.isByteArray;
+        output.isString = this.isString;
+        output.isInteger = this.isInteger;
+        output.isLong = this.isLong;
+        output.isDouble = this.isDouble;
+        output.isFloat = this.isFloat;
+        output.isBoolean = this.isBoolean;
+        output.isDate = this.isDate;
+        output.isDateTime = this.isDateTime;
+        output.isListContainer = this.isListContainer;
+        output.isMapContainer = this.isMapContainer;
 
         return output;
     }

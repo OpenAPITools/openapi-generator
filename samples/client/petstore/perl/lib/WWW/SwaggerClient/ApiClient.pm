@@ -319,11 +319,45 @@ sub update_params_for_auth {
         if (!defined($auth)) {
             # TODO show warning about auth setting not defined
         }
+        elsif ($auth eq 'test_api_key_header') {
+            
+            my $api_key = $self->get_api_key_with_prefix('test_api_key_header');
+            if ($api_key) {
+                $header_params->{'test_api_key_header'} = $api_key;
+            }
+        }
         elsif ($auth eq 'api_key') {
             
             my $api_key = $self->get_api_key_with_prefix('api_key');
             if ($api_key) {
                 $header_params->{'api_key'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'test_http_basic') {
+            
+            if ($WWW::SwaggerClient::Configuration::username || $WWW::SwaggerClient::Configuration::password) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64($WWW::SwaggerClient::Configuration::username . ":" . $WWW::SwaggerClient::Configuration::password);
+            }
+        }
+        elsif ($auth eq 'test_api_client_secret') {
+            
+            my $api_key = $self->get_api_key_with_prefix('x-test_api_client_secret');
+            if ($api_key) {
+                $header_params->{'x-test_api_client_secret'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'test_api_client_id') {
+            
+            my $api_key = $self->get_api_key_with_prefix('x-test_api_client_id');
+            if ($api_key) {
+                $header_params->{'x-test_api_client_id'} = $api_key;
+            }
+        }
+        elsif ($auth eq 'test_api_key_query') {
+            
+            my $api_key = $self->get_api_key_with_prefix('test_api_key_query');
+            if ($api_key) {
+                $query_params->{'test_api_key_query'} = $api_key;
             }
         }
         elsif ($auth eq 'petstore_auth') {
@@ -341,7 +375,7 @@ sub update_params_for_auth {
 
 # The endpoint API class has not found any settings for auth. This may be deliberate, 
 # in which case update_params_for_auth() will be a no-op. But it may also be that the 
-# swagger spec does not describe the intended authorization. So we check in the config for any 
+# OpenAPI Spec does not describe the intended authorization. So we check in the config for any 
 # auth tokens and if we find any, we use them for all endpoints; 
 sub _global_auth_setup {
 	my ($self, $header_params, $query_params) = @_; 

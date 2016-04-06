@@ -30,6 +30,8 @@ public:
     void updatePetWithForm(QString* petId, QString* name, QString* status);
     void deletePet(qint64 petId, QString* apiKey);
     void uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestInputFileElement* file);
+    void getPetByIdWithByteArray(qint64 petId);
+    void addPetUsingByteArray(QString* body);
     
 private:
     void updatePetCallback (HttpRequestWorker * worker);
@@ -40,6 +42,8 @@ private:
     void updatePetWithFormCallback (HttpRequestWorker * worker);
     void deletePetCallback (HttpRequestWorker * worker);
     void uploadFileCallback (HttpRequestWorker * worker);
+    void getPetByIdWithByteArrayCallback (HttpRequestWorker * worker);
+    void addPetUsingByteArrayCallback (HttpRequestWorker * worker);
     
 signals:
     void updatePetSignal();
@@ -50,6 +54,8 @@ signals:
     void updatePetWithFormSignal();
     void deletePetSignal();
     void uploadFileSignal();
+    void getPetByIdWithByteArraySignal(QString* summary);
+    void addPetUsingByteArraySignal();
     
 };
 }

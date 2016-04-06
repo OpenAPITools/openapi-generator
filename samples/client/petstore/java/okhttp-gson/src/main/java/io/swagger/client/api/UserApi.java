@@ -18,10 +18,12 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 import io.swagger.client.model.User;
-import java.util.*;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserApi {
   private ApiClient apiClient;
@@ -45,29 +47,29 @@ public class UserApi {
   
   /* Build call for createUser */
   private Call createUserCall(User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/user".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -81,14 +83,14 @@ public class UserApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUser(User body) throws ApiException {
@@ -98,7 +100,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -110,7 +112,7 @@ public class UserApi {
   /**
    * Create user (asynchronously)
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -125,7 +127,7 @@ public class UserApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -143,29 +145,29 @@ public class UserApi {
   
   /* Build call for createUsersWithArrayInput */
   private Call createUsersWithArrayInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -179,14 +181,14 @@ public class UserApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
@@ -196,7 +198,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -208,7 +210,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array (asynchronously)
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -223,7 +225,7 @@ public class UserApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -241,29 +243,29 @@ public class UserApi {
   
   /* Build call for createUsersWithListInput */
   private Call createUsersWithListInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
 
     // create path and map variables
-    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/createWithList".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -277,14 +279,14 @@ public class UserApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "POST", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
@@ -294,7 +296,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -306,7 +308,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array (asynchronously)
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -321,7 +323,7 @@ public class UserApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -337,35 +339,37 @@ public class UserApi {
     return call;
   }
   
-  /* Build call for loginUser */
-  private Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+  /* Build call for deleteUser */
+  private Call deleteUserCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException("Missing the required parameter 'username' when calling deleteUser(Async)");
+    }
     
 
     // create path and map variables
-    String path = "/user/login".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
-    if (username != null)
-      queryParams.addAll(apiClient.parameterToPairs("", "username", username));
-    if (password != null)
-      queryParams.addAll(apiClient.parameterToPairs("", "password", password));
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -379,15 +383,225 @@ public class UserApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] { "test_http_basic" };
+    return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted (required)
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public void deleteUser(String username) throws ApiException {
+    deleteUserWithHttpInfo(username);
+  }
+
+  /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted (required)
+   * @return ApiResponse<Void>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
+    Call call = deleteUserCall(username, null, null);
+    return apiClient.execute(call);
+  }
+
+  /**
+   * Delete user (asynchronously)
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted (required)
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call deleteUserAsync(String username, final ApiCallback<Void> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = deleteUserCall(username, progressListener, progressRequestListener);
+    apiClient.executeAsync(call, callback);
+    return call;
+  }
+  
+  /* Build call for getUserByName */
+  private Call getUserByNameCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'username' is set
+    if (username == null) {
+       throw new ApiException("Missing the required parameter 'username' when calling getUserByName(Async)");
+    }
+    
+
+    // create path and map variables
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @return User
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public User getUserByName(String username) throws ApiException {
+    ApiResponse<User> resp = getUserByNameWithHttpInfo(username);
+    return resp.getData();
+  }
+
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @return ApiResponse<User>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
+    Call call = getUserByNameCall(username, null, null);
+    Type localVarReturnType = new TypeToken<User>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
+  }
+
+  /**
+   * Get user by user name (asynchronously)
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call getUserByNameAsync(String username, final ApiCallback<User> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = getUserByNameCall(username, progressListener, progressRequestListener);
+    Type localVarReturnType = new TypeToken<User>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
+    return call;
+  }
+  
+  /* Build call for loginUser */
+  private Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+
+    // create path and map variables
+    String localVarPath = "/user/login".replaceAll("\\{format\\}","json");
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    if (username != null)
+      localVarQueryParams.addAll(apiClient.parameterToPairs("", "username", username));
+    if (password != null)
+      localVarQueryParams.addAll(apiClient.parameterToPairs("", "password", password));
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return String
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -399,22 +613,22 @@ public class UserApi {
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return ApiResponse<String>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
     Call call = loginUserCall(username, password, null, null);
-    Type returnType = new TypeToken<String>(){}.getType();
-    return apiClient.execute(call, returnType);
+    Type localVarReturnType = new TypeToken<String>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
   }
 
   /**
    * Logs user into the system (asynchronously)
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -429,7 +643,7 @@ public class UserApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -441,36 +655,36 @@ public class UserApi {
     }
 
     Call call = loginUserCall(username, password, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<String>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
+    Type localVarReturnType = new TypeToken<String>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
   
   /* Build call for logoutUser */
   private Call logoutUserCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
+    Object localVarPostBody = null;
     
 
     // create path and map variables
-    String path = "/user/logout".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/logout".replaceAll("\\{format\\}","json");
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -484,8 +698,8 @@ public class UserApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
@@ -525,7 +739,7 @@ public class UserApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -541,117 +755,9 @@ public class UserApi {
     return call;
   }
   
-  /* Build call for getUserByName */
-  private Call getUserByNameCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
-    
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       throw new ApiException("Missing the required parameter 'username' when calling getUserByName(Async)");
-    }
-    
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
-
-    List<Pair> queryParams = new ArrayList<Pair>();
-
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
-
-    final String[] contentTypes = {
-      
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
-
-    if(progressListener != null) {
-      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
-      @Override
-      public Response intercept(Interceptor.Chain chain) throws IOException {
-        Response originalResponse = chain.proceed(chain.request());
-        return originalResponse.newBuilder()
-                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                .build();
-        }
-      });
-    }
-
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "GET", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
-  }
-
-  /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public User getUserByName(String username) throws ApiException {
-    ApiResponse<User> resp = getUserByNameWithHttpInfo(username);
-    return resp.getData();
-  }
-
-  /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return ApiResponse<User>
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
-    Call call = getUserByNameCall(username, null, null);
-    Type returnType = new TypeToken<User>(){}.getType();
-    return apiClient.execute(call, returnType);
-  }
-
-  /**
-   * Get user by user name (asynchronously)
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @param callback The callback to be executed when the API call finishes
-   * @return The request call
-   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-   */
-  public Call getUserByNameAsync(String username, final ApiCallback<User> callback) throws ApiException {
-
-    ProgressResponseBody.ProgressListener progressListener = null;
-    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-    if (callback != null) {
-      progressListener = new ProgressResponseBody.ProgressListener() {
-        @Override
-        public void update(long bytesRead, long contentLength, boolean done) {
-          callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
-      };
-
-      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-        @Override
-        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-          callback.onUploadProgress(bytesWritten, contentLength, done);
-        }
-      };
-    }
-
-    Call call = getUserByNameCall(username, progressListener, progressRequestListener);
-    Type returnType = new TypeToken<User>(){}.getType();
-    apiClient.executeAsync(call, returnType, callback);
-    return call;
-  }
-  
   /* Build call for updateUser */
   private Call updateUserCall(String username, User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = body;
+    Object localVarPostBody = body;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -660,26 +766,26 @@ public class UserApi {
     
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    final String[] accepts = {
+    final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
-    final String[] contentTypes = {
+    final String[] localVarContentTypes = {
       
     };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
 
     if(progressListener != null) {
       apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
@@ -693,15 +799,15 @@ public class UserApi {
       });
     }
 
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "PUT", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
+    String[] localVarAuthNames = new String[] {  };
+    return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updateUser(String username, User body) throws ApiException {
@@ -711,8 +817,8 @@ public class UserApi {
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -724,8 +830,8 @@ public class UserApi {
   /**
    * Updated user (asynchronously)
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -740,7 +846,7 @@ public class UserApi {
         @Override
         public void update(long bytesRead, long contentLength, boolean done) {
           callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
+        }
       };
 
       progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
@@ -752,110 +858,6 @@ public class UserApi {
     }
 
     Call call = updateUserCall(username, body, progressListener, progressRequestListener);
-    apiClient.executeAsync(call, callback);
-    return call;
-  }
-  
-  /* Build call for deleteUser */
-  private Call deleteUserCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-    Object postBody = null;
-    
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       throw new ApiException("Missing the required parameter 'username' when calling deleteUser(Async)");
-    }
-    
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
-
-    List<Pair> queryParams = new ArrayList<Pair>();
-
-    Map<String, String> headerParams = new HashMap<String, String>();
-
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    final String[] accepts = {
-      "application/json", "application/xml"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-    if (accept != null) headerParams.put("Accept", accept);
-
-    final String[] contentTypes = {
-      
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-    headerParams.put("Content-Type", contentType);
-
-    if(progressListener != null) {
-      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
-      @Override
-      public Response intercept(Interceptor.Chain chain) throws IOException {
-        Response originalResponse = chain.proceed(chain.request());
-        return originalResponse.newBuilder()
-                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                .build();
-        }
-      });
-    }
-
-    String[] authNames = new String[] {  };
-    return apiClient.buildCall(path, "DELETE", queryParams, postBody, headerParams, formParams, authNames, progressRequestListener);
-  }
-
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public void deleteUser(String username) throws ApiException {
-    deleteUserWithHttpInfo(username);
-  }
-
-  /**
-   * Delete user
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return ApiResponse<Void>
-   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-   */
-  public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
-    Call call = deleteUserCall(username, null, null);
-    return apiClient.execute(call);
-  }
-
-  /**
-   * Delete user (asynchronously)
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @param callback The callback to be executed when the API call finishes
-   * @return The request call
-   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-   */
-  public Call deleteUserAsync(String username, final ApiCallback<Void> callback) throws ApiException {
-
-    ProgressResponseBody.ProgressListener progressListener = null;
-    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-    if (callback != null) {
-      progressListener = new ProgressResponseBody.ProgressListener() {
-        @Override
-        public void update(long bytesRead, long contentLength, boolean done) {
-          callback.onDownloadProgress(bytesRead, contentLength, done);
-        } 
-      };
-
-      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-        @Override
-        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-          callback.onUploadProgress(bytesWritten, contentLength, done);
-        }
-      };
-    }
-
-    Call call = deleteUserCall(username, progressListener, progressRequestListener);
     apiClient.executeAsync(call, callback);
     return call;
   }

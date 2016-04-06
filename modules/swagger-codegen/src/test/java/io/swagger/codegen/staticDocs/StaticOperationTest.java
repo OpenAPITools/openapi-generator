@@ -10,6 +10,7 @@ import io.swagger.models.properties.StringProperty;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class StaticOperationTest {
 
     @Test(description = "convert a string parameter")

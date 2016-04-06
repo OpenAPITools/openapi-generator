@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System;
 using System.Linq;
 using System.IO;
@@ -15,13 +15,16 @@ namespace SwaggerClientTest.TestPet
 	{
 		public long petId = 11088;
 
-		[SetUp] public void Init()
+		/// <summary>
+		/// Create a Pet object
+		/// </summary>
+		private Pet createPet()
 		{
 			// create pet
-			Pet p = new Pet();
+			Pet p = new Pet(Name: "Csharp test", PhotoUrls: new List<string> { "http://petstore.com/csharp_test" });
 			p.Id = petId;
-			p.Name = "Csharp test";
-			p.Status = "available";
+			//p.Name = "Csharp test";
+			p.Status = Pet.StatusEnum.Available;
 			// create Category object
 			Category category = new Category();
 			category.Id = 56;
@@ -30,11 +33,29 @@ namespace SwaggerClientTest.TestPet
 			// create Tag object
 			Tag tag = new Tag();
 			tag.Id = petId;
-			tag.Name = "sample tag name1";
+			tag.Name = "csharp sample tag name1";
 			List<Tag> tags = new List<Tag>(new Tag[] {tag});
 			p.Tags = tags;
 			p.Category = category;
 			p.PhotoUrls = photoUrls;
+
+			return p;
+		}
+
+		/// <summary>
+		/// Convert string to byte array
+		/// </summary>
+		private byte[] GetBytes(string str)
+		{
+			byte[] bytes = new byte[str.Length * sizeof(char)];
+			System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+			return bytes;
+		}
+
+		[SetUp] public void Init()
+		{
+			// create pet
+			Pet p = createPet();
 
 			// add pet before testing
 			PetApi petApi = new PetApi("http://petstore.swagger.io/v2/");
@@ -61,11 +82,11 @@ namespace SwaggerClientTest.TestPet
 			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
 
 			Assert.AreEqual ("Csharp test", response.Name);
-			Assert.AreEqual ("available", response.Status);
+			Assert.AreEqual (Pet.StatusEnum.Available, response.Status);
 
 			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
 			Assert.AreEqual (petId, response.Tags [0].Id);
-			Assert.AreEqual ("sample tag name1", response.Tags [0].Name);
+			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
 
 			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
 			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
@@ -93,11 +114,11 @@ namespace SwaggerClientTest.TestPet
 			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
 
 			Assert.AreEqual ("Csharp test", response.Name);
-			Assert.AreEqual ("available", response.Status);
+			Assert.AreEqual (Pet.StatusEnum.Available, response.Status);
 
 			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
 			Assert.AreEqual (petId, response.Tags [0].Id);
-			Assert.AreEqual ("sample tag name1", response.Tags [0].Name);
+			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
 
 			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
 			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
@@ -115,18 +136,18 @@ namespace SwaggerClientTest.TestPet
 		public void TestGetPetById ()
 		{
 			// set timeout to 10 seconds
-			Configuration c1 = new Configuration (timeout: 10000);
+			Configuration c1 = new Configuration (timeout: 10000, userAgent: "TEST_USER_AGENT");
 
 			PetApi petApi = new PetApi (c1);
 			Pet response = petApi.GetPetById (petId);
 			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
 
 			Assert.AreEqual ("Csharp test", response.Name);
-			Assert.AreEqual ("available", response.Status);
+			Assert.AreEqual (Pet.StatusEnum.Available, response.Status);
 
 			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
 			Assert.AreEqual (petId, response.Tags [0].Id);
-			Assert.AreEqual ("sample tag name1", response.Tags [0].Name);
+			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
 
 			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
 			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
@@ -135,6 +156,66 @@ namespace SwaggerClientTest.TestPet
 			Assert.AreEqual (56, response.Category.Id);
 			Assert.AreEqual ("sample category name2", response.Category.Name);
 
+		}
+
+		/// <summary>
+		/// Test GetPetByIdInObject
+		/// </summary>
+		[Test ()]
+		public void TestGetPetByIdInObject ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			PetApi petApi = new PetApi (c1);
+			InlineResponse200 response = petApi.GetPetByIdInObject (petId);
+			Assert.IsInstanceOf<InlineResponse200> (response, "Response is a Pet");
+
+			Assert.AreEqual ("Csharp test", response.Name);
+			Assert.AreEqual (InlineResponse200.StatusEnum.Available, response.Status);
+
+			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.AreEqual (petId, response.Tags [0].Id);
+			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
+
+			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
+			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
+
+			Assert.IsInstanceOf<Newtonsoft.Json.Linq.JObject> (response.Category, "Response.Category is a Newtonsoft.Json.Linq.JObject");
+
+			Newtonsoft.Json.Linq.JObject category = (Newtonsoft.Json.Linq.JObject)response.Category;
+			Assert.AreEqual (56, (int)category ["id"]);
+			Assert.AreEqual ("sample category name2", (string) category["name"]);
+
+		}
+
+		/// <summary>
+		/// Test GetPetByIdWithByteArray
+		/// </summary>
+		[Test ()]
+		public void TestGetPetByIdWithByteArray ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			PetApi petApi = new PetApi (c1);
+			byte[] response = petApi.PetPetIdtestingByteArraytrueGet (petId);
+			Assert.IsInstanceOf<byte[]> (response, "Response is byte array");
+		}
+
+		/// <summary>
+		/// Test AddPetUsingByteArray
+		/// </summary>
+		[Test ()]
+		public void TestAddPetUsingByteArray ()
+		{
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			PetApi petApi = new PetApi (c1);
+			Pet p = createPet ();
+			byte[] petByteArray = GetBytes ((string)petApi.Configuration.ApiClient.Serialize (p));
+			petApi.AddPetUsingByteArray (petByteArray);
 		}
 
 		/// <summary>
@@ -152,7 +233,7 @@ namespace SwaggerClientTest.TestPet
 			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
 
 			Assert.AreEqual ("new form name", response.Name);
-			Assert.AreEqual ("pending", response.Status);
+			Assert.AreEqual (Pet.StatusEnum.Pending, response.Status);
 
 			Assert.AreEqual (petId, response.Tags [0].Id);
 			Assert.AreEqual (56, response.Category.Id);
@@ -171,7 +252,7 @@ namespace SwaggerClientTest.TestPet
 		{
 		    Assembly _assembly = Assembly.GetExecutingAssembly();
 		    Stream _imageStream = _assembly.GetManifestResourceStream("SwaggerClientTest.swagger-logo.png");
-            PetApi petApi = new PetApi ();			
+            PetApi petApi = new PetApi ();
 			// test file upload with form parameters
 			petApi.UploadFile(petId, "new form name", _imageStream);
 
@@ -185,16 +266,16 @@ namespace SwaggerClientTest.TestPet
 		/// Test FindPetByStatus
 		/// </summary>
 		[Test ()]
-		public void TestFindPetByStatus ()
+		public void TestFindPetByTags ()
 		{
 			PetApi petApi = new PetApi ();
-			List<String> statusList = new List<String>(new String[] {"available"});
+			List<String> tagsList = new List<String>(new String[] {"available"});
 
-			List<Pet> listPet = petApi.FindPetsByStatus (statusList);
+			List<Pet> listPet = petApi.FindPetsByTags (tagsList);
 			foreach (Pet pet in listPet) // Loop through List with foreach.
 			{
 				Assert.IsInstanceOf<Pet> (pet, "Response is a Pet");
-				Assert.AreEqual ("available", pet.Status);
+				Assert.AreEqual ("csharp sample tag name1", pet.Tags[0]);
 			}
 
 		}
@@ -206,10 +287,10 @@ namespace SwaggerClientTest.TestPet
 		public void TestEqual()
 		{
 			// create pet
-			Pet p1 = new Pet();
+			Pet p1 = new Pet(Name: "Csharp test", PhotoUrls: new List<string> { "http://petstore.com/csharp_test"} );
 			p1.Id = petId;
-			p1.Name = "Csharp test";
-			p1.Status = "available";
+			//p1.Name = "Csharp test";
+			p1.Status = Pet.StatusEnum.Available;
 			// create Category object
 			Category category1 = new Category();
 			category1.Id = 56;
@@ -218,17 +299,17 @@ namespace SwaggerClientTest.TestPet
 			// create Tag object
 			Tag tag1 = new Tag();
 			tag1.Id = petId;
-			tag1.Name = "sample tag name1";
+			tag1.Name = "csharp sample tag name1";
 			List<Tag> tags1 = new List<Tag>(new Tag[] {tag1});
 			p1.Tags = tags1;
 			p1.Category = category1;
 			p1.PhotoUrls = photoUrls1;
 
 			// create pet 2
-			Pet p2 = new Pet();
+			Pet p2 = new Pet(Name: "Csharp test", PhotoUrls: new List<string> { "http://petstore.com/csharp_test"} );
 			p2.Id = petId;
 			p2.Name = "Csharp test";
-			p2.Status = "available";
+			p2.Status = Pet.StatusEnum.Available;
 			// create Category object
 			Category category2 = new Category();
 			category2.Id = 56;
@@ -237,7 +318,7 @@ namespace SwaggerClientTest.TestPet
 			// create Tag object
 			Tag tag2 = new Tag();
 			tag2.Id = petId;
-			tag2.Name = "sample tag name1";
+			tag2.Name = "csharp sample tag name1";
 			List<Tag> tags2 = new List<Tag>(new Tag[] {tag2});
 			p2.Tags = tags2;
 			p2.Category = category2;
@@ -284,8 +365,9 @@ namespace SwaggerClientTest.TestPet
 		public void TestDefaultHeader ()
 		{
 			PetApi petApi = new PetApi ();
+			// commented out the warning test below as it's confirmed the warning is working as expected
 			// there should be a warning for using AddDefaultHeader (deprecated) below
-			petApi.AddDefaultHeader ("header_key", "header_value");
+			//petApi.AddDefaultHeader ("header_key", "header_value");
 			// the following should be used instead as suggested in the doc
 			petApi.Configuration.AddDefaultHeader ("header_key2", "header_value2");
 

@@ -1,4 +1,4 @@
-package WWW::{{moduleName}}::Role::AutoDoc;
+package {{moduleName}}::Role::AutoDoc;
 use List::MoreUtils qw(uniq);
 
 use Moose::Role;
@@ -40,7 +40,7 @@ sub _printisa {
 	
 	foreach my $role (@roles) {
 		$rolepkg = $role->{package} || next; # some are anonymous, or something
-		next if $rolepkg eq 'WWW::{{moduleName}}::Role::AutoDoc';
+		next if $rolepkg eq '{{moduleName}}::Role::AutoDoc';
 		$role_reqs = join ', ', keys %{$role->{required_methods}};
 		$role_reqs ||= '';
 		$~ = $how eq 'pod' ? 'ROLES_POD' : 'ROLES';

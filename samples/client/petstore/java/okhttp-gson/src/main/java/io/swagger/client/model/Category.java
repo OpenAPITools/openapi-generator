@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-@ApiModel(description = "")
+
 public class Category   {
   
   @SerializedName("id")
@@ -52,8 +52,8 @@ public class Category   {
       return false;
     }
     Category category = (Category) o;
-    return Objects.equals(id, category.id) &&
-        Objects.equals(name, category.name);
+    return Objects.equals(this.id, category.id) &&
+        Objects.equals(this.name, category.name);
   }
 
   @Override

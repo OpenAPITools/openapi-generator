@@ -20,10 +20,12 @@ import io.swagger.models.properties.StringProperty;
 
 import com.google.common.collect.Sets;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
+@SuppressWarnings("static-method")
 public class JavaModelTest {
 
     @Test(description = "convert a simple java model")
@@ -31,7 +33,8 @@ public class JavaModelTest {
         final Model model = new ModelImpl()
                 .description("a sample model")
                 .property("id", new LongProperty())
-                .property("name", new StringProperty())
+                .property("name", new StringProperty()
+                        .example("Tony"))
                 .property("createdAt", new DateTimeProperty())
                 .required("id")
                 .required("name");
@@ -65,6 +68,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, "null");
         Assert.assertEquals(property2.baseType, "String");
+        Assert.assertEquals(property2.example, "Tony");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isNotContainer);
@@ -283,8 +287,8 @@ public class JavaModelTest {
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "ArrayList<Children>");
-        Assert.assertEquals(cm.imports.size(), 3);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("List", "ArrayList", "Children")).size(), 3);
+        Assert.assertEquals(cm.imports.size(), 4);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "List", "ArrayList", "Children")).size(), 4);
     }
 
     @Test(description = "convert an map model")
@@ -300,8 +304,8 @@ public class JavaModelTest {
         Assert.assertEquals(cm.description, "an map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "HashMap<String, Children>");
-        Assert.assertEquals(cm.imports.size(), 3);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "HashMap", "Children")).size(), 3);
+        Assert.assertEquals(cm.imports.size(), 4);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "Map", "HashMap", "Children")).size(), 4);
     }
 
     @Test(description = "convert a model with upper-case property names")
@@ -452,5 +456,29 @@ public class JavaModelTest {
         final CodegenParameter cm = codegen.fromParameter(parameter, null);
 
         Assert.assertNull(cm.allowableValues);
+    }
+
+    @DataProvider(name = "modelNames")
+    public static Object[][] primeNumbers() {
+        return new Object[][] {
+                {"sample", "Sample"},
+                {"sample_name", "SampleName"},
+                {"sample__name", "SampleName"},
+                {"/sample", "Sample"},
+                {"\\sample", "Sample"},
+                {"sample.name", "SampleName"},
+                {"_sample", "Sample"},
+                {"Sample", "Sample"},
+        };
+    }
+
+    @Test(dataProvider = "modelNames", description = "avoid inner class")
+    public void modelNameTest(String name, String expectedName) {
+        final Model model = new ModelImpl();
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel(name, model);
+
+        Assert.assertEquals(cm.name, name);
+        Assert.assertEquals(cm.classname, expectedName);
     }
 }
