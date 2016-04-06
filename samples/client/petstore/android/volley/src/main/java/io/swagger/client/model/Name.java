@@ -5,7 +5,10 @@ import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
 
-@ApiModel(description = "")
+/**
+ * Model for testing model name same as property name
+ **/
+@ApiModel(description = "Model for testing model name same as property name")
 public class Name  {
   
   @SerializedName("name")

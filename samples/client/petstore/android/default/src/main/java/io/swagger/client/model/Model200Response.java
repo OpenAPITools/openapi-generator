@@ -5,7 +5,10 @@ import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
 
-@ApiModel(description = "")
+/**
+ * Model for testing model name starting with number
+ **/
+@ApiModel(description = "Model for testing model name starting with number")
 public class Model200Response  {
   
   @SerializedName("name")
