@@ -569,10 +569,40 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         p.example = example;
     }
 
+    /**
+     * Return the value in the language specifed format
+     * e.g. status => "status"
+     * 
+     * @param value enum variable name
+     * @return the sanitized variable name for enum
+     */
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "_" + value;
+    }
+
     @Override
     public String toEnumVarName(String name, String datatype) {
-        String enumName = sanitizeName(underscore(name).toUpperCase());
+        // number
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            String varName = new String(name);
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
 
+        // string
+        String enumName = sanitizeName(underscore(name).toUpperCase());
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -585,7 +615,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name);
+        String enumName = underscore(toModelName(property.name)).toUpperCase();
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;

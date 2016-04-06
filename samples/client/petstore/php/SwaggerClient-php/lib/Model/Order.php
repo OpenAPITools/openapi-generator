@@ -114,9 +114,9 @@ class Order implements ArrayAccess
         return self::$getters;
     }
 
-    const Status_PLACED = "placed";
-    const Status_APPROVED = "approved";
-    const Status_DELIVERED = "delivered";
+    const STATUS_PLACED = 'placed';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_DELIVERED = 'delivered';
     
 
     
@@ -126,9 +126,9 @@ class Order implements ArrayAccess
      */
     public function getStatusAllowableValues() {
         return [
-            self::Status_PLACED,
-            self::Status_APPROVED,
-            self::Status_DELIVERED,
+            self::STATUS_PLACED,
+            self::STATUS_APPROVED,
+            self::STATUS_DELIVERED,
         ];
     }
     
@@ -162,7 +162,7 @@ class Order implements ArrayAccess
      * $status Order Status
      * @var string
      */
-    protected $status;
+    protected $status = STATUS_PLACED;
     
     /**
      * $complete 

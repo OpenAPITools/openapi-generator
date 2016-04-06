@@ -1396,6 +1396,7 @@
         },
         "enum_number" : {
           "type" : "number",
+          "format" : "double",
           "enum" : [1.1, -1.2]
         }
       }

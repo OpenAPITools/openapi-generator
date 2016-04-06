@@ -219,7 +219,7 @@ public class DefaultCodegen {
                         }
                     }
                     if (enumName != null) {
-                        var.defaultValue = var.datatypeWithEnum + "." + enumName;
+                        var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
                     }
                 }
             }
@@ -245,12 +245,24 @@ public class DefaultCodegen {
             return "";
         }
     }
+    
+    /**
+     * Return the enum default value in the language specifed format
+     * 
+     * @param value enum variable name
+     * @param datatype data type
+     * @return the sanitized variable name for enum
+     */
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "." + value;
+    }
 
     /**
-     * Return the value in the language specifed format
+     * Return the enum value in the language specifed format
      * e.g. status => "status"
      * 
      * @param value enum variable name
+     * @param datatype data type
      * @return the sanitized variable name for enum
      */
     public String toEnumValue(String value, String datatype) {
