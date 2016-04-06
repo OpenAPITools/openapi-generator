@@ -101,7 +101,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -230,7 +233,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -359,7 +365,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -494,7 +503,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -576,7 +588,7 @@ public class UserApi {
   /**
   * Get user by user name
   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. 
    * @return User
   */
   public User getUserByName (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
@@ -635,7 +647,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -646,7 +661,7 @@ public class UserApi {
       /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. 
   */
   public void getUserByName (String username, final Response.Listener<User> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = null;
@@ -780,7 +795,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -917,7 +935,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -1053,7 +1074,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {

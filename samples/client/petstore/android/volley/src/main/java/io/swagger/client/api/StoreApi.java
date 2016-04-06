@@ -107,7 +107,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -244,7 +247,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -379,7 +385,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -512,7 +521,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -637,7 +649,7 @@ public class StoreApi {
   
       }
 
-      String[] authNames = new String[] { "test_api_key_header", "test_api_key_query" };
+      String[] authNames = new String[] { "test_api_key_query", "test_api_key_header" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -652,7 +664,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -707,7 +722,7 @@ public class StoreApi {
       
     }
 
-      String[] authNames = new String[] { "test_api_key_header", "test_api_key_query" };
+      String[] authNames = new String[] { "test_api_key_query", "test_api_key_header" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -792,7 +807,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
