@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-Copyright 2015 SmartBear Software
+Copyright 2016 SmartBear Software
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -217,12 +217,47 @@ class Configuration(object):
         :return: The Auth Settings information dict.
         """
         return {
+            'test_api_key_header':
+                {
+                    'type': 'api_key',
+                    'in': 'header',
+                    'key': 'test_api_key_header',
+                    'value': self.get_api_key_with_prefix('test_api_key_header')
+                },
             'api_key':
                 {
                     'type': 'api_key',
                     'in': 'header',
                     'key': 'api_key',
                     'value': self.get_api_key_with_prefix('api_key')
+                },
+            'test_http_basic':
+                {
+                    'type': 'basic',
+                    'in': 'header',
+                    'key': 'Authorization',
+                    'value': self.get_basic_auth_token()
+                },
+            'test_api_client_secret':
+                {
+                    'type': 'api_key',
+                    'in': 'header',
+                    'key': 'x-test_api_client_secret',
+                    'value': self.get_api_key_with_prefix('x-test_api_client_secret')
+                },
+            'test_api_client_id':
+                {
+                    'type': 'api_key',
+                    'in': 'header',
+                    'key': 'x-test_api_client_id',
+                    'value': self.get_api_key_with_prefix('x-test_api_client_id')
+                },
+            'test_api_key_query':
+                {
+                    'type': 'api_key',
+                    'in': 'query',
+                    'key': 'test_api_key_query',
+                    'value': self.get_api_key_with_prefix('test_api_key_query')
                 },
 
         }

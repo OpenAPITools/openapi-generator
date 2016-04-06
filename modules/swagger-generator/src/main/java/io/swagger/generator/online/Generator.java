@@ -1,22 +1,16 @@
 package io.swagger.generator.online;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.ClientOptInput;
-import io.swagger.codegen.ClientOpts;
-import io.swagger.codegen.Codegen;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConfigLoader;
+import io.swagger.codegen.*;
 import io.swagger.generator.exception.ApiException;
 import io.swagger.generator.exception.BadRequestException;
 import io.swagger.generator.model.GeneratorInput;
 import io.swagger.generator.model.InputOption;
 import io.swagger.generator.util.ZipUtil;
 import io.swagger.models.Swagger;
+import io.swagger.models.auth.AuthorizationValue;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.util.Json;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +28,7 @@ public class Generator {
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
-            throw new BadRequestException(400, String.format("Unsupported target %s supplied. %s", language, e));
+            throw new BadRequestException(String.format("Unsupported target %s supplied. %s", language, e));
         }
         Map<String, CliOption> map = new LinkedHashMap<String, CliOption>();
         for (CliOption option : config.cliOptions()) {
@@ -69,7 +63,7 @@ public class Generator {
     private static String generate(String language, GeneratorInput opts, Type type) throws ApiException {
         LOGGER.debug(String.format("generate %s for %s", type.getTypeName(), language));
         if (opts == null) {
-            throw new BadRequestException(400, "No options were supplied");
+            throw new BadRequestException("No options were supplied");
         }
         JsonNode node = opts.getSpec();
         if(node != null && "{}".equals(node.toString())) {
@@ -79,21 +73,43 @@ public class Generator {
         Swagger swagger;
         if (node == null) {
             if (opts.getSwaggerUrl() != null) {
-                swagger = new SwaggerParser().read(opts.getSwaggerUrl());
+                if(opts.getAuthorizationValue() != null) {
+                    List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
+                    authorizationValues.add(opts.getAuthorizationValue());
+
+                    swagger = new SwaggerParser().read(opts.getSwaggerUrl(), authorizationValues, true);
+                }
+                else {
+                    swagger = new SwaggerParser().read(opts.getSwaggerUrl());
+                }
             } else {
-                throw new BadRequestException(400, "No swagger specification was supplied");
+                throw new BadRequestException("No swagger specification was supplied");
             }
-        } else {
+        } else if(opts.getAuthorizationValue() != null) {
+            List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
+            authorizationValues.add(opts.getAuthorizationValue());
+            swagger = new SwaggerParser().read(node, authorizationValues, true);
+        }
+        else {
             swagger = new SwaggerParser().read(node, true);
         }
         if (swagger == null) {
-            throw new BadRequestException(400, "The swagger specification supplied was not valid");
+            throw new BadRequestException("The swagger specification supplied was not valid");
+        }
+
+        String destPath = null;
+
+        if(opts != null && opts.getOptions() != null) {
+            destPath = opts.getOptions().get("outputFolder");
+        }
+        if(destPath == null) {
+            destPath = language + "-"
+                    + type.getTypeName();
         }
 
         ClientOptInput clientOptInput = new ClientOptInput();
         ClientOpts clientOpts = new ClientOpts();
-        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + language + "-"
-                + type.getTypeName();
+        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
         String outputFilename = outputFolder + "-bundle.zip";
 
         clientOptInput
@@ -104,7 +120,7 @@ public class Generator {
         try {
             codegenConfig = CodegenConfigLoader.forName(language);
         } catch(RuntimeException e) {
-            throw new BadRequestException(400, "Unsupported target " + language + " supplied");
+            throw new BadRequestException("Unsupported target " + language + " supplied");
         }
 
         if (opts.getOptions() != null) {
@@ -122,12 +138,12 @@ public class Generator {
             List<File> files = new Codegen().opts(clientOptInput).generate();
             if (files.size() > 0) {
                 List<File> filesToAdd = new ArrayList<File>();
-                System.out.println("adding to " + outputFolder);
+                LOGGER.debug("adding to " + outputFolder);
                 filesToAdd.add(new File(outputFolder));
                 ZipUtil zip = new ZipUtil();
                 zip.compressFiles(filesToAdd, outputFilename);
             } else {
-                throw new BadRequestException(400, "A target generation was attempted, but no files were created!");
+                throw new BadRequestException("A target generation was attempted, but no files were created!");
             }
             for(File file: files) {
                 try {
@@ -144,16 +160,16 @@ public class Generator {
                 LOGGER.error("unable to delete output folder " + outputFolder);
             }
         } catch (Exception e) {
-            throw new BadRequestException(500, "Unable to build target: " + e.getMessage());
+            throw new BadRequestException("Unable to build target: " + e.getMessage());
         }
         return outputFilename;
     }
 
-    public static InputOption clientOptions(String language) {
+    public static InputOption clientOptions(@SuppressWarnings("unused") String language) {
         return null;
     }
 
-    public static InputOption serverOptions(String language) {
+    public static InputOption serverOptions(@SuppressWarnings("unused") String language) {
         return null;
     }
 

@@ -72,14 +72,12 @@ static SWGUserApi* singletonAPI = nil;
 ///
 /// Create user
 /// This can only be done by the logged in user.
-///  @param body Created user object
+///  @param body Created user object (optional)
 ///
 ///  @returns void
 ///
--(NSNumber*) createUserWithCompletionBlock: (SWGUser*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) createUserWithBody: (SWGUser*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -122,42 +120,39 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
 ///
 /// Creates list of users with given input array
 /// 
-///  @param body List of user object
+///  @param body List of user object (optional)
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithArrayInputWithCompletionBlock: (NSArray<SWGUser>*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -200,42 +195,39 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
 ///
 /// Creates list of users with given input array
 /// 
-///  @param body List of user object
+///  @param body List of user object (optional)
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithListInputWithCompletionBlock: (NSArray<SWGUser>*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
 
@@ -278,132 +270,48 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
 ///
-/// Logs user into the system
-/// 
-///  @param username The user name for login
+/// Delete user
+/// This can only be done by the logged in user.
+///  @param username The name that needs to be deleted 
 ///
-///  @param password The password for login in clear text
-///
-///  @returns NSString*
-///
--(NSNumber*) loginUserWithCompletionBlock: (NSString*) username
-         password: (NSString*) password
-        
-        completionHandler: (void (^)(NSString* output, NSError* error))completionBlock { 
-        
-
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/login"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    if (username != nil) {
-        
-        queryParams[@"username"] = username;
-    }
-    if (password != nil) {
-        
-        queryParams[@"password"] = password;
-    }
-    
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
-    
-    
-
-    
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSString*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSString*)data, error);
-              }
-          ];
-}
-
-///
-/// Logs out current logged in user session
-/// 
 ///  @returns void
 ///
--(NSNumber*) logoutUserWithCompletionBlock: 
-        
-        (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) deleteUserWithUsername: (NSString*) username
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
+    // verify the required parameter 'username' is set
+    if (username == nil) {
+        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `deleteUser`"];
+    }
+    
 
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/logout"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
 
     // remove format in URL if needed
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
@@ -411,6 +319,9 @@ static SWGUserApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (username != nil) {
+        pathParams[@"username"] = username;
+    }
     
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -438,46 +349,43 @@ static SWGUserApi* singletonAPI = nil;
     NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[];
+    NSArray *authSettings = @[@"test_http_basic"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
 ///
 /// Get user by user name
 /// 
-///  @param username The name that needs to be fetched. Use user1 for testing.
+///  @param username The name that needs to be fetched. Use user1 for testing. 
 ///
 ///  @returns SWGUser*
 ///
--(NSNumber*) getUserByNameWithCompletionBlock: (NSString*) username
-        
-        completionHandler: (void (^)(SWGUser* output, NSError* error))completionBlock { 
-        
+-(NSNumber*) getUserByNameWithUsername: (NSString*) username
+    completionHandler: (void (^)(SWGUser* output, NSError* error)) handler {
 
     
     // verify the required parameter 'username' is set
@@ -528,45 +436,201 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"SWGUser*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((SWGUser*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"SWGUser*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((SWGUser*)data, error);
+                           }
+          ];
+}
+
+///
+/// Logs user into the system
+/// 
+///  @param username The user name for login (optional)
+///
+///  @param password The password for login in clear text (optional)
+///
+///  @returns NSString*
+///
+-(NSNumber*) loginUserWithUsername: (NSString*) username
+    password: (NSString*) password
+    completionHandler: (void (^)(NSString* output, NSError* error)) handler {
+
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/login"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if (username != nil) {
+        
+        queryParams[@"username"] = username;
+    }
+    if (password != nil) {
+        
+        queryParams[@"password"] = password;
+    }
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSString*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSString*)data, error);
+                           }
+          ];
+}
+
+///
+/// Logs out current logged in user session
+/// 
+///  @returns void
+///
+-(NSNumber*) logoutUserWithCompletionHandler: 
+    (void (^)(NSError* error)) handler {
+
+    
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/logout"];
+
+    // remove format in URL if needed
+    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
+        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
+    }
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+
+    
+
+    // HTTP header `Accept`
+    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
+    if ([headerParams[@"Accept"] length] == 0) {
+        [headerParams removeObjectForKey:@"Accept"];
+    }
+
+    // response content type
+    NSString *responseContentType;
+    if ([headerParams objectForKey:@"Accept"]) {
+        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
+    }
+    else {
+        responseContentType = @"";
+    }
+
+    // request content type
+    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    
+    
+    
+
+    
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
 ///
 /// Updated user
 /// This can only be done by the logged in user.
-///  @param username name that need to be deleted
+///  @param username name that need to be deleted 
 ///
-///  @param body Updated user object
+///  @param body Updated user object (optional)
 ///
 ///  @returns void
 ///
--(NSNumber*) updateUserWithCompletionBlock: (NSString*) username
-         body: (SWGUser*) body
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+-(NSNumber*) updateUserWithUsername: (NSString*) username
+    body: (SWGUser*) body
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'username' is set
@@ -617,114 +681,27 @@ static SWGUserApi* singletonAPI = nil;
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     
     bodyParam = body;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
-          ];
-}
-
-///
-/// Delete user
-/// This can only be done by the logged in user.
-///  @param username The name that needs to be deleted
-///
-///  @returns void
-///
--(NSNumber*) deleteUserWithCompletionBlock: (NSString*) username
-        
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
-
-    
-    // verify the required parameter 'username' is set
-    if (username == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `deleteUser`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (username != nil) {
-        pathParams[@"username"] = username;
-    }
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [SWGApiClient selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
-    
-    
-
-    
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 

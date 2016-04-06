@@ -1,3 +1,7 @@
+=begin
+{{> api_info}}
+=end
+
 require "uri"
 
 module {{moduleName}}
@@ -10,11 +14,11 @@ module {{moduleName}}
     end
 {{#operation}}
 {{newline}}
-    # {{summary}}
-    # {{notes}}
+    # {{{summary}}}
+    # {{{notes}}}
 {{#allParams}}{{#required}}    # @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}    # @param [Hash] opts the optional parameters
-{{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}
+{{#allParams}}{{^required}}    # @option opts [{{{dataType}}}] :{{paramName}} {{description}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/required}}{{/allParams}}    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
     def {{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts = {})
       {{#returnType}}data, status_code, headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}opts)
@@ -43,7 +47,7 @@ module {{moduleName}}
       end
       {{/isEnum}}{{/required}}{{/allParams}}
       # resource path
-      path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
+      local_var_path = "{{path}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
       # query parameters
       query_params = {}{{#queryParams}}{{#required}}
@@ -72,9 +76,8 @@ module {{moduleName}}
       {{^bodyParam}}post_body = nil
       {{/bodyParam}}{{#bodyParam}}post_body = @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
       {{/bodyParam}}
-
       auth_names = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
-      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, path,
+      data, status_code, headers = @api_client.call_api(:{{httpMethod}}, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -90,7 +93,3 @@ module {{moduleName}}
   end
 {{/operations}}
 end
-
-
-
-

@@ -23,8 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.apache.commons.lang.StringUtils;
-
 public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
@@ -45,13 +43,18 @@ public class AsyncScalaClientCodegen extends DefaultCodegen implements CodegenCo
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
-                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
-                        "false", "final", "finally", "for", "forSome", "if", "implicit",
-                        "import", "lazy", "match", "new", "null", "object", "override", "package",
-                        "private", "protected", "return", "sealed", "super", "this", "throw",
-                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
+                    // local variable names used in API methods (endpoints)
+                    "config", "path", "contentTypes", "contentType", "queryParams", "headerParams",
+                    "formParams", "postBody", "resFuture", "client", "reader",
+
+                    // scala reserved words
+                    "abstract", "case", "catch", "class", "def", "do", "else", "extends",
+                    "false", "final", "finally", "for", "forSome", "if", "implicit",
+                    "import", "lazy", "match", "new", "null", "object", "override", "package",
+                    "private", "protected", "return", "sealed", "super", "this", "throw",
+                    "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);

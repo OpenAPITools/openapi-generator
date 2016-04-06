@@ -8,10 +8,11 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-
 import io.swagger.codegen.*;
-import io.swagger.models.Swagger;
+import io.swagger.models.*;
 import io.swagger.util.Yaml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,9 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSServerCodegen.class);
+
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
@@ -56,7 +60,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "break", "case", "class", "catch", "const", "continue", "debugger",
                         "default", "delete", "do", "else", "export", "extends", "finally",
@@ -85,18 +89,9 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                         "api",
                         "swagger.yaml")
         );
-        supportingFiles.add(new SupportingFile("index.mustache",
-                        "",
-                        "index.js")
-        );
-        supportingFiles.add(new SupportingFile("package.mustache",
-                        "",
-                        "package.json")
-        );
-        supportingFiles.add(new SupportingFile("README.mustache",
-                        "",
-                        "README.md")
-        );
+        writeOptional(outputFolder, new SupportingFile("index.mustache", "", "index.js"));
+        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         if (System.getProperty("noservice") == null) {
             apiTemplateFiles.put(
                     "service.mustache",   // the template to use
@@ -128,7 +123,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getName() {
-        return "nodejs";
+        return "nodejs-server";
     }
 
     /**
@@ -184,6 +179,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             operation.httpMethod = operation.httpMethod.toLowerCase();
+
             List<CodegenParameter> params = operation.allParams;
             if (params != null && params.size() == 0) {
                 operation.allParams = null;
@@ -211,7 +207,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @SuppressWarnings("unchecked")
-    private List<Map<String, Object>> getOperations(Map<String, Object> objs) {
+    private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
         List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
@@ -221,7 +217,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         return result;
     }
 
-    private List<Map<String, Object>> sortOperationsByPath(List<CodegenOperation> ops) {
+    private static List<Map<String, Object>> sortOperationsByPath(List<CodegenOperation> ops) {
         Multimap<String, CodegenOperation> opsByPath = ArrayListMultimap.create();
 
         for (CodegenOperation op : ops) {
@@ -246,10 +242,6 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void preprocessSwagger(Swagger swagger) {
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
-        }
-
         String host = swagger.getHost();
         String port = "8080";
         if (host != null) {
@@ -259,6 +251,40 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
         this.additionalProperties.put("serverPort", port);
+
+        if (swagger.getInfo() != null) {
+            Info info = swagger.getInfo();
+            if (info.getTitle() != null) {
+                // when info.title is defined, use it for projectName
+                // used in package.json
+                projectName = dashize(info.getTitle());
+                this.additionalProperties.put("projectName", projectName);
+            }
+        }
+
+        // need vendor extensions for x-swagger-router-controller
+        Map<String, Path> paths = swagger.getPaths();
+        if(paths != null) {
+            for(String pathname : paths.keySet()) {
+                Path path = paths.get(pathname);
+                Map<HttpMethod, Operation> operationMap = path.getOperationMap();
+                if(operationMap != null) {
+                    for(HttpMethod method : operationMap.keySet()) {
+                        Operation operation = operationMap.get(method);
+                        String tag = "default";
+                        if(operation.getTags() != null && operation.getTags().size() > 0) {
+                            tag = toApiName(operation.getTags().get(0));
+                        }
+                        if(operation.getOperationId() == null) {
+                            operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
+                        }
+                        if(operation.getVendorExtensions().get("x-swagger-router-controller") == null) {
+                            operation.getVendorExtensions().put("x-swagger-router-controller", sanitizeTag(tag));
+                        }
+                    }
+                }
+            }
+        }
     }
 
         @Override
@@ -276,7 +302,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 });
                 objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(swagger));
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         for (Map<String, Object> operations : getOperations(objs)) {

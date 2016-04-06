@@ -10,17 +10,20 @@ import java.util.Map;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 
-import retrofit.Converter;
-import retrofit.Retrofit;
-import retrofit.GsonConverterFactory;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
+
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.ResponseBody;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+
 
 import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
@@ -44,10 +47,18 @@ public class ApiClient {
         this();
         for(String authName : authNames) { 
             Interceptor auth;
-            if (authName == "api_key") { 
-                auth = new ApiKeyAuth("header", "api_key");
-            } else if (authName == "petstore_auth") { 
+            if (authName == "petstore_auth") { 
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else if (authName == "test_api_client_id") { 
+                auth = new ApiKeyAuth("header", "x-test_api_client_id");
+            } else if (authName == "test_api_client_secret") { 
+                auth = new ApiKeyAuth("header", "x-test_api_client_secret");
+            } else if (authName == "api_key") { 
+                auth = new ApiKeyAuth("header", "api_key");
+            } else if (authName == "test_api_key_query") { 
+                auth = new ApiKeyAuth("query", "test_api_key_query");
+            } else if (authName == "test_api_key_header") { 
+                auth = new ApiKeyAuth("header", "test_api_key_header");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
@@ -100,14 +111,14 @@ public class ApiClient {
                 .setUsername(username)
                 .setPassword(password);
     }
-    
+
    public void createDefaultAdapter() {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                 .create();
 
         okClient = new OkHttpClient();
-        
+
         String baseUrl = "http://petstore.swagger.io/v2";
         if(!baseUrl.endsWith("/"))
         	baseUrl = baseUrl + "/";
@@ -116,12 +127,14 @@ public class ApiClient {
                 .Builder()
                 .baseUrl(baseUrl)
                 .client(okClient)
+                
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
 
     public <S> S createService(Class<S> serviceClass) {
         return adapterBuilder.build().create(serviceClass);
-        
+
     }
 
     /**
@@ -199,7 +212,7 @@ public class ApiClient {
             }
         }
     }
-    
+
     /**
      * Helper method to configure the oauth accessCode/implicit flow parameters
      * @param clientId
@@ -221,7 +234,7 @@ public class ApiClient {
             }
         }
     }
-    
+
     /**
      * Configures a listener which is notified when a new access token is received.
      * @param accessTokenListener
@@ -268,7 +281,7 @@ public class ApiClient {
     public OkHttpClient getOkClient() {
         return okClient;
     }
-    
+
     public void addAuthsToOkClient(OkHttpClient okClient) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
             okClient.interceptors().add(apiAuthorization);
@@ -280,7 +293,7 @@ public class ApiClient {
      * @param okClient
      */
     public void configureFromOkclient(OkHttpClient okClient) {
-        OkHttpClient clone = okClient.clone();
+        OkHttpClient clone = okClient.newBuilder().build();
         addAuthsToOkClient(clone);
         adapterBuilder.client(clone);
     }
@@ -304,14 +317,14 @@ class GsonResponseBodyConverterToString<T> implements Converter<ResponseBody, T>
 	    String returned = value.string();
 	    try {
 	      return gson.fromJson(returned, type);
-	    } 
+	    }
 	    catch (JsonParseException e) {
                 return (T) returned;
-        } 
+        }
 	 }
 }
 
-class GsonCustomConverterFactory extends Converter.Factory 
+class GsonCustomConverterFactory extends Converter.Factory
 {
 	public static GsonCustomConverterFactory create(Gson gson) {
 	    return new GsonCustomConverterFactory(gson);
@@ -326,17 +339,17 @@ class GsonCustomConverterFactory extends Converter.Factory
 	    this.gsonConverterFactory = GsonConverterFactory.create(gson);
 	  }
 
-	  @Override
-	  public Converter<ResponseBody, ?> fromResponseBody(Type type, Annotation[] annotations) {
-		  if(type.equals(String.class))
-			  return new GsonResponseBodyConverterToString<Object>(gson, type);
-		  else
-			  return gsonConverterFactory.fromResponseBody(type, annotations);
-	  }
+    @Override
+    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+        if(type.equals(String.class))
+            return new GsonResponseBodyConverterToString<Object>(gson, type);
+        else
+            return gsonConverterFactory.responseBodyConverter(type, annotations, retrofit);
+    }
 
-	  @Override
-	  public Converter<?, RequestBody> toRequestBody(Type type, Annotation[] annotations) {
-	    return gsonConverterFactory.toRequestBody(type, annotations);
-	  }
+    @Override
+    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+            return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
+    }
 }
 

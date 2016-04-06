@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 SmartBear Software
+ * Copyright 2016 SmartBear Software
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 package io.swagger.generator.exception;
 
+import org.apache.http.HttpStatus;
+
 public class BadRequestException extends ApiException {
     private static final long serialVersionUID = -5540416398447252055L;
-    private int code;
 
-    public BadRequestException(int code, String msg) {
-        super(code, msg);
-        this.code = code;
+    public BadRequestException(String msg) {
+        super(HttpStatus.SC_BAD_REQUEST, msg);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using RestSharp;
 using IO.Swagger.Client;
@@ -14,122 +15,7 @@ namespace IO.Swagger.Api
     /// </summary>
     public interface IStoreApi
     {
-        
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>Dictionary&lt;string, int?&gt;</returns>
-        Dictionary<string, int?> GetInventory ();
-  
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
-        ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
-
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
-        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
-
-        /// <summary>
-        /// Returns pet inventories by status
-        /// </summary>
-        /// <remarks>
-        /// Returns a map of status codes to quantities
-        /// </remarks>
-        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
-        
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Order</returns>
-        Order PlaceOrder (Order body = null);
-  
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
-
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
-
-        /// <summary>
-        /// Place an order for a pet
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null);
-        
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Order</returns>
-        Order GetOrderById (string orderId);
-  
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
-
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
-
-        /// <summary>
-        /// Find purchase order by ID
-        /// </summary>
-        /// <remarks>
-        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </remarks>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId);
+        #region Synchronous Operations
         
         /// <summary>
         /// Delete purchase order by ID
@@ -137,6 +23,7 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns></returns>
         void DeleteOrder (string orderId);
@@ -147,16 +34,128 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId);
-
+        
+        /// <summary>
+        /// Finds orders by status
+        /// </summary>
+        /// <remarks>
+        /// A single status value can be provided as a string
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
+        /// <returns>List&lt;Order&gt;</returns>
+        List<Order> FindOrdersByStatus (string status = null);
+  
+        /// <summary>
+        /// Finds orders by status
+        /// </summary>
+        /// <remarks>
+        /// A single status value can be provided as a string
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
+        /// <returns>ApiResponse of List&lt;Order&gt;</returns>
+        ApiResponse<List<Order>> FindOrdersByStatusWithHttpInfo (string status = null);
+        
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>
+        Dictionary<string, int?> GetInventory ();
+  
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
+        ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
+        
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Object</returns>
+        Object GetInventoryInObject ();
+  
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of Object</returns>
+        ApiResponse<Object> GetInventoryInObjectWithHttpInfo ();
+        
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Order</returns>
+        Order GetOrderById (string orderId);
+  
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>ApiResponse of Order</returns>
+        ApiResponse<Order> GetOrderByIdWithHttpInfo (string orderId);
+        
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
+        /// <returns>Order</returns>
+        Order PlaceOrder (Order body = null);
+  
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
+        /// <returns>ApiResponse of Order</returns>
+        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body = null);
+        
+        #endregion Synchronous Operations
+        
+        #region Asynchronous Operations
+        
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of void</returns>
         System.Threading.Tasks.Task DeleteOrderAsync (string orderId);
@@ -167,9 +166,118 @@ namespace IO.Swagger.Api
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId);
+        
+        /// <summary>
+        /// Finds orders by status
+        /// </summary>
+        /// <remarks>
+        /// A single status value can be provided as a string
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
+        /// <returns>Task of List&lt;Order&gt;</returns>
+        System.Threading.Tasks.Task<List<Order>> FindOrdersByStatusAsync (string status = null);
+
+        /// <summary>
+        /// Finds orders by status
+        /// </summary>
+        /// <remarks>
+        /// A single status value can be provided as a string
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
+        /// <returns>Task of ApiResponse (List&lt;Order&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<List<Order>>> FindOrdersByStatusAsyncWithHttpInfo (string status = null);
+        
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
+        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
+
+        /// <summary>
+        /// Returns pet inventories by status
+        /// </summary>
+        /// <remarks>
+        /// Returns a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
+        
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of Object</returns>
+        System.Threading.Tasks.Task<Object> GetInventoryInObjectAsync ();
+
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+        /// </summary>
+        /// <remarks>
+        /// Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (Object)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> GetInventoryInObjectAsyncWithHttpInfo ();
+        
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of Order</returns>
+        System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId);
+
+        /// <summary>
+        /// Find purchase order by ID
+        /// </summary>
+        /// <remarks>
+        /// For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId);
+        
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
+        /// <returns>Task of Order</returns>
+        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null);
+
+        /// <summary>
+        /// Place an order for a pet
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null);
+        
+        #endregion Asynchronous Operations
         
     }
   
@@ -185,6 +293,12 @@ namespace IO.Swagger.Api
         public StoreApi(String basePath)
         {
             this.Configuration = new Configuration(new ApiClient(basePath));
+
+            // ensure API client has configuration ready
+            if (Configuration.ApiClient.Configuration == null)
+            {
+                this.Configuration.ApiClient.Configuration = this.Configuration;
+            }
         }
     
         /// <summary>
@@ -199,6 +313,12 @@ namespace IO.Swagger.Api
                 this.Configuration = Configuration.Default; 
             else
                 this.Configuration = configuration;
+
+            // ensure API client has configuration ready
+            if (Configuration.ApiClient.Configuration == null)
+            {
+                this.Configuration.ApiClient.Configuration = this.Configuration;
+            }
         }
 
         /// <summary>
@@ -250,416 +370,9 @@ namespace IO.Swagger.Api
    
         
         /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
-        /// </summary>
-        /// <returns>Dictionary&lt;string, int?&gt;</returns>
-        public Dictionary<string, int?> GetInventory ()
-        {
-             ApiResponse<Dictionary<string, int?>> response = GetInventoryWithHttpInfo();
-             return response.Data;
-        }
-
-        /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
-        /// </summary>
-        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
-        public ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
-        {
-            
-    
-            var path_ = "/store/inventory";
-    
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-
-            // to determine the Accept header
-            String[] http_header_accepts = new String[] {
-                "application/json", "application/xml"
-            };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
-
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            
-            
-            
-            
-            
-
-            
-            // authentication (api_key) required
-            
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
-            if (!String.IsNullOrEmpty(apiKeyValue))
-            {
-                headerParams["api_key"] = apiKeyValue;
-            }
-            
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-
-            int statusCode = (int) response.StatusCode;
-    
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetInventory: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
-    
-            return new ApiResponse<Dictionary<string, int?>>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>)));
-            
-        }
-    
-        /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
-        /// </summary>
-        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
-        public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
-        {
-             ApiResponse<Dictionary<string, int?>> response = await GetInventoryAsyncWithHttpInfo();
-             return response.Data;
-
-        }
-
-        /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
-        /// </summary>
-        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ()
-        {
-            
-    
-            var path_ = "/store/inventory";
-    
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-
-            // to determine the Accept header
-            String[] http_header_accepts = new String[] {
-                "application/json", "application/xml"
-            };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
-
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            
-            
-            
-            
-            
-
-            
-            // authentication (api_key) required
-            
-            var apiKeyValue = Configuration.GetApiKeyWithPrefix("api_key");
-            if (!String.IsNullOrEmpty(apiKeyValue))
-            {
-                headerParams["api_key"] = apiKeyValue;
-            }
-            
-
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-
-            int statusCode = (int) response.StatusCode;
- 
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetInventory: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
-
-            return new ApiResponse<Dictionary<string, int?>>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(response, typeof(Dictionary<string, int?>)));
-            
-        }
-        
-        /// <summary>
-        /// Place an order for a pet 
-        /// </summary>
-        /// <param name="body">order placed for purchasing the pet</param> 
-        /// <returns>Order</returns>
-        public Order PlaceOrder (Order body = null)
-        {
-             ApiResponse<Order> response = PlaceOrderWithHttpInfo(body);
-             return response.Data;
-        }
-
-        /// <summary>
-        /// Place an order for a pet 
-        /// </summary>
-        /// <param name="body">order placed for purchasing the pet</param> 
-        /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body = null)
-        {
-            
-    
-            var path_ = "/store/order";
-    
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-
-            // to determine the Accept header
-            String[] http_header_accepts = new String[] {
-                "application/json", "application/xml"
-            };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
-
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            
-            
-            
-            
-            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            
-
-            
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-
-            int statusCode = (int) response.StatusCode;
-    
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
-    
-            return new ApiResponse<Order>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
-            
-        }
-    
-        /// <summary>
-        /// Place an order for a pet 
-        /// </summary>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null)
-        {
-             ApiResponse<Order> response = await PlaceOrderAsyncWithHttpInfo(body);
-             return response.Data;
-
-        }
-
-        /// <summary>
-        /// Place an order for a pet 
-        /// </summary>
-        /// <param name="body">order placed for purchasing the pet</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null)
-        {
-            
-    
-            var path_ = "/store/order";
-    
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-
-            // to determine the Accept header
-            String[] http_header_accepts = new String[] {
-                "application/json", "application/xml"
-            };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
-
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            
-            
-            
-            
-            postBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
-            
-
-            
-
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-
-            int statusCode = (int) response.StatusCode;
- 
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling PlaceOrder: " + response.ErrorMessage, response.ErrorMessage);
-
-            return new ApiResponse<Order>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
-            
-        }
-        
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </summary>
-        /// <param name="orderId">ID of pet that needs to be fetched</param> 
-        /// <returns>Order</returns>
-        public Order GetOrderById (string orderId)
-        {
-             ApiResponse<Order> response = GetOrderByIdWithHttpInfo(orderId);
-             return response.Data;
-        }
-
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </summary>
-        /// <param name="orderId">ID of pet that needs to be fetched</param> 
-        /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > GetOrderByIdWithHttpInfo (string orderId)
-        {
-            
-            // verify the required parameter 'orderId' is set
-            if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
-            
-    
-            var path_ = "/store/order/{orderId}";
-    
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-
-            // to determine the Accept header
-            String[] http_header_accepts = new String[] {
-                "application/json", "application/xml"
-            };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
-
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
-            
-            
-            
-            
-            
-
-            
-    
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-
-            int statusCode = (int) response.StatusCode;
-    
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
-    
-            return new ApiResponse<Order>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
-            
-        }
-    
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </summary>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId)
-        {
-             ApiResponse<Order> response = await GetOrderByIdAsyncWithHttpInfo(orderId);
-             return response.Data;
-
-        }
-
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
-        /// </summary>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId)
-        {
-            // verify the required parameter 'orderId' is set
-            if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
-            
-    
-            var path_ = "/store/order/{orderId}";
-    
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
-
-            // to determine the Accept header
-            String[] http_header_accepts = new String[] {
-                "application/json", "application/xml"
-            };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
-
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
-            
-            
-            
-            
-            
-
-            
-
-            // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
-
-            int statusCode = (int) response.StatusCode;
- 
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling GetOrderById: " + response.ErrorMessage, response.ErrorMessage);
-
-            return new ApiResponse<Order>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
-                (Order) Configuration.ApiClient.Deserialize(response, typeof(Order)));
-            
-        }
-        
-        /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
         /// <returns></returns>
         public void DeleteOrder (string orderId)
@@ -670,36 +383,44 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param> 
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> DeleteOrderWithHttpInfo (string orderId)
         {
             
             // verify the required parameter 'orderId' is set
-            if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
+            if (orderId == null)
+                throw new ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
             
     
-            var path_ = "/store/order/{orderId}";
+            var localVarPath = "/store/order/{orderId}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>(Configuration.DefaultHeader);
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] http_header_accepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
@@ -709,24 +430,28 @@ namespace IO.Swagger.Api
             
     
             // make the HTTP request
-            IRestResponse response = (IRestResponse) Configuration.ApiClient.CallApi(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
     
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
     
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-    
+
+        
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeleteOrderAsync (string orderId)
@@ -738,6 +463,7 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderAsyncWithHttpInfo (string orderId)
@@ -746,27 +472,33 @@ namespace IO.Swagger.Api
             if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling DeleteOrder");
             
     
-            var path_ = "/store/order/{orderId}";
+            var localVarPath = "/store/order/{orderId}";
     
-            var pathParams = new Dictionary<String, String>();
-            var queryParams = new Dictionary<String, String>();
-            var headerParams = new Dictionary<String, String>();
-            var formParams = new Dictionary<String, String>();
-            var fileParams = new Dictionary<String, FileParameter>();
-            String postBody = null;
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
-            String[] http_header_accepts = new String[] {
+            String[] localVarHttpHeaderAccepts = new String[] {
                 "application/json", "application/xml"
             };
-            String http_header_accept = Configuration.ApiClient.SelectHeaderAccept(http_header_accepts);
-            if (http_header_accept != null)
-                headerParams.Add("Accept", Configuration.ApiClient.SelectHeaderAccept(http_header_accepts));
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            pathParams.Add("format", "json");
-            if (orderId != null) pathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            localVarPathParams.Add("format", "json");
+            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
             
             
             
@@ -776,19 +508,891 @@ namespace IO.Swagger.Api
             
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse) await Configuration.ApiClient.CallApiAsync(path_, Method.DELETE, queryParams, postBody, headerParams, formParams, fileParams, pathParams);
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
 
-            int statusCode = (int) response.StatusCode;
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
  
-            if (statusCode >= 400)
-                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.Content, response.Content);
-            else if (statusCode == 0)
-                throw new ApiException (statusCode, "Error calling DeleteOrder: " + response.ErrorMessage, response.ErrorMessage);
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
             
-            return new ApiResponse<Object>(statusCode,
-                response.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
+        }
+        
+        /// <summary>
+        /// Finds orders by status A single status value can be provided as a string
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param> 
+        /// <returns>List&lt;Order&gt;</returns>
+        public List<Order> FindOrdersByStatus (string status = null)
+        {
+             ApiResponse<List<Order>> localVarResponse = FindOrdersByStatusWithHttpInfo(status);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Finds orders by status A single status value can be provided as a string
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param> 
+        /// <returns>ApiResponse of List&lt;Order&gt;</returns>
+        public ApiResponse< List<Order> > FindOrdersByStatusWithHttpInfo (string status = null)
+        {
+            
+    
+            var localVarPath = "/store/findByStatus";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
+            
+            
+            
+            
+
+            // authentication (test_api_client_id) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_id")))
+            {
+                localVarHeaderParams["x-test_api_client_id"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_id");
+            }
+            // authentication (test_api_client_secret) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_secret")))
+            {
+                localVarHeaderParams["x-test_api_client_secret"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_secret");
+            }
+            
+    
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+    
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling FindOrdersByStatus: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling FindOrdersByStatus: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+    
+            return new ApiResponse<List<Order>>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (List<Order>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Order>)));
+            
+        }
+
+        
+        /// <summary>
+        /// Finds orders by status A single status value can be provided as a string
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
+        /// <returns>Task of List&lt;Order&gt;</returns>
+        public async System.Threading.Tasks.Task<List<Order>> FindOrdersByStatusAsync (string status = null)
+        {
+             ApiResponse<List<Order>> localVarResponse = await FindOrdersByStatusAsyncWithHttpInfo(status);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Finds orders by status A single status value can be provided as a string
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="status">Status value that needs to be considered for query (optional, default to placed)</param>
+        /// <returns>Task of ApiResponse (List&lt;Order&gt;)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<List<Order>>> FindOrdersByStatusAsyncWithHttpInfo (string status = null)
+        {
+            
+    
+            var localVarPath = "/store/findByStatus";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
+            
+            
+            
+            
+
+            
+            // authentication (test_api_client_id) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_id")))
+            {
+                localVarHeaderParams["x-test_api_client_id"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_id");
+            }
+            
+            // authentication (test_api_client_secret) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_secret")))
+            {
+                localVarHeaderParams["x-test_api_client_secret"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_secret");
+            }
+            
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+ 
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling FindOrdersByStatus: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling FindOrdersByStatus: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<List<Order>>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (List<Order>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Order>)));
+            
+        }
+        
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>
+        public Dictionary<string, int?> GetInventory ()
+        {
+             ApiResponse<Dictionary<string, int?>> localVarResponse = GetInventoryWithHttpInfo();
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
+        public ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
+        {
+            
+    
+            var localVarPath = "/store/inventory";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            // authentication (api_key) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+            
+    
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+    
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+    
+            return new ApiResponse<Dictionary<string, int?>>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Dictionary<string, int?>)));
+            
+        }
+
+        
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
+        public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
+        {
+             ApiResponse<Dictionary<string, int?>> localVarResponse = await GetInventoryAsyncWithHttpInfo();
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ()
+        {
+            
+    
+            var localVarPath = "/store/inventory";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            
+            // authentication (api_key) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+            
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+ 
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<Dictionary<string, int?>>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Dictionary<string, int?>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Dictionary<string, int?>)));
+            
+        }
+        
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39; Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Object</returns>
+        public Object GetInventoryInObject ()
+        {
+             ApiResponse<Object> localVarResponse = GetInventoryInObjectWithHttpInfo();
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39; Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of Object</returns>
+        public ApiResponse< Object > GetInventoryInObjectWithHttpInfo ()
+        {
+            
+    
+            var localVarPath = "/store/inventory?response=arbitrary_object";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            // authentication (api_key) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+            
+    
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+    
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventoryInObject: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventoryInObject: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+    
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Object) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
+            
+        }
+
+        
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39; Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of Object</returns>
+        public async System.Threading.Tasks.Task<Object> GetInventoryInObjectAsync ()
+        {
+             ApiResponse<Object> localVarResponse = await GetInventoryInObjectAsyncWithHttpInfo();
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Fake endpoint to test arbitrary object return by &#39;Get inventory&#39; Returns an arbitrary object which is actually a map of status codes to quantities
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>Task of ApiResponse (Object)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> GetInventoryInObjectAsyncWithHttpInfo ()
+        {
+            
+    
+            var localVarPath = "/store/inventory?response=arbitrary_object";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            
+
+            
+            // authentication (api_key) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+            
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+ 
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventoryInObject: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetInventoryInObject: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Object) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
+            
+        }
+        
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param> 
+        /// <returns>Order</returns>
+        public Order GetOrderById (string orderId)
+        {
+             ApiResponse<Order> localVarResponse = GetOrderByIdWithHttpInfo(orderId);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param> 
+        /// <returns>ApiResponse of Order</returns>
+        public ApiResponse< Order > GetOrderByIdWithHttpInfo (string orderId)
+        {
+            
+            // verify the required parameter 'orderId' is set
+            if (orderId == null)
+                throw new ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
+            
+    
+            var localVarPath = "/store/order/{orderId}";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            
+            
+            
+            
+            
+
+            // authentication (test_api_key_header) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
+            {
+                localVarHeaderParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
+            }
+            // authentication (test_api_key_query) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_query")))
+            {
+                localVarQueryParams["test_api_key_query"] = Configuration.GetApiKeyWithPrefix("test_api_key_query");
+            }
+            
+    
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+    
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+    
+            return new ApiResponse<Order>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
+            
+        }
+
+        
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of Order</returns>
+        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (string orderId)
+        {
+             ApiResponse<Order> localVarResponse = await GetOrderByIdAsyncWithHttpInfo(orderId);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (string orderId)
+        {
+            // verify the required parameter 'orderId' is set
+            if (orderId == null) throw new ApiException(400, "Missing required parameter 'orderId' when calling GetOrderById");
+            
+    
+            var localVarPath = "/store/order/{orderId}";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            
+            
+            
+            
+            
+
+            
+            // authentication (test_api_key_header) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_header")))
+            {
+                localVarHeaderParams["test_api_key_header"] = Configuration.GetApiKeyWithPrefix("test_api_key_header");
+            }
+            
+            // authentication (test_api_key_query) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("test_api_key_query")))
+            {
+                localVarQueryParams["test_api_key_query"] = Configuration.GetApiKeyWithPrefix("test_api_key_query");
+            }
+            
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+ 
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<Order>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
+            
+        }
+        
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param> 
+        /// <returns>Order</returns>
+        public Order PlaceOrder (Order body = null)
+        {
+             ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(body);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param> 
+        /// <returns>ApiResponse of Order</returns>
+        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body = null)
+        {
+            
+    
+            var localVarPath = "/store/order";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            if (body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+
+            // authentication (test_api_client_id) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_id")))
+            {
+                localVarHeaderParams["x-test_api_client_id"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_id");
+            }
+            // authentication (test_api_client_secret) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_secret")))
+            {
+                localVarHeaderParams["x-test_api_client_secret"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_secret");
+            }
+            
+    
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+    
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+    
+            return new ApiResponse<Order>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
+            
+        }
+
+        
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
+        /// <returns>Task of Order</returns>
+        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body = null)
+        {
+             ApiResponse<Order> localVarResponse = await PlaceOrderAsyncWithHttpInfo(body);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">order placed for purchasing the pet (optional)</param>
+        /// <returns>Task of ApiResponse (Order)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body = null)
+        {
+            
+    
+            var localVarPath = "/store/order";
+    
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                
+            };
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json", "application/xml"
+            };
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
+            
+            
+            
+            
+            if (body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+
+            
+            // authentication (test_api_client_id) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_id")))
+            {
+                localVarHeaderParams["x-test_api_client_id"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_id");
+            }
+            
+            // authentication (test_api_client_secret) required
+            
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("x-test_api_client_secret")))
+            {
+                localVarHeaderParams["x-test_api_client_secret"] = Configuration.GetApiKeyWithPrefix("x-test_api_client_secret");
+            }
+            
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+ 
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+
+            return new ApiResponse<Order>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (Order) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Order)));
+            
         }
         
     }

@@ -22,7 +22,7 @@
 - (void)testLoginUser {
     XCTestExpectation *expectation = [self expectationWithDescription:@"test login user"];
     
-    [self.api loginUserWithCompletionBlock:@"test username" password:@"test password" completionHandler:^(NSString *output, NSError *error) {
+    [self.api loginUserWithUsername:@"test username" password:@"test password" completionHandler:^(NSString *output, NSError *error) {
         if (error) {
             XCTFail(@"got error %@", error);
         }

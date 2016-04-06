@@ -1,9 +1,12 @@
 package io.swagger.petstore.test;
 
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.Configuration;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.datatype.joda.*;
 
+import io.swagger.TestUtils;
+
+import io.swagger.client.*;
 import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
@@ -14,12 +17,14 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.*;
 import static org.junit.Assert.*;
 
 public class PetApiTest {
-    PetApi api = null;
+    private PetApi api;
+    private ObjectMapper mapper;
 
     @Before
     public void setup() {
@@ -66,6 +71,53 @@ public class PetApiTest {
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testCreateAndGetPetWithByteArray() throws Exception {
+        Pet pet = createRandomPet();
+        byte[] bytes = serializeJson(pet).getBytes();
+        api.addPetUsingByteArray(bytes);
+
+        byte[] fetchedBytes = api.petPetIdtestingByteArraytrueGet(pet.getId());
+        Pet fetched = deserializeJson(new String(fetchedBytes), Pet.class);
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testGetPetByIdInObject() throws Exception {
+        Pet pet = new Pet();
+        pet.setId(TestUtils.nextId());
+        pet.setName("pet " + pet.getId());
+
+        Category category = new Category();
+        category.setId(TestUtils.nextId());
+        category.setName("category " + category.getId());
+        pet.setCategory(category);
+
+        pet.setStatus(Pet.StatusEnum.PENDING);
+        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1"});
+        pet.setPhotoUrls(photos);
+
+        api.addPet(pet);
+
+        InlineResponse200 fetched = api.getPetByIdInObject(pet.getId());
+        assertEquals(pet.getId(), fetched.getId());
+        assertEquals(pet.getName(), fetched.getName());
+
+        Object categoryObj = fetched.getCategory();
+        assertNotNull(categoryObj);
+        assertTrue(categoryObj instanceof Map);
+
+        Map categoryMap = (Map) categoryObj;
+        Object categoryIdObj = categoryMap.get("id");
+        assertTrue(categoryIdObj instanceof Integer);
+        Integer categoryIdInt = (Integer) categoryIdObj;
+        assertEquals(category.getId(), Long.valueOf(categoryIdInt));
+        assertEquals(category.getName(), categoryMap.get("name"));
     }
 
     @Test
@@ -203,7 +255,7 @@ public class PetApiTest {
 
     private Pet createRandomPet() {
         Pet pet = new Pet();
-        pet.setId(System.currentTimeMillis());
+        pet.setId(TestUtils.nextId());
         pet.setName("gorilla");
 
         Category category = new Category();
@@ -215,5 +267,38 @@ public class PetApiTest {
         pet.setPhotoUrls(photos);
 
         return pet;
+    }
+
+    private String serializeJson(Object o) {
+        if (mapper == null) {
+            mapper = createObjectMapper();
+        }
+        try {
+            return mapper.writeValueAsString(o);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private <T> T deserializeJson(String json, Class<T> klass) {
+        if (mapper == null) {
+            mapper = createObjectMapper();
+        }
+        try {
+            return mapper.readValue(json, klass);
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+    }
+
+    private ObjectMapper createObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+        mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+        mapper.registerModule(new JodaModule());
+        return mapper;
     }
 }

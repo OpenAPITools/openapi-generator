@@ -11,7 +11,7 @@
  */
 
 /**
- *  Copyright 2015 SmartBear Software
+ *  Copyright 2016 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "PHP-Swagger/1.0.0";
+    protected $userAgent = "Swagger-Codegen/1.0.0/php";
 
     /**
      * Debug switch (default set to false)

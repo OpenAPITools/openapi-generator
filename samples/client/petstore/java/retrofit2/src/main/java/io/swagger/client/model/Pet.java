@@ -5,14 +5,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Category;
 import io.swagger.client.model.Tag;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import com.google.gson.annotations.SerializedName;
 
 
 
 
-@ApiModel(description = "")
+
+
 public class Pet   {
   
   @SerializedName("id")
@@ -174,3 +177,5 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
+

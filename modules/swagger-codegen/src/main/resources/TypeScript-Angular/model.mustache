@@ -18,7 +18,7 @@ namespace {{package}} {
          * {{{description}}}
          */
 {{/description}}
-        {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+        "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
     }
 
@@ -28,7 +28,7 @@ namespace {{package}} {
 {{#isEnum}}
 
         export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
-            {{.}} = <any> '{{.}}',{{/values}}{{/allowableValues}}
+            {{.}} = <any> '{{.}}'{{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
         }
 {{/isEnum}}
 {{/vars}}

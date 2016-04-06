@@ -5,6 +5,7 @@ import io.swagger.parser.SwaggerParser;
 
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class SwaggerMigratorTest {
 
     @Test(description = "read a 1.2 spec")

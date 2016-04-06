@@ -2,28 +2,6 @@
   (:require [swagger-petstore.core :refer [call-api check-required-params with-collection-format]])
   (:import (java.io File)))
 
-(defn update-pet-with-http-info
-  "Update an existing pet
-  "
-  ([] (update-pet-with-http-info nil))
-  ([{:keys [body ]}]
-   (call-api "/pet" :put
-             {:path-params   {}
-              :header-params {}
-              :query-params  {}
-              :form-params   {}
-              :body-param    body
-              :content-types ["application/json" "application/xml"]
-              :accepts       ["application/json" "application/xml"]
-              :auth-names    ["petstore_auth"]})))
-
-(defn update-pet
-  "Update an existing pet
-  "
-  ([] (update-pet nil))
-  ([optional-params]
-   (:data (update-pet-with-http-info optional-params))))
-
 (defn add-pet-with-http-info
   "Add a new pet to the store
   "
@@ -46,9 +24,52 @@
   ([optional-params]
    (:data (add-pet-with-http-info optional-params))))
 
+(defn add-pet-using-byte-array-with-http-info
+  "Fake endpoint to test byte array in body parameter for adding a new pet to the store
+  "
+  ([] (add-pet-using-byte-array-with-http-info nil))
+  ([{:keys [body ]}]
+   (call-api "/pet?testing_byte_array=true" :post
+             {:path-params   {}
+              :header-params {}
+              :query-params  {}
+              :form-params   {}
+              :body-param    body
+              :content-types ["application/json" "application/xml"]
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
+
+(defn add-pet-using-byte-array
+  "Fake endpoint to test byte array in body parameter for adding a new pet to the store
+  "
+  ([] (add-pet-using-byte-array nil))
+  ([optional-params]
+   (:data (add-pet-using-byte-array-with-http-info optional-params))))
+
+(defn delete-pet-with-http-info
+  "Deletes a pet
+  "
+  ([pet-id ] (delete-pet-with-http-info pet-id nil))
+  ([pet-id {:keys [api-key ]}]
+   (call-api "/pet/{petId}" :delete
+             {:path-params   {"petId" pet-id }
+              :header-params {"api_key" api-key }
+              :query-params  {}
+              :form-params   {}
+              :content-types []
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
+
+(defn delete-pet
+  "Deletes a pet
+  "
+  ([pet-id ] (delete-pet pet-id nil))
+  ([pet-id optional-params]
+   (:data (delete-pet-with-http-info pet-id optional-params))))
+
 (defn find-pets-by-status-with-http-info
   "Finds Pets by status
-  Multiple status values can be provided with comma seperated strings"
+  Multiple status values can be provided with comma separated strings"
   ([] (find-pets-by-status-with-http-info nil))
   ([{:keys [status ]}]
    (call-api "/pet/findByStatus" :get
@@ -62,7 +83,7 @@
 
 (defn find-pets-by-status
   "Finds Pets by status
-  Multiple status values can be provided with comma seperated strings"
+  Multiple status values can be provided with comma separated strings"
   ([] (find-pets-by-status nil))
   ([optional-params]
    (:data (find-pets-by-status-with-http-info optional-params))))
@@ -99,13 +120,73 @@
              :form-params   {}
              :content-types []
              :accepts       ["application/json" "application/xml"]
-             :auth-names    ["api_key"]}))
+             :auth-names    ["api_key" "petstore_auth"]}))
 
 (defn get-pet-by-id
   "Find pet by ID
   Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
   [pet-id ]
   (:data (get-pet-by-id-with-http-info pet-id)))
+
+(defn get-pet-by-id-in-object-with-http-info
+  "Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+  Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
+  [pet-id ]
+  (call-api "/pet/{petId}?response=inline_arbitrary_object" :get
+            {:path-params   {"petId" pet-id }
+             :header-params {}
+             :query-params  {}
+             :form-params   {}
+             :content-types []
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    ["api_key" "petstore_auth"]}))
+
+(defn get-pet-by-id-in-object
+  "Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+  Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
+  [pet-id ]
+  (:data (get-pet-by-id-in-object-with-http-info pet-id)))
+
+(defn pet-pet-idtesting-byte-arraytrue-get-with-http-info
+  "Fake endpoint to test byte array return by 'Find pet by ID'
+  Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
+  [pet-id ]
+  (call-api "/pet/{petId}?testing_byte_array=true" :get
+            {:path-params   {"petId" pet-id }
+             :header-params {}
+             :query-params  {}
+             :form-params   {}
+             :content-types []
+             :accepts       ["application/json" "application/xml"]
+             :auth-names    ["api_key" "petstore_auth"]}))
+
+(defn pet-pet-idtesting-byte-arraytrue-get
+  "Fake endpoint to test byte array return by 'Find pet by ID'
+  Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
+  [pet-id ]
+  (:data (pet-pet-idtesting-byte-arraytrue-get-with-http-info pet-id)))
+
+(defn update-pet-with-http-info
+  "Update an existing pet
+  "
+  ([] (update-pet-with-http-info nil))
+  ([{:keys [body ]}]
+   (call-api "/pet" :put
+             {:path-params   {}
+              :header-params {}
+              :query-params  {}
+              :form-params   {}
+              :body-param    body
+              :content-types ["application/json" "application/xml"]
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    ["petstore_auth"]})))
+
+(defn update-pet
+  "Update an existing pet
+  "
+  ([] (update-pet nil))
+  ([optional-params]
+   (:data (update-pet-with-http-info optional-params))))
 
 (defn update-pet-with-form-with-http-info
   "Updates a pet in the store with form data
@@ -127,27 +208,6 @@
   ([pet-id ] (update-pet-with-form pet-id nil))
   ([pet-id optional-params]
    (:data (update-pet-with-form-with-http-info pet-id optional-params))))
-
-(defn delete-pet-with-http-info
-  "Deletes a pet
-  "
-  ([pet-id ] (delete-pet-with-http-info pet-id nil))
-  ([pet-id {:keys [api-key ]}]
-   (call-api "/pet/{petId}" :delete
-             {:path-params   {"petId" pet-id }
-              :header-params {"api_key" api-key }
-              :query-params  {}
-              :form-params   {}
-              :content-types []
-              :accepts       ["application/json" "application/xml"]
-              :auth-names    ["petstore_auth"]})))
-
-(defn delete-pet
-  "Deletes a pet
-  "
-  ([pet-id ] (delete-pet pet-id nil))
-  ([pet-id optional-params]
-   (:data (delete-pet-with-http-info pet-id optional-params))))
 
 (defn upload-file-with-http-info
   "uploads an image

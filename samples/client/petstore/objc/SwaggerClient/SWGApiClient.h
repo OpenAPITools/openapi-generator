@@ -12,11 +12,16 @@
  * Do not edit the class manually.
  */
 
-#import "SWGUser.h"
+#import "SWG200Response.h"
 #import "SWGCategory.h"
-#import "SWGPet.h"
-#import "SWGTag.h"
+#import "SWGInlineResponse200.h"
+#import "SWGName.h"
 #import "SWGOrder.h"
+#import "SWGPet.h"
+#import "SWGReturn.h"
+#import "SWGSpecialModelName_.h"
+#import "SWGTag.h"
+#import "SWGUser.h"
 
 
 @class SWGConfiguration;
@@ -67,6 +72,20 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @param state off line state, must be `YES` or `NO`
  */
 +(void) setOfflineState:(BOOL) state;
+
+/**
+ * Gets if the client is unreachable
+ *
+ * @return The client offline state
+ */
++(bool) getOfflineState;
+
+/**
+ * Sets the client reachability, this may be override by the reachability manager if reachability changes
+ *
+ * @param The client reachability.
+ */
++(void) setReachabilityStatus:(AFNetworkReachabilityStatus) status;
 
 /**
  * Gets the client reachability
@@ -190,19 +209,19 @@ extern NSString *const SWGResponseObjectErrorKey;
  *
  * @return The request id.
  */
--(NSNumber*)  requestWithCompletionBlock:(NSString*) path
-                                  method:(NSString*) method
-                              pathParams:(NSDictionary *) pathParams
-                             queryParams:(NSDictionary*) queryParams
-                              formParams:(NSDictionary *) formParams
-                                   files:(NSDictionary *) files
-                                    body:(id) body
-                            headerParams:(NSDictionary*) headerParams
-                            authSettings: (NSArray *) authSettings
-                      requestContentType:(NSString*) requestContentType
-                     responseContentType:(NSString*) responseContentType
-                            responseType:(NSString *) responseType
-                         completionBlock:(void (^)(id, NSError *))completionBlock;
+-(NSNumber*) requestWithPath:(NSString*) path
+                      method:(NSString*) method
+                  pathParams:(NSDictionary *) pathParams
+                 queryParams:(NSDictionary*) queryParams
+                  formParams:(NSDictionary *) formParams
+                       files:(NSDictionary *) files
+                        body:(id) body
+                headerParams:(NSDictionary*) headerParams
+                authSettings:(NSArray *) authSettings
+          requestContentType:(NSString*) requestContentType
+         responseContentType:(NSString*) responseContentType
+                responseType:(NSString *) responseType
+             completionBlock:(void (^)(id, NSError *))completionBlock;
 
 /**
  * Sanitize object for request

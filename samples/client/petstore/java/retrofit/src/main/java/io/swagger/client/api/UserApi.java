@@ -7,9 +7,15 @@ import retrofit.http.*;
 import retrofit.mime.*;
 
 import io.swagger.client.model.User;
-import java.util.*;
 
-import java.util.*;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
 
 public interface UserApi {
   
@@ -17,7 +23,7 @@ public interface UserApi {
    * Create user
    * Sync method
    * This can only be done by the logged in user.
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @return Void
    */
   
@@ -29,7 +35,7 @@ public interface UserApi {
   /**
    * Create user
    * Async method
-   * @param body Created user object
+   * @param body Created user object (optional)
    * @param cb callback method
    * @return void
    */
@@ -43,7 +49,7 @@ public interface UserApi {
    * Creates list of users with given input array
    * Sync method
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return Void
    */
   
@@ -55,7 +61,7 @@ public interface UserApi {
   /**
    * Creates list of users with given input array
    * Async method
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @param cb callback method
    * @return void
    */
@@ -69,7 +75,7 @@ public interface UserApi {
    * Creates list of users with given input array
    * Sync method
    * 
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @return Void
    */
   
@@ -81,7 +87,7 @@ public interface UserApi {
   /**
    * Creates list of users with given input array
    * Async method
-   * @param body List of user object
+   * @param body List of user object (optional)
    * @param cb callback method
    * @return void
    */
@@ -92,11 +98,63 @@ public interface UserApi {
   );
   
   /**
+   * Delete user
+   * Sync method
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted (required)
+   * @return Void
+   */
+  
+  @DELETE("/user/{username}")
+  Void deleteUser(
+    @Path("username") String username
+  );
+
+  /**
+   * Delete user
+   * Async method
+   * @param username The name that needs to be deleted (required)
+   * @param cb callback method
+   * @return void
+   */
+  
+  @DELETE("/user/{username}")
+  void deleteUser(
+    @Path("username") String username, Callback<Void> cb
+  );
+  
+  /**
+   * Get user by user name
+   * Sync method
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @return User
+   */
+  
+  @GET("/user/{username}")
+  User getUserByName(
+    @Path("username") String username
+  );
+
+  /**
+   * Get user by user name
+   * Async method
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param cb callback method
+   * @return void
+   */
+  
+  @GET("/user/{username}")
+  void getUserByName(
+    @Path("username") String username, Callback<User> cb
+  );
+  
+  /**
    * Logs user into the system
    * Sync method
    * 
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return String
    */
   
@@ -108,8 +166,8 @@ public interface UserApi {
   /**
    * Logs user into the system
    * Async method
-   * @param username The user name for login
-   * @param password The password for login in clear text
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @param cb callback method
    * @return void
    */
@@ -143,37 +201,11 @@ public interface UserApi {
   );
   
   /**
-   * Get user by user name
-   * Sync method
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @return User
-   */
-  
-  @GET("/user/{username}")
-  User getUserByName(
-    @Path("username") String username
-  );
-
-  /**
-   * Get user by user name
-   * Async method
-   * @param username The name that needs to be fetched. Use user1 for testing.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/user/{username}")
-  void getUserByName(
-    @Path("username") String username, Callback<User> cb
-  );
-  
-  /**
    * Updated user
    * Sync method
    * This can only be done by the logged in user.
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @return Void
    */
   
@@ -185,8 +217,8 @@ public interface UserApi {
   /**
    * Updated user
    * Async method
-   * @param username name that need to be deleted
-   * @param body Updated user object
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (optional)
    * @param cb callback method
    * @return void
    */
@@ -196,30 +228,5 @@ public interface UserApi {
     @Path("username") String username, @Body User body, Callback<Void> cb
   );
   
-  /**
-   * Delete user
-   * Sync method
-   * This can only be done by the logged in user.
-   * @param username The name that needs to be deleted
-   * @return Void
-   */
-  
-  @DELETE("/user/{username}")
-  Void deleteUser(
-    @Path("username") String username
-  );
-
-  /**
-   * Delete user
-   * Async method
-   * @param username The name that needs to be deleted
-   * @param cb callback method
-   * @return void
-   */
-  
-  @DELETE("/user/{username}")
-  void deleteUser(
-    @Path("username") String username, Callback<Void> cb
-  );
-  
 }
+

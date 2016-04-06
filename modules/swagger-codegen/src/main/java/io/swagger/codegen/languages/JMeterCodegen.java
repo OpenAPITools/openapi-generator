@@ -5,8 +5,6 @@ import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.*;
-import org.apache.commons.lang.StringUtils;
-
 import java.util.*;
 import java.io.File;
 

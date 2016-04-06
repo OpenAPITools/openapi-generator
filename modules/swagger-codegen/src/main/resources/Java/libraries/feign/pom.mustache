@@ -110,7 +110,7 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
-      <version>${swagger-annotations-version}</version>
+      <version>${swagger-core-version}</version>
     </dependency>
 
     <!-- HTTP client: Netflix Feign -->
@@ -164,6 +164,12 @@
       <version>2.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.oltu.oauth2</groupId>
+      <artifactId>org.apache.oltu.oauth2.client</artifactId>
+      <version>${oltu-version}</version>
+    </dependency>
+
     <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>
@@ -173,11 +179,12 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-annotations-version>1.5.0</swagger-annotations-version>
+    <swagger-core-version>1.5.8</swagger-core-version>
     <feign-version>8.1.1</feign-version>
     <jackson-version>2.6.3</jackson-version>
     <jodatime-version>2.5</jodatime-version>
     <junit-version>4.12</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
+    <oltu-version>1.0.0</oltu-version>
   </properties>
 </project>

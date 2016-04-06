@@ -107,12 +107,47 @@
 
 - (NSDictionary *) authSettings {
     return @{
+               @"test_api_key_header":
+                   @{
+                       @"type": @"api_key",
+                       @"in": @"header",
+                       @"key": @"test_api_key_header",
+                       @"value": [self getApiKeyWithPrefix:@"test_api_key_header"]
+                   },
                @"api_key":
                    @{
                        @"type": @"api_key",
                        @"in": @"header",
                        @"key": @"api_key",
                        @"value": [self getApiKeyWithPrefix:@"api_key"]
+                   },
+               @"test_http_basic":
+                   @{
+                       @"type": @"basic",
+                       @"in": @"header",
+                       @"key": @"Authorization",
+                       @"value": [self getBasicAuthToken]
+                   },
+               @"test_api_client_secret":
+                   @{
+                       @"type": @"api_key",
+                       @"in": @"header",
+                       @"key": @"x-test_api_client_secret",
+                       @"value": [self getApiKeyWithPrefix:@"x-test_api_client_secret"]
+                   },
+               @"test_api_client_id":
+                   @{
+                       @"type": @"api_key",
+                       @"in": @"header",
+                       @"key": @"x-test_api_client_id",
+                       @"value": [self getApiKeyWithPrefix:@"x-test_api_client_id"]
+                   },
+               @"test_api_key_query":
+                   @{
+                       @"type": @"api_key",
+                       @"in": @"query",
+                       @"key": @"test_api_key_query",
+                       @"value": [self getApiKeyWithPrefix:@"test_api_key_query"]
                    },
                };
 }

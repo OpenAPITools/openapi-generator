@@ -7,13 +7,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Category;
 import io.swagger.client.model.Tag;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-05T14:39:18.888+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-14T22:17:50.356+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -46,8 +47,12 @@ public class Pet   {
   
   /**
    **/
+  public Pet id(Long id) {
+    this.id = id;
+    return this;
+  }
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -59,8 +64,12 @@ public class Pet   {
   
   /**
    **/
+  public Pet category(Category category) {
+    this.category = category;
+    return this;
+  }
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -72,8 +81,12 @@ public class Pet   {
   
   /**
    **/
+  public Pet name(String name) {
+    this.name = name;
+    return this;
+  }
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -85,8 +98,12 @@ public class Pet   {
   
   /**
    **/
+  public Pet photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -98,8 +115,12 @@ public class Pet   {
   
   /**
    **/
+  public Pet tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
@@ -112,8 +133,12 @@ public class Pet   {
   /**
    * pet status in the store
    **/
+  public Pet status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
   
-  @ApiModelProperty(value = "pet status in the store")
+  @ApiModelProperty(example = "null", value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -125,7 +150,7 @@ public class Pet   {
   
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -133,12 +158,12 @@ public class Pet   {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(id, pet.id) &&
-        Objects.equals(category, pet.category) &&
-        Objects.equals(name, pet.name) &&
-        Objects.equals(photoUrls, pet.photoUrls) &&
-        Objects.equals(tags, pet.tags) &&
-        Objects.equals(status, pet.status);
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
   }
 
   @Override
@@ -165,7 +190,7 @@ public class Pet   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

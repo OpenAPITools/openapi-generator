@@ -151,26 +151,36 @@ public class ApiClientTest {
     }
 
     @Test
-    public void testSetUsername() {
-        try {
-            apiClient.setUsername("my-username");
-            fail("there should be no HTTP basic authentications");
-        } catch (RuntimeException e) {
+    public void testSetUsernameAndPassword() {
+        HttpBasicAuth auth = null;
+        for (Authentication _auth : apiClient.getAuthentications().values()) {
+            if (_auth instanceof HttpBasicAuth) {
+                auth = (HttpBasicAuth) _auth;
+                break;
+            }
         }
-    }
+        auth.setUsername(null);
+        auth.setPassword(null);
 
-    @Test
-    public void testSetPassword() {
-        try {
-            apiClient.setPassword("my-password");
-            fail("there should be no HTTP basic authentications");
-        } catch (RuntimeException e) {
-        }
+        apiClient.setUsername("my-username");
+        apiClient.setPassword("my-password");
+        assertEquals("my-username", auth.getUsername());
+        assertEquals("my-password", auth.getPassword());
+
+        // reset values
+        auth.setUsername(null);
+        auth.setPassword(null);
     }
 
     @Test
     public void testSetApiKeyAndPrefix() {
-        ApiKeyAuth auth = (ApiKeyAuth) apiClient.getAuthentications().get("api_key");
+        ApiKeyAuth auth = null;
+        for (Authentication _auth : apiClient.getAuthentications().values()) {
+            if (_auth instanceof ApiKeyAuth) {
+                auth = (ApiKeyAuth) _auth;
+                break;
+            }
+        }
         auth.setApiKey(null);
         auth.setApiKeyPrefix(null);
 
@@ -186,14 +196,15 @@ public class ApiClientTest {
 
     @Test
     public void testGetAndSetConnectTimeout() {
-        assertEquals(0, apiClient.getConnectTimeout());
-        assertEquals(0, apiClient.getHttpClient().getConnectTimeout());
-
-        apiClient.setConnectTimeout(10000);
+        // connect timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getConnectTimeout());
         assertEquals(10000, apiClient.getHttpClient().getConnectTimeout());
 
         apiClient.setConnectTimeout(0);
+        assertEquals(0, apiClient.getConnectTimeout());
+        assertEquals(0, apiClient.getHttpClient().getConnectTimeout());
+
+        apiClient.setConnectTimeout(10000);
     }
 
     @Test
@@ -275,5 +286,18 @@ public class ApiClientTest {
             // must equal input values
             assertEquals(values.size(), pairValueSplit.length);
         }
+    }
+
+    @Test
+    public void testSanitizeFilename() {
+        assertEquals("sun", apiClient.sanitizeFilename("sun"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("../sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("/var/tmp/sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("./sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("..\\sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("\\var\\tmp\\sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename("c:\\var\\tmp\\sun.gif"));
+        assertEquals("sun.gif", apiClient.sanitizeFilename(".\\sun.gif"));
     }
 }
