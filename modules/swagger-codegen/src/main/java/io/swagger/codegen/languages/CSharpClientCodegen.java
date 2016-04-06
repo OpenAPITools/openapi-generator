@@ -367,20 +367,52 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         return codegenModel;
     }
-
+/*
     @Override
-    public String findCommonPrefixOfVars(List<String> vars) {
-        String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
-        // exclude trailing characters that should be part of a valid variable
-        // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
+    public String findCommonPrefixOfVars(List<Object> vars) {
+        try {
+            String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
+            // exclude trailing characters that should be part of a valid variable
+            // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+        } catch (ArrayStoreException e) {
+            return "";
+        }
+    }
+*/
+    /**
+     * Return the value in the language specifed format
+     * e.g. status => "status"
+     * 
+     * @param value enum variable name
+     * @return the sanitized variable name for enum
+     */
+    public String toEnumValue(String value, String datatype) {
+        if ("int?".equalsIgnoreCase(datatype) || "long?".equalsIgnoreCase(datatype) ||
+            "double?".equalsIgnoreCase(datatype) || "float?".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 
     @Override
-    public String toEnumVarName(String value) {
+    public String toEnumVarName(String value, String datatype) {
+        // number
+        if ("int?".equals(datatype) || "long?".equals(datatype) || 
+            "double?".equals(datatype) || "float?".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS");
+            varName = varName.replaceAll("\\+", "PLUS");
+            varName = varName.replaceAll("\\.", "DOT");
+            return varName;
+        }
+
+        // string
         String var = value.replaceAll("_", " ");
         var = WordUtils.capitalizeFully(var);
         var = var.replaceAll("\\W+", "");
+
 
         if (var.matches("\\d.*")) {
             return "_" + var;

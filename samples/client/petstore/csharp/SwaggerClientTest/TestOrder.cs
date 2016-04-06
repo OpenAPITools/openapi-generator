@@ -73,14 +73,11 @@ namespace SwaggerClientTest.TestOrder
 				
 		}
 
-		/* comment out the test case as the method is not defined in original petstore spec
-		 * we will re-enable this after updating the petstore server
-		 * 
 		/// <summary>
-		/// Test GetInvetoryInObject
+		/// Test TestGetInventoryInObject
 		/// </summary>
 		[Test ()]
-		public void TestGetInventoryInObject ()
+		public void TestGetInventoryInObject()
 		{
 			// set timeout to 10 seconds
 			Configuration c1 = new Configuration (timeout: 10000);
@@ -95,9 +92,17 @@ namespace SwaggerClientTest.TestOrder
 			{
 				Assert.IsInstanceOf (typeof(int?), Int32.Parse(entry.Value));
 			}
+		}
 
-		}*/
+		/// <summary>
+		/// Test Enum
+		/// </summary>
+		[Test ()]
+		public void TestEnum ()
+		{
+			Assert.AreEqual (Order.StatusEnum.Approved.ToString(), "Approved");
 
+		}
 	}
 }
 

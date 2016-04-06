@@ -543,7 +543,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     
     @Override
-    public String toEnumVarName(String name) {
+    public String toEnumVarName(String name, String datatype) {
         String enumName = sanitizeName(name);
 
         enumName = enumName.replaceFirst("^_", "");
