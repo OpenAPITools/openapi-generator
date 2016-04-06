@@ -1,16 +1,23 @@
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
-
-@XmlType(name="{{classname}}")
+@XmlType(name="{{datatypeWithEnum}}")
 @XmlEnum
-public enum {{classname}} {
-    {{#allowableValues}}{{.}}{{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/allowableValues}}
-    
-    public String value() {
-        return name();
+public enum {{datatypeWithEnum}} {
+
+    {{#allowableValues}}
+    {{#enumVars}}{{name}}({{datatype}}.valueOf("{{value}}")){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{/allowableValues}}
+
+
+    private {{datatype}} value;
+
+    {{datatypeWithEnum}} ({{datatype}} v) {
+        value = v;
     }
 
-    public static {{classname}} fromValue(String v) {
+    public String value() {
+        return value;
+    }
+
+    public static {{datatypeWithEnum}} fromValue(String v) {
         return valueOf(v);
     }
 }
