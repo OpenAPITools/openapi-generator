@@ -156,6 +156,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "FilePath");
         typeMapping.put("number", "Double");
         typeMapping.put("integer", "Int");
+        typeMapping.put("any", "Value");
 
         importMapping.clear();
         importMapping.put("Map", "qualified Data.Map as Map");
@@ -216,6 +217,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         additionalProperties.put("titleLower", apiName.substring(0, 1).toLowerCase() + apiName.substring(1));
         additionalProperties.put("package", cabalName);
 
+        // Due to the way servant resolves types, we need a high context stack limit
+        additionalProperties.put("contextStackLimit", swagger.getPaths().size() * 2 + 300);
+
         List<Map<String, Object>> replacements = new ArrayList<>();
         Object[] replacementChars = specialCharReplacements.keySet().toArray();
         for(int i = 0; i < replacementChars.length; i++) {
@@ -269,6 +273,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 return toModelName(type);
         } else if(swaggerType == "object") {
             type = "Value";
+        } else if(typeMapping.containsValue(swaggerType)) {
+            type = swaggerType + "_";
         } else {
             type = swaggerType;
         }
@@ -423,7 +429,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
         }
-        path.add(camelize(op.httpMethod.toLowerCase()) + " '[JSON] " + returnType);
+        path.add("Verb '" + op.httpMethod.toUpperCase() + " 200 '[JSON] " + returnType);
         type.add("m " + returnType);
 
         op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path));
@@ -473,6 +479,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // Clean up the class name to remove invalid characters
         model.classname = fixModelChars(model.classname);
+        if(typeMapping.containsValue(model.classname)) {
+            model.classname += "_";
+        }
 
         // From the model name, compute the prefix for the fields.
         String prefix = camelize(model.classname, true);
@@ -499,6 +508,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
         CodegenParameter p = super.fromParameter(param, imports);
         p.vendorExtensions.put("x-formParamName", camelize(p.baseName));
+        p.dataType = fixModelChars(p.dataType);
         return p;
     }
 }

@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds, TypeFamilies, TypeOperators, FlexibleInstances, OverloadedStrings, ViewPatterns #-}
 {-# LANGUAGE RecordWildCards, GeneralizedNewtypeDeriving, DeriveTraversable, FlexibleContexts, DeriveGeneric #-}
-{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports -fcontext-stack={{contextStackLimit}} #-}
 module {{title}}.API (
   -- * Client and Server
   ServerConfig(..),
@@ -33,13 +33,13 @@ import GHC.Exts (IsString(..))
 import qualified Data.Map as Map
 import GHC.Generics (Generic)
 import Data.Monoid ((<>))
-import Servant.API.Verbs (Verb, StdMethod(HEAD))
+import Servant.API.Verbs (Verb, StdMethod(..))
 import Control.Monad.Except (ExceptT)
 import Network.HTTP.Client (Manager, newManager, defaultManagerSettings)
+import Network.HTTP.Types.Method (methodOptions)
 
-
--- | HEAD with 200 status code.
-type Head = Verb 'HEAD 200
+instance ReflectMethod 'OPTIONS where
+  reflectMethod _ = methodOptions
 
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasFormParams}}
