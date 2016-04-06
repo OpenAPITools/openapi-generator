@@ -28,10 +28,10 @@ namespace SwaggerClientTest.TestEnum
 			Assert.AreEqual (Newtonsoft.Json.JsonConvert.SerializeObject(EnumClass.Abc), "\"_abc\"");
 
 			// test serialization for number
-			Assert.AreEqual (Newtonsoft.Json.JsonConvert.SerializeObject(EnumTest.EnumIntegerEnum.NUMBER_MINUS1), "\"-1\"");
+			Assert.AreEqual (Newtonsoft.Json.JsonConvert.SerializeObject(EnumTest.EnumIntegerEnum.NUMBER_MINUS_1), "\"-1\"");
 
 			// test cast to int
-			Assert.AreEqual ((int)EnumTest.EnumIntegerEnum.NUMBER_MINUS1, -1);
+			Assert.AreEqual ((int)EnumTest.EnumIntegerEnum.NUMBER_MINUS_1, -1);
 
 		}
 	}

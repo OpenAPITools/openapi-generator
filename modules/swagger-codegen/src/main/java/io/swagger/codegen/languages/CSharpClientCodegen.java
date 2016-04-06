@@ -402,9 +402,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if ("int?".equals(datatype) || "long?".equals(datatype) || 
             "double?".equals(datatype) || "float?".equals(datatype)) {
             String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS");
-            varName = varName.replaceAll("\\+", "PLUS");
-            varName = varName.replaceAll("\\.", "DOT");
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
             return varName;
         }
 

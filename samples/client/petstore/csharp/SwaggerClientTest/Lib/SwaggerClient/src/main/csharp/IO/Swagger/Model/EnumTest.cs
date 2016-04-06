@@ -52,10 +52,30 @@ namespace IO.Swagger.Model
             NUMBER_1 = 1,
             
             /// <summary>
-            /// Enum NUMBER_MINUS1 for -1
+            /// Enum NUMBER_MINUS_1 for -1
             /// </summary>
             [EnumMember(Value = "-1")]
-            NUMBER_MINUS1 = -1
+            NUMBER_MINUS_1 = -1
+        }
+
+        /// <summary>
+        /// Gets or Sets EnumNumber
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum EnumNumberEnum
+        {
+            
+            /// <summary>
+            /// Enum NUMBER_1_DOT_1 for 1.1
+            /// </summary>
+            [EnumMember(Value = "1.1")]
+            NUMBER_1_DOT_1,
+            
+            /// <summary>
+            /// Enum NUMBER_MINUS_1_DOT_2 for -1.2
+            /// </summary>
+            [EnumMember(Value = "-1.2")]
+            NUMBER_MINUS_1_DOT_2
         }
 
     
@@ -72,6 +92,12 @@ namespace IO.Swagger.Model
         public EnumIntegerEnum? EnumInteger { get; set; }
     
         /// <summary>
+        /// Gets or Sets EnumNumber
+        /// </summary>
+        [DataMember(Name="enum_number", EmitDefaultValue=false)]
+        public EnumNumberEnum? EnumNumber { get; set; }
+    
+        /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// Initializes a new instance of the <see cref="EnumTest" />class.
         /// </summary>
@@ -79,7 +105,7 @@ namespace IO.Swagger.Model
         /// <param name="EnumInteger">EnumInteger.</param>
         /// <param name="EnumNumber">EnumNumber.</param>
 
-        public EnumTest(EnumStringEnum? EnumString = null, EnumIntegerEnum? EnumInteger = null, double? EnumNumber = null)
+        public EnumTest(EnumStringEnum? EnumString = null, EnumIntegerEnum? EnumInteger = null, EnumNumberEnum? EnumNumber = null)
         {
             this.EnumString = EnumString;
             this.EnumInteger = EnumInteger;
@@ -87,12 +113,6 @@ namespace IO.Swagger.Model
             
         }
         
-    
-        /// <summary>
-        /// Gets or Sets EnumNumber
-        /// </summary>
-        [DataMember(Name="enum_number", EmitDefaultValue=false)]
-        public double? EnumNumber { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
