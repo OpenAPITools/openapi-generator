@@ -251,7 +251,7 @@ public class DefaultCodegen {
      * 
      * @param value enum variable name
      * @param datatype data type
-     * @return the sanitized variable name for enum
+     * @return the default value for the enum
      */
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "." + value;
@@ -259,11 +259,11 @@ public class DefaultCodegen {
 
     /**
      * Return the enum value in the language specifed format
-     * e.g. status => "status"
+     * e.g. status becomes "status"
      * 
      * @param value enum variable name
      * @param datatype data type
-     * @return the sanitized variable name for enum
+     * @return the sanitized value for enum
      */
     public String toEnumValue(String value, String datatype) {
         if ("number".equalsIgnoreCase(datatype)) {
@@ -277,6 +277,7 @@ public class DefaultCodegen {
      * Return the sanitized variable name for enum
      * 
      * @param value enum variable name
+     * @param datatype data type
      * @return the sanitized variable name for enum
      */
     public String toEnumVarName(String value, String datatype) {
