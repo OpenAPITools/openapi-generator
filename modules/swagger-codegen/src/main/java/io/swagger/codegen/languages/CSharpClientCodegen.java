@@ -367,26 +367,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         return codegenModel;
     }
-/*
+
     @Override
-    public String findCommonPrefixOfVars(List<Object> vars) {
-        try {
-            String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
-            // exclude trailing characters that should be part of a valid variable
-            // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
-        return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
-        } catch (ArrayStoreException e) {
-            return "";
-        }
-    }
-*/
-    /**
-     * Return the value in the language specifed format
-     * e.g. status => "status"
-     * 
-     * @param value enum variable name
-     * @return the sanitized variable name for enum
-     */
     public String toEnumValue(String value, String datatype) {
         if ("int?".equalsIgnoreCase(datatype) || "long?".equalsIgnoreCase(datatype) ||
             "double?".equalsIgnoreCase(datatype) || "float?".equalsIgnoreCase(datatype)) {

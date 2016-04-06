@@ -569,13 +569,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         p.example = example;
     }
 
-    /**
-     * Return the value in the language specifed format
-     * e.g. status => "status"
-     * 
-     * @param value enum variable name
-     * @return the sanitized variable name for enum
-     */
     @Override
     public String toEnumValue(String value, String datatype) {
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
