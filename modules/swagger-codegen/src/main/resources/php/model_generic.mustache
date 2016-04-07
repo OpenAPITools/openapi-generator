@@ -1,0 +1,169 @@
+class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayAccess
+{
+    /**
+     * Array of property to type mappings. Used for (de)serialization 
+     * @var string[]
+     */
+    static $swaggerTypes = array(
+        {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
+        {{/hasMore}}{{/vars}}
+    );
+ 
+    static function swaggerTypes() {
+        return self::$swaggerTypes{{#parent}} + parent::swaggerTypes(){{/parent}};
+    }
+
+    /** 
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
+    static $attributeMap = array(
+        {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
+        {{/hasMore}}{{/vars}}
+    );
+ 
+    static function attributeMap() {
+        return {{#parent}}parent::attributeMap() + {{/parent}}self::$attributeMap;
+    }
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    static $setters = array(
+        {{#vars}}'{{name}}' => '{{setter}}'{{#hasMore}},
+        {{/hasMore}}{{/vars}}
+    );
+ 
+    static function setters() {
+        return {{#parent}}parent::setters() + {{/parent}}self::$setters;
+    }
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    static $getters = array(
+        {{#vars}}'{{name}}' => '{{getter}}'{{#hasMore}},
+        {{/hasMore}}{{/vars}}
+    );
+ 
+    static function getters() {
+        return {{#parent}}parent::getters() + {{/parent}}self::$getters;
+    }
+
+    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{datatypeWithEnum}}_{{{name}}} = {{{value}}};
+    {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
+
+    {{#vars}}{{#isEnum}}
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function {{getter}}AllowableValues() {
+        return [
+            {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
+            {{/-last}}{{/enumVars}}{{/allowableValues}}
+        ];
+    }
+    {{/isEnum}}{{/vars}}
+
+    {{#vars}}
+    /**
+     * ${{name}} {{#description}}{{{description}}}{{/description}}
+     * @var {{datatype}}
+     */
+    protected ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+    {{/vars}}
+
+    /**
+     * Constructor
+     * @param mixed[] $data Associated array of property value initalizing the model
+     */
+    public function __construct(array $data = null)
+    {
+        {{#parent}}parent::__construct($data);{{/parent}}
+        if ($data != null) {
+            {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
+            {{/hasMore}}{{/vars}}
+        }
+    }
+    {{#vars}}
+    /**
+     * Gets {{name}}.
+     * @return {{datatype}}
+     */
+    public function {{getter}}()
+    {
+        return $this->{{name}};
+    }
+
+    /**
+     * Sets {{name}}.
+     * @param {{datatype}} ${{name}} {{#description}}{{{description}}}{{/description}}
+     * @return $this
+     */
+    public function {{setter}}(${{name}})
+    {
+        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        if (!in_array(${{{name}}}, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
+        }{{/isEnum}}
+        $this->{{name}} = ${{name}};
+        return $this;
+    }
+    {{/vars}}
+    /**
+     * Returns true if offset exists. False otherwise.
+     * @param  integer $offset Offset 
+     * @return boolean
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->$offset);
+    }
+
+    /**
+     * Gets offset.
+     * @param  integer $offset Offset 
+     * @return mixed 
+     */
+    public function offsetGet($offset)
+    {
+        return $this->$offset;
+    }
+ 
+    /**
+     * Sets value based on offset.
+     * @param  integer $offset Offset 
+     * @param  mixed   $value  Value to be set
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->$offset = $value;
+    }
+ 
+    /**
+     * Unsets offset.
+     * @param  integer $offset Offset 
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->$offset);
+    }
+ 
+    /**
+     * Gets the string presentation of the object.
+     * @return string
+     */
+    public function __toString()
+    {
+        if (defined('JSON_PRETTY_PRINT')) {
+            return json_encode(\{{invokerPackage}}\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(\{{invokerPackage}}\ObjectSerializer::sanitizeForSerialization($this));
+        }
+    }
+}
