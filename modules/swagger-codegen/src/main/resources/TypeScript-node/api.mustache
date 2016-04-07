@@ -96,11 +96,17 @@ class VoidAuth implements Authentication {
 * {{&description}}
 */
 {{/description}}
+export enum {{classname}}ApiKeys {
+{{#authMethods}}
+{{#isApiKey}}
+    {{name}},
+{{/isApiKey}}
+{{/authMethods}}
+}
+
 export class {{classname}} {
     protected basePath = '{{basePath}}';
     protected defaultHeaders : any = {};
-
-
 
     public authentications = {
         'default': <Authentication>new VoidAuth(),
@@ -140,6 +146,10 @@ export class {{classname}} {
             }
         }
     }
+
+    public setApiKey(key: {{classname}}ApiKeys, value: string) {
+        this.authentications[{{classname}}ApiKeys[key]].apiKey = value;
+    }
 {{#authMethods}}
 {{#isBasic}}
 
@@ -151,12 +161,6 @@ export class {{classname}} {
         this.authentications.{{name}}.password = password;
     }
 {{/isBasic}}
-{{#isApiKey}}
-
-    set apiKey(key: string) {
-        this.authentications.{{name}}.apiKey = key;
-    }
-{{/isApiKey}}
 {{#isOAuth}}
 
     set accessToken(token: string) {
