@@ -13,6 +13,7 @@
 
  - Search the [open issue](https://github.com/swagger-api/swagger-codegen/issues) to ensure no one else has reported something similar and no one is actively working on similar proposed change.
  - If no one has suggested something similar, open an ["issue"](https://github.com/swagger-api/swagger-codegen/issues) with your suggestion to gather feedback from the community.
+ - It's recommended to **create a new git branch** for the change
 
 ## How to contribute
 
