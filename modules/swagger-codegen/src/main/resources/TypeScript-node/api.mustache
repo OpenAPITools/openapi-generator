@@ -108,7 +108,7 @@ export class {{classname}} {
     protected basePath = '{{basePath}}';
     protected defaultHeaders : any = {};
 
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
 {{#authMethods}}
 {{#isBasic}}

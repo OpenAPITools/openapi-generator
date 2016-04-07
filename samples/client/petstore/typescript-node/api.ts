@@ -188,7 +188,7 @@ export class PetApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'petstore_auth': new OAuth(),
         'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
@@ -878,7 +878,7 @@ export class StoreApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'petstore_auth': new OAuth(),
         'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
@@ -1260,7 +1260,7 @@ export class UserApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'petstore_auth': new OAuth(),
         'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
