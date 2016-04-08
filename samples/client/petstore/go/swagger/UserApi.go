@@ -36,7 +36,7 @@ func (a UserApi) CreateUser (body User) (error) {
     _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/v2/user"
+    path := "/v2/users"
 
     _sling = _sling.Path(path)
 
@@ -96,7 +96,7 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/v2/user/createWithArray"
+    path := "/v2/users/createWithArray"
 
     _sling = _sling.Path(path)
 
@@ -156,7 +156,7 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     _sling := sling.New().Post(a.basePath)
 
     // create path and map variables
-    path := "/v2/user/createWithList"
+    path := "/v2/users/createWithList"
 
     _sling = _sling.Path(path)
 
@@ -216,7 +216,7 @@ func (a UserApi) DeleteUser (username string) (error) {
     _sling := sling.New().Delete(a.basePath)
 
     // create path and map variables
-    path := "/v2/user/{username}"
+    path := "/v2/users/{username}"
     path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
     _sling = _sling.Path(path)
@@ -275,7 +275,7 @@ func (a UserApi) GetUserByName (username string) (User, error) {
     _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/v2/user/{username}"
+    path := "/v2/users/{username}"
     path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
     _sling = _sling.Path(path)
@@ -335,7 +335,7 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
     _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/v2/user/login"
+    path := "/v2/users/login"
 
     _sling = _sling.Path(path)
 
@@ -398,7 +398,7 @@ func (a UserApi) LogoutUser () (error) {
     _sling := sling.New().Get(a.basePath)
 
     // create path and map variables
-    path := "/v2/user/logout"
+    path := "/v2/users/logout"
 
     _sling = _sling.Path(path)
 
@@ -457,7 +457,7 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     _sling := sling.New().Put(a.basePath)
 
     // create path and map variables
-    path := "/v2/user/{username}"
+    path := "/v2/users/{username}"
     path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
     _sling = _sling.Path(path)
