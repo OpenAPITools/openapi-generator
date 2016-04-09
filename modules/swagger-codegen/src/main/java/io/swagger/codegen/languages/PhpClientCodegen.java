@@ -96,6 +96,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
+        typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("string", "string");
