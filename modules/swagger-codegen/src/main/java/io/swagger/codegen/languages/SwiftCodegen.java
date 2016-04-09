@@ -74,6 +74,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
                     "Int",
+                    "Int32",
+                    "Int64",
                     "Float",
                     "Double",
                     "Bool",
@@ -115,10 +117,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("char", "Character");
         typeMapping.put("short", "Int");
-        typeMapping.put("int", "Int");
-        typeMapping.put("long", "Int");
-        typeMapping.put("integer", "Int");
-        typeMapping.put("Integer", "Int");
+        typeMapping.put("int", "Int32");
+        typeMapping.put("long", "Int64");
+        typeMapping.put("integer", "Int32");
+        typeMapping.put("Integer", "Int32");
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
