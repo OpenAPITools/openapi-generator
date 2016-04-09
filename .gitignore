@@ -55,6 +55,12 @@ samples/client/petstore/qt5cpp/PetStore/Makefile
 **/.gradle/
 samples/client/petstore/java/hello.txt
 samples/client/petstore/android/default/hello.txt
+samples/client/petstore/android/volley/.gradle/
+samples/client/petstore/android/volley/build/
+samples/client/petstore/java/jersey2/.gradle/
+samples/client/petstore/java/jersey2/build/
+samples/client/petstore/java/okhttp-gson/.gradle/
+samples/client/petstore/java/okhttp-gson/build/
 
 #PHP
 samples/client/petstore/php/SwaggerClient-php/composer.lock
@@ -87,6 +93,10 @@ samples/client/petstore/csharp/SwaggerClientTest/bin
 samples/client/petstore/csharp/SwaggerClientTest/Lib/SwaggerClient/vendor/
 samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/
 samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/
+samples/client/petstore/csharp/SwaggerClientTest/Lib/SwaggerClient/nuget.exe
+samples/client/petstore/csharp/SwaggerClientTest/TestResult.xml
+samples/client/petstore/csharp/SwaggerClientTest/nuget.exe
+samples/client/petstore/csharp/SwaggerClientTest/testrunner/
 
 # Python
 *.pyc
