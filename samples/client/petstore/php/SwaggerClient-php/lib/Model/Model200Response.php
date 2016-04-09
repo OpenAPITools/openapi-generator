@@ -47,6 +47,12 @@ use \ArrayAccess;
 class Model200Response implements ArrayAccess
 {
     /**
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = '200_response';
+
+    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -106,6 +112,7 @@ class Model200Response implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        
         
         if ($data != null) {
             $this->name = $data["name"];

@@ -214,14 +214,14 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: test_api_key_header
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('test_api_key_header', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('test_api_key_header', 'BEARER');
 // Configure API key authorization: test_api_key_query
 Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('test_api_key_query', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
 // Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('test_api_key_query', 'BEARER');
+// Configure API key authorization: test_api_key_header
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('test_api_key_header', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('test_api_key_header', 'BEARER');
 
 $api_instance = new Swagger\Client\Api\StoreApi();
 $order_id = "order_id_example"; // string | ID of pet that needs to be fetched
@@ -247,7 +247,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[test_api_key_header](../README.md#test_api_key_header), [test_api_key_query](../README.md#test_api_key_query)
+[test_api_key_query](../README.md#test_api_key_query), [test_api_key_header](../README.md#test_api_key_header)
 
 ### HTTP reuqest headers
 
