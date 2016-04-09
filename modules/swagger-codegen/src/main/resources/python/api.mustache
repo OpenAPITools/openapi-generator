@@ -47,7 +47,7 @@ class {{classname}}(object):
             self.api_client = config.api_client
 {{#operation}}
 
-    def {{nickname}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):
+    def {{operationId}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):
         """
         {{{summary}}}
         {{{notes}}}
@@ -59,10 +59,10 @@ class {{classname}}(object):
         >>>     pprint(response)
         >>>
 {{#sortParamsByRequiredFlag}}
-        >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
+        >>> thread = api.{{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
 {{/sortParamsByRequiredFlag}}
 {{^sortParamsByRequiredFlag}}
-        >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}={{paramName}}_value, {{/required}}{{/allParams}}callback=callback_function)
+        >>> thread = api.{{operationId}}({{#allParams}}{{#required}}{{paramName}}={{paramName}}_value, {{/required}}{{/allParams}}callback=callback_function)
 {{/sortParamsByRequiredFlag}}
 
         :param callback function: The callback function
@@ -83,7 +83,7 @@ class {{classname}}(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method {{nickname}}" % key
+                    " to method {{operationId}}" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -92,7 +92,7 @@ class {{classname}}(object):
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
         if ('{{paramName}}' not in params) or (params['{{paramName}}'] is None):
-            raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{nickname}}`")
+            raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")
 {{/required}}
 {{/allParams}}
 
