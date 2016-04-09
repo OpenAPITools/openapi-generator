@@ -1,28 +1,35 @@
 package swagger
 
+
 import (
     "strings"
     "fmt"
     "encoding/json"
     "errors"
     "github.com/dghubble/sling"
+
 )
 
 type PetApi struct {
-    basePath  string
+    Configuration Configuration
 }
 
 func NewPetApi() *PetApi{
+    configuration := NewConfiguration()
     return &PetApi {
-        basePath:   "http://petstore.swagger.io/v2",
+        Configuration: *configuration,
     }
 }
 
 func NewPetApiWithBasePath(basePath string) *PetApi{
+    configuration := NewConfiguration()
+    configuration.BasePath = basePath
+    
     return &PetApi {
-        basePath:   basePath,
+        Configuration: *configuration,
     }
 }
+
 
 /**
  * Add a new pet to the store
@@ -33,12 +40,14 @@ func NewPetApiWithBasePath(basePath string) *PetApi{
 //func (a PetApi) AddPet (body Pet) (error) {
 func (a PetApi) AddPet (body Pet) (error) {
 
-    _sling := sling.New().Post(a.basePath)
+    _sling := sling.New().Post(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/pets"
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -46,6 +55,7 @@ func (a PetApi) AddPet (body Pet) (error) {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 // body params
     _sling = _sling.BodyJSON(body)
@@ -84,6 +94,7 @@ func (a PetApi) AddPet (body Pet) (error) {
 
   return err
 }
+
 /**
  * Deletes a pet
  * 
@@ -94,13 +105,15 @@ func (a PetApi) AddPet (body Pet) (error) {
 //func (a PetApi) DeletePet (apiKey string, petId int64) (error) {
 func (a PetApi) DeletePet (apiKey string, petId int64) (error) {
 
-    _sling := sling.New().Delete(a.basePath)
+    _sling := sling.New().Delete(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/pets/{petId}"
     path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -110,6 +123,7 @@ func (a PetApi) DeletePet (apiKey string, petId int64) (error) {
     }
     // header params "api_key"
     _sling = _sling.Set("api_key", apiKey)
+
 
 
 
@@ -146,6 +160,7 @@ func (a PetApi) DeletePet (apiKey string, petId int64) (error) {
 
   return err
 }
+
 /**
  * Finds Pets by status
  * Multiple status values can be provided with comma seperated strings
@@ -155,10 +170,11 @@ func (a PetApi) DeletePet (apiKey string, petId int64) (error) {
 //func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 
-    _sling := sling.New().Get(a.basePath)
+    _sling := sling.New().Get(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/pets/findByStatus"
+
 
     _sling = _sling.Path(path)
 
@@ -167,12 +183,14 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
         
 }
     _sling = _sling.QueryStruct(&QueryParams{ status: status })
+
     // accept header
     accepts := []string { "application/json", "application/xml" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 
   var successPayload = new([]Pet)
@@ -209,6 +227,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 
   return *successPayload, err
 }
+
 /**
  * Finds Pets by tags
  * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
@@ -218,10 +237,11 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 //func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 
-    _sling := sling.New().Get(a.basePath)
+    _sling := sling.New().Get(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/pets/findByTags"
+
 
     _sling = _sling.Path(path)
 
@@ -230,12 +250,14 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
         
 }
     _sling = _sling.QueryStruct(&QueryParams{ tags: tags })
+
     // accept header
     accepts := []string { "application/json", "application/xml" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 
   var successPayload = new([]Pet)
@@ -272,6 +294,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 
   return *successPayload, err
 }
+
 /**
  * Find pet by ID
  * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -281,13 +304,15 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 //func (a PetApi) GetPetById (petId int64) (Pet, error) {
 func (a PetApi) GetPetById (petId int64) (Pet, error) {
 
-    _sling := sling.New().Get(a.basePath)
+    _sling := sling.New().Get(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/pets/{petId}"
     path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -295,6 +320,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 
   var successPayload = new(Pet)
@@ -331,6 +357,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
 
   return *successPayload, err
 }
+
 /**
  * Update an existing pet
  * 
@@ -340,12 +367,14 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
 //func (a PetApi) UpdatePet (body Pet) (error) {
 func (a PetApi) UpdatePet (body Pet) (error) {
 
-    _sling := sling.New().Put(a.basePath)
+    _sling := sling.New().Put(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/pets"
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -353,6 +382,7 @@ func (a PetApi) UpdatePet (body Pet) (error) {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 // body params
     _sling = _sling.BodyJSON(body)
@@ -391,6 +421,7 @@ func (a PetApi) UpdatePet (body Pet) (error) {
 
   return err
 }
+
 /**
  * Updates a pet in the store with form data
  * 
@@ -402,13 +433,15 @@ func (a PetApi) UpdatePet (body Pet) (error) {
 //func (a PetApi) UpdatePetWithForm (petId string, name string, status string) (error) {
 func (a PetApi) UpdatePetWithForm (petId string, name string, status string) (error) {
 
-    _sling := sling.New().Post(a.basePath)
+    _sling := sling.New().Post(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/pets/{petId}"
     path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -420,8 +453,10 @@ func (a PetApi) UpdatePetWithForm (petId string, name string, status string) (er
     type FormParams struct {
         name    string `url:"name,omitempty"`
         status    string `url:"status,omitempty"`
+
     }
     _sling = _sling.BodyForm(&FormParams{ name: name,status: status })
+
 
 
 
@@ -457,3 +492,5 @@ func (a PetApi) UpdatePetWithForm (petId string, name string, status string) (er
 
   return err
 }
+
+
