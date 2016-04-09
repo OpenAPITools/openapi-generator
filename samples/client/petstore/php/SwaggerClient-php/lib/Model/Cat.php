@@ -94,13 +94,11 @@ class Cat extends Animal implements ArrayAccess
         return parent::getters() + self::$getters;
     }
 
-    
     /**
       * $declawed 
       * @var bool
       */
     protected $declawed;
-    
 
     /**
      * Constructor
@@ -113,7 +111,6 @@ class Cat extends Animal implements ArrayAccess
             $this->declawed = $data["declawed"];
         }
     }
-    
     /**
      * Gets declawed
      * @return bool
@@ -134,7 +131,6 @@ class Cat extends Animal implements ArrayAccess
         $this->declawed = $declawed;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 

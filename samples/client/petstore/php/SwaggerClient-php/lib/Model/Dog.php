@@ -94,13 +94,11 @@ class Dog extends Animal implements ArrayAccess
         return parent::getters() + self::$getters;
     }
 
-    
     /**
       * $breed 
       * @var string
       */
     protected $breed;
-    
 
     /**
      * Constructor
@@ -113,7 +111,6 @@ class Dog extends Animal implements ArrayAccess
             $this->breed = $data["breed"];
         }
     }
-    
     /**
      * Gets breed
      * @return string
@@ -134,7 +131,6 @@ class Dog extends Animal implements ArrayAccess
         $this->breed = $breed;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 

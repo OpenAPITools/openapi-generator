@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Name Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Model for testing model name same as property name
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -98,19 +98,16 @@ class Name implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $name 
       * @var int
       */
     protected $name;
-    
     /**
       * $snake_case 
       * @var int
       */
     protected $snake_case;
-    
 
     /**
      * Constructor
@@ -124,7 +121,6 @@ class Name implements ArrayAccess
             $this->snake_case = $data["snake_case"];
         }
     }
-    
     /**
      * Gets name
      * @return int
@@ -145,7 +141,6 @@ class Name implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
      * Gets snake_case
      * @return int
@@ -166,7 +161,6 @@ class Name implements ArrayAccess
         $this->snake_case = $snake_case;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 

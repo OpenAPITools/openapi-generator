@@ -90,7 +90,6 @@ class UserApi
         return $this;
     }
   
-    
     /**
      * createUser
      *
@@ -151,17 +150,15 @@ class UserApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -169,7 +166,6 @@ class UserApi
             throw $e;
         }
     }
-    
     /**
      * createUsersWithArrayInput
      *
@@ -230,17 +226,15 @@ class UserApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -248,7 +242,6 @@ class UserApi
             throw $e;
         }
     }
-    
     /**
      * createUsersWithListInput
      *
@@ -309,17 +302,15 @@ class UserApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'POST',
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -327,7 +318,6 @@ class UserApi
             throw $e;
         }
     }
-    
     /**
      * deleteUser
      *
@@ -376,7 +366,6 @@ class UserApi
         
         
         // path params
-        
         if ($username !== null) {
             $resourcePath = str_replace(
                 "{" . "username" . "}",
@@ -401,7 +390,6 @@ class UserApi
         if (strlen($this->apiClient->getConfig()->getUsername()) !== 0 or strlen($this->apiClient->getConfig()->getPassword()) !== 0) {
             $headerParams['Authorization'] = 'Basic ' . base64_encode($this->apiClient->getConfig()->getUsername() . ":" . $this->apiClient->getConfig()->getPassword());
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -409,9 +397,8 @@ class UserApi
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -419,13 +406,12 @@ class UserApi
             throw $e;
         }
     }
-    
     /**
      * getUserByName
      *
      * Get user by user name
      *
-     * @param string $username The name that needs to be fetched. Use user1 for testing. (required)
+     * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
      * @return \Swagger\Client\Model\User
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -441,7 +427,7 @@ class UserApi
      *
      * Get user by user name
      *
-     * @param string $username The name that needs to be fetched. Use user1 for testing. (required)
+     * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
      * @return Array of \Swagger\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -468,7 +454,6 @@ class UserApi
         
         
         // path params
-        
         if ($username !== null) {
             $resourcePath = str_replace(
                 "{" . "username" . "}",
@@ -488,22 +473,19 @@ class UserApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\User'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\User', $e->getResponseHeaders());
@@ -514,7 +496,6 @@ class UserApi
             throw $e;
         }
     }
-    
     /**
      * loginUser
      *
@@ -559,11 +540,9 @@ class UserApi
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         // query params
-        
         if ($username !== null) {
             $queryParams['username'] = $this->apiClient->getSerializer()->toQueryValue($username);
         }// query params
-        
         if ($password !== null) {
             $queryParams['password'] = $this->apiClient->getSerializer()->toQueryValue($password);
         }
@@ -581,22 +560,19 @@ class UserApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams, 'string'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
@@ -607,7 +583,6 @@ class UserApi
             throw $e;
         }
     }
-    
     /**
      * logoutUser
      *
@@ -662,17 +637,15 @@ class UserApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'GET',
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -680,7 +653,6 @@ class UserApi
             throw $e;
         }
     }
-    
     /**
      * updateUser
      *
@@ -731,7 +703,6 @@ class UserApi
         
         
         // path params
-        
         if ($username !== null) {
             $resourcePath = str_replace(
                 "{" . "username" . "}",
@@ -755,17 +726,15 @@ class UserApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'PUT',
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -773,5 +742,4 @@ class UserApi
             throw $e;
         }
     }
-    
 }

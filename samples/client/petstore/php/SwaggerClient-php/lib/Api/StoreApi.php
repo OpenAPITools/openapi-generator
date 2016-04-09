@@ -90,7 +90,6 @@ class StoreApi
         return $this;
     }
   
-    
     /**
      * deleteOrder
      *
@@ -139,7 +138,6 @@ class StoreApi
         
         
         // path params
-        
         if ($order_id !== null) {
             $resourcePath = str_replace(
                 "{" . "orderId" . "}",
@@ -159,17 +157,15 @@ class StoreApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
-        // make the API Call
+                // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath, 'DELETE',
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -177,7 +173,6 @@ class StoreApi
             throw $e;
         }
     }
-    
     /**
      * findOrdersByStatus
      *
@@ -220,7 +215,6 @@ class StoreApi
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         // query params
-        
         if ($status !== null) {
             $queryParams['status'] = $this->apiClient->getSerializer()->toQueryValue($status);
         }
@@ -245,13 +239,12 @@ class StoreApi
             $headerParams['x-test_api_client_id'] = $apiKey;
         }
         
-        
+
         // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_secret');
         if (strlen($apiKey) !== 0) {
             $headerParams['x-test_api_client_secret'] = $apiKey;
         }
-        
         
         // make the API Call
         try {
@@ -260,14 +253,12 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Order[]'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order[]', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order[]', $e->getResponseHeaders());
@@ -278,7 +269,6 @@ class StoreApi
             throw $e;
         }
     }
-    
     /**
      * getInventory
      *
@@ -340,7 +330,6 @@ class StoreApi
             $headerParams['api_key'] = $apiKey;
         }
         
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -348,14 +337,12 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, 'map[string,int]'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'map[string,int]', $e->getResponseHeaders());
@@ -366,7 +353,6 @@ class StoreApi
             throw $e;
         }
     }
-    
     /**
      * getInventoryInObject
      *
@@ -395,7 +381,7 @@ class StoreApi
         
   
         // parse inputs
-        $resourcePath = "/store/inventory?response=arbitrary_object";
+        $resourcePath = "/store/inventory?response&#x3D;arbitrary_object";
         $httpBody = '';
         $queryParams = array();
         $headerParams = array();
@@ -428,7 +414,6 @@ class StoreApi
             $headerParams['api_key'] = $apiKey;
         }
         
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -436,14 +421,12 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, 'object'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'object', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'object', $e->getResponseHeaders());
@@ -454,7 +437,6 @@ class StoreApi
             throw $e;
         }
     }
-    
     /**
      * getOrderById
      *
@@ -503,7 +485,6 @@ class StoreApi
         
         
         // path params
-        
         if ($order_id !== null) {
             $resourcePath = str_replace(
                 "{" . "orderId" . "}",
@@ -530,13 +511,12 @@ class StoreApi
             $headerParams['test_api_key_header'] = $apiKey;
         }
         
-        
+
         // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('test_api_key_query');
         if (strlen($apiKey) !== 0) {
             $queryParams['test_api_key_query'] = $apiKey;
         }
-        
         
         // make the API Call
         try {
@@ -545,14 +525,12 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Order'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
@@ -563,7 +541,6 @@ class StoreApi
             throw $e;
         }
     }
-    
     /**
      * placeOrder
      *
@@ -631,13 +608,12 @@ class StoreApi
             $headerParams['x-test_api_client_id'] = $apiKey;
         }
         
-        
+
         // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('x-test_api_client_secret');
         if (strlen($apiKey) !== 0) {
             $headerParams['x-test_api_client_secret'] = $apiKey;
         }
-        
         
         // make the API Call
         try {
@@ -646,14 +622,12 @@ class StoreApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Order'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
                 $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
@@ -664,5 +638,4 @@ class StoreApi
             throw $e;
         }
     }
-    
 }

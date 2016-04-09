@@ -122,55 +122,46 @@ class User implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $id 
       * @var int
       */
     protected $id;
-    
     /**
       * $username 
       * @var string
       */
     protected $username;
-    
     /**
       * $first_name 
       * @var string
       */
     protected $first_name;
-    
     /**
       * $last_name 
       * @var string
       */
     protected $last_name;
-    
     /**
       * $email 
       * @var string
       */
     protected $email;
-    
     /**
       * $password 
       * @var string
       */
     protected $password;
-    
     /**
       * $phone 
       * @var string
       */
     protected $phone;
-    
     /**
       * $user_status User Status
       * @var int
       */
     protected $user_status;
-    
 
     /**
      * Constructor
@@ -190,7 +181,6 @@ class User implements ArrayAccess
             $this->user_status = $data["user_status"];
         }
     }
-    
     /**
      * Gets id
      * @return int
@@ -211,7 +201,6 @@ class User implements ArrayAccess
         $this->id = $id;
         return $this;
     }
-    
     /**
      * Gets username
      * @return string
@@ -232,7 +221,6 @@ class User implements ArrayAccess
         $this->username = $username;
         return $this;
     }
-    
     /**
      * Gets first_name
      * @return string
@@ -253,7 +241,6 @@ class User implements ArrayAccess
         $this->first_name = $first_name;
         return $this;
     }
-    
     /**
      * Gets last_name
      * @return string
@@ -274,7 +261,6 @@ class User implements ArrayAccess
         $this->last_name = $last_name;
         return $this;
     }
-    
     /**
      * Gets email
      * @return string
@@ -295,7 +281,6 @@ class User implements ArrayAccess
         $this->email = $email;
         return $this;
     }
-    
     /**
      * Gets password
      * @return string
@@ -316,7 +301,6 @@ class User implements ArrayAccess
         $this->password = $password;
         return $this;
     }
-    
     /**
      * Gets phone
      * @return string
@@ -337,7 +321,6 @@ class User implements ArrayAccess
         $this->phone = $phone;
         return $this;
     }
-    
     /**
      * Gets user_status
      * @return int
@@ -358,7 +341,6 @@ class User implements ArrayAccess
         $this->user_status = $user_status;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 

@@ -98,19 +98,16 @@ class Category implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $id 
       * @var int
       */
     protected $id;
-    
     /**
       * $name 
       * @var string
       */
     protected $name;
-    
 
     /**
      * Constructor
@@ -124,7 +121,6 @@ class Category implements ArrayAccess
             $this->name = $data["name"];
         }
     }
-    
     /**
      * Gets id
      * @return int
@@ -145,7 +141,6 @@ class Category implements ArrayAccess
         $this->id = $id;
         return $this;
     }
-    
     /**
      * Gets name
      * @return string
@@ -166,7 +161,6 @@ class Category implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 

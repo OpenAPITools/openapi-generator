@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ModelReturn Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Model for testing reserved words
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -94,13 +94,11 @@ class ModelReturn implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $return 
       * @var int
       */
     protected $return;
-    
 
     /**
      * Constructor
@@ -113,7 +111,6 @@ class ModelReturn implements ArrayAccess
             $this->return = $data["return"];
         }
     }
-    
     /**
      * Gets return
      * @return int
@@ -134,7 +131,6 @@ class ModelReturn implements ArrayAccess
         $this->return = $return;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
