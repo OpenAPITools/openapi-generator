@@ -29,6 +29,7 @@
         self.host = @"http://petstore.swagger.io/v2";
         self.username = @"";
         self.password = @"";
+        self.accessToken= @"";
         self.tempFolderPath = nil;
         self.debug = NO;
         self.verifySSL = YES;
@@ -42,23 +43,37 @@
 #pragma mark - Instance Methods
 
 - (NSString *) getApiKeyWithPrefix:(NSString *)key {
-    if ([self.apiKeyPrefix objectForKey:key] && [self.apiKey objectForKey:key]) {
+    if ([self.apiKeyPrefix objectForKey:key] && [self.apiKey objectForKey:key] != (id)[NSNull null] && [[self.apiKey objectForKey:key] length] != 0) { // both api key prefix and api key are set 
         return [NSString stringWithFormat:@"%@ %@", [self.apiKeyPrefix objectForKey:key], [self.apiKey objectForKey:key]];
     }
-    else if ([self.apiKey objectForKey:key]) {
+    else if ([self.apiKey objectForKey:key] != (id)[NSNull null] && [[self.apiKey objectForKey:key] length] != 0) { // only api key, no api key prefix
         return [NSString stringWithFormat:@"%@", [self.apiKey objectForKey:key]];
     }
-    else {
+    else { // return empty string if nothing is set
         return @"";
     }
 }
 
 - (NSString *) getBasicAuthToken {
+    // return empty string if username and password are empty
+    if (self.username.length == 0 && self.password.length == 0){
+        return  @"";
+    }
+
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", self.username, self.password];
     NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
     basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
 
     return basicAuthCredentials;
+}
+
+- (NSString *) getAccessToken {
+    if (self.accessToken.length == 0) { // token not set, return empty string
+        return @"";
+    }
+    else {
+        return [NSString stringWithFormat:@"BEARER %@", self.accessToken];
+    }
 }
 
 #pragma mark - Setter Methods
@@ -148,6 +163,13 @@
                        @"in": @"query",
                        @"key": @"test_api_key_query",
                        @"value": [self getApiKeyWithPrefix:@"test_api_key_query"]
+                   },
+               @"petstore_auth":
+                   @{
+                       @"type": @"oauth",
+                       @"in": @"header",
+                       @"key": @"Authorization",
+                       @"value": [self getAccessToken]
                    },
                };
 }

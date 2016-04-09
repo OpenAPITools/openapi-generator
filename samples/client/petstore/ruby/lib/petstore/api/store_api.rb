@@ -57,20 +57,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = []
+            auth_names = []
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -89,7 +88,7 @@ module Petstore
     # @option opts [String] :status Status value that needs to be considered for query (default to placed)
     # @return [Array<Order>]
     def find_orders_by_status(opts = {})
-      data, status_code, headers = find_orders_by_status_with_http_info(opts)
+      data, _status_code, _headers = find_orders_by_status_with_http_info(opts)
       return data
     end
 
@@ -118,20 +117,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['test_api_client_id', 'test_api_client_secret']
+            auth_names = ['test_api_client_id', 'test_api_client_secret']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -150,7 +148,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Hash<String, Integer>]
     def get_inventory(opts = {})
-      data, status_code, headers = get_inventory_with_http_info(opts)
+      data, _status_code, _headers = get_inventory_with_http_info(opts)
       return data
     end
 
@@ -173,20 +171,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key']
+            auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -205,7 +202,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Object]
     def get_inventory_in_object(opts = {})
-      data, status_code, headers = get_inventory_in_object_with_http_info(opts)
+      data, _status_code, _headers = get_inventory_in_object_with_http_info(opts)
       return data
     end
 
@@ -219,7 +216,7 @@ module Petstore
       end
       
       # resource path
-      local_var_path = "/store/inventory?response=arbitrary_object".sub('{format}','json')
+      local_var_path = "/store/inventory?response&#x3D;arbitrary_object".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -228,20 +225,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key']
+            auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -261,12 +257,12 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Order]
     def get_order_by_id(order_id, opts = {})
-      data, status_code, headers = get_order_by_id_with_http_info(order_id, opts)
+      data, _status_code, _headers = get_order_by_id_with_http_info(order_id, opts)
       return data
     end
 
     # Find purchase order by ID
-    # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+    # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     # @param order_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
@@ -288,20 +284,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['test_api_key_header', 'test_api_key_query']
+            auth_names = ['test_api_key_header', 'test_api_key_query']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -321,7 +316,7 @@ module Petstore
     # @option opts [Order] :body order placed for purchasing the pet
     # @return [Order]
     def place_order(opts = {})
-      data, status_code, headers = place_order_with_http_info(opts)
+      data, _status_code, _headers = place_order_with_http_info(opts)
       return data
     end
 
@@ -345,19 +340,18 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['test_api_client_id', 'test_api_client_secret']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,

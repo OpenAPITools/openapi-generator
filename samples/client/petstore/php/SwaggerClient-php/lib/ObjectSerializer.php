@@ -55,14 +55,14 @@ class ObjectSerializer
     public static function sanitizeForSerialization($data)
     {
         if (is_scalar($data) || null === $data) {
-            $sanitized = $data;
+            return $data;
         } elseif ($data instanceof \DateTime) {
-            $sanitized = $data->format(\DateTime::ATOM);
+            return $data->format(\DateTime::ATOM);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
             }
-            $sanitized = $data;
+            return $data;
         } elseif (is_object($data)) {
             $values = array();
             foreach (array_keys($data::swaggerTypes()) as $property) {
@@ -71,12 +71,10 @@ class ObjectSerializer
                     $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($data->$getter());
                 }
             }
-            $sanitized = (object)$values;
+            return (object)$values;
         } else {
-            $sanitized = (string)$data;
+            return (string)$data;
         }
-
-        return $sanitized;
     }
 
     /**
@@ -224,7 +222,7 @@ class ObjectSerializer
     public static function deserialize($data, $class, $httpHeaders=null, $discriminator=null)
     {
         if (null === $data) {
-            $deserialized = null;
+            return null;
         } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
             $inner = substr($class, 4, -1);
             $deserialized = array();
@@ -235,16 +233,17 @@ class ObjectSerializer
                     $deserialized[$key] = self::deserialize($value, $subClass, null, $discriminator);
                 }
             }
+            return $deserialized;
         } elseif (strcasecmp(substr($class, -2), '[]') == 0) {
             $subClass = substr($class, 0, -2);
             $values = array();
             foreach ($data as $key => $value) {
                 $values[] = self::deserialize($value, $subClass, null, $discriminator);
             }
-            $deserialized = $values;
+            return $values;
         } elseif ($class === 'object') {
             settype($data, 'array');
-            $deserialized = $data;
+            return $data;
         } elseif ($class === '\DateTime') {
             // Some API's return an invalid, empty string as a
             // date-time property. DateTime::__construct() will return
@@ -253,13 +252,13 @@ class ObjectSerializer
             // be interpreted as a missing field/value. Let's handle
             // this graceful.
             if (!empty($data)) {
-                $deserialized = new \DateTime($data);
+                return new \DateTime($data);
             } else {
-                $deserialized = null;
+                return null;
             }
         } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
             settype($data, $class);
-            $deserialized = $data;
+            return $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
             if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
@@ -270,7 +269,8 @@ class ObjectSerializer
             $deserialized = new \SplFileObject($filename, "w");
             $byte_written = $deserialized->fwrite($data);
             error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.\n", 3, Configuration::getDefaultConfiguration()->getDebugFile());
-      
+            return $deserialized;
+ 
         } else {
             // If a discriminator is defined and points to a valid subclass, use it.
             if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
@@ -292,9 +292,7 @@ class ObjectSerializer
                     $instance->$propertySetter(self::deserialize($propertyValue, $type, null, $discriminator));
                 }
             }
-            $deserialized = $instance;
+            return $instance;
         }
-     
-        return $deserialized;
     }
 }
