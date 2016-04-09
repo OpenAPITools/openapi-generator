@@ -1,5 +1,4 @@
 import request = require('request');
-import promise = require('bluebird');
 import http = require('http');
 
 let defaultBasePath = '{{basePath}}';
@@ -24,7 +23,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     * {{{description}}}
     */
 {{/description}}
-    "{{name}}": {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+    '{{name}}': {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 }
 
@@ -33,7 +32,7 @@ export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
     export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
-        VALUE_{{.}} = <any> '{{.}}'{{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
+        {{datatypeWithEnum}}_{{.}} = <any> '{{.}}'{{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
     }
 {{/isEnum}}
 {{/vars}}
@@ -184,7 +183,7 @@ export class {{classname}} {
      * {{notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
-    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
+    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
         const localVarPath = this.basePath + '{{path}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
         let queryParameters: any = {};
@@ -227,7 +226,7 @@ export class {{classname}} {
 {{#bodyParam}}
             body: {{paramName}},
 {{/bodyParam}}
-        }
+        };
 
 {{#authMethods}}
         this.authentications.{{name}}.applyToRequest(requestOptions);
@@ -243,7 +242,7 @@ export class {{classname}} {
             }
         }
         
-        return new Promise<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+        return new Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
