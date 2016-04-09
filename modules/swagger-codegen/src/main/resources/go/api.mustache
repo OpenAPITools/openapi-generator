@@ -12,18 +12,22 @@ import (
 )
 
 type {{classname}} struct {
-    basePath  string
+    Configuration Configuration
 }
 
 func New{{classname}}() *{{classname}}{
+    configuration := NewConfiguration()
     return &{{classname}} {
-        basePath:   "{{basePath}}",
+        Configuration: *configuration,
     }
 }
 
 func New{{classname}}WithBasePath(basePath string) *{{classname}}{
+    configuration := NewConfiguration()
+    configuration.BasePath = basePath
+    
     return &{{classname}} {
-        basePath:   basePath,
+        Configuration: *configuration,
     }
 }
 
@@ -37,7 +41,7 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 //func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 
-    _sling := sling.New().{{httpMethod}}(a.basePath)
+    _sling := sling.New().{{httpMethod}}(a.Configuration.BasePath)
 
     // create path and map variables
     path := "{{basePathWithoutHost}}{{path}}"
