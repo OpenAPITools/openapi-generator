@@ -207,7 +207,7 @@ Get user by user name
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\UserApi();
-$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing.
+$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing. 
 
 try { 
     $result = $api_instance->getUserByName($username);
@@ -222,7 +222,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
 
 ### Return type
 
