@@ -2220,9 +2220,12 @@ public class DefaultCodegen {
     }
 
     private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Property> properties, Set<String> mandatory) {
-        final int totalCount = properties.size();
-        int count = 0;
-        for (Map.Entry<String, Property> entry : properties.entrySet()) {
+        // convert set to list so that we can access the next entry in the loop
+        List<Map.Entry<String, Property>> propertyList = new ArrayList<Map.Entry<String, Property>>(properties.entrySet());
+        final int totalCount = propertyList.size();
+        for (int i = 0; i < totalCount; i++) {
+            Map.Entry<String, Property> entry = propertyList.get(i);
+            
             final String key = entry.getKey();
             final Property prop = entry.getValue();
 
@@ -2236,13 +2239,19 @@ public class DefaultCodegen {
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
                     m.hasEnums = true;
                 }
-                count++;
-                if (count != totalCount) {
+
+                if (i+1 != totalCount) {
                     cp.hasMore = true;
+                    // check the next entry to see if it's read only
+                    if (!Boolean.TRUE.equals(propertyList.get(i+1).getValue().getReadOnly())) {
+                        cp.hasMoreNonReadOnly = true; // next entry is not ready only
+                    }
                 }
+
                 if (cp.isContainer != null) {
                     addImport(m, typeMapping.get("array"));
                 }
+
                 addImport(m, cp.baseType);
                 addImport(m, cp.complexType);
                 vars.add(cp);
