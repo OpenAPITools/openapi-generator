@@ -32,6 +32,7 @@ public class CodegenProperty {
     public Boolean exclusiveMinimum;
     public Boolean exclusiveMaximum;
     public Boolean hasMore, required, secondaryParam;
+    public Boolean hasMoreNonReadOnly; // for model constructor, true if next properyt is not readonly
     public Boolean isPrimitiveType, isContainer, isNotContainer;
     public Boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
     public Boolean isListContainer, isMapContainer;
@@ -63,6 +64,7 @@ public class CodegenProperty {
         result = prime * result + ((exclusiveMinimum == null) ? 0 : exclusiveMinimum.hashCode());
         result = prime * result + ((getter == null) ? 0 : getter.hashCode());
         result = prime * result + ((hasMore == null) ? 0 : hasMore.hashCode());
+        result = prime * result + ((hasMoreNonReadOnly == null) ? 0 : hasMoreNonReadOnly.hashCode());
         result = prime * result + ((isContainer == null) ? 0 : isContainer.hashCode());
         result = prime * result + (isEnum ? 1231 : 1237);
         result = prime * result + ((isNotContainer == null) ? 0 : isNotContainer.hashCode());
