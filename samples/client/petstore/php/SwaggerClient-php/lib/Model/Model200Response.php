@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Model200Response Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Model for testing model name starting with number
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -94,13 +94,11 @@ class Model200Response implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $name 
       * @var int
       */
     protected $name;
-    
 
     /**
      * Constructor
@@ -113,7 +111,6 @@ class Model200Response implements ArrayAccess
             $this->name = $data["name"];
         }
     }
-    
     /**
      * Gets name
      * @return int
@@ -134,7 +131,6 @@ class Model200Response implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 

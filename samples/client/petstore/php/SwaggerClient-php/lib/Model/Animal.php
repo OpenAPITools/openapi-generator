@@ -94,13 +94,11 @@ class Animal implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $class_name 
       * @var string
       */
     protected $class_name;
-    
 
     /**
      * Constructor
@@ -113,7 +111,6 @@ class Animal implements ArrayAccess
             $this->class_name = $data["class_name"];
         }
     }
-    
     /**
      * Gets class_name
      * @return string
@@ -134,7 +131,6 @@ class Animal implements ArrayAccess
         $this->class_name = $class_name;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 

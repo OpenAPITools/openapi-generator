@@ -114,43 +114,36 @@ class Order implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $id 
       * @var int
       */
     protected $id;
-    
     /**
       * $pet_id 
       * @var int
       */
     protected $pet_id;
-    
     /**
       * $quantity 
       * @var int
       */
     protected $quantity;
-    
     /**
       * $ship_date 
       * @var \DateTime
       */
     protected $ship_date;
-    
     /**
       * $status Order Status
       * @var string
       */
     protected $status;
-    
     /**
       * $complete 
       * @var bool
       */
     protected $complete;
-    
 
     /**
      * Constructor
@@ -168,7 +161,6 @@ class Order implements ArrayAccess
             $this->complete = $data["complete"];
         }
     }
-    
     /**
      * Gets id
      * @return int
@@ -189,7 +181,6 @@ class Order implements ArrayAccess
         $this->id = $id;
         return $this;
     }
-    
     /**
      * Gets pet_id
      * @return int
@@ -210,7 +201,6 @@ class Order implements ArrayAccess
         $this->pet_id = $pet_id;
         return $this;
     }
-    
     /**
      * Gets quantity
      * @return int
@@ -231,7 +221,6 @@ class Order implements ArrayAccess
         $this->quantity = $quantity;
         return $this;
     }
-    
     /**
      * Gets ship_date
      * @return \DateTime
@@ -252,7 +241,6 @@ class Order implements ArrayAccess
         $this->ship_date = $ship_date;
         return $this;
     }
-    
     /**
      * Gets status
      * @return string
@@ -276,7 +264,6 @@ class Order implements ArrayAccess
         $this->status = $status;
         return $this;
     }
-    
     /**
      * Gets complete
      * @return bool
@@ -297,7 +284,6 @@ class Order implements ArrayAccess
         $this->complete = $complete;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
