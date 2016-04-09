@@ -8,7 +8,7 @@ info:
     For this sample, you can use the api key `special-key` to test the authorization filters
   version: "1.0.0"
   title: Swagger Petstore
-  termsOfService: http://helloreverb.com/terms/
+  termsOfService: http://swagger.io/terms/
   contact:
     name: apiteam@swagger.io
   license:
