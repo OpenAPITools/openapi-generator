@@ -23,9 +23,7 @@ module Petstore
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        
         :'special_property_name' => :'$special[property.name]'
-        
       }
     end
 
@@ -33,7 +31,6 @@ module Petstore
     def self.swagger_types
       {
         :'special_property_name' => :'Integer'
-        
       }
     end
 
@@ -45,11 +42,9 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      
       if attributes[:'$special[property.name]']
         self.special_property_name = attributes[:'$special[property.name]']
       end
-      
     end
 
     # Checks equality by comparing each attribute.

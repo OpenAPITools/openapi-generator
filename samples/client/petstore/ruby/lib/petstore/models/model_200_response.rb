@@ -17,15 +17,14 @@ Terms of Service: http://swagger.io/terms/
 require 'date'
 
 module Petstore
+  # Model for testing model name starting with number
   class Model200Response
     attr_accessor :name
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        
         :'name' => :'name'
-        
       }
     end
 
@@ -33,7 +32,6 @@ module Petstore
     def self.swagger_types
       {
         :'name' => :'Integer'
-        
       }
     end
 
@@ -45,11 +43,9 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      
       if attributes[:'name']
         self.name = attributes[:'name']
       end
-      
     end
 
     # Checks equality by comparing each attribute.

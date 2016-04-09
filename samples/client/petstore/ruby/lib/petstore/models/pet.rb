@@ -34,19 +34,12 @@ module Petstore
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        
         :'id' => :'id',
-        
         :'category' => :'category',
-        
         :'name' => :'name',
-        
         :'photo_urls' => :'photoUrls',
-        
         :'tags' => :'tags',
-        
         :'status' => :'status'
-        
       }
     end
 
@@ -54,12 +47,11 @@ module Petstore
     def self.swagger_types
       {
         :'id' => :'Integer',
-        :'category' => :'Category',
-        :'name' => :'String',
-        :'photo_urls' => :'Array<String>',
-        :'tags' => :'Array<Tag>',
-        :'status' => :'String'
-        
+:'category' => :'Category',
+:'name' => :'String',
+:'photo_urls' => :'Array<String>',
+:'tags' => :'Array<Tag>',
+:'status' => :'String'
       }
     end
 
@@ -71,35 +63,28 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      
       if attributes[:'id']
         self.id = attributes[:'id']
       end
-      
       if attributes[:'category']
         self.category = attributes[:'category']
       end
-      
       if attributes[:'name']
         self.name = attributes[:'name']
       end
-      
       if attributes[:'photoUrls']
         if (value = attributes[:'photoUrls']).is_a?(Array)
           self.photo_urls = value
         end
       end
-      
       if attributes[:'tags']
         if (value = attributes[:'tags']).is_a?(Array)
           self.tags = value
         end
       end
-      
       if attributes[:'status']
         self.status = attributes[:'status']
       end
-      
     end
 
     # Custom attribute writer method checking allowed values (enum).

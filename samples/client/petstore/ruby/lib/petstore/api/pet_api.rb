@@ -66,7 +66,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -101,7 +100,7 @@ module Petstore
       end
       
       # resource path
-      local_var_path = "/pet?testing_byte_array=true".sub('{format}','json')
+      local_var_path = "/pet?testing_byte_array&#x3D;true".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -122,7 +121,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -184,8 +182,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -241,8 +238,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -299,8 +295,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -359,8 +354,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key', 'petstore_auth']
+            auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -398,7 +392,7 @@ module Petstore
       fail "Missing the required parameter 'pet_id' when calling get_pet_by_id_in_object" if pet_id.nil?
       
       # resource path
-      local_var_path = "/pet/{petId}?response=inline_arbitrary_object".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}?response&#x3D;inline_arbitrary_object".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
@@ -419,8 +413,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key', 'petstore_auth']
+            auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -458,7 +451,7 @@ module Petstore
       fail "Missing the required parameter 'pet_id' when calling pet_pet_idtesting_byte_arraytrue_get" if pet_id.nil?
       
       # resource path
-      local_var_path = "/pet/{petId}?testing_byte_array=true".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}?testing_byte_array&#x3D;true".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
@@ -479,8 +472,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key', 'petstore_auth']
+            auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -536,7 +528,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
@@ -601,8 +592,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -666,8 +656,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

@@ -17,15 +17,14 @@ Terms of Service: http://swagger.io/terms/
 require 'date'
 
 module Petstore
+  # Model for testing reserved words
   class ModelReturn
     attr_accessor :_return
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        
         :'_return' => :'return'
-        
       }
     end
 
@@ -33,7 +32,6 @@ module Petstore
     def self.swagger_types
       {
         :'_return' => :'Integer'
-        
       }
     end
 
@@ -45,11 +43,9 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      
       if attributes[:'return']
         self._return = attributes[:'return']
       end
-      
     end
 
     # Checks equality by comparing each attribute.
