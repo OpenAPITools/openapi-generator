@@ -221,7 +221,7 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-username = "username_example" # String | The name that needs to be fetched. Use user1 for testing.
+username = "username_example" # String | The name that needs to be fetched. Use user1 for testing. 
 
 
 begin
@@ -237,7 +237,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing.  | 
 
 ### Return type
 

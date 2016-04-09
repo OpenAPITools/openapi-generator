@@ -1,28 +1,35 @@
 package swagger
 
+
 import (
     "strings"
     "fmt"
     "encoding/json"
     "errors"
     "github.com/dghubble/sling"
+
 )
 
 type StoreApi struct {
-    basePath  string
+    Configuration Configuration
 }
 
 func NewStoreApi() *StoreApi{
+    configuration := NewConfiguration()
     return &StoreApi {
-        basePath:   "http://petstore.swagger.io/v2",
+        Configuration: *configuration,
     }
 }
 
 func NewStoreApiWithBasePath(basePath string) *StoreApi{
+    configuration := NewConfiguration()
+    configuration.BasePath = basePath
+    
     return &StoreApi {
-        basePath:   basePath,
+        Configuration: *configuration,
     }
 }
+
 
 /**
  * Delete purchase order by ID
@@ -33,13 +40,15 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
 //func (a StoreApi) DeleteOrder (orderId string) (error) {
 func (a StoreApi) DeleteOrder (orderId string) (error) {
 
-    _sling := sling.New().Delete(a.basePath)
+    _sling := sling.New().Delete(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/stores/order/{orderId}"
     path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -47,6 +56,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 
 
@@ -83,6 +93,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
 
   return err
 }
+
 /**
  * Find purchase order by ID
  * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
@@ -92,13 +103,15 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
 //func (a StoreApi) GetOrderById (orderId string) (Order, error) {
 func (a StoreApi) GetOrderById (orderId string) (Order, error) {
 
-    _sling := sling.New().Get(a.basePath)
+    _sling := sling.New().Get(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/stores/order/{orderId}"
     path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -106,6 +119,7 @@ func (a StoreApi) GetOrderById (orderId string) (Order, error) {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 
   var successPayload = new(Order)
@@ -142,6 +156,7 @@ func (a StoreApi) GetOrderById (orderId string) (Order, error) {
 
   return *successPayload, err
 }
+
 /**
  * Place an order for a pet
  * 
@@ -151,12 +166,14 @@ func (a StoreApi) GetOrderById (orderId string) (Order, error) {
 //func (a StoreApi) PlaceOrder (body Order) (Order, error) {
 func (a StoreApi) PlaceOrder (body Order) (Order, error) {
 
-    _sling := sling.New().Post(a.basePath)
+    _sling := sling.New().Post(a.Configuration.BasePath)
 
     // create path and map variables
     path := "/v2/stores/order"
 
+
     _sling = _sling.Path(path)
+
 
     // accept header
     accepts := []string { "application/json", "application/xml" }
@@ -164,6 +181,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
+
 
 // body params
     _sling = _sling.BodyJSON(body)
@@ -202,3 +220,5 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
 
   return *successPayload, err
 }
+
+

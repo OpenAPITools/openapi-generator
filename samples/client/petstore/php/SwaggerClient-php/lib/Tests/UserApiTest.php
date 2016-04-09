@@ -64,7 +64,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    
     /**
      * Test case for createUser
      *
@@ -74,7 +73,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_createUser() {
 
     }
-    
     /**
      * Test case for createUsersWithArrayInput
      *
@@ -84,7 +82,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_createUsersWithArrayInput() {
 
     }
-    
     /**
      * Test case for createUsersWithListInput
      *
@@ -94,7 +91,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_createUsersWithListInput() {
 
     }
-    
     /**
      * Test case for deleteUser
      *
@@ -104,7 +100,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_deleteUser() {
 
     }
-    
     /**
      * Test case for getUserByName
      *
@@ -114,7 +109,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_getUserByName() {
 
     }
-    
     /**
      * Test case for loginUser
      *
@@ -124,7 +118,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_loginUser() {
 
     }
-    
     /**
      * Test case for logoutUser
      *
@@ -134,7 +127,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_logoutUser() {
 
     }
-    
     /**
      * Test case for updateUser
      *
@@ -144,5 +136,4 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_updateUser() {
 
     }
-    
 }

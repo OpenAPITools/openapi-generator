@@ -54,19 +54,18 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['application/json', 'application/xml']
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = ['application/json', 'application/xml']
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -101,7 +100,7 @@ module Petstore
       end
       
       # resource path
-      local_var_path = "/pet?testing_byte_array=true".sub('{format}','json')
+      local_var_path = "/pet?testing_byte_array&#x3D;true".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -110,19 +109,18 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['application/json', 'application/xml']
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = ['application/json', 'application/xml']
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -171,12 +169,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
       header_params[:'api_key'] = opts[:'api_key'] if opts[:'api_key']
 
       # form parameters
@@ -184,8 +182,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -204,7 +201,7 @@ module Petstore
     # @option opts [Array<String>] :status Status values that need to be considered for query (default to available)
     # @return [Array<Pet>]
     def find_pets_by_status(opts = {})
-      data, status_code, headers = find_pets_by_status_with_http_info(opts)
+      data, _status_code, _headers = find_pets_by_status_with_http_info(opts)
       return data
     end
 
@@ -229,20 +226,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -262,7 +258,7 @@ module Petstore
     # @option opts [Array<String>] :tags Tags to filter by
     # @return [Array<Pet>]
     def find_pets_by_tags(opts = {})
-      data, status_code, headers = find_pets_by_tags_with_http_info(opts)
+      data, _status_code, _headers = find_pets_by_tags_with_http_info(opts)
       return data
     end
 
@@ -287,20 +283,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -320,7 +315,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [Pet]
     def get_pet_by_id(pet_id, opts = {})
-      data, status_code, headers = get_pet_by_id_with_http_info(pet_id, opts)
+      data, _status_code, _headers = get_pet_by_id_with_http_info(pet_id, opts)
       return data
     end
 
@@ -347,20 +342,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key', 'petstore_auth']
+            auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -380,7 +374,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [InlineResponse200]
     def get_pet_by_id_in_object(pet_id, opts = {})
-      data, status_code, headers = get_pet_by_id_in_object_with_http_info(pet_id, opts)
+      data, _status_code, _headers = get_pet_by_id_in_object_with_http_info(pet_id, opts)
       return data
     end
 
@@ -398,7 +392,7 @@ module Petstore
       fail "Missing the required parameter 'pet_id' when calling get_pet_by_id_in_object" if pet_id.nil?
       
       # resource path
-      local_var_path = "/pet/{petId}?response=inline_arbitrary_object".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}?response&#x3D;inline_arbitrary_object".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
@@ -407,20 +401,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key', 'petstore_auth']
+            auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -440,7 +433,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @return [String]
     def pet_pet_idtesting_byte_arraytrue_get(pet_id, opts = {})
-      data, status_code, headers = pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, opts)
+      data, _status_code, _headers = pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, opts)
       return data
     end
 
@@ -458,7 +451,7 @@ module Petstore
       fail "Missing the required parameter 'pet_id' when calling pet_pet_idtesting_byte_arraytrue_get" if pet_id.nil?
       
       # resource path
-      local_var_path = "/pet/{petId}?testing_byte_array=true".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}?testing_byte_array&#x3D;true".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
@@ -467,20 +460,19 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = []
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key', 'petstore_auth']
+            auth_names = ['api_key', 'petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -524,19 +516,18 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['application/json', 'application/xml']
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = ['application/json', 'application/xml']
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
@@ -587,12 +578,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['application/x-www-form-urlencoded']
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = ['application/x-www-form-urlencoded']
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -601,8 +592,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -652,12 +642,12 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      _header_accept = ['application/json', 'application/xml']
-      _header_accept_result = @api_client.select_header_accept(_header_accept) and header_params['Accept'] = _header_accept_result
+      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      _header_content_type = ['multipart/form-data']
-      header_params['Content-Type'] = @api_client.select_header_content_type(_header_content_type)
+      local_header_content_type = ['multipart/form-data']
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
 
       # form parameters
       form_params = {}
@@ -666,8 +656,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['petstore_auth']
+            auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
