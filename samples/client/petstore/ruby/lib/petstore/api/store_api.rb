@@ -69,8 +69,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = []
+            auth_names = []
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -130,8 +129,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['test_api_client_id', 'test_api_client_secret']
+            auth_names = ['test_api_client_id', 'test_api_client_secret']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -185,8 +183,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key']
+            auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -219,7 +216,7 @@ module Petstore
       end
       
       # resource path
-      local_var_path = "/store/inventory?response=arbitrary_object".sub('{format}','json')
+      local_var_path = "/store/inventory?response&#x3D;arbitrary_object".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -240,8 +237,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['api_key']
+            auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -266,7 +262,7 @@ module Petstore
     end
 
     # Find purchase order by ID
-    # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+    # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     # @param order_id ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
@@ -300,8 +296,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['test_api_key_header', 'test_api_key_query']
+            auth_names = ['test_api_key_header', 'test_api_key_query']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -357,7 +352,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = ['test_api_client_id', 'test_api_client_secret']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,

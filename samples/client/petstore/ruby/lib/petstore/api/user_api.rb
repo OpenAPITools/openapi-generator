@@ -66,7 +66,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -122,7 +121,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -178,7 +176,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -237,8 +234,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = ['test_http_basic']
+            auth_names = ['test_http_basic']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -253,7 +249,7 @@ module Petstore
 
     # Get user by user name
     # 
-    # @param username The name that needs to be fetched. Use user1 for testing.
+    # @param username The name that needs to be fetched. Use user1 for testing. 
     # @param [Hash] opts the optional parameters
     # @return [User]
     def get_user_by_name(username, opts = {})
@@ -263,7 +259,7 @@ module Petstore
 
     # Get user by user name
     # 
-    # @param username The name that needs to be fetched. Use user1 for testing.
+    # @param username The name that needs to be fetched. Use user1 for testing. 
     # @param [Hash] opts the optional parameters
     # @return [Array<(User, Fixnum, Hash)>] User data, response status code and response headers
     def get_user_by_name_with_http_info(username, opts = {})
@@ -296,8 +292,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = []
+            auth_names = []
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -357,8 +352,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = []
+            auth_names = []
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -412,8 +406,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-      
-      auth_names = []
+            auth_names = []
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -473,7 +466,6 @@ module Petstore
 
       # http body (model)
       post_body = @api_client.object_to_http_body(opts[:'body'])
-      
       auth_names = []
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
