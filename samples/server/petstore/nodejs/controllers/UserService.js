@@ -6,8 +6,6 @@ exports.createUser = function(args, res, next) {
   * body (User)
   **/
   // no response value expected for this operation
-  
-  
   res.end();
 }
 
@@ -17,8 +15,6 @@ exports.createUsersWithArrayInput = function(args, res, next) {
   * body (List)
   **/
   // no response value expected for this operation
-  
-  
   res.end();
 }
 
@@ -28,8 +24,6 @@ exports.createUsersWithListInput = function(args, res, next) {
   * body (List)
   **/
   // no response value expected for this operation
-  
-  
   res.end();
 }
 
@@ -39,8 +33,6 @@ exports.deleteUser = function(args, res, next) {
   * username (String)
   **/
   // no response value expected for this operation
-  
-  
   res.end();
 }
 
@@ -49,9 +41,7 @@ exports.getUserByName = function(args, res, next) {
    * parameters expected in the args:
   * username (String)
   **/
-  
-  
-  var examples = {};
+    var examples = {};
   examples['application/json'] = {
   "id" : 123456789,
   "lastName" : "aeiou",
@@ -62,7 +52,6 @@ exports.getUserByName = function(args, res, next) {
   "firstName" : "aeiou",
   "password" : "aeiou"
 };
-  
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -70,7 +59,6 @@ exports.getUserByName = function(args, res, next) {
   else {
     res.end();
   }
-  
   
 }
 
@@ -80,11 +68,8 @@ exports.loginUser = function(args, res, next) {
   * username (String)
   * password (String)
   **/
-  
-  
-  var examples = {};
+    var examples = {};
   examples['application/json'] = "aeiou";
-  
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -93,7 +78,6 @@ exports.loginUser = function(args, res, next) {
     res.end();
   }
   
-  
 }
 
 exports.logoutUser = function(args, res, next) {
@@ -101,8 +85,6 @@ exports.logoutUser = function(args, res, next) {
    * parameters expected in the args:
   **/
   // no response value expected for this operation
-  
-  
   res.end();
 }
 
@@ -113,8 +95,6 @@ exports.updateUser = function(args, res, next) {
   * body (User)
   **/
   // no response value expected for this operation
-  
-  
   res.end();
 }
 
