@@ -29,7 +29,7 @@ namespace IO.Swagger.Model
             this.SpecialPropertyName = SpecialPropertyName;
             
         }
-        
+
     
         /// <summary>
         /// Gets or Sets SpecialPropertyName
@@ -46,11 +46,10 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
-            
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -101,10 +100,8 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.SpecialPropertyName != null)
                     hash = hash * 59 + this.SpecialPropertyName.GetHashCode();
-                
                 return hash;
             }
         }

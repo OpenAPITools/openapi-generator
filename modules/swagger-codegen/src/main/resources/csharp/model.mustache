@@ -19,7 +19,7 @@ namespace {{packageName}}.Model
     [DataContract]
     public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{#isEnum}}
-    
+
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
         /// </summary>{{#description}}
@@ -64,7 +64,7 @@ namespace {{packageName}}.Model
             {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
             {{/defaultValue}}{{/required}}{{/isReadOnly}}{{/vars}}
         }
-        
+
     {{#vars}}{{^isEnum}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
@@ -86,7 +86,7 @@ namespace {{packageName}}.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>

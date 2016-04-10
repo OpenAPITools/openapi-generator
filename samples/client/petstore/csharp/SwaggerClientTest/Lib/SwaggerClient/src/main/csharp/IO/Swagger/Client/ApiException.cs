@@ -12,18 +12,18 @@ namespace IO.Swagger.Client
         /// </summary>
         /// <value>The error code (HTTP status code).</value>
         public int ErrorCode { get; set; }
-  
+
         /// <summary>
         /// Gets or sets the error content (body json object)
         /// </summary>
         /// <value>The error content (Http response body).</value>
         public dynamic ErrorContent { get; private set; }
-  
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiException"/> class.
         /// </summary>
         public ApiException() {}
-  
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiException"/> class.
         /// </summary>
@@ -33,7 +33,7 @@ namespace IO.Swagger.Client
         {
             this.ErrorCode = errorCode;
         }
-  
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiException"/> class.
         /// </summary>
@@ -46,5 +46,5 @@ namespace IO.Swagger.Client
             this.ErrorContent = errorContent;
         }
     }
-  
+
 }

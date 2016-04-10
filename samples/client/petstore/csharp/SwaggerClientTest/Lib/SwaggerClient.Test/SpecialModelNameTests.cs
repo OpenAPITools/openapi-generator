@@ -31,7 +31,7 @@ namespace IO.Swagger.Test
         {
             instance = new SpecialModelName();
         }
-    
+
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Test
         public void Cleanup()
         {
 
-        }   
+        }
 
         /// <summary>
         /// Test an instance of SpecialModelName
@@ -50,16 +50,14 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<SpecialModelName> (instance, "instance is a SpecialModelName");
         }
 
-        
         /// <summary>
-        /// Test the property 'SpecialPropertyName' 
+        /// Test the property 'SpecialPropertyName'
         /// </summary>
         [Test]
         public void SpecialPropertyNameTest()
         {
-            // TODO: unit test for the property 'SpecialPropertyName' 
+            // TODO: unit test for the property 'SpecialPropertyName'
         }
-        
 
     }
 
