@@ -19,7 +19,7 @@ func main() {
 	s.AddPet(newPet)
 
 	// test POST(form)
-	s.UpdatePetWithForm("12830", "golang", "available")
+	s.UpdatePetWithForm(12830, "golang", "available")
 
 	// test GET
 	resp, err := s.GetPetById(12830)

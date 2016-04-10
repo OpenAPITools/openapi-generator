@@ -1,13 +1,11 @@
 package swagger
 
-
 import (
     "strings"
     "fmt"
     "encoding/json"
     "errors"
     "github.com/dghubble/sling"
-
 )
 
 type UserApi struct {
@@ -30,7 +28,6 @@ func NewUserApiWithBasePath(basePath string) *UserApi{
     }
 }
 
-
 /**
  * Create user
  * This can only be done by the logged in user.
@@ -43,19 +40,16 @@ func (a UserApi) CreateUser (body User) (error) {
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users"
-
+    path := "/v2/user"
 
     _sling = _sling.Path(path)
 
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 // body params
     _sling = _sling.BodyJSON(body)
@@ -94,7 +88,6 @@ func (a UserApi) CreateUser (body User) (error) {
 
   return err
 }
-
 /**
  * Creates list of users with given input array
  * 
@@ -107,19 +100,16 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users/createWithArray"
-
+    path := "/v2/user/createWithArray"
 
     _sling = _sling.Path(path)
 
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 // body params
     _sling = _sling.BodyJSON(body)
@@ -158,7 +148,6 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
 
   return err
 }
-
 /**
  * Creates list of users with given input array
  * 
@@ -171,19 +160,16 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users/createWithList"
-
+    path := "/v2/user/createWithList"
 
     _sling = _sling.Path(path)
 
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 // body params
     _sling = _sling.BodyJSON(body)
@@ -222,7 +208,6 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
 
   return err
 }
-
 /**
  * Delete user
  * This can only be done by the logged in user.
@@ -235,20 +220,17 @@ func (a UserApi) DeleteUser (username string) (error) {
     _sling := sling.New().Delete(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users/{username}"
+    path := "/v2/user/{username}"
     path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
-
 
     _sling = _sling.Path(path)
 
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 
 
@@ -285,11 +267,10 @@ func (a UserApi) DeleteUser (username string) (error) {
 
   return err
 }
-
 /**
  * Get user by user name
  * 
- * @param username The name that needs to be fetched. Use user1 for testing.
+ * @param username The name that needs to be fetched. Use user1 for testing. 
  * @return User
  */
 //func (a UserApi) GetUserByName (username string) (User, error) {
@@ -298,20 +279,17 @@ func (a UserApi) GetUserByName (username string) (User, error) {
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users/{username}"
+    path := "/v2/user/{username}"
     path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
-
 
     _sling = _sling.Path(path)
 
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 
   var successPayload = new(User)
@@ -348,7 +326,6 @@ func (a UserApi) GetUserByName (username string) (User, error) {
 
   return *successPayload, err
 }
-
 /**
  * Logs user into the system
  * 
@@ -362,25 +339,21 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users/login"
-
+    path := "/v2/user/login"
 
     _sling = _sling.Path(path)
 
     type QueryParams struct {
         username    string `url:"username,omitempty"`
-        password    string `url:"password,omitempty"`
-        
+password    string `url:"password,omitempty"`
 }
     _sling = _sling.QueryStruct(&QueryParams{ username: username,password: password })
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 
   var successPayload = new(string)
@@ -417,7 +390,6 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
 
   return *successPayload, err
 }
-
 /**
  * Logs out current logged in user session
  * 
@@ -429,19 +401,16 @@ func (a UserApi) LogoutUser () (error) {
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users/logout"
-
+    path := "/v2/user/logout"
 
     _sling = _sling.Path(path)
 
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 
 
@@ -478,7 +447,6 @@ func (a UserApi) LogoutUser () (error) {
 
   return err
 }
-
 /**
  * Updated user
  * This can only be done by the logged in user.
@@ -492,20 +460,17 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     _sling := sling.New().Put(a.Configuration.BasePath)
 
     // create path and map variables
-    path := "/v2/users/{username}"
+    path := "/v2/user/{username}"
     path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
-
 
     _sling = _sling.Path(path)
 
-
     // accept header
-    accepts := []string { "application/json", "application/xml" }
+    accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-
 
 // body params
     _sling = _sling.BodyJSON(body)
@@ -544,5 +509,3 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
 
   return err
 }
-
-
