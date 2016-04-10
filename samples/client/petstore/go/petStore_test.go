@@ -2,8 +2,9 @@ package main
 
 import (
 	"testing"
-    "github.com/stretchr/testify/assert"
+
 	sw "./swagger"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAddPet(t *testing.T) {
@@ -21,7 +22,7 @@ func TestAddPet(t *testing.T) {
 }
 
 func TestGetPetById(t *testing.T) {
-    assert := assert.New(t)
+	assert := assert.New(t)
 	t.Log("Testing TestGetPetById...")
 
 	s := sw.NewPetApi()
@@ -33,8 +34,8 @@ func TestGetPetById(t *testing.T) {
 		assert.Equal(resp.Id, 12830, "Pet id should be equal")
 		assert.Equal(resp.Name, "gopher", "Pet name should be gopher")
 		assert.Equal(resp.Status, "pending", "Pet status should be pending")
-        
-        t.Log(resp)
+
+		t.Log(resp)
 	}
 }
 
@@ -47,5 +48,5 @@ func TestUpdatePetWithForm(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error while updating pet by id")
 		t.Log(err)
-	} 
+	}
 }
