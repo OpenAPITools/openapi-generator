@@ -28,7 +28,7 @@ namespace {{packageName}}.Api
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
         {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-  
+
         /// <summary>
         /// {{summary}}
         /// </summary>
@@ -69,7 +69,7 @@ namespace {{packageName}}.Api
         #endregion Asynchronous Operations
         {{/supportsAsync}}
     }
-  
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
@@ -89,7 +89,7 @@ namespace {{packageName}}.Api
                 this.Configuration.ApiClient.Configuration = this.Configuration;
             }
         }
-    
+
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class
         /// using Configuration object
@@ -99,7 +99,7 @@ namespace {{packageName}}.Api
         public {{classname}}(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
-                this.Configuration = Configuration.Default; 
+                this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
 
@@ -128,7 +128,7 @@ namespace {{packageName}}.Api
         {
             // do nothing
         }
-    
+
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
@@ -156,13 +156,13 @@ namespace {{packageName}}.Api
         {
             this.Configuration.AddDefaultHeader(key, value);
         }
-   
+
         {{#operation}}
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param> 
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
         public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
@@ -174,7 +174,7 @@ namespace {{packageName}}.Api
         /// {{summary}} {{notes}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param> 
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
         public ApiResponse<{{#returnType}} {{{returnType}}} {{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
@@ -183,9 +183,9 @@ namespace {{packageName}}.Api
             if ({{paramName}} == null)
                 throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
             {{/required}}{{/allParams}}
-    
+
             var localVarPath = "{{path}}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -248,19 +248,19 @@ namespace {{packageName}}.Api
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }{{/isOAuth}}
             {{/authMethods}}
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.{{httpMethod}}, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             {{#returnType}}return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 ({{{returnType}}}) Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));{{/returnType}}
@@ -294,9 +294,9 @@ namespace {{packageName}}.Api
             {{#allParams}}{{#required}}// verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{operationId}}");
             {{/required}}{{/allParams}}
-    
+
             var localVarPath = "{{path}}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -362,12 +362,12 @@ namespace {{packageName}}.Api
             {{/authMethods}}
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.{{httpMethod}}, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.{{httpMethod}}, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
