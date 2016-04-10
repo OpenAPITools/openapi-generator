@@ -57,7 +57,7 @@ namespace IO.Swagger.Model
             this.DateTime = DateTime;
             
         }
-        
+
     
         /// <summary>
         /// Gets or Sets Integer
@@ -134,21 +134,20 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
-            sb.Append("  Int32: ").Append(Int32).Append("\n");
-            sb.Append("  Int64: ").Append(Int64).Append("\n");
-            sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  _Float: ").Append(_Float).Append("\n");
-            sb.Append("  _Double: ").Append(_Double).Append("\n");
-            sb.Append("  _String: ").Append(_String).Append("\n");
-            sb.Append("  _Byte: ").Append(_Byte).Append("\n");
-            sb.Append("  Binary: ").Append(Binary).Append("\n");
-            sb.Append("  Date: ").Append(Date).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            
+sb.Append("  Int32: ").Append(Int32).Append("\n");
+sb.Append("  Int64: ").Append(Int64).Append("\n");
+sb.Append("  Number: ").Append(Number).Append("\n");
+sb.Append("  _Float: ").Append(_Float).Append("\n");
+sb.Append("  _Double: ").Append(_Double).Append("\n");
+sb.Append("  _String: ").Append(_String).Append("\n");
+sb.Append("  _Byte: ").Append(_Byte).Append("\n");
+sb.Append("  Binary: ").Append(Binary).Append("\n");
+sb.Append("  Date: ").Append(Date).Append("\n");
+sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -249,40 +248,28 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.Integer != null)
                     hash = hash * 59 + this.Integer.GetHashCode();
-                
                 if (this.Int32 != null)
                     hash = hash * 59 + this.Int32.GetHashCode();
-                
                 if (this.Int64 != null)
                     hash = hash * 59 + this.Int64.GetHashCode();
-                
                 if (this.Number != null)
                     hash = hash * 59 + this.Number.GetHashCode();
-                
                 if (this._Float != null)
                     hash = hash * 59 + this._Float.GetHashCode();
-                
                 if (this._Double != null)
                     hash = hash * 59 + this._Double.GetHashCode();
-                
                 if (this._String != null)
                     hash = hash * 59 + this._String.GetHashCode();
-                
                 if (this._Byte != null)
                     hash = hash * 59 + this._Byte.GetHashCode();
-                
                 if (this.Binary != null)
                     hash = hash * 59 + this.Binary.GetHashCode();
-                
                 if (this.Date != null)
                     hash = hash * 59 + this.Date.GetHashCode();
-                
                 if (this.DateTime != null)
                     hash = hash * 59 + this.DateTime.GetHashCode();
-                
                 return hash;
             }
         }

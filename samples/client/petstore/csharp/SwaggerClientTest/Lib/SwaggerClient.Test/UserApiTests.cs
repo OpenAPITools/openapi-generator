@@ -61,9 +61,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'CreateUser'
             User body = null; // TODO: replace null with proper value
-            
             instance.CreateUser(body);
-             
+            
         }
         
         /// <summary>
@@ -74,9 +73,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'CreateUsersWithArrayInput'
             List<User> body = null; // TODO: replace null with proper value
-            
             instance.CreateUsersWithArrayInput(body);
-             
+            
         }
         
         /// <summary>
@@ -87,9 +85,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'CreateUsersWithListInput'
             List<User> body = null; // TODO: replace null with proper value
-            
             instance.CreateUsersWithListInput(body);
-             
+            
         }
         
         /// <summary>
@@ -100,9 +97,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'DeleteUser'
             string username = null; // TODO: replace null with proper value
-            
             instance.DeleteUser(username);
-             
+            
         }
         
         /// <summary>
@@ -113,9 +109,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'GetUserByName'
             string username = null; // TODO: replace null with proper value
-            
             var response = instance.GetUserByName(username);
-            Assert.IsInstanceOf<User> (response, "response is User"); 
+            Assert.IsInstanceOf<User> (response, "response is User");
         }
         
         /// <summary>
@@ -126,10 +121,9 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'LoginUser'
             string username = null; // TODO: replace null with proper value
-            string password = null; // TODO: replace null with proper value
-            
+string password = null; // TODO: replace null with proper value
             var response = instance.LoginUser(username, password);
-            Assert.IsInstanceOf<string> (response, "response is string"); 
+            Assert.IsInstanceOf<string> (response, "response is string");
         }
         
         /// <summary>
@@ -139,9 +133,8 @@ namespace IO.Swagger.Test
         public void LogoutUserTest()
         {
             // TODO: add unit test for the method 'LogoutUser'
+                        instance.LogoutUser();
             
-            instance.LogoutUser();
-             
         }
         
         /// <summary>
@@ -152,10 +145,9 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'UpdateUser'
             string username = null; // TODO: replace null with proper value
-            User body = null; // TODO: replace null with proper value
-            
+User body = null; // TODO: replace null with proper value
             instance.UpdateUser(username, body);
-             
+            
         }
         
     }

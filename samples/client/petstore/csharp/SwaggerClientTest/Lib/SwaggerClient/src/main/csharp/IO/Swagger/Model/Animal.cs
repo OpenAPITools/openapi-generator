@@ -37,7 +37,7 @@ namespace IO.Swagger.Model
             }
             
         }
-        
+
     
         /// <summary>
         /// Gets or Sets ClassName
@@ -54,11 +54,10 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Animal {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -109,10 +108,8 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.ClassName != null)
                     hash = hash * 59 + this.ClassName.GetHashCode();
-                
                 return hash;
             }
         }
