@@ -39,7 +39,6 @@ static SWGPetApi* singletonAPI = nil;
 #pragma mark -
 
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-
     if (singletonAPI == nil) {
         singletonAPI = [[SWGPetApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
@@ -48,7 +47,6 @@ static SWGPetApi* singletonAPI = nil;
 }
 
 +(SWGPetApi*) sharedAPI {
-
     if (singletonAPI == nil) {
         singletonAPI = [[SWGPetApi alloc] init];
     }
@@ -79,9 +77,6 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) addPetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler {
-
-    
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
     // remove format in URL if needed
@@ -90,14 +85,9 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -122,11 +112,8 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
     bodyParam = body;
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
                                 pathParams: pathParams
@@ -154,10 +141,7 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) addPetUsingByteArrayWithBody: (NSString*) body
     completionHandler: (void (^)(NSError* error)) handler {
-
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet?testing_byte_array=true"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet?testing_byte_array&#x3D;true"];
 
     // remove format in URL if needed
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
@@ -165,14 +149,9 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -197,11 +176,8 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
     bodyParam = body;
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
                                 pathParams: pathParams
@@ -232,13 +208,10 @@ static SWGPetApi* singletonAPI = nil;
 -(NSNumber*) deletePetWithPetId: (NSNumber*) petId
     apiKey: (NSString*) apiKey
     completionHandler: (void (^)(NSError* error)) handler {
-
-    
     // verify the required parameter 'petId' is set
     if (petId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `deletePet`"];
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
@@ -251,16 +224,13 @@ static SWGPetApi* singletonAPI = nil;
     if (petId != nil) {
         pathParams[@"petId"] = petId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
+    
     if (apiKey != nil) {
         headerParams[@"api_key"] = apiKey;
     }
-    
 
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
@@ -286,11 +256,7 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"DELETE"
                                 pathParams: pathParams
@@ -318,9 +284,6 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) findPetsByStatusWithStatus: (NSArray* /* NSString */) status
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
-
-    
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByStatus"];
 
     // remove format in URL if needed
@@ -329,20 +292,13 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if (status != nil) {
-        
         queryParams[@"status"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: status format: @"multi"];
         
-        
     }
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -367,11 +323,7 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -399,9 +351,6 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) findPetsByTagsWithTags: (NSArray* /* NSString */) tags
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
-
-    
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByTags"];
 
     // remove format in URL if needed
@@ -410,20 +359,13 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if (tags != nil) {
-        
         queryParams[@"tags"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: tags format: @"multi"];
         
-        
     }
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -448,11 +390,7 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -480,13 +418,10 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) getPetByIdWithPetId: (NSNumber*) petId
     completionHandler: (void (^)(SWGPet* output, NSError* error)) handler {
-
-    
     // verify the required parameter 'petId' is set
     if (petId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `getPetById`"];
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
@@ -499,14 +434,9 @@ static SWGPetApi* singletonAPI = nil;
     if (petId != nil) {
         pathParams[@"petId"] = petId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -531,11 +461,7 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -563,15 +489,12 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) getPetByIdInObjectWithPetId: (NSNumber*) petId
     completionHandler: (void (^)(SWGInlineResponse200* output, NSError* error)) handler {
-
-    
     // verify the required parameter 'petId' is set
     if (petId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `getPetByIdInObject`"];
     }
-    
 
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}?response=inline_arbitrary_object"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}?response&#x3D;inline_arbitrary_object"];
 
     // remove format in URL if needed
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
@@ -582,14 +505,9 @@ static SWGPetApi* singletonAPI = nil;
     if (petId != nil) {
         pathParams[@"petId"] = petId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -614,11 +532,7 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -646,15 +560,12 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) petPetIdtestingByteArraytrueGetWithPetId: (NSNumber*) petId
     completionHandler: (void (^)(NSString* output, NSError* error)) handler {
-
-    
     // verify the required parameter 'petId' is set
     if (petId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `petPetIdtestingByteArraytrueGet`"];
     }
-    
 
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}?testing_byte_array=true"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}?testing_byte_array&#x3D;true"];
 
     // remove format in URL if needed
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
@@ -665,14 +576,9 @@ static SWGPetApi* singletonAPI = nil;
     if (petId != nil) {
         pathParams[@"petId"] = petId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -697,11 +603,7 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -729,9 +631,6 @@ static SWGPetApi* singletonAPI = nil;
 ///
 -(NSNumber*) updatePetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler {
-
-    
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
     // remove format in URL if needed
@@ -740,14 +639,9 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -772,11 +666,8 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
     bodyParam = body;
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"PUT"
                                 pathParams: pathParams
@@ -810,13 +701,10 @@ static SWGPetApi* singletonAPI = nil;
     name: (NSString*) name
     status: (NSString*) status
     completionHandler: (void (^)(NSError* error)) handler {
-
-    
     // verify the required parameter 'petId' is set
     if (petId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `updatePetWithForm`"];
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
@@ -829,14 +717,9 @@ static SWGPetApi* singletonAPI = nil;
     if (petId != nil) {
         pathParams[@"petId"] = petId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -861,23 +744,13 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
     if (name) {
         formParams[@"name"] = name;
     }
-    
-    
-    
     if (status) {
         formParams[@"status"] = status;
     }
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
                                 pathParams: pathParams
@@ -911,13 +784,10 @@ static SWGPetApi* singletonAPI = nil;
     additionalMetadata: (NSString*) additionalMetadata
     file: (NSURL*) file
     completionHandler: (void (^)(NSError* error)) handler {
-
-    
     // verify the required parameter 'petId' is set
     if (petId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `uploadFile`"];
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}/uploadImage"];
 
@@ -930,14 +800,9 @@ static SWGPetApi* singletonAPI = nil;
     if (petId != nil) {
         pathParams[@"petId"] = petId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -962,21 +827,11 @@ static SWGPetApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
     if (additionalMetadata) {
         formParams[@"additionalMetadata"] = additionalMetadata;
     }
-    
-    
-    
     localVarFiles[@"file"] = file;
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
                                 pathParams: pathParams
