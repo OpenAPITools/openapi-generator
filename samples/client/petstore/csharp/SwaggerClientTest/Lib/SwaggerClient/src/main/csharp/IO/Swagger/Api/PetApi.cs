@@ -9,14 +9,12 @@ using IO.Swagger.Model;
 
 namespace IO.Swagger.Api
 {
-    
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public interface IPetApi
     {
         #region Synchronous Operations
-        
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -27,7 +25,7 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns></returns>
         void AddPet (Pet body = null);
-  
+
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -38,7 +36,6 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> AddPetWithHttpInfo (Pet body = null);
-        
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
         /// </summary>
@@ -49,7 +46,7 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object in the form of byte array (optional)</param>
         /// <returns></returns>
         void AddPetUsingByteArray (byte[] body = null);
-  
+
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
         /// </summary>
@@ -60,7 +57,6 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object in the form of byte array (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> AddPetUsingByteArrayWithHttpInfo (byte[] body = null);
-        
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -72,7 +68,7 @@ namespace IO.Swagger.Api
         /// <param name="apiKey"> (optional)</param>
         /// <returns></returns>
         void DeletePet (long? petId, string apiKey = null);
-  
+
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -84,7 +80,6 @@ namespace IO.Swagger.Api
         /// <param name="apiKey"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null);
-        
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -95,7 +90,7 @@ namespace IO.Swagger.Api
         /// <param name="status">Status values that need to be considered for query (optional, default to available)</param>
         /// <returns>List&lt;Pet&gt;</returns>
         List<Pet> FindPetsByStatus (List<string> status = null);
-  
+
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -106,7 +101,6 @@ namespace IO.Swagger.Api
         /// <param name="status">Status values that need to be considered for query (optional, default to available)</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         ApiResponse<List<Pet>> FindPetsByStatusWithHttpInfo (List<string> status = null);
-        
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -117,7 +111,7 @@ namespace IO.Swagger.Api
         /// <param name="tags">Tags to filter by (optional)</param>
         /// <returns>List&lt;Pet&gt;</returns>
         List<Pet> FindPetsByTags (List<string> tags = null);
-  
+
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -128,7 +122,6 @@ namespace IO.Swagger.Api
         /// <param name="tags">Tags to filter by (optional)</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         ApiResponse<List<Pet>> FindPetsByTagsWithHttpInfo (List<string> tags = null);
-        
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -139,7 +132,7 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Pet</returns>
         Pet GetPetById (long? petId);
-  
+
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -150,7 +143,6 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Pet</returns>
         ApiResponse<Pet> GetPetByIdWithHttpInfo (long? petId);
-        
         /// <summary>
         /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
         /// </summary>
@@ -161,7 +153,7 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>InlineResponse200</returns>
         InlineResponse200 GetPetByIdInObject (long? petId);
-  
+
         /// <summary>
         /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
         /// </summary>
@@ -172,7 +164,6 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of InlineResponse200</returns>
         ApiResponse<InlineResponse200> GetPetByIdInObjectWithHttpInfo (long? petId);
-        
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
         /// </summary>
@@ -183,7 +174,7 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>byte[]</returns>
         byte[] PetPetIdtestingByteArraytrueGet (long? petId);
-  
+
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
         /// </summary>
@@ -194,7 +185,6 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of byte[]</returns>
         ApiResponse<byte[]> PetPetIdtestingByteArraytrueGetWithHttpInfo (long? petId);
-        
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -205,7 +195,7 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns></returns>
         void UpdatePet (Pet body = null);
-  
+
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -216,7 +206,6 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdatePetWithHttpInfo (Pet body = null);
-        
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -229,7 +218,7 @@ namespace IO.Swagger.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
         void UpdatePetWithForm (string petId, string name = null, string status = null);
-  
+
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -242,7 +231,6 @@ namespace IO.Swagger.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UpdatePetWithFormWithHttpInfo (string petId, string name = null, string status = null);
-        
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -255,7 +243,7 @@ namespace IO.Swagger.Api
         /// <param name="file">file to upload (optional)</param>
         /// <returns></returns>
         void UploadFile (long? petId, string additionalMetadata = null, Stream file = null);
-  
+
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -268,11 +256,8 @@ namespace IO.Swagger.Api
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
-        
         #endregion Synchronous Operations
-        
         #region Asynchronous Operations
-        
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -294,7 +279,6 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body = null);
-        
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
         /// </summary>
@@ -316,7 +300,6 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object in the form of byte array (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> AddPetUsingByteArrayAsyncWithHttpInfo (byte[] body = null);
-        
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -340,7 +323,6 @@ namespace IO.Swagger.Api
         /// <param name="apiKey"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null);
-        
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -362,7 +344,6 @@ namespace IO.Swagger.Api
         /// <param name="status">Status values that need to be considered for query (optional, default to available)</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusAsyncWithHttpInfo (List<string> status = null);
-        
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -384,7 +365,6 @@ namespace IO.Swagger.Api
         /// <param name="tags">Tags to filter by (optional)</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsAsyncWithHttpInfo (List<string> tags = null);
-        
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -406,7 +386,6 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
         System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long? petId);
-        
         /// <summary>
         /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
         /// </summary>
@@ -428,7 +407,6 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (InlineResponse200)</returns>
         System.Threading.Tasks.Task<ApiResponse<InlineResponse200>> GetPetByIdInObjectAsyncWithHttpInfo (long? petId);
-        
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
         /// </summary>
@@ -450,7 +428,6 @@ namespace IO.Swagger.Api
         /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (byte[])</returns>
         System.Threading.Tasks.Task<ApiResponse<byte[]>> PetPetIdtestingByteArraytrueGetAsyncWithHttpInfo (long? petId);
-        
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -472,7 +449,6 @@ namespace IO.Swagger.Api
         /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetAsyncWithHttpInfo (Pet body = null);
-        
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -498,7 +474,6 @@ namespace IO.Swagger.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (string petId, string name = null, string status = null);
-        
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -524,11 +499,9 @@ namespace IO.Swagger.Api
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
-        
         #endregion Asynchronous Operations
-        
     }
-  
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
@@ -548,7 +521,7 @@ namespace IO.Swagger.Api
                 this.Configuration.ApiClient.Configuration = this.Configuration;
             }
         }
-    
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class
         /// using Configuration object
@@ -558,7 +531,7 @@ namespace IO.Swagger.Api
         public PetApi(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
-                this.Configuration = Configuration.Default; 
+                this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
 
@@ -587,7 +560,7 @@ namespace IO.Swagger.Api
         {
             // do nothing
         }
-    
+
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
@@ -615,13 +588,12 @@ namespace IO.Swagger.Api
         {
             this.Configuration.AddDefaultHeader(key, value);
         }
-   
-        
+
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store (optional)</param> 
+        /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns></returns>
         public void AddPet (Pet body = null)
         {
@@ -632,14 +604,14 @@ namespace IO.Swagger.Api
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store (optional)</param> 
+        /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> AddPetWithHttpInfo (Pet body = null)
         {
             
-    
+
             var localVarPath = "/pet";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -664,11 +636,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            
-            
-            if (body.GetType() != typeof(byte[]))
+                                                            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -684,27 +652,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling AddPet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling AddPet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
-        
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
@@ -726,9 +692,9 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body = null)
         {
             
-    
+
             var localVarPath = "/pet";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -753,11 +719,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            
-            
-            if (body.GetType() != typeof(byte[]))
+                                                            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -766,7 +728,6 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -774,15 +735,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling AddPet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -793,12 +753,11 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-        
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object in the form of byte array (optional)</param> 
+        /// <param name="body">Pet object in the form of byte array (optional)</param>
         /// <returns></returns>
         public void AddPetUsingByteArray (byte[] body = null)
         {
@@ -809,14 +768,14 @@ namespace IO.Swagger.Api
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object in the form of byte array (optional)</param> 
+        /// <param name="body">Pet object in the form of byte array (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> AddPetUsingByteArrayWithHttpInfo (byte[] body = null)
         {
             
-    
-            var localVarPath = "/pet?testing_byte_array=true";
-    
+
+            var localVarPath = "/pet?testing_byte_array&#x3D;true";
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -841,11 +800,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            
-            
-            if (body.GetType() != typeof(byte[]))
+                                                            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -861,27 +816,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling AddPetUsingByteArray: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling AddPetUsingByteArray: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
-        
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store 
         /// </summary>
@@ -903,9 +856,9 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<Object>> AddPetUsingByteArrayAsyncWithHttpInfo (byte[] body = null)
         {
             
-    
-            var localVarPath = "/pet?testing_byte_array=true";
-    
+
+            var localVarPath = "/pet?testing_byte_array&#x3D;true";
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -930,11 +883,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            
-            
-            if (body.GetType() != typeof(byte[]))
+                                                            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -943,7 +892,6 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -951,15 +899,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling AddPetUsingByteArray: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -970,13 +917,12 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-        
         /// <summary>
         /// Deletes a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param> 
-        /// <param name="apiKey"> (optional)</param> 
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"> (optional)</param>
         /// <returns></returns>
         public void DeletePet (long? petId, string apiKey = null)
         {
@@ -987,8 +933,8 @@ namespace IO.Swagger.Api
         /// Deletes a pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param> 
-        /// <param name="apiKey"> (optional)</param> 
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null)
         {
@@ -997,9 +943,9 @@ namespace IO.Swagger.Api
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->DeletePet");
             
-    
+
             var localVarPath = "/pet/{petId}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1025,12 +971,8 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
-            
-            
-            
+                        if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
+                        
 
             // authentication (petstore_auth) required
             
@@ -1039,27 +981,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling DeletePet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling DeletePet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
-        
         /// <summary>
         /// Deletes a pet 
         /// </summary>
@@ -1085,9 +1025,9 @@ namespace IO.Swagger.Api
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
             
-    
+
             var localVarPath = "/pet/{petId}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1113,14 +1053,9 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
-            
-            
-            
+                        if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
+                        
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -1128,15 +1063,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling DeletePet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -1147,12 +1081,11 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-        
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for query (optional, default to available)</param> 
+        /// <param name="status">Status values that need to be considered for query (optional, default to available)</param>
         /// <returns>List&lt;Pet&gt;</returns>
         public List<Pet> FindPetsByStatus (List<string> status = null)
         {
@@ -1164,14 +1097,14 @@ namespace IO.Swagger.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for query (optional, default to available)</param> 
+        /// <param name="status">Status values that need to be considered for query (optional, default to available)</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         public ApiResponse< List<Pet> > FindPetsByStatusWithHttpInfo (List<string> status = null)
         {
             
-    
+
             var localVarPath = "/pet/findByStatus";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1196,12 +1129,8 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
-            
-            
-            
-            
+                        if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
+                                    
 
             // authentication (petstore_auth) required
             
@@ -1210,27 +1139,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling FindPetsByStatus: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling FindPetsByStatus: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             return new ApiResponse<List<Pet>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (List<Pet>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Pet>)));
             
         }
 
-        
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
@@ -1253,9 +1180,9 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusAsyncWithHttpInfo (List<string> status = null)
         {
             
-    
+
             var localVarPath = "/pet/findByStatus";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1280,14 +1207,9 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
-            
-            
-            
-            
+                        if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
+                                    
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -1295,15 +1217,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling FindPetsByStatus: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -1314,12 +1235,11 @@ namespace IO.Swagger.Api
                 (List<Pet>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Pet>)));
             
         }
-        
         /// <summary>
         /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by (optional)</param> 
+        /// <param name="tags">Tags to filter by (optional)</param>
         /// <returns>List&lt;Pet&gt;</returns>
         public List<Pet> FindPetsByTags (List<string> tags = null)
         {
@@ -1331,14 +1251,14 @@ namespace IO.Swagger.Api
         /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by (optional)</param> 
+        /// <param name="tags">Tags to filter by (optional)</param>
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         public ApiResponse< List<Pet> > FindPetsByTagsWithHttpInfo (List<string> tags = null)
         {
             
-    
+
             var localVarPath = "/pet/findByTags";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1363,12 +1283,8 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
-            
-            
-            
-            
+                        if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
+                                    
 
             // authentication (petstore_auth) required
             
@@ -1377,27 +1293,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling FindPetsByTags: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling FindPetsByTags: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             return new ApiResponse<List<Pet>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (List<Pet>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Pet>)));
             
         }
 
-        
         /// <summary>
         /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
@@ -1420,9 +1334,9 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsAsyncWithHttpInfo (List<string> tags = null)
         {
             
-    
+
             var localVarPath = "/pet/findByTags";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1447,14 +1361,9 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
-            
-            
-            
-            
+                        if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
+                                    
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -1462,15 +1371,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling FindPetsByTags: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -1481,12 +1389,11 @@ namespace IO.Swagger.Api
                 (List<Pet>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Pet>)));
             
         }
-        
         /// <summary>
         /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>Pet</returns>
         public Pet GetPetById (long? petId)
         {
@@ -1498,7 +1405,7 @@ namespace IO.Swagger.Api
         /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Pet</returns>
         public ApiResponse< Pet > GetPetByIdWithHttpInfo (long? petId)
         {
@@ -1507,9 +1414,9 @@ namespace IO.Swagger.Api
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetById");
             
-    
+
             var localVarPath = "/pet/{petId}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1535,11 +1442,7 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            
-            
+                                                
 
             // authentication (api_key) required
             
@@ -1547,34 +1450,32 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-            // authentication (petstore_auth) required
+// authentication (petstore_auth) required
             
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling GetPetById: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling GetPetById: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             return new ApiResponse<Pet>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (Pet) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Pet)));
             
         }
 
-        
         /// <summary>
         /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -1599,9 +1500,9 @@ namespace IO.Swagger.Api
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
             
-    
+
             var localVarPath = "/pet/{petId}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1627,20 +1528,14 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            
-            
+                                                
 
-            
             // authentication (api_key) required
             
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -1648,15 +1543,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling GetPetById: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -1667,12 +1561,11 @@ namespace IO.Swagger.Api
                 (Pet) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Pet)));
             
         }
-        
         /// <summary>
         /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>InlineResponse200</returns>
         public InlineResponse200 GetPetByIdInObject (long? petId)
         {
@@ -1684,7 +1577,7 @@ namespace IO.Swagger.Api
         /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of InlineResponse200</returns>
         public ApiResponse< InlineResponse200 > GetPetByIdInObjectWithHttpInfo (long? petId)
         {
@@ -1693,9 +1586,9 @@ namespace IO.Swagger.Api
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetByIdInObject");
             
-    
-            var localVarPath = "/pet/{petId}?response=inline_arbitrary_object";
-    
+
+            var localVarPath = "/pet/{petId}?response&#x3D;inline_arbitrary_object";
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1721,11 +1614,7 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            
-            
+                                                
 
             // authentication (api_key) required
             
@@ -1733,34 +1622,32 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-            // authentication (petstore_auth) required
+// authentication (petstore_auth) required
             
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling GetPetByIdInObject: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling GetPetByIdInObject: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             return new ApiResponse<InlineResponse200>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (InlineResponse200) Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponse200)));
             
         }
 
-        
         /// <summary>
         /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -1785,9 +1672,9 @@ namespace IO.Swagger.Api
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetByIdInObject");
             
-    
-            var localVarPath = "/pet/{petId}?response=inline_arbitrary_object";
-    
+
+            var localVarPath = "/pet/{petId}?response&#x3D;inline_arbitrary_object";
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1813,20 +1700,14 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            
-            
+                                                
 
-            
             // authentication (api_key) required
             
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -1834,15 +1715,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling GetPetByIdInObject: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -1853,12 +1733,11 @@ namespace IO.Swagger.Api
                 (InlineResponse200) Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponse200)));
             
         }
-        
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>byte[]</returns>
         public byte[] PetPetIdtestingByteArraytrueGet (long? petId)
         {
@@ -1870,7 +1749,7 @@ namespace IO.Swagger.Api
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be fetched</param> 
+        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of byte[]</returns>
         public ApiResponse< byte[] > PetPetIdtestingByteArraytrueGetWithHttpInfo (long? petId)
         {
@@ -1879,9 +1758,9 @@ namespace IO.Swagger.Api
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->PetPetIdtestingByteArraytrueGet");
             
-    
-            var localVarPath = "/pet/{petId}?testing_byte_array=true";
-    
+
+            var localVarPath = "/pet/{petId}?testing_byte_array&#x3D;true";
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1907,11 +1786,7 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            
-            
+                                                
 
             // authentication (api_key) required
             
@@ -1919,34 +1794,32 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-            // authentication (petstore_auth) required
+// authentication (petstore_auth) required
             
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling PetPetIdtestingByteArraytrueGet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling PetPetIdtestingByteArraytrueGet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             return new ApiResponse<byte[]>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (byte[]) Configuration.ApiClient.Deserialize(localVarResponse, typeof(byte[])));
             
         }
 
-        
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -1971,9 +1844,9 @@ namespace IO.Swagger.Api
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling PetPetIdtestingByteArraytrueGet");
             
-    
-            var localVarPath = "/pet/{petId}?testing_byte_array=true";
-    
+
+            var localVarPath = "/pet/{petId}?testing_byte_array&#x3D;true";
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1999,20 +1872,14 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            
-            
+                                                
 
-            
             // authentication (api_key) required
             
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -2020,15 +1887,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling PetPetIdtestingByteArraytrueGet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -2039,12 +1905,11 @@ namespace IO.Swagger.Api
                 (byte[]) Configuration.ApiClient.Deserialize(localVarResponse, typeof(byte[])));
             
         }
-        
         /// <summary>
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store (optional)</param> 
+        /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns></returns>
         public void UpdatePet (Pet body = null)
         {
@@ -2055,14 +1920,14 @@ namespace IO.Swagger.Api
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store (optional)</param> 
+        /// <param name="body">Pet object that needs to be added to the store (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UpdatePetWithHttpInfo (Pet body = null)
         {
             
-    
+
             var localVarPath = "/pet";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2087,11 +1952,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            
-            
-            if (body.GetType() != typeof(byte[]))
+                                                            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -2107,27 +1968,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling UpdatePet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling UpdatePet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
-        
         /// <summary>
         /// Update an existing pet 
         /// </summary>
@@ -2149,9 +2008,9 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetAsyncWithHttpInfo (Pet body = null)
         {
             
-    
+
             var localVarPath = "/pet";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2176,11 +2035,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-            
-            
-            
-            
-            if (body.GetType() != typeof(byte[]))
+                                                            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -2189,7 +2044,6 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -2197,15 +2051,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling UpdatePet: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -2216,14 +2069,13 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-        
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param> 
-        /// <param name="name">Updated name of the pet (optional)</param> 
-        /// <param name="status">Updated status of the pet (optional)</param> 
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet (optional)</param>
+        /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
         public void UpdatePetWithForm (string petId, string name = null, string status = null)
         {
@@ -2234,9 +2086,9 @@ namespace IO.Swagger.Api
         /// Updates a pet in the store with form data 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param> 
-        /// <param name="name">Updated name of the pet (optional)</param> 
-        /// <param name="status">Updated status of the pet (optional)</param> 
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet (optional)</param>
+        /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UpdatePetWithFormWithHttpInfo (string petId, string name = null, string status = null)
         {
@@ -2245,9 +2097,9 @@ namespace IO.Swagger.Api
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm");
             
-    
+
             var localVarPath = "/pet/{petId}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2273,12 +2125,8 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
-            if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
-            
+                                    if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
+if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
             
 
             // authentication (petstore_auth) required
@@ -2288,27 +2136,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling UpdatePetWithForm: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling UpdatePetWithForm: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
-        
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
@@ -2336,9 +2182,9 @@ namespace IO.Swagger.Api
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
             
-    
+
             var localVarPath = "/pet/{petId}";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2364,15 +2210,10 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
-            if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
-            
+                                    if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
+if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
             
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -2380,15 +2221,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling UpdatePetWithForm: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -2399,14 +2239,13 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-        
         /// <summary>
         /// uploads an image 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param> 
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param> 
-        /// <param name="file">file to upload (optional)</param> 
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <returns></returns>
         public void UploadFile (long? petId, string additionalMetadata = null, Stream file = null)
         {
@@ -2417,9 +2256,9 @@ namespace IO.Swagger.Api
         /// uploads an image 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param> 
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param> 
-        /// <param name="file">file to upload (optional)</param> 
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
         {
@@ -2428,9 +2267,9 @@ namespace IO.Swagger.Api
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFile");
             
-    
+
             var localVarPath = "/pet/{petId}/uploadImage";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2456,12 +2295,8 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
-            if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
-            
+                                    if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
             
 
             // authentication (petstore_auth) required
@@ -2471,27 +2306,25 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
-    
+
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath, 
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
-    
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling UploadFile: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
                 throw new ApiException (localVarStatusCode, "Error calling UploadFile: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
-    
+
             
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
 
-        
         /// <summary>
         /// uploads an image 
         /// </summary>
@@ -2519,9 +2352,9 @@ namespace IO.Swagger.Api
             // verify the required parameter 'petId' is set
             if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");
             
-    
+
             var localVarPath = "/pet/{petId}/uploadImage";
-    
+
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2547,15 +2380,10 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-            
-            
-            
-            if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
-            if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
-            
+                                    if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
             
 
-            
             // authentication (petstore_auth) required
             
             // oauth required
@@ -2563,15 +2391,14 @@ namespace IO.Swagger.Api
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
-            
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath, 
-                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams, 
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
- 
+
             if (localVarStatusCode >= 400)
                 throw new ApiException (localVarStatusCode, "Error calling UploadFile: " + localVarResponse.Content, localVarResponse.Content);
             else if (localVarStatusCode == 0)
@@ -2582,7 +2409,5 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
-        
     }
-    
 }

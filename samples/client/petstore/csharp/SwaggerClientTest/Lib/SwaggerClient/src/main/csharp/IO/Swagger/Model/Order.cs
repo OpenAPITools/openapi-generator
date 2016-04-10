@@ -17,7 +17,7 @@ namespace IO.Swagger.Model
     [DataContract]
     public partial class Order :  IEquatable<Order>
     { 
-    
+
         /// <summary>
         /// Order Status
         /// </summary>
@@ -62,7 +62,7 @@ namespace IO.Swagger.Model
             this.Complete = Complete;
             
         }
-        
+
     
         /// <summary>
         /// Gets or Sets Id
@@ -103,16 +103,15 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Order {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  PetId: ").Append(PetId).Append("\n");
-            sb.Append("  Quantity: ").Append(Quantity).Append("\n");
-            sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  Complete: ").Append(Complete).Append("\n");
-            
+sb.Append("  PetId: ").Append(PetId).Append("\n");
+sb.Append("  Quantity: ").Append(Quantity).Append("\n");
+sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
+sb.Append("  Status: ").Append(Status).Append("\n");
+sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -188,25 +187,18 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                
                 if (this.PetId != null)
                     hash = hash * 59 + this.PetId.GetHashCode();
-                
                 if (this.Quantity != null)
                     hash = hash * 59 + this.Quantity.GetHashCode();
-                
                 if (this.ShipDate != null)
                     hash = hash * 59 + this.ShipDate.GetHashCode();
-                
                 if (this.Status != null)
                     hash = hash * 59 + this.Status.GetHashCode();
-                
                 if (this.Complete != null)
                     hash = hash * 59 + this.Complete.GetHashCode();
-                
                 return hash;
             }
         }

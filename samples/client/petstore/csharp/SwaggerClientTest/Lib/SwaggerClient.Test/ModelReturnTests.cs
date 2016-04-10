@@ -31,7 +31,7 @@ namespace IO.Swagger.Test
         {
             instance = new ModelReturn();
         }
-    
+
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Test
         public void Cleanup()
         {
 
-        }   
+        }
 
         /// <summary>
         /// Test an instance of ModelReturn
@@ -50,16 +50,14 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<ModelReturn> (instance, "instance is a ModelReturn");
         }
 
-        
         /// <summary>
-        /// Test the property '_Return' 
+        /// Test the property '_Return'
         /// </summary>
         [Test]
         public void _ReturnTest()
         {
-            // TODO: unit test for the property '_Return' 
+            // TODO: unit test for the property '_Return'
         }
-        
 
     }
 
