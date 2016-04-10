@@ -17,6 +17,7 @@
 #import "SWGCat.h"
 #import "SWGCategory.h"
 #import "SWGDog.h"
+#import "SWGFormatTest.h"
 #import "SWGInlineResponse200.h"
 #import "SWGName.h"
 #import "SWGOrder.h"
@@ -25,6 +26,7 @@
 #import "SWGSpecialModelName_.h"
 #import "SWGTag.h"
 #import "SWGUser.h"
+
 
 
 @class SWGConfiguration;
