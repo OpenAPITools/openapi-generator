@@ -110,35 +110,35 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-'id' => {
+    'id' => {
     	datatype => 'int',
     	base_name => 'id',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'category' => {
+    'category' => {
     	datatype => 'object',
     	base_name => 'category',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'status' => {
+    'status' => {
     	datatype => 'string',
     	base_name => 'status',
     	description => 'pet status in the store',
     	format => '',
     	read_only => '',
     		},
-'name' => {
+    'name' => {
     	datatype => 'string',
     	base_name => 'name',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'photo_urls' => {
+    'photo_urls' => {
     	datatype => 'ARRAY[string]',
     	base_name => 'photoUrls',
     	description => '',

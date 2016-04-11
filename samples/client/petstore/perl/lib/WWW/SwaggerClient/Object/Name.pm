@@ -110,7 +110,7 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-'snake_case' => {
+    'snake_case' => {
     	datatype => 'int',
     	base_name => 'snake_case',
     	description => '',
