@@ -110,49 +110,49 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-'username' => {
+    'username' => {
     	datatype => 'string',
     	base_name => 'username',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'first_name' => {
+    'first_name' => {
     	datatype => 'string',
     	base_name => 'firstName',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'last_name' => {
+    'last_name' => {
     	datatype => 'string',
     	base_name => 'lastName',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'email' => {
+    'email' => {
     	datatype => 'string',
     	base_name => 'email',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'password' => {
+    'password' => {
     	datatype => 'string',
     	base_name => 'password',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'phone' => {
+    'phone' => {
     	datatype => 'string',
     	base_name => 'phone',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'user_status' => {
+    'user_status' => {
     	datatype => 'int',
     	base_name => 'userStatus',
     	description => 'User Status',

@@ -110,35 +110,35 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-'pet_id' => {
+    'pet_id' => {
     	datatype => 'int',
     	base_name => 'petId',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'quantity' => {
+    'quantity' => {
     	datatype => 'int',
     	base_name => 'quantity',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'ship_date' => {
+    'ship_date' => {
     	datatype => 'DateTime',
     	base_name => 'shipDate',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-'status' => {
+    'status' => {
     	datatype => 'string',
     	base_name => 'status',
     	description => 'Order Status',
     	format => '',
     	read_only => '',
     		},
-'complete' => {
+    'complete' => {
     	datatype => 'boolean',
     	base_name => 'complete',
     	description => '',

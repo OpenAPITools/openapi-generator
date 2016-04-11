@@ -110,7 +110,7 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-'breed' => {
+    'breed' => {
     	datatype => 'string',
     	base_name => 'breed',
     	description => '',

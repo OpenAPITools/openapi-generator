@@ -110,7 +110,7 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-'declawed' => {
+    'declawed' => {
     	datatype => 'boolean',
     	base_name => 'declawed',
     	description => '',
