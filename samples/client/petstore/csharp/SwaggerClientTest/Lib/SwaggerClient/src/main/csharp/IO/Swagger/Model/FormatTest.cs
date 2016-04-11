@@ -134,16 +134,16 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
-sb.Append("  Int32: ").Append(Int32).Append("\n");
-sb.Append("  Int64: ").Append(Int64).Append("\n");
-sb.Append("  Number: ").Append(Number).Append("\n");
-sb.Append("  _Float: ").Append(_Float).Append("\n");
-sb.Append("  _Double: ").Append(_Double).Append("\n");
-sb.Append("  _String: ").Append(_String).Append("\n");
-sb.Append("  _Byte: ").Append(_Byte).Append("\n");
-sb.Append("  Binary: ").Append(Binary).Append("\n");
-sb.Append("  Date: ").Append(Date).Append("\n");
-sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  Number: ").Append(Number).Append("\n");
+            sb.Append("  _Float: ").Append(_Float).Append("\n");
+            sb.Append("  _Double: ").Append(_Double).Append("\n");
+            sb.Append("  _String: ").Append(_String).Append("\n");
+            sb.Append("  _Byte: ").Append(_Byte).Append("\n");
+            sb.Append("  Binary: ").Append(Binary).Append("\n");
+            sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

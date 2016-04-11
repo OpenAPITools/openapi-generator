@@ -23,6 +23,7 @@
 
   /**
    * Constructs a new <code>ModelReturn</code>.
+   * Model for testing reserved words
    * @alias module:model/ModelReturn
    * @class
    */

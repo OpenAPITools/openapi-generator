@@ -301,7 +301,7 @@ class StoreApi(object):
         del params['kwargs']
 
 
-        resource_path = '/store/inventory?response=arbitrary_object'.replace('{format}', 'json')
+        resource_path = '/store/inventory?response&#x3D;arbitrary_object'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}

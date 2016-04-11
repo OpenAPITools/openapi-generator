@@ -47,11 +47,11 @@ module Petstore
     def self.swagger_types
       {
         :'id' => :'Integer',
-:'pet_id' => :'Integer',
-:'quantity' => :'Integer',
-:'ship_date' => :'DateTime',
-:'status' => :'String',
-:'complete' => :'BOOLEAN'
+        :'pet_id' => :'Integer',
+        :'quantity' => :'Integer',
+        :'ship_date' => :'DateTime',
+        :'status' => :'String',
+        :'complete' => :'BOOLEAN'
       }
     end
 
