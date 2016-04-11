@@ -47,6 +47,12 @@ use \ArrayAccess;
 class Dog extends Animal implements ArrayAccess
 {
     /**
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Dog';
+
+    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -107,6 +113,7 @@ class Dog extends Animal implements ArrayAccess
     public function __construct(array $data = null)
     {
         parent::__construct($data);
+        
         if ($data != null) {
             $this->breed = $data["breed"];
         }
