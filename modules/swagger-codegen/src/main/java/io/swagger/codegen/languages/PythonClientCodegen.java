@@ -61,6 +61,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "str");
+        typeMapping.put("ByteArray", "str");
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
         setReservedWordsLowerCase(

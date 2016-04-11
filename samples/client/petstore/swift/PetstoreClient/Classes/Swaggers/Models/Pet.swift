@@ -9,13 +9,11 @@ import Foundation
 
 
 public class Pet: JSONEncodable {
-
     public enum Status: String { 
         case Available = "available"
         case Pending = "pending"
         case Sold = "sold"
     }
-    
     public var id: Int64?
     public var category: Category?
     public var name: String?
@@ -23,13 +21,13 @@ public class Pet: JSONEncodable {
     public var tags: [Tag]?
     /** pet status in the store */
     public var status: Status?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["category"] = self.category?.encodeToJSON()
         nillableDictionary["name"] = self.name

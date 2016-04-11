@@ -54,7 +54,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Category {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
