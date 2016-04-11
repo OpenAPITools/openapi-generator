@@ -209,7 +209,7 @@ var SwaggerPetstore = require('swagger-petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi()
 
-var username = "username_example"; // {String} The name that needs to be fetched. Use user1 for testing.
+var username = "username_example"; // {String} The name that needs to be fetched. Use user1 for testing. 
 
 apiInstance.getUserByName(username).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
@@ -223,7 +223,7 @@ apiInstance.getUserByName(username).then(function(data) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing.  | 
 
 ### Return type
 

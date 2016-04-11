@@ -172,7 +172,7 @@
     /**
      * Get user by user name
      * 
-     * @param {String} username The name that needs to be fetched. Use user1 for testing.
+     * @param {String} username The name that needs to be fetched. Use user1 for testing. 
      * data is of type: {module:model/User}
      */
     this.getUserByName = function(username) {

@@ -1,16 +1,16 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './model/Animal', './model/Cat', './model/Category', './model/Dog', './model/InlineResponse200', './model/Model200Response', './model/ModelReturn', './model/Name', './model/Order', './model/Pet', './model/SpecialModelName', './model/Tag', './model/User', './api/PetApi', './api/StoreApi', './api/UserApi'], factory);
+    define(['./ApiClient', './model/Animal', './model/Cat', './model/Category', './model/Dog', './model/FormatTest', './model/InlineResponse200', './model/Model200Response', './model/ModelReturn', './model/Name', './model/Order', './model/Pet', './model/SpecialModelName', './model/Tag', './model/User', './api/PetApi', './api/StoreApi', './api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/InlineResponse200'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/FormatTest'), require('./model/InlineResponse200'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, Animal, Cat, Category, Dog, InlineResponse200, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, Animal, Cat, Category, Dog, FormatTest, InlineResponse200, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
-   * This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href=\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters.<br>
+   * This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href&#x3D;\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters.<br>
    * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -66,6 +66,11 @@
      * @property {module:model/Dog}
      */
     Dog: Dog,
+    /**
+     * The FormatTest model constructor.
+     * @property {module:model/FormatTest}
+     */
+    FormatTest: FormatTest,
     /**
      * The InlineResponse200 model constructor.
      * @property {module:model/InlineResponse200}
