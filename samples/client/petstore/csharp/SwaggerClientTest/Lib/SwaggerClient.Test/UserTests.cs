@@ -31,7 +31,7 @@ namespace IO.Swagger.Test
         {
             instance = new User();
         }
-    
+
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Test
         public void Cleanup()
         {
 
-        }   
+        }
 
         /// <summary>
         /// Test an instance of User
@@ -50,79 +50,70 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<User> (instance, "instance is a User");
         }
 
-        
         /// <summary>
-        /// Test the property 'Id' 
+        /// Test the property 'Id'
         /// </summary>
         [Test]
         public void IdTest()
         {
-            // TODO: unit test for the property 'Id' 
+            // TODO: unit test for the property 'Id'
         }
-        
         /// <summary>
-        /// Test the property 'Username' 
+        /// Test the property 'Username'
         /// </summary>
         [Test]
         public void UsernameTest()
         {
-            // TODO: unit test for the property 'Username' 
+            // TODO: unit test for the property 'Username'
         }
-        
         /// <summary>
-        /// Test the property 'FirstName' 
+        /// Test the property 'FirstName'
         /// </summary>
         [Test]
         public void FirstNameTest()
         {
-            // TODO: unit test for the property 'FirstName' 
+            // TODO: unit test for the property 'FirstName'
         }
-        
         /// <summary>
-        /// Test the property 'LastName' 
+        /// Test the property 'LastName'
         /// </summary>
         [Test]
         public void LastNameTest()
         {
-            // TODO: unit test for the property 'LastName' 
+            // TODO: unit test for the property 'LastName'
         }
-        
         /// <summary>
-        /// Test the property 'Email' 
+        /// Test the property 'Email'
         /// </summary>
         [Test]
         public void EmailTest()
         {
-            // TODO: unit test for the property 'Email' 
+            // TODO: unit test for the property 'Email'
         }
-        
         /// <summary>
-        /// Test the property 'Password' 
+        /// Test the property 'Password'
         /// </summary>
         [Test]
         public void PasswordTest()
         {
-            // TODO: unit test for the property 'Password' 
+            // TODO: unit test for the property 'Password'
         }
-        
         /// <summary>
-        /// Test the property 'Phone' 
+        /// Test the property 'Phone'
         /// </summary>
         [Test]
         public void PhoneTest()
         {
-            // TODO: unit test for the property 'Phone' 
+            // TODO: unit test for the property 'Phone'
         }
-        
         /// <summary>
-        /// Test the property 'UserStatus' 
+        /// Test the property 'UserStatus'
         /// </summary>
         [Test]
         public void UserStatusTest()
         {
-            // TODO: unit test for the property 'UserStatus' 
+            // TODO: unit test for the property 'UserStatus'
         }
-        
 
     }
 

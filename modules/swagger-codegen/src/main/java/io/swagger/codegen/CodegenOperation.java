@@ -15,7 +15,7 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = Boolean.TRUE,
             isResponseBinary = Boolean.FALSE, hasReference = Boolean.FALSE;
     public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, notes, baseName, defaultResponse;
+            returnContainer, summary, notes, baseName, defaultResponse, discriminator;
     public List<Map<String, String>> consumes, produces;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
@@ -32,6 +32,7 @@ public class CodegenOperation {
     public ExternalDocs externalDocs;
     public Map<String, Object> vendorExtensions;
     public String nickname; // legacy support
+    public String operationIdLowerCase; // for mardown documentation
 
     /**
      * Check if there's at least one parameter

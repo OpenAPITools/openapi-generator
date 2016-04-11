@@ -21,6 +21,19 @@
 +(SWGStoreApi*) sharedAPI;
 ///
 ///
+/// Delete purchase order by ID
+/// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+///
+/// @param orderId ID of the order that needs to be deleted
+/// 
+///
+/// @return 
+-(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+    completionHandler: (void (^)(NSError* error)) handler;
+
+
+///
+///
 /// Finds orders by status
 /// A single status value can be provided as a string
 ///
@@ -58,19 +71,6 @@
 
 ///
 ///
-/// Place an order for a pet
-/// 
-///
-/// @param body order placed for purchasing the pet
-/// 
-///
-/// @return SWGOrder*
--(NSNumber*) placeOrderWithBody: (SWGOrder*) body
-    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
-
-
-///
-///
 /// Find purchase order by ID
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 ///
@@ -84,15 +84,15 @@
 
 ///
 ///
-/// Delete purchase order by ID
-/// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-///
-/// @param orderId ID of the order that needs to be deleted
+/// Place an order for a pet
 /// 
 ///
-/// @return 
--(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
-    completionHandler: (void (^)(NSError* error)) handler;
+/// @param body order placed for purchasing the pet
+/// 
+///
+/// @return SWGOrder*
+-(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+    completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 
 

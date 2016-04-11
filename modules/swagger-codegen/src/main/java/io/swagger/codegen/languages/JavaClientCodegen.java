@@ -42,6 +42,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
     protected boolean useRxJava = false;
+    protected boolean hideGenerationTimestamp = false;
+
 
     public JavaClientCodegen() {
         super();
@@ -99,6 +101,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .SERIALIZE_BIG_DECIMAL_AS_STRING_DESC));
         cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util"));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
+        cliOptions.add(new CliOption("hideGenerationTimestamp", "hides the timestamp when files were generated"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
         supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.1.1");
@@ -301,6 +304,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             importMapping.put("LocalDate", "java.time.LocalDate");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         }
+
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
     }
 
     private boolean usesAnyRetrofitLibrary() {
@@ -390,6 +397,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
             LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
@@ -525,7 +539,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-
+        if(codegenModel.description != null) {
+            codegenModel.imports.add("ApiModel");
+        }
         if (allDefinitions != null && codegenModel != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
@@ -584,6 +600,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
 

@@ -1,22 +1,16 @@
 package io.swagger.generator.online;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.ClientOptInput;
-import io.swagger.codegen.ClientOpts;
-import io.swagger.codegen.Codegen;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConfigLoader;
+import io.swagger.codegen.*;
 import io.swagger.generator.exception.ApiException;
 import io.swagger.generator.exception.BadRequestException;
 import io.swagger.generator.model.GeneratorInput;
 import io.swagger.generator.model.InputOption;
 import io.swagger.generator.util.ZipUtil;
 import io.swagger.models.Swagger;
+import io.swagger.models.auth.AuthorizationValue;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.util.Json;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,21 +73,43 @@ public class Generator {
         Swagger swagger;
         if (node == null) {
             if (opts.getSwaggerUrl() != null) {
-                swagger = new SwaggerParser().read(opts.getSwaggerUrl());
+                if(opts.getAuthorizationValue() != null) {
+                    List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
+                    authorizationValues.add(opts.getAuthorizationValue());
+
+                    swagger = new SwaggerParser().read(opts.getSwaggerUrl(), authorizationValues, true);
+                }
+                else {
+                    swagger = new SwaggerParser().read(opts.getSwaggerUrl());
+                }
             } else {
                 throw new BadRequestException("No swagger specification was supplied");
             }
-        } else {
+        } else if(opts.getAuthorizationValue() != null) {
+            List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
+            authorizationValues.add(opts.getAuthorizationValue());
+            swagger = new SwaggerParser().read(node, authorizationValues, true);
+        }
+        else {
             swagger = new SwaggerParser().read(node, true);
         }
         if (swagger == null) {
             throw new BadRequestException("The swagger specification supplied was not valid");
         }
 
+        String destPath = null;
+
+        if(opts != null && opts.getOptions() != null) {
+            destPath = opts.getOptions().get("outputFolder");
+        }
+        if(destPath == null) {
+            destPath = language + "-"
+                    + type.getTypeName();
+        }
+
         ClientOptInput clientOptInput = new ClientOptInput();
         ClientOpts clientOpts = new ClientOpts();
-        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + language + "-"
-                + type.getTypeName();
+        String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
         String outputFilename = outputFolder + "-bundle.zip";
 
         clientOptInput

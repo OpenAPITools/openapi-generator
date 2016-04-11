@@ -157,6 +157,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -202,6 +205,13 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            String modelName = "Model" + name; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
@@ -302,6 +312,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                 (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "ApiException.java"));
         supportingFiles.add(new SupportingFile("Pair.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }
 
     private void addSupportingFilesForVolley() {

@@ -1,184 +1,133 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([undefined, '../ApiClient', './Category', './Tag'], factory);
+    define(['../ApiClient', './Category', './Tag'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(undefined, require('../ApiClient'), require('./Category'), require('./Tag'));
+    module.exports = factory(require('../ApiClient'), require('./Category'), require('./Tag'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    factory(root.SwaggerPetstore, root.SwaggerPetstore.ApiClient, root.SwaggerPetstore.Category, root.SwaggerPetstore.Tag);
+    root.SwaggerPetstore.Pet = factory(root.SwaggerPetstore.ApiClient, root.SwaggerPetstore.Category, root.SwaggerPetstore.Tag);
   }
-}(this, function(module, ApiClient, Category, Tag) {
+}(this, function(ApiClient, Category, Tag) {
   'use strict';
-  
-  
-  var Pet = function Pet(name, photoUrls) { 
-    
-    /**
-     * datatype: String
-     * required 
-     **/
+
+  /**
+   * The Pet model module.
+   * @module model/Pet
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new <code>Pet</code>.
+   * @alias module:model/Pet
+   * @class
+   * @param name
+   * @param photoUrls
+   */
+  var exports = function(name, photoUrls) {
+
+
+
     this['name'] = name;
-    /**
-     * datatype: [String]
-     * required 
-     **/
     this['photoUrls'] = photoUrls;
+
+
   };
 
-  Pet.constructFromObject = function(data) {
-    if (!data) {
-      return null;
+  /**
+   * Constructs a <code>Pet</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {module:model/Pet} obj Optional instance to populate.
+   * @return {module:model/Pet} The populated <code>Pet</code> instance.
+   */
+  exports.constructFromObject = function(data, obj) {
+    if (data) { 
+      obj = obj || new exports();
+
+      if (data.hasOwnProperty('id')) {
+        obj['id'] = ApiClient.convertToType(data['id'], 'Integer');
+      }
+      if (data.hasOwnProperty('category')) {
+        obj['category'] = Category.constructFromObject(data['category']);
+      }
+      if (data.hasOwnProperty('name')) {
+        obj['name'] = ApiClient.convertToType(data['name'], 'String');
+      }
+      if (data.hasOwnProperty('photoUrls')) {
+        obj['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
+      }
+      if (data.hasOwnProperty('tags')) {
+        obj['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
+      }
+      if (data.hasOwnProperty('status')) {
+        obj['status'] = ApiClient.convertToType(data['status'], 'String');
+      }
     }
-    var _this = new Pet();
+    return obj;
+  }
+
+
+  /**
+   * @member {Integer} id
+   */
+  exports.prototype['id'] = undefined;
+
+  /**
+   * @member {module:model/Category} category
+   */
+  exports.prototype['category'] = undefined;
+
+  /**
+   * @member {String} name
+   */
+  exports.prototype['name'] = undefined;
+
+  /**
+   * @member {Array.<String>} photoUrls
+   */
+  exports.prototype['photoUrls'] = undefined;
+
+  /**
+   * @member {Array.<module:model/Tag>} tags
+   */
+  exports.prototype['tags'] = undefined;
+
+  /**
+   * pet status in the store
+   * @member {module:model/Pet.StatusEnum} status
+   */
+  exports.prototype['status'] = undefined;
+
+
+  /**
+   * Allowed values for the <code>status</code> property.
+   * @enum {String}
+   * @readonly
+   */
+  exports.StatusEnum = { 
+    /**
+     * value: available
+     * @const
+     */
+    AVAILABLE: "available",
     
-    if (data['id']) {
-      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
-    }
+    /**
+     * value: pending
+     * @const
+     */
+    PENDING: "pending",
     
-    if (data['category']) {
-      _this['category'] = Category.constructFromObject(data['category']);
-    }
-    
-    if (data['name']) {
-      _this['name'] = ApiClient.convertToType(data['name'], 'String');
-    }
-    
-    if (data['photoUrls']) {
-      _this['photoUrls'] = ApiClient.convertToType(data['photoUrls'], ['String']);
-    }
-    
-    if (data['tags']) {
-      _this['tags'] = ApiClient.convertToType(data['tags'], [Tag]);
-    }
-    
-    if (data['status']) {
-      _this['status'] = ApiClient.convertToType(data['status'], 'String');
-    }
-    
-    return _this;
-  }
-
-  
-  
-  /**
-   * @return {Integer}
-   **/
-  Pet.prototype.getId = function() {
-    return this['id'];
-  }
-
-  /**
-   * @param {Integer} id
-   **/
-  Pet.prototype.setId = function(id) {
-    this['id'] = id;
-  }
-  
-  /**
-   * @return {Category}
-   **/
-  Pet.prototype.getCategory = function() {
-    return this['category'];
-  }
-
-  /**
-   * @param {Category} category
-   **/
-  Pet.prototype.setCategory = function(category) {
-    this['category'] = category;
-  }
-  
-  /**
-   * @return {String}
-   **/
-  Pet.prototype.getName = function() {
-    return this['name'];
-  }
-
-  /**
-   * @param {String} name
-   **/
-  Pet.prototype.setName = function(name) {
-    this['name'] = name;
-  }
-  
-  /**
-   * @return {[String]}
-   **/
-  Pet.prototype.getPhotoUrls = function() {
-    return this['photoUrls'];
-  }
-
-  /**
-   * @param {[String]} photoUrls
-   **/
-  Pet.prototype.setPhotoUrls = function(photoUrls) {
-    this['photoUrls'] = photoUrls;
-  }
-  
-  /**
-   * @return {[Tag]}
-   **/
-  Pet.prototype.getTags = function() {
-    return this['tags'];
-  }
-
-  /**
-   * @param {[Tag]} tags
-   **/
-  Pet.prototype.setTags = function(tags) {
-    this['tags'] = tags;
-  }
-  
-  /**
-   * get pet status in the store
-   * @return {StatusEnum}
-   **/
-  Pet.prototype.getStatus = function() {
-    return this['status'];
-  }
-
-  /**
-   * set pet status in the store
-   * @param {StatusEnum} status
-   **/
-  Pet.prototype.setStatus = function(status) {
-    this['status'] = status;
-  }
-  
-  
-
-  var StatusEnum = {
-
-	  /**
-	   * @const
-	   */
-	  AVAILABLE: "available",
-	  
-	  /**
-	   * @const
-	   */
-	  PENDING: "pending",
-	  
-	  /**
-	   * @const
-	   */
-	  SOLD: "sold"
+    /**
+     * value: sold
+     * @const
+     */
+    SOLD: "sold"
   };
 
-  Pet.StatusEnum = StatusEnum;
-
-
-  if (module) {
-    module.Pet = Pet;
-  }
-
-  return Pet;
-  
-  
+  return exports;
 }));

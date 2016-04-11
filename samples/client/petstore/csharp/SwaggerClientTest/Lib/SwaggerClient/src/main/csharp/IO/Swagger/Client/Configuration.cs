@@ -25,6 +25,7 @@ namespace IO.Swagger.Client
         /// <param name="tempFolderPath">Temp folder path</param>
         /// <param name="dateTimeFormat">DateTime format string</param>
         /// <param name="timeout">HTTP connection timeout (in milliseconds)</param>
+        /// <param name="userAgent">HTTP user agent</param>
         public Configuration(ApiClient apiClient = null,
                              Dictionary<String, String> defaultHeader = null,
                              string username = null,
@@ -34,7 +35,8 @@ namespace IO.Swagger.Client
                              Dictionary<String, String> apiKeyPrefix = null,
                              string tempFolderPath = null,
                              string dateTimeFormat = null,
-                             int timeout = 100000
+                             int timeout = 100000,
+                             string userAgent = "Swagger-Codegen/1.0.0/csharp"
                             )
         {
             setApiClientUsingDefault(apiClient);
@@ -42,6 +44,7 @@ namespace IO.Swagger.Client
             Username = username;
             Password = password;
             AccessToken = accessToken;
+            UserAgent = userAgent;
 
             if (defaultHeader != null)
                 DefaultHeader = defaultHeader;
@@ -84,7 +87,7 @@ namespace IO.Swagger.Client
         {
             get { return ApiClient.RestClient.Timeout; }
 
-            set 
+            set
             {
                 if (ApiClient != null)
                     ApiClient.RestClient.Timeout = value;
@@ -145,6 +148,12 @@ namespace IO.Swagger.Client
         {
             _defaultHeaderMap.Add(key, value);
         }
+
+        /// <summary>
+        /// Gets or sets the HTTP user agent.
+        /// </summary>
+        /// <value>Http user agent.</value>
+        public String UserAgent { get; set; }
 
         /// <summary>
         /// Gets or sets the username (HTTP basic authentication).
@@ -211,7 +220,7 @@ namespace IO.Swagger.Client
                 }
 
                 // create the directory if it does not exist
-                if (!Directory.Exists(value)) 
+                if (!Directory.Exists(value))
                     Directory.CreateDirectory(value);
 
                 // check if the path contains directory separator at the end

@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.models.Operation;
@@ -95,6 +96,25 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for ( CodegenOperation operation : ops ) {
+                boolean isMultipartPost = false;
+                List<Map<String, String>> consumes = operation.consumes;
+                if(consumes != null) {
+                    for(Map<String, String> consume : consumes) {
+                        String mt = consume.get("mediaType");
+                        if(mt != null) {
+                            if(mt.startsWith("multipart/form-data")) {
+                                isMultipartPost = true;
+                            }
+                        }
+                    }
+                }
+
+                for(CodegenParameter parameter : operation.allParams) {
+                    if(isMultipartPost) {
+                        parameter.vendorExtensions.put("x-multipart", "true");
+                    }
+                }
+
                 List<CodegenResponse> responses = operation.responses;
                 if ( responses != null ) {
                     for ( CodegenResponse resp : responses ) {

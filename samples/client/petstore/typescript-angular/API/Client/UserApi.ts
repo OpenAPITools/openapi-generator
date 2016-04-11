@@ -108,6 +108,68 @@ namespace API.Client {
             return this.$http(httpRequestParams);
         }
         /**
+         * Delete user
+         * This can only be done by the logged in user.
+         * @param username The name that needs to be deleted
+         */
+        public deleteUser (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const localVarPath = this.basePath + '/user/{username}'
+                .replace('{' + 'username' + '}', String(username));
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            // verify required parameter 'username' is set
+            if (!username) {
+                throw new Error('Missing required parameter username when calling deleteUser');
+            }
+            let httpRequestParams: any = {
+                method: 'DELETE',
+                url: localVarPath,
+                json: true,
+                
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
+         * Get user by user name
+         * 
+         * @param username The name that needs to be fetched. Use user1 for testing.
+         */
+        public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<User> {
+            const localVarPath = this.basePath + '/user/{username}'
+                .replace('{' + 'username' + '}', String(username));
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            // verify required parameter 'username' is set
+            if (!username) {
+                throw new Error('Missing required parameter username when calling getUserByName');
+            }
+            let httpRequestParams: any = {
+                method: 'GET',
+                url: localVarPath,
+                json: true,
+                
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
          * Logs user into the system
          * 
          * @param username The user name for login
@@ -168,37 +230,6 @@ namespace API.Client {
             return this.$http(httpRequestParams);
         }
         /**
-         * Get user by user name
-         * 
-         * @param username The name that needs to be fetched. Use user1 for testing.
-         */
-        public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<User> {
-            const localVarPath = this.basePath + '/user/{username}'
-                .replace('{' + 'username' + '}', String(username));
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'username' is set
-            if (!username) {
-                throw new Error('Missing required parameter username when calling getUserByName');
-            }
-            let httpRequestParams: any = {
-                method: 'GET',
-                url: localVarPath,
-                json: true,
-                
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
          * Updated user
          * This can only be done by the logged in user.
          * @param username name that need to be deleted
@@ -219,37 +250,6 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * Delete user
-         * This can only be done by the logged in user.
-         * @param username The name that needs to be deleted
-         */
-        public deleteUser (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/user/{username}'
-                .replace('{' + 'username' + '}', String(username));
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'username' is set
-            if (!username) {
-                throw new Error('Missing required parameter username when calling deleteUser');
-            }
-            let httpRequestParams: any = {
-                method: 'DELETE',
-                url: localVarPath,
-                json: true,
                 
                 
                 params: queryParameters,

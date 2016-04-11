@@ -7,6 +7,7 @@
  * Do not edit the class manually.
  */
 
+#import "SWGTag.h"
 
 
 @protocol SWGInlineResponse200
@@ -15,10 +16,17 @@
 @interface SWGInlineResponse200 : SWGObject
 
 
+@property(nonatomic) NSArray<SWGTag>* tags;
+
 @property(nonatomic) NSNumber* _id;
 
 @property(nonatomic) NSObject* category;
+/* pet status in the store [optional]
+ */
+@property(nonatomic) NSString* status;
 
 @property(nonatomic) NSString* name;
+
+@property(nonatomic) NSArray* /* NSString */ photoUrls;
 
 @end

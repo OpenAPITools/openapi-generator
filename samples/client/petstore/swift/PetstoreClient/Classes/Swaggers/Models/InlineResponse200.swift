@@ -10,9 +10,19 @@ import Foundation
 
 public class InlineResponse200: JSONEncodable {
 
-    public var id: Int?
-    public var category: AnyObject?
+    public enum Status: String { 
+        case Available = "available"
+        case Pending = "pending"
+        case Sold = "sold"
+    }
+    
+    public var photoUrls: [String]?
     public var name: String?
+    public var id: Int64?
+    public var category: AnyObject?
+    public var tags: [Tag]?
+    /** pet status in the store */
+    public var status: Status?
     
 
     public init() {}
@@ -20,9 +30,12 @@ public class InlineResponse200: JSONEncodable {
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["id"] = self.id
-        nillableDictionary["category"] = self.category
+        nillableDictionary["photoUrls"] = self.photoUrls?.encodeToJSON()
         nillableDictionary["name"] = self.name
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["category"] = self.category
+        nillableDictionary["tags"] = self.tags?.encodeToJSON()
+        nillableDictionary["status"] = self.status?.rawValue
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

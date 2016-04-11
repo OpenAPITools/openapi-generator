@@ -90,91 +90,6 @@ class PetApi
         return $this;
     }
   
-    
-    /**
-     * updatePet
-     *
-     * Update an existing pet
-     *
-     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
-     * @return void
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function updatePet($body = null)
-    {
-        list($response, $statusCode, $httpHeader) = $this->updatePetWithHttpInfo ($body);
-        return $response; 
-    }
-
-
-    /**
-     * updatePetWithHttpInfo
-     *
-     * Update an existing pet
-     *
-     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function updatePetWithHttpInfo($body = null)
-    {
-        
-  
-        // parse inputs
-        $resourcePath = "/pet";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
-  
-        
-        
-        
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        
-        // body params
-        $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
-        }
-  
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'PUT',
-                $queryParams, $httpBody,
-                $headerParams
-            );
-            
-            return array(null, $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            }
-  
-            throw $e;
-        }
-    }
-    
     /**
      * addPet
      *
@@ -186,7 +101,7 @@ class PetApi
      */
     public function addPet($body = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->addPetWithHttpInfo ($body);
+        list($response) = $this->addPetWithHttpInfo ($body);
         return $response; 
     }
 
@@ -210,11 +125,11 @@ class PetApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml'));
   
         
         
@@ -240,7 +155,6 @@ class PetApi
         if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -248,9 +162,8 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -258,19 +171,192 @@ class PetApi
             throw $e;
         }
     }
-    
+    /**
+     * addPetUsingByteArray
+     *
+     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+     *
+     * @param string $body Pet object in the form of byte array (optional)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function addPetUsingByteArray($body = null)
+    {
+        list($response) = $this->addPetUsingByteArrayWithHttpInfo ($body);
+        return $response; 
+    }
+
+
+    /**
+     * addPetUsingByteArrayWithHttpInfo
+     *
+     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
+     *
+     * @param string $body Pet object in the form of byte array (optional)
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function addPetUsingByteArrayWithHttpInfo($body = null)
+    {
+        
+  
+        // parse inputs
+        $resourcePath = "/pet?testing_byte_array&#x3D;true";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml'));
+  
+        
+        
+        
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // this endpoint requires OAuth (access token)
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'POST',
+                $queryParams, $httpBody,
+                $headerParams
+            );
+
+            return array(null, $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
+  
+            throw $e;
+        }
+    }
+    /**
+     * deletePet
+     *
+     * Deletes a pet
+     *
+     * @param int $pet_id Pet id to delete (required)
+     * @param string $api_key  (optional)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function deletePet($pet_id, $api_key = null)
+    {
+        list($response) = $this->deletePetWithHttpInfo ($pet_id, $api_key);
+        return $response; 
+    }
+
+
+    /**
+     * deletePetWithHttpInfo
+     *
+     * Deletes a pet
+     *
+     * @param int $pet_id Pet id to delete (required)
+     * @param string $api_key  (optional)
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function deletePetWithHttpInfo($pet_id, $api_key = null)
+    {
+        
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
+        }
+  
+        // parse inputs
+        $resourcePath = "/pet/{petId}";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+  
+        
+        // header params
+        if ($api_key !== null) {
+            $headerParams['api_key'] = $this->apiClient->getSerializer()->toHeaderValue($api_key);
+        }
+        // path params
+        if ($pet_id !== null) {
+            $resourcePath = str_replace(
+                "{" . "petId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($pet_id),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // this endpoint requires OAuth (access token)
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'DELETE',
+                $queryParams, $httpBody,
+                $headerParams
+            );
+
+            return array(null, $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
+  
+            throw $e;
+        }
+    }
     /**
      * findPetsByStatus
      *
      * Finds Pets by status
      *
-     * @param string[] $status Status values that need to be considered for query (optional)
+     * @param string[] $status Status values that need to be considered for query (optional, default to available)
      * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function findPetsByStatus($status = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->findPetsByStatusWithHttpInfo ($status);
+        list($response) = $this->findPetsByStatusWithHttpInfo ($status);
         return $response; 
     }
 
@@ -280,7 +366,7 @@ class PetApi
      *
      * Finds Pets by status
      *
-     * @param string[] $status Status values that need to be considered for query (optional)
+     * @param string[] $status Status values that need to be considered for query (optional, default to available)
      * @return Array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -294,18 +380,16 @@ class PetApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         // query params
-        
         if (is_array($status)) {
             $status = $this->apiClient->getSerializer()->serializeCollection($status, 'multi', true);
         }
-        
         if ($status !== null) {
             $queryParams['status'] = $this->apiClient->getSerializer()->toQueryValue($status);
         }
@@ -328,7 +412,6 @@ class PetApi
         if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -336,17 +419,15 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet[]'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $e->getResponseHeaders());
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;
             }
@@ -354,7 +435,6 @@ class PetApi
             throw $e;
         }
     }
-    
     /**
      * findPetsByTags
      *
@@ -366,7 +446,7 @@ class PetApi
      */
     public function findPetsByTags($tags = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->findPetsByTagsWithHttpInfo ($tags);
+        list($response) = $this->findPetsByTagsWithHttpInfo ($tags);
         return $response; 
     }
 
@@ -390,18 +470,16 @@ class PetApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         // query params
-        
         if (is_array($tags)) {
             $tags = $this->apiClient->getSerializer()->serializeCollection($tags, 'multi', true);
         }
-        
         if ($tags !== null) {
             $queryParams['tags'] = $this->apiClient->getSerializer()->toQueryValue($tags);
         }
@@ -424,7 +502,6 @@ class PetApi
         if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -432,17 +509,15 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet[]'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $e->getResponseHeaders());
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet[]', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;
             }
@@ -450,7 +525,6 @@ class PetApi
             throw $e;
         }
     }
-    
     /**
      * getPetById
      *
@@ -462,7 +536,7 @@ class PetApi
      */
     public function getPetById($pet_id)
     {
-        list($response, $statusCode, $httpHeader) = $this->getPetByIdWithHttpInfo ($pet_id);
+        list($response) = $this->getPetByIdWithHttpInfo ($pet_id);
         return $response; 
     }
 
@@ -490,16 +564,15 @@ class PetApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
   
         
         
         // path params
-        
         if ($pet_id !== null) {
             $resourcePath = str_replace(
                 "{" . "petId" . "}",
@@ -526,12 +599,11 @@ class PetApi
             $headerParams['api_key'] = $apiKey;
         }
         
-        
+
         // this endpoint requires OAuth (access token)
         if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -539,17 +611,15 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams, '\Swagger\Client\Model\Pet'
             );
-            
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader);
+                    } catch (ApiException $e) {
             switch ($e->getCode()) { 
             case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet', $e->getResponseHeaders());
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Pet', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;
             }
@@ -557,7 +627,291 @@ class PetApi
             throw $e;
         }
     }
-    
+    /**
+     * getPetByIdInObject
+     *
+     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+     *
+     * @param int $pet_id ID of pet that needs to be fetched (required)
+     * @return \Swagger\Client\Model\InlineResponse200
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getPetByIdInObject($pet_id)
+    {
+        list($response) = $this->getPetByIdInObjectWithHttpInfo ($pet_id);
+        return $response; 
+    }
+
+
+    /**
+     * getPetByIdInObjectWithHttpInfo
+     *
+     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+     *
+     * @param int $pet_id ID of pet that needs to be fetched (required)
+     * @return Array of \Swagger\Client\Model\InlineResponse200, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function getPetByIdInObjectWithHttpInfo($pet_id)
+    {
+        
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetByIdInObject');
+        }
+  
+        // parse inputs
+        $resourcePath = "/pet/{petId}?response&#x3D;inline_arbitrary_object";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+  
+        
+        
+        // path params
+        if ($pet_id !== null) {
+            $resourcePath = str_replace(
+                "{" . "petId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($pet_id),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['api_key'] = $apiKey;
+        }
+        
+
+        // this endpoint requires OAuth (access token)
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'GET',
+                $queryParams, $httpBody,
+                $headerParams, '\Swagger\Client\Model\InlineResponse200'
+            );
+            if (!$response) {
+                return array(null, $statusCode, $httpHeader);
+            }
+
+            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\InlineResponse200', $httpHeader), $statusCode, $httpHeader);
+                    } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            case 200:
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\InlineResponse200', $e->getResponseHeaders());
+                $e->setResponseObject($data);
+                break;
+            }
+  
+            throw $e;
+        }
+    }
+    /**
+     * petPetIdtestingByteArraytrueGet
+     *
+     * Fake endpoint to test byte array return by 'Find pet by ID'
+     *
+     * @param int $pet_id ID of pet that needs to be fetched (required)
+     * @return string
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function petPetIdtestingByteArraytrueGet($pet_id)
+    {
+        list($response) = $this->petPetIdtestingByteArraytrueGetWithHttpInfo ($pet_id);
+        return $response; 
+    }
+
+
+    /**
+     * petPetIdtestingByteArraytrueGetWithHttpInfo
+     *
+     * Fake endpoint to test byte array return by 'Find pet by ID'
+     *
+     * @param int $pet_id ID of pet that needs to be fetched (required)
+     * @return Array of string, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function petPetIdtestingByteArraytrueGetWithHttpInfo($pet_id)
+    {
+        
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling petPetIdtestingByteArraytrueGet');
+        }
+  
+        // parse inputs
+        $resourcePath = "/pet/{petId}?testing_byte_array&#x3D;true";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+  
+        
+        
+        // path params
+        if ($pet_id !== null) {
+            $resourcePath = str_replace(
+                "{" . "petId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($pet_id),
+                $resourcePath
+            );
+        }
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // this endpoint requires API key authentication
+        $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
+        if (strlen($apiKey) !== 0) {
+            $headerParams['api_key'] = $apiKey;
+        }
+        
+
+        // this endpoint requires OAuth (access token)
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'GET',
+                $queryParams, $httpBody,
+                $headerParams, 'string'
+            );
+            if (!$response) {
+                return array(null, $statusCode, $httpHeader);
+            }
+
+            return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
+                    } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            case 200:
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
+                $e->setResponseObject($data);
+                break;
+            }
+  
+            throw $e;
+        }
+    }
+    /**
+     * updatePet
+     *
+     * Update an existing pet
+     *
+     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function updatePet($body = null)
+    {
+        list($response) = $this->updatePetWithHttpInfo ($body);
+        return $response; 
+    }
+
+
+    /**
+     * updatePetWithHttpInfo
+     *
+     * Update an existing pet
+     *
+     * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (optional)
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function updatePetWithHttpInfo($body = null)
+    {
+        
+  
+        // parse inputs
+        $resourcePath = "/pet";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml'));
+  
+        
+        
+        
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
+  
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        
+        // this endpoint requires OAuth (access token)
+        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
+            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath, 'PUT',
+                $queryParams, $httpBody,
+                $headerParams
+            );
+
+            return array(null, $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) { 
+            }
+  
+            throw $e;
+        }
+    }
     /**
      * updatePetWithForm
      *
@@ -571,7 +925,7 @@ class PetApi
      */
     public function updatePetWithForm($pet_id, $name = null, $status = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->updatePetWithFormWithHttpInfo ($pet_id, $name, $status);
+        list($response) = $this->updatePetWithFormWithHttpInfo ($pet_id, $name, $status);
         return $response; 
     }
 
@@ -601,16 +955,15 @@ class PetApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/x-www-form-urlencoded'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/x-www-form-urlencoded'));
   
         
         
         // path params
-        
         if ($pet_id !== null) {
             $resourcePath = str_replace(
                 "{" . "petId" . "}",
@@ -623,16 +976,10 @@ class PetApi
 
         // form params
         if ($name !== null) {
-            
-            
             $formParams['name'] = $this->apiClient->getSerializer()->toFormValue($name);
-            
         }// form params
         if ($status !== null) {
-            
-            
             $formParams['status'] = $this->apiClient->getSerializer()->toFormValue($status);
-            
         }
         
   
@@ -647,7 +994,6 @@ class PetApi
         if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -655,9 +1001,8 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -665,105 +1010,6 @@ class PetApi
             throw $e;
         }
     }
-    
-    /**
-     * deletePet
-     *
-     * Deletes a pet
-     *
-     * @param int $pet_id Pet id to delete (required)
-     * @param string $api_key  (optional)
-     * @return void
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function deletePet($pet_id, $api_key = null)
-    {
-        list($response, $statusCode, $httpHeader) = $this->deletePetWithHttpInfo ($pet_id, $api_key);
-        return $response; 
-    }
-
-
-    /**
-     * deletePetWithHttpInfo
-     *
-     * Deletes a pet
-     *
-     * @param int $pet_id Pet id to delete (required)
-     * @param string $api_key  (optional)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function deletePetWithHttpInfo($pet_id, $api_key = null)
-    {
-        
-        // verify the required parameter 'pet_id' is set
-        if ($pet_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
-        }
-  
-        // parse inputs
-        $resourcePath = "/pet/{petId}";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-  
-        
-        // header params
-        
-        if ($api_key !== null) {
-            $headerParams['api_key'] = $this->apiClient->getSerializer()->toHeaderValue($api_key);
-        }
-        // path params
-        
-        if ($pet_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "petId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($pet_id),
-                $resourcePath
-            );
-        }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        
-        
-  
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'DELETE',
-                $queryParams, $httpBody,
-                $headerParams
-            );
-            
-            return array(null, $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            }
-  
-            throw $e;
-        }
-    }
-    
     /**
      * uploadFile
      *
@@ -777,7 +1023,7 @@ class PetApi
      */
     public function uploadFile($pet_id, $additional_metadata = null, $file = null)
     {
-        list($response, $statusCode, $httpHeader) = $this->uploadFileWithHttpInfo ($pet_id, $additional_metadata, $file);
+        list($response) = $this->uploadFileWithHttpInfo ($pet_id, $additional_metadata, $file);
         return $response; 
     }
 
@@ -807,16 +1053,15 @@ class PetApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', 'application/xml'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('multipart/form-data'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('multipart/form-data'));
   
         
         
         // path params
-        
         if ($pet_id !== null) {
             $resourcePath = str_replace(
                 "{" . "petId" . "}",
@@ -829,13 +1074,9 @@ class PetApi
 
         // form params
         if ($additional_metadata !== null) {
-            
-            
             $formParams['additionalMetadata'] = $this->apiClient->getSerializer()->toFormValue($additional_metadata);
-            
         }// form params
         if ($file !== null) {
-            
             // PHP 5.5 introduced a CurlFile object that deprecates the old @filename syntax
             // See: https://wiki.php.net/rfc/curl-file-upload
             if (function_exists('curl_file_create')) {
@@ -843,8 +1084,6 @@ class PetApi
             } else {
                $formParams['file'] = '@' . $this->apiClient->getSerializer()->toFormValue($file);
             }
-            
-            
         }
         
   
@@ -859,7 +1098,6 @@ class PetApi
         if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
             $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -867,9 +1105,8 @@ class PetApi
                 $queryParams, $httpBody,
                 $headerParams
             );
-            
+
             return array(null, $statusCode, $httpHeader);
-            
         } catch (ApiException $e) {
             switch ($e->getCode()) { 
             }
@@ -877,303 +1114,4 @@ class PetApi
             throw $e;
         }
     }
-    
-    /**
-     * getPetByIdInObject
-     *
-     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-     *
-     * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return \Swagger\Client\Model\InlineResponse200
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function getPetByIdInObject($pet_id)
-    {
-        list($response, $statusCode, $httpHeader) = $this->getPetByIdInObjectWithHttpInfo ($pet_id);
-        return $response; 
-    }
-
-
-    /**
-     * getPetByIdInObjectWithHttpInfo
-     *
-     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-     *
-     * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return Array of \Swagger\Client\Model\InlineResponse200, HTTP status code, HTTP response headers (array of strings)
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function getPetByIdInObjectWithHttpInfo($pet_id)
-    {
-        
-        // verify the required parameter 'pet_id' is set
-        if ($pet_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetByIdInObject');
-        }
-  
-        // parse inputs
-        $resourcePath = "/pet/{petId}?response=inline_arbitrary_object";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-  
-        
-        
-        // path params
-        
-        if ($pet_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "petId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($pet_id),
-                $resourcePath
-            );
-        }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        
-        
-  
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        
-        // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-        if (strlen($apiKey) !== 0) {
-            $headerParams['api_key'] = $apiKey;
-        }
-        
-        
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'GET',
-                $queryParams, $httpBody,
-                $headerParams, '\Swagger\Client\Model\InlineResponse200'
-            );
-            
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
-
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, '\Swagger\Client\Model\InlineResponse200', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\InlineResponse200', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
-            }
-  
-            throw $e;
-        }
-    }
-    
-    /**
-     * petPetIdtestingByteArraytrueGet
-     *
-     * Fake endpoint to test byte array return by 'Find pet by ID'
-     *
-     * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return string
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function petPetIdtestingByteArraytrueGet($pet_id)
-    {
-        list($response, $statusCode, $httpHeader) = $this->petPetIdtestingByteArraytrueGetWithHttpInfo ($pet_id);
-        return $response; 
-    }
-
-
-    /**
-     * petPetIdtestingByteArraytrueGetWithHttpInfo
-     *
-     * Fake endpoint to test byte array return by 'Find pet by ID'
-     *
-     * @param int $pet_id ID of pet that needs to be fetched (required)
-     * @return Array of string, HTTP status code, HTTP response headers (array of strings)
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function petPetIdtestingByteArraytrueGetWithHttpInfo($pet_id)
-    {
-        
-        // verify the required parameter 'pet_id' is set
-        if ($pet_id === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling petPetIdtestingByteArraytrueGet');
-        }
-  
-        // parse inputs
-        $resourcePath = "/pet/{petId}?testing_byte_array=true";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array());
-  
-        
-        
-        // path params
-        
-        if ($pet_id !== null) {
-            $resourcePath = str_replace(
-                "{" . "petId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($pet_id),
-                $resourcePath
-            );
-        }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        
-        
-  
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        
-        // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
-        if (strlen($apiKey) !== 0) {
-            $headerParams['api_key'] = $apiKey;
-        }
-        
-        
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'GET',
-                $queryParams, $httpBody,
-                $headerParams, 'string'
-            );
-            
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
-
-            return array(\Swagger\Client\ObjectSerializer::deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = \Swagger\Client\ObjectSerializer::deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
-            }
-  
-            throw $e;
-        }
-    }
-    
-    /**
-     * addPetUsingByteArray
-     *
-     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-     *
-     * @param string $body Pet object in the form of byte array (optional)
-     * @return void
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function addPetUsingByteArray($body = null)
-    {
-        list($response, $statusCode, $httpHeader) = $this->addPetUsingByteArrayWithHttpInfo ($body);
-        return $response; 
-    }
-
-
-    /**
-     * addPetUsingByteArrayWithHttpInfo
-     *
-     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-     *
-     * @param string $body Pet object in the form of byte array (optional)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
-     * @throws \Swagger\Client\ApiException on non-2xx response
-     */
-    public function addPetUsingByteArrayWithHttpInfo($body = null)
-    {
-        
-  
-        // parse inputs
-        $resourcePath = "/pet?testing_byte_array=true";
-        $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array('application/json', 'application/xml'));
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array('application/json','application/xml'));
-  
-        
-        
-        
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
-        
-        // body params
-        $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
-        }
-  
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        
-        // this endpoint requires OAuth (access token)
-        if (strlen($this->apiClient->getConfig()->getAccessToken()) !== 0) {
-            $headerParams['Authorization'] = 'Bearer ' . $this->apiClient->getConfig()->getAccessToken();
-        }
-        
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'POST',
-                $queryParams, $httpBody,
-                $headerParams
-            );
-            
-            return array(null, $statusCode, $httpHeader);
-            
-        } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            }
-  
-            throw $e;
-        }
-    }
-    
 }

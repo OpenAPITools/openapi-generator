@@ -91,4 +91,16 @@ public class CodegenConstants {
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue, default false.";
 
+    public static final String GIT_USER_ID = "gitUserId";
+    public static final String GIT_USER_ID_DESC = "Git user ID, e.g. swagger-api.";
+
+    public static final String GIT_REPO_ID = "gitRepoId";
+    public static final String GIT_REPO_ID_DESC = "Git repo ID, e.g. swagger-codegen.";
+
+    public static final String RELEASE_NOTE = "releaseNote";
+    public static final String RELEASE_NOTE_DESC = "Release note, default to 'Minor update'.";
+
+    public static final String HTTP_USER_AGENT = "httpUserAgent";
+    public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'Swagger-Codegen/{packageVersion}}/{language}'";
+
 }

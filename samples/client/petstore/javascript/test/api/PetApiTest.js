@@ -18,20 +18,36 @@
     api = new SwaggerPetstore.PetApi();
   });
 
+  var getProperty = function(object, getter, property) {
+    // Use getter method if present; otherwise, get the property directly.
+    if (typeof object[getter] === 'function')
+      return object[getter]();
+    else
+      return object[property];
+  }
+
+  var setProperty = function(object, setter, property, value) {
+    // Use setter method if present; otherwise, set the property directly.
+    if (typeof object[setter] === 'function')
+      object[setter](value);
+    else
+      object[property] = value;
+  }
+
   var createRandomPet = function() {
     var id = new Date().getTime();
     var pet = new SwaggerPetstore.Pet();
-    pet.setId(id);
-    pet.setName("pet" + id);
+    setProperty(pet, "setId", "id", id);
+    setProperty(pet, "setName", "name", "pet" + id);
 
     var category = new SwaggerPetstore.Category();
-    category.setId(id);
-    category.setName("category" + id);
-    pet.setCategory(category);
+    setProperty(category, "setId", "id", id);
+    setProperty(category, "setName", "name", "category" + id);
+    setProperty(pet, "setCategory", "category", category);
 
-    pet.setStatus('available');
+    setProperty(pet, "setStatus", "status", "available");
     var photos = ["http://foo.bar.com/1", "http://foo.bar.com/2"];
-    pet.setPhotoUrls(photos);
+    setProperty(pet, "setPhotoUrls", "photoUrls", photos);
 
     return pet;
   };
@@ -50,9 +66,12 @@
 
           expect(fetched).to.be.a(SwaggerPetstore.Pet);
           expect(fetched.id).to.be(pet.id);
-          expect(fetched.getPhotoUrls()).to.eql(pet.getPhotoUrls());
-          expect(fetched.getCategory()).to.be.a(SwaggerPetstore.Category);
-          expect(fetched.getCategory().getName()).to.be(pet.getCategory().getName());
+          expect(getProperty(fetched, "getPhotoUrls", "photoUrls"))
+            .to.eql(getProperty(pet, "getPhotoUrls", "photoUrls"));
+          expect(getProperty(fetched, "getCategory", "category"))
+            .to.be.a(SwaggerPetstore.Category);
+          expect(getProperty(getProperty(fetched, "getCategory", "category"), "getName", "name"))
+            .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
 
           api.deletePet(pet.id);
           done();
@@ -75,8 +94,10 @@
           var categoryObj = fetched.category;
           expect(categoryObj).to.be.a(Object);
           expect(categoryObj).not.to.be.a(SwaggerPetstore.Category);
-          expect(categoryObj.id).to.be(pet.getCategory().getId());
-          expect(categoryObj.name).to.be(pet.getCategory().getName());
+          expect(categoryObj.id)
+            .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getId", "id"));
+          expect(categoryObj.name)
+            .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
 
           api.deletePet(pet.id);
           done();

@@ -64,7 +64,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    
     /**
      * Test case for createUser
      *
@@ -74,7 +73,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_createUser() {
 
     }
-    
     /**
      * Test case for createUsersWithArrayInput
      *
@@ -84,7 +82,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_createUsersWithArrayInput() {
 
     }
-    
     /**
      * Test case for createUsersWithListInput
      *
@@ -94,47 +91,6 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_createUsersWithListInput() {
 
     }
-    
-    /**
-     * Test case for loginUser
-     *
-     * Logs user into the system
-     *
-     */
-    public function test_loginUser() {
-
-    }
-    
-    /**
-     * Test case for logoutUser
-     *
-     * Logs out current logged in user session
-     *
-     */
-    public function test_logoutUser() {
-
-    }
-    
-    /**
-     * Test case for getUserByName
-     *
-     * Get user by user name
-     *
-     */
-    public function test_getUserByName() {
-
-    }
-    
-    /**
-     * Test case for updateUser
-     *
-     * Updated user
-     *
-     */
-    public function test_updateUser() {
-
-    }
-    
     /**
      * Test case for deleteUser
      *
@@ -144,5 +100,40 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
     public function test_deleteUser() {
 
     }
-    
+    /**
+     * Test case for getUserByName
+     *
+     * Get user by user name
+     *
+     */
+    public function test_getUserByName() {
+
+    }
+    /**
+     * Test case for loginUser
+     *
+     * Logs user into the system
+     *
+     */
+    public function test_loginUser() {
+
+    }
+    /**
+     * Test case for logoutUser
+     *
+     * Logs out current logged in user session
+     *
+     */
+    public function test_logoutUser() {
+
+    }
+    /**
+     * Test case for updateUser
+     *
+     * Updated user
+     *
+     */
+    public function test_updateUser() {
+
+    }
 }

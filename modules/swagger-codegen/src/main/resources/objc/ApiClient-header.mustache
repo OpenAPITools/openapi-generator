@@ -14,6 +14,7 @@
 
 {{#models}}{{#model}}#import "{{classname}}.h"
 {{/model}}{{/models}}
+{{^models}}#import "{{classPrefix}}Object.h"{{/models}}
 
 @class {{classPrefix}}Configuration;
 
@@ -63,6 +64,20 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  * @param state off line state, must be `YES` or `NO`
  */
 +(void) setOfflineState:(BOOL) state;
+
+/**
+ * Gets if the client is unreachable
+ *
+ * @return The client offline state
+ */
++(bool) getOfflineState;
+
+/**
+ * Sets the client reachability, this may be overridden by the reachability manager if reachability changes
+ *
+ * @param The client reachability.
+ */
++(void) setReachabilityStatus:(AFNetworkReachabilityStatus) status;
 
 /**
  * Gets the client reachability
