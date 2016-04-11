@@ -8,7 +8,6 @@ import (
 )
 
 func TestAddPet(t *testing.T) {
-	t.Log("Testing TestAddPet...")
 	s := sw.NewPetApi()
 	newPet := (sw.Pet{Id: 12830, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"})
@@ -23,7 +22,6 @@ func TestAddPet(t *testing.T) {
 
 func TestGetPetById(t *testing.T) {
 	assert := assert.New(t)
-	t.Log("Testing TestGetPetById...")
 
 	s := sw.NewPetApi()
 	resp, err := s.GetPetById(12830)
@@ -31,7 +29,7 @@ func TestGetPetById(t *testing.T) {
 		t.Errorf("Error while getting pet by id")
 		t.Log(err)
 	} else {
-		assert.Equal(resp.Id, 12830, "Pet id should be equal")
+		assert.Equal(resp.Id, "12830", "Pet id should be equal")
 		assert.Equal(resp.Name, "gopher", "Pet name should be gopher")
 		assert.Equal(resp.Status, "pending", "Pet status should be pending")
 
@@ -40,10 +38,8 @@ func TestGetPetById(t *testing.T) {
 }
 
 func TestUpdatePetWithForm(t *testing.T) {
-	t.Log("Testing UpdatePetWithForm...")
-
 	s := sw.NewPetApi()
-	err := s.UpdatePetWithForm("12830", "golang", "available")
+	err := s.UpdatePetWithForm(12830, "golang", "available")
 
 	if err != nil {
 		t.Errorf("Error while updating pet by id")
