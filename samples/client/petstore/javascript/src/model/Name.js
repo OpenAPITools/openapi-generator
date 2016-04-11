@@ -23,12 +23,14 @@
 
   /**
    * Constructs a new <code>Name</code>.
+   * Model for testing model name same as property name
    * @alias module:model/Name
    * @class
+   * @param name
    */
-  var exports = function() {
+  var exports = function(name) {
 
-
+    this['name'] = name;
 
   };
 
