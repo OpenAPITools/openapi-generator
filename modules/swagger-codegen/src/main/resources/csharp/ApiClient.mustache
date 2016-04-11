@@ -165,7 +165,7 @@ namespace {{packageName}}.Client
             {{#supportsUWP}}
             // Using async method to perform sync call (uwp-only)
             var response = RestClient.ExecuteTaskAsync(request).Result;
-			{{/supportsUWP}}
+            {{/supportsUWP}}
             return (Object) response;
         }
         {{#supportsAsync}}
