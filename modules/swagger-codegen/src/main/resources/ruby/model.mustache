@@ -23,7 +23,8 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     # Attribute type mapping.
     def self.swagger_types
       {
-        {{#vars}}:'{{{name}}}' => :'{{{datatype}}}'{{#hasMore}},{{/hasMore}}
+        {{#vars}}
+        :'{{{name}}}' => :'{{{datatype}}}'{{#hasMore}},{{/hasMore}}
         {{/vars}}
       }
     end

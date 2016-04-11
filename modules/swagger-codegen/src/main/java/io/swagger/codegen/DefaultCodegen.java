@@ -1125,6 +1125,24 @@ public class DefaultCodegen {
             }
         }
 
+        if (p instanceof BaseIntegerProperty) {
+            BaseIntegerProperty sp = (BaseIntegerProperty) p;
+            property.isInteger = true;
+            /*if (sp.getEnum() != null) {
+                List<Integer> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(Integer i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }*/
+        }
+
         if (p instanceof IntegerProperty) {
             IntegerProperty sp = (IntegerProperty) p;
             property.isInteger = true;
@@ -1171,6 +1189,24 @@ public class DefaultCodegen {
 
         if (p instanceof ByteArrayProperty) {
             property.isByteArray = true;
+        }
+
+        if (p instanceof DecimalProperty) {
+            DecimalProperty sp = (DecimalProperty) p;
+            property.isFloat = true;
+            /*if (sp.getEnum() != null) {
+                List<Double> _enum = sp.getEnum();
+                property._enum = new ArrayList<String>();
+                for(Double i : _enum) {
+                  property._enum.add(i.toString());
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }*/
         }
 
         if (p instanceof DoubleProperty) {

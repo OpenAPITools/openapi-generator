@@ -53,13 +53,13 @@ module Petstore
     def self.swagger_types
       {
         :'id' => :'Integer',
-:'username' => :'String',
-:'first_name' => :'String',
-:'last_name' => :'String',
-:'email' => :'String',
-:'password' => :'String',
-:'phone' => :'String',
-:'user_status' => :'Integer'
+        :'username' => :'String',
+        :'first_name' => :'String',
+        :'last_name' => :'String',
+        :'email' => :'String',
+        :'password' => :'String',
+        :'phone' => :'String',
+        :'user_status' => :'Integer'
       }
     end
 

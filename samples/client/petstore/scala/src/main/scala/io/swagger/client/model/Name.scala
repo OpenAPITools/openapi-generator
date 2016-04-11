@@ -4,5 +4,5 @@ package io.swagger.client.model
 
 
 case class Name (
-  name: Integer)
-  
+  name: Integer,
+snakeCase: Integer)

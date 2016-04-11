@@ -47,11 +47,11 @@ module Petstore
     def self.swagger_types
       {
         :'tags' => :'Array<Tag>',
-:'id' => :'Integer',
-:'category' => :'Object',
-:'status' => :'String',
-:'name' => :'String',
-:'photo_urls' => :'Array<String>'
+        :'id' => :'Integer',
+        :'category' => :'Object',
+        :'status' => :'String',
+        :'name' => :'String',
+        :'photo_urls' => :'Array<String>'
       }
     end
 

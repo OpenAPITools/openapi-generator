@@ -25,16 +25,30 @@ export class Dog extends Animal {
     "breed": string;
 }
 
+export class FormatTest {
+    "integer": number;
+    "int32": number;
+    "int64": number;
+    "number": number;
+    "float": number;
+    "double": number;
+    "string": string;
+    "byte": string;
+    "binary": string;
+    "date": Date;
+    "dateTime": string;
+}
+
 export class InlineResponse200 {
-    "photoUrls": Array<string>;
-    "name": string;
+    "tags": Array<Tag>;
     "id": number;
     "category": any;
-    "tags": Array<Tag>;
     /**
     * pet status in the store
     */
     "status": InlineResponse200.StatusEnum;
+    "name": string;
+    "photoUrls": Array<string>;
 }
 
 export namespace InlineResponse200 {
@@ -177,11 +191,11 @@ class VoidAuth implements Authentication {
 }
 
 export enum PetApiApiKeys {
-    test_api_client_id,
-    test_api_client_secret,
-    api_key,
-    test_api_key_query,
     test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
 }
 
 export class PetApi {
@@ -190,13 +204,13 @@ export class PetApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
-        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
-        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
+        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
         'test_http_basic': new HttpBasicAuth(),
+        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
+        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
         'test_api_key_query': new ApiKeyAuth('query', 'test_api_key_query'),
-        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(basePath?: string);
@@ -219,16 +233,16 @@ export class PetApi {
         this.authentications[PetApiApiKeys[key]].apiKey = value;
     }
 
-    set accessToken(token: string) {
-        this.authentications.petstore_auth.accessToken = token;
-    }
-
     set username(username: string) {
         this.authentications.test_http_basic.username = username;
     }
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
     }
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
@@ -295,7 +309,7 @@ export class PetApi {
      * @param body Pet object in the form of byte array
      */
     public addPetUsingByteArray (body?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const localVarPath = this.basePath + '/pet?testing_byte_array=true';
+        const localVarPath = this.basePath + '/pet?testing_byte_array&#x3D;true';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -537,9 +551,9 @@ export class PetApi {
             json: true,
         }
 
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
         this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -571,7 +585,7 @@ export class PetApi {
      * @param petId ID of pet that needs to be fetched
      */
     public getPetByIdInObject (petId: number) : Promise<{ response: http.ClientResponse; body: InlineResponse200;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?response=inline_arbitrary_object'
+        const localVarPath = this.basePath + '/pet/{petId}?response&#x3D;inline_arbitrary_object'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -595,9 +609,9 @@ export class PetApi {
             json: true,
         }
 
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
         this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -629,7 +643,7 @@ export class PetApi {
      * @param petId ID of pet that needs to be fetched
      */
     public petPetIdtestingByteArraytrueGet (petId: number) : Promise<{ response: http.ClientResponse; body: string;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array=true'
+        const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array&#x3D;true'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -653,9 +667,9 @@ export class PetApi {
             json: true,
         }
 
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
         this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -867,11 +881,11 @@ export class PetApi {
     }
 }
 export enum StoreApiApiKeys {
-    test_api_client_id,
-    test_api_client_secret,
-    api_key,
-    test_api_key_query,
     test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
 }
 
 export class StoreApi {
@@ -880,13 +894,13 @@ export class StoreApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
-        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
-        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
+        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
         'test_http_basic': new HttpBasicAuth(),
+        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
+        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
         'test_api_key_query': new ApiKeyAuth('query', 'test_api_key_query'),
-        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(basePath?: string);
@@ -909,16 +923,16 @@ export class StoreApi {
         this.authentications[StoreApiApiKeys[key]].apiKey = value;
     }
 
-    set accessToken(token: string) {
-        this.authentications.petstore_auth.accessToken = token;
-    }
-
     set username(username: string) {
         this.authentications.test_http_basic.username = username;
     }
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
     }
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
@@ -1092,7 +1106,7 @@ export class StoreApi {
      * Returns an arbitrary object which is actually a map of status codes to quantities
      */
     public getInventoryInObject () : Promise<{ response: http.ClientResponse; body: any;  }> {
-        const localVarPath = this.basePath + '/store/inventory?response=arbitrary_object';
+        const localVarPath = this.basePath + '/store/inventory?response&#x3D;arbitrary_object';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -1138,7 +1152,7 @@ export class StoreApi {
     }
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById (orderId: string) : Promise<{ response: http.ClientResponse; body: Order;  }> {
@@ -1166,9 +1180,9 @@ export class StoreApi {
             json: true,
         }
 
-        this.authentications.test_api_key_query.applyToRequest(requestOptions);
-
         this.authentications.test_api_key_header.applyToRequest(requestOptions);
+
+        this.authentications.test_api_key_query.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -1249,11 +1263,11 @@ export class StoreApi {
     }
 }
 export enum UserApiApiKeys {
-    test_api_client_id,
-    test_api_client_secret,
-    api_key,
-    test_api_key_query,
     test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
 }
 
 export class UserApi {
@@ -1262,13 +1276,13 @@ export class UserApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
-        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
-        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
+        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
         'test_http_basic': new HttpBasicAuth(),
+        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
+        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
         'test_api_key_query': new ApiKeyAuth('query', 'test_api_key_query'),
-        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(basePath?: string);
@@ -1291,16 +1305,16 @@ export class UserApi {
         this.authentications[UserApiApiKeys[key]].apiKey = value;
     }
 
-    set accessToken(token: string) {
-        this.authentications.petstore_auth.accessToken = token;
-    }
-
     set username(username: string) {
         this.authentications.test_http_basic.username = username;
     }
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
     }
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
