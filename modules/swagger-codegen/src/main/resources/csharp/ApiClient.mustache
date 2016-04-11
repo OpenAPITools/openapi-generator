@@ -163,11 +163,9 @@ namespace {{packageName}}.Client
             var response = RestClient.Execute(request);
             {{/supportsUWP}}
             {{#supportsUWP}}
-            // TODO: This is obviously not a valid response, but it prevents compiling-errors
-            // 'RestClient.CallApiAsync(..)' is used instead, because 'RestClient.ExecuteAsync(...)' 
-            // is available for Windows UWP, while 'RestClient.CallApi(...)' is not
-            var response = new object(); 
-            {{/supportsUWP}}
+            // Using async method to perform sync call (uwp-only)
+            var response = RestClient.ExecuteTaskAsync(request).Result;
+			{{/supportsUWP}}
             return (Object) response;
         }
         {{#supportsAsync}}
