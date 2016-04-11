@@ -62,7 +62,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Dog {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-sb.Append("  Breed: ").Append(Breed).Append("\n");
+            sb.Append("  Breed: ").Append(Breed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

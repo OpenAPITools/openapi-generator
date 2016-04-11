@@ -110,14 +110,13 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-    'name' => {
+'name' => {
     	datatype => 'string',
     	base_name => 'name',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-    
 });
 
 __PACKAGE__->swagger_types( {

@@ -34,7 +34,7 @@ module Petstore
     def self.swagger_types
       {
         :'class_name' => :'String',
-:'declawed' => :'BOOLEAN'
+        :'declawed' => :'BOOLEAN'
       }
     end
 
