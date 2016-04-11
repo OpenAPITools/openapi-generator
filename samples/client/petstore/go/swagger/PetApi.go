@@ -45,6 +45,11 @@ func (a PetApi) AddPet (body Pet) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -107,6 +112,11 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -167,6 +177,11 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     type QueryParams struct {
         status    []string `url:"status,omitempty"`
 }
@@ -229,6 +244,11 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     type QueryParams struct {
         tags    []string `url:"tags,omitempty"`
 }
@@ -292,6 +312,11 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -350,6 +375,11 @@ func (a PetApi) UpdatePet (body Pet) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -413,6 +443,11 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -479,6 +514,11 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/json" }
     for key := range accepts {

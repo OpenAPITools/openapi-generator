@@ -50,6 +50,11 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
 {{#hasQueryParams}}    type QueryParams struct {
         {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
         {{/queryParams}}
