@@ -3,14 +3,20 @@ package io.swagger.client.model;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.client.model.Tag;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
 
 
 
-@ApiModel(description = "")
+
 public class InlineResponse200   {
+  
+  @SerializedName("photoUrls")
+  private List<String> photoUrls = new ArrayList<String>();
   
   @SerializedName("name")
   private String name = null;
@@ -21,6 +27,46 @@ public class InlineResponse200   {
   @SerializedName("category")
   private Object category = null;
   
+  @SerializedName("tags")
+  private List<Tag> tags = new ArrayList<Tag>();
+  
+
+public enum StatusEnum {
+  @SerializedName("available")
+  AVAILABLE("available"),
+
+  @SerializedName("pending")
+  PENDING("pending"),
+
+  @SerializedName("sold")
+  SOLD("sold");
+
+  private String value;
+
+  StatusEnum(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+}
+
+  @SerializedName("status")
+  private StatusEnum status = null;
+  
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<String> getPhotoUrls() {
+    return photoUrls;
+  }
+  public void setPhotoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+  }
 
   
   /**
@@ -56,6 +102,29 @@ public class InlineResponse200   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<Tag> getTags() {
+    return tags;
+  }
+  public void setTags(List<Tag> tags) {
+    this.tags = tags;
+  }
+
+  
+  /**
+   * pet status in the store
+   **/
+  @ApiModelProperty(value = "pet status in the store")
+  public StatusEnum getStatus() {
+    return status;
+  }
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
+  
 
   @Override
   public boolean equals(Object o) {
@@ -66,14 +135,17 @@ public class InlineResponse200   {
       return false;
     }
     InlineResponse200 inlineResponse200 = (InlineResponse200) o;
-    return Objects.equals(this.name, inlineResponse200.name) &&
+    return Objects.equals(this.photoUrls, inlineResponse200.photoUrls) &&
+        Objects.equals(this.name, inlineResponse200.name) &&
         Objects.equals(this.id, inlineResponse200.id) &&
-        Objects.equals(this.category, inlineResponse200.category);
+        Objects.equals(this.category, inlineResponse200.category) &&
+        Objects.equals(this.tags, inlineResponse200.tags) &&
+        Objects.equals(this.status, inlineResponse200.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, id, category);
+    return Objects.hash(photoUrls, name, id, category, tags, status);
   }
 
   @Override
@@ -81,9 +153,12 @@ public class InlineResponse200   {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineResponse200 {\n");
     
+    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -27,6 +27,37 @@ namespace API.Client {
         }
 
         /**
+         * Delete purchase order by ID
+         * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+         * @param orderId ID of the order that needs to be deleted
+         */
+        public deleteOrder (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
+            const localVarPath = this.basePath + '/store/order/{orderId}'
+                .replace('{' + 'orderId' + '}', String(orderId));
+
+            let queryParameters: any = {};
+            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            // verify required parameter 'orderId' is set
+            if (!orderId) {
+                throw new Error('Missing required parameter orderId when calling deleteOrder');
+            }
+            let httpRequestParams: any = {
+                method: 'DELETE',
+                url: localVarPath,
+                json: true,
+                
+                
+                params: queryParameters,
+                headers: headerParams
+            };
+
+            if (extraHttpRequestParams) {
+                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+            }
+
+            return this.$http(httpRequestParams);
+        }
+        /**
          * Finds orders by status
          * A single status value can be provided as a string
          * @param status Status value that needs to be considered for query
@@ -82,20 +113,18 @@ namespace API.Client {
             return this.$http(httpRequestParams);
         }
         /**
-         * Place an order for a pet
-         * 
-         * @param body order placed for purchasing the pet
+         * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+         * Returns an arbitrary object which is actually a map of status codes to quantities
          */
-        public placeOrder (body?: Order, extraHttpRequestParams?: any ) : ng.IHttpPromise<Order> {
-            const localVarPath = this.basePath + '/store/order';
+        public getInventoryInObject (extraHttpRequestParams?: any ) : ng.IHttpPromise<any> {
+            const localVarPath = this.basePath + '/store/inventory?response=arbitrary_object';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let httpRequestParams: any = {
-                method: 'POST',
+                method: 'GET',
                 url: localVarPath,
                 json: true,
-                data: body,
                 
                 
                 params: queryParameters,
@@ -140,24 +169,20 @@ namespace API.Client {
             return this.$http(httpRequestParams);
         }
         /**
-         * Delete purchase order by ID
-         * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-         * @param orderId ID of the order that needs to be deleted
+         * Place an order for a pet
+         * 
+         * @param body order placed for purchasing the pet
          */
-        public deleteOrder (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/store/order/{orderId}'
-                .replace('{' + 'orderId' + '}', String(orderId));
+        public placeOrder (body?: Order, extraHttpRequestParams?: any ) : ng.IHttpPromise<Order> {
+            const localVarPath = this.basePath + '/store/order';
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'orderId' is set
-            if (!orderId) {
-                throw new Error('Missing required parameter orderId when calling deleteOrder');
-            }
             let httpRequestParams: any = {
-                method: 'DELETE',
+                method: 'POST',
                 url: localVarPath,
                 json: true,
+                data: body,
                 
                 
                 params: queryParameters,

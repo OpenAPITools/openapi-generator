@@ -12,8 +12,9 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 {{#useRxJava}}import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;{{/useRxJava}}
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -120,6 +121,7 @@ public class ApiClient {
                 .baseUrl(baseUrl)
                 .client(okClient)
                 {{#useRxJava}}.addCallAdapterFactory(RxJavaCallAdapterFactory.create()){{/useRxJava}}
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
 

@@ -45,6 +45,83 @@ class StoreApi(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
+    def delete_order(self, order_id, **kwargs):
+        """
+        Delete purchase order by ID
+        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_order(order_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str order_id: ID of the order that needs to be deleted (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['order_id']
+        all_params.append('callback')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_order" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        # verify the required parameter 'order_id' is set
+        if ('order_id' not in params) or (params['order_id'] is None):
+            raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")
+
+        resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
+        path_params = {}
+        if 'order_id' in params:
+            path_params['orderId'] = params['order_id']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json', 'application/xml'])
+        if not header_params['Accept']:
+            del header_params['Accept']
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type([])
+
+        # Authentication setting
+        auth_settings = []
+
+        response = self.api_client.call_api(resource_path, 'DELETE',
+                                            path_params,
+                                            query_params,
+                                            header_params,
+                                            body=body_params,
+                                            post_params=form_params,
+                                            files=local_var_files,
+                                            response_type=None,
+                                            auth_settings=auth_settings,
+                                            callback=params.get('callback'))
+        return response
+
     def find_orders_by_status(self, **kwargs):
         """
         Finds orders by status
@@ -261,80 +338,6 @@ class StoreApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def place_order(self, **kwargs):
-        """
-        Place an order for a pet
-        
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.place_order(callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param Order body: order placed for purchasing the pet
-        :return: Order
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['body']
-        all_params.append('callback')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method place_order" % key
-                )
-            params[key] = val
-        del params['kwargs']
-
-
-        resource_path = '/store/order'.replace('{format}', 'json')
-        path_params = {}
-
-        query_params = {}
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'body' in params:
-            body_params = params['body']
-
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
-        if not header_params['Accept']:
-            del header_params['Accept']
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type([])
-
-        # Authentication setting
-        auth_settings = ['test_api_client_id', 'test_api_client_secret']
-
-        response = self.api_client.call_api(resource_path, 'POST',
-                                            path_params,
-                                            query_params,
-                                            header_params,
-                                            body=body_params,
-                                            post_params=form_params,
-                                            files=local_var_files,
-                                            response_type='Order',
-                                            auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
-
     def get_order_by_id(self, order_id, **kwargs):
         """
         Find purchase order by ID
@@ -412,10 +415,10 @@ class StoreApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def delete_order(self, order_id, **kwargs):
+    def place_order(self, **kwargs):
         """
-        Delete purchase order by ID
-        For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+        Place an order for a pet
+        
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
@@ -423,17 +426,17 @@ class StoreApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.delete_order(order_id, callback=callback_function)
+        >>> thread = api.place_order(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str order_id: ID of the order that needs to be deleted (required)
-        :return: None
+        :param Order body: order placed for purchasing the pet
+        :return: Order
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['order_id']
+        all_params = ['body']
         all_params.append('callback')
 
         params = locals()
@@ -441,19 +444,14 @@ class StoreApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_order" % key
+                    " to method place_order" % key
                 )
             params[key] = val
         del params['kwargs']
 
-        # verify the required parameter 'order_id' is set
-        if ('order_id' not in params) or (params['order_id'] is None):
-            raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")
 
-        resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
+        resource_path = '/store/order'.replace('{format}', 'json')
         path_params = {}
-        if 'order_id' in params:
-            path_params['orderId'] = params['order_id']
 
         query_params = {}
 
@@ -463,6 +461,8 @@ class StoreApi(object):
         local_var_files = {}
 
         body_params = None
+        if 'body' in params:
+            body_params = params['body']
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
@@ -475,16 +475,16 @@ class StoreApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['test_api_client_id', 'test_api_client_secret']
 
-        response = self.api_client.call_api(resource_path, 'DELETE',
+        response = self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
                                             body=body_params,
                                             post_params=form_params,
                                             files=local_var_files,
-                                            response_type=None,
+                                            response_type='Order',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'))
         return response

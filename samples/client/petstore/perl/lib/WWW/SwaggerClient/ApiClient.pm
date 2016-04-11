@@ -333,6 +333,12 @@ sub update_params_for_auth {
                 $header_params->{'api_key'} = $api_key;
             }
         }
+        elsif ($auth eq 'test_http_basic') {
+            
+            if ($WWW::SwaggerClient::Configuration::username || $WWW::SwaggerClient::Configuration::password) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64($WWW::SwaggerClient::Configuration::username . ":" . $WWW::SwaggerClient::Configuration::password);
+            }
+        }
         elsif ($auth eq 'test_api_client_secret') {
             
             my $api_key = $self->get_api_key_with_prefix('x-test_api_client_secret');

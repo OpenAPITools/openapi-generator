@@ -96,13 +96,13 @@ use \{{invokerPackage}}\ObjectSerializer;
      *
      * {{{summary}}}
      *
-  {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
+  {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
   {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
     public function {{operationId}}({{#allParams}}${{paramName}}{{^required}} = null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
-        list($response, $statusCode, $httpHeader) = $this->{{operationId}}WithHttpInfo ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        list($response) = $this->{{operationId}}WithHttpInfo ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         return $response; 
     }
 
@@ -112,7 +112,7 @@ use \{{invokerPackage}}\ObjectSerializer;
      *
      * {{{summary}}}
      *
-  {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional){{/required}}
+  {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
   {{/allParams}}   * @return Array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
@@ -130,11 +130,11 @@ use \{{invokerPackage}}\ObjectSerializer;
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = ApiClient::selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = ApiClient::selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
   
         {{#queryParams}}// query params
         {{#collectionFormat}}
@@ -223,14 +223,14 @@ use \{{invokerPackage}}\ObjectSerializer;
                 return array(null, $statusCode, $httpHeader);
             }
 
-            return array(\{{invokerPackage}}\ObjectSerializer::deserialize($response, '{{returnType}}', $httpHeader), $statusCode, $httpHeader);
+            return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader{{#discriminator}}, '{{discriminator}}'{{/discriminator}}), $statusCode, $httpHeader);
             {{/returnType}}{{^returnType}}
             return array(null, $statusCode, $httpHeader);
             {{/returnType}}
         } catch (ApiException $e) {
             switch ($e->getCode()) { {{#responses}}{{#dataType}}
             {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
-                $data = \{{invokerPackage}}\ObjectSerializer::deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
+                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
                 $e->setResponseObject($data);
                 break;{{/dataType}}{{/responses}}
             }

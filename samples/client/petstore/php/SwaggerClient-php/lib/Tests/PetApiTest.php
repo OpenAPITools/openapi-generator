@@ -64,17 +64,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    
-    /**
-     * Test case for updatePet
-     *
-     * Update an existing pet
-     *
-     */
-    public function test_updatePet() {
-
-    }
-    
     /**
      * Test case for addPet
      *
@@ -84,87 +73,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_addPet() {
 
     }
-    
-    /**
-     * Test case for findPetsByStatus
-     *
-     * Finds Pets by status
-     *
-     */
-    public function test_findPetsByStatus() {
-
-    }
-    
-    /**
-     * Test case for findPetsByTags
-     *
-     * Finds Pets by tags
-     *
-     */
-    public function test_findPetsByTags() {
-
-    }
-    
-    /**
-     * Test case for getPetById
-     *
-     * Find pet by ID
-     *
-     */
-    public function test_getPetById() {
-
-    }
-    
-    /**
-     * Test case for updatePetWithForm
-     *
-     * Updates a pet in the store with form data
-     *
-     */
-    public function test_updatePetWithForm() {
-
-    }
-    
-    /**
-     * Test case for deletePet
-     *
-     * Deletes a pet
-     *
-     */
-    public function test_deletePet() {
-
-    }
-    
-    /**
-     * Test case for uploadFile
-     *
-     * uploads an image
-     *
-     */
-    public function test_uploadFile() {
-
-    }
-    
-    /**
-     * Test case for getPetByIdInObject
-     *
-     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-     *
-     */
-    public function test_getPetByIdInObject() {
-
-    }
-    
-    /**
-     * Test case for petPetIdtestingByteArraytrueGet
-     *
-     * Fake endpoint to test byte array return by 'Find pet by ID'
-     *
-     */
-    public function test_petPetIdtestingByteArraytrueGet() {
-
-    }
-    
     /**
      * Test case for addPetUsingByteArray
      *
@@ -174,5 +82,85 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_addPetUsingByteArray() {
 
     }
-    
+    /**
+     * Test case for deletePet
+     *
+     * Deletes a pet
+     *
+     */
+    public function test_deletePet() {
+
+    }
+    /**
+     * Test case for findPetsByStatus
+     *
+     * Finds Pets by status
+     *
+     */
+    public function test_findPetsByStatus() {
+
+    }
+    /**
+     * Test case for findPetsByTags
+     *
+     * Finds Pets by tags
+     *
+     */
+    public function test_findPetsByTags() {
+
+    }
+    /**
+     * Test case for getPetById
+     *
+     * Find pet by ID
+     *
+     */
+    public function test_getPetById() {
+
+    }
+    /**
+     * Test case for getPetByIdInObject
+     *
+     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
+     *
+     */
+    public function test_getPetByIdInObject() {
+
+    }
+    /**
+     * Test case for petPetIdtestingByteArraytrueGet
+     *
+     * Fake endpoint to test byte array return by 'Find pet by ID'
+     *
+     */
+    public function test_petPetIdtestingByteArraytrueGet() {
+
+    }
+    /**
+     * Test case for updatePet
+     *
+     * Update an existing pet
+     *
+     */
+    public function test_updatePet() {
+
+    }
+    /**
+     * Test case for updatePetWithForm
+     *
+     * Updates a pet in the store with form data
+     *
+     */
+    public function test_updatePetWithForm() {
+
+    }
+    /**
+     * Test case for uploadFile
+     *
+     * uploads an image
+     *
+     */
+    public function test_uploadFile() {
+
+    }
 }

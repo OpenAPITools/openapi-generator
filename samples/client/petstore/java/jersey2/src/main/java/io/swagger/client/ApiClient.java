@@ -48,7 +48,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:21.885+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T17:22:31.147+08:00")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io/v2";
@@ -80,7 +80,7 @@ public class ApiClient {
     this.json.setDateFormat((DateFormat) dateFormat.clone());
 
     // Set default User-Agent.
-    setUserAgent("Java-Swagger");
+    setUserAgent("Swagger-Codegen/1.0.0/java");
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
@@ -88,6 +88,7 @@ public class ApiClient {
     authentications.put("test_api_client_id", new ApiKeyAuth("header", "x-test_api_client_id"));
     authentications.put("test_api_client_secret", new ApiKeyAuth("header", "x-test_api_client_secret"));
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("test_http_basic", new HttpBasicAuth());
     authentications.put("test_api_key_query", new ApiKeyAuth("query", "test_api_key_query"));
     authentications.put("test_api_key_header", new ApiKeyAuth("header", "test_api_key_header"));
     // Prevent the authentications from being modified.

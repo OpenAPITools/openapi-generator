@@ -59,6 +59,10 @@ class Order implements ArrayAccess
         'complete' => 'bool'
     );
   
+    static function swaggerTypes() {
+        return self::$swaggerTypes;
+    }
+
     /** 
       * Array of attributes where the key is the local name, and the value is the original name
       * @var string[] 
@@ -72,6 +76,10 @@ class Order implements ArrayAccess
         'complete' => 'complete'
     );
   
+    static function attributeMap() {
+        return self::$attributeMap;
+    }
+
     /**
       * Array of attributes to setter functions (for deserialization of responses)
       * @var string[]
@@ -85,6 +93,10 @@ class Order implements ArrayAccess
         'complete' => 'setComplete'
     );
   
+    static function setters() {
+        return self::$setters;
+    }
+
     /**
       * Array of attributes to getter functions (for serialization of requests)
       * @var string[]
@@ -98,43 +110,40 @@ class Order implements ArrayAccess
         'complete' => 'getComplete'
     );
   
-    
+    static function getters() {
+        return self::$getters;
+    }
+
     /**
       * $id 
       * @var int
       */
     protected $id;
-    
     /**
       * $pet_id 
       * @var int
       */
     protected $pet_id;
-    
     /**
       * $quantity 
       * @var int
       */
     protected $quantity;
-    
     /**
       * $ship_date 
       * @var \DateTime
       */
     protected $ship_date;
-    
     /**
       * $status Order Status
       * @var string
       */
     protected $status;
-    
     /**
       * $complete 
       * @var bool
       */
     protected $complete;
-    
 
     /**
      * Constructor
@@ -142,6 +151,7 @@ class Order implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        
         if ($data != null) {
             $this->id = $data["id"];
             $this->pet_id = $data["pet_id"];
@@ -151,7 +161,6 @@ class Order implements ArrayAccess
             $this->complete = $data["complete"];
         }
     }
-    
     /**
      * Gets id
      * @return int
@@ -172,7 +181,6 @@ class Order implements ArrayAccess
         $this->id = $id;
         return $this;
     }
-    
     /**
      * Gets pet_id
      * @return int
@@ -193,7 +201,6 @@ class Order implements ArrayAccess
         $this->pet_id = $pet_id;
         return $this;
     }
-    
     /**
      * Gets quantity
      * @return int
@@ -214,7 +221,6 @@ class Order implements ArrayAccess
         $this->quantity = $quantity;
         return $this;
     }
-    
     /**
      * Gets ship_date
      * @return \DateTime
@@ -235,7 +241,6 @@ class Order implements ArrayAccess
         $this->ship_date = $ship_date;
         return $this;
     }
-    
     /**
      * Gets status
      * @return string
@@ -259,7 +264,6 @@ class Order implements ArrayAccess
         $this->status = $status;
         return $this;
     }
-    
     /**
      * Gets complete
      * @return bool
@@ -280,7 +284,6 @@ class Order implements ArrayAccess
         $this->complete = $complete;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -328,10 +331,10 @@ class Order implements ArrayAccess
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
-        } else {
-            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
+
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

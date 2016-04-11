@@ -74,6 +74,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
                     "Int",
+                    "Int32",
+                    "Int64",
                     "Float",
                     "Double",
                     "Bool",
@@ -115,10 +117,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("char", "Character");
         typeMapping.put("short", "Int");
-        typeMapping.put("int", "Int");
-        typeMapping.put("long", "Int");
-        typeMapping.put("integer", "Int");
-        typeMapping.put("Integer", "Int");
+        typeMapping.put("int", "Int32");
+        typeMapping.put("long", "Int64");
+        typeMapping.put("integer", "Int32");
+        typeMapping.put("Integer", "Int32");
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
@@ -195,6 +197,9 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));
         supportingFiles.add(new SupportingFile("Models.mustache", sourceFolder, "Models.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache", sourceFolder, "APIs.swift"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
     }
 
     @Override
@@ -265,6 +270,13 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            String modelName = "Model" + name; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 

@@ -46,11 +46,13 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Scala Scalatra](#scala-scalatra)
       - [Java JAX-RS (Java JAX-RS (Jersey v1.18)](#java-jax-rs-jersey-v118)
       - [Java JAX-RS (Apache CXF 2 / 3)](#java-jax-rs-apache-cxf-2--3)
+      - [Java JAX-RS (Resteasy)](#java-jax-rs-resteasy)      
       - [Java Spring MVC](#java-spring-mvc)
       - [Haskell Servant](#haskell-servant)
       - [ASP.NET 5 Web API](#aspnet-5-web-api)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Workflow Integration](#workflow-integration)
+  - [Github Integration](#github-integration)
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
@@ -62,8 +64,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
-2.1.6-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
-2.1.5 (**current stable**) | 2015-01-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.5](https://github.com/swagger-api/swagger-codegen/tree/v2.1.5)
+2.1.7-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
+2.1.6 (**current stable**) | 2016-04-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.6](https://github.com/swagger-api/swagger-codegen/tree/v2.1.6)
 2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
@@ -72,7 +74,7 @@ Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 If you're looking for the latest stable version, you can grab it directly from maven central (you'll need java 7 runtime at a minimum):
 
 ```
-wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.1.5/swagger-codegen-cli-2.1.5.jar -O swagger-codegen-cli.jar
+wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.1.6/swagger-codegen-cli-2.1.6.jar -O swagger-codegen-cli.jar
 
 java -jar swagger-codegen-cli.jar help
 ```
@@ -86,7 +88,7 @@ To build from source, you need the following installed and available in your $PA
 
 * [Java 7 or 8](http://java.oracle.com)
 
-* [Apache maven 3.0.3 or greater](http://maven.apache.org/)
+* [Apache maven 3.3.3 or greater](http://maven.apache.org/)
 
 #### OS X Users
 Don't forget to install Java 7 or 8. You probably have 1.6.
@@ -386,6 +388,7 @@ JavaCXFServerCodegen.java
 JavaClientCodegen.java
 JavaInflectorServerCodegen.java
 JavaJerseyServerCodegen.java
+JavaResteasyServerCodegen.java
 JavascriptClientCodegen.java
 NodeJSServerCodegen.java
 ObjcClientCodegen.java
@@ -644,6 +647,14 @@ You must register this class into your JAX-RS configuration file:
 
 This is no longer necessary if you are using CXF >=v3.x
 
+### Java JAX-RS (Resteasy)
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l jaxrs-resteasy \
+  -o samples/server/petstore/jaxrs-resteasy
+```
 
 ### Java Spring MVC
 
@@ -686,6 +697,26 @@ Note!  The templates are included in the library generated.  If you want to modi
 
 You can use the [swagger-codegen-maven-plugin](modules/swagger-codegen-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
 
+## GitHub Integration
+
+To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline the process. For example:
+
+ 1) Create a new repository in GitHub (Ref: https://help.github.com/articles/creating-a-new-repository/)
+ 
+ 2) Generate the SDK
+```
+ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+ -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l perl \
+ --git-user-id "wing328" \
+ --git-repo-id "petstore-perl" \
+ --release-note "Github integration demo" \
+ -o /var/tmp/perl/petstore
+```
+ 3) Push the SDK to GitHub
+```
+cd /var/tmp/perl/petstore
+/bin/sh ./git_push.sh
+```
 
 ## Online generators
 
@@ -708,13 +739,18 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Activehours](https://www.activehours.com/)
 - [Acunetix](https://www.acunetix.com/)
 - [Atlassian](https://www.atlassian.com/)
+- [beemo](http://www.beemo.eu)
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Cupix](http://www.cupix.com)
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
+- [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
+- [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
+- [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
+- [Kuary](https://kuary.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [OSDN](https://osdn.jp)

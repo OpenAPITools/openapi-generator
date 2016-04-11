@@ -36,6 +36,22 @@ describe 'StoreApi' do
     end
   end
 
+  # unit tests for delete_order
+  # Delete purchase order by ID
+  # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  # @param order_id ID of the order that needs to be deleted
+  # @param [Hash] opts the optional parameters
+  # @return [nil]
+  describe 'delete_order test' do
+    it "should work" do
+      # assertion here
+      # should be_a()
+      # should be_nil
+      # should ==
+      # should_not ==
+    end
+  end
+
   # unit tests for find_orders_by_status
   # Finds orders by status
   # A single status value can be provided as a string
@@ -82,25 +98,9 @@ describe 'StoreApi' do
     end
   end
 
-  # unit tests for place_order
-  # Place an order for a pet
-  # 
-  # @param [Hash] opts the optional parameters
-  # @option opts [Order] :body order placed for purchasing the pet
-  # @return [Order]
-  describe 'place_order test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
   # unit tests for get_order_by_id
   # Find purchase order by ID
-  # For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+  # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   # @param order_id ID of pet that needs to be fetched
   # @param [Hash] opts the optional parameters
   # @return [Order]
@@ -114,13 +114,13 @@ describe 'StoreApi' do
     end
   end
 
-  # unit tests for delete_order
-  # Delete purchase order by ID
-  # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-  # @param order_id ID of the order that needs to be deleted
+  # unit tests for place_order
+  # Place an order for a pet
+  # 
   # @param [Hash] opts the optional parameters
-  # @return [nil]
-  describe 'delete_order test' do
+  # @option opts [Order] :body order placed for purchasing the pet
+  # @return [Order]
+  describe 'place_order test' do
     it "should work" do
       # assertion here
       # should be_a()

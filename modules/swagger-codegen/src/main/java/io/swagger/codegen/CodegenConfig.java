@@ -29,6 +29,8 @@ public interface CodegenConfig {
 
     String apiTestFileFolder();
 
+    String apiDocFileFolder();
+
     String fileSuffix();
 
     String outputFolder();
@@ -40,6 +42,8 @@ public interface CodegenConfig {
     String modelFileFolder();
 
     String modelTestFileFolder();
+
+    String modelDocFileFolder();
 
     String modelPackage();
 
@@ -99,6 +103,10 @@ public interface CodegenConfig {
 
     Map<String, String> modelTestTemplateFiles();
 
+    Map<String, String> apiDocTemplateFiles();
+
+    Map<String, String> modelDocTemplateFiles();
+
     Set<String> languageSpecificPrimitives();
 
     void preprocessSwagger(Swagger swagger);
@@ -114,6 +122,10 @@ public interface CodegenConfig {
     String toApiTestFilename(String name);
 
     String toModelTestFilename(String name);
+    
+    String toApiDocFilename(String name);
+
+    String toModelDocFilename(String name);
     
     String toModelImport(String name);
 
@@ -137,6 +149,8 @@ public interface CodegenConfig {
 
     String apiTestFilename(String templateName, String tag);
 
+    String apiDocFilename(String templateName, String tag);
+
     boolean shouldOverwrite(String filename);
 
     boolean isSkipOverwrite();
@@ -153,4 +167,21 @@ public interface CodegenConfig {
      * @return libray template
      */
     String getLibrary();
+
+    void setGitUserId(String gitUserId);
+
+    String getGitUserId();
+
+    void setGitRepoId(String gitRepoId);
+
+    String getGitRepoId();
+
+    void setReleaseNote(String releaseNote);
+
+    String getReleaseNote();
+
+    void setHttpUserAgent(String httpUserAgent);
+
+    String getHttpUserAgent();
+
 }

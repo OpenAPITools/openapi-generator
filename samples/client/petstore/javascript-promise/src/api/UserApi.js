@@ -15,21 +15,34 @@
 }(this, function(ApiClient, User) {
   'use strict';
 
-  var UserApi = function UserApi(apiClient) {
-    this.apiClient = apiClient || ApiClient.default;
+  /**
+   * User service.
+   * @module api/UserApi
+   * @version 1.0.0
+   */
 
-    var self = this;
-    
-    
+  /**
+   * Constructs a new UserApi. 
+   * @alias module:api/UserApi
+   * @class
+   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
+   * if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
+
+
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {User} opts['body'] Created user object
+     * @param {Object} opts Optional parameters
+     * @param {module:model/User} opts.body Created user object
      */
-    self.createUser = function(opts) {
+    this.createUser = function(opts) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
 
       var pathParams = {
       };
@@ -50,18 +63,19 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Creates list of users with given input array
      * 
-     * @param {[User]} opts['body'] List of user object
+     * @param {Object} opts Optional parameters
+     * @param {Array.<module:model/User>} opts.body List of user object
      */
-    self.createUsersWithArrayInput = function(opts) {
+    this.createUsersWithArrayInput = function(opts) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
 
       var pathParams = {
       };
@@ -82,18 +96,19 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Creates list of users with given input array
      * 
-     * @param {[User]} opts['body'] List of user object
+     * @param {Object} opts Optional parameters
+     * @param {Array.<module:model/User>} opts.body List of user object
      */
-    self.createUsersWithListInput = function(opts) {
+    this.createUsersWithListInput = function(opts) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
 
       var pathParams = {
       };
@@ -114,20 +129,96 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
+    /**
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param {String} username The name that needs to be deleted
+     */
+    this.deleteUser = function(username) {
+      var postBody = null;
+
+      // verify the required parameter 'username' is set
+      if (username == undefined || username == null) {
+        throw "Missing the required parameter 'username' when calling deleteUser";
+      }
+
+
+      var pathParams = {
+        'username': username
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['test_http_basic'];
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/user/{username}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+
+    /**
+     * Get user by user name
+     * 
+     * @param {String} username The name that needs to be fetched. Use user1 for testing.
+     * data is of type: {module:model/User}
+     */
+    this.getUserByName = function(username) {
+      var postBody = null;
+
+      // verify the required parameter 'username' is set
+      if (username == undefined || username == null) {
+        throw "Missing the required parameter 'username' when calling getUserByName";
+      }
+
+
+      var pathParams = {
+        'username': username
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = ['application/json', 'application/xml'];
+      var returnType = User;
+
+      return this.apiClient.callApi(
+        '/user/{username}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+
     /**
      * Logs user into the system
      * 
-     * @param {String} opts['username'] The user name for login
-     * @param {String} opts['password'] The password for login in clear text
-     *   data is of type: 'String'
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.username The user name for login
+     * @param {String} opts.password The password for login in clear text
+     * data is of type: {'String'}
      */
-    self.loginUser = function(opts) {
+    this.loginUser = function(opts) {
       opts = opts || {};
       var postBody = null;
-      
+
 
       var pathParams = {
       };
@@ -150,16 +241,16 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
+
+
     /**
      * Logs out current logged in user session
      * 
      */
-    self.logoutUser = function() {
+    this.logoutUser = function() {
       var postBody = null;
-      
+
 
       var pathParams = {
       };
@@ -180,62 +271,25 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
-    /**
-     * Get user by user name
-     * 
-     * @param {String} username The name that needs to be fetched. Use user1 for testing.
-     *   data is of type: User
-     */
-    self.getUserByName = function(username) {
-      var postBody = null;
-      
-      // verify the required parameter 'username' is set
-      if (username == null) {
-        throw "Missing the required parameter 'username' when calling getUserByName";
-      }
-      
 
-      var pathParams = {
-        'username': username
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
 
-      var authNames = [];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = User;
-
-      return this.apiClient.callApi(
-        '/user/{username}', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-
-    }
-    
     /**
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {User} opts['body'] Updated user object
+     * @param {Object} opts Optional parameters
+     * @param {module:model/User} opts.body Updated user object
      */
-    self.updateUser = function(username, opts) {
+    this.updateUser = function(username, opts) {
       opts = opts || {};
       var postBody = opts['body'];
-      
+
       // verify the required parameter 'username' is set
-      if (username == null) {
+      if (username == undefined || username == null) {
         throw "Missing the required parameter 'username' when calling updateUser";
       }
-      
+
 
       var pathParams = {
         'username': username
@@ -257,48 +311,8 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
-
     }
-    
-    /**
-     * Delete user
-     * This can only be done by the logged in user.
-     * @param {String} username The name that needs to be deleted
-     */
-    self.deleteUser = function(username) {
-      var postBody = null;
-      
-      // verify the required parameter 'username' is set
-      if (username == null) {
-        throw "Missing the required parameter 'username' when calling deleteUser";
-      }
-      
-
-      var pathParams = {
-        'username': username
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = [];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = null;
-
-      return this.apiClient.callApi(
-        '/user/{username}', 'DELETE',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-
-    }
-    
-    
   };
 
-  return UserApi;
+  return exports;
 }));

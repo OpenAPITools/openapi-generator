@@ -139,6 +139,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return modelName;
         }
 
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
 		// camelize the model name
 		// phone_number => PhoneNumber
 		return camelize(name);

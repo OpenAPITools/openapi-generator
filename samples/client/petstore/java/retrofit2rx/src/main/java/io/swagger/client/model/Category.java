@@ -4,12 +4,14 @@ import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+
 import com.google.gson.annotations.SerializedName;
 
 
 
 
-@ApiModel(description = "")
+
+
 public class Category   {
   
   @SerializedName("id")
@@ -83,3 +85,5 @@ public class Category   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
+

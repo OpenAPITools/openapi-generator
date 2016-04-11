@@ -1,17 +1,12 @@
 ﻿<Properties StartupItem="SwaggerClientTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/Name.cs">
     <Files>
-      <File FileName="TestPet.cs" Line="189" Column="4" />
-      <File FileName="TestOrder.cs" Line="88" Column="47" />
+      <File FileName="TestPet.cs" Line="1" Column="1" />
+      <File FileName="TestOrder.cs" Line="1" Column="1" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/Cat.cs" Line="1" Column="1" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/Name.cs" Line="18" Column="50" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="SwaggerClientTest" expanded="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

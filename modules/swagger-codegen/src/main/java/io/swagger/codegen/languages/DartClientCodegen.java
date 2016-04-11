@@ -52,9 +52,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         "String",
                         "bool",
-                        "num",
                         "int",
-                        "float")
+                        "double")
         );
         instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "Map");
@@ -66,11 +65,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
         typeMapping.put("int", "int");
-        typeMapping.put("float", "num");
+        typeMapping.put("float", "double");
         typeMapping.put("long", "int");
         typeMapping.put("short", "int");
         typeMapping.put("char", "String");
-        typeMapping.put("double", "num");
+        typeMapping.put("double", "double");
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "int");
         typeMapping.put("Date", "DateTime");
@@ -150,6 +149,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
     }
 
 

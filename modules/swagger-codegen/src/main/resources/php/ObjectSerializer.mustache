@@ -55,28 +55,26 @@ class ObjectSerializer
     public static function sanitizeForSerialization($data)
     {
         if (is_scalar($data) || null === $data) {
-            $sanitized = $data;
+            return $data;
         } elseif ($data instanceof \DateTime) {
-            $sanitized = $data->format(\DateTime::ISO8601);
+            return $data->format(\DateTime::ATOM);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
             }
-            $sanitized = $data;
+            return $data;
         } elseif (is_object($data)) {
             $values = array();
-            foreach (array_keys($data::$swaggerTypes) as $property) {
-                $getter = $data::$getters[$property];
+            foreach (array_keys($data::swaggerTypes()) as $property) {
+                $getter = $data::getters()[$property];
                 if ($data->$getter() !== null) {
-                    $values[$data::$attributeMap[$property]] = self::sanitizeForSerialization($data->$getter());
+                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($data->$getter());
                 }
             }
-            $sanitized = (object)$values;
+            return (object)$values;
         } else {
-            $sanitized = (string)$data;
+            return (string)$data;
         }
-
-        return $sanitized;
     }
 
     /**
@@ -172,7 +170,7 @@ class ObjectSerializer
     public function toString($value)
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
-            return $value->format(\DateTime::ISO8601);
+            return $value->format(\DateTime::ATOM);
         } else {
             return $value;
         }
@@ -214,16 +212,17 @@ class ObjectSerializer
     /**
      * Deserialize a JSON string into an object
      *
-     * @param mixed  $data       object or primitive to be deserialized
-     * @param string $class      class name is passed as a string
-     * @param string $httpHeaders HTTP headers
+     * @param mixed  $data          object or primitive to be deserialized
+     * @param string $class         class name is passed as a string
+     * @param string $httpHeaders   HTTP headers
+     * @param string $discriminator discriminator if polymorphism is used
      *
      * @return object an instance of $class
      */
-    public static function deserialize($data, $class, $httpHeaders=null)
+    public static function deserialize($data, $class, $httpHeaders=null, $discriminator=null)
     {
         if (null === $data) {
-            $deserialized = null;
+            return null;
         } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
             $inner = substr($class, 4, -1);
             $deserialized = array();
@@ -231,24 +230,35 @@ class ObjectSerializer
                 $subClass_array = explode(',', $inner, 2);
                 $subClass = $subClass_array[1];
                 foreach ($data as $key => $value) {
-                    $deserialized[$key] = self::deserialize($value, $subClass);
+                    $deserialized[$key] = self::deserialize($value, $subClass, null, $discriminator);
                 }
             }
+            return $deserialized;
         } elseif (strcasecmp(substr($class, -2), '[]') == 0) {
             $subClass = substr($class, 0, -2);
             $values = array();
             foreach ($data as $key => $value) {
-                $values[] = self::deserialize($value, $subClass);
+                $values[] = self::deserialize($value, $subClass, null, $discriminator);
             }
-            $deserialized = $values;
+            return $values;
         } elseif ($class === 'object') {
             settype($data, 'array');
-            $deserialized = $data;
+            return $data;
         } elseif ($class === '\DateTime') {
-            $deserialized = new \DateTime($data);
+            // Some API's return an invalid, empty string as a
+            // date-time property. DateTime::__construct() will return
+            // the current time for empty input which is probably not
+            // what is meant. The invalid empty string is probably to
+            // be interpreted as a missing field/value. Let's handle
+            // this graceful.
+            if (!empty($data)) {
+                return new \DateTime($data);
+            } else {
+                return null;
+            }
         } elseif (in_array($class, array({{&primitives}}))) {
             settype($data, $class);
-            $deserialized = $data;
+            return $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
             if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
@@ -259,24 +269,30 @@ class ObjectSerializer
             $deserialized = new \SplFileObject($filename, "w");
             $byte_written = $deserialized->fwrite($data);
             error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.\n", 3, Configuration::getDefaultConfiguration()->getDebugFile());
-      
+            return $deserialized;
+ 
         } else {
+            // If a discriminator is defined and points to a valid subclass, use it.
+            if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
+                $subclass = '\{{invokerPackage}}\Model\\' . $data->{$discriminator};
+                if (is_subclass_of($subclass, $class)) {
+                    $class = $subclass;
+                }
+            }
             $instance = new $class();
-            foreach ($instance::$swaggerTypes as $property => $type) {
-                $propertySetter = $instance::$setters[$property];
+            foreach ($instance::swaggerTypes() as $property => $type) {
+                $propertySetter = $instance::setters()[$property];
      
-                if (!isset($propertySetter) || !isset($data->{$instance::$attributeMap[$property]})) {
+                if (!isset($propertySetter) || !isset($data->{$instance::attributeMap()[$property]})) {
                     continue;
                 }
      
-                $propertyValue = $data->{$instance::$attributeMap[$property]};
+                $propertyValue = $data->{$instance::attributeMap()[$property]};
                 if (isset($propertyValue)) {
-                    $instance->$propertySetter(self::deserialize($propertyValue, $type));
+                    $instance->$propertySetter(self::deserialize($propertyValue, $type, null, $discriminator));
                 }
             }
-            $deserialized = $instance;
+            return $instance;
         }
-     
-        return $deserialized;
     }
 }

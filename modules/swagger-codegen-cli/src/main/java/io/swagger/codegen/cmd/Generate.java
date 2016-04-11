@@ -105,6 +105,18 @@ public class Generate implements Runnable {
 
     @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
     private String library;
+    
+    @Option(name = {"--git-user-id"}, title = "git user id", description = CodegenConstants.GIT_USER_ID_DESC)
+    private String gitUserId;
+
+    @Option(name = {"--git-repo-id"}, title = "git repo id", description = CodegenConstants.GIT_REPO_ID_DESC)
+    private String gitRepoId;
+
+    @Option(name = {"--release-note"}, title = "release note", description = CodegenConstants.RELEASE_NOTE_DESC)
+    private String releaseNote;
+
+    @Option(name = {"--http-user-agent"}, title = "http user agent", description = CodegenConstants.HTTP_USER_AGENT_DESC)
+    private String httpUserAgent;
 
     @Override
     public void run() {
@@ -181,6 +193,22 @@ public class Generate implements Runnable {
 
         if(isNotEmpty(library)) {
             configurator.setLibrary(library);
+        }
+
+        if (isNotEmpty(gitUserId)) {
+            configurator.setGitUserId(gitUserId);
+        }
+
+        if (isNotEmpty(gitRepoId)) {
+            configurator.setGitRepoId(gitRepoId);
+        }
+
+        if (isNotEmpty(releaseNote)) {
+            configurator.setReleaseNote(releaseNote);
+        }
+
+        if (isNotEmpty(httpUserAgent)) {
+            configurator.setHttpUserAgent(httpUserAgent);
         }
 
         applySystemPropertiesKvp(systemProperties, configurator);

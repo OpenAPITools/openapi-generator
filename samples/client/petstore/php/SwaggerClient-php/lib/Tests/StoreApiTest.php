@@ -64,57 +64,6 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    
-    /**
-     * Test case for findOrdersByStatus
-     *
-     * Finds orders by status
-     *
-     */
-    public function test_findOrdersByStatus() {
-
-    }
-    
-    /**
-     * Test case for getInventory
-     *
-     * Returns pet inventories by status
-     *
-     */
-    public function test_getInventory() {
-
-    }
-    
-    /**
-     * Test case for getInventoryInObject
-     *
-     * Fake endpoint to test arbitrary object return by 'Get inventory'
-     *
-     */
-    public function test_getInventoryInObject() {
-
-    }
-    
-    /**
-     * Test case for placeOrder
-     *
-     * Place an order for a pet
-     *
-     */
-    public function test_placeOrder() {
-
-    }
-    
-    /**
-     * Test case for getOrderById
-     *
-     * Find purchase order by ID
-     *
-     */
-    public function test_getOrderById() {
-
-    }
-    
     /**
      * Test case for deleteOrder
      *
@@ -124,5 +73,49 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
     public function test_deleteOrder() {
 
     }
-    
+    /**
+     * Test case for findOrdersByStatus
+     *
+     * Finds orders by status
+     *
+     */
+    public function test_findOrdersByStatus() {
+
+    }
+    /**
+     * Test case for getInventory
+     *
+     * Returns pet inventories by status
+     *
+     */
+    public function test_getInventory() {
+
+    }
+    /**
+     * Test case for getInventoryInObject
+     *
+     * Fake endpoint to test arbitrary object return by 'Get inventory'
+     *
+     */
+    public function test_getInventoryInObject() {
+
+    }
+    /**
+     * Test case for getOrderById
+     *
+     * Find purchase order by ID
+     *
+     */
+    public function test_getOrderById() {
+
+    }
+    /**
+     * Test case for placeOrder
+     *
+     * Place an order for a pet
+     *
+     */
+    public function test_placeOrder() {
+
+    }
 }

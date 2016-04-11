@@ -1,17 +1,62 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient'{{#models}}, './model/{{importPath}}'{{/models}}{{#apiInfo}}{{#apis}}, './api/{{importPath}}'{{/apis}}{{/apiInfo}}], factory);
+    define(['./ApiClient'{{#models}}, './{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{importPath}}'{{/models}}{{#apiInfo}}{{#apis}}, './{{#apiPackage}}{{apiPackage}}/{{/apiPackage}}{{importPath}}'{{/apis}}{{/apiInfo}}], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'){{#models}}, require('./model/{{importPath}}'){{/models}}{{#apiInfo}}{{#apis}}, require('./api/{{importPath}}'){{/apis}}{{/apiInfo}});
+    module.exports = factory(require('./ApiClient'){{#models}}, require('./{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{importPath}}'){{/models}}{{#apiInfo}}{{#apis}}, require('./{{#apiPackage}}{{apiPackage}}/{{/apiPackage}}{{importPath}}'){{/apis}}{{/apiInfo}});
   }
 }(function(ApiClient{{#models}}{{#model}}, {{classFilename}}{{/model}}{{/models}}{{#apiInfo}}{{#apis}}, {{importPath}}{{/apis}}{{/apiInfo}}) {
   'use strict';
 
-  return {
-    ApiClient: ApiClient{{#models}},
-    {{importPath}}: {{importPath}}{{/models}}{{#apiInfo}}{{#apis}},
-    {{importPath}}: {{importPath}}{{/apis}}{{/apiInfo}}
+{{#emitJSDoc}}  /**{{#projectDescription}}
+   * {{projectDescription}}.<br>{{/projectDescription}}
+   * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
+   * <p>
+   * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
+   * <pre>
+   * var {{moduleName}} = require('./index'); // See note below*.
+   * var xxxSvc = new {{moduleName}}.XxxApi(); // Allocate the API class we're going to use.
+   * var yyyModel = new {{moduleName}}.Yyy(); // Construct a model instance.
+   * yyyModel.someProperty = 'someValue';
+   * ...
+   * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
+   * ...
+   * </pre>
+   * <em>*NOTE: For a top-level AMD script, use require(['./index'], function(){...}) and put the application logic within the
+   * callback function.</em>
+   * </p>
+   * <p>
+   * A non-AMD browser application (discouraged) might do something like this:
+   * <pre>
+   * var xxxSvc = new {{moduleName}}.XxxApi(); // Allocate the API class we're going to use.
+   * var yyy = new {{moduleName}}.Yyy(); // Construct a model instance.
+   * yyyModel.someProperty = 'someValue';
+   * ...
+   * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
+   * ...
+   * </pre>
+   * </p>
+   * @module index
+   * @version {{projectVersion}}
+   */{{/emitJSDoc}}
+{{=< >=}}  var exports = {<#emitJSDoc>
+    /**
+     * The ApiClient constructor.
+     * @property {module:ApiClient}
+     */</emitJSDoc>
+    ApiClient: ApiClient<#models>,<#emitJSDoc>
+    /**
+     * The <importPath> model constructor.
+     * @property {module:<#modelPackage><modelPackage>/</modelPackage><importPath>}
+     */</emitJSDoc>
+    <importPath>: <importPath></models><#apiInfo><#apis>,<#emitJSDoc>
+    /**
+     * The <importPath> service constructor.
+     * @property {module:<#apiPackage><apiPackage>/</apiPackage><importPath>}
+     */</emitJSDoc>
+    <importPath>: <importPath></apis></apiInfo>
   };
+
+  return exports;<={{ }}=>
 }));
