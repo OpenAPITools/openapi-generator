@@ -44,6 +44,11 @@ func (a UserApi) CreateUser (body User) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -104,6 +109,11 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -164,6 +174,11 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -225,6 +240,11 @@ func (a UserApi) DeleteUser (username string) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -284,6 +304,11 @@ func (a UserApi) GetUserByName (username string) (User, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -343,6 +368,11 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     type QueryParams struct {
         username    string `url:"username,omitempty"`
 password    string `url:"password,omitempty"`
@@ -405,6 +435,11 @@ func (a UserApi) LogoutUser () (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -465,6 +500,11 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
