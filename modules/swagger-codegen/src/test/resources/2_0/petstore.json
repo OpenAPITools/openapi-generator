@@ -1427,7 +1427,7 @@
           "type": "string",
           "format": "date-time"
         },
-        "dateTime" : {
+        "password" : {
           "type": "string",
           "format": "password"
         }
