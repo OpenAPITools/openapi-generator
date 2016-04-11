@@ -8,10 +8,9 @@
 import Foundation
 
 
+/** Model for testing reserved words */
 public class ModelReturn: JSONEncodable {
-
     public var _return: Int32?
-    
 
     public init() {}
 

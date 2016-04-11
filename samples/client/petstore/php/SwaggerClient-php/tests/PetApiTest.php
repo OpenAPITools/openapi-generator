@@ -402,6 +402,13 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Dog', $new_dog->getClassName());
     }
 
+    // test if discriminator is initialized automatically
+    public function testDiscriminatorInitialization()
+    {
+        $new_dog = new Swagger\Client\Model\Dog();
+        $this->assertSame('Dog', $new_dog->getClassName());
+    }
+
 }
 
 ?>

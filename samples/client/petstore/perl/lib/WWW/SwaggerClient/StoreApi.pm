@@ -120,7 +120,6 @@ sub delete_order {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -188,8 +187,7 @@ sub find_orders_by_status {
     }
     my $_response_object = $self->{api_client}->deserialize('ARRAY[Order]', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # get_inventory
@@ -247,8 +245,7 @@ sub get_inventory {
     }
     my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # get_inventory_in_object
@@ -272,7 +269,7 @@ sub get_inventory_in_object {
     
 
     # parse inputs
-    my $_resource_path = '/store/inventory?response=arbitrary_object';
+    my $_resource_path = '/store/inventory?response&#x3D;arbitrary_object';
     $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
@@ -306,8 +303,7 @@ sub get_inventory_in_object {
     }
     my $_response_object = $self->{api_client}->deserialize('object', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # get_order_by_id
@@ -381,8 +377,7 @@ sub get_order_by_id {
     }
     my $_response_object = $self->{api_client}->deserialize('Order', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # place_order
@@ -449,8 +444,7 @@ sub place_order {
     }
     my $_response_object = $self->{api_client}->deserialize('Order', $response);
     return $_response_object;
-    
-}
+    }
 
 
 1;

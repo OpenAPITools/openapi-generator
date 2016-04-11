@@ -47,6 +47,12 @@ use \ArrayAccess;
 class ModelReturn implements ArrayAccess
 {
     /**
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Return';
+
+    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -106,6 +112,7 @@ class ModelReturn implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        
         
         if ($data != null) {
             $this->return = $data["return"];

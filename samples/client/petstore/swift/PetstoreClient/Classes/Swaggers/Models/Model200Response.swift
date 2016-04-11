@@ -8,10 +8,9 @@
 import Foundation
 
 
+/** Model for testing model name starting with number */
 public class Model200Response: JSONEncodable {
-
     public var name: Int32?
-    
 
     public init() {}
 

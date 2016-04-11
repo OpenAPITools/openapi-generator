@@ -49,6 +49,12 @@ use \ArrayAccess;
 class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayAccess
 {
     /**
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = '{{name}}';
+
+    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -115,6 +121,11 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
     public function __construct(array $data = null)
     {
         {{#parent}}parent::__construct($data);{{/parent}}
+        {{#discriminator}}// Initialize discriminator property with the model name.
+        $discrimintor = array_search('{{discriminator}}', self::$attributeMap);
+        $this->{$discrimintor} = static::$swaggerModelName;
+        {{/discriminator}}
+
         if ($data != null) {
             {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
             {{/hasMore}}{{/vars}}

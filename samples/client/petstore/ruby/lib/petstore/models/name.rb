@@ -35,7 +35,7 @@ module Petstore
     def self.swagger_types
       {
         :'name' => :'Integer',
-:'snake_case' => :'Integer'
+        :'snake_case' => :'Integer'
       }
     end
 

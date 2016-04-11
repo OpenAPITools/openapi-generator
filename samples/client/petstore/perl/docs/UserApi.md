@@ -207,7 +207,7 @@ Get user by user name
 use Data::Dumper;
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing.
+my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing. 
 
 eval { 
     my $result = $api_instance->get_user_by_name(username => $username);
@@ -222,7 +222,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
 
 ### Return type
 
