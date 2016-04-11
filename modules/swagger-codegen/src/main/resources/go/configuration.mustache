@@ -14,12 +14,19 @@ type Configuration struct {
     BasePath  string  `json:"basePath,omitempty"`
     Host  string  `json:"host,omitempty"`
     Scheme  string  `json:"scheme,omitempty"`
+    DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
 }
 
 func NewConfiguration() *Configuration {
+    defaultHeader := make(map[string]string)
     return &Configuration{
         BasePath: "{{basePath}}",
         UserName: "",
         Debug: false,
+        DefaultHeader: defaultHeader,
         }
+}
+
+func (c *Configuration) AddDefaultHeader(key string, value string) {
+    c.DefaultHeader[key] = value
 }
