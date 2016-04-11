@@ -8,7 +8,8 @@ import (
 
 {{#model}}
 type {{classname}} struct {
-    {{#vars}}{{name}}  {{{datatype}}}  `json:"{{baseName}},omitempty"`
+    {{#vars}}
+    {{name}}  {{{datatype}}}  `json:"{{baseName}},omitempty"`
     {{/vars}}
 }
 {{/model}}

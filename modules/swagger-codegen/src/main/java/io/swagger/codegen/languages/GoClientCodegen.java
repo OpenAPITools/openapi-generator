@@ -79,11 +79,12 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.clear();
         typeMapping.put("integer", "int32");
         typeMapping.put("long", "int64");
+        typeMapping.put("number", "float32");
         typeMapping.put("float", "float32");
         typeMapping.put("double", "float64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
-        typeMapping.put("Date", "time.Time");
+        typeMapping.put("date", "time.Time");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
