@@ -9,7 +9,6 @@ import Foundation
 
 
 public class User: JSONEncodable {
-
     public var id: Int64?
     public var username: String?
     public var firstName: String?
@@ -19,13 +18,13 @@ public class User: JSONEncodable {
     public var phone: String?
     /** User Status */
     public var userStatus: Int32?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["username"] = self.username
         nillableDictionary["firstName"] = self.firstName

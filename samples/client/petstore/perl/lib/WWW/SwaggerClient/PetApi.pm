@@ -113,7 +113,6 @@ sub add_pet {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -144,7 +143,7 @@ sub add_pet_using_byte_array {
     
 
     # parse inputs
-    my $_resource_path = '/pet?testing_byte_array=true';
+    my $_resource_path = '/pet?testing_byte_array&#x3D;true';
     $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
@@ -178,7 +177,6 @@ sub add_pet_using_byte_array {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -259,7 +257,6 @@ sub delete_pet {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -327,8 +324,7 @@ sub find_pets_by_status {
     }
     my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # find_pets_by_tags
@@ -395,8 +391,7 @@ sub find_pets_by_tags {
     }
     my $_response_object = $self->{api_client}->deserialize('ARRAY[Pet]', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # get_pet_by_id
@@ -470,8 +465,7 @@ sub get_pet_by_id {
     }
     my $_response_object = $self->{api_client}->deserialize('Pet', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # get_pet_by_id_in_object
@@ -506,7 +500,7 @@ sub get_pet_by_id_in_object {
     
 
     # parse inputs
-    my $_resource_path = '/pet/{petId}?response=inline_arbitrary_object';
+    my $_resource_path = '/pet/{petId}?response&#x3D;inline_arbitrary_object';
     $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
@@ -545,8 +539,7 @@ sub get_pet_by_id_in_object {
     }
     my $_response_object = $self->{api_client}->deserialize('InlineResponse200', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # pet_pet_idtesting_byte_arraytrue_get
@@ -581,7 +574,7 @@ sub pet_pet_idtesting_byte_arraytrue_get {
     
 
     # parse inputs
-    my $_resource_path = '/pet/{petId}?testing_byte_array=true';
+    my $_resource_path = '/pet/{petId}?testing_byte_array&#x3D;true';
     $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
@@ -620,8 +613,7 @@ sub pet_pet_idtesting_byte_arraytrue_get {
     }
     my $_response_object = $self->{api_client}->deserialize('string', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # update_pet
@@ -685,7 +677,6 @@ sub update_pet {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -758,14 +749,10 @@ sub update_pet_with_form {
     }
     # form params
     if ( exists $args{'name'} ) {
-        
-        $form_params->{'name'} = $self->{api_client}->to_form_value($args{'name'});
-        
+                $form_params->{'name'} = $self->{api_client}->to_form_value($args{'name'});
     }# form params
     if ( exists $args{'status'} ) {
-        
-        $form_params->{'status'} = $self->{api_client}->to_form_value($args{'status'});
-        
+                $form_params->{'status'} = $self->{api_client}->to_form_value($args{'status'});
     }
     my $_body_data;
     
@@ -779,7 +766,6 @@ sub update_pet_with_form {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -852,16 +838,12 @@ sub upload_file {
     }
     # form params
     if ( exists $args{'additional_metadata'} ) {
-        
-        $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
-        
+                $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
     }# form params
     if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
         push @{$form_params->{'file'}}, $args{'file'};
-        
-        
-    }
+            }
     my $_body_data;
     
 
@@ -874,7 +856,6 @@ sub upload_file {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 

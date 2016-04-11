@@ -12,7 +12,6 @@ import PromiseKit
 
 public class PetAPI: APIBase {
     /**
-     
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
@@ -25,7 +24,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
@@ -44,9 +42,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Add a new pet to the store
-     
      - POST /pet
      - 
      - OAuth:
@@ -60,7 +56,6 @@ public class PetAPI: APIBase {
     public class func addPetWithRequestBuilder(body body: Pet?) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -69,7 +64,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
      
      - parameter body: (body) Pet object in the form of byte array (optional)
@@ -82,7 +76,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
      
      - parameter body: (body) Pet object in the form of byte array (optional)
@@ -101,10 +94,8 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
-     
-     - POST /pet?testing_byte_array=true
+     - POST /pet?testing_byte_array&#x3D;true
      - 
      - OAuth:
        - type: oauth2
@@ -115,9 +106,8 @@ public class PetAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     public class func addPetUsingByteArrayWithRequestBuilder(body body: String?) -> RequestBuilder<Void> {
-        let path = "/pet?testing_byte_array=true"
+        let path = "/pet?testing_byte_array&#x3D;true"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -126,7 +116,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Deletes a pet
      
      - parameter petId: (path) Pet id to delete 
@@ -139,7 +128,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Deletes a pet
      
      - parameter petId: (path) Pet id to delete 
@@ -158,9 +146,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Deletes a pet
-     
      - DELETE /pet/{petId}
      - 
      - OAuth:
@@ -175,7 +161,7 @@ public class PetAPI: APIBase {
         var path = "/pet/{petId}"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -185,7 +171,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for query (optional, default to available)
@@ -198,7 +183,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for query (optional, default to available)
@@ -217,28 +201,26 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by status
-     
      - GET /pet/findByStatus
      - Multiple status values can be provided with comma separated strings
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+     - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -247,21 +229,21 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-     - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+     - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -270,7 +252,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
      
      - parameter status: (query) Status values that need to be considered for query (optional, default to available)
 
@@ -279,7 +261,7 @@ public class PetAPI: APIBase {
     public class func findPetsByStatusWithRequestBuilder(status status: [String]?) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByStatus"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "status": status
         ]
@@ -291,7 +273,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by (optional)
@@ -304,7 +285,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by (optional)
@@ -323,28 +303,26 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by tags
-     
      - GET /pet/findByTags
      - Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+     - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -353,21 +331,21 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-     - examples: [{contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+     - examples: [{example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -376,7 +354,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
      
      - parameter tags: (query) Tags to filter by (optional)
 
@@ -385,7 +363,7 @@ public class PetAPI: APIBase {
     public class func findPetsByTagsWithRequestBuilder(tags tags: [String]?) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "tags": tags
         ]
@@ -397,7 +375,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Find pet by ID
      
      - parameter petId: (path) ID of pet that needs to be fetched 
@@ -410,7 +387,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Find pet by ID
      
      - parameter petId: (path) ID of pet that needs to be fetched 
@@ -429,31 +405,29 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Find pet by ID
-     
      - GET /pet/{petId}
      - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+     - OAuth:
+       - type: oauth2
+       - name: petstore_auth
+     - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -462,21 +436,21 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
-     - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}]
+     - examples: [{example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -485,7 +459,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}]
+</Pet>, contentType=application/xml}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 
 
@@ -495,7 +469,7 @@ public class PetAPI: APIBase {
         var path = "/pet/{petId}"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -505,7 +479,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
@@ -518,7 +491,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
@@ -537,61 +509,59 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-     
-     - GET /pet/{petId}?response=inline_arbitrary_object
+     - GET /pet/{petId}?response&#x3D;inline_arbitrary_object
      - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+     - OAuth:
+       - type: oauth2
+       - name: petstore_auth
+     - examples: [{example={
   "id" : 123456789,
-  "category" : "{}",
   "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<null>
-  <photoUrls>string</photoUrls>
-  <name>doggie</name>
+  "category" : "{}",
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<null>
   <id>123456</id>
   <category>not implemented io.swagger.models.properties.ObjectProperty@37ff6855</category>
   <status>string</status>
-</null>}]
-     - examples: [{contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
-  "id" : 123456789,
-  "category" : "{}",
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}, {contentType=application/xml, example=<null>
-  <photoUrls>string</photoUrls>
   <name>doggie</name>
+  <photoUrls>string</photoUrls>
+</null>, contentType=application/xml}]
+     - examples: [{example={
+  "id" : 123456789,
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
+  "category" : "{}",
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}, {example=<null>
   <id>123456</id>
   <category>not implemented io.swagger.models.properties.ObjectProperty@37ff6855</category>
   <status>string</status>
-</null>}]
+  <name>doggie</name>
+  <photoUrls>string</photoUrls>
+</null>, contentType=application/xml}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<InlineResponse200> 
      */
     public class func getPetByIdInObjectWithRequestBuilder(petId petId: Int64) -> RequestBuilder<InlineResponse200> {
-        var path = "/pet/{petId}?response=inline_arbitrary_object"
+        var path = "/pet/{petId}?response&#x3D;inline_arbitrary_object"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -601,7 +571,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
@@ -614,7 +583,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
@@ -633,29 +601,27 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array return by 'Find pet by ID'
-     
-     - GET /pet/{petId}?testing_byte_array=true
+     - GET /pet/{petId}?testing_byte_array&#x3D;true
      - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-     - OAuth:
-       - type: oauth2
-       - name: petstore_auth
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{contentType=application/json, example=""}, {contentType=application/xml, example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e}]
-     - examples: [{contentType=application/json, example=""}, {contentType=application/xml, example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e}]
+     - OAuth:
+       - type: oauth2
+       - name: petstore_auth
+     - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
+     - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<String> 
      */
     public class func petPetIdtestingByteArraytrueGetWithRequestBuilder(petId petId: Int64) -> RequestBuilder<String> {
-        var path = "/pet/{petId}?testing_byte_array=true"
+        var path = "/pet/{petId}?testing_byte_array&#x3D;true"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -665,7 +631,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
@@ -678,7 +643,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
@@ -697,9 +661,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Update an existing pet
-     
      - PUT /pet
      - 
      - OAuth:
@@ -713,7 +675,6 @@ public class PetAPI: APIBase {
     public class func updatePetWithRequestBuilder(body body: Pet?) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -722,7 +683,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Updates a pet in the store with form data
      
      - parameter petId: (path) ID of pet that needs to be updated 
@@ -737,7 +697,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Updates a pet in the store with form data
      
      - parameter petId: (path) ID of pet that needs to be updated 
@@ -758,9 +717,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Updates a pet in the store with form data
-     
      - POST /pet/{petId}
      - 
      - OAuth:
@@ -777,7 +734,7 @@ public class PetAPI: APIBase {
         var path = "/pet/{petId}"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "name": name,
             "status": status
@@ -790,7 +747,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      uploads an image
      
      - parameter petId: (path) ID of pet to update 
@@ -805,7 +761,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      uploads an image
      
      - parameter petId: (path) ID of pet to update 
@@ -826,9 +781,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      uploads an image
-     
      - POST /pet/{petId}/uploadImage
      - 
      - OAuth:
@@ -845,7 +798,7 @@ public class PetAPI: APIBase {
         var path = "/pet/{petId}/uploadImage"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "additionalMetadata": additionalMetadata,
             "file": _file

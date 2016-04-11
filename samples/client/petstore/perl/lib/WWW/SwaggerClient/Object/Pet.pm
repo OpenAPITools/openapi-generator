@@ -110,42 +110,41 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-    'category' => {
+'category' => {
     	datatype => 'Category',
     	base_name => 'category',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-    'name' => {
+'name' => {
     	datatype => 'string',
     	base_name => 'name',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-    'photo_urls' => {
+'photo_urls' => {
     	datatype => 'ARRAY[string]',
     	base_name => 'photoUrls',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-    'tags' => {
+'tags' => {
     	datatype => 'ARRAY[Tag]',
     	base_name => 'tags',
     	description => '',
     	format => '',
     	read_only => '',
     		},
-    'status' => {
+'status' => {
     	datatype => 'string',
     	base_name => 'status',
     	description => 'pet status in the store',
     	format => '',
     	read_only => '',
     		},
-    
 });
 
 __PACKAGE__->swagger_types( {

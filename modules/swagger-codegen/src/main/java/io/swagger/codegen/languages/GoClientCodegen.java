@@ -91,6 +91,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         // map binary to string as a workaround
         // the correct solution is to use []byte
         typeMapping.put("binary", "string");
+        typeMapping.put("ByteArray", "string");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");

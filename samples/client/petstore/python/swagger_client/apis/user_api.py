@@ -359,7 +359,7 @@ class UserApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
+        :param str username: The name that needs to be fetched. Use user1 for testing.  (required)
         :return: User
                  If the method is called asynchronously,
                  returns the request thread.

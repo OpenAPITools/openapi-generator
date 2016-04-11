@@ -113,7 +113,6 @@ sub create_user {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -178,7 +177,6 @@ sub create_users_with_array_input {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -243,7 +241,6 @@ sub create_users_with_list_input {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -315,7 +312,6 @@ sub delete_user {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -323,12 +319,12 @@ sub delete_user {
 #
 # Get user by user name
 # 
-# @param string $username The name that needs to be fetched. Use user1 for testing. (required)
+# @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
 {
     my $params = {
     'username' => {
         data_type => 'string',
-        description => 'The name that needs to be fetched. Use user1 for testing.',
+        description => 'The name that needs to be fetched. Use user1 for testing. ',
         required => '1',
     },
     };
@@ -390,8 +386,7 @@ sub get_user_by_name {
     }
     my $_response_object = $self->{api_client}->deserialize('User', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # login_user
@@ -467,8 +462,7 @@ sub login_user {
     }
     my $_response_object = $self->{api_client}->deserialize('string', $response);
     return $_response_object;
-    
-}
+    }
 
 #
 # logout_user
@@ -523,7 +517,6 @@ sub logout_user {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -604,7 +597,6 @@ sub update_user {
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 

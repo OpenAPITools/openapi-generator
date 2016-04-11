@@ -190,13 +190,19 @@ class VoidAuth implements Authentication {
     }
 }
 
+export enum PetApiApiKeys {
+    test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
+}
+
 export class PetApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-
-
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -223,12 +229,8 @@ export class PetApi {
         }
     }
 
-    set apiKey(key: string) {
-        this.authentications.test_api_key_header.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.api_key.apiKey = key;
+    public setApiKey(key: PetApiApiKeys, value: string) {
+        this.authentications[PetApiApiKeys[key]].apiKey = value;
     }
 
     set username(username: string) {
@@ -237,18 +239,6 @@ export class PetApi {
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_secret.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_id.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_key_query.apiKey = key;
     }
 
     set accessToken(token: string) {
@@ -890,13 +880,19 @@ export class PetApi {
         return localVarDeferred.promise;
     }
 }
+export enum StoreApiApiKeys {
+    test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
+}
+
 export class StoreApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-
-
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -923,12 +919,8 @@ export class StoreApi {
         }
     }
 
-    set apiKey(key: string) {
-        this.authentications.test_api_key_header.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.api_key.apiKey = key;
+    public setApiKey(key: StoreApiApiKeys, value: string) {
+        this.authentications[StoreApiApiKeys[key]].apiKey = value;
     }
 
     set username(username: string) {
@@ -937,18 +929,6 @@ export class StoreApi {
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_secret.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_id.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_key_query.apiKey = key;
     }
 
     set accessToken(token: string) {
@@ -1282,13 +1262,19 @@ export class StoreApi {
         return localVarDeferred.promise;
     }
 }
+export enum UserApiApiKeys {
+    test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
+}
+
 export class UserApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-
-
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -1315,12 +1301,8 @@ export class UserApi {
         }
     }
 
-    set apiKey(key: string) {
-        this.authentications.test_api_key_header.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.api_key.apiKey = key;
+    public setApiKey(key: UserApiApiKeys, value: string) {
+        this.authentications[UserApiApiKeys[key]].apiKey = value;
     }
 
     set username(username: string) {
@@ -1329,18 +1311,6 @@ export class UserApi {
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_secret.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_id.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_key_query.apiKey = key;
     }
 
     set accessToken(token: string) {
