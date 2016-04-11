@@ -43,6 +43,21 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
     _sling := sling.New().{{httpMethod}}(a.Configuration.BasePath)
 
+    {{#authMethods}}// authentication ({{name}}) required
+    {{#isBasic}}
+    // http basic authentication required
+    if a.Configuration.Username != "" || a.Configuration.Password != ""{
+        _sling.Set("Authorization",  "Basic " + a.Configuration.GetBasicAuthEncodedString())
+    }
+    {{/isBasic}}
+    {{#isOAuth}}
+    // oauth required
+    if a.Configuration.AccessToken != ""{
+        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
+    }
+    {{/isOAuth}}    
+    {{/authMethods}}
+
     // create path and map variables
     path := "{{basePathWithoutHost}}{{path}}"
 {{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
