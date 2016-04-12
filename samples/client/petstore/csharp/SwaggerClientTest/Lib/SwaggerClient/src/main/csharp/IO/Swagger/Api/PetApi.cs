@@ -608,10 +608,8 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> AddPetWithHttpInfo (Pet body = null)
         {
-            
 
             var localVarPath = "/pet";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -621,13 +619,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -636,7 +636,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                                                            if (body.GetType() != typeof(byte[]))
+            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -646,7 +646,6 @@ namespace IO.Swagger.Api
             }
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -691,10 +690,8 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body = null)
         {
-            
 
             var localVarPath = "/pet";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -704,13 +701,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -719,7 +718,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                                                            if (body.GetType() != typeof(byte[]))
+            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -729,7 +728,6 @@ namespace IO.Swagger.Api
             }
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -753,6 +751,7 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
+
         /// <summary>
         /// Fake endpoint to test byte array in body parameter for adding a new pet to the store 
         /// </summary>
@@ -772,10 +771,8 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> AddPetUsingByteArrayWithHttpInfo (byte[] body = null)
         {
-            
 
             var localVarPath = "/pet?testing_byte_array&#x3D;true";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -785,13 +782,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -800,7 +799,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                                                            if (body.GetType() != typeof(byte[]))
+            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -810,7 +809,6 @@ namespace IO.Swagger.Api
             }
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -855,10 +853,8 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> AddPetUsingByteArrayAsyncWithHttpInfo (byte[] body = null)
         {
-            
 
             var localVarPath = "/pet?testing_byte_array&#x3D;true";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -868,13 +864,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -883,7 +881,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                                                            if (body.GetType() != typeof(byte[]))
+            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -893,7 +891,6 @@ namespace IO.Swagger.Api
             }
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -917,6 +914,7 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
+
         /// <summary>
         /// Deletes a pet 
         /// </summary>
@@ -938,14 +936,11 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null)
         {
-            
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->DeletePet");
-            
 
             var localVarPath = "/pet/{petId}";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -955,13 +950,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -971,11 +966,9 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                        if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
-                        
+            if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1023,11 +1016,10 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null)
         {
             // verify the required parameter 'petId' is set
-            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling DeletePet");
-            
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->DeletePet");
 
             var localVarPath = "/pet/{petId}";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1037,13 +1029,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1053,11 +1045,9 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                        if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
-                        
+            if (apiKey != null) localVarHeaderParams.Add("api_key", Configuration.ApiClient.ParameterToString(apiKey)); // header parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1081,6 +1071,7 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
+
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
@@ -1101,10 +1092,8 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         public ApiResponse< List<Pet> > FindPetsByStatusWithHttpInfo (List<string> status = null)
         {
-            
 
             var localVarPath = "/pet/findByStatus";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1114,13 +1103,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1129,11 +1118,9 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                        if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
-                                    
+            if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1179,10 +1166,8 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusAsyncWithHttpInfo (List<string> status = null)
         {
-            
 
             var localVarPath = "/pet/findByStatus";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1192,13 +1177,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1207,11 +1192,9 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                        if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
-                                    
+            if (status != null) localVarQueryParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // query parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1235,6 +1218,7 @@ namespace IO.Swagger.Api
                 (List<Pet>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Pet>)));
             
         }
+
         /// <summary>
         /// Finds Pets by tags Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
@@ -1255,10 +1239,8 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of List&lt;Pet&gt;</returns>
         public ApiResponse< List<Pet> > FindPetsByTagsWithHttpInfo (List<string> tags = null)
         {
-            
 
             var localVarPath = "/pet/findByTags";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1268,13 +1250,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1283,11 +1265,9 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                        if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
-                                    
+            if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1333,10 +1313,8 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
         public async System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsAsyncWithHttpInfo (List<string> tags = null)
         {
-            
 
             var localVarPath = "/pet/findByTags";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1346,13 +1324,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1361,11 +1339,9 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                        if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
-                                    
+            if (tags != null) localVarQueryParams.Add("tags", Configuration.ApiClient.ParameterToString(tags)); // query parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1389,6 +1365,7 @@ namespace IO.Swagger.Api
                 (List<Pet>) Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<Pet>)));
             
         }
+
         /// <summary>
         /// Find pet by ID Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -1409,14 +1386,11 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of Pet</returns>
         public ApiResponse< Pet > GetPetByIdWithHttpInfo (long? petId)
         {
-            
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetById");
-            
 
             var localVarPath = "/pet/{petId}";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1426,13 +1400,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1442,16 +1416,14 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                                
 
             // authentication (api_key) required
-            
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-// authentication (petstore_auth) required
-            
+
+            // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1498,11 +1470,10 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long? petId)
         {
             // verify the required parameter 'petId' is set
-            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetById");
-            
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetById");
 
             var localVarPath = "/pet/{petId}";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1512,13 +1483,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1528,16 +1499,13 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                                
 
             // authentication (api_key) required
-            
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1561,6 +1529,7 @@ namespace IO.Swagger.Api
                 (Pet) Configuration.ApiClient.Deserialize(localVarResponse, typeof(Pet)));
             
         }
+
         /// <summary>
         /// Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -1581,14 +1550,11 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of InlineResponse200</returns>
         public ApiResponse< InlineResponse200 > GetPetByIdInObjectWithHttpInfo (long? petId)
         {
-            
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetByIdInObject");
-            
 
             var localVarPath = "/pet/{petId}?response&#x3D;inline_arbitrary_object";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1598,13 +1564,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1614,16 +1580,14 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                                
 
             // authentication (api_key) required
-            
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-// authentication (petstore_auth) required
-            
+
+            // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1670,11 +1634,10 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<InlineResponse200>> GetPetByIdInObjectAsyncWithHttpInfo (long? petId)
         {
             // verify the required parameter 'petId' is set
-            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling GetPetByIdInObject");
-            
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetByIdInObject");
 
             var localVarPath = "/pet/{petId}?response&#x3D;inline_arbitrary_object";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1684,13 +1647,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1700,16 +1663,13 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                                
 
             // authentication (api_key) required
-            
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1733,6 +1693,7 @@ namespace IO.Swagger.Api
                 (InlineResponse200) Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponse200)));
             
         }
+
         /// <summary>
         /// Fake endpoint to test byte array return by &#39;Find pet by ID&#39; Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
         /// </summary>
@@ -1753,14 +1714,11 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of byte[]</returns>
         public ApiResponse< byte[] > PetPetIdtestingByteArraytrueGetWithHttpInfo (long? petId)
         {
-            
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->PetPetIdtestingByteArraytrueGet");
-            
 
             var localVarPath = "/pet/{petId}?testing_byte_array&#x3D;true";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1770,13 +1728,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1786,16 +1744,14 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                                
 
             // authentication (api_key) required
-            
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
-// authentication (petstore_auth) required
-            
+
+            // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1842,11 +1798,10 @@ namespace IO.Swagger.Api
         public async System.Threading.Tasks.Task<ApiResponse<byte[]>> PetPetIdtestingByteArraytrueGetAsyncWithHttpInfo (long? petId)
         {
             // verify the required parameter 'petId' is set
-            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling PetPetIdtestingByteArraytrueGet");
-            
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->PetPetIdtestingByteArraytrueGet");
 
             var localVarPath = "/pet/{petId}?testing_byte_array&#x3D;true";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1856,13 +1811,13 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1872,16 +1827,13 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                                
 
             // authentication (api_key) required
-            
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -1905,6 +1857,7 @@ namespace IO.Swagger.Api
                 (byte[]) Configuration.ApiClient.Deserialize(localVarResponse, typeof(byte[])));
             
         }
+
         /// <summary>
         /// Update an existing pet 
         /// </summary>
@@ -1924,10 +1877,8 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UpdatePetWithHttpInfo (Pet body = null)
         {
-            
 
             var localVarPath = "/pet";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -1937,13 +1888,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -1952,7 +1905,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                                                            if (body.GetType() != typeof(byte[]))
+            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -1962,7 +1915,6 @@ namespace IO.Swagger.Api
             }
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -2007,10 +1959,8 @@ namespace IO.Swagger.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetAsyncWithHttpInfo (Pet body = null)
         {
-            
 
             var localVarPath = "/pet";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2020,13 +1970,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -2035,7 +1987,7 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
-                                                            if (body.GetType() != typeof(byte[]))
+            if (body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
@@ -2045,7 +1997,6 @@ namespace IO.Swagger.Api
             }
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -2069,6 +2020,7 @@ namespace IO.Swagger.Api
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
+
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
@@ -2092,14 +2044,11 @@ namespace IO.Swagger.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UpdatePetWithFormWithHttpInfo (string petId, string name = null, string status = null)
         {
-            
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm");
-            
 
             var localVarPath = "/pet/{petId}";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2115,7 +2064,8 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -2125,12 +2075,10 @@ namespace IO.Swagger.Api
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                    if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
-if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
-            
+            if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
+            if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -2180,11 +2128,10 @@ if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.Par
         public async System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (string petId, string name = null, string status = null)
         {
             // verify the required parameter 'petId' is set
-            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UpdatePetWithForm");
-            
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm");
 
             var localVarPath = "/pet/{petId}";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2200,7 +2147,8 @@ if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.Par
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -2210,12 +2158,10 @@ if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.Par
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                    if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
-if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
-            
+            if (name != null) localVarFormParams.Add("name", Configuration.ApiClient.ParameterToString(name)); // form parameter
+            if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.ParameterToString(status)); // form parameter
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -2239,6 +2185,7 @@ if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.Par
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
+
         /// <summary>
         /// uploads an image 
         /// </summary>
@@ -2262,14 +2209,11 @@ if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.Par
         /// <returns>ApiResponse of Object(void)</returns>
         public ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
         {
-            
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFile");
-            
 
             var localVarPath = "/pet/{petId}/uploadImage";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2285,7 +2229,8 @@ if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.Par
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -2295,12 +2240,10 @@ if (status != null) localVarFormParams.Add("status", Configuration.ApiClient.Par
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                    if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
-if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
-            
+            if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+            if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -2350,11 +2293,10 @@ if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.Paramet
         public async System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
         {
             // verify the required parameter 'petId' is set
-            if (petId == null) throw new ApiException(400, "Missing required parameter 'petId' when calling UploadFile");
-            
+            if (petId == null)
+                throw new ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFile");
 
             var localVarPath = "/pet/{petId}/uploadImage";
-
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -2370,7 +2312,8 @@ if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.Paramet
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", "application/xml"
+                "application/json", 
+                "application/xml"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -2380,12 +2323,10 @@ if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.Paramet
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
-                                    if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
-if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
-            
+            if (additionalMetadata != null) localVarFormParams.Add("additionalMetadata", Configuration.ApiClient.ParameterToString(additionalMetadata)); // form parameter
+            if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.ParameterToFile("file", file));
 
             // authentication (petstore_auth) required
-            
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
@@ -2409,5 +2350,6 @@ if (file != null) localVarFileParams.Add("file", Configuration.ApiClient.Paramet
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
         }
+
     }
 }
