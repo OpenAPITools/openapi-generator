@@ -355,7 +355,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is not null or undefined
-        if (petId == null) {
+        if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
 
@@ -521,7 +521,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is not null or undefined
-        if (petId == null) {
+        if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
@@ -579,7 +579,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is not null or undefined
-        if (petId == null) {
+        if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetByIdInObject.');
         }
 
@@ -637,7 +637,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is not null or undefined
-        if (petId == null) {
+        if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling petPetIdtestingByteArraytrueGet.');
         }
 
@@ -748,7 +748,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is not null or undefined
-        if (petId == null) {
+        if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
@@ -814,7 +814,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is not null or undefined
-        if (petId == null) {
+        if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
@@ -942,7 +942,7 @@ export class StoreApi {
 
 
         // verify required parameter 'orderId' is not null or undefined
-        if (orderId == null) {
+        if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
@@ -1150,7 +1150,7 @@ export class StoreApi {
 
 
         // verify required parameter 'orderId' is not null or undefined
-        if (orderId == null) {
+        if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
@@ -1471,7 +1471,7 @@ export class UserApi {
 
 
         // verify required parameter 'username' is not null or undefined
-        if (username == null) {
+        if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
@@ -1527,7 +1527,7 @@ export class UserApi {
 
 
         // verify required parameter 'username' is not null or undefined
-        if (username == null) {
+        if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
@@ -1686,7 +1686,7 @@ export class UserApi {
 
 
         // verify required parameter 'username' is not null or undefined
-        if (username == null) {
+        if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
