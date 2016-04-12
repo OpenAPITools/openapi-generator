@@ -25,20 +25,6 @@ export class Dog extends Animal {
     "breed": string;
 }
 
-export class FormatTest {
-    "integer": number;
-    "int32": number;
-    "int64": number;
-    "number": number;
-    "float": number;
-    "double": number;
-    "string": string;
-    "byte": ByteArray;
-    "binary": string;
-    "date": Date;
-    "dateTime": string;
-}
-
 export class InlineResponse200 {
     "photoUrls": Array<string>;
     "name": string;
@@ -368,9 +354,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (petId === undefined) {
-            throw new Error('Missing required parameter petId when calling deletePet');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId == null) {
+            throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
 
         headerParams['api_key'] = apiKey;
@@ -534,9 +520,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (petId === undefined) {
-            throw new Error('Missing required parameter petId when calling getPetById');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId == null) {
+            throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
         let useFormData = false;
@@ -592,9 +578,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (petId === undefined) {
-            throw new Error('Missing required parameter petId when calling getPetByIdInObject');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId == null) {
+            throw new Error('Required parameter petId was null or undefined when calling getPetByIdInObject.');
         }
 
         let useFormData = false;
@@ -650,9 +636,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (petId === undefined) {
-            throw new Error('Missing required parameter petId when calling petPetIdtestingByteArraytrueGet');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId == null) {
+            throw new Error('Required parameter petId was null or undefined when calling petPetIdtestingByteArraytrueGet.');
         }
 
         let useFormData = false;
@@ -761,9 +747,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (petId === undefined) {
-            throw new Error('Missing required parameter petId when calling updatePetWithForm');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId == null) {
+            throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
         let useFormData = false;
@@ -827,9 +813,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (petId === undefined) {
-            throw new Error('Missing required parameter petId when calling uploadFile');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId == null) {
+            throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
         let useFormData = false;
@@ -955,9 +941,9 @@ export class StoreApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'orderId' is set
-        if (orderId === undefined) {
-            throw new Error('Missing required parameter orderId when calling deleteOrder');
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId == null) {
+            throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
         let useFormData = false;
@@ -1163,9 +1149,9 @@ export class StoreApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'orderId' is set
-        if (orderId === undefined) {
-            throw new Error('Missing required parameter orderId when calling getOrderById');
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId == null) {
+            throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
         let useFormData = false;
@@ -1484,9 +1470,9 @@ export class UserApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'username' is set
-        if (username === undefined) {
-            throw new Error('Missing required parameter username when calling deleteUser');
+        // verify required parameter 'username' is not null or undefined
+        if (username == null) {
+            throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
         let useFormData = false;
@@ -1540,9 +1526,9 @@ export class UserApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'username' is set
-        if (username === undefined) {
-            throw new Error('Missing required parameter username when calling getUserByName');
+        // verify required parameter 'username' is not null or undefined
+        if (username == null) {
+            throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
         let useFormData = false;
@@ -1699,9 +1685,9 @@ export class UserApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'username' is set
-        if (username === undefined) {
-            throw new Error('Missing required parameter username when calling updateUser');
+        // verify required parameter 'username' is not null or undefined
+        if (username == null) {
+            throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
         let useFormData = false;
