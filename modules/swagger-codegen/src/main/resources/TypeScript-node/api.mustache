@@ -191,7 +191,7 @@ export class {{classname}} {
 
 {{#allParams}}{{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
-        if ({{paramName}} == null) {
+        if ({{paramName}} === null || {{paramName}} === undefined) {
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 {{/required}}{{/allParams}}
