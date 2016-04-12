@@ -213,7 +213,7 @@ public class DefaultCodegen {
                 if (var.defaultValue != null) {
                     String enumName = null;
                     for (Map<String, String> enumVar : enumVars) {
-                        if (var.defaultValue.equals(enumVar.get("value"))) {
+                        if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
                             enumName = enumVar.get("name");
                             break;
                         }

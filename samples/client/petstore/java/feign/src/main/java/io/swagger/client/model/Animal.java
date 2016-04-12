@@ -6,10 +6,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-23T12:48:24.088+08:00")
+/**
+ * Animal
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-12T23:06:03.099+08:00")
 public class Animal   {
   
   private String className = null;
@@ -31,6 +31,7 @@ public class Animal   {
     this.className = className;
   }
 
+  
 
   @Override
   public boolean equals(java.lang.Object o) {

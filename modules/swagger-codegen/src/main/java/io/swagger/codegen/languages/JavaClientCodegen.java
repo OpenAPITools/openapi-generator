@@ -11,6 +11,7 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.*;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -653,6 +654,28 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+        String lib = getLibrary();
+        if (StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+            List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+            List<Object> models = (List<Object>) objs.get("models");
+            for (Object _mo : models) {
+                Map<String, Object> mo = (Map<String, Object>) _mo;
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                // for enum model
+                if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                    cm.imports.add(importMapping.get("JsonValue"));
+                    Map<String, String> item = new HashMap<String, String>();
+                    item.put("import", importMapping.get("JsonValue"));
+                    imports.add(item);
+                }
+            }
+        }
+        return objs;
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if(serializeBigDecimalAsString) {
             if (property.baseType.equals("BigDecimal")) {
@@ -802,13 +825,40 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 */
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return sanitizeName(camelize(property.name)) + "Enum";
+    }
+
     @Override
     public String toEnumVarName(String value, String datatype) {
-        String var = value.replaceAll("\\W+", "_").toUpperCase();
+        // number
+        if ("Integer".equals(datatype) || "Long".equals(datatype) ||
+            "Float".equals(datatype) || "Double".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String var = value.replaceAll("\\W+", "_").replaceAll("_+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {
             return var;
+        }
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("Integer".equals(datatype) || "Long".equals(datatype) ||
+            "Float".equals(datatype) || "Double".equals(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
         }
     }
 
