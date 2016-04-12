@@ -45,6 +45,11 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -102,6 +107,11 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/json" }
     for key := range accepts {
@@ -161,6 +171,11 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -219,6 +234,11 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
