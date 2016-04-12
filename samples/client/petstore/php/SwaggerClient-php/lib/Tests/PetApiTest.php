@@ -74,15 +74,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
     }
     /**
-     * Test case for addPetUsingByteArray
-     *
-     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-     *
-     */
-    public function test_addPetUsingByteArray() {
-
-    }
-    /**
      * Test case for deletePet
      *
      * Deletes a pet
@@ -116,24 +107,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function test_getPetById() {
-
-    }
-    /**
-     * Test case for getPetByIdInObject
-     *
-     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-     *
-     */
-    public function test_getPetByIdInObject() {
-
-    }
-    /**
-     * Test case for petPetIdtestingByteArraytrueGet
-     *
-     * Fake endpoint to test byte array return by 'Find pet by ID'
-     *
-     */
-    public function test_petPetIdtestingByteArraytrueGet() {
 
     }
     /**
