@@ -41,6 +41,7 @@ func (a PetApi) AddPet (body Pet) (error) {
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
+        
     // oauth required
     if a.Configuration.AccessToken != ""{
         _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
@@ -113,6 +114,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
     _sling := sling.New().Delete(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
+        
     // oauth required
     if a.Configuration.AccessToken != ""{
         _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
@@ -185,6 +187,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
+        
     // oauth required
     if a.Configuration.AccessToken != ""{
         _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
@@ -258,6 +261,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
+        
     // oauth required
     if a.Configuration.AccessToken != ""{
         _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
@@ -331,6 +335,10 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (api_key) required
+    
+    // set key with prefix in header
+    _sling.Set("api_key", a.Configuration.GetApiKeyWithPrefix("api_key")
+        
 
     // create path and map variables
     path := "/v2/pet/{petId}"
@@ -397,6 +405,7 @@ func (a PetApi) UpdatePet (body Pet) (error) {
     _sling := sling.New().Put(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
+        
     // oauth required
     if a.Configuration.AccessToken != ""{
         _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
@@ -470,6 +479,7 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
+        
     // oauth required
     if a.Configuration.AccessToken != ""{
         _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
@@ -547,6 +557,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
+        
     // oauth required
     if a.Configuration.AccessToken != ""{
         _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)

@@ -104,6 +104,10 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (api_key) required
+    
+    // set key with prefix in header
+    _sling.Set("api_key", a.Configuration.GetApiKeyWithPrefix("api_key")
+        
 
     // create path and map variables
     path := "/v2/store/inventory"
