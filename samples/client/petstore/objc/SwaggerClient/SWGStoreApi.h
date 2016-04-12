@@ -37,7 +37,7 @@
 /// Finds orders by status
 /// A single status value can be provided as a string
 ///
-/// @param status Status value that needs to be considered for query
+/// @param status Status value that needs to be considered for query (optional) (default to placed)
 /// 
 ///
 /// @return NSArray<SWGOrder>*
@@ -87,7 +87,7 @@
 /// Place an order for a pet
 /// 
 ///
-/// @param body order placed for purchasing the pet
+/// @param body order placed for purchasing the pet (optional)
 /// 
 ///
 /// @return SWGOrder*
