@@ -191,7 +191,7 @@ export class {{classname}} {
 
 {{#allParams}}{{#required}}
         // verify required parameter '{{paramName}}' is set
-        if (!{{paramName}}) {
+        if ({{paramName}} === undefined) {
             throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
         }
 {{/required}}{{/allParams}}

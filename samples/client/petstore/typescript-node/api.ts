@@ -25,6 +25,20 @@ export class Dog extends Animal {
     "breed": string;
 }
 
+export class FormatTest {
+    "integer": number;
+    "int32": number;
+    "int64": number;
+    "number": number;
+    "float": number;
+    "double": number;
+    "string": string;
+    "byte": ByteArray;
+    "binary": string;
+    "date": Date;
+    "dateTime": string;
+}
+
 export class InlineResponse200 {
     "photoUrls": Array<string>;
     "name": string;
@@ -295,7 +309,7 @@ export class PetApi {
      * @param body Pet object in the form of byte array
      */
     public addPetUsingByteArray (body?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const localVarPath = this.basePath + '/pet?testing_byte_array=true';
+        const localVarPath = this.basePath + '/pet?testing_byte_array&#x3D;true';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -355,7 +369,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is set
-        if (!petId) {
+        if (petId === undefined) {
             throw new Error('Missing required parameter petId when calling deletePet');
         }
 
@@ -521,7 +535,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is set
-        if (!petId) {
+        if (petId === undefined) {
             throw new Error('Missing required parameter petId when calling getPetById');
         }
 
@@ -571,7 +585,7 @@ export class PetApi {
      * @param petId ID of pet that needs to be fetched
      */
     public getPetByIdInObject (petId: number) : Promise<{ response: http.ClientResponse; body: InlineResponse200;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?response=inline_arbitrary_object'
+        const localVarPath = this.basePath + '/pet/{petId}?response&#x3D;inline_arbitrary_object'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -579,7 +593,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is set
-        if (!petId) {
+        if (petId === undefined) {
             throw new Error('Missing required parameter petId when calling getPetByIdInObject');
         }
 
@@ -629,7 +643,7 @@ export class PetApi {
      * @param petId ID of pet that needs to be fetched
      */
     public petPetIdtestingByteArraytrueGet (petId: number) : Promise<{ response: http.ClientResponse; body: string;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array=true'
+        const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array&#x3D;true'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
@@ -637,7 +651,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is set
-        if (!petId) {
+        if (petId === undefined) {
             throw new Error('Missing required parameter petId when calling petPetIdtestingByteArraytrueGet');
         }
 
@@ -748,7 +762,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is set
-        if (!petId) {
+        if (petId === undefined) {
             throw new Error('Missing required parameter petId when calling updatePetWithForm');
         }
 
@@ -814,7 +828,7 @@ export class PetApi {
 
 
         // verify required parameter 'petId' is set
-        if (!petId) {
+        if (petId === undefined) {
             throw new Error('Missing required parameter petId when calling uploadFile');
         }
 
@@ -942,7 +956,7 @@ export class StoreApi {
 
 
         // verify required parameter 'orderId' is set
-        if (!orderId) {
+        if (orderId === undefined) {
             throw new Error('Missing required parameter orderId when calling deleteOrder');
         }
 
@@ -1092,7 +1106,7 @@ export class StoreApi {
      * Returns an arbitrary object which is actually a map of status codes to quantities
      */
     public getInventoryInObject () : Promise<{ response: http.ClientResponse; body: any;  }> {
-        const localVarPath = this.basePath + '/store/inventory?response=arbitrary_object';
+        const localVarPath = this.basePath + '/store/inventory?response&#x3D;arbitrary_object';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -1138,7 +1152,7 @@ export class StoreApi {
     }
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById (orderId: string) : Promise<{ response: http.ClientResponse; body: Order;  }> {
@@ -1150,7 +1164,7 @@ export class StoreApi {
 
 
         // verify required parameter 'orderId' is set
-        if (!orderId) {
+        if (orderId === undefined) {
             throw new Error('Missing required parameter orderId when calling getOrderById');
         }
 
@@ -1471,7 +1485,7 @@ export class UserApi {
 
 
         // verify required parameter 'username' is set
-        if (!username) {
+        if (username === undefined) {
             throw new Error('Missing required parameter username when calling deleteUser');
         }
 
@@ -1527,7 +1541,7 @@ export class UserApi {
 
 
         // verify required parameter 'username' is set
-        if (!username) {
+        if (username === undefined) {
             throw new Error('Missing required parameter username when calling getUserByName');
         }
 
@@ -1686,7 +1700,7 @@ export class UserApi {
 
 
         // verify required parameter 'username' is set
-        if (!username) {
+        if (username === undefined) {
             throw new Error('Missing required parameter username when calling updateUser');
         }
 
