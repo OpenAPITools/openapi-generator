@@ -46,7 +46,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     {{#authMethods}}// authentication ({{name}}) required
     {{#isApiKey}}{{#isKeyInHeader}}
     // set key with prefix in header
-    _sling.Set("{{keyParamName}}", a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
+    _sling.Set("{{keyParamName}}", a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}"))
     {{/isKeyInHeader}}{{#isKeyInQuery}}
     // set key with prefix in querystring
     {{#hasKeyParamName}}    type KeyQueryParams struct {
