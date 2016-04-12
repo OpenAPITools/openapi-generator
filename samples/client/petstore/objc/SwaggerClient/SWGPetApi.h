@@ -25,7 +25,7 @@
 /// Add a new pet to the store
 /// 
 ///
-/// @param body Pet object that needs to be added to the store
+/// @param body Pet object that needs to be added to the store (optional)
 /// 
 ///
 /// @return 
@@ -38,7 +38,7 @@
 /// Fake endpoint to test byte array in body parameter for adding a new pet to the store
 /// 
 ///
-/// @param body Pet object in the form of byte array
+/// @param body Pet object in the form of byte array (optional)
 /// 
 ///
 /// @return 
@@ -52,7 +52,7 @@
 /// 
 ///
 /// @param petId Pet id to delete
-/// @param apiKey 
+/// @param apiKey  (optional)
 /// 
 ///
 /// @return 
@@ -66,7 +66,7 @@
 /// Finds Pets by status
 /// Multiple status values can be provided with comma separated strings
 ///
-/// @param status Status values that need to be considered for query
+/// @param status Status values that need to be considered for query (optional) (default to available)
 /// 
 ///
 /// @return NSArray<SWGPet>*
@@ -79,7 +79,7 @@
 /// Finds Pets by tags
 /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 ///
-/// @param tags Tags to filter by
+/// @param tags Tags to filter by (optional)
 /// 
 ///
 /// @return NSArray<SWGPet>*
@@ -131,7 +131,7 @@
 /// Update an existing pet
 /// 
 ///
-/// @param body Pet object that needs to be added to the store
+/// @param body Pet object that needs to be added to the store (optional)
 /// 
 ///
 /// @return 
@@ -145,8 +145,8 @@
 /// 
 ///
 /// @param petId ID of pet that needs to be updated
-/// @param name Updated name of the pet
-/// @param status Updated status of the pet
+/// @param name Updated name of the pet (optional)
+/// @param status Updated status of the pet (optional)
 /// 
 ///
 /// @return 
@@ -162,8 +162,8 @@
 /// 
 ///
 /// @param petId ID of pet to update
-/// @param additionalMetadata Additional data to pass to server
-/// @param file file to upload
+/// @param additionalMetadata Additional data to pass to server (optional)
+/// @param file file to upload (optional)
 /// 
 ///
 /// @return 
