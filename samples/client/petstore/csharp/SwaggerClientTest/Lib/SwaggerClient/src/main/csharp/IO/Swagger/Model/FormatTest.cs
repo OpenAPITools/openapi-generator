@@ -33,8 +33,9 @@ namespace IO.Swagger.Model
         /// <param name="Binary">Binary.</param>
         /// <param name="Date">Date.</param>
         /// <param name="DateTime">DateTime.</param>
+        /// <param name="Password">Password.</param>
 
-        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, string DateTime = null)
+        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, string Password = null)
         {
             // to ensure "Number" is required (not null)
             if (Number == null)
@@ -55,6 +56,7 @@ namespace IO.Swagger.Model
             this.Binary = Binary;
             this.Date = Date;
             this.DateTime = DateTime;
+            this.Password = Password;
             
         }
 
@@ -123,7 +125,13 @@ namespace IO.Swagger.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
-        public string DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets Password
+        /// </summary>
+        [DataMember(Name="password", EmitDefaultValue=false)]
+        public string Password { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -144,6 +152,7 @@ namespace IO.Swagger.Model
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -234,6 +243,11 @@ namespace IO.Swagger.Model
                     this.DateTime == other.DateTime ||
                     this.DateTime != null &&
                     this.DateTime.Equals(other.DateTime)
+                ) && 
+                (
+                    this.Password == other.Password ||
+                    this.Password != null &&
+                    this.Password.Equals(other.Password)
                 );
         }
 
@@ -270,6 +284,8 @@ namespace IO.Swagger.Model
                     hash = hash * 59 + this.Date.GetHashCode();
                 if (this.DateTime != null)
                     hash = hash * 59 + this.DateTime.GetHashCode();
+                if (this.Password != null)
+                    hash = hash * 59 + this.Password.GetHashCode();
                 return hash;
             }
         }
