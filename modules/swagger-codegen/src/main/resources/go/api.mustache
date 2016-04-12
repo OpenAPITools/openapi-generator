@@ -49,7 +49,11 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     _sling.Set("{{keyParamName}}", a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
     {{/isKeyInHeader}}{{#isKeyInQuery}}
     // set key with prefix in querystring
-    _sling.Set("{{keyParamName}}",  a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
+    {{#hasKeyParamName}}    type KeyQueryParams struct {
+            {{keyParamName}}    string `url:"{{keyParamName}},omitempty"`
+    }
+    _sling = _sling.QueryStruct(&KeyQueryParams{ {{keyParamName}}: a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}") })
+    {{/hasKeyParamName}}
     {{/isKeyInQuery}}{{/isApiKey}}    
     {{#isBasic}}
     // http basic authentication required
