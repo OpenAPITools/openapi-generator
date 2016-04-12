@@ -203,7 +203,8 @@ class Decoders {
                 instance.byte = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["byte"])
                 instance.binary = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["binary"])
                 instance.date = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["date"])
-                instance.dateTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["dateTime"])
+                instance.dateTime = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["dateTime"])
+                instance.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"])
                 return instance
             }
 
@@ -216,12 +217,12 @@ class Decoders {
             Decoders.addDecoder(clazz: InlineResponse200.self) { (source: AnyObject) -> InlineResponse200 in
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = InlineResponse200()
-                instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"])
+                instance.photoUrls = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["photoUrls"])
+                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
                 instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"])
                 instance.category = Decoders.decodeOptional(clazz: AnyObject.self, source: sourceDictionary["category"])
+                instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"])
                 instance.status = InlineResponse200.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
-                instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
-                instance.photoUrls = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["photoUrls"])
                 return instance
             }
 
