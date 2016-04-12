@@ -16,16 +16,23 @@ type Configuration struct {
     Host  string  `json:"host,omitempty"`
     Scheme  string  `json:"scheme,omitempty"`
     AccessToken string `json:"accessToken,omitempty"`
+    DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
 }
 
 func NewConfiguration() *Configuration {
+    defaultHeader := make(map[string]string)
     return &Configuration{
         BasePath: "http://petstore.swagger.io/v2",
         UserName: "",
         Debug: false,
+        DefaultHeader: defaultHeader,
         }
 }
 
 func (c *Configuration) GetBasicAuthEncodedString() string {
     return base64.StdEncoding.EncodeToString([]byte(c.UserName  + ":" + c.Password))
+}
+
+func (c *Configuration) AddDefaultHeader(key string, value string) {
+    c.DefaultHeader[key] = value
 }
