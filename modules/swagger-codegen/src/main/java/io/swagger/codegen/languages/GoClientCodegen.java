@@ -15,6 +15,12 @@ import org.slf4j.LoggerFactory;
 
 public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
+    
+    public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
+    public static final String PACKAGE_PATH = "packagePath";
+    public static final String SRC_BASE_PATH = "srcBasePath";
+    public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
+    public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
 
     protected String packageName = "swagger";
     protected String packageVersion = "1.0.0";
