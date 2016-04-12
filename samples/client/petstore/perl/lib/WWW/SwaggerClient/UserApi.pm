@@ -76,8 +76,6 @@ sub new {
 sub create_user {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/user';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -94,10 +92,6 @@ sub create_user {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
-    
-    
     my $_body_data;
     # body params
     if ( exists $args{'body'}) {
@@ -108,7 +102,6 @@ sub create_user {
     my $auth_settings = [qw()];
 
     # make the API Call
-    
     $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
@@ -140,8 +133,6 @@ sub create_user {
 sub create_users_with_array_input {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/user/createWithArray';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -158,10 +149,6 @@ sub create_users_with_array_input {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
-    
-    
     my $_body_data;
     # body params
     if ( exists $args{'body'}) {
@@ -172,7 +159,6 @@ sub create_users_with_array_input {
     my $auth_settings = [qw()];
 
     # make the API Call
-    
     $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
@@ -204,8 +190,6 @@ sub create_users_with_array_input {
 sub create_users_with_list_input {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/user/createWithList';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -222,10 +206,6 @@ sub create_users_with_list_input {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
-    
-    
     my $_body_data;
     # body params
     if ( exists $args{'body'}) {
@@ -236,7 +216,6 @@ sub create_users_with_list_input {
     my $auth_settings = [qw()];
 
     # make the API Call
-    
     $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
@@ -268,12 +247,10 @@ sub create_users_with_list_input {
 sub delete_user {
     my ($self, %args) = @_;
 
-    
     # verify the required parameter 'username' is set
     unless (exists $args{'username'}) {
       croak("Missing the required parameter 'username' when calling delete_user");
     }
-    
 
     # parse inputs
     my $_resource_path = '/user/{username}';
@@ -291,23 +268,18 @@ sub delete_user {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
     # path params
     if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
-    
-    my $_body_data;
-    
 
+    my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw(test_http_basic )];
 
     # make the API Call
-    
     $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
@@ -339,12 +311,10 @@ sub delete_user {
 sub get_user_by_name {
     my ($self, %args) = @_;
 
-    
     # verify the required parameter 'username' is set
     unless (exists $args{'username'}) {
       croak("Missing the required parameter 'username' when calling get_user_by_name");
     }
-    
 
     # parse inputs
     my $_resource_path = '/user/{username}';
@@ -362,18 +332,14 @@ sub get_user_by_name {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
     # path params
     if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
-    
-    my $_body_data;
-    
 
+    my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw()];
 
@@ -386,7 +352,7 @@ sub get_user_by_name {
     }
     my $_response_object = $self->{api_client}->deserialize('User', $response);
     return $_response_object;
-    }
+}
 
 #
 # login_user
@@ -419,8 +385,6 @@ sub get_user_by_name {
 sub login_user {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/user/login';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -440,16 +404,14 @@ sub login_user {
     # query params
     if ( exists $args{'username'}) {
         $query_params->{'username'} = $self->{api_client}->to_query_value($args{'username'});
-    }# query params
+    }
+
+    # query params
     if ( exists $args{'password'}) {
         $query_params->{'password'} = $self->{api_client}->to_query_value($args{'password'});
     }
-    
-    
-    
-    my $_body_data;
-    
 
+    my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw()];
 
@@ -462,7 +424,7 @@ sub login_user {
     }
     my $_response_object = $self->{api_client}->deserialize('string', $response);
     return $_response_object;
-    }
+}
 
 #
 # logout_user
@@ -483,8 +445,6 @@ sub login_user {
 sub logout_user {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/user/logout';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -501,18 +461,11 @@ sub logout_user {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
-    
-    
     my $_body_data;
-    
-
     # authentication setting, if any
     my $auth_settings = [qw()];
 
     # make the API Call
-    
     $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
@@ -550,12 +503,10 @@ sub logout_user {
 sub update_user {
     my ($self, %args) = @_;
 
-    
     # verify the required parameter 'username' is set
     unless (exists $args{'username'}) {
       croak("Missing the required parameter 'username' when calling update_user");
     }
-    
 
     # parse inputs
     my $_resource_path = '/user/{username}';
@@ -573,15 +524,13 @@ sub update_user {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
     # path params
     if ( exists $args{'username'}) {
         my $_base_variable = "{" . "username" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'username'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
-    
+
     my $_body_data;
     # body params
     if ( exists $args{'body'}) {
@@ -592,12 +541,10 @@ sub update_user {
     my $auth_settings = [qw()];
 
     # make the API Call
-    
     $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
 }
-
 
 1;

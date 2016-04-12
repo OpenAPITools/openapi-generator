@@ -174,8 +174,15 @@ __PACKAGE__->method_documentation({
     	read_only => '',
     		},
     'date_time' => {
-    	datatype => 'string',
+    	datatype => 'DateTime',
     	base_name => 'dateTime',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
+    'password' => {
+    	datatype => 'string',
+    	base_name => 'password',
     	description => '',
     	format => '',
     	read_only => '',
@@ -193,7 +200,8 @@ __PACKAGE__->swagger_types( {
     'byte' => 'string',
     'binary' => 'string',
     'date' => 'DateTime',
-    'date_time' => 'string'
+    'date_time' => 'DateTime',
+    'password' => 'string'
 } );
 
 __PACKAGE__->attribute_map( {
@@ -207,7 +215,8 @@ __PACKAGE__->attribute_map( {
     'byte' => 'byte',
     'binary' => 'binary',
     'date' => 'date',
-    'date_time' => 'dateTime'
+    'date_time' => 'dateTime',
+    'password' => 'password'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});
