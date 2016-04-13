@@ -81,10 +81,10 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     }
     
 {{#hasQueryParams}}    type QueryParams struct {
-        {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+        {{#queryParams}}{{vendorExtensions.x-exportParamName}}    {{dataType}} `url:"{{baseName}},omitempty"`
         {{/queryParams}}
 }
-    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
+    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{vendorExtensions.x-exportParamName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
 {{/hasQueryParams}}
     // accept header
     accepts := []string { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
@@ -96,10 +96,10 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     _sling = _sling.Set("{{baseName}}", {{paramName}})
 {{/headerParams}}{{/hasHeaderParams}}
 {{#hasFormParams}}    type FormParams struct {
-{{#formParams}}        {{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+{{#formParams}}        {{vendorExtensions.x-exportParamName}}    {{dataType}} `url:"{{baseName}},omitempty"`
 {{/formParams}}
     }
-    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
+    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{vendorExtensions.x-exportParamName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
 {{/hasFormParams}}
 {{#hasBodyParam}}{{#bodyParams}}// body params
     _sling = _sling.BodyJSON({{paramName}})
