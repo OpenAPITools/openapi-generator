@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **quantity** | **int** |  | [optional] 
 **ship_date** | **DateTime** |  | [optional] 
 **status** | **string** | Order Status | [optional] 
-**complete** | **boolean** |  | [optional] 
+**complete** | **boolean** |  | [optional] [default to false]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
