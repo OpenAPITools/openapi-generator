@@ -103,7 +103,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
                 .defaultValue("1.0.0"));
-
     }
 
     @Override
@@ -335,5 +334,4 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
-
 }
