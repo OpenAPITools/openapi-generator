@@ -24,6 +24,15 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected String packageName = "swagger";
     protected String packageVersion = "1.0.0";
+    protected String invokerPackage = "Swagger\\Client";
+    protected String composerVendorName = "swagger";
+    protected String composerProjectName = "swagger-client";
+    protected String packagePath = "SwaggerClient-php";
+    protected String artifactVersion = "1.0.0";
+    protected String srcBasePath = "lib";
+    protected String variableNamingConvention= "snake_case";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -109,12 +118,70 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
                 .defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(VARIABLE_NAMING_CONVENTION, "naming convention of variable name, e.g. camelCase.")
+                .defaultValue("snake_case"));
+        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
+        cliOptions.add(new CliOption(PACKAGE_PATH, "The main package name for classes. e.g. GeneratedPetstore"));
+        cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory under packagePath to serve as source root."));
+        cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next swagger-codegen release"));
+        cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next swagger-codegen release"));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
 
     }
 
     @Override
     public void processOpts() {
-        //super.processOpts();
+        super.processOpts();
+
+        if (additionalProperties.containsKey(PACKAGE_PATH)) {
+            this.setPackagePath((String) additionalProperties.get(PACKAGE_PATH));
+        } else {
+            additionalProperties.put(PACKAGE_PATH, packagePath);
+        }
+
+        if (additionalProperties.containsKey(SRC_BASE_PATH)) {
+            this.setSrcBasePath((String) additionalProperties.get(SRC_BASE_PATH));
+        } else {
+            additionalProperties.put(SRC_BASE_PATH, srcBasePath);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+        } else {
+            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        }
+
+        if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
+            this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
+        } else {
+            additionalProperties.put(COMPOSER_PROJECT_NAME, composerProjectName);
+        }
+
+        if (additionalProperties.containsKey(COMPOSER_VENDOR_NAME)) {
+            this.setComposerVendorName((String) additionalProperties.get(COMPOSER_VENDOR_NAME));
+        } else {
+            additionalProperties.put(COMPOSER_VENDOR_NAME, composerVendorName);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+        } else {
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
+
+        if (additionalProperties.containsKey(VARIABLE_NAMING_CONVENTION)) {
+            this.setParameterNamingConvention((String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -342,4 +409,31 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.packageVersion = packageVersion;
     }
 
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
+    }
+
+    public void setArtifactVersion(String artifactVersion) {
+        this.artifactVersion = artifactVersion;
+    }
+
+    public void setPackagePath(String packagePath) {
+        this.packagePath = packagePath;
+    }
+
+    public void setSrcBasePath(String srcBasePath) {
+        this.srcBasePath = srcBasePath;
+    }
+
+    public void setParameterNamingConvention(String variableNamingConvention) {
+        this.variableNamingConvention = variableNamingConvention;
+    }
+
+    public void setComposerVendorName(String composerVendorName) {
+        this.composerVendorName = composerVendorName;
+    }
+
+    public void setComposerProjectName(String composerProjectName) {
+        this.composerProjectName = composerProjectName;
+    }
 }
