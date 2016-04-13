@@ -11,20 +11,27 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class Category {
+  public class ApiResponse {
     /// <summary>
-    /// Gets or Sets Id
+    /// Gets or Sets Code
     /// </summary>
-    [DataMember(Name="id", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "id")]
-    public long? Id { get; set; }
+    [DataMember(Name="code", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "code")]
+    public int? Code { get; set; }
 
     /// <summary>
-    /// Gets or Sets Name
+    /// Gets or Sets Type
     /// </summary>
-    [DataMember(Name="name", EmitDefaultValue=false)]
-    [JsonProperty(PropertyName = "name")]
-    public string Name { get; set; }
+    [DataMember(Name="type", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "type")]
+    public string Type { get; set; }
+
+    /// <summary>
+    /// Gets or Sets Message
+    /// </summary>
+    [DataMember(Name="message", EmitDefaultValue=false)]
+    [JsonProperty(PropertyName = "message")]
+    public string Message { get; set; }
 
 
     /// <summary>
@@ -33,9 +40,10 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class Category {\n");
-      sb.Append("  Id: ").Append(Id).Append("\n");
-      sb.Append("  Name: ").Append(Name).Append("\n");
+      sb.Append("class ApiResponse {\n");
+      sb.Append("  Code: ").Append(Code).Append("\n");
+      sb.Append("  Type: ").Append(Type).Append("\n");
+      sb.Append("  Message: ").Append(Message).Append("\n");
       sb.Append("}\n");
       return sb.ToString();
     }
