@@ -4,6 +4,7 @@ import io.swagger.codegen.*;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
 import java.util.*;
@@ -222,6 +223,36 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         // should be the same as the model name
         return toModelName(name);
     }
+
+
+
+    /**
+     * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
+     * This is useful when paramName starts with a lowercase letter, but we need that
+     * param to be exportable (starts with an Uppercase letter).
+     *
+     * @param parameter CodegenParameter object to be processed.
+     */
+    @Override
+    public void postProcessParameter(CodegenParameter parameter){
+
+        // Give the base class a chance to process
+        super.postProcessParameter(parameter);
+
+        char firstChar = parameter.paramName.charAt(0);
+
+        if (Character.isUpperCase(firstChar)) {
+            // First char is already uppercase, just use paramName.
+            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
+
+        }
+
+        // It's a lowercase first char, let's convert it to uppercase
+        StringBuilder sb = new StringBuilder(parameter.paramName);
+        sb.setCharAt(0, Character.toUpperCase(firstChar));
+        parameter.vendorExtensions.put("x-exportParamName", sb.toString());
+    }
+
 
     @Override
     public String getTypeDeclaration(Property p) {
