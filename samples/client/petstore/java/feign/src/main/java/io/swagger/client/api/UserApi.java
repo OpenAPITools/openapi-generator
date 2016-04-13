@@ -4,16 +4,13 @@ import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.User;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-19T15:53:31.820+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-13T14:36:33.302+02:00")
 public interface UserApi extends ApiClient.Api {
 
 
@@ -29,7 +26,7 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void createUser(User body);
-  
+
   /**
    * Creates list of users with given input array
    * 
@@ -42,7 +39,7 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void createUsersWithArrayInput(List<User> body);
-  
+
   /**
    * Creates list of users with given input array
    * 
@@ -55,7 +52,7 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void createUsersWithListInput(List<User> body);
-  
+
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -68,11 +65,11 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void deleteUser(@Param("username") String username);
-  
+
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @return User
    */
   @RequestLine("GET /user/{username}")
@@ -81,7 +78,7 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   User getUserByName(@Param("username") String username);
-  
+
   /**
    * Logs user into the system
    * 
@@ -95,7 +92,7 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   String loginUser(@Param("username") String username, @Param("password") String password);
-  
+
   /**
    * Logs out current logged in user session
    * 
@@ -107,7 +104,7 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void logoutUser();
-  
+
   /**
    * Updated user
    * This can only be done by the logged in user.
@@ -121,6 +118,4 @@ public interface UserApi extends ApiClient.Api {
     "Accepts: application/json",
   })
   void updateUser(@Param("username") String username, User body);
-  
-
 }
