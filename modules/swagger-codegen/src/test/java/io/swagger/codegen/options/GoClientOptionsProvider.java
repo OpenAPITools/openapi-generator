@@ -20,6 +20,9 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final String COMPOSER_PROJECT_NAME_VALUE = "swagger-client-go";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
 
+    public static final String PACKAGE_VERSION_VALUE = "1.0.0-TEST";
+    public static final String PACKAGE_NAME_VALUE = "TEST";
+
     @Override
     public String getLanguage() {
         return "go";
@@ -30,8 +33,8 @@ public class GoClientOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
-                .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
+                //.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                //.put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(GoClientCodegen.VARIABLE_NAMING_CONVENTION, VARIABLE_NAMING_CONVENTION_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
                 .put(GoClientCodegen.PACKAGE_PATH, PACKAGE_PATH_VALUE)
@@ -39,6 +42,8 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(GoClientCodegen.COMPOSER_VENDOR_NAME, COMPOSER_VENDOR_NAME_VALUE)
                 .put(GoClientCodegen.COMPOSER_PROJECT_NAME, COMPOSER_PROJECT_NAME_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
+                .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
+                .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .build();
     }
 
