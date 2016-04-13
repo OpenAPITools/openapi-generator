@@ -18,6 +18,7 @@ type Configuration struct {
     Scheme  string  `json:"scheme,omitempty"`
     AccessToken string `json:"accessToken,omitempty"`
     DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
+    UserAgent string `json:"userAgent,omitempty"`
 }
 
 func NewConfiguration() *Configuration {
@@ -27,7 +28,8 @@ func NewConfiguration() *Configuration {
         Debug: false,
         DefaultHeader: make(map[string]string),
         ApiKey: make(map[string]string),
-        ApiKeyPrefix: make(map[string]string) ,
+        ApiKeyPrefix: make(map[string]string),
+        UserAgent: "Swagger-Codegen/1.0.0/go",
         }
 }
 
