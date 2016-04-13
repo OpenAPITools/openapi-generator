@@ -21,16 +21,13 @@ type Configuration struct {
 }
 
 func NewConfiguration() *Configuration {
-    defaultHeader := make(map[string]string)
-    apiKey := make(map[string]string) 
-    apiKeyPrefix := make(map[string]string) 
     return &Configuration{
         BasePath: "http://petstore.swagger.io/v2",
         UserName: "",
         Debug: false,
-        DefaultHeader: defaultHeader,
-        ApiKey: apiKey,
-        ApiKeyPrefix: apiKeyPrefix,
+        DefaultHeader: make(map[string]string),
+        ApiKey: make(map[string]string),
+        ApiKeyPrefix: make(map[string]string) ,
         }
 }
 
@@ -43,11 +40,9 @@ func (c *Configuration) AddDefaultHeader(key string, value string) {
 }
 
 func (c *Configuration) GetApiKeyWithPrefix(apiKeyIdentifier string) string {
-    var returnValue = c.ApiKey[apiKeyIdentifier]
-    var apiKeyPrefix = c.ApiKeyPrefix[apiKeyIdentifier]
-    if apiKeyPrefix != ""{
-        returnValue = apiKeyPrefix + " " + returnValue
+    if c.ApiKeyPrefix[apiKeyIdentifier] != ""{
+        return c.ApiKeyPrefix[apiKeyIdentifier] + " " + c.ApiKey[apiKeyIdentifier]
     }
         
-    return returnValue
+    return c.ApiKey[apiKeyIdentifier]
 }
