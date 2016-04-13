@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **byte** | **String** |  | [optional] 
 **binary** | **String** |  | [optional] 
 **date** | **Date** |  | [optional] 
-**date_time** | **String** |  | [optional] 
+**date_time** | **DateTime** |  | [optional] 
+**password** | **String** |  | [optional] 
 
 

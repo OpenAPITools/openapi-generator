@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -39,8 +39,8 @@ describe 'UserApi' do
   # unit tests for create_user
   # Create user
   # This can only be done by the logged in user.
+  # @param body Created user object
   # @param [Hash] opts the optional parameters
-  # @option opts [User] :body Created user object
   # @return [nil]
   describe 'create_user test' do
     it "should work" do
@@ -55,8 +55,8 @@ describe 'UserApi' do
   # unit tests for create_users_with_array_input
   # Creates list of users with given input array
   # 
+  # @param body List of user object
   # @param [Hash] opts the optional parameters
-  # @option opts [Array<User>] :body List of user object
   # @return [nil]
   describe 'create_users_with_array_input test' do
     it "should work" do
@@ -71,8 +71,8 @@ describe 'UserApi' do
   # unit tests for create_users_with_list_input
   # Creates list of users with given input array
   # 
+  # @param body List of user object
   # @param [Hash] opts the optional parameters
-  # @option opts [Array<User>] :body List of user object
   # @return [nil]
   describe 'create_users_with_list_input test' do
     it "should work" do
@@ -119,9 +119,9 @@ describe 'UserApi' do
   # unit tests for login_user
   # Logs user into the system
   # 
+  # @param username The user name for login
+  # @param password The password for login in clear text
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :username The user name for login
-  # @option opts [String] :password The password for login in clear text
   # @return [String]
   describe 'login_user test' do
     it "should work" do
@@ -152,8 +152,8 @@ describe 'UserApi' do
   # Updated user
   # This can only be done by the logged in user.
   # @param username name that need to be deleted
+  # @param body Updated user object
   # @param [Hash] opts the optional parameters
-  # @option opts [User] :body Updated user object
   # @return [nil]
   describe 'update_user test' do
     it "should work" do
