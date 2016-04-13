@@ -196,6 +196,13 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // camelize the model name
+        // phone_number => PhoneNumber
+        return camelize(toModelFilename(name));
+    }
+
+    @Override
+    public String toModelFilename(String name) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -212,15 +219,16 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
+        return name;
     }
 
     @Override
-    public String toModelFilename(String name) {
-        // should be the same as the model name
-        return toModelName(name);
+    public String toApiFilename(String name) {
+        // replace - with _ e.g. created-at => created_at
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // e.g. PetApi.go => pet_api.go
+        return underscore(name) + "_api";
     }
 
     @Override
