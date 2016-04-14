@@ -86,11 +86,29 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 }
     _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{vendorExtensions.x-exportParamName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
 {{/hasQueryParams}}
-    // accept header
-    accepts := []string { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+        {{#consumes}}
+        "{{mediaType}}", 
+        {{/consumes}}
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        {{#produces}}
+        "{{mediaType}}", 
+        {{/produces}}
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 {{#hasHeaderParams}}{{#headerParams}}    // header params "{{baseName}}"
     _sling = _sling.Set("{{baseName}}", {{paramName}})
