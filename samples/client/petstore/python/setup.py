@@ -28,7 +28,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     long_description="""\
-    This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href&#x3D;\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
     """
 )
 

@@ -13,7 +13,8 @@ Name | Type | Description | Notes
 **byte** | **str** |  | [optional] 
 **binary** | **str** |  | [optional] 
 **date** | **date** |  | [optional] 
-**date_time** | **str** |  | [optional] 
+**date_time** | **datetime** |  | [optional] 
+**password** | **str** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
