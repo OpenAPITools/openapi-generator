@@ -149,7 +149,7 @@ class Order implements ArrayAccess
       * $complete 
       * @var bool
       */
-    protected $complete;
+    protected $complete = false;
 
     /**
      * Constructor

@@ -70,6 +70,7 @@
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Cat.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Dog.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\FormatTest.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ApiResponse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

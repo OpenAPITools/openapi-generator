@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -26,23 +26,26 @@ module Petstore
 
     # Add a new pet to the store
     # 
+    # @param body Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
-    # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [nil]
-    def add_pet(opts = {})
-      add_pet_with_http_info(opts)
+    def add_pet(body, opts = {})
+      add_pet_with_http_info(body, opts)
       return nil
     end
 
     # Add a new pet to the store
     # 
+    # @param body Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
-    # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def add_pet_with_http_info(opts = {})
+    def add_pet_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: PetApi#add_pet ..."
       end
+      
+      # verify the required parameter 'body' is set
+      fail "Missing the required parameter 'body' when calling add_pet" if body.nil?
       
       # resource path
       local_var_path = "/pet".sub('{format}','json')
@@ -54,7 +57,7 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/xml', 'application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -65,7 +68,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(body)
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -75,61 +78,6 @@ module Petstore
         :auth_names => auth_names)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#add_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Fake endpoint to test byte array in body parameter for adding a new pet to the store
-    # 
-    # @param [Hash] opts the optional parameters
-    # @option opts [String] :body Pet object in the form of byte array
-    # @return [nil]
-    def add_pet_using_byte_array(opts = {})
-      add_pet_using_byte_array_with_http_info(opts)
-      return nil
-    end
-
-    # Fake endpoint to test byte array in body parameter for adding a new pet to the store
-    # 
-    # @param [Hash] opts the optional parameters
-    # @option opts [String] :body Pet object in the form of byte array
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def add_pet_using_byte_array_with_http_info(opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#add_pet_using_byte_array ..."
-      end
-      
-      # resource path
-      local_var_path = "/pet?testing_byte_array&#x3D;true".sub('{format}','json')
-
-      # query parameters
-      query_params = {}
-
-      # header parameters
-      header_params = {}
-
-      # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = ['application/json', 'application/xml']
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
-
-      # form parameters
-      form_params = {}
-
-      # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'body'])
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PetApi#add_pet_using_byte_array\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -169,7 +117,7 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/xml', 'application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -197,36 +145,39 @@ module Petstore
 
     # Finds Pets by status
     # Multiple status values can be provided with comma separated strings
+    # @param status Status values that need to be considered for filter
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<String>] :status Status values that need to be considered for query (default to available)
     # @return [Array<Pet>]
-    def find_pets_by_status(opts = {})
-      data, _status_code, _headers = find_pets_by_status_with_http_info(opts)
+    def find_pets_by_status(status, opts = {})
+      data, _status_code, _headers = find_pets_by_status_with_http_info(status, opts)
       return data
     end
 
     # Finds Pets by status
     # Multiple status values can be provided with comma separated strings
+    # @param status Status values that need to be considered for filter
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<String>] :status Status values that need to be considered for query
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
-    def find_pets_by_status_with_http_info(opts = {})
+    def find_pets_by_status_with_http_info(status, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: PetApi#find_pets_by_status ..."
       end
+      
+      # verify the required parameter 'status' is set
+      fail "Missing the required parameter 'status' when calling find_pets_by_status" if status.nil?
       
       # resource path
       local_var_path = "/pet/findByStatus".sub('{format}','json')
 
       # query parameters
       query_params = {}
-      query_params[:'status'] = @api_client.build_collection_param(opts[:'status'], :multi) if opts[:'status']
+      query_params[:'status'] = @api_client.build_collection_param(status, :csv)
 
       # header parameters
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/xml', 'application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -253,37 +204,40 @@ module Petstore
     end
 
     # Finds Pets by tags
-    # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+    # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+    # @param tags Tags to filter by
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<String>] :tags Tags to filter by
     # @return [Array<Pet>]
-    def find_pets_by_tags(opts = {})
-      data, _status_code, _headers = find_pets_by_tags_with_http_info(opts)
+    def find_pets_by_tags(tags, opts = {})
+      data, _status_code, _headers = find_pets_by_tags_with_http_info(tags, opts)
       return data
     end
 
     # Finds Pets by tags
-    # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+    # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+    # @param tags Tags to filter by
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<String>] :tags Tags to filter by
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
-    def find_pets_by_tags_with_http_info(opts = {})
+    def find_pets_by_tags_with_http_info(tags, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
       end
+      
+      # verify the required parameter 'tags' is set
+      fail "Missing the required parameter 'tags' when calling find_pets_by_tags" if tags.nil?
       
       # resource path
       local_var_path = "/pet/findByTags".sub('{format}','json')
 
       # query parameters
       query_params = {}
-      query_params[:'tags'] = @api_client.build_collection_param(opts[:'tags'], :multi) if opts[:'tags']
+      query_params[:'tags'] = @api_client.build_collection_param(tags, :csv)
 
       # header parameters
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/xml', 'application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -310,8 +264,8 @@ module Petstore
     end
 
     # Find pet by ID
-    # Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-    # @param pet_id ID of pet that needs to be fetched
+    # Returns a single pet
+    # @param pet_id ID of pet to return
     # @param [Hash] opts the optional parameters
     # @return [Pet]
     def get_pet_by_id(pet_id, opts = {})
@@ -320,8 +274,8 @@ module Petstore
     end
 
     # Find pet by ID
-    # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-    # @param pet_id ID of pet that needs to be fetched
+    # Returns a single pet
+    # @param pet_id ID of pet to return
     # @param [Hash] opts the optional parameters
     # @return [Array<(Pet, Fixnum, Hash)>] Pet data, response status code and response headers
     def get_pet_by_id_with_http_info(pet_id, opts = {})
@@ -342,7 +296,7 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/xml', 'application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -354,7 +308,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-            auth_names = ['api_key', 'petstore_auth']
+            auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -368,143 +322,28 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-    # Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-    # @param pet_id ID of pet that needs to be fetched
-    # @param [Hash] opts the optional parameters
-    # @return [InlineResponse200]
-    def get_pet_by_id_in_object(pet_id, opts = {})
-      data, _status_code, _headers = get_pet_by_id_in_object_with_http_info(pet_id, opts)
-      return data
-    end
-
-    # Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
-    # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-    # @param pet_id ID of pet that needs to be fetched
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(InlineResponse200, Fixnum, Hash)>] InlineResponse200 data, response status code and response headers
-    def get_pet_by_id_in_object_with_http_info(pet_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#get_pet_by_id_in_object ..."
-      end
-      
-      # verify the required parameter 'pet_id' is set
-      fail "Missing the required parameter 'pet_id' when calling get_pet_by_id_in_object" if pet_id.nil?
-      
-      # resource path
-      local_var_path = "/pet/{petId}?response&#x3D;inline_arbitrary_object".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
-
-      # query parameters
-      query_params = {}
-
-      # header parameters
-      header_params = {}
-
-      # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
-
-      # form parameters
-      form_params = {}
-
-      # http body (model)
-      post_body = nil
-            auth_names = ['api_key', 'petstore_auth']
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => 'InlineResponse200')
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PetApi#get_pet_by_id_in_object\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Fake endpoint to test byte array return by 'Find pet by ID'
-    # Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-    # @param pet_id ID of pet that needs to be fetched
-    # @param [Hash] opts the optional parameters
-    # @return [String]
-    def pet_pet_idtesting_byte_arraytrue_get(pet_id, opts = {})
-      data, _status_code, _headers = pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, opts)
-      return data
-    end
-
-    # Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-    # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-    # @param pet_id ID of pet that needs to be fetched
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
-    def pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#pet_pet_idtesting_byte_arraytrue_get ..."
-      end
-      
-      # verify the required parameter 'pet_id' is set
-      fail "Missing the required parameter 'pet_id' when calling pet_pet_idtesting_byte_arraytrue_get" if pet_id.nil?
-      
-      # resource path
-      local_var_path = "/pet/{petId}?testing_byte_array&#x3D;true".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
-
-      # query parameters
-      query_params = {}
-
-      # header parameters
-      header_params = {}
-
-      # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
-
-      # form parameters
-      form_params = {}
-
-      # http body (model)
-      post_body = nil
-            auth_names = ['api_key', 'petstore_auth']
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => 'String')
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PetApi#pet_pet_idtesting_byte_arraytrue_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
     # Update an existing pet
     # 
+    # @param body Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
-    # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [nil]
-    def update_pet(opts = {})
-      update_pet_with_http_info(opts)
+    def update_pet(body, opts = {})
+      update_pet_with_http_info(body, opts)
       return nil
     end
 
     # Update an existing pet
     # 
+    # @param body Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
-    # @option opts [Pet] :body Pet object that needs to be added to the store
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def update_pet_with_http_info(opts = {})
+    def update_pet_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: PetApi#update_pet ..."
       end
+      
+      # verify the required parameter 'body' is set
+      fail "Missing the required parameter 'body' when calling update_pet" if body.nil?
       
       # resource path
       local_var_path = "/pet".sub('{format}','json')
@@ -516,7 +355,7 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/xml', 'application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -527,7 +366,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'body'])
+      post_body = @api_client.object_to_http_body(body)
       auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
@@ -578,7 +417,7 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/xml', 'application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -611,10 +450,10 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
     # @option opts [File] :file file to upload
-    # @return [nil]
+    # @return [ApiResponse]
     def upload_file(pet_id, opts = {})
-      upload_file_with_http_info(pet_id, opts)
-      return nil
+      data, _status_code, _headers = upload_file_with_http_info(pet_id, opts)
+      return data
     end
 
     # uploads an image
@@ -623,7 +462,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
     # @option opts [File] :file file to upload
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(ApiResponse, Fixnum, Hash)>] ApiResponse data, response status code and response headers
     def upload_file_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: PetApi#upload_file ..."
@@ -642,7 +481,7 @@ module Petstore
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json', 'application/xml']
+      local_header_accept = ['application/json']
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
@@ -662,7 +501,8 @@ module Petstore
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
-        :auth_names => auth_names)
+        :auth_names => auth_names,
+        :return_type => 'ApiResponse')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#upload_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
