@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -242,7 +241,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns></returns>
-        void UploadFile (long? petId, string additionalMetadata = null, Stream file = null);
+        void UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
 
         /// <summary>
         /// uploads an image
@@ -255,7 +254,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
+        ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -485,7 +484,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata = null, Stream file = null);
+        System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
 
         /// <summary>
         /// uploads an image
@@ -498,7 +497,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
         #endregion Asynchronous Operations
     }
 
@@ -1417,18 +1416,18 @@ namespace IO.Swagger.Api
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
-
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
+            // authentication (api_key) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
@@ -1500,16 +1499,16 @@ namespace IO.Swagger.Api
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            // authentication (api_key) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
 
             // make the HTTP request
@@ -1581,18 +1580,18 @@ namespace IO.Swagger.Api
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
-
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
+            // authentication (api_key) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
@@ -1664,16 +1663,16 @@ namespace IO.Swagger.Api
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            // authentication (api_key) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
 
             // make the HTTP request
@@ -1745,18 +1744,18 @@ namespace IO.Swagger.Api
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
-
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
+            // authentication (api_key) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
+            }
+
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
@@ -1828,16 +1827,16 @@ namespace IO.Swagger.Api
             localVarPathParams.Add("format", "json");
             if (petId != null) localVarPathParams.Add("petId", Configuration.ApiClient.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
-            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
-            {
-                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }
+            // authentication (api_key) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key")))
+            {
+                localVarHeaderParams["api_key"] = Configuration.GetApiKeyWithPrefix("api_key");
             }
 
             // make the HTTP request
@@ -2194,7 +2193,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns></returns>
-        public void UploadFile (long? petId, string additionalMetadata = null, Stream file = null)
+        public void UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
              UploadFileWithHttpInfo(petId, additionalMetadata, file);
         }
@@ -2207,7 +2206,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
+        public ApiResponse<Object> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -2276,7 +2275,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata = null, Stream file = null)
+        public async System.Threading.Tasks.Task UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
              await UploadFileAsyncWithHttpInfo(petId, additionalMetadata, file);
 
@@ -2290,7 +2289,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)

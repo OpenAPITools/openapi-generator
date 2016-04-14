@@ -89,7 +89,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "Int64",
                         "Float",
                         "Guid",
-                        "Stream", // not really a primitive, we include it to avoid model import
+                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
 
@@ -110,7 +110,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("number", "double?");
         typeMapping.put("datetime", "DateTime?");
         typeMapping.put("date", "DateTime?");
-        typeMapping.put("file", "Stream");
+        typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
