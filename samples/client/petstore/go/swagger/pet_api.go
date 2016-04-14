@@ -201,9 +201,9 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
     }
     
     type QueryParams struct {
-        status    []string `url:"status,omitempty"`
+        Status    []string `url:"status,omitempty"`
 }
-    _sling = _sling.QueryStruct(&QueryParams{ status: status })
+    _sling = _sling.QueryStruct(&QueryParams{ Status: status })
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -274,9 +274,9 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
     }
     
     type QueryParams struct {
-        tags    []string `url:"tags,omitempty"`
+        Tags    []string `url:"tags,omitempty"`
 }
-    _sling = _sling.QueryStruct(&QueryParams{ tags: tags })
+    _sling = _sling.QueryStruct(&QueryParams{ Tags: tags })
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
@@ -497,10 +497,10 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
     }
 
     type FormParams struct {
-        name    string `url:"name,omitempty"`
-        status    string `url:"status,omitempty"`
+        Name    string `url:"name,omitempty"`
+        Status    string `url:"status,omitempty"`
     }
-    _sling = _sling.BodyForm(&FormParams{ name: name,status: status })
+    _sling = _sling.BodyForm(&FormParams{ Name: name,Status: status })
 
 
 
@@ -574,10 +574,10 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     }
 
     type FormParams struct {
-        additionalMetadata    string `url:"additionalMetadata,omitempty"`
-        file    *os.File `url:"file,omitempty"`
+        AdditionalMetadata    string `url:"additionalMetadata,omitempty"`
+        File    *os.File `url:"file,omitempty"`
     }
-    _sling = _sling.BodyForm(&FormParams{ additionalMetadata: additionalMetadata,file: file })
+    _sling = _sling.BodyForm(&FormParams{ AdditionalMetadata: additionalMetadata,File: file })
 
   var successPayload = new(ApiResponse)
 
