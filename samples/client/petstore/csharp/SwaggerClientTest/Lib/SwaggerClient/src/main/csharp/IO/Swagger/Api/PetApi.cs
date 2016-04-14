@@ -178,7 +178,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile (long? petId, string additionalMetadata = null, Stream file = null);
+        ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
 
         /// <summary>
         /// uploads an image
@@ -191,7 +191,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
+        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -358,7 +358,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
 
         /// <summary>
         /// uploads an image
@@ -371,7 +371,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
         #endregion Asynchronous Operations
     }
 
@@ -1588,7 +1588,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile (long? petId, string additionalMetadata = null, Stream file = null)
+        public ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
              ApiResponse<ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
              return localVarResponse.Data;
@@ -1602,7 +1602,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public ApiResponse< ApiResponse > UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
+        public ApiResponse< ApiResponse > UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -1670,7 +1670,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, Stream file = null)
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
              ApiResponse<ApiResponse> localVarResponse = await UploadFileAsyncWithHttpInfo(petId, additionalMetadata, file);
              return localVarResponse.Data;
@@ -1685,7 +1685,7 @@ namespace IO.Swagger.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, Stream file = null)
+        public async System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
