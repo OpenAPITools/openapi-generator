@@ -51,6 +51,10 @@ public class JsonUtil {
       return new TypeToken<List<Dog>>(){}.getType();
     }
     
+    if ("FormatTest".equalsIgnoreCase(className)) {
+      return new TypeToken<List<FormatTest>>(){}.getType();
+    }
+    
     if ("InlineResponse200".equalsIgnoreCase(className)) {
       return new TypeToken<List<InlineResponse200>>(){}.getType();
     }
@@ -107,6 +111,10 @@ public class JsonUtil {
     
     if ("Dog".equalsIgnoreCase(className)) {
       return new TypeToken<Dog>(){}.getType();
+    }
+    
+    if ("FormatTest".equalsIgnoreCase(className)) {
+      return new TypeToken<FormatTest>(){}.getType();
     }
     
     if ("InlineResponse200".equalsIgnoreCase(className)) {

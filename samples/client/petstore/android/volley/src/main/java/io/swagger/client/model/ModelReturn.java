@@ -14,7 +14,6 @@ public class ModelReturn  {
   @SerializedName("return")
   private Integer _return = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -25,7 +24,6 @@ public class ModelReturn  {
     this._return = _return;
   }
 
-  
 
   @Override
   public String toString()  {

@@ -14,7 +14,6 @@ public class Cat extends Animal {
   @SerializedName("declawed")
   private Boolean declawed = null;
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -25,7 +24,6 @@ public class Cat extends Animal {
     this.className = className;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -36,7 +34,6 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
-  
 
   @Override
   public String toString()  {

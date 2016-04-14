@@ -16,10 +16,9 @@ public class Name  {
   @SerializedName("snake_case")
   private Integer snakeCase = null;
 
-  
   /**
    **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public Integer getName() {
     return name;
   }
@@ -27,7 +26,6 @@ public class Name  {
     this.name = name;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -38,7 +36,6 @@ public class Name  {
     this.snakeCase = snakeCase;
   }
 
-  
 
   @Override
   public String toString()  {
