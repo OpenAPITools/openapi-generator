@@ -219,7 +219,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
-        return name;
+        return underscore(name);
     }
 
     @Override
