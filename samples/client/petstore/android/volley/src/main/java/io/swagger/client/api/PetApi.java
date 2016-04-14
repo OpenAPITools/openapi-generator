@@ -45,7 +45,6 @@ public class PetApi {
     return basePath;
   }
 
-  
   /**
   * Add a new pet to the store
   * 
@@ -66,9 +65,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   "application/json","application/xml"
@@ -84,8 +81,7 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -102,7 +98,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -130,9 +129,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       "application/json","application/xml"
@@ -148,8 +145,7 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -158,11 +154,7 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -174,7 +166,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Fake endpoint to test byte array in body parameter for adding a new pet to the store
   * 
@@ -186,7 +177,7 @@ public class PetApi {
   
 
   // create path and map variables
-  String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
+  String path = "/pet?testing_byte_array&#x3D;true".replaceAll("\\{format\\}","json");
 
   // query params
   List<Pair> queryParams = new ArrayList<Pair>();
@@ -195,9 +186,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   "application/json","application/xml"
@@ -213,8 +202,7 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -231,7 +219,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -250,7 +241,7 @@ public class PetApi {
   
 
     // create path and map variables
-    String path = "/pet?testing_byte_array=true".replaceAll("\\{format\\}","json");
+    String path = "/pet?testing_byte_array&#x3D;true".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -259,9 +250,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       "application/json","application/xml"
@@ -277,8 +266,7 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -287,11 +275,7 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -303,7 +287,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Deletes a pet
   * 
@@ -331,11 +314,8 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
           headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
-  
 
       String[] contentTypes = {
   
@@ -351,8 +331,7 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -369,7 +348,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -403,11 +385,8 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
     headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
-    
 
     String[] contentTypes = {
       
@@ -423,8 +402,7 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -433,11 +411,7 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -449,7 +423,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Finds Pets by status
   * Multiple status values can be provided with comma separated strings
@@ -470,11 +443,8 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
           queryParams.addAll(ApiInvoker.parameterToPairs("multi", "status", status));
-  
 
-  
 
       String[] contentTypes = {
   
@@ -490,8 +460,7 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -508,7 +477,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -536,11 +508,8 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
     queryParams.addAll(ApiInvoker.parameterToPairs("multi", "status", status));
-    
 
-    
 
     String[] contentTypes = {
       
@@ -556,8 +525,7 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -566,16 +534,11 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((List<Pet>) ApiInvoker.deserialize(localVarResponse,  "array", Pet.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -587,7 +550,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Finds Pets by tags
   * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
@@ -608,11 +570,8 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
           queryParams.addAll(ApiInvoker.parameterToPairs("multi", "tags", tags));
-  
 
-  
 
       String[] contentTypes = {
   
@@ -628,8 +587,7 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -646,7 +604,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -674,11 +635,8 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
     queryParams.addAll(ApiInvoker.parameterToPairs("multi", "tags", tags));
-    
 
-    
 
     String[] contentTypes = {
       
@@ -694,8 +652,7 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -704,16 +661,11 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((List<Pet>) ApiInvoker.deserialize(localVarResponse,  "array", Pet.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -725,7 +677,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Find pet by ID
   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -752,9 +703,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -770,10 +719,9 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -788,7 +736,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -822,9 +773,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -840,26 +789,20 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((Pet) ApiInvoker.deserialize(localVarResponse,  "", Pet.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -871,7 +814,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -889,7 +831,7 @@ public class PetApi {
   
 
   // create path and map variables
-  String path = "/pet/{petId}?response=inline_arbitrary_object".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+  String path = "/pet/{petId}?response&#x3D;inline_arbitrary_object".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
   // query params
   List<Pair> queryParams = new ArrayList<Pair>();
@@ -898,9 +840,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -916,10 +856,9 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -934,7 +873,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -959,7 +901,7 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}?response=inline_arbitrary_object".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+    String path = "/pet/{petId}?response&#x3D;inline_arbitrary_object".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -968,9 +910,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -986,26 +926,20 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((InlineResponse200) ApiInvoker.deserialize(localVarResponse,  "", InlineResponse200.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -1017,7 +951,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
   * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -1035,7 +968,7 @@ public class PetApi {
   
 
   // create path and map variables
-  String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+  String path = "/pet/{petId}?testing_byte_array&#x3D;true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
   // query params
   List<Pair> queryParams = new ArrayList<Pair>();
@@ -1044,9 +977,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -1062,10 +993,9 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -1080,7 +1010,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -1105,7 +1038,7 @@ public class PetApi {
     
 
     // create path and map variables
-    String path = "/pet/{petId}?testing_byte_array=true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+    String path = "/pet/{petId}?testing_byte_array&#x3D;true".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -1114,9 +1047,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -1132,26 +1063,20 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((byte[]) ApiInvoker.deserialize(localVarResponse,  "", byte[].class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -1163,7 +1088,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Update an existing pet
   * 
@@ -1184,9 +1108,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   "application/json","application/xml"
@@ -1202,8 +1124,7 @@ public class PetApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -1220,7 +1141,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -1248,9 +1172,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       "application/json","application/xml"
@@ -1266,8 +1188,7 @@ public class PetApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "petstore_auth" };
 
@@ -1276,11 +1197,7 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -1292,7 +1209,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Updates a pet in the store with form data
   * 
@@ -1321,9 +1237,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   "application/x-www-form-urlencoded"
@@ -1348,8 +1262,7 @@ public class PetApi {
       } else {
       // normal form params
   formParams.put("name", ApiInvoker.parameterToString(name));
-  formParams.put("status", ApiInvoker.parameterToString(status));
-  
+formParams.put("status", ApiInvoker.parameterToString(status));
       }
 
       String[] authNames = new String[] { "petstore_auth" };
@@ -1367,7 +1280,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -1401,9 +1317,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       "application/x-www-form-urlencoded"
@@ -1428,8 +1342,7 @@ public class PetApi {
     } else {
       // normal form params
       formParams.put("name", ApiInvoker.parameterToString(name));
-      formParams.put("status", ApiInvoker.parameterToString(status));
-      
+formParams.put("status", ApiInvoker.parameterToString(status));
     }
 
       String[] authNames = new String[] { "petstore_auth" };
@@ -1439,11 +1352,7 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -1455,7 +1364,6 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * uploads an image
   * 
@@ -1484,9 +1392,7 @@ public class PetApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   "multipart/form-data"
@@ -1511,8 +1417,7 @@ public class PetApi {
       } else {
       // normal form params
   formParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
-  
-  
+
       }
 
       String[] authNames = new String[] { "petstore_auth" };
@@ -1530,7 +1435,10 @@ public class PetApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -1564,9 +1472,7 @@ public class PetApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       "multipart/form-data"
@@ -1591,8 +1497,7 @@ public class PetApi {
     } else {
       // normal form params
       formParams.put("additionalMetadata", ApiInvoker.parameterToString(additionalMetadata));
-      
-      
+
     }
 
       String[] authNames = new String[] { "petstore_auth" };
@@ -1602,11 +1507,7 @@ public class PetApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -1618,5 +1519,4 @@ public class PetApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
 }

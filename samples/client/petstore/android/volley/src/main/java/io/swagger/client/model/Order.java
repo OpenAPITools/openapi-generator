@@ -25,7 +25,6 @@ public class Order  {
   @SerializedName("complete")
   private Boolean complete = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -36,7 +35,6 @@ public class Order  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -47,7 +45,6 @@ public class Order  {
     this.petId = petId;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -58,7 +55,6 @@ public class Order  {
     this.quantity = quantity;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -69,7 +65,6 @@ public class Order  {
     this.shipDate = shipDate;
   }
 
-  
   /**
    * Order Status
    **/
@@ -81,7 +76,6 @@ public class Order  {
     this.status = status;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -92,7 +86,6 @@ public class Order  {
     this.complete = complete;
   }
 
-  
 
   @Override
   public String toString()  {
