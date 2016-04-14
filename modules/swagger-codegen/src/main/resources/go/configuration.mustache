@@ -19,6 +19,7 @@ type Configuration struct {
     AccessToken string `json:"accessToken,omitempty"`
     DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
     UserAgent string `json:"userAgent,omitempty"`
+    ApiClient ApiClient `json:"apiClient,omitempty"`
 }
 
 func NewConfiguration() *Configuration {
