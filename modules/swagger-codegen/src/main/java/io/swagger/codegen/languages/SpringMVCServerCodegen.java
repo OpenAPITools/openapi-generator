@@ -32,18 +32,6 @@ public class SpringMVCServerCodegen extends JavaClientCodegen {
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "byte[]",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float")
-        );
-
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
 
         supportedLibraries.clear();
