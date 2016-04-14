@@ -9,6 +9,6 @@ Name | Type | Description | Notes
 **Quantity** | **int?** |  | [optional] 
 **ShipDate** | **DateTime?** |  | [optional] 
 **Status** | **string** | Order Status | [optional] 
-**Complete** | **bool?** |  | [optional] 
+**Complete** | **bool?** |  | [optional] [default to false]
 
 

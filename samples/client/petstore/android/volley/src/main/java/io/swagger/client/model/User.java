@@ -25,7 +25,6 @@ public class User  {
   @SerializedName("userStatus")
   private Integer userStatus = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -36,7 +35,6 @@ public class User  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -47,7 +45,6 @@ public class User  {
     this.username = username;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -58,7 +55,6 @@ public class User  {
     this.firstName = firstName;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -69,7 +65,6 @@ public class User  {
     this.lastName = lastName;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -80,7 +75,6 @@ public class User  {
     this.email = email;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -91,7 +85,6 @@ public class User  {
     this.password = password;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -102,7 +95,6 @@ public class User  {
     this.phone = phone;
   }
 
-  
   /**
    * User Status
    **/
@@ -114,7 +106,6 @@ public class User  {
     this.userStatus = userStatus;
   }
 
-  
 
   @Override
   public String toString()  {

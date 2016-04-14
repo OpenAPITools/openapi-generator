@@ -56,13 +56,13 @@ sub new {
 #
 # Create user
 # 
-# @param User $body Created user object (optional)
+# @param User $body Created user object (required)
 {
     my $params = {
     'body' => {
         data_type => 'User',
         description => 'Created user object',
-        required => '0',
+        required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ create_user } = { 
@@ -76,6 +76,11 @@ sub new {
 sub create_user {
     my ($self, %args) = @_;
 
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling create_user");
+    }
+
     # parse inputs
     my $_resource_path = '/user';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -86,7 +91,7 @@ sub create_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -113,13 +118,13 @@ sub create_user {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $body List of user object (optional)
+# @param ARRAY[User] $body List of user object (required)
 {
     my $params = {
     'body' => {
         data_type => 'ARRAY[User]',
         description => 'List of user object',
-        required => '0',
+        required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ create_users_with_array_input } = { 
@@ -133,6 +138,11 @@ sub create_user {
 sub create_users_with_array_input {
     my ($self, %args) = @_;
 
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling create_users_with_array_input");
+    }
+
     # parse inputs
     my $_resource_path = '/user/createWithArray';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -143,7 +153,7 @@ sub create_users_with_array_input {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -170,13 +180,13 @@ sub create_users_with_array_input {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $body List of user object (optional)
+# @param ARRAY[User] $body List of user object (required)
 {
     my $params = {
     'body' => {
         data_type => 'ARRAY[User]',
         description => 'List of user object',
-        required => '0',
+        required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ create_users_with_list_input } = { 
@@ -190,6 +200,11 @@ sub create_users_with_array_input {
 sub create_users_with_list_input {
     my ($self, %args) = @_;
 
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling create_users_with_list_input");
+    }
+
     # parse inputs
     my $_resource_path = '/user/createWithList';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -200,7 +215,7 @@ sub create_users_with_list_input {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -262,7 +277,7 @@ sub delete_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -277,7 +292,7 @@ sub delete_user {
 
     my $_body_data;
     # authentication setting, if any
-    my $auth_settings = [qw(test_http_basic )];
+    my $auth_settings = [qw()];
 
     # make the API Call
     $self->{api_client}->call_api($_resource_path, $_method,
@@ -326,7 +341,7 @@ sub get_user_by_name {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -359,19 +374,19 @@ sub get_user_by_name {
 #
 # Logs user into the system
 # 
-# @param string $username The user name for login (optional)
-# @param string $password The password for login in clear text (optional)
+# @param string $username The user name for login (required)
+# @param string $password The password for login in clear text (required)
 {
     my $params = {
     'username' => {
         data_type => 'string',
         description => 'The user name for login',
-        required => '0',
+        required => '1',
     },
     'password' => {
         data_type => 'string',
         description => 'The password for login in clear text',
-        required => '0',
+        required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ login_user } = { 
@@ -385,6 +400,16 @@ sub get_user_by_name {
 sub login_user {
     my ($self, %args) = @_;
 
+    # verify the required parameter 'username' is set
+    unless (exists $args{'username'}) {
+      croak("Missing the required parameter 'username' when calling login_user");
+    }
+
+    # verify the required parameter 'password' is set
+    unless (exists $args{'password'}) {
+      croak("Missing the required parameter 'password' when calling login_user");
+    }
+
     # parse inputs
     my $_resource_path = '/user/login';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -395,7 +420,7 @@ sub login_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -455,7 +480,7 @@ sub logout_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
@@ -478,7 +503,7 @@ sub logout_user {
 # Updated user
 # 
 # @param string $username name that need to be deleted (required)
-# @param User $body Updated user object (optional)
+# @param User $body Updated user object (required)
 {
     my $params = {
     'username' => {
@@ -489,7 +514,7 @@ sub logout_user {
     'body' => {
         data_type => 'User',
         description => 'Updated user object',
-        required => '0',
+        required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ update_user } = { 
@@ -508,6 +533,11 @@ sub update_user {
       croak("Missing the required parameter 'username' when calling update_user");
     }
 
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling update_user");
+    }
+
     # parse inputs
     my $_resource_path = '/user/{username}';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -518,7 +548,7 @@ sub update_user {
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', 'application/xml');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/xml', 'application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }

@@ -6,10 +6,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-        
+        classpath 'com.android.tools.build:gradle:1.5.+'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
-        
     }
 }
 
@@ -55,9 +53,10 @@ android {
 ext {
     swagger_annotations_version = "1.5.0"
     gson_version = "2.3.1"
-    httpclient_version = "4.3.3"
+    httpclient_version = "4.5.2"
+    httpcore_version = "4.4.4"
     volley_version = "1.0.19"
-    junit_version = "4.8.1"
+    junit_version = "4.12"
     robolectric_version = "3.0"
     concurrent_unit_version = "0.4.2"
 }
@@ -65,7 +64,7 @@ ext {
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.gson:gson:$gson_version"
-    compile "org.apache.httpcomponents:httpcore:$httpclient_version"
+    compile "org.apache.httpcomponents:httpcore:$httpcore_version"
     compile "org.apache.httpcomponents:httpmime:$httpclient_version"
     compile "com.mcxiaoke.volley:library:${volley_version}@aar"
     testCompile "junit:junit:$junit_version"

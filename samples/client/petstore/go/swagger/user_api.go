@@ -6,48 +6,41 @@ import (
     "encoding/json"
     "errors"
     "github.com/dghubble/sling"
-    "os"
 )
 
-type PetApi struct {
+type UserApi struct {
     Configuration Configuration
 }
 
-func NewPetApi() *PetApi{
+func NewUserApi() *UserApi{
     configuration := NewConfiguration()
-    return &PetApi {
+    return &UserApi {
         Configuration: *configuration,
     }
 }
 
-func NewPetApiWithBasePath(basePath string) *PetApi{
+func NewUserApiWithBasePath(basePath string) *UserApi{
     configuration := NewConfiguration()
     configuration.BasePath = basePath
     
-    return &PetApi {
+    return &UserApi {
         Configuration: *configuration,
     }
 }
 
 /**
- * Add a new pet to the store
- * 
- * @param body Pet object that needs to be added to the store
+ * Create user
+ * This can only be done by the logged in user.
+ * @param body Created user object
  * @return void
  */
-func (a PetApi) AddPet (body Pet) (error) {
+func (a UserApi) CreateUser (body User) (error) {
 
     _sling := sling.New().Post(a.Configuration.BasePath)
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
-
+    
     // create path and map variables
-    path := "/v2/pet"
+    path := "/v2/user"
 
     _sling = _sling.Path(path)
 
@@ -101,26 +94,149 @@ func (a PetApi) AddPet (body Pet) (error) {
   return err
 }
 /**
- * Deletes a pet
+ * Creates list of users with given input array
  * 
- * @param petId Pet id to delete
- * @param apiKey 
+ * @param body List of user object
  * @return void
  */
-func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
+func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
+
+    _sling := sling.New().Post(a.Configuration.BasePath)
+
+    
+    // create path and map variables
+    path := "/v2/user/createWithArray"
+
+    _sling = _sling.Path(path)
+
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
+    // accept header
+    accepts := []string { "application/xml", "application/json" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
+
+// body params
+    _sling = _sling.BodyJSON(body)
+
+
+
+  // We use this map (below) so that any arbitrary error JSON can be handled.
+  // FIXME: This is in the absence of this Go generator honoring the non-2xx
+  // response (error) models, which needs to be implemented at some point.
+  var failurePayload map[string]interface{}
+
+  httpResponse, err := _sling.Receive(nil, &failurePayload)
+
+  if err == nil {
+    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
+    if failurePayload != nil {
+      // If the failurePayload is present, there likely was some kind of non-2xx status
+      // returned (and a JSON payload error present)
+      var str []byte
+      str, err = json.Marshal(failurePayload)
+      if err == nil { // For safety, check for an error marshalling... probably superfluous
+        // This will return the JSON error body as a string
+        err = errors.New(string(str))
+      }
+  } else {
+    // So, there was no network-type error, and nothing in the failure payload,
+    // but we should still check the status code
+    if httpResponse == nil {
+      // This should never happen...
+      err = errors.New("No HTTP Response received.")
+    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
+        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
+      }
+    }
+  }
+
+  return err
+}
+/**
+ * Creates list of users with given input array
+ * 
+ * @param body List of user object
+ * @return void
+ */
+func (a UserApi) CreateUsersWithListInput (body []User) (error) {
+
+    _sling := sling.New().Post(a.Configuration.BasePath)
+
+    
+    // create path and map variables
+    path := "/v2/user/createWithList"
+
+    _sling = _sling.Path(path)
+
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
+    // accept header
+    accepts := []string { "application/xml", "application/json" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
+
+// body params
+    _sling = _sling.BodyJSON(body)
+
+
+
+  // We use this map (below) so that any arbitrary error JSON can be handled.
+  // FIXME: This is in the absence of this Go generator honoring the non-2xx
+  // response (error) models, which needs to be implemented at some point.
+  var failurePayload map[string]interface{}
+
+  httpResponse, err := _sling.Receive(nil, &failurePayload)
+
+  if err == nil {
+    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
+    if failurePayload != nil {
+      // If the failurePayload is present, there likely was some kind of non-2xx status
+      // returned (and a JSON payload error present)
+      var str []byte
+      str, err = json.Marshal(failurePayload)
+      if err == nil { // For safety, check for an error marshalling... probably superfluous
+        // This will return the JSON error body as a string
+        err = errors.New(string(str))
+      }
+  } else {
+    // So, there was no network-type error, and nothing in the failure payload,
+    // but we should still check the status code
+    if httpResponse == nil {
+      // This should never happen...
+      err = errors.New("No HTTP Response received.")
+    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
+        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
+      }
+    }
+  }
+
+  return err
+}
+/**
+ * Delete user
+ * This can only be done by the logged in user.
+ * @param username The name that needs to be deleted
+ * @return void
+ */
+func (a UserApi) DeleteUser (username string) (error) {
 
     _sling := sling.New().Delete(a.Configuration.BasePath)
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
-
+    
     // create path and map variables
-    path := "/v2/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
+    path := "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
     _sling = _sling.Path(path)
 
@@ -135,8 +251,6 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
         _sling = _sling.Set("Accept", accepts[key])
         break // only use the first Accept
     }
-    // header params "api_key"
-    _sling = _sling.Set("api_key", apiKey)
 
 
 
@@ -174,239 +288,215 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
   return err
 }
 /**
- * Finds Pets by status
- * Multiple status values can be provided with comma separated strings
- * @param status Status values that need to be considered for filter
- * @return []Pet
- */
-func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
-
-    _sling := sling.New().Get(a.Configuration.BasePath)
-
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
-
-    // create path and map variables
-    path := "/v2/pet/findByStatus"
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    type QueryParams struct {
-        status    []string `url:"status,omitempty"`
-}
-    _sling = _sling.QueryStruct(&QueryParams{ status: status })
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
-    }
-
-
-  var successPayload = new([]Pet)
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
-  }
-
-  return *successPayload, err
-}
-/**
- * Finds Pets by tags
- * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
- * @param tags Tags to filter by
- * @return []Pet
- */
-func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
-
-    _sling := sling.New().Get(a.Configuration.BasePath)
-
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
-
-    // create path and map variables
-    path := "/v2/pet/findByTags"
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    type QueryParams struct {
-        tags    []string `url:"tags,omitempty"`
-}
-    _sling = _sling.QueryStruct(&QueryParams{ tags: tags })
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
-    }
-
-
-  var successPayload = new([]Pet)
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
-  }
-
-  return *successPayload, err
-}
-/**
- * Find pet by ID
- * Returns a single pet
- * @param petId ID of pet to return
- * @return Pet
- */
-func (a PetApi) GetPetById (petId int64) (Pet, error) {
-
-    _sling := sling.New().Get(a.Configuration.BasePath)
-
-    // authentication (api_key) required
-    
-    // set key with prefix in header
-    _sling.Set("api_key", a.Configuration.GetApiKeyWithPrefix("api_key"))
-        
-
-    // create path and map variables
-    path := "/v2/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
-    }
-
-
-  var successPayload = new(Pet)
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
-  }
-
-  return *successPayload, err
-}
-/**
- * Update an existing pet
+ * Get user by user name
  * 
- * @param body Pet object that needs to be added to the store
+ * @param username The name that needs to be fetched. Use user1 for testing. 
+ * @return User
+ */
+func (a UserApi) GetUserByName (username string) (User, error) {
+
+    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    
+    // create path and map variables
+    path := "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+
+    _sling = _sling.Path(path)
+
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
+    // accept header
+    accepts := []string { "application/xml", "application/json" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
+
+
+  var successPayload = new(User)
+
+  // We use this map (below) so that any arbitrary error JSON can be handled.
+  // FIXME: This is in the absence of this Go generator honoring the non-2xx
+  // response (error) models, which needs to be implemented at some point.
+  var failurePayload map[string]interface{}
+
+  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
+
+  if err == nil {
+    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
+    if failurePayload != nil {
+      // If the failurePayload is present, there likely was some kind of non-2xx status
+      // returned (and a JSON payload error present)
+      var str []byte
+      str, err = json.Marshal(failurePayload)
+      if err == nil { // For safety, check for an error marshalling... probably superfluous
+        // This will return the JSON error body as a string
+        err = errors.New(string(str))
+      }
+  } else {
+    // So, there was no network-type error, and nothing in the failure payload,
+    // but we should still check the status code
+    if httpResponse == nil {
+      // This should never happen...
+      err = errors.New("No HTTP Response received.")
+    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
+        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
+      }
+    }
+  }
+
+  return *successPayload, err
+}
+/**
+ * Logs user into the system
+ * 
+ * @param username The user name for login
+ * @param password The password for login in clear text
+ * @return string
+ */
+func (a UserApi) LoginUser (username string, password string) (string, error) {
+
+    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    
+    // create path and map variables
+    path := "/v2/user/login"
+
+    _sling = _sling.Path(path)
+
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
+    type QueryParams struct {
+        Username    string `url:"username,omitempty"`
+Password    string `url:"password,omitempty"`
+}
+    _sling = _sling.QueryStruct(&QueryParams{ Username: username,Password: password })
+    // accept header
+    accepts := []string { "application/xml", "application/json" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
+
+
+  var successPayload = new(string)
+
+  // We use this map (below) so that any arbitrary error JSON can be handled.
+  // FIXME: This is in the absence of this Go generator honoring the non-2xx
+  // response (error) models, which needs to be implemented at some point.
+  var failurePayload map[string]interface{}
+
+  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
+
+  if err == nil {
+    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
+    if failurePayload != nil {
+      // If the failurePayload is present, there likely was some kind of non-2xx status
+      // returned (and a JSON payload error present)
+      var str []byte
+      str, err = json.Marshal(failurePayload)
+      if err == nil { // For safety, check for an error marshalling... probably superfluous
+        // This will return the JSON error body as a string
+        err = errors.New(string(str))
+      }
+  } else {
+    // So, there was no network-type error, and nothing in the failure payload,
+    // but we should still check the status code
+    if httpResponse == nil {
+      // This should never happen...
+      err = errors.New("No HTTP Response received.")
+    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
+        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
+      }
+    }
+  }
+
+  return *successPayload, err
+}
+/**
+ * Logs out current logged in user session
+ * 
  * @return void
  */
-func (a PetApi) UpdatePet (body Pet) (error) {
+func (a UserApi) LogoutUser () (error) {
+
+    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    
+    // create path and map variables
+    path := "/v2/user/logout"
+
+    _sling = _sling.Path(path)
+
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
+    // accept header
+    accepts := []string { "application/xml", "application/json" }
+    for key := range accepts {
+        _sling = _sling.Set("Accept", accepts[key])
+        break // only use the first Accept
+    }
+
+
+
+
+  // We use this map (below) so that any arbitrary error JSON can be handled.
+  // FIXME: This is in the absence of this Go generator honoring the non-2xx
+  // response (error) models, which needs to be implemented at some point.
+  var failurePayload map[string]interface{}
+
+  httpResponse, err := _sling.Receive(nil, &failurePayload)
+
+  if err == nil {
+    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
+    if failurePayload != nil {
+      // If the failurePayload is present, there likely was some kind of non-2xx status
+      // returned (and a JSON payload error present)
+      var str []byte
+      str, err = json.Marshal(failurePayload)
+      if err == nil { // For safety, check for an error marshalling... probably superfluous
+        // This will return the JSON error body as a string
+        err = errors.New(string(str))
+      }
+  } else {
+    // So, there was no network-type error, and nothing in the failure payload,
+    // but we should still check the status code
+    if httpResponse == nil {
+      // This should never happen...
+      err = errors.New("No HTTP Response received.")
+    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
+        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
+      }
+    }
+  }
+
+  return err
+}
+/**
+ * Updated user
+ * This can only be done by the logged in user.
+ * @param username name that need to be deleted
+ * @param body Updated user object
+ * @return void
+ */
+func (a UserApi) UpdateUser (username string, body User) (error) {
 
     _sling := sling.New().Put(a.Configuration.BasePath)
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
-
+    
     // create path and map variables
-    path := "/v2/pet"
+    path := "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
     _sling = _sling.Path(path)
 
@@ -458,158 +548,4 @@ func (a PetApi) UpdatePet (body Pet) (error) {
   }
 
   return err
-}
-/**
- * Updates a pet in the store with form data
- * 
- * @param petId ID of pet that needs to be updated
- * @param name Updated name of the pet
- * @param status Updated status of the pet
- * @return void
- */
-func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (error) {
-
-    _sling := sling.New().Post(a.Configuration.BasePath)
-
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
-
-    // create path and map variables
-    path := "/v2/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
-    }
-
-    type FormParams struct {
-        name    string `url:"name,omitempty"`
-        status    string `url:"status,omitempty"`
-    }
-    _sling = _sling.BodyForm(&FormParams{ name: name,status: status })
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
-  }
-
-  return err
-}
-/**
- * uploads an image
- * 
- * @param petId ID of pet to update
- * @param additionalMetadata Additional data to pass to server
- * @param file file to upload
- * @return ApiResponse
- */
-func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.File) (ApiResponse, error) {
-
-    _sling := sling.New().Post(a.Configuration.BasePath)
-
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
-
-    // create path and map variables
-    path := "/v2/pet/{petId}/uploadImage"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    // accept header
-    accepts := []string { "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
-    }
-
-    type FormParams struct {
-        additionalMetadata    string `url:"additionalMetadata,omitempty"`
-        file    *os.File `url:"file,omitempty"`
-    }
-    _sling = _sling.BodyForm(&FormParams{ additionalMetadata: additionalMetadata,file: file })
-
-  var successPayload = new(ApiResponse)
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
-  }
-
-  return *successPayload, err
 }

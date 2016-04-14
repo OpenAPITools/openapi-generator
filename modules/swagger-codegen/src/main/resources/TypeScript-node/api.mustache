@@ -190,9 +190,9 @@ export class {{classname}} {
         let formParams: any = {};
 
 {{#allParams}}{{#required}}
-        // verify required parameter '{{paramName}}' is set
-        if (!{{paramName}}) {
-            throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 {{/required}}{{/allParams}}
 {{#queryParams}}
