@@ -14,6 +14,7 @@
 
 {{#models}}{{#model}}#import "{{classname}}.h"
 {{/model}}{{/models}}
+{{^models}}#import "{{classPrefix}}Object.h"{{/models}}
 
 @class {{classPrefix}}Configuration;
 

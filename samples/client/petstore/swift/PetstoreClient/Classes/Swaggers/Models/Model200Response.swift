@@ -8,17 +8,16 @@
 import Foundation
 
 
+/** Model for testing model name starting with number */
 public class Model200Response: JSONEncodable {
-
-    public var name: Int?
-    
+    public var name: Int32?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["name"] = self.name
+        nillableDictionary["name"] = self.name?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

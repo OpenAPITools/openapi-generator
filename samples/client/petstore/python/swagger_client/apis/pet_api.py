@@ -154,7 +154,7 @@ class PetApi(object):
         del params['kwargs']
 
 
-        resource_path = '/pet?testing_byte_array=true'.replace('{format}', 'json')
+        resource_path = '/pet?testing_byte_array&#x3D;true'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -536,7 +536,7 @@ class PetApi(object):
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id_in_object`")
 
-        resource_path = '/pet/{petId}?response=inline_arbitrary_object'.replace('{format}', 'json')
+        resource_path = '/pet/{petId}?response&#x3D;inline_arbitrary_object'.replace('{format}', 'json')
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
@@ -613,7 +613,7 @@ class PetApi(object):
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `pet_pet_idtesting_byte_arraytrue_get`")
 
-        resource_path = '/pet/{petId}?testing_byte_array=true'.replace('{format}', 'json')
+        resource_path = '/pet/{petId}?testing_byte_array&#x3D;true'.replace('{format}', 'json')
         path_params = {}
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']

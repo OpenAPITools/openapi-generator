@@ -39,7 +39,7 @@ namespace IO.Swagger.Model
             this.Breed = Breed;
             
         }
-        
+
     
         /// <summary>
         /// Gets or Sets ClassName
@@ -63,11 +63,10 @@ namespace IO.Swagger.Model
             sb.Append("class Dog {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Breed: ").Append(Breed).Append("\n");
-            
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -123,13 +122,10 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.ClassName != null)
                     hash = hash * 59 + this.ClassName.GetHashCode();
-                
                 if (this.Breed != null)
                     hash = hash * 59 + this.Breed.GetHashCode();
-                
                 return hash;
             }
         }

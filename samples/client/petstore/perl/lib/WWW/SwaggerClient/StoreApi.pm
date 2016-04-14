@@ -76,12 +76,10 @@ sub new {
 sub delete_order {
     my ($self, %args) = @_;
 
-    
     # verify the required parameter 'order_id' is set
     unless (exists $args{'order_id'}) {
       croak("Missing the required parameter 'order_id' when calling delete_order");
     }
-    
 
     # parse inputs
     my $_resource_path = '/store/order/{orderId}';
@@ -99,28 +97,22 @@ sub delete_order {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
     # path params
     if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
-    
-    my $_body_data;
-    
 
+    my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw()];
 
     # make the API Call
-    
     $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
-    
 }
 
 #
@@ -148,8 +140,6 @@ sub delete_order {
 sub find_orders_by_status {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/store/findByStatus';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -170,12 +160,8 @@ sub find_orders_by_status {
     if ( exists $args{'status'}) {
         $query_params->{'status'} = $self->{api_client}->to_query_value($args{'status'});
     }
-    
-    
-    
-    my $_body_data;
-    
 
+    my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw(test_api_client_id test_api_client_secret )];
 
@@ -188,7 +174,6 @@ sub find_orders_by_status {
     }
     my $_response_object = $self->{api_client}->deserialize('ARRAY[Order]', $response);
     return $_response_object;
-    
 }
 
 #
@@ -210,8 +195,6 @@ sub find_orders_by_status {
 sub get_inventory {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/store/inventory';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -228,13 +211,7 @@ sub get_inventory {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
-    
-    
     my $_body_data;
-    
-
     # authentication setting, if any
     my $auth_settings = [qw(api_key )];
 
@@ -247,7 +224,6 @@ sub get_inventory {
     }
     my $_response_object = $self->{api_client}->deserialize('HASH[string,int]', $response);
     return $_response_object;
-    
 }
 
 #
@@ -269,10 +245,8 @@ sub get_inventory {
 sub get_inventory_in_object {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
-    my $_resource_path = '/store/inventory?response=arbitrary_object';
+    my $_resource_path = '/store/inventory?response&#x3D;arbitrary_object';
     $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
@@ -287,13 +261,7 @@ sub get_inventory_in_object {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
-    
-    
     my $_body_data;
-    
-
     # authentication setting, if any
     my $auth_settings = [qw(api_key )];
 
@@ -306,7 +274,6 @@ sub get_inventory_in_object {
     }
     my $_response_object = $self->{api_client}->deserialize('object', $response);
     return $_response_object;
-    
 }
 
 #
@@ -334,12 +301,10 @@ sub get_inventory_in_object {
 sub get_order_by_id {
     my ($self, %args) = @_;
 
-    
     # verify the required parameter 'order_id' is set
     unless (exists $args{'order_id'}) {
       croak("Missing the required parameter 'order_id' when calling get_order_by_id");
     }
-    
 
     # parse inputs
     my $_resource_path = '/store/order/{orderId}';
@@ -357,18 +322,14 @@ sub get_order_by_id {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
     # path params
     if ( exists $args{'order_id'}) {
         my $_base_variable = "{" . "orderId" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
-    
-    my $_body_data;
-    
 
+    my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw(test_api_key_header test_api_key_query )];
 
@@ -381,7 +342,6 @@ sub get_order_by_id {
     }
     my $_response_object = $self->{api_client}->deserialize('Order', $response);
     return $_response_object;
-    
 }
 
 #
@@ -409,8 +369,6 @@ sub get_order_by_id {
 sub place_order {
     my ($self, %args) = @_;
 
-    
-
     # parse inputs
     my $_resource_path = '/store/order';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -427,10 +385,6 @@ sub place_order {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
-    
-    
-    
-    
     my $_body_data;
     # body params
     if ( exists $args{'body'}) {
@@ -449,8 +403,6 @@ sub place_order {
     }
     my $_response_object = $self->{api_client}->deserialize('Order', $response);
     return $_response_object;
-    
 }
-
 
 1;

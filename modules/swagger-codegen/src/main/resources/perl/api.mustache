@@ -81,13 +81,15 @@ sub new {
 sub {{operationId}} {
     my ($self, %args) = @_;
 
-    {{#allParams}}{{#required}}
+    {{#allParams}}
+    {{#required}}
     # verify the required parameter '{{paramName}}' is set
     unless (exists $args{'{{paramName}}'}) {
       croak("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
     }
-    {{/required}}{{/allParams}}
 
+    {{/required}}
+    {{/allParams}}
     # parse inputs
     my $_resource_path = '{{path}}';
     $_resource_path =~ s/{format}/json/; # default format to json
@@ -104,54 +106,70 @@ sub {{operationId}} {
     }
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type({{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}});
 
-    {{#queryParams}}# query params
+    {{#queryParams}}
+    # query params
     if ( exists $args{'{{paramName}}'}) {
         $query_params->{'{{baseName}}'} = $self->{api_client}->to_query_value($args{'{{paramName}}'});
-    }{{/queryParams}}
-    {{#headerParams}}# header params
+    }
+
+    {{/queryParams}}
+    {{#headerParams}}
+    # header params
     if ( exists $args{'{{paramName}}'}) {
         $header_params->{'{{baseName}}'} = $self->{api_client}->to_header_value($args{'{{paramName}}'});
-    }{{/headerParams}}
-    {{#pathParams}}# path params
+    }
+
+    {{/headerParams}}
+    {{#pathParams}}
+    # path params
     if ( exists $args{'{{paramName}}'}) {
         my $_base_variable = "{" . "{{baseName}}" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'{{paramName}}'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
-    }{{/pathParams}}
-    {{#formParams}}# form params
+    }
+
+    {{/pathParams}}
+    {{#formParams}}
+    # form params
     if ( exists $args{'{{paramName}}'} ) {
         {{#isFile}}$form_params->{'{{baseName}}'} = [] unless defined $form_params->{'{{baseName}}'};
         push @{$form_params->{'{{baseName}}'}}, $args{'{{paramName}}'};
         {{/isFile}}
         {{^isFile}}$form_params->{'{{baseName}}'} = $self->{api_client}->to_form_value($args{'{{paramName}}'});
         {{/isFile}}
-    }{{/formParams}}
+    }
+    
+    {{/formParams}}
     my $_body_data;
-    {{#bodyParams}}# body params
+    {{#bodyParams}}
+    # body params
     if ( exists $args{'{{paramName}}'}) {
         $_body_data = $args{'{{paramName}}'};
-    }{{/bodyParams}}
+    }
 
+    {{/bodyParams}}
     # authentication setting, if any
     my $auth_settings = [qw({{#authMethods}}{{name}} {{/authMethods}})];
 
     # make the API Call
-    {{#returnType}}my $response = $self->{api_client}->call_api($_resource_path, $_method,
+    {{#returnType}}
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     if (!$response) {
         return;
     }
     my $_response_object = $self->{api_client}->deserialize('{{returnType}}', $response);
-    return $_response_object;{{/returnType}}
-    {{^returnType}}$self->{api_client}->call_api($_resource_path, $_method,
+    return $_response_object;
+    {{/returnType}}
+    {{^returnType}}
+    $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
     return;
     {{/returnType}}
 }
 {{/operation}}
-{{newline}}
 {{/operations}}
 
 1;

@@ -12,18 +12,22 @@ import (
 )
 
 type {{classname}} struct {
-    basePath  string
+    Configuration Configuration
 }
 
 func New{{classname}}() *{{classname}}{
+    configuration := NewConfiguration()
     return &{{classname}} {
-        basePath:   "{{basePath}}",
+        Configuration: *configuration,
     }
 }
 
 func New{{classname}}WithBasePath(basePath string) *{{classname}}{
+    configuration := NewConfiguration()
+    configuration.BasePath = basePath
+    
     return &{{classname}} {
-        basePath:   basePath,
+        Configuration: *configuration,
     }
 }
 
@@ -34,10 +38,35 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{#allParams}} * @param {{paramName}} {{description}}
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
-//func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 
-    _sling := sling.New().{{httpMethod}}(a.basePath)
+    _sling := sling.New().{{httpMethod}}(a.Configuration.BasePath)
+
+    {{#authMethods}}// authentication ({{name}}) required
+    {{#isApiKey}}{{#isKeyInHeader}}
+    // set key with prefix in header
+    _sling.Set("{{keyParamName}}", a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}"))
+    {{/isKeyInHeader}}{{#isKeyInQuery}}
+    // set key with prefix in querystring
+    {{#hasKeyParamName}}    type KeyQueryParams struct {
+            {{keyParamName}}    string `url:"{{keyParamName}},omitempty"`
+    }
+    _sling = _sling.QueryStruct(&KeyQueryParams{ {{keyParamName}}: a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}") })
+    {{/hasKeyParamName}}
+    {{/isKeyInQuery}}{{/isApiKey}}    
+    {{#isBasic}}
+    // http basic authentication required
+    if a.Configuration.Username != "" || a.Configuration.Password != ""{
+        _sling.Set("Authorization",  "Basic " + a.Configuration.GetBasicAuthEncodedString())
+    }
+    {{/isBasic}}
+    {{#isOAuth}}
+    // oauth required
+    if a.Configuration.AccessToken != ""{
+        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
+    }
+    {{/isOAuth}}    
+    {{/authMethods}}
 
     // create path and map variables
     path := "{{basePathWithoutHost}}{{path}}"
@@ -46,6 +75,11 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
 {{#hasQueryParams}}    type QueryParams struct {
         {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
         {{/queryParams}}

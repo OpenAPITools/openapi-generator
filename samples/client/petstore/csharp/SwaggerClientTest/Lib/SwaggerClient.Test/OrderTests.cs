@@ -31,7 +31,7 @@ namespace IO.Swagger.Test
         {
             instance = new Order();
         }
-    
+
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Test
         public void Cleanup()
         {
 
-        }   
+        }
 
         /// <summary>
         /// Test an instance of Order
@@ -50,61 +50,54 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<Order> (instance, "instance is a Order");
         }
 
-        
         /// <summary>
-        /// Test the property 'Id' 
+        /// Test the property 'Id'
         /// </summary>
         [Test]
         public void IdTest()
         {
-            // TODO: unit test for the property 'Id' 
+            // TODO: unit test for the property 'Id'
         }
-        
         /// <summary>
-        /// Test the property 'PetId' 
+        /// Test the property 'PetId'
         /// </summary>
         [Test]
         public void PetIdTest()
         {
-            // TODO: unit test for the property 'PetId' 
+            // TODO: unit test for the property 'PetId'
         }
-        
         /// <summary>
-        /// Test the property 'Quantity' 
+        /// Test the property 'Quantity'
         /// </summary>
         [Test]
         public void QuantityTest()
         {
-            // TODO: unit test for the property 'Quantity' 
+            // TODO: unit test for the property 'Quantity'
         }
-        
         /// <summary>
-        /// Test the property 'ShipDate' 
+        /// Test the property 'ShipDate'
         /// </summary>
         [Test]
         public void ShipDateTest()
         {
-            // TODO: unit test for the property 'ShipDate' 
+            // TODO: unit test for the property 'ShipDate'
         }
-        
         /// <summary>
-        /// Test the property 'Status' 
+        /// Test the property 'Status'
         /// </summary>
         [Test]
         public void StatusTest()
         {
-            // TODO: unit test for the property 'Status' 
+            // TODO: unit test for the property 'Status'
         }
-        
         /// <summary>
-        /// Test the property 'Complete' 
+        /// Test the property 'Complete'
         /// </summary>
         [Test]
         public void CompleteTest()
         {
-            // TODO: unit test for the property 'Complete' 
+            // TODO: unit test for the property 'Complete'
         }
-        
 
     }
 

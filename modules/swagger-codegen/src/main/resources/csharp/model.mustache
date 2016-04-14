@@ -19,7 +19,7 @@ namespace {{packageName}}.Model
     [DataContract]
     public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{#isEnum}}
-    
+
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
         /// </summary>{{#description}}
@@ -41,7 +41,7 @@ namespace {{packageName}}.Model
         /// </summary>
 {{#vars}}{{^isReadOnly}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
 {{/isReadOnly}}{{/vars}}
-        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatypeWithEnum}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/isReadOnly}}{{/vars}})
+        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatypeWithEnum}}} {{name}} = null{{#hasMoreNonReadOnly}}, {{/hasMoreNonReadOnly}}{{/isReadOnly}}{{/vars}})
         {
             {{#vars}}{{^isReadOnly}}{{#required}}// to ensure "{{name}}" is required (not null)
             if ({{name}} == null)
@@ -64,7 +64,7 @@ namespace {{packageName}}.Model
             {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
             {{/defaultValue}}{{/required}}{{/isReadOnly}}{{/vars}}
         }
-        
+
     {{#vars}}{{^isEnum}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
@@ -81,12 +81,13 @@ namespace {{packageName}}.Model
         {
             var sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
-            {{#vars}}sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
-            {{/vars}}
+{{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+{{/vars}}
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>

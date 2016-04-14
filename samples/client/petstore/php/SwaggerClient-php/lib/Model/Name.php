@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Name Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Model for testing model name same as property name
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -46,6 +46,12 @@ use \ArrayAccess;
  */
 class Name implements ArrayAccess
 {
+    /**
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Name';
+
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
@@ -98,19 +104,16 @@ class Name implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $name 
       * @var int
       */
     protected $name;
-    
     /**
       * $snake_case 
       * @var int
       */
     protected $snake_case;
-    
 
     /**
      * Constructor
@@ -119,12 +122,12 @@ class Name implements ArrayAccess
     public function __construct(array $data = null)
     {
         
+        
         if ($data != null) {
             $this->name = $data["name"];
             $this->snake_case = $data["snake_case"];
         }
     }
-    
     /**
      * Gets name
      * @return int
@@ -145,7 +148,6 @@ class Name implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
      * Gets snake_case
      * @return int
@@ -166,7 +168,6 @@ class Name implements ArrayAccess
         $this->snake_case = $snake_case;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -214,10 +215,10 @@ class Name implements ArrayAccess
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
-        } else {
-            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
+
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

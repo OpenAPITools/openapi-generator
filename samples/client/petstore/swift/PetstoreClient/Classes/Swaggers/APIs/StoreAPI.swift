@@ -12,7 +12,6 @@ import PromiseKit
 
 public class StoreAPI: APIBase {
     /**
-     
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
@@ -25,7 +24,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
@@ -44,9 +42,7 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Delete purchase order by ID
-     
      - DELETE /store/order/{orderId}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      
@@ -58,7 +54,7 @@ public class StoreAPI: APIBase {
         var path = "/store/order/{orderId}"
         path = path.stringByReplacingOccurrencesOfString("{orderId}", withString: "\(orderId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -68,7 +64,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Finds orders by status
      
      - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
@@ -81,7 +76,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Finds orders by status
      
      - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
@@ -100,9 +94,7 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Finds orders by status
-     
      - GET /store/findByStatus
      - A single status value can be provided as a string
      - API Key:
@@ -149,7 +141,7 @@ public class StoreAPI: APIBase {
     public class func findOrdersByStatusWithRequestBuilder(status status: String?) -> RequestBuilder<[Order]> {
         let path = "/store/findByStatus"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "status": status
         ]
@@ -161,25 +153,23 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Returns pet inventories by status
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func getInventory(completion: ((data: [String:Int]?, error: ErrorType?) -> Void)) {
+    public class func getInventory(completion: ((data: [String:Int32]?, error: ErrorType?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
     /**
-     
      Returns pet inventories by status
      
-     - returns: Promise<[String:Int]>
+     - returns: Promise<[String:Int32]>
      */
-    public class func getInventory() -> Promise<[String:Int]> {
-        let deferred = Promise<[String:Int]>.pendingPromise()
+    public class func getInventory() -> Promise<[String:Int32]> {
+        let deferred = Promise<[String:Int32]>.pendingPromise()
         getInventory() { data, error in
             if let error = error {
                 deferred.reject(error)
@@ -191,9 +181,7 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Returns pet inventories by status
-     
      - GET /store/inventory
      - Returns a map of status codes to quantities
      - API Key:
@@ -206,22 +194,21 @@ public class StoreAPI: APIBase {
   "key" : 123
 }, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
 
-     - returns: RequestBuilder<[String:Int]> 
+     - returns: RequestBuilder<[String:Int32]> 
      */
-    public class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
+    public class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int32]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
-        let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
     }
 
     /**
-     
      Fake endpoint to test arbitrary object return by 'Get inventory'
      
      - parameter completion: completion handler to receive the data and the error objects
@@ -233,7 +220,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test arbitrary object return by 'Get inventory'
      
      - returns: Promise<AnyObject>
@@ -251,10 +237,8 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test arbitrary object return by 'Get inventory'
-     
-     - GET /store/inventory?response=arbitrary_object
+     - GET /store/inventory?response&#x3D;arbitrary_object
      - Returns an arbitrary object which is actually a map of status codes to quantities
      - API Key:
        - type: apiKey api_key 
@@ -265,9 +249,9 @@ public class StoreAPI: APIBase {
      - returns: RequestBuilder<AnyObject> 
      */
     public class func getInventoryInObjectWithRequestBuilder() -> RequestBuilder<AnyObject> {
-        let path = "/store/inventory?response=arbitrary_object"
+        let path = "/store/inventory?response&#x3D;arbitrary_object"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -277,7 +261,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
@@ -290,7 +273,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
@@ -309,9 +291,7 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Find purchase order by ID
-     
      - GET /store/order/{orderId}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      - API Key:
@@ -359,7 +339,7 @@ public class StoreAPI: APIBase {
         var path = "/store/order/{orderId}"
         path = path.stringByReplacingOccurrencesOfString("{orderId}", withString: "\(orderId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -369,7 +349,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet (optional)
@@ -382,7 +361,6 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet (optional)
@@ -401,9 +379,7 @@ public class StoreAPI: APIBase {
     }
 
     /**
-     
      Place an order for a pet
-     
      - POST /store/order
      - 
      - API Key:
@@ -450,7 +426,6 @@ public class StoreAPI: APIBase {
     public class func placeOrderWithRequestBuilder(body body: Order?) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
