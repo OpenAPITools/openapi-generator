@@ -12,7 +12,6 @@ import PromiseKit
 
 public class UserAPI: APIBase {
     /**
-     
      Create user
      
      - parameter body: (body) Created user object (optional)
@@ -25,7 +24,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Create user
      
      - parameter body: (body) Created user object (optional)
@@ -44,9 +42,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Create user
-     
      - POST /user
      - This can only be done by the logged in user.
      
@@ -57,7 +53,6 @@ public class UserAPI: APIBase {
     public class func createUserWithRequestBuilder(body body: User?) -> RequestBuilder<Void> {
         let path = "/user"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -66,7 +61,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Creates list of users with given input array
      
      - parameter body: (body) List of user object (optional)
@@ -79,7 +73,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Creates list of users with given input array
      
      - parameter body: (body) List of user object (optional)
@@ -98,9 +91,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Creates list of users with given input array
-     
      - POST /user/createWithArray
      - 
      
@@ -111,7 +102,6 @@ public class UserAPI: APIBase {
     public class func createUsersWithArrayInputWithRequestBuilder(body body: [User]?) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -120,7 +110,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Creates list of users with given input array
      
      - parameter body: (body) List of user object (optional)
@@ -133,7 +122,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Creates list of users with given input array
      
      - parameter body: (body) List of user object (optional)
@@ -152,9 +140,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Creates list of users with given input array
-     
      - POST /user/createWithList
      - 
      
@@ -165,7 +151,6 @@ public class UserAPI: APIBase {
     public class func createUsersWithListInputWithRequestBuilder(body body: [User]?) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -174,7 +159,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
@@ -187,7 +171,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
@@ -206,9 +189,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Delete user
-     
      - DELETE /user/{username}
      - This can only be done by the logged in user.
      - BASIC:
@@ -223,7 +204,7 @@ public class UserAPI: APIBase {
         var path = "/user/{username}"
         path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -233,10 +214,9 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Get user by user name
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func getUserByName(username username: String, completion: ((data: User?, error: ErrorType?) -> Void)) {
@@ -246,10 +226,9 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Get user by user name
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
      - returns: Promise<User>
      */
     public class func getUserByName(username username: String) -> Promise<User> {
@@ -265,9 +244,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Get user by user name
-     
      - GET /user/{username}
      - 
      - examples: [{example={
@@ -281,7 +258,7 @@ public class UserAPI: APIBase {
   "userStatus" : 0
 }, contentType=application/json}]
      
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
 
      - returns: RequestBuilder<User> 
      */
@@ -289,7 +266,7 @@ public class UserAPI: APIBase {
         var path = "/user/{username}"
         path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -299,7 +276,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Logs user into the system
      
      - parameter username: (query) The user name for login (optional)
@@ -313,7 +289,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Logs user into the system
      
      - parameter username: (query) The user name for login (optional)
@@ -333,9 +308,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Logs user into the system
-     
      - GET /user/login
      - 
      - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
@@ -349,7 +322,7 @@ public class UserAPI: APIBase {
     public class func loginUserWithRequestBuilder(username username: String?, password: String?) -> RequestBuilder<String> {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "username": username,
             "password": password
@@ -362,7 +335,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Logs out current logged in user session
      
      - parameter completion: completion handler to receive the data and the error objects
@@ -374,7 +346,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Logs out current logged in user session
      
      - returns: Promise<Void>
@@ -392,9 +363,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Logs out current logged in user session
-     
      - GET /user/logout
      - 
 
@@ -403,7 +372,7 @@ public class UserAPI: APIBase {
     public class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -413,7 +382,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Updated user
      
      - parameter username: (path) name that need to be deleted 
@@ -427,7 +395,6 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Updated user
      
      - parameter username: (path) name that need to be deleted 
@@ -447,9 +414,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     
      Updated user
-     
      - PUT /user/{username}
      - This can only be done by the logged in user.
      
@@ -462,7 +427,6 @@ public class UserAPI: APIBase {
         var path = "/user/{username}"
         path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()

@@ -96,6 +96,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
+        typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("string", "string");
@@ -109,6 +110,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
         typeMapping.put("binary", "string");
+        typeMapping.put("ByteArray", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));

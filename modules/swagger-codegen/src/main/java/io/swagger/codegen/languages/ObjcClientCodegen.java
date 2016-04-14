@@ -4,6 +4,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
@@ -36,6 +37,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String license = "MIT";
     protected String gitRepoURL = "https://github.com/swagger-api/swagger-codegen";
     protected String[] specialWords = {"new", "copy"};
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public ObjcClientCodegen() {
         super();
@@ -46,6 +49,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".m");
         embeddedTemplateDir = templateDir = "objc";
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         defaultIncludes.clear();
         defaultIncludes.add("bool");
@@ -90,7 +95,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "NSString");
-
+        typeMapping.put("ByteArray", "NSString");
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         setReservedWordsLowerCase(
@@ -198,6 +203,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(AUTHOR_EMAIL, authorEmail);
         additionalProperties.put(GIT_REPO_URL, gitRepoURL);
         additionalProperties.put(LICENSE, license);
+
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         String swaggerFolder = podName;
 
@@ -389,6 +398,26 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace("/", File.separator);
+    }
+ 
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace("/", File.separator);
+    }
+ 
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+ 
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
+    }
+
+    @Override
     public String apiFileFolder() {
         return outputFolder + File.separatorChar + apiPackage();
     }
@@ -561,5 +590,76 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         return null;
     }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("NSString*".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "@\"" + escapeText(example) + "\"";
+        } else if ("NSNumber*".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+            example = "@" + example;
+        /* OBJC uses NSNumber to represent both int, long, double and float
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "3.4";
+            } */
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "True";
+            }
+        } else if ("NSURL*".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            //[NSURL fileURLWithPath:@"path/to/file"]
+            example = "[NSURL fileURLWithPath:@\"" + escapeText(example) + "\"]";
+        /*} else if ("NSDate".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "'" + escapeText(example) + "'";*/
+        } else if ("NSDate*".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "@\"" + escapeText(example) + "\"";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            type = type.replace("*", "");
+            // e.g. [[SWGPet alloc] init
+            example = "[[" + type + " alloc] init]";
+        } else {
+            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
+
+        if (example == null) {
+            example = "NULL";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "@[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "@{@\"key\" : " + example + "}";
+        }
+
+        p.example = example;
+    }
+
 
 }

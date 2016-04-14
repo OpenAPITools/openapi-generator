@@ -39,7 +39,7 @@ namespace IO.Swagger.Model
             this.Declawed = Declawed;
             
         }
-        
+
     
         /// <summary>
         /// Gets or Sets ClassName
@@ -63,11 +63,10 @@ namespace IO.Swagger.Model
             sb.Append("class Cat {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Declawed: ").Append(Declawed).Append("\n");
-            
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -123,13 +122,10 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.ClassName != null)
                     hash = hash * 59 + this.ClassName.GetHashCode();
-                
                 if (this.Declawed != null)
                     hash = hash * 59 + this.Declawed.GetHashCode();
-                
                 return hash;
             }
         }

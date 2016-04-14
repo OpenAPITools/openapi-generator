@@ -79,11 +79,12 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.clear();
         typeMapping.put("integer", "int32");
         typeMapping.put("long", "int64");
+        typeMapping.put("number", "float32");
         typeMapping.put("float", "float32");
         typeMapping.put("double", "float64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
-        typeMapping.put("Date", "time.Time");
+        typeMapping.put("date", "time.Time");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
@@ -91,6 +92,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         // map binary to string as a workaround
         // the correct solution is to use []byte
         typeMapping.put("binary", "string");
+        typeMapping.put("ByteArray", "string");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
@@ -101,7 +103,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("swagger"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
                 .defaultValue("1.0.0"));
-
     }
 
     @Override
@@ -131,6 +132,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "Configuration.go"));
     }
 
     @Override
@@ -332,5 +334,4 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
-
 }

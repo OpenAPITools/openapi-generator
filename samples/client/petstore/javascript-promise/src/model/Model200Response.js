@@ -23,6 +23,7 @@
 
   /**
    * Constructs a new <code>Model200Response</code>.
+   * Model for testing model name starting with number
    * @alias module:model/Model200Response
    * @class
    */

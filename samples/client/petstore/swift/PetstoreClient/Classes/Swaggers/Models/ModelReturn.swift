@@ -8,17 +8,16 @@
 import Foundation
 
 
+/** Model for testing reserved words */
 public class ModelReturn: JSONEncodable {
-
-    public var _return: Int?
-    
+    public var _return: Int32?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["return"] = self._return
+        nillableDictionary["return"] = self._return?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -64,7 +64,7 @@ namespace {{packageName}}.Test
             {{#allParams}}{{{dataType}}} {{paramName}} = null; // TODO: replace null with proper value
             {{/allParams}}
             {{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-            {{#returnType}}Assert.IsInstanceOf<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}} 
+            {{#returnType}}Assert.IsInstanceOf<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}}
         }
         {{/operation}}{{/operations}}
     }

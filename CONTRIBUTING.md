@@ -13,6 +13,7 @@
 
  - Search the [open issue](https://github.com/swagger-api/swagger-codegen/issues) to ensure no one else has reported something similar and no one is actively working on similar proposed change.
  - If no one has suggested something similar, open an ["issue"](https://github.com/swagger-api/swagger-codegen/issues) with your suggestion to gather feedback from the community.
+ - It's recommended to **create a new git branch** for the change
 
 ## How to contribute
 
@@ -31,8 +32,10 @@ For a list of variables available in the template, please refer to this [page](h
 Code change should conform to the programming style guide of the respective langauages:
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - Java: https://google.github.io/styleguide/javaguide.html
-- JavaScript - https://github.com/airbnb/javascript/tree/master/es5
+- JavaScript: https://github.com/airbnb/javascript/tree/master/es5
+- Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
+- Perl: http://perldoc.perl.org/perlstyle.html
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
 - Python: https://www.python.org/dev/peps/pep-0008/
 - Ruby: https://github.com/bbatsov/ruby-style-guide

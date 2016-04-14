@@ -38,7 +38,6 @@ static SWGStoreApi* singletonAPI = nil;
 #pragma mark -
 
 +(SWGStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-
     if (singletonAPI == nil) {
         singletonAPI = [[SWGStoreApi alloc] init];
         [singletonAPI addHeader:headerValue forKey:key];
@@ -47,7 +46,6 @@ static SWGStoreApi* singletonAPI = nil;
 }
 
 +(SWGStoreApi*) sharedAPI {
-
     if (singletonAPI == nil) {
         singletonAPI = [[SWGStoreApi alloc] init];
     }
@@ -78,13 +76,10 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 -(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(NSError* error)) handler {
-
-    
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `orderId` when calling `deleteOrder`"];
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order/{orderId}"];
 
@@ -97,14 +92,9 @@ static SWGStoreApi* singletonAPI = nil;
     if (orderId != nil) {
         pathParams[@"orderId"] = orderId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -129,11 +119,7 @@ static SWGStoreApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"DELETE"
                                 pathParams: pathParams
@@ -161,9 +147,6 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 -(NSNumber*) findOrdersByStatusWithStatus: (NSString*) status
     completionHandler: (void (^)(NSArray<SWGOrder>* output, NSError* error)) handler {
-
-    
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/findByStatus"];
 
     // remove format in URL if needed
@@ -172,18 +155,12 @@ static SWGStoreApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     if (status != nil) {
-        
         queryParams[@"status"] = status;
     }
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -208,11 +185,7 @@ static SWGStoreApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -238,9 +211,6 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 -(NSNumber*) getInventoryWithCompletionHandler: 
     (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error)) handler {
-
-    
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/inventory"];
 
     // remove format in URL if needed
@@ -249,14 +219,9 @@ static SWGStoreApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -281,11 +246,7 @@ static SWGStoreApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -311,10 +272,7 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 -(NSNumber*) getInventoryInObjectWithCompletionHandler: 
     (void (^)(NSObject* output, NSError* error)) handler {
-
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/inventory?response=arbitrary_object"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/inventory?response&#x3D;arbitrary_object"];
 
     // remove format in URL if needed
     if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
@@ -322,14 +280,9 @@ static SWGStoreApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -354,11 +307,7 @@ static SWGStoreApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -386,13 +335,10 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 -(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
-
-    
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
         [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `orderId` when calling `getOrderById`"];
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order/{orderId}"];
 
@@ -405,14 +351,9 @@ static SWGStoreApi* singletonAPI = nil;
     if (orderId != nil) {
         pathParams[@"orderId"] = orderId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -437,11 +378,7 @@ static SWGStoreApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
-    
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"GET"
                                 pathParams: pathParams
@@ -469,9 +406,6 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 -(NSNumber*) placeOrderWithBody: (SWGOrder*) body
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
-
-    
-
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order"];
 
     // remove format in URL if needed
@@ -480,14 +414,9 @@ static SWGStoreApi* singletonAPI = nil;
     }
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
     // HTTP header `Accept`
     headerParams[@"Accept"] = [SWGApiClient selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if ([headerParams[@"Accept"] length] == 0) {
@@ -512,11 +441,8 @@ static SWGStoreApi* singletonAPI = nil;
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-    
     bodyParam = body;
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
                                 pathParams: pathParams

@@ -716,11 +716,11 @@ static void (^reachabilityChangeBlock)(int);
     for (NSString *auth in authSettings) {
         NSDictionary *authSetting = [[config authSettings] objectForKey:auth];
 
-        if (authSetting) {
-            if ([authSetting[@"in"] isEqualToString:@"header"]) {
+        if (authSetting) { // auth setting is set only if the key is non-empty
+            if ([authSetting[@"in"] isEqualToString:@"header"] && [authSetting[@"key"] length] != 0) {
                 [headersWithAuth setObject:authSetting[@"value"] forKey:authSetting[@"key"]];
             }
-            else if ([authSetting[@"in"] isEqualToString:@"query"]) {
+            else if ([authSetting[@"in"] isEqualToString:@"query"] && [authSetting[@"key"] length] != 0) {
                 [querysWithAuth setObject:authSetting[@"value"] forKey:authSetting[@"key"]];
             }
         }

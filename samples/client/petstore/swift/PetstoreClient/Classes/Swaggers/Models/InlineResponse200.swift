@@ -9,21 +9,18 @@ import Foundation
 
 
 public class InlineResponse200: JSONEncodable {
-
     public enum Status: String { 
         case Available = "available"
         case Pending = "pending"
         case Sold = "sold"
     }
-    
     public var tags: [Tag]?
-    public var id: Int?
+    public var id: Int64?
     public var category: AnyObject?
     /** pet status in the store */
     public var status: Status?
     public var name: String?
     public var photoUrls: [String]?
-    
 
     public init() {}
 
@@ -31,7 +28,8 @@ public class InlineResponse200: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
-        nillableDictionary["id"] = self.id
+        nillableDictionary["id"] = self.id?.encodeToJSON()
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["category"] = self.category
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["name"] = self.name
