@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **create_user**
-> create_user(opts)
+> create_user(body)
 
 Create user
 
@@ -28,13 +28,12 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-opts = { 
-  body: Petstore::User.new # User | Created user object
-}
+body = Petstore::User.new # User | Created user object
+
 
 begin
   #Create user
-  api_instance.create_user(opts)
+  api_instance.create_user(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_user: #{e}"
 end
@@ -44,7 +43,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | [optional] 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -57,12 +56,12 @@ No authorization required
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 
 # **create_users_with_array_input**
-> create_users_with_array_input(opts)
+> create_users_with_array_input(body)
 
 Creates list of users with given input array
 
@@ -75,13 +74,12 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-opts = { 
-  body: [Petstore::User.new] # Array<User> | List of user object
-}
+body = [Petstore::User.new] # Array<User> | List of user object
+
 
 begin
   #Creates list of users with given input array
-  api_instance.create_users_with_array_input(opts)
+  api_instance.create_users_with_array_input(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_users_with_array_input: #{e}"
 end
@@ -91,7 +89,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Array&lt;User&gt;**](User.md)| List of user object | [optional] 
+ **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -104,12 +102,12 @@ No authorization required
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 
 # **create_users_with_list_input**
-> create_users_with_list_input(opts)
+> create_users_with_list_input(body)
 
 Creates list of users with given input array
 
@@ -122,13 +120,12 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-opts = { 
-  body: [Petstore::User.new] # Array<User> | List of user object
-}
+body = [Petstore::User.new] # Array<User> | List of user object
+
 
 begin
   #Creates list of users with given input array
-  api_instance.create_users_with_list_input(opts)
+  api_instance.create_users_with_list_input(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->create_users_with_list_input: #{e}"
 end
@@ -138,7 +135,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Array&lt;User&gt;**](User.md)| List of user object | [optional] 
+ **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -151,7 +148,7 @@ No authorization required
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 
@@ -166,12 +163,6 @@ This can only be done by the logged in user.
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
-Petstore.configure do |config|
-  # Configure HTTP basic authorization: test_http_basic
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
-end
 
 api_instance = Petstore::UserApi.new
 
@@ -198,12 +189,12 @@ nil (empty response body)
 
 ### Authorization
 
-[test_http_basic](../README.md#test_http_basic)
+No authorization required
 
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 
@@ -250,12 +241,12 @@ No authorization required
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 
 # **login_user**
-> String login_user(opts)
+> String login_user(username, password)
 
 Logs user into the system
 
@@ -268,14 +259,14 @@ require 'petstore'
 
 api_instance = Petstore::UserApi.new
 
-opts = { 
-  username: "username_example", # String | The user name for login
-  password: "password_example" # String | The password for login in clear text
-}
+username = "username_example" # String | The user name for login
+
+password = "password_example" # String | The password for login in clear text
+
 
 begin
   #Logs user into the system
-  result = api_instance.login_user(opts)
+  result = api_instance.login_user(username, password)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->login_user: #{e}"
@@ -286,8 +277,8 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | [optional] 
- **password** | **String**| The password for login in clear text | [optional] 
+ **username** | **String**| The user name for login | 
+ **password** | **String**| The password for login in clear text | 
 
 ### Return type
 
@@ -300,7 +291,7 @@ No authorization required
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 
@@ -340,12 +331,12 @@ No authorization required
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 
 # **update_user**
-> update_user(username, opts)
+> update_user(username, body)
 
 Updated user
 
@@ -360,13 +351,12 @@ api_instance = Petstore::UserApi.new
 
 username = "username_example" # String | name that need to be deleted
 
-opts = { 
-  body: Petstore::User.new # User | Updated user object
-}
+body = Petstore::User.new # User | Updated user object
+
 
 begin
   #Updated user
-  api_instance.update_user(username, opts)
+  api_instance.update_user(username, body)
 rescue Petstore::ApiError => e
   puts "Exception when calling UserApi->update_user: #{e}"
 end
@@ -377,7 +367,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | [optional] 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -390,7 +380,7 @@ No authorization required
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 
 

@@ -61,7 +61,8 @@ namespace {{packageName}}.Test
         public void {{operationId}}Test()
         {
             // TODO: add unit test for the method '{{operationId}}'
-            {{#allParams}}{{{dataType}}} {{paramName}} = null; // TODO: replace null with proper value
+            {{#allParams}}
+            {{{dataType}}} {{paramName}} = null; // TODO: replace null with proper value
             {{/allParams}}
             {{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
             {{#returnType}}Assert.IsInstanceOf<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}}

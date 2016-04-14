@@ -67,7 +67,8 @@ class FormatTest implements ArrayAccess
         'byte' => 'string',
         'binary' => 'string',
         'date' => '\DateTime',
-        'date_time' => 'string'
+        'date_time' => '\DateTime',
+        'password' => 'string'
     );
   
     static function swaggerTypes() {
@@ -89,7 +90,8 @@ class FormatTest implements ArrayAccess
         'byte' => 'byte',
         'binary' => 'binary',
         'date' => 'date',
-        'date_time' => 'dateTime'
+        'date_time' => 'dateTime',
+        'password' => 'password'
     );
   
     static function attributeMap() {
@@ -111,7 +113,8 @@ class FormatTest implements ArrayAccess
         'byte' => 'setByte',
         'binary' => 'setBinary',
         'date' => 'setDate',
-        'date_time' => 'setDateTime'
+        'date_time' => 'setDateTime',
+        'password' => 'setPassword'
     );
   
     static function setters() {
@@ -133,7 +136,8 @@ class FormatTest implements ArrayAccess
         'byte' => 'getByte',
         'binary' => 'getBinary',
         'date' => 'getDate',
-        'date_time' => 'getDateTime'
+        'date_time' => 'getDateTime',
+        'password' => 'getPassword'
     );
   
     static function getters() {
@@ -192,9 +196,14 @@ class FormatTest implements ArrayAccess
     protected $date;
     /**
       * $date_time 
-      * @var string
+      * @var \DateTime
       */
     protected $date_time;
+    /**
+      * $password 
+      * @var string
+      */
+    protected $password;
 
     /**
      * Constructor
@@ -216,6 +225,7 @@ class FormatTest implements ArrayAccess
             $this->binary = $data["binary"];
             $this->date = $data["date"];
             $this->date_time = $data["date_time"];
+            $this->password = $data["password"];
         }
     }
     /**
@@ -420,7 +430,7 @@ class FormatTest implements ArrayAccess
     }
     /**
      * Gets date_time
-     * @return string
+     * @return \DateTime
      */
     public function getDateTime()
     {
@@ -429,13 +439,33 @@ class FormatTest implements ArrayAccess
   
     /**
      * Sets date_time
-     * @param string $date_time 
+     * @param \DateTime $date_time 
      * @return $this
      */
     public function setDateTime($date_time)
     {
         
         $this->date_time = $date_time;
+        return $this;
+    }
+    /**
+     * Gets password
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+  
+    /**
+     * Sets password
+     * @param string $password 
+     * @return $this
+     */
+    public function setPassword($password)
+    {
+        
+        $this->password = $password;
         return $this;
     }
     /**
