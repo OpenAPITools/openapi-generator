@@ -68,12 +68,10 @@ void (empty response body)
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **AddPetUsingByteArray**
 > AddPetUsingByteArray(body)
@@ -126,12 +124,10 @@ void (empty response body)
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeletePet**
 > DeletePet(petId, apiKey)
@@ -186,12 +182,10 @@ void (empty response body)
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FindPetsByStatus**
 > List<Pet> FindPetsByStatus(status)
@@ -245,12 +239,10 @@ Name | Type | Description  | Notes
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FindPetsByTags**
 > List<Pet> FindPetsByTags(tags)
@@ -304,12 +296,10 @@ Name | Type | Description  | Notes
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetPetById**
 > Pet GetPetById(petId)
@@ -367,12 +357,10 @@ Name | Type | Description  | Notes
 
 [petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetPetByIdInObject**
 > InlineResponse200 GetPetByIdInObject(petId)
@@ -430,12 +418,10 @@ Name | Type | Description  | Notes
 
 [petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **PetPetIdtestingByteArraytrueGet**
 > byte[] PetPetIdtestingByteArraytrueGet(petId)
@@ -493,12 +479,10 @@ Name | Type | Description  | Notes
 
 [petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePet**
 > UpdatePet(body)
@@ -551,12 +535,10 @@ void (empty response body)
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePetWithForm**
 > UpdatePetWithForm(petId, name, status)
@@ -613,12 +595,10 @@ void (empty response body)
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UploadFile**
 > UploadFile(petId, additionalMetadata, file)
@@ -675,10 +655,8 @@ void (empty response body)
 
 [petstore_auth](../README.md#petstore_auth)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
