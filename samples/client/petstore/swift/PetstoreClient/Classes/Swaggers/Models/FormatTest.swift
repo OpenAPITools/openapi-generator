@@ -19,7 +19,8 @@ public class FormatTest: JSONEncodable {
     public var byte: String?
     public var binary: String?
     public var date: NSDate?
-    public var dateTime: String?
+    public var dateTime: NSDate?
+    public var password: String?
 
     public init() {}
 
@@ -37,7 +38,8 @@ public class FormatTest: JSONEncodable {
         nillableDictionary["byte"] = self.byte
         nillableDictionary["binary"] = self.binary
         nillableDictionary["date"] = self.date?.encodeToJSON()
-        nillableDictionary["dateTime"] = self.dateTime
+        nillableDictionary["dateTime"] = self.dateTime?.encodeToJSON()
+        nillableDictionary["password"] = self.password
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
