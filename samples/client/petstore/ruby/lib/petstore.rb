@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -22,11 +22,11 @@ require 'petstore/configuration'
 
 # Models
 require 'petstore/models/animal'
+require 'petstore/models/api_response'
 require 'petstore/models/cat'
 require 'petstore/models/category'
 require 'petstore/models/dog'
 require 'petstore/models/format_test'
-require 'petstore/models/inline_response_200'
 require 'petstore/models/model_200_response'
 require 'petstore/models/model_return'
 require 'petstore/models/name'

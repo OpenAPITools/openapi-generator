@@ -47,19 +47,29 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// Initializes a new instance of the <see cref="Order" />class.
         /// </summary>
+        /// <param name="Id">Id.</param>
         /// <param name="PetId">PetId.</param>
         /// <param name="Quantity">Quantity.</param>
         /// <param name="ShipDate">ShipDate.</param>
         /// <param name="Status">Order Status.</param>
-        /// <param name="Complete">Complete.</param>
+        /// <param name="Complete">Complete (default to false).</param>
 
-        public Order(long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
+        public Order(long? Id = null, long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
         {
+            this.Id = Id;
             this.PetId = PetId;
             this.Quantity = Quantity;
             this.ShipDate = ShipDate;
             this.Status = Status;
-            this.Complete = Complete;
+            // use default value if no "Complete" provided
+            if (Complete == null)
+            {
+                this.Complete = false;
+            }
+            else
+            {
+                this.Complete = Complete;
+            }
             
         }
 
@@ -68,7 +78,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; private set; }
+        public long? Id { get; set; }
     
         /// <summary>
         /// Gets or Sets PetId

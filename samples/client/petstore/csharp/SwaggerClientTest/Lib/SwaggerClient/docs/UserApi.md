@@ -52,7 +52,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | [optional] 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -65,7 +65,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 # **CreateUsersWithArrayInput**
 > CreateUsersWithArrayInput(body)
@@ -105,7 +105,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | [optional] 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -118,7 +118,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 # **CreateUsersWithListInput**
 > CreateUsersWithListInput(body)
@@ -158,7 +158,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | [optional] 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -171,7 +171,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 # **DeleteUser**
 > DeleteUser(username)
@@ -194,10 +194,6 @@ namespace Example
     {
         public void main(){
             
-            // Configure HTTP basic authorization: test_http_basic
-            Configuration.Default.Username = 'YOUR_USERNAME';
-            Configuration.Default.Password = 'YOUR_PASSWORD';
-
             var apiInstance = new UserApi();
             var username = username_example;  // string | The name that needs to be deleted
 
@@ -223,12 +219,12 @@ void (empty response body)
 
 ### Authorization
 
-[test_http_basic](../README.md#test_http_basic)
+No authorization required
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 # **GetUserByName**
 > User GetUserByName(username)
@@ -282,7 +278,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 # **LoginUser**
 > string LoginUser(username, password)
@@ -324,8 +320,8 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login | [optional] 
- **password** | **string**| The password for login in clear text | [optional] 
+ **username** | **string**| The user name for login | 
+ **password** | **string**| The password for login in clear text | 
 
 ### Return type
 
@@ -338,7 +334,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 # **LogoutUser**
 > LogoutUser()
@@ -387,7 +383,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 # **UpdateUser**
 > UpdateUser(username, body)
@@ -429,7 +425,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | [optional] 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -442,5 +438,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 

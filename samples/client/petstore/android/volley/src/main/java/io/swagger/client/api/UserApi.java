@@ -44,7 +44,6 @@ public class UserApi {
     return basePath;
   }
 
-  
   /**
   * Create user
   * This can only be done by the logged in user.
@@ -65,9 +64,7 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -83,8 +80,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -101,7 +97,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -129,9 +128,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -147,8 +144,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -157,11 +153,7 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -173,7 +165,6 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Creates list of users with given input array
   * 
@@ -194,9 +185,7 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -212,8 +201,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -230,7 +218,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -258,9 +249,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -276,8 +265,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -286,11 +274,7 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -302,7 +286,6 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Creates list of users with given input array
   * 
@@ -323,9 +306,7 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -341,8 +322,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -359,7 +339,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -387,9 +370,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -405,8 +386,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -415,11 +395,7 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -431,7 +407,6 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Delete user
   * This can only be done by the logged in user.
@@ -458,9 +433,7 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -476,8 +449,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "test_http_basic" };
 
@@ -494,7 +466,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -528,9 +503,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -546,8 +519,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "test_http_basic" };
 
@@ -556,11 +528,7 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -572,11 +540,10 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Get user by user name
   * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. 
    * @return User
   */
   public User getUserByName (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
@@ -599,9 +566,7 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -617,8 +582,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -635,7 +599,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -646,7 +613,7 @@ public class UserApi {
       /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing.
+   * @param username The name that needs to be fetched. Use user1 for testing. 
   */
   public void getUserByName (String username, final Response.Listener<User> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = null;
@@ -669,9 +636,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -687,8 +652,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -697,16 +661,11 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((User) ApiInvoker.deserialize(localVarResponse,  "", User.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -718,7 +677,6 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Logs user into the system
   * 
@@ -740,13 +698,9 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
           queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
-  
           queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
-  
 
-  
 
       String[] contentTypes = {
   
@@ -762,8 +716,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -780,7 +733,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -808,13 +764,9 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
     queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
-    
     queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
-    
 
-    
 
     String[] contentTypes = {
       
@@ -830,8 +782,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -840,16 +791,11 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((String) ApiInvoker.deserialize(localVarResponse,  "", String.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -861,7 +807,6 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Logs out current logged in user session
   * 
@@ -881,9 +826,7 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -899,8 +842,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -917,7 +859,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -945,9 +890,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -963,8 +906,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -973,11 +915,7 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -989,7 +927,6 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Updated user
   * This can only be done by the logged in user.
@@ -1017,9 +954,7 @@ public class UserApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -1035,8 +970,7 @@ public class UserApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -1053,7 +987,10 @@ public class UserApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -1087,9 +1024,7 @@ public class UserApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -1105,8 +1040,7 @@ public class UserApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -1115,11 +1049,7 @@ public class UserApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -1131,5 +1061,4 @@ public class UserApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
 }

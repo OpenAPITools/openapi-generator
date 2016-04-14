@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -40,6 +40,8 @@ module Petstore
 
     attr_accessor :date_time
 
+    attr_accessor :password
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -53,7 +55,8 @@ module Petstore
         :'byte' => :'byte',
         :'binary' => :'binary',
         :'date' => :'date',
-        :'date_time' => :'dateTime'
+        :'date_time' => :'dateTime',
+        :'password' => :'password'
       }
     end
 
@@ -70,7 +73,8 @@ module Petstore
         :'byte' => :'String',
         :'binary' => :'String',
         :'date' => :'Date',
-        :'date_time' => :'String'
+        :'date_time' => :'DateTime',
+        :'password' => :'String'
       }
     end
 
@@ -115,6 +119,9 @@ module Petstore
       if attributes[:'dateTime']
         self.date_time = attributes[:'dateTime']
       end
+      if attributes[:'password']
+        self.password = attributes[:'password']
+      end
     end
 
     # Checks equality by comparing each attribute.
@@ -132,7 +139,8 @@ module Petstore
           byte == o.byte &&
           binary == o.binary &&
           date == o.date &&
-          date_time == o.date_time
+          date_time == o.date_time &&
+          password == o.password
     end
 
     # @see the `==` method
@@ -144,7 +152,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time].hash
+      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, password].hash
     end
 
     # Builds the object from hash

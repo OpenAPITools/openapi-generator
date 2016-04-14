@@ -111,6 +111,10 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
     }
 
+    /* 
+     * comment out as we've removed invalid endpoints from the spec, we'll introduce something
+     * similar in the future when we've time to update the petstore server
+     *
     // test getPetById with a Pet object (id 10005)
     public function testGetPetByIdInObject()
     {
@@ -133,6 +137,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response->getTags()[0]->getId(), $pet_id);
         $this->assertSame($response->getTags()[0]->getName(), 'test php tag');
     }
+     */
   
     // test getPetByIdWithHttpInfo with a Pet object (id 10005)
     public function testGetPetByIdWithHttpInfo()
@@ -274,7 +279,11 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response->getId(), $new_pet_id);
         $this->assertSame($response->getName(), 'PHP Unit Test 2');
     }
-  
+
+    /*
+     * comment out as we've removed invalid endpoints from the spec, we'll introduce something
+     * similar in the future when we've time to update the petstore server
+     *
     // test addPetUsingByteArray and verify by the "id" and "name" of the response
     public function testAddPetUsingByteArray()
     {
@@ -310,8 +319,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response->getId(), $new_pet_id);
         $this->assertSame($response->getName(), 'PHP Unit Test 3');
     }
-
-
+     */
   
     // test upload file
     public function testUploadFile()
@@ -322,9 +330,10 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $pet_api = new Swagger\Client\Api\PetApi($api_client);
         // upload file
         $pet_id = 10001;
-        $add_response = $pet_api->uploadFile($pet_id, "test meta", "./composer.json");
-        // return nothing (void)
-        $this->assertSame($add_response, NULL);
+        $response = $pet_api->uploadFile($pet_id, "test meta", "./composer.json");
+        // return ApiResponse 
+        $this->assertInstanceOf('Swagger\Client\Model\ApiResponse', $response);
+
     }
   
     // test get inventory
@@ -341,7 +350,11 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType("int", $get_response['sold']);
         $this->assertInternalType("int", $get_response['pending']);
     }
-  
+
+    /*
+     * comment out as we've removed invalid endpoints from the spec, we'll introduce something
+     * similar in the future when we've time to update the petstore server
+     *
     // test byte array response
     public function testGetPetByIdWithByteArray()
     {
@@ -365,6 +378,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($json['tags'][0]['id'], $pet_id);
         $this->assertSame($json['tags'][0]['name'], 'test php tag');
     }
+     */
 
     // test empty object serialization
     public function testEmptyPetSerialization()
