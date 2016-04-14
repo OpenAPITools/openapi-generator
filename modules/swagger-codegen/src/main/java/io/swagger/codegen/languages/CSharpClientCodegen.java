@@ -11,6 +11,7 @@ import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.models.properties.*;
 import io.swagger.codegen.CliOption;
 import io.swagger.models.Model;
@@ -45,6 +46,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String packageCopyright = "No Copyright";
     protected String clientPackage = "IO.Swagger.Client";
     protected String localVariablePrefix = "";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     protected String targetFramework = NET45;
     protected String targetFrameworkNuget = "net45";
@@ -61,6 +64,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         modelTestTemplateFiles.put("model_test.mustache", ".cs");
         apiTestTemplateFiles.put("api_test.mustache", ".cs");
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         // C# client default
         setSourceFolder("src" + File.separator + "main" + File.separator + "csharp");
@@ -230,6 +236,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, clientPackage + ".csproj"));
         }
+
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
     }
 
     @Override
@@ -467,4 +476,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setSupportsUWP(Boolean supportsUWP){
         this.supportsUWP = supportsUWP;
     }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelFilename(name);
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
 }
