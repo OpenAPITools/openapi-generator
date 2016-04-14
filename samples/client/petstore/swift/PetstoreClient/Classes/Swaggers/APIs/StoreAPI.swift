@@ -103,36 +103,36 @@ public class StoreAPI: APIBase {
      - API Key:
        - type: apiKey x-test_api_client_secret 
        - name: test_api_client_secret
-     - examples: [{example=[ {
-  "id" : 123456789,
+     - examples: [{contentType=application/json, example=[ {
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-} ], contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+} ]}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
-     - examples: [{example=[ {
-  "id" : 123456789,
+</Order>}]
+     - examples: [{contentType=application/json, example=[ {
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-} ], contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+} ]}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
+</Order>}]
      
      - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
 
@@ -187,12 +187,12 @@ public class StoreAPI: APIBase {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{example={
+     - examples: [{contentType=application/json, example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
-     - examples: [{example={
+}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@d1e580af}]
+     - examples: [{contentType=application/json, example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
+}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@d1e580af}]
 
      - returns: RequestBuilder<[String:Int32]> 
      */
@@ -243,8 +243,8 @@ public class StoreAPI: APIBase {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{example="{}", contentType=application/json}, {example=not implemented io.swagger.models.properties.ObjectProperty@37aadb4f, contentType=application/xml}]
-     - examples: [{example="{}", contentType=application/json}, {example=not implemented io.swagger.models.properties.ObjectProperty@37aadb4f, contentType=application/xml}]
+     - examples: [{contentType=application/json, example="{}"}, {contentType=application/xml, example=not implemented io.swagger.models.properties.ObjectProperty@37aadb4f}]
+     - examples: [{contentType=application/json, example="{}"}, {contentType=application/xml, example=not implemented io.swagger.models.properties.ObjectProperty@37aadb4f}]
 
      - returns: RequestBuilder<AnyObject> 
      */
@@ -295,41 +295,41 @@ public class StoreAPI: APIBase {
      - GET /store/order/{orderId}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      - API Key:
-       - type: apiKey test_api_key_header 
-       - name: test_api_key_header
-     - API Key:
        - type: apiKey test_api_key_query (QUERY)
        - name: test_api_key_query
-     - examples: [{example={
-  "id" : 123456789,
+     - API Key:
+       - type: apiKey test_api_key_header 
+       - name: test_api_key_header
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
-     - examples: [{example={
-  "id" : 123456789,
+</Order>}]
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
+</Order>}]
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
 
@@ -388,36 +388,36 @@ public class StoreAPI: APIBase {
      - API Key:
        - type: apiKey x-test_api_client_secret 
        - name: test_api_client_secret
-     - examples: [{example={
-  "id" : 123456789,
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
-     - examples: [{example={
-  "id" : 123456789,
+</Order>}]
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
+</Order>}]
      
      - parameter body: (body) order placed for purchasing the pet (optional)
 
