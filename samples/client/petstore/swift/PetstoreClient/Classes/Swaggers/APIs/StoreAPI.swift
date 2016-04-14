@@ -69,7 +69,7 @@ public class StoreAPI: APIBase {
      - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func findOrdersByStatus(status status: String?, completion: ((data: [Order]?, error: ErrorType?) -> Void)) {
+    public class func findOrdersByStatus(status status: String? = nil, completion: ((data: [Order]?, error: ErrorType?) -> Void)) {
         findOrdersByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
@@ -81,7 +81,7 @@ public class StoreAPI: APIBase {
      - parameter status: (query) Status value that needs to be considered for query (optional, default to placed)
      - returns: Promise<[Order]>
      */
-    public class func findOrdersByStatus(status status: String?) -> Promise<[Order]> {
+    public class func findOrdersByStatus(status status: String? = nil) -> Promise<[Order]> {
         let deferred = Promise<[Order]>.pendingPromise()
         findOrdersByStatus(status: status) { data, error in
             if let error = error {
@@ -138,7 +138,7 @@ public class StoreAPI: APIBase {
 
      - returns: RequestBuilder<[Order]> 
      */
-    public class func findOrdersByStatusWithRequestBuilder(status status: String?) -> RequestBuilder<[Order]> {
+    public class func findOrdersByStatusWithRequestBuilder(status status: String? = nil) -> RequestBuilder<[Order]> {
         let path = "/store/findByStatus"
         let URLString = PetstoreClientAPI.basePath + path
 
@@ -354,7 +354,7 @@ public class StoreAPI: APIBase {
      - parameter body: (body) order placed for purchasing the pet (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func placeOrder(body body: Order?, completion: ((data: Order?, error: ErrorType?) -> Void)) {
+    public class func placeOrder(body body: Order? = nil, completion: ((data: Order?, error: ErrorType?) -> Void)) {
         placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
@@ -366,7 +366,7 @@ public class StoreAPI: APIBase {
      - parameter body: (body) order placed for purchasing the pet (optional)
      - returns: Promise<Order>
      */
-    public class func placeOrder(body body: Order?) -> Promise<Order> {
+    public class func placeOrder(body body: Order? = nil) -> Promise<Order> {
         let deferred = Promise<Order>.pendingPromise()
         placeOrder(body: body) { data, error in
             if let error = error {
@@ -423,7 +423,7 @@ public class StoreAPI: APIBase {
 
      - returns: RequestBuilder<Order> 
      */
-    public class func placeOrderWithRequestBuilder(body body: Order?) -> RequestBuilder<Order> {
+    public class func placeOrderWithRequestBuilder(body body: Order? = nil) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
