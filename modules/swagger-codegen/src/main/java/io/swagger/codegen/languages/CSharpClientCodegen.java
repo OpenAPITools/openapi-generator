@@ -225,10 +225,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor" + java.io.File.separator, "packages.config"));
-        supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
 
         if (optionalAssemblyInfoFlag) {
             supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
@@ -309,20 +308,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-    	Map<String, Object> objs = super.postProcessModels(objMap);
-    	
+        Map<String, Object> objs = super.postProcessModels(objMap);
+
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (CodegenProperty var : cm.vars) {
                 Map<String, Object> allowableValues = var.allowableValues;
-                
+
                 // handle ArrayProperty
                 if (var.items != null) {
                     allowableValues = var.items.allowableValues;
                 }
-                
+
                 if (allowableValues == null) {
                     continue;
                 }
@@ -358,12 +357,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 if (var.datatypeWithEnum != null) {
                     var.vendorExtensions.put(DATA_TYPE_WITH_ENUM_EXTENSION, var.datatypeWithEnum.substring(0, var.datatypeWithEnum.length() - 1));
                 }
-                
+
                 if (var.defaultValue != null) {
                     String enumName = null;
-                    
+
                     for (Map<String, String> enumVar : enumVars) {
-                    	
+
                         if (var.defaultValue.replace("\"", "").equals(enumVar.get("value"))) {
                             enumName = enumVar.get("name");
                             break;
@@ -422,7 +421,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     }
                 }
             }
-            
+
             if(removedChildEnum) {
                 // If we removed an entry from this model's vars, we need to ensure hasMore is updated
                 int count = 0, numVars = codegenProperties.size();
