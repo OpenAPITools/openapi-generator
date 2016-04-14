@@ -19,6 +19,8 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected String packageName = "swagger";
     protected String packageVersion = "1.0.0";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -37,6 +39,10 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code/go";
         modelTemplateFiles.put("model.mustache", ".go");
         apiTemplateFiles.put("api.mustache", ".go");
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
         templateDir = "go";
 
         setReservedWordsLowerCase(
@@ -126,6 +132,9 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+        
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -261,6 +270,30 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         parameter.vendorExtensions.put("x-exportParamName", sb.toString());
     }
 
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        //unable to use model file name because the mustache template does not have the model file name variable (python has the same issue)
+        //return toModelFilename(name);
+        return toModelName(name);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        //unable to use api file name because the mustache template does not have the api file name variable
+        //return toApiFilename(name);
+        return toApiName(name);
+    }
 
     @Override
     public String getTypeDeclaration(Property p) {
