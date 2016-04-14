@@ -45,7 +45,7 @@ class UserApi(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
-    def create_user(self, **kwargs):
+    def create_user(self, body, **kwargs):
         """
         Create user
         This can only be done by the logged in user.
@@ -56,11 +56,11 @@ class UserApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_user(callback=callback_function)
+        >>> thread = api.create_user(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param User body: Created user object
+        :param User body: Created user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -79,6 +79,9 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_user`")
 
         resource_path = '/user'.replace('{format}', 'json')
         path_params = {}
@@ -96,7 +99,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 
@@ -119,7 +122,7 @@ class UserApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def create_users_with_array_input(self, **kwargs):
+    def create_users_with_array_input(self, body, **kwargs):
         """
         Creates list of users with given input array
         
@@ -130,11 +133,11 @@ class UserApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_users_with_array_input(callback=callback_function)
+        >>> thread = api.create_users_with_array_input(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param list[User] body: List of user object
+        :param list[User] body: List of user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -153,6 +156,9 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_users_with_array_input`")
 
         resource_path = '/user/createWithArray'.replace('{format}', 'json')
         path_params = {}
@@ -170,7 +176,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 
@@ -193,7 +199,7 @@ class UserApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def create_users_with_list_input(self, **kwargs):
+    def create_users_with_list_input(self, body, **kwargs):
         """
         Creates list of users with given input array
         
@@ -204,11 +210,11 @@ class UserApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_users_with_list_input(callback=callback_function)
+        >>> thread = api.create_users_with_list_input(body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param list[User] body: List of user object
+        :param list[User] body: List of user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -227,6 +233,9 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_users_with_list_input`")
 
         resource_path = '/user/createWithList'.replace('{format}', 'json')
         path_params = {}
@@ -244,7 +253,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 
@@ -321,7 +330,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 
@@ -330,7 +339,7 @@ class UserApi(object):
             select_header_content_type([])
 
         # Authentication setting
-        auth_settings = ['test_http_basic']
+        auth_settings = []
 
         response = self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
@@ -398,7 +407,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 
@@ -421,7 +430,7 @@ class UserApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def login_user(self, **kwargs):
+    def login_user(self, username, password, **kwargs):
         """
         Logs user into the system
         
@@ -432,12 +441,12 @@ class UserApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.login_user(callback=callback_function)
+        >>> thread = api.login_user(username, password, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str username: The user name for login
-        :param str password: The password for login in clear text
+        :param str username: The user name for login (required)
+        :param str password: The password for login in clear text (required)
         :return: str
                  If the method is called asynchronously,
                  returns the request thread.
@@ -456,6 +465,12 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
+        # verify the required parameter 'username' is set
+        if ('username' not in params) or (params['username'] is None):
+            raise ValueError("Missing the required parameter `username` when calling `login_user`")
+        # verify the required parameter 'password' is set
+        if ('password' not in params) or (params['password'] is None):
+            raise ValueError("Missing the required parameter `password` when calling `login_user`")
 
         resource_path = '/user/login'.replace('{format}', 'json')
         path_params = {}
@@ -475,7 +490,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 
@@ -546,7 +561,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 
@@ -569,7 +584,7 @@ class UserApi(object):
                                             callback=params.get('callback'))
         return response
 
-    def update_user(self, username, **kwargs):
+    def update_user(self, username, body, **kwargs):
         """
         Updated user
         This can only be done by the logged in user.
@@ -580,12 +595,12 @@ class UserApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.update_user(username, callback=callback_function)
+        >>> thread = api.update_user(username, body, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str username: name that need to be deleted (required)
-        :param User body: Updated user object
+        :param User body: Updated user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -607,6 +622,9 @@ class UserApi(object):
         # verify the required parameter 'username' is set
         if ('username' not in params) or (params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `update_user`")
+        # verify the required parameter 'body' is set
+        if ('body' not in params) or (params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `update_user`")
 
         resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
@@ -626,7 +644,7 @@ class UserApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json', 'application/xml'])
+            select_header_accept(['application/xml', 'application/json'])
         if not header_params['Accept']:
             del header_params['Accept']
 

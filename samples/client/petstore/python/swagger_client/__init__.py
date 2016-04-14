@@ -2,11 +2,11 @@ from __future__ import absolute_import
 
 # import models into sdk package
 from .models.animal import Animal
+from .models.api_response import ApiResponse
 from .models.cat import Cat
 from .models.category import Category
 from .models.dog import Dog
 from .models.format_test import FormatTest
-from .models.inline_response_200 import InlineResponse200
 from .models.model_200_response import Model200Response
 from .models.model_return import ModelReturn
 from .models.name import Name
