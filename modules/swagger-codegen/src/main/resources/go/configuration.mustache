@@ -29,7 +29,7 @@ func NewConfiguration() *Configuration {
         DefaultHeader: make(map[string]string),
         ApiKey: make(map[string]string),
         ApiKeyPrefix: make(map[string]string),
-        UserAgent: "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{version}}}/go{{/httpUserAgent}}",
+        UserAgent: "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{packageVersion}}}/go{{/httpUserAgent}}",
         }
 }
 
