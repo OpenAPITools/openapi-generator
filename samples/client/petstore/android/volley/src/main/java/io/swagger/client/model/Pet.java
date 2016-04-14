@@ -27,7 +27,6 @@ public class Pet  {
   @SerializedName("status")
   private StatusEnum status = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -38,7 +37,6 @@ public class Pet  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -49,7 +47,6 @@ public class Pet  {
     this.category = category;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -60,7 +57,6 @@ public class Pet  {
     this.name = name;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -71,7 +67,6 @@ public class Pet  {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -82,7 +77,6 @@ public class Pet  {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
@@ -94,7 +88,6 @@ public class Pet  {
     this.status = status;
   }
 
-  
 
   @Override
   public String toString()  {

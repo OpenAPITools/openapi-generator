@@ -5,7 +5,10 @@ import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
 
-@ApiModel(description = "")
+/**
+ * Model for testing reserved words
+ **/
+@ApiModel(description = "Model for testing reserved words")
 public class ModelReturn  {
   
   @SerializedName("return")

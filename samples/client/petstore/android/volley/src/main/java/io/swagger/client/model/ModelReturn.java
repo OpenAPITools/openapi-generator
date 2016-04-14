@@ -5,13 +5,15 @@ import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
 
-@ApiModel(description = "")
+/**
+ * Model for testing reserved words
+ **/
+@ApiModel(description = "Model for testing reserved words")
 public class ModelReturn  {
   
   @SerializedName("return")
   private Integer _return = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -22,7 +24,6 @@ public class ModelReturn  {
     this._return = _return;
   }
 
-  
 
   @Override
   public String toString()  {
