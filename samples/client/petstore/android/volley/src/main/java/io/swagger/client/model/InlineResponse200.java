@@ -26,7 +26,6 @@ public class InlineResponse200  {
   @SerializedName("status")
   private StatusEnum status = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -37,7 +36,6 @@ public class InlineResponse200  {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -48,7 +46,6 @@ public class InlineResponse200  {
     this.name = name;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -59,7 +56,6 @@ public class InlineResponse200  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -70,7 +66,6 @@ public class InlineResponse200  {
     this.category = category;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -81,7 +76,6 @@ public class InlineResponse200  {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
@@ -93,7 +87,6 @@ public class InlineResponse200  {
     this.status = status;
   }
 
-  
 
   @Override
   public String toString()  {

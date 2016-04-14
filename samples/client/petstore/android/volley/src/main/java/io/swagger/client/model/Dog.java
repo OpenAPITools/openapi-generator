@@ -14,7 +14,6 @@ public class Dog extends Animal {
   @SerializedName("breed")
   private String breed = null;
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -25,7 +24,6 @@ public class Dog extends Animal {
     this.className = className;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -36,7 +34,6 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
-  
 
   @Override
   public String toString()  {
