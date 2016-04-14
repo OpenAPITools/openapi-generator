@@ -47,7 +47,8 @@ class FormatTest(object):
             'byte': 'str',
             'binary': 'str',
             'date': 'date',
-            'date_time': 'str'
+            'date_time': 'datetime',
+            'password': 'str'
         }
 
         self.attribute_map = {
@@ -61,7 +62,8 @@ class FormatTest(object):
             'byte': 'byte',
             'binary': 'binary',
             'date': 'date',
-            'date_time': 'dateTime'
+            'date_time': 'dateTime',
+            'password': 'password'
         }
 
         self._integer = None
@@ -75,6 +77,7 @@ class FormatTest(object):
         self._binary = None
         self._date = None
         self._date_time = None
+        self._password = None
 
     @property
     def integer(self):
@@ -303,7 +306,7 @@ class FormatTest(object):
 
 
         :return: The date_time of this FormatTest.
-        :rtype: str
+        :rtype: datetime
         """
         return self._date_time
 
@@ -314,9 +317,31 @@ class FormatTest(object):
 
 
         :param date_time: The date_time of this FormatTest.
-        :type: str
+        :type: datetime
         """
         self._date_time = date_time
+
+    @property
+    def password(self):
+        """
+        Gets the password of this FormatTest.
+
+
+        :return: The password of this FormatTest.
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """
+        Sets the password of this FormatTest.
+
+
+        :param password: The password of this FormatTest.
+        :type: str
+        """
+        self._password = password
 
     def to_dict(self):
         """
