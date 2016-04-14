@@ -374,10 +374,10 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
     }
     
     type QueryParams struct {
-        username    string `url:"username,omitempty"`
-password    string `url:"password,omitempty"`
+        Username    string `url:"username,omitempty"`
+Password    string `url:"password,omitempty"`
 }
-    _sling = _sling.QueryStruct(&QueryParams{ username: username,password: password })
+    _sling = _sling.QueryStruct(&QueryParams{ Username: username,Password: password })
     // accept header
     accepts := []string { "application/xml", "application/json" }
     for key := range accepts {
