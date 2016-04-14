@@ -27,11 +27,10 @@ import java.util.List;
 import static org.springframework.http.MediaType.*;
 
 @Controller
-@RequestMapping(value = "/pet?testing_byte_array=true", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/pet?testing_byte_array=true", description = "the pet?testing_byte_array=true API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:58:54.483Z")
+@RequestMapping(value = "/pet?testing_byte_array&#x3D;true", produces = {APPLICATION_JSON_VALUE})
+@Api(value = "/pet?testing_byte_array&#x3D;true", description = "the pet?testing_byte_array&#x3D;true API")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-15T00:36:54.567+08:00")
 public class PettestingByteArraytrueApi {
-  
 
   @ApiOperation(value = "Fake endpoint to test byte array in body parameter for adding a new pet to the store", notes = "", response = Void.class, authorizations = {
     @Authorization(value = "petstore_auth", scopes = {
@@ -54,5 +53,4 @@ public class PettestingByteArraytrueApi {
       return new ResponseEntity<Void>(HttpStatus.OK);
   }
 
-  
 }
