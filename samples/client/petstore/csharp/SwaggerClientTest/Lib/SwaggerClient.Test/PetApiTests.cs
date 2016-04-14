@@ -185,7 +185,7 @@ string status = null; // TODO: replace null with proper value
             // TODO: add unit test for the method 'UploadFile'
             long? petId = null; // TODO: replace null with proper value
 string additionalMetadata = null; // TODO: replace null with proper value
-Stream file = null; // TODO: replace null with proper value
+System.IO.Stream file = null; // TODO: replace null with proper value
             instance.UploadFile(petId, additionalMetadata, file);
             
         }
