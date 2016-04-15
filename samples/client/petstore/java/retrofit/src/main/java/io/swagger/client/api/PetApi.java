@@ -10,17 +10,12 @@ import io.swagger.client.model.Pet;
 import io.swagger.client.model.InlineResponse200;
 import java.io.File;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 public interface PetApi {
-  
   /**
    * Add a new pet to the store
    * Sync method
@@ -46,7 +41,6 @@ public interface PetApi {
   void addPet(
     @Body Pet body, Callback<Void> cb
   );
-  
   /**
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store
    * Sync method
@@ -55,7 +49,7 @@ public interface PetApi {
    * @return Void
    */
   
-  @POST("/pet?testing_byte_array=true")
+  @POST("/pet?testing_byte_array&#x3D;true")
   Void addPetUsingByteArray(
     @Body byte[] body
   );
@@ -68,11 +62,10 @@ public interface PetApi {
    * @return void
    */
   
-  @POST("/pet?testing_byte_array=true")
+  @POST("/pet?testing_byte_array&#x3D;true")
   void addPetUsingByteArray(
     @Body byte[] body, Callback<Void> cb
   );
-  
   /**
    * Deletes a pet
    * Sync method
@@ -100,7 +93,6 @@ public interface PetApi {
   void deletePet(
     @Path("petId") Long petId, @Header("api_key") String apiKey, Callback<Void> cb
   );
-  
   /**
    * Finds Pets by status
    * Sync method
@@ -126,7 +118,6 @@ public interface PetApi {
   void findPetsByStatus(
     @Query("status") List<String> status, Callback<List<Pet>> cb
   );
-  
   /**
    * Finds Pets by tags
    * Sync method
@@ -152,7 +143,6 @@ public interface PetApi {
   void findPetsByTags(
     @Query("tags") List<String> tags, Callback<List<Pet>> cb
   );
-  
   /**
    * Find pet by ID
    * Sync method
@@ -178,7 +168,6 @@ public interface PetApi {
   void getPetById(
     @Path("petId") Long petId, Callback<Pet> cb
   );
-  
   /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Sync method
@@ -187,7 +176,7 @@ public interface PetApi {
    * @return InlineResponse200
    */
   
-  @GET("/pet/{petId}?response=inline_arbitrary_object")
+  @GET("/pet/{petId}?response&#x3D;inline_arbitrary_object")
   InlineResponse200 getPetByIdInObject(
     @Path("petId") Long petId
   );
@@ -200,11 +189,10 @@ public interface PetApi {
    * @return void
    */
   
-  @GET("/pet/{petId}?response=inline_arbitrary_object")
+  @GET("/pet/{petId}?response&#x3D;inline_arbitrary_object")
   void getPetByIdInObject(
     @Path("petId") Long petId, Callback<InlineResponse200> cb
   );
-  
   /**
    * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
    * Sync method
@@ -213,7 +201,7 @@ public interface PetApi {
    * @return byte[]
    */
   
-  @GET("/pet/{petId}?testing_byte_array=true")
+  @GET("/pet/{petId}?testing_byte_array&#x3D;true")
   byte[] petPetIdtestingByteArraytrueGet(
     @Path("petId") Long petId
   );
@@ -226,11 +214,10 @@ public interface PetApi {
    * @return void
    */
   
-  @GET("/pet/{petId}?testing_byte_array=true")
+  @GET("/pet/{petId}?testing_byte_array&#x3D;true")
   void petPetIdtestingByteArraytrueGet(
     @Path("petId") Long petId, Callback<byte[]> cb
   );
-  
   /**
    * Update an existing pet
    * Sync method
@@ -256,7 +243,6 @@ public interface PetApi {
   void updatePet(
     @Body Pet body, Callback<Void> cb
   );
-  
   /**
    * Updates a pet in the store with form data
    * Sync method
@@ -288,7 +274,6 @@ public interface PetApi {
   void updatePetWithForm(
     @Path("petId") String petId, @Field("name") String name, @Field("status") String status, Callback<Void> cb
   );
-  
   /**
    * uploads an image
    * Sync method
@@ -320,6 +305,4 @@ public interface PetApi {
   void uploadFile(
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<Void> cb
   );
-  
 }
-
