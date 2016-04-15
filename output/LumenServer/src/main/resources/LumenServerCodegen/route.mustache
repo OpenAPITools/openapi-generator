@@ -1,0 +1,31 @@
+<?php
+{{#apiInfo}}/**
+ * {{appName}}
+ * @version {{appVersion}}
+ */
+
+
+{{#apis}}{{#operations}}{{#operation}}
+/**
+ * {{httpMethod}} {{nickname}}
+ * Summary: {{summary}}
+ * Notes: {{notes}}
+{{#hasProduces}} * Output-Formats: [{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
+ */
+Route::{{httpMethod}}('{{path}}', function({{#pathParams}}${{paramName}} {{/pathParams}}) use ($app) {
+    {{#hasHeaderParams}}$headers = Request::header();{{/hasHeaderParams}}
+    
+    {{#hasQueryParams}}$queryParams = $request->getQueryParams();
+    {{#queryParams}}${{paramName}} = $queryParams['{{paramName}}'];{{newline}}    {{/queryParams}}{{/hasQueryParams}}
+    
+    {{#hasQueryParams}}$inputs = Request::all();
+    {{#inputs}}${{paramName}} = $inputs['{{paramName}}'];{{newline}}    
+    {{/inputs}}{{/hasQueryParams}}
+    
+    {{#hasFormParams}}{{#formParams}}${{paramName}} = $args['{{paramName}}'];{{newline}}    {{/formParams}}{{/hasFormParams}}
+    {{#hasBodyParam}}$body = $app->request->getParsedBody();{{/hasBodyParam}}
+    return response('How about implementing {{nickname}} as a {{httpMethod}} method ?');
+    });
+
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+

@@ -1,0 +1,15 @@
+<?php
+{{#models}}{{#model}}/*
+ * {{classname}}
+ */
+namespace {{package}};
+
+/*
+ * {{classname}}
+ */
+class {{classname}} {
+    {{#vars}}/* @var {{datatype}} ${{name}} {{#description}}{{description}}{{/description}} */
+    private ${{name}};
+    {{/vars}}
+}
+{{/model}}{{/models}}

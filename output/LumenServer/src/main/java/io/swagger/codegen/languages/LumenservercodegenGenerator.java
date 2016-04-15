@@ -47,6 +47,12 @@ public class LumenservercodegenGenerator extends DefaultCodegen implements Codeg
 
         // set the output folder here
         outputFolder = "generated-code/LumenServerCodegen";
+        String packagePath = "SwaggerServer";
+
+        modelPackage = packagePath + "\\lib\\Models";
+        apiPackage = packagePath + "\\lib";
+        // outputFolder = "generated-code" + File.separator + "slim";
+        modelTemplateFiles.put("model.mustache", ".php");
 
         /**
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -66,6 +72,12 @@ public class LumenservercodegenGenerator extends DefaultCodegen implements Codeg
         // apiTemplateFiles.put(
         //     "api.mustache",   // the template to use
         //     ".sample");       // the extension for each file to write
+        
+
+        // no api files
+        apiTemplateFiles.clear();
+
+        // embeddedTemplateDir = templateDir = "slim";
 
         /**
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -103,7 +115,9 @@ public class LumenservercodegenGenerator extends DefaultCodegen implements Codeg
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
-         String packagePath = "LumenServer";
+        // supportingFiles.add(new SupportingFile("index.mustache", packagePath, "index.php"));
+        supportingFiles.add(new SupportingFile("route.mustache", packagePath, "route.php"));
+
         supportingFiles.add(new SupportingFile("composer.json", packagePath, "composer.json"));
         supportingFiles.add(new SupportingFile("readme.md", packagePath, "readme.md"));
         supportingFiles.add(new SupportingFile("artisan", packagePath, "artisan"));
