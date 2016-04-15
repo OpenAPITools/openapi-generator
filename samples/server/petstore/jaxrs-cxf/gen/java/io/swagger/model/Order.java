@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name="Order")
 @XmlEnum
 public enum Order {
-    {values=[placed, approved, delivered], enumVars=[{name=PLACED, value=placed}, {name=APPROVED, value=approved}, {name=DELIVERED, value=delivered}]}, 
+    {values&#x3D;[placed, approved, delivered], enumVars&#x3D;[{name&#x3D;PLACED, value&#x3D;placed}, {name&#x3D;APPROVED, value&#x3D;approved}, {name&#x3D;DELIVERED, value&#x3D;delivered}]}, 
     
     public String value() {
         return name();
@@ -47,7 +47,6 @@ public enum Order {
 
   private Boolean complete = false;
 
-  
   /**
    **/
   
@@ -57,7 +56,6 @@ public enum Order {
   public void setId(Long id) {
     this.id = id;
   }
-  
   /**
    **/
   
@@ -67,7 +65,6 @@ public enum Order {
   public void setPetId(Long petId) {
     this.petId = petId;
   }
-  
   /**
    **/
   
@@ -77,7 +74,6 @@ public enum Order {
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
-  
   /**
    **/
   
@@ -87,7 +83,6 @@ public enum Order {
   public void setShipDate(javax.xml.datatype.XMLGregorianCalendar shipDate) {
     this.shipDate = shipDate;
   }
-  
   /**
    * Order Status
    **/
@@ -98,7 +93,6 @@ public enum Order {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-  
   /**
    **/
   
@@ -108,7 +102,6 @@ public enum Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-  
 
   @Override
   public String toString() {

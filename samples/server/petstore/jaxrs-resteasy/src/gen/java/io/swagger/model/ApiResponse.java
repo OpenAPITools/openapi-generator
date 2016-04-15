@@ -1,15 +1,14 @@
 package io.swagger.model;
 
 import java.util.Objects;
+import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
 
-
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-15T18:10:39.667+08:00")
 public class ApiResponse   {
   
   private Integer code = null;
@@ -18,13 +17,7 @@ public class ApiResponse   {
 
   /**
    **/
-  public ApiResponse code(Integer code) {
-    this.code = code;
-    return this;
-  }
-
   
-  @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -35,13 +28,7 @@ public class ApiResponse   {
 
   /**
    **/
-  public ApiResponse type(String type) {
-    this.type = type;
-    return this;
-  }
-
   
-  @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -52,13 +39,7 @@ public class ApiResponse   {
 
   /**
    **/
-  public ApiResponse message(String message) {
-    this.message = message;
-    return this;
-  }
-
   
-  @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;
