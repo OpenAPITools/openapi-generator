@@ -34,7 +34,6 @@ public class User  {
 
   private Integer userStatus = null;
 
-  
   /**
    **/
   
@@ -44,7 +43,6 @@ public class User  {
   public void setId(Long id) {
     this.id = id;
   }
-  
   /**
    **/
   
@@ -54,7 +52,6 @@ public class User  {
   public void setUsername(String username) {
     this.username = username;
   }
-  
   /**
    **/
   
@@ -64,7 +61,6 @@ public class User  {
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
-  
   /**
    **/
   
@@ -74,7 +70,6 @@ public class User  {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-  
   /**
    **/
   
@@ -84,7 +79,6 @@ public class User  {
   public void setEmail(String email) {
     this.email = email;
   }
-  
   /**
    **/
   
@@ -94,7 +88,6 @@ public class User  {
   public void setPassword(String password) {
     this.password = password;
   }
-  
   /**
    **/
   
@@ -104,7 +97,6 @@ public class User  {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-  
   /**
    * User Status
    **/
@@ -115,7 +107,6 @@ public class User  {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-  
 
   @Override
   public String toString() {

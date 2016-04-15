@@ -44,7 +44,6 @@ public class Pet   {
 
   private StatusEnum status = null;
 
-  
   /**
    **/
   public Pet id(Long id) {
@@ -62,7 +61,6 @@ public class Pet   {
     this.id = id;
   }
 
-  
   /**
    **/
   public Pet category(Category category) {
@@ -80,7 +78,6 @@ public class Pet   {
     this.category = category;
   }
 
-  
   /**
    **/
   public Pet name(String name) {
@@ -98,7 +95,6 @@ public class Pet   {
     this.name = name;
   }
 
-  
   /**
    **/
   public Pet photoUrls(List<String> photoUrls) {
@@ -116,7 +112,6 @@ public class Pet   {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
   public Pet tags(List<Tag> tags) {
@@ -134,7 +129,6 @@ public class Pet   {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
@@ -153,7 +147,6 @@ public class Pet   {
     this.status = status;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

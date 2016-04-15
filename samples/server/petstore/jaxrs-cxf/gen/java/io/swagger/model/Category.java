@@ -22,7 +22,6 @@ public class Category  {
 
   private String name = null;
 
-  
   /**
    **/
   
@@ -32,7 +31,6 @@ public class Category  {
   public void setId(Long id) {
     this.id = id;
   }
-  
   /**
    **/
   
@@ -42,7 +40,6 @@ public class Category  {
   public void setName(String name) {
     this.name = name;
   }
-  
 
   @Override
   public String toString() {

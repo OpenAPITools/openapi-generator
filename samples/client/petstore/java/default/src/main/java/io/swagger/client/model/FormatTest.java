@@ -24,7 +24,8 @@ public class FormatTest   {
   private byte[] _byte = null;
   private byte[] binary = null;
   private Date date = null;
-  private String dateTime = null;
+  private Date dateTime = null;
+  private String password = null;
 
   
   /**
@@ -199,18 +200,35 @@ public class FormatTest   {
 
   /**
    **/
-  public FormatTest dateTime(String dateTime) {
+  public FormatTest dateTime(Date dateTime) {
     this.dateTime = dateTime;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("dateTime")
-  public String getDateTime() {
+  public Date getDateTime() {
     return dateTime;
   }
-  public void setDateTime(String dateTime) {
+  public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
+  }
+
+
+  /**
+   **/
+  public FormatTest password(String password) {
+    this.password = password;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("password")
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 
@@ -233,12 +251,13 @@ public class FormatTest   {
         Objects.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime);
+        Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.password, formatTest.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, password);
   }
 
   @Override
@@ -257,6 +276,7 @@ public class FormatTest   {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
   }

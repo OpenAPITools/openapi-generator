@@ -10,17 +10,12 @@ import okhttp3.RequestBody;
 
 import io.swagger.client.model.User;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 public interface UserApi {
-  
   /**
    * Create user
    * This can only be done by the logged in user.
@@ -33,7 +28,6 @@ public interface UserApi {
     @Body User body
   );
 
-  
   /**
    * Creates list of users with given input array
    * 
@@ -46,7 +40,6 @@ public interface UserApi {
     @Body List<User> body
   );
 
-  
   /**
    * Creates list of users with given input array
    * 
@@ -59,7 +52,6 @@ public interface UserApi {
     @Body List<User> body
   );
 
-  
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -72,11 +64,10 @@ public interface UserApi {
     @Path("username") String username
   );
 
-  
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @return Call<User>
    */
   
@@ -85,7 +76,6 @@ public interface UserApi {
     @Path("username") String username
   );
 
-  
   /**
    * Logs user into the system
    * 
@@ -99,7 +89,6 @@ public interface UserApi {
     @Query("username") String username, @Query("password") String password
   );
 
-  
   /**
    * Logs out current logged in user session
    * 
@@ -110,7 +99,6 @@ public interface UserApi {
   Observable<Void> logoutUser();
     
 
-  
   /**
    * Updated user
    * This can only be done by the logged in user.
@@ -124,6 +112,4 @@ public interface UserApi {
     @Path("username") String username, @Body User body
   );
 
-  
 }
-

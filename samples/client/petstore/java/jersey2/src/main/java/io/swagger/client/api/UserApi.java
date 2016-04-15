@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T16:00:50.657+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-13T14:36:32.196+02:00")
 public class UserApi {
   private ApiClient apiClient;
 
@@ -34,7 +34,6 @@ public class UserApi {
     this.apiClient = apiClient;
   }
 
-  
   /**
    * Create user
    * This can only be done by the logged in user.
@@ -52,12 +51,9 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -70,11 +66,9 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
+
     apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    
   }
-  
   /**
    * Creates list of users with given input array
    * 
@@ -92,12 +86,9 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -110,11 +101,9 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
+
     apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    
   }
-  
   /**
    * Creates list of users with given input array
    * 
@@ -132,12 +121,9 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -150,11 +136,9 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
+
     apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    
   }
-  
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -178,12 +162,9 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -196,15 +177,13 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] { "test_http_basic" };
 
-    
+
     apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    
   }
-  
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @return User
    * @throws ApiException if fails to make API call
    */
@@ -225,12 +204,9 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -243,12 +219,9 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
     GenericType<User> localVarReturnType = new GenericType<User>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    
-  }
-  
+      }
   /**
    * Logs user into the system
    * 
@@ -268,16 +241,11 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "username", username));
-    
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "password", password));
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -290,12 +258,9 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    
-  }
-  
+      }
   /**
    * Logs out current logged in user session
    * 
@@ -312,12 +277,9 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -330,11 +292,9 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
+
     apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    
   }
-  
   /**
    * Updated user
    * This can only be done by the logged in user.
@@ -359,12 +319,9 @@ public class UserApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json", "application/xml"
     };
@@ -377,9 +334,7 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
+
     apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    
   }
-  
 }

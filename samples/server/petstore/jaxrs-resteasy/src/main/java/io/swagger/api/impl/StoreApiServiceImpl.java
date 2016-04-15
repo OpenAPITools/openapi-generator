@@ -26,11 +26,15 @@ public class StoreApiServiceImpl extends StoreApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 
+    /*
+     *      * comment out as the method (for testing) does not exit in the original swagger spec
+     *           * we'll uncomment this code block later if we update the petstore server
     @Override
     public Response getInventoryInObject(SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
+    */
 
     @Override
     public Response placeOrder(Order body,SecurityContext securityContext) throws NotFoundException {
@@ -39,7 +43,7 @@ public class StoreApiServiceImpl extends StoreApiService {
     }
 
     @Override
-    public Response getOrderById(String orderId,SecurityContext securityContext) throws NotFoundException {
+    public Response getOrderById(Long orderId,SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -50,11 +54,15 @@ public class StoreApiServiceImpl extends StoreApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 
+    /*
+     *      * comment out as the method (for testing) does not exit in the original swagger spec
+     *           * we'll uncomment this code block later if we update the petstore server
     @Override
     public Response findOrdersByStatus(String status, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
+    */
 
 }
 
