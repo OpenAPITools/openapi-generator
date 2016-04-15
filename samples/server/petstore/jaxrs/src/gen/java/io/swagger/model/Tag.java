@@ -15,7 +15,6 @@ public class Tag   {
   private Long id = null;
   private String name = null;
 
-  
   /**
    **/
   public Tag id(Long id) {
@@ -33,7 +32,6 @@ public class Tag   {
     this.id = id;
   }
 
-  
   /**
    **/
   public Tag name(String name) {
@@ -51,7 +49,6 @@ public class Tag   {
     this.name = name;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

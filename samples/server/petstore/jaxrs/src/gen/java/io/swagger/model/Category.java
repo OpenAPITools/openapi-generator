@@ -15,7 +15,6 @@ public class Category   {
   private Long id = null;
   private String name = null;
 
-  
   /**
    **/
   public Category id(Long id) {
@@ -33,7 +32,6 @@ public class Category   {
     this.id = id;
   }
 
-  
   /**
    **/
   public Category name(String name) {
@@ -51,7 +49,6 @@ public class Category   {
     this.name = name;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {
