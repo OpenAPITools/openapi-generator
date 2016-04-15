@@ -38,11 +38,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-    // verify required params are set
-    (List().filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
 
         
     
@@ -83,11 +78,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-    // verify required params are set
-    (List().filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
 
         
     
@@ -128,11 +118,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-    // verify required params are set
-    (List().filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
 
         
     
@@ -175,11 +160,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-    // verify required params are set
-    (List().filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
+    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->deleteUser")
 
         
     
@@ -222,11 +203,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-    // verify required params are set
-    (List().filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
+    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->getUserByName")
 
         
     
@@ -269,16 +246,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-    // verify required params are set
-    (List(    // verify required params are set
-    (List().filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
-).filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
 
     if(String.valueOf(username) != "null") queryParams += "username" -> username.toString
 if(String.valueOf(password) != "null") queryParams += "password" -> password.toString
@@ -364,16 +331,7 @@ if(String.valueOf(password) != "null") queryParams += "password" -> password.toS
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-    // verify required params are set
-    (List(    // verify required params are set
-    (List().filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
-).filter(_ != null)).size match {
-       case  => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
+    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->updateUser")
 
         
     

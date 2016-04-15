@@ -46,7 +46,7 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
 
     {{#allParams}}
     {{#required}}
-    if ({{paramName}} != null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+    if ({{paramName}} == null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
     {{/required}}
     {{/allParams}}
 
