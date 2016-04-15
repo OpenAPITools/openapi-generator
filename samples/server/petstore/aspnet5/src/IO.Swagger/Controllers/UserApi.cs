@@ -65,6 +65,45 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <remarks>This can only be done by the logged in user.</remarks>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <response code="400">Invalid username supplied</response>
+        /// <response code="404">User not found</response>
+        [HttpDelete]
+        [Route("/user/{username}")]
+        [SwaggerOperation("DeleteUser")]
+        public void DeleteUser([FromRoute]string username)
+        { 
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Get user by user name
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <response code="200">successful operation</response>
+        /// <response code="400">Invalid username supplied</response>
+        /// <response code="404">User not found</response>
+        [HttpGet]
+        [Route("/user/{username}")]
+        [SwaggerOperation("GetUserByName")]
+        [SwaggerResponse(200, type: typeof(User))]
+        public IActionResult GetUserByName([FromRoute]string username)
+        { 
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<User>(exampleJson)
+            : default(User);
+            return new ObjectResult(example);
+        }
+
+
+        /// <summary>
         /// Logs user into the system
         /// </summary>
         /// <remarks></remarks>
@@ -83,7 +122,6 @@ namespace IO.Swagger.Controllers
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<string>(exampleJson)
             : default(string);
-            
             return new ObjectResult(example);
         }
 
@@ -103,30 +141,6 @@ namespace IO.Swagger.Controllers
 
 
         /// <summary>
-        /// Get user by user name
-        /// </summary>
-        /// <remarks></remarks>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <response code="200">successful operation</response>
-        /// <response code="400">Invalid username supplied</response>
-        /// <response code="404">User not found</response>
-        [HttpGet]
-        [Route("/user/{username}")]
-        [SwaggerOperation("GetUserByName")]
-        [SwaggerResponse(200, type: typeof(User))]
-        public IActionResult GetUserByName([FromRoute]string username)
-        { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<User>(exampleJson)
-            : default(User);
-            
-            return new ObjectResult(example);
-        }
-
-
-        /// <summary>
         /// Updated user
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
@@ -138,22 +152,6 @@ namespace IO.Swagger.Controllers
         [Route("/user/{username}")]
         [SwaggerOperation("UpdateUser")]
         public void UpdateUser([FromRoute]string username, [FromBody]User body)
-        { 
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// Delete user
-        /// </summary>
-        /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <response code="400">Invalid username supplied</response>
-        /// <response code="404">User not found</response>
-        [HttpDelete]
-        [Route("/user/{username}")]
-        [SwaggerOperation("DeleteUser")]
-        public void DeleteUser([FromRoute]string username)
         { 
             throw new NotImplementedException();
         }

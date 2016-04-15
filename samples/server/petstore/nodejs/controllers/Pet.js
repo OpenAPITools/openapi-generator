@@ -33,3 +33,7 @@ module.exports.updatePet = function updatePet (req, res, next) {
 module.exports.updatePetWithForm = function updatePetWithForm (req, res, next) {
   Pet.updatePetWithForm(req.swagger.params, res, next);
 };
+
+module.exports.uploadFile = function uploadFile (req, res, next) {
+  Pet.uploadFile(req.swagger.params, res, next);
+};

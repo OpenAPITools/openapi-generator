@@ -14,7 +14,7 @@ public interface StoreApi  {
     @Path("/store/order/{orderId}")
     
     @Produces({ "application/xml", "application/json" })
-    public Response deleteOrder(@PathParam("orderId") Long orderId);
+    public Response deleteOrder(@PathParam("orderId") String orderId);
     @GET
     @Path("/store/inventory")
     
