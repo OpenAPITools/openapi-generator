@@ -2,7 +2,7 @@ package io.swagger.client
 
 import io.swagger.client.api._
 
-import io.swagger.client._
+import com.wordnik.swagger.client._
 
 import java.io.Closeable
 
@@ -14,11 +14,11 @@ class SwaggerClient(config: SwaggerConfig) extends Closeable {
 
   protected def transportClient: TransportClient = new RestClient(config)
   
-  val user = new UserApi(client, config)
-  
   val pet = new PetApi(client, config)
   
   val store = new StoreApi(client, config)
+  
+  val user = new UserApi(client, config)
   
 
   def close() {

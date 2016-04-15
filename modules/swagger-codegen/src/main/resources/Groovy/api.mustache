@@ -34,7 +34,7 @@ class {{classname}} {
 
     {{#allParams}}
     // verify required params are set
-    if({{/allParams}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#allParams}}) {
+    if({{/allParams}}{{#required}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/required}}{{#allParams}}) {
        throw new RuntimeException("missing required params")
     }
     {{/allParams}}

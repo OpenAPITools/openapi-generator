@@ -6,9 +6,8 @@ class Category {
   
   int id = null;
   
-  
+
   String name = null;
-  
   
   Category();
 

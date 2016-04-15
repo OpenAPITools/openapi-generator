@@ -40,6 +40,11 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -80,6 +85,11 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
     if(String.valueOf(status) != "null") queryParams += "status" -> status.toString
     
@@ -204,6 +214,11 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -245,6 +260,11 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
