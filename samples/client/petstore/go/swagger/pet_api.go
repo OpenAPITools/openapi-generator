@@ -56,11 +56,27 @@ func (a PetApi) AddPet (body Pet) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+        "application/json", 
+        "application/xml", 
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 // body params
@@ -129,11 +145,25 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
     // header params "api_key"
     _sling = _sling.Set("api_key", apiKey)
@@ -204,11 +234,25 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
         Status    []string `url:"status,omitempty"`
 }
     _sling = _sling.QueryStruct(&QueryParams{ Status: status })
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 
@@ -277,11 +321,25 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
         Tags    []string `url:"tags,omitempty"`
 }
     _sling = _sling.QueryStruct(&QueryParams{ Tags: tags })
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 
@@ -346,11 +404,25 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 
@@ -415,11 +487,27 @@ func (a PetApi) UpdatePet (body Pet) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+        "application/json", 
+        "application/xml", 
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 // body params
@@ -489,11 +577,26 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+        "application/x-www-form-urlencoded", 
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
     type FormParams struct {
@@ -566,11 +669,25 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+        "multipart/form-data", 
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
     type FormParams struct {

@@ -49,11 +49,25 @@ func (a UserApi) CreateUser (body User) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 // body params
@@ -114,11 +128,25 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 // body params
@@ -179,11 +207,25 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 // body params
@@ -245,11 +287,25 @@ func (a UserApi) DeleteUser (username string) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 
@@ -309,11 +365,25 @@ func (a UserApi) GetUserByName (username string) (User, error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 
@@ -378,11 +448,25 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
 Password    string `url:"password,omitempty"`
 }
     _sling = _sling.QueryStruct(&QueryParams{ Username: username,Password: password })
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 
@@ -440,11 +524,25 @@ func (a UserApi) LogoutUser () (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 
@@ -505,11 +603,25 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
       _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
     }
     
-    // accept header
-    accepts := []string { "application/xml", "application/json" }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        "application/xml", 
+        "application/json", 
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 
 // body params
