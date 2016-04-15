@@ -29,7 +29,7 @@ class StoreApiTest extends FlatSpec with Matchers {
 
     api.placeOrder(order)
 
-    api.getOrderById("1000") match {
+    api.getOrderById(1000) match {
       case Some(order) => {
         order.id should be(1000)
         order.petId should be(10)
@@ -53,13 +53,13 @@ class StoreApiTest extends FlatSpec with Matchers {
 
     api.placeOrder(order)
 
-    api.getOrderById("1001") match {
+    api.getOrderById(1001) match {
       case Some(order) => order.id should be(1001)
       case None => fail("didn't find order created")
     }
 
     api.deleteOrder("1001")
-    api.getOrderById("1001") match {
+    api.getOrderById(1001) match {
       case Some(order) => fail("order should have been deleted")
       case None =>
     }
