@@ -6,27 +6,26 @@ class User {
   
   int id = null;
   
-  
+
   String username = null;
   
-  
+
   String firstName = null;
   
-  
+
   String lastName = null;
   
-  
+
   String email = null;
   
-  
+
   String password = null;
   
-  
+
   String phone = null;
   
-  /* User Status */
+/* User Status */
   int userStatus = null;
-  
   
   User();
 
