@@ -40,6 +40,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -80,6 +85,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -123,6 +133,16 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List(    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+).filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     headerParams += "api_key" -> apiKey
@@ -164,6 +184,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
     if(String.valueOf(status) != "null") queryParams += "status" -> status.toString
     
@@ -206,6 +231,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
     if(String.valueOf(tags) != "null") queryParams += "tags" -> tags.toString
     
@@ -250,6 +280,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -293,6 +328,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -336,6 +376,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -377,6 +422,11 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -421,6 +471,21 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List(    // verify required params are set
+    (List(    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+).filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+).filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     
@@ -471,6 +536,21 @@ formParams += "status" -> status.toString()
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
+    // verify required params are set
+    (List(    // verify required params are set
+    (List(    // verify required params are set
+    (List().filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+).filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
+).filter(_ != null)).size match {
+       case  => // all required values set
+       case _ => throw new Exception("missing required params")
+    }
 
         
     

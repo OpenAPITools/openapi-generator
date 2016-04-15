@@ -22,7 +22,7 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
     val headerParams = new mutable.HashMap[String, String]
 
     {{#allParams}}// verify required params are set
-    val paramCount = (Set[Any]({{/allParams}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#allParams}}) - null).size
+    val paramCount = (Set[Any]({{/allParams}}{{#required}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{#allParams}}) - null).size
     if (paramCount != {{requiredParamCount}}) sys.error("missing required params"){{/allParams}}
 
     {{#queryParams}}{{^required}}if({{paramName}} != null) {{paramName}}.foreach { v => queryParams += "{{baseName}}" -> v.toString }{{/required}}{{#required}}

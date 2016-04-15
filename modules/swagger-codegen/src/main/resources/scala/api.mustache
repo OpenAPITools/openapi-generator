@@ -45,11 +45,9 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
     val formParams = new HashMap[String, String]
 
     {{#allParams}}
-    // verify required params are set
-    (List({{/allParams}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#allParams}}).filter(_ != null)).size match {
-       case {{requiredParamCount}} => // all required values set
-       case _ => throw new Exception("missing required params")
-    }
+    {{#required}}
+    if ({{paramName}} != null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+    {{/required}}
     {{/allParams}}
 
     {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
