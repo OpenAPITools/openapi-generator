@@ -11,7 +11,7 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-03-16T14:27:58.108+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-15T18:10:39.667+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -41,7 +41,6 @@ public class Pet   {
 
   private StatusEnum status = null;
 
-  
   /**
    **/
   
@@ -53,7 +52,6 @@ public class Pet   {
     this.id = id;
   }
 
-  
   /**
    **/
   
@@ -65,7 +63,6 @@ public class Pet   {
     this.category = category;
   }
 
-  
   /**
    **/
   
@@ -77,7 +74,6 @@ public class Pet   {
     this.name = name;
   }
 
-  
   /**
    **/
   
@@ -89,7 +85,6 @@ public class Pet   {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
   
@@ -101,7 +96,6 @@ public class Pet   {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
@@ -114,7 +108,6 @@ public class Pet   {
     this.status = status;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

@@ -7,11 +7,12 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
+/**
+ * Model for testing model name starting with number
+ **/
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-19T15:53:31.820+08:00")
+@ApiModel(description = "Model for testing model name starting with number")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-13T14:36:33.302+02:00")
 public class Model200Response   {
   
   private Integer name = null;
@@ -33,7 +34,6 @@ public class Model200Response   {
     this.name = name;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -73,6 +73,4 @@ public class Model200Response   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
-
 

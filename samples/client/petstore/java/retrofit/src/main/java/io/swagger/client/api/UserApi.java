@@ -8,17 +8,12 @@ import retrofit.mime.*;
 
 import io.swagger.client.model.User;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 public interface UserApi {
-  
   /**
    * Create user
    * Sync method
@@ -44,7 +39,6 @@ public interface UserApi {
   void createUser(
     @Body User body, Callback<Void> cb
   );
-  
   /**
    * Creates list of users with given input array
    * Sync method
@@ -70,7 +64,6 @@ public interface UserApi {
   void createUsersWithArrayInput(
     @Body List<User> body, Callback<Void> cb
   );
-  
   /**
    * Creates list of users with given input array
    * Sync method
@@ -96,7 +89,6 @@ public interface UserApi {
   void createUsersWithListInput(
     @Body List<User> body, Callback<Void> cb
   );
-  
   /**
    * Delete user
    * Sync method
@@ -122,12 +114,11 @@ public interface UserApi {
   void deleteUser(
     @Path("username") String username, Callback<Void> cb
   );
-  
   /**
    * Get user by user name
    * Sync method
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @return User
    */
   
@@ -139,7 +130,7 @@ public interface UserApi {
   /**
    * Get user by user name
    * Async method
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @param cb callback method
    * @return void
    */
@@ -148,7 +139,6 @@ public interface UserApi {
   void getUserByName(
     @Path("username") String username, Callback<User> cb
   );
-  
   /**
    * Logs user into the system
    * Sync method
@@ -176,7 +166,6 @@ public interface UserApi {
   void loginUser(
     @Query("username") String username, @Query("password") String password, Callback<String> cb
   );
-  
   /**
    * Logs out current logged in user session
    * Sync method
@@ -199,7 +188,6 @@ public interface UserApi {
   void logoutUser(
     Callback<Void> cb
   );
-  
   /**
    * Updated user
    * Sync method
@@ -227,6 +215,4 @@ public interface UserApi {
   void updateUser(
     @Path("username") String username, @Body User body, Callback<Void> cb
   );
-  
 }
-

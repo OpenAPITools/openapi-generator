@@ -12,17 +12,12 @@ import io.swagger.client.model.Pet;
 import io.swagger.client.model.InlineResponse200;
 import java.io.File;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 public interface PetApi {
-  
   /**
    * Add a new pet to the store
    * 
@@ -35,7 +30,6 @@ public interface PetApi {
     @Body Pet body
   );
 
-  
   /**
    * Fake endpoint to test byte array in body parameter for adding a new pet to the store
    * 
@@ -43,12 +37,11 @@ public interface PetApi {
    * @return Call<Void>
    */
   
-  @POST("pet?testing_byte_array=true")
+  @POST("pet?testing_byte_array&#x3D;true")
   Observable<Void> addPetUsingByteArray(
     @Body byte[] body
   );
 
-  
   /**
    * Deletes a pet
    * 
@@ -62,7 +55,6 @@ public interface PetApi {
     @Path("petId") Long petId, @Header("api_key") String apiKey
   );
 
-  
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
@@ -75,7 +67,6 @@ public interface PetApi {
     @Query("status") List<String> status
   );
 
-  
   /**
    * Finds Pets by tags
    * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
@@ -88,7 +79,6 @@ public interface PetApi {
     @Query("tags") List<String> tags
   );
 
-  
   /**
    * Find pet by ID
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -101,7 +91,6 @@ public interface PetApi {
     @Path("petId") Long petId
   );
 
-  
   /**
    * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -109,12 +98,11 @@ public interface PetApi {
    * @return Call<InlineResponse200>
    */
   
-  @GET("pet/{petId}?response=inline_arbitrary_object")
+  @GET("pet/{petId}?response&#x3D;inline_arbitrary_object")
   Observable<InlineResponse200> getPetByIdInObject(
     @Path("petId") Long petId
   );
 
-  
   /**
    * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
    * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -122,12 +110,11 @@ public interface PetApi {
    * @return Call<byte[]>
    */
   
-  @GET("pet/{petId}?testing_byte_array=true")
+  @GET("pet/{petId}?testing_byte_array&#x3D;true")
   Observable<byte[]> petPetIdtestingByteArraytrueGet(
     @Path("petId") Long petId
   );
 
-  
   /**
    * Update an existing pet
    * 
@@ -140,7 +127,6 @@ public interface PetApi {
     @Body Pet body
   );
 
-  
   /**
    * Updates a pet in the store with form data
    * 
@@ -156,7 +142,6 @@ public interface PetApi {
     @Path("petId") String petId, @Field("name") String name, @Field("status") String status
   );
 
-  
   /**
    * uploads an image
    * 
@@ -172,6 +157,4 @@ public interface PetApi {
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file\"; filename=\"file\"") RequestBody file
   );
 
-  
 }
-
