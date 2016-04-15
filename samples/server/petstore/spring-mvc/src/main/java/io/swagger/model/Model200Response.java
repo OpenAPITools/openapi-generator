@@ -10,32 +10,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-15T00:38:43.027+08:00")
-public class Tag  {
+/**
+ * Model for testing model name starting with number
+ **/
+@ApiModel(description = "Model for testing model name starting with number")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-15T00:36:54.567+08:00")
+public class Model200Response  {
   
-  private Long id = null;
-  private String name = null;
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("id")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
+  private Integer name = null;
 
   /**
    **/
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public Integer getName() {
     return name;
   }
-  public void setName(String name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
@@ -48,22 +39,20 @@ public class Tag  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(id, tag.id) &&
-        Objects.equals(name, tag.name);
+    Model200Response _200Response = (Model200Response) o;
+    return Objects.equals(name, _200Response.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(name);
   }
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class Model200Response {\n");
     
-    sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
     sb.append("}\n");
     return sb.toString();
