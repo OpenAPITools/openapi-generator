@@ -2,9 +2,9 @@
 swagger: "2.0"
 info:
   description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net,\
-    \ #swagger.  For this sample, you can use the api key \"special-key\" to test\
-    \ the authorization filters"
+    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
+    \  For this sample, you can use the api key `special-key` to test the authorization\
+    \ filters."
   version: "1.0.0"
   title: "Swagger Petstore"
   termsOfService: "http://swagger.io/terms/"
@@ -15,6 +15,19 @@ info:
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "petstore.swagger.io"
 basePath: "/v2"
+tags:
+- name: "pet"
+  description: "Everything about your Pets"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+- name: "store"
+  description: "Access to Petstore orders"
+- name: "user"
+  description: "Operations about user"
+  externalDocs:
+    description: "Find out more about our store"
+    url: "http://swagger.io"
 schemes:
 - "http"
 paths:
@@ -29,13 +42,13 @@ paths:
       - "application/json"
       - "application/xml"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
         description: "Pet object that needs to be added to the store"
-        required: false
+        required: true
         schema:
           $ref: "#/definitions/Pet"
       responses:
@@ -57,13 +70,13 @@ paths:
       - "application/json"
       - "application/xml"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
         description: "Pet object that needs to be added to the store"
-        required: false
+        required: true
         schema:
           $ref: "#/definitions/Pet"
       responses:
@@ -87,26 +100,22 @@ paths:
       description: "Multiple status values can be provided with comma separated strings"
       operationId: "controllers.default_controller.find_pets_by_status"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "status"
         in: "query"
-        description: "Status values that need to be considered for query"
-        required: false
+        description: "Status values that need to be considered for filter"
+        required: true
         type: "array"
         items:
           type: "string"
+          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
-        collectionFormat: "multi"
-        default: "available"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
+        collectionFormat: "csv"
       responses:
         200:
           description: "successful operation"
@@ -127,21 +136,21 @@ paths:
       tags:
       - "pet"
       summary: "Finds Pets by tags"
-      description: "Muliple tags can be provided with comma seperated strings. Use\
+      description: "Multiple tags can be provided with comma separated strings. Use\
         \ tag1, tag2, tag3 for testing."
       operationId: "controllers.default_controller.find_pets_by_tags"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "tags"
         in: "query"
         description: "Tags to filter by"
-        required: false
+        required: true
         type: "array"
         items:
           type: "string"
-        collectionFormat: "multi"
+        collectionFormat: "csv"
       responses:
         200:
           description: "successful operation"
@@ -162,16 +171,15 @@ paths:
       tags:
       - "pet"
       summary: "Find pet by ID"
-      description: "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate\
-        \ API error conditions"
+      description: "Returns a single pet"
       operationId: "controllers.default_controller.get_pet_by_id"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "petId"
         in: "path"
-        description: "ID of pet that needs to be fetched"
+        description: "ID of pet to return"
         required: true
         type: "integer"
         format: "int64"
@@ -186,9 +194,6 @@ paths:
           description: "Pet not found"
       security:
       - api_key: []
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
       x-tags:
       - tag: "pet"
     post:
@@ -200,14 +205,15 @@ paths:
       consumes:
       - "application/x-www-form-urlencoded"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "petId"
         in: "path"
         description: "ID of pet that needs to be updated"
         required: true
-        type: "string"
+        type: "integer"
+        format: "int64"
       - name: "name"
         in: "formData"
         description: "Updated name of the pet"
@@ -234,12 +240,11 @@ paths:
       description: ""
       operationId: "controllers.default_controller.delete_pet"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "api_key"
         in: "header"
-        description: ""
         required: false
         type: "string"
       - name: "petId"
@@ -268,7 +273,6 @@ paths:
       - "multipart/form-data"
       produces:
       - "application/json"
-      - "application/xml"
       parameters:
       - name: "petId"
         in: "path"
@@ -287,150 +291,16 @@ paths:
         required: false
         type: "file"
       responses:
-        default:
-          description: "successful operation"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-      x-tags:
-      - tag: "pet"
-  /pet/{petId}?response=inline_arbitrary_object:
-    get:
-      tags:
-      - "pet"
-      summary: "Fake endpoint to test inline arbitrary object return by 'Find pet\
-        \ by ID'"
-      description: "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate\
-        \ API error conditions"
-      operationId: "controllers.default_controller.get_pet_by_id_in_object"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet that needs to be fetched"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
         200:
           description: "successful operation"
           schema:
-            $ref: "#/definitions/inline_response_200"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - api_key: []
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-      x-tags:
-      - tag: "pet"
-  /pet/{petId}?testing_byte_array=true:
-    get:
-      tags:
-      - "pet"
-      summary: "Fake endpoint to test byte array return by 'Find pet by ID'"
-      description: "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate\
-        \ API error conditions"
-      operationId: "controllers.default_controller.pet_pet_idtesting_byte_arraytrue_get"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet that needs to be fetched"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "string"
-            format: "binary"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - api_key: []
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-      x-tags:
-      - tag: "pet"
-  /pet?testing_byte_array=true:
-    post:
-      tags:
-      - "pet"
-      summary: "Fake endpoint to test byte array in body parameter for adding a new\
-        \ pet to the store"
-      description: ""
-      operationId: "controllers.default_controller.add_pet_using_byte_array"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object in the form of byte array"
-        required: false
-        schema:
-          type: "string"
-          format: "binary"
-      responses:
-        405:
-          description: "Invalid input"
+            $ref: "#/definitions/ApiResponse"
       security:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
       x-tags:
       - tag: "pet"
-  /store/findByStatus:
-    get:
-      tags:
-      - "store"
-      summary: "Finds orders by status"
-      description: "A single status value can be provided as a string"
-      operationId: "controllers.default_controller.find_orders_by_status"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "status"
-        in: "query"
-        description: "Status value that needs to be considered for query"
-        required: false
-        type: "string"
-        default: "placed"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Order"
-        400:
-          description: "Invalid status value"
-      security:
-      - test_api_client_secret: []
-        test_api_client_id: []
-      x-tags:
-      - tag: "store"
   /store/inventory:
     get:
       tags:
@@ -440,7 +310,6 @@ paths:
       operationId: "controllers.default_controller.get_inventory"
       produces:
       - "application/json"
-      - "application/xml"
       parameters: []
       responses:
         200:
@@ -454,28 +323,6 @@ paths:
       - api_key: []
       x-tags:
       - tag: "store"
-  /store/inventory?response=arbitrary_object:
-    get:
-      tags:
-      - "store"
-      summary: "Fake endpoint to test arbitrary object return by 'Get inventory'"
-      description: "Returns an arbitrary object which is actually a map of status\
-        \ codes to quantities"
-      operationId: "controllers.default_controller.get_inventory_in_object"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "object"
-            properties: {}
-      security:
-      - api_key: []
-      x-tags:
-      - tag: "store"
   /store/order:
     post:
       tags:
@@ -484,13 +331,13 @@ paths:
       description: ""
       operationId: "controllers.default_controller.place_order"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
         description: "order placed for purchasing the pet"
-        required: false
+        required: true
         schema:
           $ref: "#/definitions/Order"
       responses:
@@ -500,9 +347,6 @@ paths:
             $ref: "#/definitions/Order"
         400:
           description: "Invalid Order"
-      security:
-      - test_api_client_secret: []
-        test_api_client_id: []
       x-tags:
       - tag: "store"
   /store/order/{orderId}:
@@ -514,14 +358,17 @@ paths:
         \ values will generated exceptions"
       operationId: "controllers.default_controller.get_order_by_id"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "orderId"
         in: "path"
         description: "ID of pet that needs to be fetched"
         required: true
-        type: "string"
+        type: "integer"
+        maximum: 5.0
+        minimum: 1.0
+        format: "int64"
       responses:
         200:
           description: "successful operation"
@@ -531,9 +378,6 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      security:
-      - test_api_key_header: []
-      - test_api_key_query: []
       x-tags:
       - tag: "store"
     delete:
@@ -544,14 +388,15 @@ paths:
         \ above 1000 or nonintegers will generate API errors"
       operationId: "controllers.default_controller.delete_order"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "orderId"
         in: "path"
         description: "ID of the order that needs to be deleted"
         required: true
         type: "string"
+        minimum: 1.0
       responses:
         400:
           description: "Invalid ID supplied"
@@ -567,13 +412,13 @@ paths:
       description: "This can only be done by the logged in user."
       operationId: "controllers.default_controller.create_user"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
         description: "Created user object"
-        required: false
+        required: true
         schema:
           $ref: "#/definitions/User"
       responses:
@@ -589,13 +434,13 @@ paths:
       description: ""
       operationId: "controllers.default_controller.create_users_with_array_input"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
         description: "List of user object"
-        required: false
+        required: true
         schema:
           type: "array"
           items:
@@ -613,13 +458,13 @@ paths:
       description: ""
       operationId: "controllers.default_controller.create_users_with_list_input"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
         description: "List of user object"
-        required: false
+        required: true
         schema:
           type: "array"
           items:
@@ -637,24 +482,33 @@ paths:
       description: ""
       operationId: "controllers.default_controller.login_user"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "username"
         in: "query"
         description: "The user name for login"
-        required: false
+        required: true
         type: "string"
       - name: "password"
         in: "query"
         description: "The password for login in clear text"
-        required: false
+        required: true
         type: "string"
       responses:
         200:
           description: "successful operation"
           schema:
             type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when toekn expires"
         400:
           description: "Invalid username/password supplied"
       x-tags:
@@ -667,8 +521,8 @@ paths:
       description: ""
       operationId: "controllers.default_controller.logout_user"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters: []
       responses:
         default:
@@ -683,8 +537,8 @@ paths:
       description: ""
       operationId: "controllers.default_controller.get_user_by_name"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "username"
         in: "path"
@@ -696,16 +550,6 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/User"
-          examples:
-            application/json:
-              id: 1
-              username: "johnp"
-              firstName: "John"
-              lastName: "Public"
-              email: "johnp@swagger.io"
-              password: "-secret-"
-              phone: "0123456789"
-              userStatus: 0
         400:
           description: "Invalid username supplied"
         404:
@@ -719,8 +563,8 @@ paths:
       description: "This can only be done by the logged in user."
       operationId: "controllers.default_controller.update_user"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "username"
         in: "path"
@@ -730,7 +574,7 @@ paths:
       - in: "body"
         name: "body"
         description: "Updated user object"
-        required: false
+        required: true
         schema:
           $ref: "#/definitions/User"
       responses:
@@ -747,8 +591,8 @@ paths:
       description: "This can only be done by the logged in user."
       operationId: "controllers.default_controller.delete_user"
       produces:
-      - "application/json"
       - "application/xml"
+      - "application/json"
       parameters:
       - name: "username"
         in: "path"
@@ -760,33 +604,13 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      security:
-      - test_http_basic: []
       x-tags:
       - tag: "user"
 securityDefinitions:
-  test_api_key_header:
-    type: "apiKey"
-    name: "test_api_key_header"
-    in: "header"
   api_key:
     type: "apiKey"
     name: "api_key"
     in: "header"
-  test_http_basic:
-    type: "basic"
-  test_api_client_secret:
-    type: "apiKey"
-    name: "x-test_api_client_secret"
-    in: "header"
-  test_api_client_id:
-    type: "apiKey"
-    name: "x-test_api_client_id"
-    in: "header"
-  test_api_key_query:
-    type: "apiKey"
-    name: "test_api_key_query"
-    in: "query"
   petstore_auth:
     type: "oauth2"
     authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
@@ -795,7 +619,45 @@ securityDefinitions:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
 definitions:
+  Order:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      petId:
+        type: "integer"
+        format: "int64"
+      quantity:
+        type: "integer"
+        format: "int32"
+      shipDate:
+        type: "string"
+        format: "date-time"
+      status:
+        type: "string"
+        description: "Order Status"
+        enum:
+        - "placed"
+        - "approved"
+        - "delivered"
+      complete:
+        type: "boolean"
+        default: false
+    xml:
+      name: "Order"
+  Category:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    xml:
+      name: "Category"
   User:
+    type: "object"
     properties:
       id:
         type: "integer"
@@ -818,7 +680,8 @@ definitions:
         description: "User Status"
     xml:
       name: "User"
-  Category:
+  Tag:
+    type: "object"
     properties:
       id:
         type: "integer"
@@ -826,8 +689,9 @@ definitions:
       name:
         type: "string"
     xml:
-      name: "Category"
+      name: "Tag"
   Pet:
+    type: "object"
     required:
     - "name"
     - "photoUrls"
@@ -863,163 +727,16 @@ definitions:
         - "sold"
     xml:
       name: "Pet"
-  Tag:
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
-  Order:
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-        readOnly: true
-      petId:
-        type: "integer"
-        format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
-      shipDate:
-        type: "string"
-        format: "date-time"
-      status:
-        type: "string"
-        description: "Order Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      complete:
-        type: "boolean"
-    xml:
-      name: "Order"
-  $special[model.name]:
-    properties:
-      $special[property.name]:
-        type: "integer"
-        format: "int64"
-    xml:
-      name: "$special[model.name]"
-  Return:
-    properties:
-      return:
-        type: "integer"
-        format: "int32"
-    description: "Model for testing reserved words"
-    xml:
-      name: "Return"
-  Name:
-    required:
-    - "name"
-    properties:
-      name:
-        type: "integer"
-        format: "int32"
-      snake_case:
-        type: "integer"
-        format: "int32"
-        readOnly: true
-    description: "Model for testing model name same as property name"
-    xml:
-      name: "Name"
-  200_response:
-    properties:
-      name:
-        type: "integer"
-        format: "int32"
-    description: "Model for testing model name starting with number"
-    xml:
-      name: "Name"
-  Dog:
-    allOf:
-    - $ref: "#/definitions/Animal"
-    - type: "object"
-      properties:
-        breed:
-          type: "string"
-  Cat:
-    allOf:
-    - $ref: "#/definitions/Animal"
-    - type: "object"
-      properties:
-        declawed:
-          type: "boolean"
-  Animal:
+  ApiResponse:
     type: "object"
-    required:
-    - "className"
-    discriminator: "className"
     properties:
-      className:
-        type: "string"
-  format_test:
-    type: "object"
-    required:
-    - "number"
-    properties:
-      integer:
-        type: "integer"
-      int32:
+      code:
         type: "integer"
         format: "int32"
-      int64:
-        type: "integer"
-        format: "int64"
-      number:
-        type: "number"
-      float:
-        type: "number"
-        format: "float"
-      double:
-        type: "number"
-        format: "double"
-      string:
+      type:
         type: "string"
-      byte:
+      message:
         type: "string"
-        format: "byte"
-      binary:
-        type: "string"
-        format: "binary"
-      date:
-        type: "string"
-        format: "date"
-      dateTime:
-        type: "string"
-        format: "date-time"
-      password:
-        type: "string"
-        format: "password"
-  inline_response_200:
-    required:
-    - "id"
-    properties:
-      tags:
-        type: "array"
-        items:
-          $ref: "#/definitions/Tag"
-      id:
-        type: "integer"
-        format: "int64"
-      category:
-        type: "object"
-        properties: {}
-      status:
-        type: "string"
-        description: "pet status in the store"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
-      name:
-        type: "string"
-        example: "doggie"
-      photoUrls:
-        type: "array"
-        items:
-          type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
