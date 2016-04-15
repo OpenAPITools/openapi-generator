@@ -1,7 +1,6 @@
 package io.swagger.client.api
 
 import io.swagger.client.model.Order
-import io.swagger.client.model.Any
 import com.wordnik.swagger.client._
 import scala.concurrent.Future
 import collection.mutable
@@ -17,38 +16,9 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    // verify required params are set
-    val paramCount = (Set[Any]() - null).size
-    if (paramCount != ) sys.error("missing required params")
 
-    
-
-    
 
     val resFuture = client.submit("DELETE", path, queryParams.toMap, headerParams.toMap, "")
-    resFuture flatMap { resp =>
-      process(reader.read(resp))
-    }
-  }
-
-  def findOrdersByStatus(status: Option[String] = Some(placed)
-      )(implicit reader: ClientResponseReader[List[Order]]): Future[List[Order]] = {
-    // create path and map variables
-    val path = (addFmt("/store/findByStatus"))
-
-    // query params
-    val queryParams = new mutable.HashMap[String, String]
-    val headerParams = new mutable.HashMap[String, String]
-
-    // verify required params are set
-    val paramCount = (Set[Any]() - null).size
-    if (paramCount != ) sys.error("missing required params")
-
-    if(status != null) status.foreach { v => queryParams += "status" -> v.toString }
-
-    
-
-    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
       process(reader.read(resp))
     }
@@ -62,11 +32,7 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    
 
-    
-
-    
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
@@ -74,27 +40,7 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     }
   }
 
-  def getInventoryInObject()(implicit reader: ClientResponseReader[Any]): Future[Any] = {
-    // create path and map variables
-    val path = (addFmt("/store/inventory?response&#x3D;arbitrary_object"))
-
-    // query params
-    val queryParams = new mutable.HashMap[String, String]
-    val headerParams = new mutable.HashMap[String, String]
-
-    
-
-    
-
-    
-
-    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
-    resFuture flatMap { resp =>
-      process(reader.read(resp))
-    }
-  }
-
-  def getOrderById(orderId: String)(implicit reader: ClientResponseReader[Order]): Future[Order] = {
+  def getOrderById(orderId: Long)(implicit reader: ClientResponseReader[Order]): Future[Order] = {
     // create path and map variables
     val path = (addFmt("/store/order/{orderId}")
         replaceAll ("\\{" + "orderId" + "\\}",orderId.toString))
@@ -103,13 +49,7 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    // verify required params are set
-    val paramCount = (Set[Any]() - null).size
-    if (paramCount != ) sys.error("missing required params")
 
-    
-
-    
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
@@ -117,8 +57,7 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     }
   }
 
-  def placeOrder(body: Option[Order] = None
-      )(implicit reader: ClientResponseReader[Order], writer: RequestWriter[Order]): Future[Order] = {
+  def placeOrder(body: Order)(implicit reader: ClientResponseReader[Order], writer: RequestWriter[Order]): Future[Order] = {
     // create path and map variables
     val path = (addFmt("/store/order"))
 
@@ -126,13 +65,9 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    // verify required params are set
-    val paramCount = (Set[Any]() - null).size
-    if (paramCount != ) sys.error("missing required params")
+    if (body == null) throw new Exception("Missing required parameter 'body' when calling StoreApi->placeOrder")
 
-    
 
-    
 
     val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
     resFuture flatMap { resp =>

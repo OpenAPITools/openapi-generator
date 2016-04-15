@@ -46,10 +46,12 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
 
     {{#allParams}}
     {{#required}}
+    {{^isPrimitiveType}}
     if ({{paramName}} == null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+
+    {{/isPrimitiveType}}
     {{/required}}
     {{/allParams}}
-
     {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
     {{/queryParams}}
     
@@ -69,7 +71,8 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
       postBody = mp
     }
     else {
-      {{#formParams}}{{#notFile}}formParams += "{{baseName}}" -> {{paramName}}.toString(){{/notFile}}
+      {{#formParams}}
+      {{#notFile}}formParams += "{{baseName}}" -> {{paramName}}.toString(){{/notFile}}
       {{/formParams}}
     }
 
@@ -85,6 +88,7 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
       case ex: ApiException => throw ex
     }
   }
+
   {{/operation}}
 }
 {{/operations}}
