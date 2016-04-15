@@ -7,6 +7,7 @@ import io.swagger.common.ApiUserCredentials;
 import io.swagger.event.Response;
 import io.swagger.common.SwaggerApi;
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.InlineResponse200;
 import flash.filesystem.File;
 
 import mx.rpc.AsyncToken;
@@ -24,47 +25,19 @@ public class PetApi extends SwaggerApi {
         super(apiCredentials, eventDispatcher);
     }
 
-        public static const event_update_pet: String = "update_pet";
         public static const event_add_pet: String = "add_pet";
+        public static const event_add_pet_using_byte_array: String = "add_pet_using_byte_array";
+        public static const event_delete_pet: String = "delete_pet";
         public static const event_find_pets_by_status: String = "find_pets_by_status";
         public static const event_find_pets_by_tags: String = "find_pets_by_tags";
         public static const event_get_pet_by_id: String = "get_pet_by_id";
+        public static const event_get_pet_by_id_in_object: String = "get_pet_by_id_in_object";
+        public static const event_pet_pet_idtesting_byte_arraytrue_get: String = "pet_pet_idtesting_byte_arraytrue_get";
+        public static const event_update_pet: String = "update_pet";
         public static const event_update_pet_with_form: String = "update_pet_with_form";
-        public static const event_delete_pet: String = "delete_pet";
         public static const event_upload_file: String = "upload_file";
-        public static const event_get_pet_by_id_with_byte_array: String = "get_pet_by_id_with_byte_array";
-        public static const event_add_pet_using_byte_array: String = "add_pet_using_byte_array";
 
 
-    /*
-     * Returns void 
-     */
-    public function update_pet (body: Pet): String {
-        // create path and map variables
-        var path: String = "/pet".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "update_pet";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    
     /*
      * Returns void 
      */
@@ -76,12 +49,13 @@ public class PetApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
@@ -93,127 +67,37 @@ public class PetApi extends SwaggerApi {
         return requestId;
 
     }
-    
-    /*
-     * Returns Array 
-     */
-    public function find_pets_by_status (status: Array): String {
-        // create path and map variables
-        var path: String = "/pet/findByStatus".replace(/{format}/g,"xml");
 
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        if("null" != String(status))
-            queryParams["status"] = toPathValue(status);
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "find_pets_by_status";
-
-        token.returnType = Array;
-        return requestId;
-
-    }
-    
-    /*
-     * Returns Array 
-     */
-    public function find_pets_by_tags (tags: Array): String {
-        // create path and map variables
-        var path: String = "/pet/findByTags".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        if("null" != String(tags))
-            queryParams["tags"] = toPathValue(tags);
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "find_pets_by_tags";
-
-        token.returnType = Array;
-        return requestId;
-
-    }
-    
-    /*
-     * Returns Pet 
-     */
-    public function get_pet_by_id (petId: Number): String {
-        // create path and map variables
-        var path: String = "/pet/{petId}".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "get_pet_by_id";
-
-        token.returnType = Pet;
-        return requestId;
-
-    }
-    
     /*
      * Returns void 
      */
-    public function update_pet_with_form (petId: String, name: String, status: String): String {
+    public function add_pet_using_byte_array (body: String): String {
         // create path and map variables
-        var path: String = "/pet/{petId}".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
+        var path: String = "/pet?testing_byte_array&#x3D;true".replace(/{format}/g,"xml");
 
         // query params
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, null, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
         token.requestId = requestId;
-        token.completionEventType = "update_pet_with_form";
+        token.completionEventType = "add_pet_using_byte_array";
 
         token.returnType = null ;
         return requestId;
 
     }
-    
+
     /*
      * Returns void 
      */
@@ -225,12 +109,17 @@ public class PetApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if(        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+) {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         headerParams["apiKey"] = toPathValue(apiKey);
-        
 
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "DELETE", queryParams, null, headerParams);
 
@@ -243,7 +132,229 @@ public class PetApi extends SwaggerApi {
         return requestId;
 
     }
-    
+
+    /*
+     * Returns Array 
+     */
+    public function find_pets_by_status (status: Array): String {
+        // create path and map variables
+        var path: String = "/pet/findByStatus".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
+        if("null" != String(status))
+            queryParams["status"] = toPathValue(status);
+
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "find_pets_by_status";
+
+        token.returnType = Array;
+        return requestId;
+
+    }
+
+    /*
+     * Returns Array 
+     */
+    public function find_pets_by_tags (tags: Array): String {
+        // create path and map variables
+        var path: String = "/pet/findByTags".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
+        if("null" != String(tags))
+            queryParams["tags"] = toPathValue(tags);
+
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "find_pets_by_tags";
+
+        token.returnType = Array;
+        return requestId;
+
+    }
+
+    /*
+     * Returns Pet 
+     */
+    public function get_pet_by_id (petId: Number): String {
+        // create path and map variables
+        var path: String = "/pet/{petId}".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "get_pet_by_id";
+
+        token.returnType = Pet;
+        return requestId;
+
+    }
+
+    /*
+     * Returns InlineResponse200 
+     */
+    public function get_pet_by_id_in_object (petId: Number): String {
+        // create path and map variables
+        var path: String = "/pet/{petId}?response&#x3D;inline_arbitrary_object".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "get_pet_by_id_in_object";
+
+        token.returnType = InlineResponse200;
+        return requestId;
+
+    }
+
+    /*
+     * Returns String 
+     */
+    public function pet_pet_idtesting_byte_arraytrue_get (petId: Number): String {
+        // create path and map variables
+        var path: String = "/pet/{petId}?testing_byte_array&#x3D;true".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "pet_pet_idtesting_byte_arraytrue_get";
+
+        token.returnType = String;
+        return requestId;
+
+    }
+
+    /*
+     * Returns void 
+     */
+    public function update_pet (body: Pet): String {
+        // create path and map variables
+        var path: String = "/pet".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "update_pet";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+
+    /*
+     * Returns void 
+     */
+    public function update_pet_with_form (petId: String, name: String, status: String): String {
+        // create path and map variables
+        var path: String = "/pet/{petId}".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if(        // verify required params are set
+        if(        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+) {
+            throw new ApiError(400, "missing required params");
+        }
+) {
+            throw new ApiError(400, "missing required params");
+        }
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "update_pet_with_form";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+
     /*
      * Returns void 
      */
@@ -255,12 +366,21 @@ public class PetApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if(        // verify required params are set
+        if(        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+) {
+            throw new ApiError(400, "missing required params");
+        }
+) {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, null, headerParams);
 
         var requestId: String = getUniqueId();
@@ -272,65 +392,5 @@ public class PetApi extends SwaggerApi {
         return requestId;
 
     }
-    
-    /*
-     * Returns String 
-     */
-    public function get_pet_by_id_with_byte_array (petId: Number): String {
-        // create path and map variables
-        var path: String = "/pet/{petId}?testing_byte_array=true".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "get_pet_by_id_with_byte_array";
-
-        token.returnType = String;
-        return requestId;
-
-    }
-    
-    /*
-     * Returns void 
-     */
-    public function add_pet_using_byte_array (body: String): String {
-        // create path and map variables
-        var path: String = "/pet?testing_byte_array=true".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "add_pet_using_byte_array";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    
 }
-        
 }

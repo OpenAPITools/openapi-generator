@@ -44,7 +44,7 @@ public class {{classname}} extends SwaggerApi {
 
         {{#allParams}}
         // verify required params are set
-        if({{/allParams}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#allParams}}) {
+        if({{/allParams}}{{#required}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/required}}{{#allParams}}) {
             throw new ApiError(400, "missing required params");
         }
         {{/allParams}}
