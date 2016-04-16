@@ -3,20 +3,24 @@
 
 #include "SamiObject.h"
 
-#include "SamiUser.h"
+#include "SamiApiResponse.h"
 #include "SamiCategory.h"
+#include "SamiOrder.h"
 #include "SamiPet.h"
 #include "SamiTag.h"
-#include "SamiOrder.h"
+#include "SamiUser.h"
 
 namespace Swagger {
   void*
   create(String type) {
-    if(type.Equals(L"SamiUser", true)) {
-      return new SamiUser();
+    if(type.Equals(L"SamiApiResponse", true)) {
+      return new SamiApiResponse();
     }
     if(type.Equals(L"SamiCategory", true)) {
       return new SamiCategory();
+    }
+    if(type.Equals(L"SamiOrder", true)) {
+      return new SamiOrder();
     }
     if(type.Equals(L"SamiPet", true)) {
       return new SamiPet();
@@ -24,8 +28,8 @@ namespace Swagger {
     if(type.Equals(L"SamiTag", true)) {
       return new SamiTag();
     }
-    if(type.Equals(L"SamiOrder", true)) {
-      return new SamiOrder();
+    if(type.Equals(L"SamiUser", true)) {
+      return new SamiUser();
     }
     
     if(type.Equals(L"String", true)) {

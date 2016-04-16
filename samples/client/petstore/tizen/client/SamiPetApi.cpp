@@ -17,55 +17,6 @@ SamiPetApi::~SamiPetApi() {
 }
 
 void
-updatePetProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiError*)) {
-  int code = pHttpResponse->GetHttpStatusCode();
-
-  if(code >= 200 && code < 300) {
-    handler(null, null);
-  }
-  else {
-    SamiError* error = new SamiError(code, new String(pHttpResponse->GetStatusText()));
-    
-    handler(error, null);
-  }
-}
-
-void 
-SamiPetApi::updatePetWithCompletion(SamiPet* body, void(*success)(SamiError*)) {
-  client = new SamiApiClient();
-
-  client->success(&updatePetProcessor, (void(*)(void*, SamiError*))success);
-  HashMap* headerParams = new HashMap(SingleObjectDeleter);
-  headerParams->Construct();
-
-  
-
-  HashMap* queryParams = new HashMap(SingleObjectDeleter);
-  queryParams->Construct();
-
-  
-
-  String* mBody = null;
-
-  
-  
-  
-  if(body != null) {
-    mBody = new String(body->asJson());
-    headerParams->Add(new String("Content-Type"), new String("application/json"));
-  }
-  
-  
-
-  String url(L"/pet");
-
-  
-
-  client->execute(SamiPetApi::getBasePath(), url, "PUT", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
-  
-}
-
-void
 addPetProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiError*)) {
   int code = pHttpResponse->GetHttpStatusCode();
 
@@ -88,29 +39,64 @@ SamiPetApi::addPetWithCompletion(SamiPet* body, void(*success)(SamiError*)) {
   headerParams->Construct();
 
   
+  HashMap* queryParams = new HashMap(SingleObjectDeleter);
+  queryParams->Construct();
+
+  
+  String* mBody = null;
+
+  if(body != null) {
+    mBody = new String(body->asJson());
+    headerParams->Add(new String("Content-Type"), new String("application/json"));
+  }
+
+  String url(L"/pet");
+
+
+  client->execute(SamiPetApi::getBasePath(), url, "POST", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
+  
+}
+
+void
+deletePetProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiError*)) {
+  int code = pHttpResponse->GetHttpStatusCode();
+
+  if(code >= 200 && code < 300) {
+    handler(null, null);
+  }
+  else {
+    SamiError* error = new SamiError(code, new String(pHttpResponse->GetStatusText()));
+    
+    handler(error, null);
+  }
+}
+
+void 
+SamiPetApi::deletePetWithCompletion(Long* petId, String* apiKey, void(*success)(SamiError*)) {
+  client = new SamiApiClient();
+
+  client->success(&deletePetProcessor, (void(*)(void*, SamiError*))success);
+  HashMap* headerParams = new HashMap(SingleObjectDeleter);
+  headerParams->Construct();
+
+  
+    headerParams->Add(new String("api_key"), apiKey);
 
   HashMap* queryParams = new HashMap(SingleObjectDeleter);
   queryParams->Construct();
 
   
-
   String* mBody = null;
 
-  
-  
-  
-  if(body != null) {
-    mBody = new String(body->asJson());
-    headerParams->Add(new String("Content-Type"), new String("application/json"));
-  }
-  
-  
 
-  String url(L"/pet");
+  String url(L"/pet/{petId}");
 
-  
+  String s_petId(L"{");
+  s_petId.Append(L"petId");
+  s_petId.Append(L"}");
+  url.Replace(s_petId, stringify(petId, L"Long*"));
 
-  client->execute(SamiPetApi::getBasePath(), url, "POST", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
+  client->execute(SamiPetApi::getBasePath(), url, "DELETE", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
   
 }
 
@@ -158,7 +144,6 @@ SamiPetApi::findPetsByStatusWithCompletion(IList* status, void (* success)(IList
   headerParams->Construct();
 
   
-
   HashMap* queryParams = new HashMap(SingleObjectDeleter);
   queryParams->Construct();
 
@@ -169,15 +154,11 @@ SamiPetApi::findPetsByStatusWithCompletion(IList* status, void (* success)(IList
     queryParams->Add(new String("status"), new String(itemAt));
   }
   
-  
-
   String* mBody = null;
 
-  
 
   String url(L"/pet/findByStatus");
 
-  
 
   client->execute(SamiPetApi::getBasePath(), url, "GET", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
   return null;
@@ -227,7 +208,6 @@ SamiPetApi::findPetsByTagsWithCompletion(IList* tags, void (* success)(IList*, S
   headerParams->Construct();
 
   
-
   HashMap* queryParams = new HashMap(SingleObjectDeleter);
   queryParams->Construct();
 
@@ -238,15 +218,11 @@ SamiPetApi::findPetsByTagsWithCompletion(IList* tags, void (* success)(IList*, S
     queryParams->Add(new String("tags"), new String(itemAt));
   }
   
-  
-
   String* mBody = null;
 
-  
 
   String url(L"/pet/findByTags");
 
-  
 
   client->execute(SamiPetApi::getBasePath(), url, "GET", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
   return null;
@@ -296,27 +272,63 @@ SamiPetApi::getPetByIdWithCompletion(Long* petId, void (* success)(SamiPet*, Sam
   headerParams->Construct();
 
   
-
   HashMap* queryParams = new HashMap(SingleObjectDeleter);
   queryParams->Construct();
 
   
-
   String* mBody = null;
 
-  
 
   String url(L"/pet/{petId}");
 
-  
   String s_petId(L"{");
   s_petId.Append(L"petId");
   s_petId.Append(L"}");
   url.Replace(s_petId, stringify(petId, L"Long*"));
-  
 
   client->execute(SamiPetApi::getBasePath(), url, "GET", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
   return null;
+}
+
+void
+updatePetProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiError*)) {
+  int code = pHttpResponse->GetHttpStatusCode();
+
+  if(code >= 200 && code < 300) {
+    handler(null, null);
+  }
+  else {
+    SamiError* error = new SamiError(code, new String(pHttpResponse->GetStatusText()));
+    
+    handler(error, null);
+  }
+}
+
+void 
+SamiPetApi::updatePetWithCompletion(SamiPet* body, void(*success)(SamiError*)) {
+  client = new SamiApiClient();
+
+  client->success(&updatePetProcessor, (void(*)(void*, SamiError*))success);
+  HashMap* headerParams = new HashMap(SingleObjectDeleter);
+  headerParams->Construct();
+
+  
+  HashMap* queryParams = new HashMap(SingleObjectDeleter);
+  queryParams->Construct();
+
+  
+  String* mBody = null;
+
+  if(body != null) {
+    mBody = new String(body->asJson());
+    headerParams->Add(new String("Content-Type"), new String("application/json"));
+  }
+
+  String url(L"/pet");
+
+
+  client->execute(SamiPetApi::getBasePath(), url, "PUT", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
+  
 }
 
 void
@@ -334,7 +346,7 @@ updatePetWithFormProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, 
 }
 
 void 
-SamiPetApi::updatePetWithFormWithCompletion(String* petId, String* name, String* status, void(*success)(SamiError*)) {
+SamiPetApi::updatePetWithFormWithCompletion(Long* petId, String* name, String* status, void(*success)(SamiError*)) {
   client = new SamiApiClient();
 
   client->success(&updatePetWithFormProcessor, (void(*)(void*, SamiError*))success);
@@ -342,75 +354,21 @@ SamiPetApi::updatePetWithFormWithCompletion(String* petId, String* name, String*
   headerParams->Construct();
 
   
-
   HashMap* queryParams = new HashMap(SingleObjectDeleter);
   queryParams->Construct();
 
   
-
   String* mBody = null;
 
-  
 
   String url(L"/pet/{petId}");
 
-  
-  String s_petId(L"{");
-  s_petId.Append(L"petId");
-  s_petId.Append(L"}");
-  url.Replace(s_petId, stringify(petId, L"String*"));
-  
-
-  client->execute(SamiPetApi::getBasePath(), url, "POST", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
-  
-}
-
-void
-deletePetProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiError*)) {
-  int code = pHttpResponse->GetHttpStatusCode();
-
-  if(code >= 200 && code < 300) {
-    handler(null, null);
-  }
-  else {
-    SamiError* error = new SamiError(code, new String(pHttpResponse->GetStatusText()));
-    
-    handler(error, null);
-  }
-}
-
-void 
-SamiPetApi::deletePetWithCompletion(Long* petId, String* apiKey, void(*success)(SamiError*)) {
-  client = new SamiApiClient();
-
-  client->success(&deletePetProcessor, (void(*)(void*, SamiError*))success);
-  HashMap* headerParams = new HashMap(SingleObjectDeleter);
-  headerParams->Construct();
-
-  
-    headerParams->Add(new String("api_key"), apiKey);
-  
-  
-
-  HashMap* queryParams = new HashMap(SingleObjectDeleter);
-  queryParams->Construct();
-
-  
-
-  String* mBody = null;
-
-  
-
-  String url(L"/pet/{petId}");
-
-  
   String s_petId(L"{");
   s_petId.Append(L"petId");
   s_petId.Append(L"}");
   url.Replace(s_petId, stringify(petId, L"Long*"));
-  
 
-  client->execute(SamiPetApi::getBasePath(), url, "DELETE", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
+  client->execute(SamiPetApi::getBasePath(), url, "POST", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
   
 }
 
@@ -419,17 +377,38 @@ uploadFileProcessor(HttpResponse* pHttpResponse, void (* handler)(void*, SamiErr
   int code = pHttpResponse->GetHttpStatusCode();
 
   if(code >= 200 && code < 300) {
-    handler(null, null);
+    ByteBuffer* pBuffer = pHttpResponse->ReadBodyN();
+    IJsonValue* pJson = JsonParser::ParseN(*pBuffer);
+
+    SamiApiResponse* out = new SamiApiResponse();
+    jsonToValue(out, pJson, L"SamiApiResponse*", L"SamiApiResponse");
+
+    if (pJson) {
+      if (pJson->GetType() == JSON_TYPE_OBJECT) {
+         JsonObject* pObject = static_cast< JsonObject* >(pJson);
+         pObject->RemoveAll(true);
+      }
+      else if (pJson->GetType() == JSON_TYPE_ARRAY) {
+         JsonArray* pArray = static_cast< JsonArray* >(pJson);
+         pArray->RemoveAll(true);
+      }
+      handler(out, null);
+    }
+    else {
+      SamiError* error = new SamiError(0, new String(L"No parsable response received"));
+      handler(null, error);
+    }
+    
   }
   else {
     SamiError* error = new SamiError(code, new String(pHttpResponse->GetStatusText()));
+    handler(null, error);
     
-    handler(error, null);
   }
 }
 
-void 
-SamiPetApi::uploadFileWithCompletion(Long* petId, String* additionalMetadata, SamiFile* file, void(*success)(SamiError*)) {
+SamiApiResponse* 
+SamiPetApi::uploadFileWithCompletion(Long* petId, String* additionalMetadata, SamiFile* file, void (* success)(SamiApiResponse*, SamiError*)) {
   client = new SamiApiClient();
 
   client->success(&uploadFileProcessor, (void(*)(void*, SamiError*))success);
@@ -437,27 +416,22 @@ SamiPetApi::uploadFileWithCompletion(Long* petId, String* additionalMetadata, Sa
   headerParams->Construct();
 
   
-
   HashMap* queryParams = new HashMap(SingleObjectDeleter);
   queryParams->Construct();
 
   
-
   String* mBody = null;
 
-  
 
   String url(L"/pet/{petId}/uploadImage");
 
-  
   String s_petId(L"{");
   s_petId.Append(L"petId");
   s_petId.Append(L"}");
   url.Replace(s_petId, stringify(petId, L"Long*"));
-  
 
   client->execute(SamiPetApi::getBasePath(), url, "POST", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
-  
+  return null;
 }
 
 

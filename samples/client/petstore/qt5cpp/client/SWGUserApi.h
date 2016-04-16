@@ -25,31 +25,31 @@ public:
     void createUser(SWGUser body);
     void createUsersWithArrayInput(QList<SWGUser*>* body);
     void createUsersWithListInput(QList<SWGUser*>* body);
+    void deleteUser(QString* username);
+    void getUserByName(QString* username);
     void loginUser(QString* username, QString* password);
     void logoutUser();
-    void getUserByName(QString* username);
     void updateUser(QString* username, SWGUser body);
-    void deleteUser(QString* username);
     
 private:
     void createUserCallback (HttpRequestWorker * worker);
     void createUsersWithArrayInputCallback (HttpRequestWorker * worker);
     void createUsersWithListInputCallback (HttpRequestWorker * worker);
+    void deleteUserCallback (HttpRequestWorker * worker);
+    void getUserByNameCallback (HttpRequestWorker * worker);
     void loginUserCallback (HttpRequestWorker * worker);
     void logoutUserCallback (HttpRequestWorker * worker);
-    void getUserByNameCallback (HttpRequestWorker * worker);
     void updateUserCallback (HttpRequestWorker * worker);
-    void deleteUserCallback (HttpRequestWorker * worker);
     
 signals:
     void createUserSignal();
     void createUsersWithArrayInputSignal();
     void createUsersWithListInputSignal();
+    void deleteUserSignal();
+    void getUserByNameSignal(SWGUser* summary);
     void loginUserSignal(QString* summary);
     void logoutUserSignal();
-    void getUserByNameSignal(SWGUser* summary);
     void updateUserSignal();
-    void deleteUserSignal();
     
 };
 }

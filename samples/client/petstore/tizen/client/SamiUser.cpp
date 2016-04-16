@@ -23,14 +23,13 @@ SamiUser::~SamiUser() {
 void
 SamiUser::init() {
     pId = null;
-    pUsername = null;
-    pFirstName = null;
-    pLastName = null;
-    pEmail = null;
-    pPassword = null;
-    pPhone = null;
-    pUserStatus = null;
-    
+pUsername = null;
+pFirstName = null;
+pLastName = null;
+pEmail = null;
+pPassword = null;
+pPhone = null;
+pUserStatus = null;
 }
 
 void
@@ -40,42 +39,41 @@ SamiUser::cleanup() {
         delete pId;
         pId = null;
     }
-    if(pUsername != null) {
+if(pUsername != null) {
         
         delete pUsername;
         pUsername = null;
     }
-    if(pFirstName != null) {
+if(pFirstName != null) {
         
         delete pFirstName;
         pFirstName = null;
     }
-    if(pLastName != null) {
+if(pLastName != null) {
         
         delete pLastName;
         pLastName = null;
     }
-    if(pEmail != null) {
+if(pEmail != null) {
         
         delete pEmail;
         pEmail = null;
     }
-    if(pPassword != null) {
+if(pPassword != null) {
         
         delete pPassword;
         pPassword = null;
     }
-    if(pPhone != null) {
+if(pPhone != null) {
         
         delete pPhone;
         pPhone = null;
     }
-    if(pUserStatus != null) {
+if(pUserStatus != null) {
         
         delete pUserStatus;
         pUserStatus = null;
     }
-    
 }
 
 
@@ -122,7 +120,7 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pId, pIdVal, L"Long", L"Long");
         }
         delete pIdKey;
-        JsonString* pUsernameKey = new JsonString(L"username");
+JsonString* pUsernameKey = new JsonString(L"username");
         IJsonValue* pUsernameVal = null;
         pJsonObject->GetValue(pUsernameKey, pUsernameVal);
         if(pUsernameVal != null) {
@@ -131,7 +129,7 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pUsername, pUsernameVal, L"String", L"String");
         }
         delete pUsernameKey;
-        JsonString* pFirstNameKey = new JsonString(L"firstName");
+JsonString* pFirstNameKey = new JsonString(L"firstName");
         IJsonValue* pFirstNameVal = null;
         pJsonObject->GetValue(pFirstNameKey, pFirstNameVal);
         if(pFirstNameVal != null) {
@@ -140,7 +138,7 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pFirstName, pFirstNameVal, L"String", L"String");
         }
         delete pFirstNameKey;
-        JsonString* pLastNameKey = new JsonString(L"lastName");
+JsonString* pLastNameKey = new JsonString(L"lastName");
         IJsonValue* pLastNameVal = null;
         pJsonObject->GetValue(pLastNameKey, pLastNameVal);
         if(pLastNameVal != null) {
@@ -149,7 +147,7 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pLastName, pLastNameVal, L"String", L"String");
         }
         delete pLastNameKey;
-        JsonString* pEmailKey = new JsonString(L"email");
+JsonString* pEmailKey = new JsonString(L"email");
         IJsonValue* pEmailVal = null;
         pJsonObject->GetValue(pEmailKey, pEmailVal);
         if(pEmailVal != null) {
@@ -158,7 +156,7 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pEmail, pEmailVal, L"String", L"String");
         }
         delete pEmailKey;
-        JsonString* pPasswordKey = new JsonString(L"password");
+JsonString* pPasswordKey = new JsonString(L"password");
         IJsonValue* pPasswordVal = null;
         pJsonObject->GetValue(pPasswordKey, pPasswordVal);
         if(pPasswordVal != null) {
@@ -167,7 +165,7 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pPassword, pPasswordVal, L"String", L"String");
         }
         delete pPasswordKey;
-        JsonString* pPhoneKey = new JsonString(L"phone");
+JsonString* pPhoneKey = new JsonString(L"phone");
         IJsonValue* pPhoneVal = null;
         pJsonObject->GetValue(pPhoneKey, pPhoneVal);
         if(pPhoneVal != null) {
@@ -176,7 +174,7 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pPhone, pPhoneVal, L"String", L"String");
         }
         delete pPhoneKey;
-        JsonString* pUserStatusKey = new JsonString(L"userStatus");
+JsonString* pUserStatusKey = new JsonString(L"userStatus");
         IJsonValue* pUserStatusVal = null;
         pJsonObject->GetValue(pUserStatusKey, pUserStatusVal);
         if(pUserStatusVal != null) {
@@ -185,7 +183,6 @@ SamiUser::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pUserStatus, pUserStatusVal, L"Integer", L"Integer");
         }
         delete pUserStatusKey;
-        
     }
 }
 
@@ -236,39 +233,30 @@ SamiUser::asJsonObject() {
     JsonObject *pJsonObject = new JsonObject();
     pJsonObject->Construct();
 
-    
     JsonString *pIdKey = new JsonString(L"id");
     pJsonObject->Add(pIdKey, toJson(getPId(), "Long", ""));
 
-    
     JsonString *pUsernameKey = new JsonString(L"username");
     pJsonObject->Add(pUsernameKey, toJson(getPUsername(), "String", ""));
 
-    
     JsonString *pFirstNameKey = new JsonString(L"firstName");
     pJsonObject->Add(pFirstNameKey, toJson(getPFirstName(), "String", ""));
 
-    
     JsonString *pLastNameKey = new JsonString(L"lastName");
     pJsonObject->Add(pLastNameKey, toJson(getPLastName(), "String", ""));
 
-    
     JsonString *pEmailKey = new JsonString(L"email");
     pJsonObject->Add(pEmailKey, toJson(getPEmail(), "String", ""));
 
-    
     JsonString *pPasswordKey = new JsonString(L"password");
     pJsonObject->Add(pPasswordKey, toJson(getPPassword(), "String", ""));
 
-    
     JsonString *pPhoneKey = new JsonString(L"phone");
     pJsonObject->Add(pPhoneKey, toJson(getPPhone(), "String", ""));
 
-    
     JsonString *pUserStatusKey = new JsonString(L"userStatus");
     pJsonObject->Add(pUserStatusKey, toJson(getPUserStatus(), "Integer", ""));
 
-    
     return pJsonObject;
 }
 
