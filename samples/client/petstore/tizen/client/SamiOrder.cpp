@@ -23,12 +23,11 @@ SamiOrder::~SamiOrder() {
 void
 SamiOrder::init() {
     pId = null;
-    pPetId = null;
-    pQuantity = null;
-    pShipDate = null;
-    pStatus = null;
-    pComplete = null;
-    
+pPetId = null;
+pQuantity = null;
+pShipDate = null;
+pStatus = null;
+pComplete = null;
 }
 
 void
@@ -38,32 +37,31 @@ SamiOrder::cleanup() {
         delete pId;
         pId = null;
     }
-    if(pPetId != null) {
+if(pPetId != null) {
         
         delete pPetId;
         pPetId = null;
     }
-    if(pQuantity != null) {
+if(pQuantity != null) {
         
         delete pQuantity;
         pQuantity = null;
     }
-    if(pShipDate != null) {
+if(pShipDate != null) {
         
         delete pShipDate;
         pShipDate = null;
     }
-    if(pStatus != null) {
+if(pStatus != null) {
         
         delete pStatus;
         pStatus = null;
     }
-    if(pComplete != null) {
+if(pComplete != null) {
         
         delete pComplete;
         pComplete = null;
     }
-    
 }
 
 
@@ -110,7 +108,7 @@ SamiOrder::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pId, pIdVal, L"Long", L"Long");
         }
         delete pIdKey;
-        JsonString* pPetIdKey = new JsonString(L"petId");
+JsonString* pPetIdKey = new JsonString(L"petId");
         IJsonValue* pPetIdVal = null;
         pJsonObject->GetValue(pPetIdKey, pPetIdVal);
         if(pPetIdVal != null) {
@@ -119,7 +117,7 @@ SamiOrder::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pPetId, pPetIdVal, L"Long", L"Long");
         }
         delete pPetIdKey;
-        JsonString* pQuantityKey = new JsonString(L"quantity");
+JsonString* pQuantityKey = new JsonString(L"quantity");
         IJsonValue* pQuantityVal = null;
         pJsonObject->GetValue(pQuantityKey, pQuantityVal);
         if(pQuantityVal != null) {
@@ -128,7 +126,7 @@ SamiOrder::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pQuantity, pQuantityVal, L"Integer", L"Integer");
         }
         delete pQuantityKey;
-        JsonString* pShipDateKey = new JsonString(L"shipDate");
+JsonString* pShipDateKey = new JsonString(L"shipDate");
         IJsonValue* pShipDateVal = null;
         pJsonObject->GetValue(pShipDateKey, pShipDateVal);
         if(pShipDateVal != null) {
@@ -137,7 +135,7 @@ SamiOrder::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pShipDate, pShipDateVal, L"DateTime", L"DateTime");
         }
         delete pShipDateKey;
-        JsonString* pStatusKey = new JsonString(L"status");
+JsonString* pStatusKey = new JsonString(L"status");
         IJsonValue* pStatusVal = null;
         pJsonObject->GetValue(pStatusKey, pStatusVal);
         if(pStatusVal != null) {
@@ -146,7 +144,7 @@ SamiOrder::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pStatus, pStatusVal, L"String", L"String");
         }
         delete pStatusKey;
-        JsonString* pCompleteKey = new JsonString(L"complete");
+JsonString* pCompleteKey = new JsonString(L"complete");
         IJsonValue* pCompleteVal = null;
         pJsonObject->GetValue(pCompleteKey, pCompleteVal);
         if(pCompleteVal != null) {
@@ -155,7 +153,6 @@ SamiOrder::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pComplete, pCompleteVal, L"Boolean", L"Boolean");
         }
         delete pCompleteKey;
-        
     }
 }
 
@@ -206,31 +203,24 @@ SamiOrder::asJsonObject() {
     JsonObject *pJsonObject = new JsonObject();
     pJsonObject->Construct();
 
-    
     JsonString *pIdKey = new JsonString(L"id");
     pJsonObject->Add(pIdKey, toJson(getPId(), "Long", ""));
 
-    
     JsonString *pPetIdKey = new JsonString(L"petId");
     pJsonObject->Add(pPetIdKey, toJson(getPPetId(), "Long", ""));
 
-    
     JsonString *pQuantityKey = new JsonString(L"quantity");
     pJsonObject->Add(pQuantityKey, toJson(getPQuantity(), "Integer", ""));
 
-    
     JsonString *pShipDateKey = new JsonString(L"shipDate");
     pJsonObject->Add(pShipDateKey, toJson(getPShipDate(), "DateTime", ""));
 
-    
     JsonString *pStatusKey = new JsonString(L"status");
     pJsonObject->Add(pStatusKey, toJson(getPStatus(), "String", ""));
 
-    
     JsonString *pCompleteKey = new JsonString(L"complete");
     pJsonObject->Add(pCompleteKey, toJson(getPComplete(), "Boolean", ""));
 
-    
     return pJsonObject;
 }
 

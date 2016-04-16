@@ -7,7 +7,7 @@ import io.swagger.common.ApiUserCredentials;
 import io.swagger.event.Response;
 import io.swagger.common.SwaggerApi;
 import io.swagger.client.model.Pet;
-import io.swagger.client.model.InlineResponse200;
+import io.swagger.client.model.ApiResponse;
 import flash.filesystem.File;
 
 import mx.rpc.AsyncToken;
@@ -26,13 +26,10 @@ public class PetApi extends SwaggerApi {
     }
 
         public static const event_add_pet: String = "add_pet";
-        public static const event_add_pet_using_byte_array: String = "add_pet_using_byte_array";
         public static const event_delete_pet: String = "delete_pet";
         public static const event_find_pets_by_status: String = "find_pets_by_status";
         public static const event_find_pets_by_tags: String = "find_pets_by_tags";
         public static const event_get_pet_by_id: String = "get_pet_by_id";
-        public static const event_get_pet_by_id_in_object: String = "get_pet_by_id_in_object";
-        public static const event_pet_pet_idtesting_byte_arraytrue_get: String = "pet_pet_idtesting_byte_arraytrue_get";
         public static const event_update_pet: String = "update_pet";
         public static const event_update_pet_with_form: String = "update_pet_with_form";
         public static const event_upload_file: String = "upload_file";
@@ -62,36 +59,6 @@ public class PetApi extends SwaggerApi {
 
         token.requestId = requestId;
         token.completionEventType = "add_pet";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-
-    /*
-     * Returns void 
-     */
-    public function add_pet_using_byte_array (body: String): String {
-        // create path and map variables
-        var path: String = "/pet?testing_byte_array&#x3D;true".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        // verify required params are set
-        if() {
-            throw new ApiError(400, "missing required params");
-        }
-
-        
-        
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "add_pet_using_byte_array";
 
         token.returnType = null ;
         return requestId;
@@ -228,66 +195,6 @@ public class PetApi extends SwaggerApi {
     }
 
     /*
-     * Returns InlineResponse200 
-     */
-    public function get_pet_by_id_in_object (petId: Number): String {
-        // create path and map variables
-        var path: String = "/pet/{petId}?response&#x3D;inline_arbitrary_object".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        // verify required params are set
-        if() {
-            throw new ApiError(400, "missing required params");
-        }
-
-        
-        
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "get_pet_by_id_in_object";
-
-        token.returnType = InlineResponse200;
-        return requestId;
-
-    }
-
-    /*
-     * Returns String 
-     */
-    public function pet_pet_idtesting_byte_arraytrue_get (petId: Number): String {
-        // create path and map variables
-        var path: String = "/pet/{petId}?testing_byte_array&#x3D;true".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        // verify required params are set
-        if() {
-            throw new ApiError(400, "missing required params");
-        }
-
-        
-        
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "pet_pet_idtesting_byte_arraytrue_get";
-
-        token.returnType = String;
-        return requestId;
-
-    }
-
-    /*
      * Returns void 
      */
     public function update_pet (body: Pet): String {
@@ -320,7 +227,7 @@ public class PetApi extends SwaggerApi {
     /*
      * Returns void 
      */
-    public function update_pet_with_form (petId: String, name: String, status: String): String {
+    public function update_pet_with_form (petId: Number, name: String, status: String): String {
         // create path and map variables
         var path: String = "/pet/{petId}".replace(/{format}/g,"xml").replace("{" + "petId" + "}", getApiInvoker().escapeString(petId));
 
@@ -356,7 +263,7 @@ public class PetApi extends SwaggerApi {
     }
 
     /*
-     * Returns void 
+     * Returns ApiResponse 
      */
     public function upload_file (petId: Number, additionalMetadata: String, file: File): String {
         // create path and map variables
@@ -388,7 +295,7 @@ public class PetApi extends SwaggerApi {
         token.requestId = requestId;
         token.completionEventType = "upload_file";
 
-        token.returnType = null ;
+        token.returnType = ApiResponse;
         return requestId;
 
     }
