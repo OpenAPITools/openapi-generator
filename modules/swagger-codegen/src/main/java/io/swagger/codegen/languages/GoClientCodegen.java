@@ -283,15 +283,11 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelDocFilename(String name) {
-        //unable to use model file name because the mustache template does not have the model file name variable (python has the same issue)
-        //return toModelFilename(name);
         return toModelName(name);
     }
 
     @Override
     public String toApiDocFilename(String name) {
-        //unable to use api file name because the mustache template does not have the api file name variable
-        //return toApiFilename(name);
         return toApiName(name);
     }
 
