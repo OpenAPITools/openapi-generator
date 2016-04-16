@@ -127,7 +127,8 @@
             "required": false,
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "enum": ["available", "pending", "sold"]
             },
             "collectionFormat": "multi",
             "default": "available"
