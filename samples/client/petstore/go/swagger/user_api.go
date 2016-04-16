@@ -35,7 +35,10 @@ func NewUserApiWithBasePath(basePath string) *UserApi{
  * @return void
  */
 func (a UserApi) CreateUser (body User) (error) {
-
+    // verify the required parameter 'body' is set
+    if &body == nil {
+        return errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
+    }
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     
@@ -114,7 +117,10 @@ func (a UserApi) CreateUser (body User) (error) {
  * @return void
  */
 func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
-
+    // verify the required parameter 'body' is set
+    if &body == nil {
+        return errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
+    }
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     
@@ -193,7 +199,10 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
  * @return void
  */
 func (a UserApi) CreateUsersWithListInput (body []User) (error) {
-
+    // verify the required parameter 'body' is set
+    if &body == nil {
+        return errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
+    }
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     
@@ -272,7 +281,10 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
  * @return void
  */
 func (a UserApi) DeleteUser (username string) (error) {
-
+    // verify the required parameter 'username' is set
+    if &username == nil {
+        return errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
+    }
     _sling := sling.New().Delete(a.Configuration.BasePath)
 
     
@@ -350,7 +362,10 @@ func (a UserApi) DeleteUser (username string) (error) {
  * @return User
  */
 func (a UserApi) GetUserByName (username string) (User, error) {
-
+    // verify the required parameter 'username' is set
+    if &username == nil {
+        return *new(User), errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
+    }
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     
@@ -429,7 +444,14 @@ func (a UserApi) GetUserByName (username string) (User, error) {
  * @return string
  */
 func (a UserApi) LoginUser (username string, password string) (string, error) {
-
+    // verify the required parameter 'username' is set
+    if &username == nil {
+        return *new(string), errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
+    }
+    // verify the required parameter 'password' is set
+    if &password == nil {
+        return *new(string), errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
+    }
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     
@@ -510,7 +532,6 @@ Password    string `url:"password,omitempty"`
  * @return void
  */
 func (a UserApi) LogoutUser () (error) {
-
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     
@@ -588,7 +609,14 @@ func (a UserApi) LogoutUser () (error) {
  * @return void
  */
 func (a UserApi) UpdateUser (username string, body User) (error) {
-
+    // verify the required parameter 'username' is set
+    if &username == nil {
+        return errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
+    }
+    // verify the required parameter 'body' is set
+    if &body == nil {
+        return errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
+    }
     _sling := sling.New().Put(a.Configuration.BasePath)
 
     

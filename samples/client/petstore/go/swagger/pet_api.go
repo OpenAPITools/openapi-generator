@@ -36,7 +36,10 @@ func NewPetApiWithBasePath(basePath string) *PetApi{
  * @return void
  */
 func (a PetApi) AddPet (body Pet) (error) {
-
+    // verify the required parameter 'body' is set
+    if &body == nil {
+        return errors.New("Missing required parameter 'body' when calling PetApi->AddPet")
+    }
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
@@ -124,7 +127,10 @@ func (a PetApi) AddPet (body Pet) (error) {
  * @return void
  */
 func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
-
+    // verify the required parameter 'petId' is set
+    if &petId == nil {
+        return errors.New("Missing required parameter 'petId' when calling PetApi->DeletePet")
+    }
     _sling := sling.New().Delete(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
@@ -210,7 +216,10 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
  * @return []Pet
  */
 func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
-
+    // verify the required parameter 'status' is set
+    if &status == nil {
+        return *new([]Pet), errors.New("Missing required parameter 'status' when calling PetApi->FindPetsByStatus")
+    }
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
@@ -297,7 +306,10 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
  * @return []Pet
  */
 func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
-
+    // verify the required parameter 'tags' is set
+    if &tags == nil {
+        return *new([]Pet), errors.New("Missing required parameter 'tags' when calling PetApi->FindPetsByTags")
+    }
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
@@ -384,7 +396,10 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
  * @return Pet
  */
 func (a PetApi) GetPetById (petId int64) (Pet, error) {
-
+    // verify the required parameter 'petId' is set
+    if &petId == nil {
+        return *new(Pet), errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
+    }
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (api_key) required
@@ -467,7 +482,10 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
  * @return void
  */
 func (a PetApi) UpdatePet (body Pet) (error) {
-
+    // verify the required parameter 'body' is set
+    if &body == nil {
+        return errors.New("Missing required parameter 'body' when calling PetApi->UpdatePet")
+    }
     _sling := sling.New().Put(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
@@ -556,7 +574,10 @@ func (a PetApi) UpdatePet (body Pet) (error) {
  * @return void
  */
 func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (error) {
-
+    // verify the required parameter 'petId' is set
+    if &petId == nil {
+        return errors.New("Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm")
+    }
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
@@ -648,7 +669,10 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
  * @return ApiResponse
  */
 func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.File) (ApiResponse, error) {
-
+    // verify the required parameter 'petId' is set
+    if &petId == nil {
+        return *new(ApiResponse), errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
+    }
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     // authentication (petstore_auth) required
