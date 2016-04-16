@@ -3,9 +3,9 @@
 
 #include "SWGHttpRequest.h"
 
+#include <QString>
 #include "QMap.h"
 #include "SWGOrder.h"
-#include <QString>
 
 #include <QObject>
 
@@ -22,22 +22,22 @@ public:
     QString host;
     QString basePath;
 
-    void getInventory();
-    void placeOrder(SWGOrder body);
-    void getOrderById(QString* orderId);
     void deleteOrder(QString* orderId);
+    void getInventory();
+    void getOrderById(qint64 orderId);
+    void placeOrder(SWGOrder body);
     
 private:
-    void getInventoryCallback (HttpRequestWorker * worker);
-    void placeOrderCallback (HttpRequestWorker * worker);
-    void getOrderByIdCallback (HttpRequestWorker * worker);
     void deleteOrderCallback (HttpRequestWorker * worker);
+    void getInventoryCallback (HttpRequestWorker * worker);
+    void getOrderByIdCallback (HttpRequestWorker * worker);
+    void placeOrderCallback (HttpRequestWorker * worker);
     
 signals:
-    void getInventorySignal(QMap<QString, qint32>* summary);
-    void placeOrderSignal(SWGOrder* summary);
-    void getOrderByIdSignal(SWGOrder* summary);
     void deleteOrderSignal();
+    void getInventorySignal(QMap<QString, qint32>* summary);
+    void getOrderByIdSignal(SWGOrder* summary);
+    void placeOrderSignal(SWGOrder* summary);
     
 };
 }

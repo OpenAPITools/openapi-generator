@@ -23,12 +23,11 @@ SamiPet::~SamiPet() {
 void
 SamiPet::init() {
     pId = null;
-    pCategory = null;
-    pName = null;
-    pPhotoUrls = null;
-    pTags = null;
-    pStatus = null;
-    
+pCategory = null;
+pName = null;
+pPhotoUrls = null;
+pTags = null;
+pStatus = null;
 }
 
 void
@@ -38,32 +37,31 @@ SamiPet::cleanup() {
         delete pId;
         pId = null;
     }
-    if(pCategory != null) {
+if(pCategory != null) {
         
         delete pCategory;
         pCategory = null;
     }
-    if(pName != null) {
+if(pName != null) {
         
         delete pName;
         pName = null;
     }
-    if(pPhotoUrls != null) {
+if(pPhotoUrls != null) {
         pPhotoUrls->RemoveAll(true);
         delete pPhotoUrls;
         pPhotoUrls = null;
     }
-    if(pTags != null) {
+if(pTags != null) {
         pTags->RemoveAll(true);
         delete pTags;
         pTags = null;
     }
-    if(pStatus != null) {
+if(pStatus != null) {
         
         delete pStatus;
         pStatus = null;
     }
-    
 }
 
 
@@ -110,7 +108,7 @@ SamiPet::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pId, pIdVal, L"Long", L"Long");
         }
         delete pIdKey;
-        JsonString* pCategoryKey = new JsonString(L"category");
+JsonString* pCategoryKey = new JsonString(L"category");
         IJsonValue* pCategoryVal = null;
         pJsonObject->GetValue(pCategoryKey, pCategoryVal);
         if(pCategoryVal != null) {
@@ -119,7 +117,7 @@ SamiPet::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pCategory, pCategoryVal, L"SamiCategory", L"SamiCategory");
         }
         delete pCategoryKey;
-        JsonString* pNameKey = new JsonString(L"name");
+JsonString* pNameKey = new JsonString(L"name");
         IJsonValue* pNameVal = null;
         pJsonObject->GetValue(pNameKey, pNameVal);
         if(pNameVal != null) {
@@ -128,7 +126,7 @@ SamiPet::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pName, pNameVal, L"String", L"String");
         }
         delete pNameKey;
-        JsonString* pPhotoUrlsKey = new JsonString(L"photoUrls");
+JsonString* pPhotoUrlsKey = new JsonString(L"photoUrls");
         IJsonValue* pPhotoUrlsVal = null;
         pJsonObject->GetValue(pPhotoUrlsKey, pPhotoUrlsVal);
         if(pPhotoUrlsVal != null) {
@@ -137,7 +135,7 @@ SamiPet::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pPhotoUrls, pPhotoUrlsVal, L"IList", L"String");
         }
         delete pPhotoUrlsKey;
-        JsonString* pTagsKey = new JsonString(L"tags");
+JsonString* pTagsKey = new JsonString(L"tags");
         IJsonValue* pTagsVal = null;
         pJsonObject->GetValue(pTagsKey, pTagsVal);
         if(pTagsVal != null) {
@@ -146,7 +144,7 @@ SamiPet::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pTags, pTagsVal, L"IList", L"SamiTag");
         }
         delete pTagsKey;
-        JsonString* pStatusKey = new JsonString(L"status");
+JsonString* pStatusKey = new JsonString(L"status");
         IJsonValue* pStatusVal = null;
         pJsonObject->GetValue(pStatusKey, pStatusVal);
         if(pStatusVal != null) {
@@ -155,7 +153,6 @@ SamiPet::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pStatus, pStatusVal, L"String", L"String");
         }
         delete pStatusKey;
-        
     }
 }
 
@@ -206,31 +203,24 @@ SamiPet::asJsonObject() {
     JsonObject *pJsonObject = new JsonObject();
     pJsonObject->Construct();
 
-    
     JsonString *pIdKey = new JsonString(L"id");
     pJsonObject->Add(pIdKey, toJson(getPId(), "Long", ""));
 
-    
     JsonString *pCategoryKey = new JsonString(L"category");
     pJsonObject->Add(pCategoryKey, toJson(getPCategory(), "SamiCategory", ""));
 
-    
     JsonString *pNameKey = new JsonString(L"name");
     pJsonObject->Add(pNameKey, toJson(getPName(), "String", ""));
 
-    
     JsonString *pPhotoUrlsKey = new JsonString(L"photoUrls");
     pJsonObject->Add(pPhotoUrlsKey, toJson(getPPhotoUrls(), "String", "array"));
 
-    
     JsonString *pTagsKey = new JsonString(L"tags");
     pJsonObject->Add(pTagsKey, toJson(getPTags(), "SamiTag", "array"));
 
-    
     JsonString *pStatusKey = new JsonString(L"status");
     pJsonObject->Add(pStatusKey, toJson(getPStatus(), "String", ""));
 
-    
     return pJsonObject;
 }
 

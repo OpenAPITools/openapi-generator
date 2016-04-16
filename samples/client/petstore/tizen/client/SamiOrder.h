@@ -17,11 +17,11 @@
 using namespace Tizen::Web::Json;
 
 
-using Tizen::Base::Long;
-using Tizen::Base::DateTime;
-using Tizen::Base::String;
 using Tizen::Base::Boolean;
+using Tizen::Base::DateTime;
 using Tizen::Base::Integer;
+using Tizen::Base::Long;
+using Tizen::Base::String;
 
 
 namespace Swagger {
@@ -44,34 +44,26 @@ public:
 
     SamiOrder* fromJson(String* obj);
 
-    
     Long* getPId();
     void setPId(Long* pId);
-    
     Long* getPPetId();
     void setPPetId(Long* pPetId);
-    
     Integer* getPQuantity();
     void setPQuantity(Integer* pQuantity);
-    
     DateTime* getPShipDate();
     void setPShipDate(DateTime* pShipDate);
-    
     String* getPStatus();
     void setPStatus(String* pStatus);
-    
     Boolean* getPComplete();
     void setPComplete(Boolean* pComplete);
-    
 
 private:
     Long* pId;
-    Long* pPetId;
-    Integer* pQuantity;
-    DateTime* pShipDate;
-    String* pStatus;
-    Boolean* pComplete;
-    
+Long* pPetId;
+Integer* pQuantity;
+DateTime* pShipDate;
+String* pStatus;
+Boolean* pComplete;
 };
 
 } /* namespace Swagger */
