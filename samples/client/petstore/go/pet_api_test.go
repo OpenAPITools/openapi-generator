@@ -1,6 +1,7 @@
 package swagger
 
 import (
+	sw "./swagger"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -19,7 +20,7 @@ func TestAddPet(t *testing.T) {
 }
 
 func TestGetPetById(t *testing.T) {
-	assert := assert.New(t)
+	//assert := assert.New(t)
 
 	s := NewPetApi()
 	resp, err := s.GetPetById(12830)
