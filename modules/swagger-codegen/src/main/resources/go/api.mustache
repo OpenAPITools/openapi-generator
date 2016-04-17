@@ -39,7 +39,14 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
-
+    {{#allParams}}
+    {{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if &{{paramName}} == nil {
+        return {{#returnType}}*new({{{returnType}}}), {{/returnType}}errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+    }
+    {{/required}}
+    {{/allParams}}
     _sling := sling.New().{{httpMethod}}(a.Configuration.BasePath)
 
     {{#authMethods}}// authentication ({{name}}) required
