@@ -10,13 +10,12 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:59:02.543Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:50:52.711+08:00")
 public class Tag  {
   
   private Long id = null;
   private String name = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -28,7 +27,6 @@ public class Tag  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -40,7 +38,6 @@ public class Tag  {
     this.name = name;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

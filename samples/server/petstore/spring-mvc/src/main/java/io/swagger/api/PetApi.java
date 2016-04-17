@@ -3,8 +3,8 @@ package io.swagger.api;
 import io.swagger.model.*;
 
 import io.swagger.model.Pet;
-import java.io.File;
 import io.swagger.model.ApiResponse;
+import java.io.File;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-14T23:14:04.836+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:49:05.879+08:00")
 public class PetApi {
 
   @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
@@ -74,7 +74,7 @@ public class PetApi {
 
 ,
     
-@ApiParam(value = ""  ) @RequestHeader(value="apiKey", required=false) String apiKey
+@ApiParam(value = ""  ) @RequestHeader(value="api_key", required=false) String apiKey
 
 )
       throws NotFoundException {
