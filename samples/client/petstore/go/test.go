@@ -1,16 +1,17 @@
-package swagger
+package main
 
 import (
+	sw "./go-petstore"
 	"encoding/json"
 	"fmt"
 )
 
 func main() {
 
-	s := NewPetApi()
+	s := sw.NewPetApi()
 
 	// test POST(body)
-	newPet := (Pet{Id: 12830, Name: "gopher",
+	newPet := (sw.Pet{Id: 12830, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"})
 
 	jsonNewPet, _ := json.Marshal(newPet)
