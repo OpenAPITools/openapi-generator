@@ -3,8 +3,8 @@ package io.swagger.api;
 import io.swagger.model.*;
 
 import io.swagger.model.Pet;
-import io.swagger.model.ApiResponse;
 import java.io.File;
+import io.swagger.model.ApiResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-15T00:38:43.027+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-14T23:14:04.836+08:00")
 public class PetApi {
 
   @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
@@ -42,8 +42,8 @@ public class PetApi {
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
-  @RequestMapping(value = "", 
+    @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
+  @RequestMapping(value = "",
     produces = { "application/xml", "application/json" }, 
     consumes = { "application/json", "application/xml" },
     method = RequestMethod.POST)
@@ -64,8 +64,8 @@ public class PetApi {
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value") })
-  @RequestMapping(value = "/{petId}", 
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
+  @RequestMapping(value = "/{petId}",
     produces = { "application/xml", "application/json" }, 
     
     method = RequestMethod.DELETE)
@@ -74,7 +74,7 @@ public class PetApi {
 
 ,
     
-@ApiParam(value = ""  ) @RequestHeader(value="api_key", required=false) String apiKey
+@ApiParam(value = ""  ) @RequestHeader(value="apiKey", required=false) String apiKey
 
 )
       throws NotFoundException {
@@ -90,9 +90,9 @@ public class PetApi {
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value") })
-  @RequestMapping(value = "/findByStatus", 
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class),
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Pet.class) })
+  @RequestMapping(value = "/findByStatus",
     produces = { "application/xml", "application/json" }, 
     
     method = RequestMethod.GET)
@@ -113,9 +113,9 @@ public class PetApi {
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value") })
-  @RequestMapping(value = "/findByTags", 
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class),
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value", response = Pet.class) })
+  @RequestMapping(value = "/findByTags",
     produces = { "application/xml", "application/json" }, 
     
     method = RequestMethod.GET)
@@ -133,10 +133,10 @@ public class PetApi {
     @Authorization(value = "api_key")
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied"),
-    @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found") })
-  @RequestMapping(value = "/{petId}", 
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class),
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Pet.class),
+    @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Pet.class) })
+  @RequestMapping(value = "/{petId}",
     produces = { "application/xml", "application/json" }, 
     
     method = RequestMethod.GET)
@@ -157,10 +157,10 @@ public class PetApi {
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied"),
-    @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found"),
-    @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception") })
-  @RequestMapping(value = "", 
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
+    @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
+    @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
+  @RequestMapping(value = "",
     produces = { "application/xml", "application/json" }, 
     consumes = { "application/json", "application/xml" },
     method = RequestMethod.PUT)
@@ -181,8 +181,8 @@ public class PetApi {
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input") })
-  @RequestMapping(value = "/{petId}", 
+    @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
+  @RequestMapping(value = "/{petId}",
     produces = { "application/xml", "application/json" }, 
     consumes = { "application/x-www-form-urlencoded" },
     method = RequestMethod.POST)
@@ -213,8 +213,8 @@ public class PetApi {
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation") })
-  @RequestMapping(value = "/{petId}/uploadImage", 
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponse.class) })
+  @RequestMapping(value = "/{petId}/uploadImage",
     produces = { "application/json" }, 
     consumes = { "multipart/form-data" },
     method = RequestMethod.POST)

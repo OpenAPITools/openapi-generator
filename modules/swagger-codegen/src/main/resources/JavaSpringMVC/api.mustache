@@ -29,8 +29,8 @@ import java.util.List;
 import static org.springframework.http.MediaType.*;
 
 @Controller
-@RequestMapping(value = "/{{baseName}}", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/{{baseName}}", description = "the {{baseName}} API")
+@RequestMapping(value = "/{{{baseName}}}", produces = {APPLICATION_JSON_VALUE})
+@Api(value = "/{{{baseName}}}", description = "the {{{baseName}}} API")
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
@@ -44,8 +44,8 @@ public class {{classname}} {
     {{/hasMore}}{{/authMethods}}
   }{{/hasAuthMethods}})
   @io.swagger.annotations.ApiResponses(value = { {{#responses}}
-    @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}"){{#hasMore}},{{/hasMore}}{{/responses}} })
-  @RequestMapping(value = "{{path}}", 
+    @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class){{#hasMore}},{{/hasMore}}{{/responses}} })
+  @RequestMapping(value = "{{{path}}}",
     {{#hasProduces}}produces = { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
     {{#hasConsumes}}consumes = { {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
     method = RequestMethod.{{httpMethod}})
