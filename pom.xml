@@ -451,18 +451,6 @@
             </modules>
         </profile>
         <profile>
-            <id>go-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/go</module>
-            </modules>
-        </profile>
-        <profile>
             <id>spring-mvc</id>
             <activation>
                 <property>
@@ -496,7 +484,6 @@
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/go</module>
                 <module>samples/server/petstore/jaxrs</module>
                 <module>samples/server/petstore/jaxrs-resteasy</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
