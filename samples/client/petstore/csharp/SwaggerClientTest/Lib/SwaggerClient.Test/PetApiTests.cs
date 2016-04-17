@@ -73,7 +73,7 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'DeletePet'
             long? petId = null; // TODO: replace null with proper value
-            string apiKey = null; // TODO: replace null with proper value
+string apiKey = null; // TODO: replace null with proper value
             instance.DeletePet(petId, apiKey);
             
         }
@@ -134,8 +134,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'UpdatePetWithForm'
             long? petId = null; // TODO: replace null with proper value
-            string name = null; // TODO: replace null with proper value
-            string status = null; // TODO: replace null with proper value
+string name = null; // TODO: replace null with proper value
+string status = null; // TODO: replace null with proper value
             instance.UpdatePetWithForm(petId, name, status);
             
         }
@@ -148,8 +148,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'UploadFile'
             long? petId = null; // TODO: replace null with proper value
-            string additionalMetadata = null; // TODO: replace null with proper value
-            System.IO.Stream file = null; // TODO: replace null with proper value
+string additionalMetadata = null; // TODO: replace null with proper value
+Stream file = null; // TODO: replace null with proper value
             var response = instance.UploadFile(petId, additionalMetadata, file);
             Assert.IsInstanceOf<ApiResponse> (response, "response is ApiResponse");
         }
