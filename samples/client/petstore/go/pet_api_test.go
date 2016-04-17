@@ -1,14 +1,14 @@
-package swagger
+package main
 
 import (
-	sw "./swagger"
+	sw "./go-petstore"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestAddPet(t *testing.T) {
-	s := NewPetApi()
-	newPet := (Pet{Id: 12830, Name: "gopher",
+	s := sw.NewPetApi()
+	newPet := (sw.Pet{Id: 12830, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"})
 
 	err := s.AddPet(newPet)
@@ -20,9 +20,9 @@ func TestAddPet(t *testing.T) {
 }
 
 func TestGetPetById(t *testing.T) {
-	//assert := assert.New(t)
+	assert := assert.New(t)
 
-	s := NewPetApi()
+	s := sw.NewPetApi()
 	resp, err := s.GetPetById(12830)
 	if err != nil {
 		t.Errorf("Error while getting pet by id")
@@ -37,7 +37,7 @@ func TestGetPetById(t *testing.T) {
 }
 
 func TestUpdatePetWithForm(t *testing.T) {
-	s := NewPetApi()
+	s := sw.NewPetApi()
 	err := s.UpdatePetWithForm(12830, "golang", "available")
 
 	if err != nil {
