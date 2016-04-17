@@ -121,7 +121,7 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'LoginUser'
             string username = null; // TODO: replace null with proper value
-string password = null; // TODO: replace null with proper value
+            string password = null; // TODO: replace null with proper value
             var response = instance.LoginUser(username, password);
             Assert.IsInstanceOf<string> (response, "response is string");
         }
@@ -133,7 +133,7 @@ string password = null; // TODO: replace null with proper value
         public void LogoutUserTest()
         {
             // TODO: add unit test for the method 'LogoutUser'
-                        instance.LogoutUser();
+            instance.LogoutUser();
             
         }
         
@@ -145,7 +145,7 @@ string password = null; // TODO: replace null with proper value
         {
             // TODO: add unit test for the method 'UpdateUser'
             string username = null; // TODO: replace null with proper value
-User body = null; // TODO: replace null with proper value
+            User body = null; // TODO: replace null with proper value
             instance.UpdateUser(username, body);
             
         }
