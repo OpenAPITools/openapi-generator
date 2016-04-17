@@ -1,4 +1,4 @@
-# Order
+# IO.Swagger.Model.Order
 
 ## Properties
 
@@ -10,5 +10,4 @@ Name | Type | Description | Notes
 **ShipDate** | **DateTime?** |  | [optional] 
 **Status** | **string** | Order Status | [optional] 
 **Complete** | **bool?** |  | [optional] [default to false]
-
 

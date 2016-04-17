@@ -1,4 +1,4 @@
-# FormatTest
+# IO.Swagger.Model.FormatTest
 
 ## Properties
 
@@ -16,5 +16,4 @@ Name | Type | Description | Notes
 **Date** | **DateTime?** |  | [optional] 
 **DateTime** | **DateTime?** |  | [optional] 
 **Password** | **string** |  | [optional] 
-
 
