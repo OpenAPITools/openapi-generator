@@ -72,7 +72,7 @@ namespace IO.Swagger.Test
         public void GetInventoryTest()
         {
             // TODO: add unit test for the method 'GetInventory'
-            var response = instance.GetInventory();
+                        var response = instance.GetInventory();
             Assert.IsInstanceOf<Dictionary<string, int?>> (response, "response is Dictionary<string, int?>");
         }
         
