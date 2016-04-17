@@ -1683,6 +1683,7 @@ public class DefaultCodegen {
         CodegenParameter p = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         p.baseName = param.getName();
         p.description = escapeText(param.getDescription());
+        p.unescapedDescription = param.getDescription();
         if (param.getRequired()) {
             p.required = param.getRequired();
         }
