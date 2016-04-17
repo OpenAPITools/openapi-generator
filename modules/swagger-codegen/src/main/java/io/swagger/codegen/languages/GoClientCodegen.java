@@ -133,8 +133,8 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.go"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", packageName, "api_client.go"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.go"));
     }
 
     @Override
@@ -158,11 +158,11 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + packageName;
+        return outputFolder + File.separator;
     }
 
     public String modelFileFolder() {
-        return outputFolder + File.separator + packageName;
+        return outputFolder + File.separator;
     }
 
     @Override
