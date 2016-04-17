@@ -31,14 +31,14 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-15T00:38:43.027+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:49:05.879+08:00")
 public class StoreApi {
 
   @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class)
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied"),
-    @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found") })
-  @RequestMapping(value = "/order/{orderId}", 
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
+    @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
+  @RequestMapping(value = "/order/{orderId}",
     produces = { "application/xml", "application/json" }, 
     
     method = RequestMethod.DELETE)
@@ -56,8 +56,8 @@ public class StoreApi {
     @Authorization(value = "api_key")
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation") })
-  @RequestMapping(value = "/inventory", 
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Integer.class) })
+  @RequestMapping(value = "/inventory",
     produces = { "application/json" }, 
     
     method = RequestMethod.GET)
@@ -70,10 +70,10 @@ public class StoreApi {
 
   @ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class)
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied"),
-    @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found") })
-  @RequestMapping(value = "/order/{orderId}", 
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
+    @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Order.class) })
+  @RequestMapping(value = "/order/{orderId}",
     produces = { "application/xml", "application/json" }, 
     
     method = RequestMethod.GET)
@@ -89,9 +89,9 @@ public class StoreApi {
 
   @ApiOperation(value = "Place an order for a pet", notes = "", response = Order.class)
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation"),
-    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order") })
-  @RequestMapping(value = "/order", 
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
+    @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
+  @RequestMapping(value = "/order",
     produces = { "application/xml", "application/json" }, 
     
     method = RequestMethod.POST)
