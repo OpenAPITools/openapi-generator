@@ -5,6 +5,7 @@ import (
     "fmt"
     "encoding/json"
     "errors"
+    "bytes"
 )
 
 type StoreApi struct {
@@ -37,7 +38,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
 
     var httpMethod = "Delete"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/store/order/{orderId}"
+    path := a.Configuration.BasePath + "/store/order/{orderId}"
     path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
     // verify the required parameter 'orderId' is set
@@ -49,10 +50,9 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     
-
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
         headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -82,36 +82,12 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
 
 
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return err
   }
+
 
   return err
 }
@@ -124,21 +100,20 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
 
     var httpMethod = "Get"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/store/inventory"
+    path := a.Configuration.BasePath + "/store/inventory"
 
 
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (api_key) required
     
     // set key with prefix in header
     headerParams["api_key"] = a.Configuration.GetApiKeyWithPrefix("api_key")
         
-
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
@@ -168,36 +143,14 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
 
   var successPayload = new(map[string]int32)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return *successPayload, err
   }
+
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
 
   return *successPayload, err
 }
@@ -211,7 +164,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
 
     var httpMethod = "Get"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/store/order/{orderId}"
+    path := a.Configuration.BasePath + "/store/order/{orderId}"
     path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
     // verify the required parameter 'orderId' is set
@@ -223,10 +176,9 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     
-
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
         headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -256,36 +208,14 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
 
   var successPayload = new(Order)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return *successPayload, err
   }
+
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
 
   return *successPayload, err
 }
@@ -299,7 +229,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
 
     var httpMethod = "Post"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/store/order"
+    path := a.Configuration.BasePath + "/store/order"
 
     // verify the required parameter 'body' is set
     if &body == nil {
@@ -310,10 +240,9 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     
-
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
         headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -340,41 +269,20 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
         headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
-// body params
-    _sling = _sling.BodyJSON(body)
+
+    // body params
+    postBody = &body
 
   var successPayload = new(Order)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return *successPayload, err
   }
+
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
 
   return *successPayload, err
 }
