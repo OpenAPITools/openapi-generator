@@ -42,7 +42,7 @@ func contains(source []string, containvalue string) bool {
     return false
 }
 
-func CallApiAsync(path string, method string,
+func CallApi(path string, method string,
     postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
