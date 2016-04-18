@@ -39,7 +39,7 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
         // initialize the API client
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
-        $store_api = new Swagger\Client\Api\StoreAPI($api_client);
+        $store_api = new Swagger\Client\Api\StoreApi($api_client);
         // get inventory
         $get_response = $store_api->getInventory();
 
@@ -57,7 +57,7 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
         // initialize the API client
         //$config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient();
-        $store_api = new Swagger\Client\Api\StoreAPI($api_client);
+        $store_api = new Swagger\Client\Api\StoreApi($api_client);
         // get inventory
         $get_response = $store_api->getInventoryInObject();
 
