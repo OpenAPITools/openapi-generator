@@ -1,4 +1,4 @@
-# Pet
+# IO.Swagger.Model.Pet
 
 ## Properties
 
@@ -10,5 +10,4 @@ Name | Type | Description | Notes
 **PhotoUrls** | **List&lt;string&gt;** |  | 
 **Tags** | [**List&lt;Tag&gt;**](Tag.md) |  | [optional] 
 **Status** | **string** | pet status in the store | [optional] 
-
 
