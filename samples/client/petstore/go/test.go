@@ -1,7 +1,7 @@
 package main
 
 import (
-	sw "./swagger"
+	sw "./go-petstore"
 	"encoding/json"
 	"fmt"
 )

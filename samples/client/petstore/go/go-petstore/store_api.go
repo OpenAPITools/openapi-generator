@@ -35,7 +35,10 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
  * @return void
  */
 func (a StoreApi) DeleteOrder (orderId string) (error) {
-
+    // verify the required parameter 'orderId' is set
+    if &orderId == nil {
+        return errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder")
+    }
     _sling := sling.New().Delete(a.Configuration.BasePath)
 
     
@@ -112,7 +115,6 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
  * @return map[string]int32
  */
 func (a StoreApi) GetInventory () (map[string]int32, error) {
-
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     // authentication (api_key) required
@@ -193,7 +195,10 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
  * @return Order
  */
 func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
-
+    // verify the required parameter 'orderId' is set
+    if &orderId == nil {
+        return *new(Order), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
+    }
     _sling := sling.New().Get(a.Configuration.BasePath)
 
     
@@ -271,7 +276,10 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
  * @return Order
  */
 func (a StoreApi) PlaceOrder (body Order) (Order, error) {
-
+    // verify the required parameter 'body' is set
+    if &body == nil {
+        return *new(Order), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
+    }
     _sling := sling.New().Post(a.Configuration.BasePath)
 
     
