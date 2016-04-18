@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -148,7 +149,14 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setTemplateDir(String templateDir) {
-        this.templateDir = new File(templateDir).getAbsolutePath();
+        File f = new File(templateDir);
+
+        // check to see if the folder exists
+        if (!(f != null && f.exists() && f.isDirectory())) {
+            throw new IllegalArgumentException("Template directory " + templateDir + " does not exist."); 
+        }
+
+        this.templateDir = f.getAbsolutePath();
         return this;
     }
 
