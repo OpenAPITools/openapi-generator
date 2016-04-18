@@ -95,9 +95,9 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
                     "Empty",
                     "AnyObject")
                 );
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<String>(
                 Arrays.asList(
-                    "class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
+                    "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
                     "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
                     "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
                     "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
