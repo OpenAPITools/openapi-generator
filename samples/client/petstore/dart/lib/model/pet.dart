@@ -6,22 +6,21 @@ class Pet {
   
   int id = null;
   
-  
+
   Category category = null;
   
-  
+
   String name = null;
   
-  
+
   List<String> photoUrls = [];
   
-  
+
   List<Tag> tags = [];
   
-  /* pet status in the store */
+/* pet status in the store */
   String status = null;
   //enum statusEnum {  available,  pending,  sold,  };
-  
   Pet();
 
   @override

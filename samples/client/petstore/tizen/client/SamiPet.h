@@ -18,10 +18,10 @@ using namespace Tizen::Web::Json;
 
 
 #include "SamiCategory.h"
-using Tizen::Base::Long;
-using Tizen::Base::String;
 #include "SamiTag.h"
 using Tizen::Base::Collection::IList;
+using Tizen::Base::Long;
+using Tizen::Base::String;
 
 
 namespace Swagger {
@@ -44,34 +44,26 @@ public:
 
     SamiPet* fromJson(String* obj);
 
-    
     Long* getPId();
     void setPId(Long* pId);
-    
     SamiCategory* getPCategory();
     void setPCategory(SamiCategory* pCategory);
-    
     String* getPName();
     void setPName(String* pName);
-    
     IList* getPPhotoUrls();
     void setPPhotoUrls(IList* pPhotoUrls);
-    
     IList* getPTags();
     void setPTags(IList* pTags);
-    
     String* getPStatus();
     void setPStatus(String* pStatus);
-    
 
 private:
     Long* pId;
-    SamiCategory* pCategory;
-    String* pName;
-    IList* pPhotoUrls;
-    IList* pTags;
-    String* pStatus;
-    
+SamiCategory* pCategory;
+String* pName;
+IList* pPhotoUrls;
+IList* pTags;
+String* pStatus;
 };
 
 } /* namespace Swagger */

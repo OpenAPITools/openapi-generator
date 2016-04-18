@@ -66,18 +66,6 @@ namespace IO.Swagger.Test
         }
         
         /// <summary>
-        /// Test AddPetUsingByteArray
-        /// </summary>
-        [Test]
-        public void AddPetUsingByteArrayTest()
-        {
-            // TODO: add unit test for the method 'AddPetUsingByteArray'
-            byte[] body = null; // TODO: replace null with proper value
-            instance.AddPetUsingByteArray(body);
-            
-        }
-        
-        /// <summary>
         /// Test DeletePet
         /// </summary>
         [Test]
@@ -85,7 +73,7 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'DeletePet'
             long? petId = null; // TODO: replace null with proper value
-string apiKey = null; // TODO: replace null with proper value
+            string apiKey = null; // TODO: replace null with proper value
             instance.DeletePet(petId, apiKey);
             
         }
@@ -127,30 +115,6 @@ string apiKey = null; // TODO: replace null with proper value
         }
         
         /// <summary>
-        /// Test GetPetByIdInObject
-        /// </summary>
-        [Test]
-        public void GetPetByIdInObjectTest()
-        {
-            // TODO: add unit test for the method 'GetPetByIdInObject'
-            long? petId = null; // TODO: replace null with proper value
-            var response = instance.GetPetByIdInObject(petId);
-            Assert.IsInstanceOf<InlineResponse200> (response, "response is InlineResponse200");
-        }
-        
-        /// <summary>
-        /// Test PetPetIdtestingByteArraytrueGet
-        /// </summary>
-        [Test]
-        public void PetPetIdtestingByteArraytrueGetTest()
-        {
-            // TODO: add unit test for the method 'PetPetIdtestingByteArraytrueGet'
-            long? petId = null; // TODO: replace null with proper value
-            var response = instance.PetPetIdtestingByteArraytrueGet(petId);
-            Assert.IsInstanceOf<byte[]> (response, "response is byte[]");
-        }
-        
-        /// <summary>
         /// Test UpdatePet
         /// </summary>
         [Test]
@@ -169,9 +133,9 @@ string apiKey = null; // TODO: replace null with proper value
         public void UpdatePetWithFormTest()
         {
             // TODO: add unit test for the method 'UpdatePetWithForm'
-            string petId = null; // TODO: replace null with proper value
-string name = null; // TODO: replace null with proper value
-string status = null; // TODO: replace null with proper value
+            long? petId = null; // TODO: replace null with proper value
+            string name = null; // TODO: replace null with proper value
+            string status = null; // TODO: replace null with proper value
             instance.UpdatePetWithForm(petId, name, status);
             
         }
@@ -184,10 +148,10 @@ string status = null; // TODO: replace null with proper value
         {
             // TODO: add unit test for the method 'UploadFile'
             long? petId = null; // TODO: replace null with proper value
-string additionalMetadata = null; // TODO: replace null with proper value
-Stream file = null; // TODO: replace null with proper value
-            instance.UploadFile(petId, additionalMetadata, file);
-            
+            string additionalMetadata = null; // TODO: replace null with proper value
+            System.IO.Stream file = null; // TODO: replace null with proper value
+            var response = instance.UploadFile(petId, additionalMetadata, file);
+            Assert.IsInstanceOf<ApiResponse> (response, "response is ApiResponse");
         }
         
     }

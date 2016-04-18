@@ -73,6 +73,9 @@ namespace SwaggerClientTest.TestOrder
 				
 		}
 
+		/* comment out the test case as the method is not defined in original petstore spec
+		 * we will re-enable this after updating the petstore server
+		 * 
 		/// <summary>
 		/// Test GetInvetoryInObject
 		/// </summary>
@@ -93,7 +96,7 @@ namespace SwaggerClientTest.TestOrder
 				Assert.IsInstanceOf (typeof(int?), Int32.Parse(entry.Value));
 			}
 
-		}
+		}*/
 
 	}
 }

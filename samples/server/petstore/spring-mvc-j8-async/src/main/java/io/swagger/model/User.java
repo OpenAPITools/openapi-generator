@@ -10,7 +10,7 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:59:02.543Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:50:52.711+08:00")
 public class User  {
   
   private Long id = null;
@@ -22,7 +22,6 @@ public class User  {
   private String phone = null;
   private Integer userStatus = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -34,7 +33,6 @@ public class User  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -46,7 +44,6 @@ public class User  {
     this.username = username;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -58,7 +55,6 @@ public class User  {
     this.firstName = firstName;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -70,7 +66,6 @@ public class User  {
     this.lastName = lastName;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -82,7 +77,6 @@ public class User  {
     this.email = email;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -94,7 +88,6 @@ public class User  {
     this.password = password;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -106,7 +99,6 @@ public class User  {
     this.phone = phone;
   }
 
-  
   /**
    * User Status
    **/
@@ -119,7 +111,6 @@ public class User  {
     this.userStatus = userStatus;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

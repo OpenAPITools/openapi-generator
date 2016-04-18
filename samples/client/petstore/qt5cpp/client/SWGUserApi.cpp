@@ -20,23 +20,16 @@ SWGUserApi::createUser(SWGUser body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
 
-    
 
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
     
-
-    
-    
-    
     QString output = body.asJson();
     input.request_body.append(output);
     
 
-    
 
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
@@ -68,16 +61,11 @@ SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>* body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
 
-    
 
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
-    
-
-    
     
     QJsonArray* bodyArray = new QJsonArray();
     toJsonArray((QList<void*>*)body, bodyArray, QString("body"), QString("SWGUser*"));
@@ -86,10 +74,8 @@ SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>* body) {
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
-    
-    
 
-    
+
 
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
@@ -121,16 +107,11 @@ SWGUserApi::createUsersWithListInput(QList<SWGUser*>* body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
 
-    
 
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
-    
-
-    
     
     QJsonArray* bodyArray = new QJsonArray();
     toJsonArray((QList<void*>*)body, bodyArray, QString("body"), QString("SWGUser*"));
@@ -139,10 +120,8 @@ SWGUserApi::createUsersWithListInput(QList<SWGUser*>* body) {
     QByteArray bytes = doc.toJson();
 
     input.request_body.append(bytes);
-    
-    
 
-    
+
 
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
@@ -170,14 +149,96 @@ SWGUserApi::createUsersWithListInputCallback(HttpRequestWorker * worker) {
     emit createUsersWithListInputSignal();
 }
 void
+SWGUserApi::deleteUser(QString* username) {
+    QString fullPath;
+    fullPath.append(this->host).append(this->basePath).append("/user/{username}");
+
+    QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
+    fullPath.replace(usernamePathParam, stringValue(username));
+
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "DELETE");
+
+    
+
+
+
+    connect(worker,
+            &HttpRequestWorker::on_execution_finished,
+            this,
+            &SWGUserApi::deleteUserCallback);
+
+    worker->execute(&input);
+}
+
+void
+SWGUserApi::deleteUserCallback(HttpRequestWorker * worker) {
+    QString msg;
+    if (worker->error_type == QNetworkReply::NoError) {
+        msg = QString("Success! %1 bytes").arg(worker->response.length());
+    }
+    else {
+        msg = "Error: " + worker->error_str;
+    }
+
+    
+
+    worker->deleteLater();
+
+    
+    emit deleteUserSignal();
+}
+void
+SWGUserApi::getUserByName(QString* username) {
+    QString fullPath;
+    fullPath.append(this->host).append(this->basePath).append("/user/{username}");
+
+    QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
+    fullPath.replace(usernamePathParam, stringValue(username));
+
+
+    HttpRequestWorker *worker = new HttpRequestWorker();
+    HttpRequestInput input(fullPath, "GET");
+
+    
+
+
+
+    connect(worker,
+            &HttpRequestWorker::on_execution_finished,
+            this,
+            &SWGUserApi::getUserByNameCallback);
+
+    worker->execute(&input);
+}
+
+void
+SWGUserApi::getUserByNameCallback(HttpRequestWorker * worker) {
+    QString msg;
+    if (worker->error_type == QNetworkReply::NoError) {
+        msg = QString("Success! %1 bytes").arg(worker->response.length());
+    }
+    else {
+        msg = "Error: " + worker->error_str;
+    }
+
+    
+        QString json(worker->response);
+    SWGUser* output = static_cast<SWGUser*>(create(json, QString("SWGUser")));
+    
+
+    worker->deleteLater();
+
+    emit getUserByNameSignal(output);
+    
+}
+void
 SWGUserApi::loginUser(QString* username, QString* password) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/login");
 
-    
 
-    
-    
     if (fullPath.indexOf("?") > 0) 
       fullPath.append("&");
     else 
@@ -185,11 +246,7 @@ SWGUserApi::loginUser(QString* username, QString* password) {
     fullPath.append(QUrl::toPercentEncoding("username"))
         .append("=")
         .append(QUrl::toPercentEncoding(stringValue(username)));
-    
 
-    
-    
-    
     if (fullPath.indexOf("?") > 0) 
       fullPath.append("&");
     else 
@@ -197,19 +254,14 @@ SWGUserApi::loginUser(QString* username, QString* password) {
     fullPath.append(QUrl::toPercentEncoding("password"))
         .append("=")
         .append(QUrl::toPercentEncoding(stringValue(password)));
-    
 
-    
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
     
 
-    
 
-    
 
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
@@ -230,14 +282,8 @@ SWGUserApi::loginUserCallback(HttpRequestWorker * worker) {
     }
 
     
-
-    
-    
-    
-    QString json(worker->response);
+        QString json(worker->response);
     QString* output = static_cast<QString*>(create(json, QString("QString")));
-    
-    
     
 
     worker->deleteLater();
@@ -250,18 +296,14 @@ SWGUserApi::logoutUser() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/logout");
 
-    
 
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "GET");
 
     
 
-    
 
-    
 
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
@@ -289,85 +331,22 @@ SWGUserApi::logoutUserCallback(HttpRequestWorker * worker) {
     emit logoutUserSignal();
 }
 void
-SWGUserApi::getUserByName(QString* username) {
-    QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-
-    
-    QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, stringValue(username));
-    
-
-    
-
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "GET");
-
-    
-
-    
-
-    
-
-    connect(worker,
-            &HttpRequestWorker::on_execution_finished,
-            this,
-            &SWGUserApi::getUserByNameCallback);
-
-    worker->execute(&input);
-}
-
-void
-SWGUserApi::getUserByNameCallback(HttpRequestWorker * worker) {
-    QString msg;
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
-        msg = "Error: " + worker->error_str;
-    }
-
-    
-
-    
-    
-    
-    QString json(worker->response);
-    SWGUser* output = static_cast<SWGUser*>(create(json, QString("SWGUser")));
-    
-    
-    
-
-    worker->deleteLater();
-
-    emit getUserByNameSignal(output);
-    
-}
-void
 SWGUserApi::updateUser(QString* username, SWGUser body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 
-    
     QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, stringValue(username));
-    
 
-    
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "PUT");
 
     
-
-    
-    
-    
     QString output = body.asJson();
     input.request_body.append(output);
     
 
-    
 
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
@@ -393,51 +372,5 @@ SWGUserApi::updateUserCallback(HttpRequestWorker * worker) {
 
     
     emit updateUserSignal();
-}
-void
-SWGUserApi::deleteUser(QString* username) {
-    QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("/user/{username}");
-
-    
-    QString usernamePathParam("{"); usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, stringValue(username));
-    
-
-    
-
-    HttpRequestWorker *worker = new HttpRequestWorker();
-    HttpRequestInput input(fullPath, "DELETE");
-
-    
-
-    
-
-    
-
-    connect(worker,
-            &HttpRequestWorker::on_execution_finished,
-            this,
-            &SWGUserApi::deleteUserCallback);
-
-    worker->execute(&input);
-}
-
-void
-SWGUserApi::deleteUserCallback(HttpRequestWorker * worker) {
-    QString msg;
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
-        msg = "Error: " + worker->error_str;
-    }
-
-    
-
-    worker->deleteLater();
-
-    
-    emit deleteUserSignal();
 }
 } /* namespace Swagger */

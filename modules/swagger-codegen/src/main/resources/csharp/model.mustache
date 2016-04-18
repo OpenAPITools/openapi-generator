@@ -81,8 +81,9 @@ namespace {{packageName}}.Model
         {
             var sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
-            {{#vars}}sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
-            {{/vars}}
+{{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+{{/vars}}
             sb.Append("}\n");
             return sb.ToString();
         }

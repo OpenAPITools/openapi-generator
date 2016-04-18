@@ -59,7 +59,7 @@ class Order(object):
         self._quantity = None
         self._ship_date = None
         self._status = None
-        self._complete = None
+        self._complete = False
 
     @property
     def id(self):

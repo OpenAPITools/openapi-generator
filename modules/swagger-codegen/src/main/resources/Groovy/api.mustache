@@ -32,12 +32,12 @@ class {{classname}} {
     def queryParams = [:]
     def headerParams = [:]
 
-    {{#requiredParamCount}}
+    {{#allParams}}
     // verify required params are set
-    if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
+    if({{/allParams}}{{#required}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/required}}{{#allParams}}) {
        throw new RuntimeException("missing required params")
     }
-    {{/requiredParamCount}}
+    {{/allParams}}
 
     {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
       queryParams.put("{{paramName}}", String.valueOf({{paramName}}))

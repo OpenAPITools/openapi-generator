@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -47,11 +47,11 @@ module Petstore
     def self.swagger_types
       {
         :'id' => :'Integer',
-:'category' => :'Category',
-:'name' => :'String',
-:'photo_urls' => :'Array<String>',
-:'tags' => :'Array<Tag>',
-:'status' => :'String'
+        :'category' => :'Category',
+        :'name' => :'String',
+        :'photo_urls' => :'Array<String>',
+        :'tags' => :'Array<Tag>',
+        :'status' => :'String'
       }
     end
 

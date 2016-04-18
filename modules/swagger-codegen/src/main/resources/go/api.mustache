@@ -38,10 +38,42 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{#allParams}} * @param {{paramName}} {{description}}
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
-//func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
-
+    {{#allParams}}
+    {{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if &{{paramName}} == nil {
+        return {{#returnType}}*new({{{returnType}}}), {{/returnType}}errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+    }
+    {{/required}}
+    {{/allParams}}
     _sling := sling.New().{{httpMethod}}(a.Configuration.BasePath)
+
+    {{#authMethods}}// authentication ({{name}}) required
+    {{#isApiKey}}{{#isKeyInHeader}}
+    // set key with prefix in header
+    _sling.Set("{{keyParamName}}", a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}"))
+    {{/isKeyInHeader}}{{#isKeyInQuery}}
+    // set key with prefix in querystring
+    {{#hasKeyParamName}}    type KeyQueryParams struct {
+            {{keyParamName}}    string `url:"{{keyParamName}},omitempty"`
+    }
+    _sling = _sling.QueryStruct(&KeyQueryParams{ {{keyParamName}}: a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}") })
+    {{/hasKeyParamName}}
+    {{/isKeyInQuery}}{{/isApiKey}}    
+    {{#isBasic}}
+    // http basic authentication required
+    if a.Configuration.Username != "" || a.Configuration.Password != ""{
+        _sling.Set("Authorization",  "Basic " + a.Configuration.GetBasicAuthEncodedString())
+    }
+    {{/isBasic}}
+    {{#isOAuth}}
+    // oauth required
+    if a.Configuration.AccessToken != ""{
+        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
+    }
+    {{/isOAuth}}    
+    {{/authMethods}}
 
     // create path and map variables
     path := "{{basePathWithoutHost}}{{path}}"
@@ -50,26 +82,49 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
     _sling = _sling.Path(path)
 
+    // add default headers if any
+    for key := range a.Configuration.DefaultHeader {
+      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+    }
+    
 {{#hasQueryParams}}    type QueryParams struct {
-        {{#queryParams}}{{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+        {{#queryParams}}{{vendorExtensions.x-exportParamName}}    {{dataType}} `url:"{{baseName}},omitempty"`
         {{/queryParams}}
 }
-    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
+    _sling = _sling.QueryStruct(&QueryParams{ {{#queryParams}}{{vendorExtensions.x-exportParamName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/queryParams}} })
 {{/hasQueryParams}}
-    // accept header
-    accepts := []string { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
-    for key := range accepts {
-        _sling = _sling.Set("Accept", accepts[key])
-        break // only use the first Accept
+
+    // to determine the Content-Type header
+    localVarHttpContentTypes := []string {
+        {{#consumes}}
+        "{{mediaType}}", 
+        {{/consumes}}
+    }
+    //set Content-Type header
+    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+    if localVarHttpContentType != "" {    
+      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+    }
+
+    // to determine the Accept header
+    localVarHttpHeaderAccepts := []string {
+        {{#produces}}
+        "{{mediaType}}", 
+        {{/produces}}
+    }
+    //set Accept header
+    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+    if localVarHttpHeaderAccept != "" {  
+        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
     }
 {{#hasHeaderParams}}{{#headerParams}}    // header params "{{baseName}}"
     _sling = _sling.Set("{{baseName}}", {{paramName}})
 {{/headerParams}}{{/hasHeaderParams}}
 {{#hasFormParams}}    type FormParams struct {
-{{#formParams}}        {{paramName}}    {{dataType}} `url:"{{baseName}},omitempty"`
+{{#formParams}}        {{vendorExtensions.x-exportParamName}}    {{dataType}} `url:"{{baseName}},omitempty"`
 {{/formParams}}
     }
-    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{paramName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
+    _sling = _sling.BodyForm(&FormParams{ {{#formParams}}{{vendorExtensions.x-exportParamName}}: {{paramName}}{{#hasMore}},{{/hasMore}}{{/formParams}} })
 {{/hasFormParams}}
 {{#hasBodyParam}}{{#bodyParams}}// body params
     _sling = _sling.BodyJSON({{paramName}})

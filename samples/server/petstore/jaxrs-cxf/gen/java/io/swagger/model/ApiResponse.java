@@ -24,7 +24,6 @@ public class ApiResponse  {
 
   private String message = null;
 
-  
   /**
    **/
   
@@ -34,7 +33,6 @@ public class ApiResponse  {
   public void setCode(Integer code) {
     this.code = code;
   }
-  
   /**
    **/
   
@@ -44,7 +42,6 @@ public class ApiResponse  {
   public void setType(String type) {
     this.type = type;
   }
-  
   /**
    **/
   
@@ -54,7 +51,6 @@ public class ApiResponse  {
   public void setMessage(String message) {
     this.message = message;
   }
-  
 
   @Override
   public String toString() {

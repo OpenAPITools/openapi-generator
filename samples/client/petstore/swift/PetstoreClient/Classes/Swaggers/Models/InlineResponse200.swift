@@ -9,13 +9,11 @@ import Foundation
 
 
 public class InlineResponse200: JSONEncodable {
-
     public enum Status: String { 
         case Available = "available"
         case Pending = "pending"
         case Sold = "sold"
     }
-    
     public var photoUrls: [String]?
     public var name: String?
     public var id: Int64?
@@ -23,7 +21,6 @@ public class InlineResponse200: JSONEncodable {
     public var tags: [Tag]?
     /** pet status in the store */
     public var status: Status?
-    
 
     public init() {}
 
@@ -32,6 +29,7 @@ public class InlineResponse200: JSONEncodable {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["photoUrls"] = self.photoUrls?.encodeToJSON()
         nillableDictionary["name"] = self.name
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["category"] = self.category
         nillableDictionary["tags"] = self.tags?.encodeToJSON()

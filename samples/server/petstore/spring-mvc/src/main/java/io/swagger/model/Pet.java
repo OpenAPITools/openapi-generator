@@ -16,7 +16,7 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-26T13:58:54.483Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:49:05.879+08:00")
 public class Pet  {
   
   private Long id = null;
@@ -30,7 +30,6 @@ public class Pet  {
   
   private StatusEnum status = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -42,7 +41,6 @@ public class Pet  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -54,7 +52,6 @@ public class Pet  {
     this.category = category;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -66,7 +63,6 @@ public class Pet  {
     this.name = name;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -78,7 +74,6 @@ public class Pet  {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -90,7 +85,6 @@ public class Pet  {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
@@ -103,7 +97,6 @@ public class Pet  {
     this.status = status;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

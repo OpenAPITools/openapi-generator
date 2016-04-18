@@ -12,8 +12,8 @@ exports.addPet = function(args, res, next) {
 exports.deletePet = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * apiKey (String)
   * petId (Long)
+  * apiKey (String)
   **/
   // no response value expected for this operation
   res.end();
@@ -121,11 +121,34 @@ exports.updatePet = function(args, res, next) {
 exports.updatePetWithForm = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * petId (String)
+  * petId (Long)
   * name (String)
   * status (String)
   **/
   // no response value expected for this operation
   res.end();
+}
+
+exports.uploadFile = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * petId (Long)
+  * additionalMetadata (String)
+  * file (file)
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "message" : "aeiou",
+  "code" : 123,
+  "type" : "aeiou"
+};
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
 }
 
