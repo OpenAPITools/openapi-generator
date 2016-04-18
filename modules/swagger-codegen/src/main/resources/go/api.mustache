@@ -6,7 +6,6 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "github.com/dghubble/sling"
 {{#imports}}    "{{import}}"
 {{/imports}}
 )
@@ -39,6 +38,11 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
+    var httpMethod = {{httpMethod}}
+        // create path and map variables
+    path := c.Configuration.BasePath + "{{basePathWithoutHost}}{{path}}"
+{{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
+{{/pathParams}}
 
     _sling := sling.New().{{httpMethod}}(a.Configuration.BasePath)
 
@@ -68,12 +72,6 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     {{/isOAuth}}    
     {{/authMethods}}
 
-    // create path and map variables
-    path := "{{basePathWithoutHost}}{{path}}"
-{{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
-{{/pathParams}}
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
