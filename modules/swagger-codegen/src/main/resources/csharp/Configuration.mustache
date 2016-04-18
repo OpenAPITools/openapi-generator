@@ -270,11 +270,13 @@ namespace {{packageName}}.Client
         public static String ToDebugReport()
         {
             String report = "C# SDK ({{packageName}}) Debug Report:\n";
+            {{^supportsUWP}}
             report += "    OS: " + Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + Assembly
                      .GetExecutingAssembly()
                      .GetReferencedAssemblies()
                      .Where(x => x.Name == "System.Core").First().Version.ToString()  + "\n";
+            {{/supportsUWP}}
             report += "    Version of the API: {{version}}\n";
             report += "    SDK Package Version: {{packageVersion}}\n";
 

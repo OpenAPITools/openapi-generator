@@ -47,6 +47,12 @@ use \ArrayAccess;
 class Animal implements ArrayAccess
 {
     /**
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Animal';
+
+    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -107,6 +113,10 @@ class Animal implements ArrayAccess
     public function __construct(array $data = null)
     {
         
+        // Initialize discriminator property with the model name.
+        $discrimintor = array_search('className', self::$attributeMap);
+        $this->{$discrimintor} = static::$swaggerModelName;
+
         if ($data != null) {
             $this->class_name = $data["class_name"];
         }

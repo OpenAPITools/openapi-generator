@@ -8,9 +8,35 @@ import http = require('http');
 
 /* tslint:disable:no-unused-variable */
 
+export class Animal {
+    "className": string;
+}
+
+export class Cat extends Animal {
+    "declawed": boolean;
+}
+
 export class Category {
     "id": number;
     "name": string;
+}
+
+export class Dog extends Animal {
+    "breed": string;
+}
+
+export class FormatTest {
+    "integer": number;
+    "int32": number;
+    "int64": number;
+    "number": number;
+    "float": number;
+    "double": number;
+    "string": string;
+    "byte": string;
+    "binary": string;
+    "date": Date;
+    "dateTime": string;
 }
 
 export class InlineResponse200 {
@@ -32,16 +58,26 @@ export namespace InlineResponse200 {
         sold = <any> 'sold'
     }
 }
+/**
+* Model for testing model name starting with number
+*/
 export class Model200Response {
     "name": number;
 }
 
+/**
+* Model for testing reserved words
+*/
 export class ModelReturn {
     "return": number;
 }
 
+/**
+* Model for testing model name same as property name
+*/
 export class Name {
     "name": number;
+    "snakeCase": number;
 }
 
 export class Order {
@@ -154,13 +190,19 @@ class VoidAuth implements Authentication {
     }
 }
 
+export enum PetApiApiKeys {
+    test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
+}
+
 export class PetApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-
-
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -187,12 +229,8 @@ export class PetApi {
         }
     }
 
-    set apiKey(key: string) {
-        this.authentications.test_api_key_header.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.api_key.apiKey = key;
+    public setApiKey(key: PetApiApiKeys, value: string) {
+        this.authentications[PetApiApiKeys[key]].apiKey = value;
     }
 
     set username(username: string) {
@@ -201,18 +239,6 @@ export class PetApi {
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_secret.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_id.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_key_query.apiKey = key;
     }
 
     set accessToken(token: string) {
@@ -283,7 +309,7 @@ export class PetApi {
      * @param body Pet object in the form of byte array
      */
     public addPetUsingByteArray (body?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const localVarPath = this.basePath + '/pet?testing_byte_array=true';
+        const localVarPath = this.basePath + '/pet?testing_byte_array&#x3D;true';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -342,9 +368,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling deletePet');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
 
         headerParams['api_key'] = apiKey;
@@ -508,9 +534,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling getPetById');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
         let useFormData = false;
@@ -559,16 +585,16 @@ export class PetApi {
      * @param petId ID of pet that needs to be fetched
      */
     public getPetByIdInObject (petId: number) : Promise<{ response: http.ClientResponse; body: InlineResponse200;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?response=inline_arbitrary_object'
+        const localVarPath = this.basePath + '/pet/{petId}?response&#x3D;inline_arbitrary_object'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling getPetByIdInObject');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling getPetByIdInObject.');
         }
 
         let useFormData = false;
@@ -617,16 +643,16 @@ export class PetApi {
      * @param petId ID of pet that needs to be fetched
      */
     public petPetIdtestingByteArraytrueGet (petId: number) : Promise<{ response: http.ClientResponse; body: string;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array=true'
+        const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array&#x3D;true'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling petPetIdtestingByteArraytrueGet');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling petPetIdtestingByteArraytrueGet.');
         }
 
         let useFormData = false;
@@ -735,9 +761,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling updatePetWithForm');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
         let useFormData = false;
@@ -801,9 +827,9 @@ export class PetApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling uploadFile');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
         let useFormData = false;
@@ -854,13 +880,19 @@ export class PetApi {
         return localVarDeferred.promise;
     }
 }
+export enum StoreApiApiKeys {
+    test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
+}
+
 export class StoreApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-
-
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -887,12 +919,8 @@ export class StoreApi {
         }
     }
 
-    set apiKey(key: string) {
-        this.authentications.test_api_key_header.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.api_key.apiKey = key;
+    public setApiKey(key: StoreApiApiKeys, value: string) {
+        this.authentications[StoreApiApiKeys[key]].apiKey = value;
     }
 
     set username(username: string) {
@@ -901,18 +929,6 @@ export class StoreApi {
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_secret.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_id.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_key_query.apiKey = key;
     }
 
     set accessToken(token: string) {
@@ -939,9 +955,9 @@ export class StoreApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'orderId' is set
-        if (!orderId) {
-            throw new Error('Missing required parameter orderId when calling deleteOrder');
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId === null || orderId === undefined) {
+            throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
         let useFormData = false;
@@ -1090,7 +1106,7 @@ export class StoreApi {
      * Returns an arbitrary object which is actually a map of status codes to quantities
      */
     public getInventoryInObject () : Promise<{ response: http.ClientResponse; body: any;  }> {
-        const localVarPath = this.basePath + '/store/inventory?response=arbitrary_object';
+        const localVarPath = this.basePath + '/store/inventory?response&#x3D;arbitrary_object';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -1136,7 +1152,7 @@ export class StoreApi {
     }
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById (orderId: string) : Promise<{ response: http.ClientResponse; body: Order;  }> {
@@ -1147,9 +1163,9 @@ export class StoreApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'orderId' is set
-        if (!orderId) {
-            throw new Error('Missing required parameter orderId when calling getOrderById');
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId === null || orderId === undefined) {
+            throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
         let useFormData = false;
@@ -1246,13 +1262,19 @@ export class StoreApi {
         return localVarDeferred.promise;
     }
 }
+export enum UserApiApiKeys {
+    test_api_key_header,
+    api_key,
+    test_api_client_secret,
+    test_api_client_id,
+    test_api_key_query,
+}
+
 export class UserApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     protected defaultHeaders : any = {};
 
-
-
-    public authentications = {
+    protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
         'api_key': new ApiKeyAuth('header', 'api_key'),
@@ -1279,12 +1301,8 @@ export class UserApi {
         }
     }
 
-    set apiKey(key: string) {
-        this.authentications.test_api_key_header.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.api_key.apiKey = key;
+    public setApiKey(key: UserApiApiKeys, value: string) {
+        this.authentications[UserApiApiKeys[key]].apiKey = value;
     }
 
     set username(username: string) {
@@ -1293,18 +1311,6 @@ export class UserApi {
 
     set password(password: string) {
         this.authentications.test_http_basic.password = password;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_secret.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_client_id.apiKey = key;
-    }
-
-    set apiKey(key: string) {
-        this.authentications.test_api_key_query.apiKey = key;
     }
 
     set accessToken(token: string) {
@@ -1478,9 +1484,9 @@ export class UserApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'username' is set
-        if (!username) {
-            throw new Error('Missing required parameter username when calling deleteUser');
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
         let useFormData = false;
@@ -1524,7 +1530,7 @@ export class UserApi {
     /**
      * Get user by user name
      * 
-     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     public getUserByName (username: string) : Promise<{ response: http.ClientResponse; body: User;  }> {
         const localVarPath = this.basePath + '/user/{username}'
@@ -1534,9 +1540,9 @@ export class UserApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'username' is set
-        if (!username) {
-            throw new Error('Missing required parameter username when calling getUserByName');
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
         let useFormData = false;
@@ -1693,9 +1699,9 @@ export class UserApi {
         let formParams: any = {};
 
 
-        // verify required parameter 'username' is set
-        if (!username) {
-            throw new Error('Missing required parameter username when calling updateUser');
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
         let useFormData = false;

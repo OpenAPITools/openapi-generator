@@ -158,6 +158,9 @@ namespace SwaggerClientTest.TestPet
 
 		}
 
+		/* comment out the test case as the method is not defined in original petstore spec
+		 * we will re-enable this after updating the petstore server
+		 * 
 		/// <summary>
 		/// Test GetPetByIdInObject
 		/// </summary>
@@ -187,8 +190,11 @@ namespace SwaggerClientTest.TestPet
 			Assert.AreEqual (56, (int)category ["id"]);
 			Assert.AreEqual ("sample category name2", (string) category["name"]);
 
-		}
+		}*/
 
+		/* comment out the test case as the method is not defined in original petstore spec
+		* we will re-enable this after updating the petstore server
+		* 
 		/// <summary>
 		/// Test GetPetByIdWithByteArray
 		/// </summary>
@@ -201,8 +207,11 @@ namespace SwaggerClientTest.TestPet
 			PetApi petApi = new PetApi (c1);
 			byte[] response = petApi.PetPetIdtestingByteArraytrueGet (petId);
 			Assert.IsInstanceOf<byte[]> (response, "Response is byte array");
-		}
+		}*/
 
+		/* comment out the test case as the method is not defined in original petstore spec
+		* we will re-enable this after updating the petstore server
+		* 
 		/// <summary>
 		/// Test AddPetUsingByteArray
 		/// </summary>
@@ -216,7 +225,7 @@ namespace SwaggerClientTest.TestPet
 			Pet p = createPet ();
 			byte[] petByteArray = GetBytes ((string)petApi.Configuration.ApiClient.Serialize (p));
 			petApi.AddPetUsingByteArray (petByteArray);
-		}
+		}*/
 
 		/// <summary>
 		/// Test UpdatePetWithForm
@@ -225,7 +234,7 @@ namespace SwaggerClientTest.TestPet
 		public void TestUpdatePetWithForm ()
 		{
 			PetApi petApi = new PetApi ();
-			petApi.UpdatePetWithForm (petId.ToString(), "new form name", "pending");
+			petApi.UpdatePetWithForm (petId, "new form name", "pending");
 
 			Pet response = petApi.GetPetById (petId);
 			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
@@ -239,7 +248,7 @@ namespace SwaggerClientTest.TestPet
 			Assert.AreEqual (56, response.Category.Id);
 
 			// test optional parameter
-			petApi.UpdatePetWithForm (petId.ToString(), "new form name2");
+			petApi.UpdatePetWithForm (petId, "new form name2");
 			Pet response2 = petApi.GetPetById (petId);
 			Assert.AreEqual ("new form name2", response2.Name);
 		}

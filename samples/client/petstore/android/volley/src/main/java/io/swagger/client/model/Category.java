@@ -13,7 +13,6 @@ public class Category  {
   @SerializedName("name")
   private String name = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -24,7 +23,6 @@ public class Category  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -35,7 +33,6 @@ public class Category  {
     this.name = name;
   }
 
-  
 
   @Override
   public String toString()  {

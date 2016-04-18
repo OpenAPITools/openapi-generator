@@ -2,7 +2,8 @@ import api = require('./api');
 import fs = require('fs');
 
 var petApi = new api.PetApi();
-petApi.apiKey = 'special-key';
+petApi.setApiKey(api.PetApiApiKeys.api_key, 'special-key');
+petApi.setApiKey(api.PetApiApiKeys.test_api_key_header, 'query-key');
 
 var tag1 = new api.Tag();
 tag1.id = 18291;

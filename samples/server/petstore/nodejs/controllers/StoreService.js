@@ -9,10 +9,28 @@ exports.deleteOrder = function(args, res, next) {
   res.end();
 }
 
+exports.getInventory = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  **/
+    var examples = {};
+  examples['application/json'] = {
+  "key" : 123
+};
+  if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
 exports.getOrderById = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * orderId (String)
+  * orderId (Long)
   **/
     var examples = {};
   examples['application/json'] = {

@@ -24,7 +24,9 @@ describe "Store" do
     end
   end
 
-  it "should featch the inventory in object" do
+  # mark as pending since original petstore does not return object
+  # will re-enable this after updating the petstore server
+  xit "should featch the inventory in object" do
     result = @api.get_inventory_in_object
     result.should be_a(Hash)
     result.should_not be_empty

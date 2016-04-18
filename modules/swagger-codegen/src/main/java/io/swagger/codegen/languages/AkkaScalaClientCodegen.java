@@ -168,7 +168,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library base on Akka/Spray.";
+        return "Generates a Scala client library (beta) base on Akka/Spray.";
     }
 
     @Override

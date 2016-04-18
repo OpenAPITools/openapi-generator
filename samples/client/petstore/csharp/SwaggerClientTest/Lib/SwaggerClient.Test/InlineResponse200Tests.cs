@@ -51,12 +51,20 @@ namespace IO.Swagger.Test
         }
 
         /// <summary>
-        /// Test the property 'Tags'
+        /// Test the property 'PhotoUrls'
         /// </summary>
         [Test]
-        public void TagsTest()
+        public void PhotoUrlsTest()
         {
-            // TODO: unit test for the property 'Tags'
+            // TODO: unit test for the property 'PhotoUrls'
+        }
+        /// <summary>
+        /// Test the property 'Name'
+        /// </summary>
+        [Test]
+        public void NameTest()
+        {
+            // TODO: unit test for the property 'Name'
         }
         /// <summary>
         /// Test the property 'Id'
@@ -75,28 +83,20 @@ namespace IO.Swagger.Test
             // TODO: unit test for the property 'Category'
         }
         /// <summary>
+        /// Test the property 'Tags'
+        /// </summary>
+        [Test]
+        public void TagsTest()
+        {
+            // TODO: unit test for the property 'Tags'
+        }
+        /// <summary>
         /// Test the property 'Status'
         /// </summary>
         [Test]
         public void StatusTest()
         {
             // TODO: unit test for the property 'Status'
-        }
-        /// <summary>
-        /// Test the property 'Name'
-        /// </summary>
-        [Test]
-        public void NameTest()
-        {
-            // TODO: unit test for the property 'Name'
-        }
-        /// <summary>
-        /// Test the property 'PhotoUrls'
-        /// </summary>
-        [Test]
-        public void PhotoUrlsTest()
-        {
-            // TODO: unit test for the property 'PhotoUrls'
         }
 
     }

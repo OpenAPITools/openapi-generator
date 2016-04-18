@@ -6,7 +6,7 @@ Home-page: UNKNOWN
 Author: UNKNOWN
 Author-email: apiteam@swagger.io
 License: UNKNOWN
-Description:     This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href=\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters
+Description:     This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
             
 Keywords: Swagger,Swagger Petstore
 Platform: UNKNOWN

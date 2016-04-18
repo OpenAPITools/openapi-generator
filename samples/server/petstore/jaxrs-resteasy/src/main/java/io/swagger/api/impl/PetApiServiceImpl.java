@@ -51,14 +51,18 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 
+    /*
+     * comment out as the method (for testing) does not exit in the original swagger spec
+     * we'll uncomment this code block later if we update the petstore server
     @Override
     public Response getPetByIdInObject(Long petId,SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
+    */
 
     @Override
-    public Response updatePetWithForm(String petId,String name,String status,SecurityContext securityContext) throws NotFoundException {
+    public Response updatePetWithForm(Long petId,String name,String status,SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -75,11 +79,15 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 
+    /*
+     * comment out as the method (for testing) does not exit in the original swagger spec
+     * we'll uncomment this code block later if we update the petstore server
     @Override
     public Response petPetIdtestingByteArraytrueGet(Long petId,SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
+    */
 
 }
 

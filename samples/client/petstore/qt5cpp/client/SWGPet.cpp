@@ -27,41 +27,39 @@ SWGPet::~SWGPet() {
 void
 SWGPet::init() {
     id = 0L;
-    category = new SWGCategory();
-    name = new QString("");
-    photoUrls = new QList<QString*>();
-    tags = new QList<SWGTag*>();
-    status = new QString("");
-    
+category = new SWGCategory();
+name = new QString("");
+photoUrls = new QList<QString*>();
+tags = new QList<SWGTag*>();
+status = new QString("");
 }
 
 void
 SWGPet::cleanup() {
     
-    if(category != NULL) {
+if(category != NULL) {
         delete category;
     }
-    if(name != NULL) {
+if(name != NULL) {
         delete name;
     }
-    if(photoUrls != NULL) {
+if(photoUrls != NULL) {
         QList<QString*>* arr = photoUrls;
         foreach(QString* o, *arr) {
             delete o;
         }
         delete photoUrls;
     }
-    if(tags != NULL) {
+if(tags != NULL) {
         QList<SWGTag*>* arr = tags;
         foreach(SWGTag* o, *arr) {
             delete o;
         }
         delete tags;
     }
-    if(status != NULL) {
+if(status != NULL) {
         delete status;
     }
-    
 }
 
 SWGPet*
@@ -76,12 +74,11 @@ SWGPet::fromJson(QString &json) {
 void
 SWGPet::fromJsonObject(QJsonObject &pJson) {
     setValue(&id, pJson["id"], "qint64", "");
-    setValue(&category, pJson["category"], "SWGCategory", "SWGCategory");
-    setValue(&name, pJson["name"], "QString", "QString");
-    setValue(&photoUrls, pJson["photoUrls"], "QList", "QString");
-    setValue(&tags, pJson["tags"], "QList", "SWGTag");
-    setValue(&status, pJson["status"], "QString", "QString");
-    
+setValue(&category, pJson["category"], "SWGCategory", "SWGCategory");
+setValue(&name, pJson["name"], "QString", "QString");
+setValue(&photoUrls, pJson["photoUrls"], "QList", "QString");
+setValue(&tags, pJson["tags"], "QList", "SWGTag");
+setValue(&status, pJson["status"], "QString", "QString");
 }
 
 QString
@@ -98,19 +95,17 @@ QJsonObject*
 SWGPet::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     obj->insert("id", QJsonValue(id));
-    
+
     
     toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
     
-    
-    
-    
+        
+
     
     toJsonValue(QString("name"), name, obj, QString("QString"));
     
-    
-    
-    
+        
+
     
     QList<QString*>* photoUrlsList = photoUrls;
     QJsonArray photoUrlsJsonArray;
@@ -118,8 +113,7 @@ SWGPet::asJsonObject() {
 
     obj->insert("photoUrls", photoUrlsJsonArray);
     
-    
-    
+
     
     QList<SWGTag*>* tagsList = tags;
     QJsonArray tagsJsonArray;
@@ -127,14 +121,11 @@ SWGPet::asJsonObject() {
 
     obj->insert("tags", tagsJsonArray);
     
-    
-    
+
     
     toJsonValue(QString("status"), status, obj, QString("QString"));
     
-    
-    
-    
+        
 
     return obj;
 }

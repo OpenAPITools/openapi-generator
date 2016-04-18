@@ -44,7 +44,6 @@ public class StoreApi {
     return basePath;
   }
 
-  
   /**
   * Delete purchase order by ID
   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -71,9 +70,7 @@ public class StoreApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -89,8 +86,7 @@ public class StoreApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] {  };
 
@@ -107,7 +103,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -141,9 +140,7 @@ public class StoreApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -159,8 +156,7 @@ public class StoreApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] {  };
 
@@ -169,11 +165,7 @@ public class StoreApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
-              
               responseListener.onResponse(localVarResponse);
-              
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -185,7 +177,6 @@ public class StoreApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Finds orders by status
   * A single status value can be provided as a string
@@ -206,11 +197,8 @@ public class StoreApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
           queryParams.addAll(ApiInvoker.parameterToPairs("", "status", status));
-  
 
-  
 
       String[] contentTypes = {
   
@@ -226,8 +214,7 @@ public class StoreApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "test_api_client_id", "test_api_client_secret" };
 
@@ -244,7 +231,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -272,11 +262,8 @@ public class StoreApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
     queryParams.addAll(ApiInvoker.parameterToPairs("", "status", status));
-    
 
-    
 
     String[] contentTypes = {
       
@@ -292,8 +279,7 @@ public class StoreApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "test_api_client_id", "test_api_client_secret" };
 
@@ -302,16 +288,11 @@ public class StoreApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((List<Order>) ApiInvoker.deserialize(localVarResponse,  "array", Order.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -323,7 +304,6 @@ public class StoreApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Returns pet inventories by status
   * Returns a map of status codes to quantities
@@ -343,9 +323,7 @@ public class StoreApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -361,8 +339,7 @@ public class StoreApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "api_key" };
 
@@ -379,7 +356,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -407,9 +387,7 @@ public class StoreApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -425,8 +403,7 @@ public class StoreApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "api_key" };
 
@@ -435,16 +412,11 @@ public class StoreApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((Map<String, Integer>) ApiInvoker.deserialize(localVarResponse,  "map", Map.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -456,7 +428,6 @@ public class StoreApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
   * Returns an arbitrary object which is actually a map of status codes to quantities
@@ -467,7 +438,7 @@ public class StoreApi {
   
 
   // create path and map variables
-  String path = "/store/inventory?response=arbitrary_object".replaceAll("\\{format\\}","json");
+  String path = "/store/inventory?response&#x3D;arbitrary_object".replaceAll("\\{format\\}","json");
 
   // query params
   List<Pair> queryParams = new ArrayList<Pair>();
@@ -476,9 +447,7 @@ public class StoreApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -494,8 +463,7 @@ public class StoreApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "api_key" };
 
@@ -512,7 +480,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -531,7 +502,7 @@ public class StoreApi {
   
 
     // create path and map variables
-    String path = "/store/inventory?response=arbitrary_object".replaceAll("\\{format\\}","json");
+    String path = "/store/inventory?response&#x3D;arbitrary_object".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -540,9 +511,7 @@ public class StoreApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -558,8 +527,7 @@ public class StoreApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "api_key" };
 
@@ -568,16 +536,11 @@ public class StoreApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((Object) ApiInvoker.deserialize(localVarResponse,  "", Object.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -589,10 +552,9 @@ public class StoreApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Find purchase order by ID
-  * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+  * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched
    * @return Order
   */
@@ -616,9 +578,7 @@ public class StoreApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -634,10 +594,9 @@ public class StoreApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
-      String[] authNames = new String[] { "test_api_key_header", "test_api_key_query" };
+      String[] authNames = new String[] { "test_api_key_query", "test_api_key_header" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -652,7 +611,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -662,7 +624,7 @@ public class StoreApi {
 
       /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched
   */
   public void getOrderById (String orderId, final Response.Listener<Order> responseListener, final Response.ErrorListener errorListener) {
@@ -686,9 +648,7 @@ public class StoreApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -704,26 +664,20 @@ public class StoreApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
-      String[] authNames = new String[] { "test_api_key_header", "test_api_key_query" };
+      String[] authNames = new String[] { "test_api_key_query", "test_api_key_header" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((Order) ApiInvoker.deserialize(localVarResponse,  "", Order.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -735,7 +689,6 @@ public class StoreApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
   /**
   * Place an order for a pet
   * 
@@ -756,9 +709,7 @@ public class StoreApi {
       // form params
       Map<String, String> formParams = new HashMap<String, String>();
 
-  
 
-  
 
       String[] contentTypes = {
   
@@ -774,8 +725,7 @@ public class StoreApi {
       postBody = httpEntity;
       } else {
       // normal form params
-  
-      }
+        }
 
       String[] authNames = new String[] { "test_api_client_id", "test_api_client_secret" };
 
@@ -792,7 +742,10 @@ public class StoreApi {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -820,9 +773,7 @@ public class StoreApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] contentTypes = {
       
@@ -838,8 +789,7 @@ public class StoreApi {
       postBody = httpEntity;
     } else {
       // normal form params
-      
-    }
+          }
 
       String[] authNames = new String[] { "test_api_client_id", "test_api_client_secret" };
 
@@ -848,16 +798,11 @@ public class StoreApi {
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
-            
             try {
               responseListener.onResponse((Order) ApiInvoker.deserialize(localVarResponse,  "", Order.class));
-              
-              
-            
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }
-            
           }
       }, new Response.ErrorListener() {
           @Override
@@ -869,5 +814,4 @@ public class StoreApi {
       errorListener.onErrorResponse(new VolleyError(ex));
     }
   }
-  
 }

@@ -33,8 +33,9 @@ namespace IO.Swagger.Model
         /// <param name="Binary">Binary.</param>
         /// <param name="Date">Date.</param>
         /// <param name="DateTime">DateTime.</param>
+        /// <param name="Password">Password.</param>
 
-        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, string DateTime = null)
+        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, string Password = null)
         {
             // to ensure "Number" is required (not null)
             if (Number == null)
@@ -55,6 +56,7 @@ namespace IO.Swagger.Model
             this.Binary = Binary;
             this.Date = Date;
             this.DateTime = DateTime;
+            this.Password = Password;
             
         }
 
@@ -123,7 +125,13 @@ namespace IO.Swagger.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
-        public string DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
+    
+        /// <summary>
+        /// Gets or Sets Password
+        /// </summary>
+        [DataMember(Name="password", EmitDefaultValue=false)]
+        public string Password { get; set; }
     
         /// <summary>
         /// Returns the string presentation of the object
@@ -134,16 +142,17 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
-sb.Append("  Int32: ").Append(Int32).Append("\n");
-sb.Append("  Int64: ").Append(Int64).Append("\n");
-sb.Append("  Number: ").Append(Number).Append("\n");
-sb.Append("  _Float: ").Append(_Float).Append("\n");
-sb.Append("  _Double: ").Append(_Double).Append("\n");
-sb.Append("  _String: ").Append(_String).Append("\n");
-sb.Append("  _Byte: ").Append(_Byte).Append("\n");
-sb.Append("  Binary: ").Append(Binary).Append("\n");
-sb.Append("  Date: ").Append(Date).Append("\n");
-sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  Number: ").Append(Number).Append("\n");
+            sb.Append("  _Float: ").Append(_Float).Append("\n");
+            sb.Append("  _Double: ").Append(_Double).Append("\n");
+            sb.Append("  _String: ").Append(_String).Append("\n");
+            sb.Append("  _Byte: ").Append(_Byte).Append("\n");
+            sb.Append("  Binary: ").Append(Binary).Append("\n");
+            sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -234,6 +243,11 @@ sb.Append("  DateTime: ").Append(DateTime).Append("\n");
                     this.DateTime == other.DateTime ||
                     this.DateTime != null &&
                     this.DateTime.Equals(other.DateTime)
+                ) && 
+                (
+                    this.Password == other.Password ||
+                    this.Password != null &&
+                    this.Password.Equals(other.Password)
                 );
         }
 
@@ -270,6 +284,8 @@ sb.Append("  DateTime: ").Append(DateTime).Append("\n");
                     hash = hash * 59 + this.Date.GetHashCode();
                 if (this.DateTime != null)
                     hash = hash * 59 + this.DateTime.GetHashCode();
+                if (this.Password != null)
+                    hash = hash * 59 + this.Password.GetHashCode();
                 return hash;
             }
         }

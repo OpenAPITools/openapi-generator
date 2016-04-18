@@ -48,7 +48,7 @@ public class Order   {
     return id;
   }
 
-  
+
   /**
    **/
   public Order petId(Long petId) {
@@ -65,7 +65,7 @@ public class Order   {
     this.petId = petId;
   }
 
-  
+
   /**
    **/
   public Order quantity(Integer quantity) {
@@ -82,7 +82,7 @@ public class Order   {
     this.quantity = quantity;
   }
 
-  
+
   /**
    **/
   public Order shipDate(Date shipDate) {
@@ -99,7 +99,7 @@ public class Order   {
     this.shipDate = shipDate;
   }
 
-  
+
   /**
    * Order Status
    **/
@@ -117,7 +117,7 @@ public class Order   {
     this.status = status;
   }
 
-  
+
   /**
    **/
   public Order complete(Boolean complete) {
@@ -134,7 +134,6 @@ public class Order   {
     this.complete = complete;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

@@ -23,11 +23,41 @@ public class StoreApi extends SwaggerApi {
         super(apiCredentials, eventDispatcher);
     }
 
-        public static const event_get_inventory: String = "get_inventory";
-        public static const event_place_order: String = "place_order";
-        public static const event_get_order_by_id: String = "get_order_by_id";
         public static const event_delete_order: String = "delete_order";
+        public static const event_get_inventory: String = "get_inventory";
+        public static const event_get_order_by_id: String = "get_order_by_id";
+        public static const event_place_order: String = "place_order";
 
+
+    /*
+     * Returns void 
+     */
+    public function delete_order (orderId: String): String {
+        // create path and map variables
+        var path: String = "/store/order/{orderId}".replace(/{format}/g,"xml").replace("{" + "orderId" + "}", getApiInvoker().escapeString(orderId));
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "DELETE", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "delete_order";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
 
     /*
      * Returns Dictionary 
@@ -40,12 +70,9 @@ public class StoreApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
 
         var requestId: String = getUniqueId();
@@ -57,40 +84,11 @@ public class StoreApi extends SwaggerApi {
         return requestId;
 
     }
-    
+
     /*
      * Returns Order 
      */
-    public function place_order (body: Order): String {
-        // create path and map variables
-        var path: String = "/store/order".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "place_order";
-
-        token.returnType = Order;
-        return requestId;
-
-    }
-    
-    /*
-     * Returns Order 
-     */
-    public function get_order_by_id (orderId: String): String {
+    public function get_order_by_id (orderId: Number): String {
         // create path and map variables
         var path: String = "/store/order/{orderId}".replace(/{format}/g,"xml").replace("{" + "orderId" + "}", getApiInvoker().escapeString(orderId));
 
@@ -98,12 +96,13 @@ public class StoreApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
 
         var requestId: String = getUniqueId();
@@ -115,36 +114,35 @@ public class StoreApi extends SwaggerApi {
         return requestId;
 
     }
-    
+
     /*
-     * Returns void 
+     * Returns Order 
      */
-    public function delete_order (orderId: String): String {
+    public function place_order (body: Order): String {
         // create path and map variables
-        var path: String = "/store/order/{orderId}".replace(/{format}/g,"xml").replace("{" + "orderId" + "}", getApiInvoker().escapeString(orderId));
+        var path: String = "/store/order".replace(/{format}/g,"xml");
 
         // query params
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "DELETE", queryParams, null, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 
         token.requestId = requestId;
-        token.completionEventType = "delete_order";
+        token.completionEventType = "place_order";
 
-        token.returnType = null ;
+        token.returnType = Order;
         return requestId;
 
     }
-    
 }
-        
 }
