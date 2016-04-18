@@ -4,14 +4,14 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteOrder**](StoreApi.md#DeleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-[**GetInventory**](StoreApi.md#GetInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**GetOrderById**](StoreApi.md#GetOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
-[**PlaceOrder**](StoreApi.md#PlaceOrder) | **POST** /store/order | Place an order for a pet
+[**DeleteOrder**](StoreApi.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**GetInventory**](StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+[**GetOrderById**](StoreApi.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+[**PlaceOrder**](StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
 
 
 # **DeleteOrder**
-> DeleteOrder(orderId)
+> void DeleteOrder (string orderId)
 
 Delete purchase order by ID
 
@@ -23,20 +23,25 @@ using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
 using IO.Swagger.Client;
-using IO.Swagger.Module;
+using IO.Swagger.Model;
 
 namespace Example
 {
     public class DeleteOrderExample
     {
-        public void main(){
+        public void main()
+        {
             
             var apiInstance = new StoreApi();
             var orderId = orderId_example;  // string | ID of the order that needs to be deleted
 
-            try {
+            try
+            {
+                // Delete purchase order by ID
                 apiInstance.DeleteOrder(orderId);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.Print("Exception when calling StoreApi.DeleteOrder: " + e.Message );
             }
         }
@@ -64,7 +69,7 @@ No authorization required
  - **Accept**: application/xml, application/json
 
 # **GetInventory**
-> Dictionary<string, int?> GetInventory()
+> Dictionary<string, int?> GetInventory ()
 
 Returns pet inventories by status
 
@@ -76,13 +81,14 @@ using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
 using IO.Swagger.Client;
-using IO.Swagger.Module;
+using IO.Swagger.Model;
 
 namespace Example
 {
     public class GetInventoryExample
     {
-        public void main(){
+        public void main()
+        {
             
             // Configure API key authorization: api_key
             Configuration.Default.ApiKey.Add('api_key', 'YOUR_API_KEY');
@@ -91,10 +97,14 @@ namespace Example
 
             var apiInstance = new StoreApi();
 
-            try {
+            try
+            {
+                // Returns pet inventories by status
                 Dictionary&lt;string, int?&gt; result = apiInstance.GetInventory();
                 Debug.WriteLine(result);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.Print("Exception when calling StoreApi.GetInventory: " + e.Message );
             }
         }
@@ -119,7 +129,7 @@ This endpoint does not need any parameter.
  - **Accept**: application/json
 
 # **GetOrderById**
-> Order GetOrderById(orderId)
+> Order GetOrderById (long? orderId)
 
 Find purchase order by ID
 
@@ -131,21 +141,26 @@ using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
 using IO.Swagger.Client;
-using IO.Swagger.Module;
+using IO.Swagger.Model;
 
 namespace Example
 {
     public class GetOrderByIdExample
     {
-        public void main(){
+        public void main()
+        {
             
             var apiInstance = new StoreApi();
             var orderId = 789;  // long? | ID of pet that needs to be fetched
 
-            try {
+            try
+            {
+                // Find purchase order by ID
                 Order result = apiInstance.GetOrderById(orderId);
                 Debug.WriteLine(result);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.Print("Exception when calling StoreApi.GetOrderById: " + e.Message );
             }
         }
@@ -173,7 +188,7 @@ No authorization required
  - **Accept**: application/xml, application/json
 
 # **PlaceOrder**
-> Order PlaceOrder(body)
+> Order PlaceOrder (Order body)
 
 Place an order for a pet
 
@@ -185,21 +200,26 @@ using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
 using IO.Swagger.Client;
-using IO.Swagger.Module;
+using IO.Swagger.Model;
 
 namespace Example
 {
     public class PlaceOrderExample
     {
-        public void main(){
+        public void main()
+        {
             
             var apiInstance = new StoreApi();
             var body = new Order(); // Order | order placed for purchasing the pet
 
-            try {
+            try
+            {
+                // Place an order for a pet
                 Order result = apiInstance.PlaceOrder(body);
                 Debug.WriteLine(result);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.Print("Exception when calling StoreApi.PlaceOrder: " + e.Message );
             }
         }

@@ -1,4 +1,4 @@
-# User
+# IO.Swagger.Model.User
 
 ## Properties
 
@@ -12,5 +12,4 @@ Name | Type | Description | Notes
 **Password** | **string** |  | [optional] 
 **Phone** | **string** |  | [optional] 
 **UserStatus** | **int?** | User Status | [optional] 
-
 
