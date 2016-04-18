@@ -205,6 +205,11 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word); //don't lowercase as super does
+    }
+
+    @Override
     public String escapeReservedWord(String name) {
         return "_" + name;  // add an underscore to the name
     }
