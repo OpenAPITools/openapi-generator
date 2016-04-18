@@ -5,7 +5,6 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "github.com/dghubble/sling"
 )
 
 type StoreApi struct {
@@ -35,22 +34,28 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
  * @return void
  */
 func (a StoreApi) DeleteOrder (orderId string) (error) {
+
+    var httpMethod = "Delete"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/store/order/{orderId}"
+    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
+
     // verify the required parameter 'orderId' is set
     if &orderId == nil {
         return errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder")
     }
-    _sling := sling.New().Delete(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/store/order/{orderId}"
-    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -60,7 +65,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -71,7 +76,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 
@@ -82,7 +87,8 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(nil, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -115,22 +121,28 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
  * @return map[string]int32
  */
 func (a StoreApi) GetInventory () (map[string]int32, error) {
-    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    var httpMethod = "Get"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/store/inventory"
+
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     // authentication (api_key) required
     
     // set key with prefix in header
-    _sling.Set("api_key", a.Configuration.GetApiKeyWithPrefix("api_key"))
+    headerParams["api_key"] = a.Configuration.GetApiKeyWithPrefix("api_key")
         
 
-    // create path and map variables
-    path := "/v2/store/inventory"
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -140,7 +152,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -150,7 +162,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 
@@ -161,7 +173,8 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -195,22 +208,28 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
  * @return Order
  */
 func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
+
+    var httpMethod = "Get"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/store/order/{orderId}"
+    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
+
     // verify the required parameter 'orderId' is set
     if &orderId == nil {
         return *new(Order), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
     }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/store/order/{orderId}"
-    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -220,7 +239,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -231,7 +250,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 
@@ -242,7 +261,8 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -276,21 +296,27 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
  * @return Order
  */
 func (a StoreApi) PlaceOrder (body Order) (Order, error) {
+
+    var httpMethod = "Post"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/store/order"
+
     // verify the required parameter 'body' is set
     if &body == nil {
         return *new(Order), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
     }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/store/order"
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -300,7 +326,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -311,7 +337,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 // body params
@@ -324,7 +350,8 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
