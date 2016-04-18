@@ -5,6 +5,7 @@ import (
     "fmt"
     "encoding/json"
     "errors"
+    "bytes"
     "os"
 )
 
@@ -38,7 +39,7 @@ func (a PetApi) AddPet (body Pet) (error) {
 
     var httpMethod = "Post"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet"
+    path := a.Configuration.BasePath + "/pet"
 
     // verify the required parameter 'body' is set
     if &body == nil {
@@ -49,7 +50,7 @@ func (a PetApi) AddPet (body Pet) (error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (petstore_auth) required
         
@@ -57,7 +58,6 @@ func (a PetApi) AddPet (body Pet) (error) {
     if a.Configuration.AccessToken != ""{
         headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
     }
-
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
@@ -87,41 +87,18 @@ func (a PetApi) AddPet (body Pet) (error) {
         headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
-// body params
-    _sling = _sling.BodyJSON(body)
+
+    // body params
+    postBody = &body
 
 
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 0{
+    return err
   }
+
 
   return err
 }
@@ -136,7 +113,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
 
     var httpMethod = "Delete"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet/{petId}"
+    path := a.Configuration.BasePath + "/pet/{petId}"
     path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
     // verify the required parameter 'petId' is set
@@ -148,7 +125,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (petstore_auth) required
         
@@ -156,7 +133,6 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
     if a.Configuration.AccessToken != ""{
         headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
     }
-
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
@@ -189,36 +165,12 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
 
 
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return err
   }
+
 
   return err
 }
@@ -232,7 +184,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 
     var httpMethod = "Get"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet/findByStatus"
+    path := a.Configuration.BasePath + "/pet/findByStatus"
 
     // verify the required parameter 'status' is set
     if &status == nil {
@@ -243,7 +195,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (petstore_auth) required
         
@@ -252,13 +204,12 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
         headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
     }
 
-
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
         headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
-    queryParams["Status"] =  status
+    queryParams["Status"] = strings.Join(status, ",")
 
     // to determine the Content-Type header
     localVarHttpContentTypes := []string {
@@ -283,36 +234,14 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 
   var successPayload = new([]Pet)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return *successPayload, err
   }
+
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
 
   return *successPayload, err
 }
@@ -326,7 +255,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 
     var httpMethod = "Get"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet/findByTags"
+    path := a.Configuration.BasePath + "/pet/findByTags"
 
     // verify the required parameter 'tags' is set
     if &tags == nil {
@@ -337,7 +266,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (petstore_auth) required
         
@@ -346,13 +275,12 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
         headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
     }
 
-
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
         headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
-    queryParams["Tags"] =  tags
+    queryParams["Tags"] = strings.Join(tags, ",")
 
     // to determine the Content-Type header
     localVarHttpContentTypes := []string {
@@ -377,36 +305,14 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 
   var successPayload = new([]Pet)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return *successPayload, err
   }
+
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
 
   return *successPayload, err
 }
@@ -420,7 +326,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
 
     var httpMethod = "Get"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet/{petId}"
+    path := a.Configuration.BasePath + "/pet/{petId}"
     path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
     // verify the required parameter 'petId' is set
@@ -432,14 +338,13 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (api_key) required
     
     // set key with prefix in header
     headerParams["api_key"] = a.Configuration.GetApiKeyWithPrefix("api_key")
         
-
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
@@ -470,36 +375,14 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
 
   var successPayload = new(Pet)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return *successPayload, err
   }
+
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
 
   return *successPayload, err
 }
@@ -513,7 +396,7 @@ func (a PetApi) UpdatePet (body Pet) (error) {
 
     var httpMethod = "Put"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet"
+    path := a.Configuration.BasePath + "/pet"
 
     // verify the required parameter 'body' is set
     if &body == nil {
@@ -524,7 +407,7 @@ func (a PetApi) UpdatePet (body Pet) (error) {
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (petstore_auth) required
         
@@ -532,7 +415,6 @@ func (a PetApi) UpdatePet (body Pet) (error) {
     if a.Configuration.AccessToken != ""{
         headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
     }
-
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
@@ -562,41 +444,18 @@ func (a PetApi) UpdatePet (body Pet) (error) {
         headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
-// body params
-    _sling = _sling.BodyJSON(body)
+
+    // body params
+    postBody = &body
 
 
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return err
   }
+
 
   return err
 }
@@ -612,7 +471,7 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
 
     var httpMethod = "Post"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet/{petId}"
+    path := a.Configuration.BasePath + "/pet/{petId}"
     path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
     // verify the required parameter 'petId' is set
@@ -624,7 +483,7 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (petstore_auth) required
         
@@ -632,7 +491,6 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
     if a.Configuration.AccessToken != ""{
         headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
     }
-
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
@@ -661,41 +519,17 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
         headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
-    headerParams["Name"] = name
-    headerParams["Status"] = status
+    formParams["Name"] = name
+    formParams["Status"] = status
 
 
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return err
   }
+
 
   return err
 }
@@ -711,7 +545,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
 
     var httpMethod = "Post"
         // create path and map variables
-    path := c.Configuration.BasePath + "/v2/pet/{petId}/uploadImage"
+    path := a.Configuration.BasePath + "/pet/{petId}/uploadImage"
     path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
     // verify the required parameter 'petId' is set
@@ -723,7 +557,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     // authentication (petstore_auth) required
         
@@ -731,7 +565,6 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     if a.Configuration.AccessToken != ""{
         headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
     }
-
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
@@ -759,41 +592,19 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
         headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
-    headerParams["AdditionalMetadata"] = additionalMetadata
-    headerParams["File"] = file
+    formParams["AdditionalMetadata"] = additionalMetadata
+    formParams["File"] = file
 
   var successPayload = new(ApiResponse)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return *successPayload, err
   }
+
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
 
   return *successPayload, err
 }

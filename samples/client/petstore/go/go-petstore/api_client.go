@@ -42,16 +42,16 @@ func contains(source []string, containvalue string) bool {
     return false
 }
 
-func CallApi(path string, method string,
+func (c *ApiClient) CallApi(path string, method string,
     postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
     formParams map[string]string,
     fileParams map[string]string) (*resty.Response, error) {
+    verb := strings.ToUpper(method)
+    request := prepareRequest(verb, postBody, headerParams, queryParams, formParams, fileParams)
 
-    request := prepareRequest(postBody, headerParams, queryParams, formParams, fileParams)
-
-    switch strings.ToUpper(method) {
+    switch verb {
     case "GET":
         response, err := request.Get(path)
         return response, err
@@ -72,7 +72,7 @@ func CallApi(path string, method string,
     return nil, errors.New("Invalid method " + method)
 }
 
-func prepareRequest(postBody interface{},
+func prepareRequest(verb string, postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
     formParams map[string]string,
@@ -92,7 +92,9 @@ func prepareRequest(postBody interface{},
     request.SetFormData(formParams)
 
     // add file parameter, if any
-    request.SetFiles(fileParams)
-
+    if verb != "GET"{
+        request.SetFiles(fileParams)
+    }
+    
     return request
 }

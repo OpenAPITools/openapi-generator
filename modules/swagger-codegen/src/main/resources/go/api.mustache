@@ -6,6 +6,7 @@ import (
     "fmt"
     "encoding/json"
     "errors"
+    "bytes"
 {{#imports}}    "{{import}}"
 {{/imports}}
 )
@@ -41,7 +42,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
     var httpMethod = "{{httpMethod}}"
         // create path and map variables
-    path := c.Configuration.BasePath + "{{basePathWithoutHost}}{{path}}"
+    path := a.Configuration.BasePath + "{{path}}"
 {{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
 {{/pathParams}}
 
@@ -58,7 +59,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
     fileParams := make(map[string]string)
-    formBody := make(interface{})
+    var postBody interface{}
 
     {{#authMethods}}// authentication ({{name}}) required
     {{#isApiKey}}{{#isKeyInHeader}}
@@ -84,7 +85,6 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     {{/isOAuth}}    
     {{/authMethods}}
 
-
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
         headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -92,7 +92,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     
     {{#hasQueryParams}}    
     {{#queryParams}}
-    queryParams["{{vendorExtensions.x-exportParamName}}"] =  {{paramName}}
+    queryParams["{{vendorExtensions.x-exportParamName}}"] = strings.Join({{paramName}}, ",")
     {{/queryParams}}
     {{/hasQueryParams}}
 
@@ -107,7 +107,6 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         {{#produces}}
@@ -124,44 +123,25 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 {{/headerParams}}{{/hasHeaderParams}}
 {{#hasFormParams}}    
 {{#formParams}}
-    headerParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
+    formParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
 {{/formParams}}
 {{/hasFormParams}}
-{{#hasBodyParam}}{{#bodyParams}}// body params
-    _sling = _sling.BodyJSON({{paramName}})
+{{#hasBodyParam}}{{#bodyParams}}
+    // body params
+    postBody = &{{paramName}}
 {{/bodyParams}}{{/hasBodyParam}}
 {{#returnType}}  var successPayload = new({{returnType}}){{/returnType}}
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
-  //httpResponse, err := _sling.Receive({{#returnType}}successPayload{{/returnType}}{{^returnType}}nil{{/returnType}}, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil && httpResponse.StatusCode() != 200{
+    return {{#returnType}}*successPayload, {{/returnType}}err
   }
+
+{{#returnType}}
+  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
+  err = decoder.Decode(&successPayload)
+{{/returnType}}
 
   return {{#returnType}}*successPayload, {{/returnType}}err
 }
