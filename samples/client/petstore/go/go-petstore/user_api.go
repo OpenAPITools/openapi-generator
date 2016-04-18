@@ -5,7 +5,6 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "github.com/dghubble/sling"
 )
 
 type UserApi struct {
@@ -35,21 +34,27 @@ func NewUserApiWithBasePath(basePath string) *UserApi{
  * @return void
  */
 func (a UserApi) CreateUser (body User) (error) {
+
+    var httpMethod = "Post"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user"
+
     // verify the required parameter 'body' is set
     if &body == nil {
         return errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
     }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user"
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -59,7 +64,7 @@ func (a UserApi) CreateUser (body User) (error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -70,7 +75,7 @@ func (a UserApi) CreateUser (body User) (error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 // body params
@@ -83,7 +88,8 @@ func (a UserApi) CreateUser (body User) (error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(nil, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -117,21 +123,27 @@ func (a UserApi) CreateUser (body User) (error) {
  * @return void
  */
 func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
+
+    var httpMethod = "Post"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user/createWithArray"
+
     // verify the required parameter 'body' is set
     if &body == nil {
         return errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
     }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user/createWithArray"
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -141,7 +153,7 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -152,7 +164,7 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 // body params
@@ -165,7 +177,8 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(nil, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -199,21 +212,27 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
  * @return void
  */
 func (a UserApi) CreateUsersWithListInput (body []User) (error) {
+
+    var httpMethod = "Post"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user/createWithList"
+
     // verify the required parameter 'body' is set
     if &body == nil {
         return errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
     }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user/createWithList"
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -223,7 +242,7 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -234,7 +253,7 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 // body params
@@ -247,7 +266,8 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(nil, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -281,22 +301,28 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
  * @return void
  */
 func (a UserApi) DeleteUser (username string) (error) {
+
+    var httpMethod = "Delete"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+
     // verify the required parameter 'username' is set
     if &username == nil {
         return errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
     }
-    _sling := sling.New().Delete(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -306,7 +332,7 @@ func (a UserApi) DeleteUser (username string) (error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -317,7 +343,7 @@ func (a UserApi) DeleteUser (username string) (error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 
@@ -328,7 +354,8 @@ func (a UserApi) DeleteUser (username string) (error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(nil, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -362,22 +389,28 @@ func (a UserApi) DeleteUser (username string) (error) {
  * @return User
  */
 func (a UserApi) GetUserByName (username string) (User, error) {
+
+    var httpMethod = "Get"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+
     // verify the required parameter 'username' is set
     if &username == nil {
         return *new(User), errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
     }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -387,7 +420,7 @@ func (a UserApi) GetUserByName (username string) (User, error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -398,7 +431,7 @@ func (a UserApi) GetUserByName (username string) (User, error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 
@@ -409,7 +442,8 @@ func (a UserApi) GetUserByName (username string) (User, error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -444,6 +478,11 @@ func (a UserApi) GetUserByName (username string) (User, error) {
  * @return string
  */
 func (a UserApi) LoginUser (username string, password string) (string, error) {
+
+    var httpMethod = "Get"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user/login"
+
     // verify the required parameter 'username' is set
     if &username == nil {
         return *new(string), errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
@@ -452,24 +491,22 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
     if &password == nil {
         return *new(string), errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
     }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user/login"
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
-    type QueryParams struct {
-        Username    string `url:"username,omitempty"`
-Password    string `url:"password,omitempty"`
-}
-    _sling = _sling.QueryStruct(&QueryParams{ Username: username,Password: password })
+    queryParams["Username"] =  username
+    queryParams["Password"] =  password
 
     // to determine the Content-Type header
     localVarHttpContentTypes := []string {
@@ -477,7 +514,7 @@ Password    string `url:"password,omitempty"`
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -488,7 +525,7 @@ Password    string `url:"password,omitempty"`
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 
@@ -499,7 +536,8 @@ Password    string `url:"password,omitempty"`
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(successPayload, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -532,17 +570,23 @@ Password    string `url:"password,omitempty"`
  * @return void
  */
 func (a UserApi) LogoutUser () (error) {
-    _sling := sling.New().Get(a.Configuration.BasePath)
+
+    var httpMethod = "Get"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user/logout"
+
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user/logout"
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -552,7 +596,7 @@ func (a UserApi) LogoutUser () (error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -563,7 +607,7 @@ func (a UserApi) LogoutUser () (error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 
@@ -574,7 +618,8 @@ func (a UserApi) LogoutUser () (error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(nil, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
@@ -609,6 +654,12 @@ func (a UserApi) LogoutUser () (error) {
  * @return void
  */
 func (a UserApi) UpdateUser (username string, body User) (error) {
+
+    var httpMethod = "Put"
+        // create path and map variables
+    path := c.Configuration.BasePath + "/v2/user/{username}"
+    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+
     // verify the required parameter 'username' is set
     if &username == nil {
         return errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
@@ -617,18 +668,18 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     if &body == nil {
         return errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
     }
-    _sling := sling.New().Put(a.Configuration.BasePath)
+
+    headerParams := make(map[string]string)
+    queryParams := make(map[string]string)
+    formParams := make(map[string]string)
+    fileParams := make(map[string]string)
+    formBody := make(interface{})
 
     
-    // create path and map variables
-    path := "/v2/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
-
-    _sling = _sling.Path(path)
 
     // add default headers if any
     for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
+        headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
 
@@ -638,7 +689,7 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     //set Content-Type header
     localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
     if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
+        headerParams["Content-Type"] = localVarHttpContentType
     }
 
     // to determine the Accept header
@@ -649,7 +700,7 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     //set Accept header
     localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
     if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
+        headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
 // body params
@@ -662,7 +713,8 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
   // response (error) models, which needs to be implemented at some point.
   var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, method, postBody, headerParams, queryParams, formParams, fileParams)
+  //httpResponse, err := _sling.Receive(nil, &failurePayload)
 
   if err == nil {
     // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
