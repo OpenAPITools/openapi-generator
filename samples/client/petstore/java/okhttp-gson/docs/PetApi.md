@@ -391,7 +391,7 @@ null (empty response body)
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> ApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -417,7 +417,7 @@ Long petId = 789L; // Long | ID of pet to update
 String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
 File file = new File("/path/to/file.txt"); // File | file to upload
 try {
-    ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+    ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#uploadFile");
@@ -435,7 +435,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ModelApiResponse.md)
 
 ### Authorization
 

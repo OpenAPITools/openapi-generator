@@ -61,6 +61,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "localVarPath", "localVarQueryParams", "localVarHeaderParams", "localVarFormParams",
                 "localVarPostBody", "localVarAccepts", "localVarAccept", "localVarContentTypes",
                 "localVarContentType", "localVarAuthNames", "localReturnType",
+                "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
 
                 // language reserved words
                 "abstract", "continue", "for", "new", "switch", "assert",
