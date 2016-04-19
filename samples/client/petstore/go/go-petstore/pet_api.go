@@ -75,7 +75,6 @@ func (a PetApi) AddPet (body Pet) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -95,7 +94,7 @@ func (a PetApi) AddPet (body Pet) (error) {
 
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
 
-  if err != nil && httpResponse.StatusCode() != 0{
+  if err != nil && httpResponse.StatusCode() != 200{
     return err
   }
 
@@ -148,7 +147,6 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -219,7 +217,6 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -290,7 +287,6 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -360,7 +356,6 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -432,7 +427,6 @@ func (a PetApi) UpdatePet (body Pet) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -507,7 +501,6 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -581,7 +574,6 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/json", 
