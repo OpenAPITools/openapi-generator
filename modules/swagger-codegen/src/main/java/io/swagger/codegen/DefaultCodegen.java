@@ -1397,6 +1397,7 @@ public class DefaultCodegen {
         op.path = path;
         op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
+        op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
         op.tags = operation.getTags();
         op.hasConsumes = false;
