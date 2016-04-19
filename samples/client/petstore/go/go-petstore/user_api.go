@@ -48,7 +48,6 @@ func (a UserApi) CreateUser (body User) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -82,10 +81,8 @@ func (a UserApi) CreateUser (body User) (error) {
     postBody = &body
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -112,7 +109,6 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -146,10 +142,8 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     postBody = &body
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -176,7 +170,6 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -210,10 +203,8 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     postBody = &body
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -241,7 +232,6 @@ func (a UserApi) DeleteUser (username string) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -272,10 +262,8 @@ func (a UserApi) DeleteUser (username string) (error) {
 
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -303,7 +291,6 @@ func (a UserApi) GetUserByName (username string) (User, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -334,10 +321,8 @@ func (a UserApi) GetUserByName (username string) (User, error) {
 
 
   var successPayload = new(User)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 
@@ -371,7 +356,6 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -404,10 +388,8 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
 
 
   var successPayload = new(string)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 
@@ -431,7 +413,6 @@ func (a UserApi) LogoutUser () (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -462,10 +443,8 @@ func (a UserApi) LogoutUser () (error) {
 
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -498,7 +477,6 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -532,10 +510,8 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     postBody = &body
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 

@@ -48,10 +48,9 @@ func (c *ApiClient) CallApi(path string, method string,
     postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
-    formParams map[string]string,
-    fileParams map[string]string) (*resty.Response, error) {
+    formParams map[string]string) (*resty.Response, error) {
 
-    request := prepareRequest(postBody, headerParams, queryParams, formParams, fileParams)
+    request := prepareRequest(postBody, headerParams, queryParams, formParams)
 
     switch strings.ToUpper(method) {
     case "GET":
@@ -77,7 +76,7 @@ func (c *ApiClient) CallApi(path string, method string,
 func (c *ApiClient) ParameterToString (obj interface{}) string {
     if reflect.TypeOf(obj).String() == "[]string" {
         return strings.Join(obj.([]string), ",")
-    } else{
+    } else {
         return obj.(string)
     }
 }
@@ -85,8 +84,7 @@ func (c *ApiClient) ParameterToString (obj interface{}) string {
 func prepareRequest(postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
-    formParams map[string]string,
-    fileParams map[string]string) *resty.Request {
+    formParams map[string]string) *resty.Request {
 
     request := resty.R()
 
@@ -102,15 +100,5 @@ func prepareRequest(postBody interface{},
         request.SetQueryParams(queryParams)
     }
 
-    // add form parameter, if any
-    if len(fileParams) > 0 {
-        request.SetFormData(formParams)
-    }
-
-    // add file parameter, if any
-    if len(fileParams) > 0 {
-        request.SetFiles(fileParams)
-    }
-    
     return request
 }
