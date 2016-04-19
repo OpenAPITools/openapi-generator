@@ -4,6 +4,7 @@ import (
 	sw "./go-petstore"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"os"
 )
 
 func TestAddPet(t *testing.T) {
@@ -16,8 +17,10 @@ func TestAddPet(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error while adding pet")
 		t.Log(err)
-		t.Log(apiResponse)
 	}
+	if apiResponse.Code != 200 {
+		t.Log(apiResponse)
+	}	
 }
 
 func TestGetPetById(t *testing.T) {
@@ -28,7 +31,6 @@ func TestGetPetById(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error while getting pet by id")
 		t.Log(err)
-		t.Log(apiResponse)
 	} else {
 		assert.Equal(resp.Id, int64(12830), "Pet id should be equal")
 		assert.Equal(resp.Name, "gopher", "Pet name should be gopher")
@@ -36,6 +38,9 @@ func TestGetPetById(t *testing.T) {
 
 		//t.Log(resp)
 	}
+	if apiResponse.Code != 200 {
+		t.Log(apiResponse)
+	}	
 }
 
 func TestGetPetByIdWithInvalidID(t *testing.T) {
@@ -49,6 +54,9 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 
 		t.Log(resp)
 	}
+	if apiResponse.Code != 200 {
+		t.Log(apiResponse)
+	}	
 }
 
 func TestUpdatePetWithForm(t *testing.T) {
@@ -58,6 +66,9 @@ func TestUpdatePetWithForm(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error while updating pet by id")
 		t.Log(err)
+		t.Log(apiResponse)
+	}
+	if apiResponse.Code != 200 {
 		t.Log(apiResponse)
 	}
 }
@@ -74,7 +85,25 @@ func TestFindPetsByStatus(t *testing.T) {
 		if len(resp) == 0 {
 			t.Errorf("Error no pets returned")
 		}
-		t.Log(resp)
+
+	if apiResponse.Code != 200 {
+		t.Log(apiResponse)
+	}
+	}
+}
+
+func TestUploadFile(t *testing.T) {
+	s := sw.NewPetApi()
+	file, _ := os.Open("../python/testfiles/foo.png") 
+
+	_, err, apiResponse := s.UploadFile(12830, "golang", file)
+
+	if err != nil {
+		t.Errorf("Error while uploading file")
+		t.Log(err)
+	}
+	if apiResponse.Code != 200 {
+		t.Log(apiResponse)
 	}
 }
 
@@ -85,6 +114,8 @@ func TestDeletePet(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error while deleting pet by id")
 		t.Log(err)
+	}
+	if apiResponse.Code != 200 {
 		t.Log(apiResponse)
 	}
 }

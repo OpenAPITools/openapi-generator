@@ -497,8 +497,8 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
-     formParams["Name"] = name
-     formParams["Status"] = status
+  formParams["Name"] = name
+  formParams["Status"] = status
 
 
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
@@ -567,10 +567,10 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
-     formParams["AdditionalMetadata"] = additionalMetadata
-   fileBytes, _ := ioutil.ReadAll(file)
+  formParams["AdditionalMetadata"] = additionalMetadata
+  fileBytes, _ := ioutil.ReadAll(file)
   postBody = fileBytes
-  
+
   var successPayload = new(ApiResponse)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
 
