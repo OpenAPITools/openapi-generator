@@ -67,7 +67,6 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -129,7 +128,6 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/json", 
@@ -193,7 +191,6 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -257,7 +254,6 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 

@@ -66,7 +66,6 @@ func (a UserApi) CreateUser (body User) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -131,7 +130,6 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -196,7 +194,6 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -262,7 +259,6 @@ func (a UserApi) DeleteUser (username string) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -325,7 +321,6 @@ func (a UserApi) GetUserByName (username string) (User, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -396,7 +391,6 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -455,7 +449,6 @@ func (a UserApi) LogoutUser () (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 
@@ -523,7 +516,6 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     if localVarHttpContentType != "" {    
         headerParams["Content-Type"] = localVarHttpContentType
     }
-
     // to determine the Accept header
     localVarHttpHeaderAccepts := []string {
         "application/xml", 

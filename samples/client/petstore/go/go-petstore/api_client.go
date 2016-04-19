@@ -42,16 +42,17 @@ func contains(source []string, containvalue string) bool {
     return false
 }
 
+
 func (c *ApiClient) CallApi(path string, method string,
     postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
     formParams map[string]string,
     fileParams map[string]string) (*resty.Response, error) {
-    verb := strings.ToUpper(method)
-    request := prepareRequest(verb, postBody, headerParams, queryParams, formParams, fileParams)
 
-    switch verb {
+    request := prepareRequest(postBody, headerParams, queryParams, formParams, fileParams)
+
+    switch strings.ToUpper(method) {
     case "GET":
         response, err := request.Get(path)
         return response, err
@@ -72,7 +73,7 @@ func (c *ApiClient) CallApi(path string, method string,
     return nil, errors.New("Invalid method " + method)
 }
 
-func prepareRequest(verb string, postBody interface{},
+func prepareRequest(postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
     formParams map[string]string,
@@ -83,16 +84,22 @@ func prepareRequest(verb string, postBody interface{},
     request.SetBody(postBody)
 
     // add header parameter, if any
-    request.SetHeaders(headerParams)
-
+    if len(headerParams) > 0 {
+        request.SetHeaders(headerParams)
+    }
+    
     // add query parameter, if any
-    request.SetQueryParams(queryParams)
+    if len(queryParams) > 0 {
+        request.SetQueryParams(queryParams)
+    }
 
     // add form parameter, if any
-    request.SetFormData(formParams)
+    if len(fileParams) > 0 {
+        request.SetFormData(formParams)
+    }
 
     // add file parameter, if any
-    if verb != "GET"{
+    if len(fileParams) > 0 {
         request.SetFiles(fileParams)
     }
     
