@@ -49,10 +49,10 @@ public class LumenservercodegenGenerator extends DefaultCodegen implements Codeg
         outputFolder = "generated-code/LumenServerCodegen";
         String packagePath = "SwaggerServer";
 
-        modelPackage = packagePath + "\\lib\\Models";
-        apiPackage = packagePath + "\\lib";
-        // outputFolder = "generated-code" + File.separator + "slim";
-        modelTemplateFiles.put("model.mustache", ".php");
+        // modelPackage = packagePath + "\\lib\\Models";
+        // apiPackage = packagePath + "\\lib";
+        // // outputFolder = "generated-code" + File.separator + "slim";
+        // modelTemplateFiles.put("model.mustache", ".php");
 
         /**
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -116,7 +116,7 @@ public class LumenservercodegenGenerator extends DefaultCodegen implements Codeg
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
         // supportingFiles.add(new SupportingFile("index.mustache", packagePath, "index.php"));
-        supportingFiles.add(new SupportingFile("route.mustache", packagePath, "route.php"));
+        // supportingFiles.add(new SupportingFile("routes.mustache", packagePath, "routes.php"));
 
         supportingFiles.add(new SupportingFile("composer.json", packagePath, "composer.json"));
         supportingFiles.add(new SupportingFile("readme.md", packagePath, "readme.md"));
@@ -131,7 +131,7 @@ public class LumenservercodegenGenerator extends DefaultCodegen implements Codeg
         supportingFiles.add(new SupportingFile("app" + File.separator + "Console" + File.separator + "Kernel.php", packagePath + File.separator + "app"  + File.separator + "Console", "Kernel.php"));
         supportingFiles.add(new SupportingFile("app" + File.separator + "Exceptions" + File.separator + "Handler.php", packagePath + File.separator + "app"  + File.separator + "Exceptions", "Handler.php"));
         // supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Kernel.php", packagePath + File.separator + "app"  + File.separator + "Http", "Kernel.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "routes.php", packagePath + File.separator + "app"  + File.separator + "Http", "routes.php"));
+        supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "routes.mustache", packagePath + File.separator + "app"  + File.separator + "Http", "routes.php"));
         
         supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Controllers" + File.separator + "Controller.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator, "Controller.php"));
         supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Controllers" + File.separator + "ExampleController.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator, "ExampleController.php"));

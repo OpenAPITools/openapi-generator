@@ -48,6 +48,8 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+class_alias('Illuminate\Support\Facades\Request', 'Request'); //to use the Reqesut facade
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
