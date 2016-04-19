@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen;
+import io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen2;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
@@ -30,7 +30,7 @@ public class TypeScriptAngular2ModelTest {
                 .property("createdAt", new DateTimeProperty())
                 .required("id")
                 .required("name");
-        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen2();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -76,7 +76,7 @@ public class TypeScriptAngular2ModelTest {
                 .property("id", new LongProperty())
                 .property("urls", new ArrayProperty().items(new StringProperty()))
                 .required("id");
-        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen2();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -109,7 +109,7 @@ public class TypeScriptAngular2ModelTest {
         final Model model = new ModelImpl()
                 .description("a sample model")
                 .property("children", new RefProperty("#/definitions/Children"));
-        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen2();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -133,7 +133,7 @@ public class TypeScriptAngular2ModelTest {
                 .description("a sample model")
                 .property("children", new ArrayProperty()
                         .items(new RefProperty("#/definitions/Children")));
-        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen2();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -156,7 +156,7 @@ public class TypeScriptAngular2ModelTest {
         final Model model = new ArrayModel()
                 .description("an array model")
                 .items(new RefProperty("#/definitions/Children"));
-        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen2();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -170,7 +170,7 @@ public class TypeScriptAngular2ModelTest {
         final Model model = new ModelImpl()
                 .description("a map model")
                 .additionalProperties(new RefProperty("#/definitions/Children"));
-        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptAngular2ClientCodegen2();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
