@@ -100,5 +100,28 @@ func prepareRequest(postBody interface{},
         request.SetQueryParams(queryParams)
     }
 
+    // add form parameter, if any
+    if len(formParams) > 0 {
+        request.SetFormData(formParams)
+    }
+    
     return request
+}
+
+func (c *ApiClient) GetApiResponse(httpResp interface{}) *ApiResponse{
+  httpResponse := httpResp.(*resty.Response)
+  apiResponse := new(ApiResponse) 
+  apiResponse.Code = int32(httpResponse.StatusCode()) 
+  apiResponse.Message = httpResponse.Status()
+
+  return apiResponse
+}
+
+func (c *ApiClient) SetErrorApiResponse(errorMessage string) *ApiResponse{
+
+  apiResponse := new(ApiResponse) 
+  apiResponse.Code = int32(400) 
+  apiResponse.Message = errorMessage
+
+  return apiResponse
 }
