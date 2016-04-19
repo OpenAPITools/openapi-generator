@@ -18,8 +18,8 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
-import io.swagger.client.model.ApiResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -852,11 +852,11 @@ public class PetApi {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return ApiResponse
+   * @return ModelApiResponse
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public ApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-    ApiResponse<ApiResponse> resp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+    ApiResponse<ModelApiResponse> resp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
     return resp.getData();
   }
 
@@ -866,12 +866,12 @@ public class PetApi {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return ApiResponse<ApiResponse>
+   * @return ApiResponse<ModelApiResponse>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public ApiResponse<ApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
     Call call = uploadFileCall(petId, additionalMetadata, file, null, null);
-    Type localVarReturnType = new TypeToken<ApiResponse>(){}.getType();
+    Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
     return apiClient.execute(call, localVarReturnType);
   }
 
@@ -885,7 +885,7 @@ public class PetApi {
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
-  public Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ApiResponse> callback) throws ApiException {
+  public Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ModelApiResponse> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -907,7 +907,7 @@ public class PetApi {
     }
 
     Call call = uploadFileCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
-    Type localVarReturnType = new TypeToken<ApiResponse>(){}.getType();
+    Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
     apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
