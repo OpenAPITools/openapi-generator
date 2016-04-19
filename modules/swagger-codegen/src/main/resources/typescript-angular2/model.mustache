@@ -1,0 +1,37 @@
+{{#models}}
+{{#model}}
+'use strict';
+import * as model from "./model.d.ts"
+
+{{#description}}
+/**
+ * {{{description}}}
+ */
+{{/description}}
+export interface {{classname}} {{#parent}}extends model.{{{parent}}} {{/parent}}{
+{{#vars}}
+
+{{#description}}
+    /**
+     * {{{description}}}
+     */
+{{/description}}
+
+    {{name}}?: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+{{/vars}}
+}
+
+{{#hasEnums}}
+export namespace {{classname}} {
+{{#vars}}
+{{#isEnum}}
+
+    export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
+        {{.}} = <any> '{{.}}',{{/values}}{{/allowableValues}}
+    }
+{{/isEnum}}
+{{/vars}}
+}
+{{/hasEnums}}
+{{/model}}
+{{/models}}
