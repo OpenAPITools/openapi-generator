@@ -18,19 +18,19 @@ public class Pet   {
   
   @SerializedName("id")
   private Long id = null;
-  
+
   @SerializedName("category")
   private Category category = null;
-  
+
   @SerializedName("name")
   private String name = null;
-  
+
   @SerializedName("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
-  
+
   @SerializedName("tags")
   private List<Tag> tags = new ArrayList<Tag>();
-  
+
 
 public enum StatusEnum {
   @SerializedName("available")
@@ -56,9 +56,7 @@ public enum StatusEnum {
 
   @SerializedName("status")
   private StatusEnum status = null;
-  
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -69,7 +67,6 @@ public enum StatusEnum {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -80,7 +77,6 @@ public enum StatusEnum {
     this.category = category;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -91,7 +87,6 @@ public enum StatusEnum {
     this.name = name;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -102,7 +97,6 @@ public enum StatusEnum {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -113,7 +107,6 @@ public enum StatusEnum {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
@@ -125,7 +118,6 @@ public enum StatusEnum {
     this.status = status;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

@@ -39,7 +39,7 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
         // initialize the API client
         $config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient($config);
-        $store_api = new Swagger\Client\Api\StoreAPI($api_client);
+        $store_api = new Swagger\Client\Api\StoreApi($api_client);
         // get inventory
         $get_response = $store_api->getInventory();
 
@@ -47,19 +47,24 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType("int", $get_response['available']);
     }
 
+    /*
+     * comment out as we've removed invalid endpoints from the spec, we'll introduce something
+     * similar in the future when we've time to update the petstore server
+     *
     // test get inventory
     public function testGetInventoryInObject()
     {
         // initialize the API client
         //$config = (new Swagger\Client\Configuration())->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\ApiClient();
-        $store_api = new Swagger\Client\Api\StoreAPI($api_client);
+        $store_api = new Swagger\Client\Api\StoreApi($api_client);
         // get inventory
         $get_response = $store_api->getInventoryInObject();
 
         $this->assertInternalType("array", $get_response);
         $this->assertInternalType("int", $get_response['available']);
     }
+     */
 
 }
 

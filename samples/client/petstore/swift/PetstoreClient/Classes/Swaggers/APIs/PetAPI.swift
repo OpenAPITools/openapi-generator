@@ -12,26 +12,24 @@ import PromiseKit
 
 public class PetAPI: APIBase {
     /**
-     
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func addPet(body body: Pet?, completion: ((error: ErrorType?) -> Void)) {
+    public class func addPet(body body: Pet? = nil, completion: ((error: ErrorType?) -> Void)) {
         addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
 
     /**
-     
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
      - returns: Promise<Void>
      */
-    public class func addPet(body body: Pet?) -> Promise<Void> {
+    public class func addPet(body body: Pet? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pendingPromise()
         addPet(body: body) { error in
             if let error = error {
@@ -44,9 +42,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Add a new pet to the store
-     
      - POST /pet
      - 
      - OAuth:
@@ -57,10 +53,9 @@ public class PetAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func addPetWithRequestBuilder(body body: Pet?) -> RequestBuilder<Void> {
+    public class func addPetWithRequestBuilder(body body: Pet? = nil) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -69,26 +64,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
      
      - parameter body: (body) Pet object in the form of byte array (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func addPetUsingByteArray(body body: String?, completion: ((error: ErrorType?) -> Void)) {
+    public class func addPetUsingByteArray(body body: String? = nil, completion: ((error: ErrorType?) -> Void)) {
         addPetUsingByteArrayWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
 
     /**
-     
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
      
      - parameter body: (body) Pet object in the form of byte array (optional)
      - returns: Promise<Void>
      */
-    public class func addPetUsingByteArray(body body: String?) -> Promise<Void> {
+    public class func addPetUsingByteArray(body body: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pendingPromise()
         addPetUsingByteArray(body: body) { error in
             if let error = error {
@@ -101,10 +94,8 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array in body parameter for adding a new pet to the store
-     
-     - POST /pet?testing_byte_array=true
+     - POST /pet?testing_byte_array&#x3D;true
      - 
      - OAuth:
        - type: oauth2
@@ -114,10 +105,9 @@ public class PetAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func addPetUsingByteArrayWithRequestBuilder(body body: String?) -> RequestBuilder<Void> {
-        let path = "/pet?testing_byte_array=true"
+    public class func addPetUsingByteArrayWithRequestBuilder(body body: String? = nil) -> RequestBuilder<Void> {
+        let path = "/pet?testing_byte_array&#x3D;true"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -126,26 +116,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Deletes a pet
      
      - parameter petId: (path) Pet id to delete 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func deletePet(petId petId: Int, completion: ((error: ErrorType?) -> Void)) {
+    public class func deletePet(petId petId: Int64, completion: ((error: ErrorType?) -> Void)) {
         deletePetWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
 
     /**
-     
      Deletes a pet
      
      - parameter petId: (path) Pet id to delete 
      - returns: Promise<Void>
      */
-    public class func deletePet(petId petId: Int) -> Promise<Void> {
+    public class func deletePet(petId petId: Int64) -> Promise<Void> {
         let deferred = Promise<Void>.pendingPromise()
         deletePet(petId: petId) { error in
             if let error = error {
@@ -158,9 +146,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Deletes a pet
-     
      - DELETE /pet/{petId}
      - 
      - OAuth:
@@ -171,11 +157,11 @@ public class PetAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func deletePetWithRequestBuilder(petId petId: Int) -> RequestBuilder<Void> {
+    public class func deletePetWithRequestBuilder(petId petId: Int64) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -185,26 +171,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for query (optional, default to available)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func findPetsByStatus(status status: [String]?, completion: ((data: [Pet]?, error: ErrorType?) -> Void)) {
+    public class func findPetsByStatus(status status: [String]? = nil, completion: ((data: [Pet]?, error: ErrorType?) -> Void)) {
         findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
     /**
-     
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for query (optional, default to available)
      - returns: Promise<[Pet]>
      */
-    public class func findPetsByStatus(status status: [String]?) -> Promise<[Pet]> {
+    public class func findPetsByStatus(status status: [String]? = nil) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pendingPromise()
         findPetsByStatus(status: status) { data, error in
             if let error = error {
@@ -217,28 +201,26 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by status
-     
      - GET /pet/findByStatus
      - Multiple status values can be provided with comma separated strings
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{example=[ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+     - examples: [{contentType=application/json, example=[ {
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-} ], contentType=application/json}, {example=<Pet>
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+} ]}, {contentType=application/xml, example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -247,21 +229,21 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>, contentType=application/xml}]
-     - examples: [{example=[ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+</Pet>}]
+     - examples: [{contentType=application/json, example=[ {
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-} ], contentType=application/json}, {example=<Pet>
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+} ]}, {contentType=application/xml, example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -270,16 +252,16 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>, contentType=application/xml}]
+</Pet>}]
      
      - parameter status: (query) Status values that need to be considered for query (optional, default to available)
 
      - returns: RequestBuilder<[Pet]> 
      */
-    public class func findPetsByStatusWithRequestBuilder(status status: [String]?) -> RequestBuilder<[Pet]> {
+    public class func findPetsByStatusWithRequestBuilder(status status: [String]? = nil) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByStatus"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "status": status
         ]
@@ -291,26 +273,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func findPetsByTags(tags tags: [String]?, completion: ((data: [Pet]?, error: ErrorType?) -> Void)) {
+    public class func findPetsByTags(tags tags: [String]? = nil, completion: ((data: [Pet]?, error: ErrorType?) -> Void)) {
         findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
     /**
-     
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by (optional)
      - returns: Promise<[Pet]>
      */
-    public class func findPetsByTags(tags tags: [String]?) -> Promise<[Pet]> {
+    public class func findPetsByTags(tags tags: [String]? = nil) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pendingPromise()
         findPetsByTags(tags: tags) { data, error in
             if let error = error {
@@ -323,28 +303,26 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Finds Pets by tags
-     
      - GET /pet/findByTags
      - Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{example=[ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+     - examples: [{contentType=application/json, example=[ {
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-} ], contentType=application/json}, {example=<Pet>
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+} ]}, {contentType=application/xml, example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -353,21 +331,21 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>, contentType=application/xml}]
-     - examples: [{example=[ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+</Pet>}]
+     - examples: [{contentType=application/json, example=[ {
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-} ], contentType=application/json}, {example=<Pet>
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+} ]}, {contentType=application/xml, example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -376,16 +354,16 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>, contentType=application/xml}]
+</Pet>}]
      
      - parameter tags: (query) Tags to filter by (optional)
 
      - returns: RequestBuilder<[Pet]> 
      */
-    public class func findPetsByTagsWithRequestBuilder(tags tags: [String]?) -> RequestBuilder<[Pet]> {
+    public class func findPetsByTagsWithRequestBuilder(tags tags: [String]? = nil) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "tags": tags
         ]
@@ -397,26 +375,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Find pet by ID
      
      - parameter petId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func getPetById(petId petId: Int, completion: ((data: Pet?, error: ErrorType?) -> Void)) {
+    public class func getPetById(petId petId: Int64, completion: ((data: Pet?, error: ErrorType?) -> Void)) {
         getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
     /**
-     
      Find pet by ID
      
      - parameter petId: (path) ID of pet that needs to be fetched 
      - returns: Promise<Pet>
      */
-    public class func getPetById(petId petId: Int) -> Promise<Pet> {
+    public class func getPetById(petId petId: Int64) -> Promise<Pet> {
         let deferred = Promise<Pet>.pendingPromise()
         getPetById(petId: petId) { data, error in
             if let error = error {
@@ -429,31 +405,29 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Find pet by ID
-     
      - GET /pet/{petId}
      - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-     - API Key:
-       - type: apiKey api_key 
-       - name: api_key
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{example={
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+     - API Key:
+       - type: apiKey api_key 
+       - name: api_key
+     - examples: [{contentType=application/json, example={
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-}, contentType=application/json}, {example=<Pet>
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -462,21 +436,21 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>, contentType=application/xml}]
-     - examples: [{example={
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+</Pet>}]
+     - examples: [{contentType=application/json, example={
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-}, contentType=application/json}, {example=<Pet>
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -485,17 +459,17 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>, contentType=application/xml}]
+</Pet>}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<Pet> 
      */
-    public class func getPetByIdWithRequestBuilder(petId petId: Int) -> RequestBuilder<Pet> {
+    public class func getPetByIdWithRequestBuilder(petId petId: Int64) -> RequestBuilder<Pet> {
         var path = "/pet/{petId}"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -505,26 +479,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func getPetByIdInObject(petId petId: Int, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
+    public class func getPetByIdInObject(petId petId: Int64, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
         getPetByIdInObjectWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
     /**
-     
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
      - returns: Promise<InlineResponse200>
      */
-    public class func getPetByIdInObject(petId petId: Int) -> Promise<InlineResponse200> {
+    public class func getPetByIdInObject(petId petId: Int64) -> Promise<InlineResponse200> {
         let deferred = Promise<InlineResponse200>.pendingPromise()
         getPetByIdInObject(petId: petId) { data, error in
             if let error = error {
@@ -537,61 +509,59 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-     
-     - GET /pet/{petId}?response=inline_arbitrary_object
+     - GET /pet/{petId}?response&#x3D;inline_arbitrary_object
      - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-     - API Key:
-       - type: apiKey api_key 
-       - name: api_key
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{example={
-  "id" : 123456789,
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
-  "category" : "{}",
-  "status" : "aeiou",
+     - API Key:
+       - type: apiKey api_key 
+       - name: api_key
+     - examples: [{contentType=application/json, example={
+  "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-}, contentType=application/json}, {example=<null>
+  "id" : 123456789,
+  "category" : "{}",
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<null>
+  <photoUrls>string</photoUrls>
+  <name>doggie</name>
   <id>123456</id>
   <category>not implemented io.swagger.models.properties.ObjectProperty@37ff6855</category>
   <status>string</status>
-  <name>doggie</name>
-  <photoUrls>string</photoUrls>
-</null>, contentType=application/xml}]
-     - examples: [{example={
-  "id" : 123456789,
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
-  "category" : "{}",
-  "status" : "aeiou",
+</null>}]
+     - examples: [{contentType=application/json, example={
+  "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
-}, contentType=application/json}, {example=<null>
+  "id" : 123456789,
+  "category" : "{}",
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<null>
+  <photoUrls>string</photoUrls>
+  <name>doggie</name>
   <id>123456</id>
   <category>not implemented io.swagger.models.properties.ObjectProperty@37ff6855</category>
   <status>string</status>
-  <name>doggie</name>
-  <photoUrls>string</photoUrls>
-</null>, contentType=application/xml}]
+</null>}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<InlineResponse200> 
      */
-    public class func getPetByIdInObjectWithRequestBuilder(petId petId: Int) -> RequestBuilder<InlineResponse200> {
-        var path = "/pet/{petId}?response=inline_arbitrary_object"
+    public class func getPetByIdInObjectWithRequestBuilder(petId petId: Int64) -> RequestBuilder<InlineResponse200> {
+        var path = "/pet/{petId}?response&#x3D;inline_arbitrary_object"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -601,26 +571,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func petPetIdtestingByteArraytrueGet(petId petId: Int, completion: ((data: String?, error: ErrorType?) -> Void)) {
+    public class func petPetIdtestingByteArraytrueGet(petId petId: Int64, completion: ((data: String?, error: ErrorType?) -> Void)) {
         petPetIdtestingByteArraytrueGetWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
 
     /**
-     
      Fake endpoint to test byte array return by 'Find pet by ID'
      
      - parameter petId: (path) ID of pet that needs to be fetched 
      - returns: Promise<String>
      */
-    public class func petPetIdtestingByteArraytrueGet(petId petId: Int) -> Promise<String> {
+    public class func petPetIdtestingByteArraytrueGet(petId petId: Int64) -> Promise<String> {
         let deferred = Promise<String>.pendingPromise()
         petPetIdtestingByteArraytrueGet(petId: petId) { data, error in
             if let error = error {
@@ -633,29 +601,27 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Fake endpoint to test byte array return by 'Find pet by ID'
-     
-     - GET /pet/{petId}?testing_byte_array=true
+     - GET /pet/{petId}?testing_byte_array&#x3D;true
      - Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
-     - API Key:
-       - type: apiKey api_key 
-       - name: api_key
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
-     - examples: [{example="", contentType=application/json}, {example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e, contentType=application/xml}]
+     - API Key:
+       - type: apiKey api_key 
+       - name: api_key
+     - examples: [{contentType=application/json, example=""}, {contentType=application/xml, example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e}]
+     - examples: [{contentType=application/json, example=""}, {contentType=application/xml, example=not implemented io.swagger.models.properties.BinaryProperty@55e6ae9e}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<String> 
      */
-    public class func petPetIdtestingByteArraytrueGetWithRequestBuilder(petId petId: Int) -> RequestBuilder<String> {
-        var path = "/pet/{petId}?testing_byte_array=true"
+    public class func petPetIdtestingByteArraytrueGetWithRequestBuilder(petId petId: Int64) -> RequestBuilder<String> {
+        var path = "/pet/{petId}?testing_byte_array&#x3D;true"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [:]
         let parameters = APIHelper.rejectNil(nillableParameters)
 
@@ -665,26 +631,24 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func updatePet(body body: Pet?, completion: ((error: ErrorType?) -> Void)) {
+    public class func updatePet(body body: Pet? = nil, completion: ((error: ErrorType?) -> Void)) {
         updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
 
     /**
-     
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store (optional)
      - returns: Promise<Void>
      */
-    public class func updatePet(body body: Pet?) -> Promise<Void> {
+    public class func updatePet(body body: Pet? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pendingPromise()
         updatePet(body: body) { error in
             if let error = error {
@@ -697,9 +661,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Update an existing pet
-     
      - PUT /pet
      - 
      - OAuth:
@@ -710,10 +672,9 @@ public class PetAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func updatePetWithRequestBuilder(body body: Pet?) -> RequestBuilder<Void> {
+    public class func updatePetWithRequestBuilder(body body: Pet? = nil) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -722,7 +683,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Updates a pet in the store with form data
      
      - parameter petId: (path) ID of pet that needs to be updated 
@@ -730,14 +690,13 @@ public class PetAPI: APIBase {
      - parameter status: (form) Updated status of the pet (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func updatePetWithForm(petId petId: String, name: String?, status: String?, completion: ((error: ErrorType?) -> Void)) {
+    public class func updatePetWithForm(petId petId: String, name: String? = nil, status: String? = nil, completion: ((error: ErrorType?) -> Void)) {
         updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
 
     /**
-     
      Updates a pet in the store with form data
      
      - parameter petId: (path) ID of pet that needs to be updated 
@@ -745,7 +704,7 @@ public class PetAPI: APIBase {
      - parameter status: (form) Updated status of the pet (optional)
      - returns: Promise<Void>
      */
-    public class func updatePetWithForm(petId petId: String, name: String?, status: String?) -> Promise<Void> {
+    public class func updatePetWithForm(petId petId: String, name: String? = nil, status: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pendingPromise()
         updatePetWithForm(petId: petId, name: name, status: status) { error in
             if let error = error {
@@ -758,9 +717,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      Updates a pet in the store with form data
-     
      - POST /pet/{petId}
      - 
      - OAuth:
@@ -773,11 +730,11 @@ public class PetAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func updatePetWithFormWithRequestBuilder(petId petId: String, name: String?, status: String?) -> RequestBuilder<Void> {
+    public class func updatePetWithFormWithRequestBuilder(petId petId: String, name: String? = nil, status: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "name": name,
             "status": status
@@ -790,7 +747,6 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      uploads an image
      
      - parameter petId: (path) ID of pet to update 
@@ -798,14 +754,13 @@ public class PetAPI: APIBase {
      - parameter _file: (form) file to upload (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func uploadFile(petId petId: Int, additionalMetadata: String?, _file: NSURL?, completion: ((error: ErrorType?) -> Void)) {
+    public class func uploadFile(petId petId: Int64, additionalMetadata: String? = nil, _file: NSURL? = nil, completion: ((error: ErrorType?) -> Void)) {
         uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, _file: _file).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
 
     /**
-     
      uploads an image
      
      - parameter petId: (path) ID of pet to update 
@@ -813,7 +768,7 @@ public class PetAPI: APIBase {
      - parameter _file: (form) file to upload (optional)
      - returns: Promise<Void>
      */
-    public class func uploadFile(petId petId: Int, additionalMetadata: String?, _file: NSURL?) -> Promise<Void> {
+    public class func uploadFile(petId petId: Int64, additionalMetadata: String? = nil, _file: NSURL? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pendingPromise()
         uploadFile(petId: petId, additionalMetadata: additionalMetadata, _file: _file) { error in
             if let error = error {
@@ -826,9 +781,7 @@ public class PetAPI: APIBase {
     }
 
     /**
-     
      uploads an image
-     
      - POST /pet/{petId}/uploadImage
      - 
      - OAuth:
@@ -841,11 +794,11 @@ public class PetAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func uploadFileWithRequestBuilder(petId petId: Int, additionalMetadata: String?, _file: NSURL?) -> RequestBuilder<Void> {
+    public class func uploadFileWithRequestBuilder(petId petId: Int64, additionalMetadata: String? = nil, _file: NSURL? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}/uploadImage"
         path = path.stringByReplacingOccurrencesOfString("{petId}", withString: "\(petId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "additionalMetadata": additionalMetadata,
             "file": _file

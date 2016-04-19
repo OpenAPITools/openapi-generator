@@ -61,22 +61,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'DeleteOrder'
             string orderId = null; // TODO: replace null with proper value
-            
             instance.DeleteOrder(orderId);
-             
-        }
-        
-        /// <summary>
-        /// Test FindOrdersByStatus
-        /// </summary>
-        [Test]
-        public void FindOrdersByStatusTest()
-        {
-            // TODO: add unit test for the method 'FindOrdersByStatus'
-            string status = null; // TODO: replace null with proper value
             
-            var response = instance.FindOrdersByStatus(status);
-            Assert.IsInstanceOf<List<Order>> (response, "response is List<Order>"); 
         }
         
         /// <summary>
@@ -86,21 +72,8 @@ namespace IO.Swagger.Test
         public void GetInventoryTest()
         {
             // TODO: add unit test for the method 'GetInventory'
-            
             var response = instance.GetInventory();
-            Assert.IsInstanceOf<Dictionary<string, int?>> (response, "response is Dictionary<string, int?>"); 
-        }
-        
-        /// <summary>
-        /// Test GetInventoryInObject
-        /// </summary>
-        [Test]
-        public void GetInventoryInObjectTest()
-        {
-            // TODO: add unit test for the method 'GetInventoryInObject'
-            
-            var response = instance.GetInventoryInObject();
-            Assert.IsInstanceOf<Object> (response, "response is Object"); 
+            Assert.IsInstanceOf<Dictionary<string, int?>> (response, "response is Dictionary<string, int?>");
         }
         
         /// <summary>
@@ -110,10 +83,9 @@ namespace IO.Swagger.Test
         public void GetOrderByIdTest()
         {
             // TODO: add unit test for the method 'GetOrderById'
-            string orderId = null; // TODO: replace null with proper value
-            
+            long? orderId = null; // TODO: replace null with proper value
             var response = instance.GetOrderById(orderId);
-            Assert.IsInstanceOf<Order> (response, "response is Order"); 
+            Assert.IsInstanceOf<Order> (response, "response is Order");
         }
         
         /// <summary>
@@ -124,9 +96,8 @@ namespace IO.Swagger.Test
         {
             // TODO: add unit test for the method 'PlaceOrder'
             Order body = null; // TODO: replace null with proper value
-            
             var response = instance.PlaceOrder(body);
-            Assert.IsInstanceOf<Order> (response, "response is Order"); 
+            Assert.IsInstanceOf<Order> (response, "response is Order");
         }
         
     }

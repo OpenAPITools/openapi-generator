@@ -31,7 +31,7 @@ namespace IO.Swagger.Test
         {
             instance = new Pet();
         }
-    
+
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Test
         public void Cleanup()
         {
 
-        }   
+        }
 
         /// <summary>
         /// Test an instance of Pet
@@ -50,61 +50,54 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<Pet> (instance, "instance is a Pet");
         }
 
-        
         /// <summary>
-        /// Test the property 'Id' 
+        /// Test the property 'Id'
         /// </summary>
         [Test]
         public void IdTest()
         {
-            // TODO: unit test for the property 'Id' 
+            // TODO: unit test for the property 'Id'
         }
-        
         /// <summary>
-        /// Test the property 'Category' 
+        /// Test the property 'Category'
         /// </summary>
         [Test]
         public void CategoryTest()
         {
-            // TODO: unit test for the property 'Category' 
+            // TODO: unit test for the property 'Category'
         }
-        
         /// <summary>
-        /// Test the property 'Name' 
+        /// Test the property 'Name'
         /// </summary>
         [Test]
         public void NameTest()
         {
-            // TODO: unit test for the property 'Name' 
+            // TODO: unit test for the property 'Name'
         }
-        
         /// <summary>
-        /// Test the property 'PhotoUrls' 
+        /// Test the property 'PhotoUrls'
         /// </summary>
         [Test]
         public void PhotoUrlsTest()
         {
-            // TODO: unit test for the property 'PhotoUrls' 
+            // TODO: unit test for the property 'PhotoUrls'
         }
-        
         /// <summary>
-        /// Test the property 'Tags' 
+        /// Test the property 'Tags'
         /// </summary>
         [Test]
         public void TagsTest()
         {
-            // TODO: unit test for the property 'Tags' 
+            // TODO: unit test for the property 'Tags'
         }
-        
         /// <summary>
-        /// Test the property 'Status' 
+        /// Test the property 'Status'
         /// </summary>
         [Test]
         public void StatusTest()
         {
-            // TODO: unit test for the property 'Status' 
+            // TODO: unit test for the property 'Status'
         }
-        
 
     }
 

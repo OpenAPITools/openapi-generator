@@ -41,18 +41,14 @@ public:
 
     SamiTag* fromJson(String* obj);
 
-    
     Long* getPId();
     void setPId(Long* pId);
-    
     String* getPName();
     void setPName(String* pName);
-    
 
 private:
     Long* pId;
-    String* pName;
-    
+String* pName;
 };
 
 } /* namespace Swagger */

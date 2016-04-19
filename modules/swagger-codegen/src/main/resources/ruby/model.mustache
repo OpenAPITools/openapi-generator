@@ -23,16 +23,19 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     # Attribute type mapping.
     def self.swagger_types
       {
-        {{#vars}}:'{{{name}}}' => :'{{{datatype}}}'{{#hasMore}},{{/hasMore}}
+        {{#vars}}
+        :'{{{name}}}' => :'{{{datatype}}}'{{#hasMore}},{{/hasMore}}
         {{/vars}}
       }
     end
 
+    # Initializes the object
+    # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       return unless attributes.is_a?(Hash)
 
       # convert string to symbol for hash key
-      attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
+      attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
       {{#vars}}
       if attributes[:'{{{baseName}}}']
@@ -46,6 +49,7 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     end
 {{#vars}}{{#isEnum}}
     # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
       allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
       if {{{name}}} && !allowed_values.include?({{{name}}})
@@ -54,7 +58,8 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
       @{{{name}}} = {{{name}}}
     end
 {{/isEnum}}{{/vars}}
-    # Check equality by comparing each attribute.
+    # Checks equality by comparing each attribute.
+    # @param [Object] Object to be compared 
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class{{#vars}} &&
@@ -62,11 +67,13 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     end
 
     # @see the `==` method
+    # @param [Object] Object to be compared 
     def eql?(o)
       self == o
     end
 
-    # Calculate hash code according to all attributes.
+    # Calculates hash code according to all attributes.
+    # @return [Fixnum] Hash code
     def hash
       [{{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}].hash
     end

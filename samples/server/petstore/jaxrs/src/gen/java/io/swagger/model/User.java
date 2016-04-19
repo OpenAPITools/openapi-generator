@@ -2,7 +2,6 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-01-31T21:10:14.319Z")
+
 public class User   {
   
   private Long id = null;
@@ -22,9 +21,13 @@ public class User   {
   private String phone = null;
   private Integer userStatus = null;
 
-  
   /**
    **/
+  public User id(Long id) {
+    this.id = id;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -35,9 +38,13 @@ public class User   {
     this.id = id;
   }
 
-  
   /**
    **/
+  public User username(String username) {
+    this.username = username;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("username")
@@ -48,9 +55,13 @@ public class User   {
     this.username = username;
   }
 
-  
   /**
    **/
+  public User firstName(String firstName) {
+    this.firstName = firstName;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
@@ -61,9 +72,13 @@ public class User   {
     this.firstName = firstName;
   }
 
-  
   /**
    **/
+  public User lastName(String lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
@@ -74,9 +89,13 @@ public class User   {
     this.lastName = lastName;
   }
 
-  
   /**
    **/
+  public User email(String email) {
+    this.email = email;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("email")
@@ -87,9 +106,13 @@ public class User   {
     this.email = email;
   }
 
-  
   /**
    **/
+  public User password(String password) {
+    this.password = password;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("password")
@@ -100,9 +123,13 @@ public class User   {
     this.password = password;
   }
 
-  
   /**
    **/
+  public User phone(String phone) {
+    this.phone = phone;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
@@ -113,10 +140,14 @@ public class User   {
     this.phone = phone;
   }
 
-  
   /**
    * User Status
    **/
+  public User userStatus(Integer userStatus) {
+    this.userStatus = userStatus;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
@@ -127,7 +158,6 @@ public class User   {
     this.userStatus = userStatus;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

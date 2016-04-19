@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**delete_order**](StoreApi.md#delete_order) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
 [**find_orders_by_status**](StoreApi.md#find_orders_by_status) | **GET** /store/findByStatus | Finds orders by status
 [**get_inventory**](StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
-[**get_inventory_in_object**](StoreApi.md#get_inventory_in_object) | **GET** /store/inventory?response=arbitrary_object | Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+[**get_inventory_in_object**](StoreApi.md#get_inventory_in_object) | **GET** /store/inventory?response&#x3D;arbitrary_object | Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
 [**get_order_by_id**](StoreApi.md#get_order_by_id) | **GET** /store/order/{orderId} | Find purchase order by ID
 [**place_order**](StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
 
@@ -53,7 +53,7 @@ void (empty response body)
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -106,7 +106,7 @@ Name | Type | Description  | Notes
 
 [test_api_client_id](../README.md#test_api_client_id), [test_api_client_secret](../README.md#test_api_client_secret)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -151,7 +151,7 @@ This endpoint does not need any parameter.
 
 [api_key](../README.md#api_key)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -196,7 +196,7 @@ This endpoint does not need any parameter.
 
 [api_key](../README.md#api_key)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -249,7 +249,7 @@ Name | Type | Description  | Notes
 
 [test_api_key_header](../README.md#test_api_key_header), [test_api_key_query](../README.md#test_api_key_query)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -302,7 +302,7 @@ Name | Type | Description  | Notes
 
 [test_api_client_id](../README.md#test_api_client_id), [test_api_client_secret](../README.md#test_api_client_secret)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml

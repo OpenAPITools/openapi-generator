@@ -33,7 +33,7 @@ namespace {{packageName}}.Test
         {
             instance = new {{classname}}();
         }
-    
+
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -41,7 +41,7 @@ namespace {{packageName}}.Test
         public void Cleanup()
         {
 
-        }   
+        }
 
         /// <summary>
         /// Test an instance of {{classname}}
@@ -54,12 +54,12 @@ namespace {{packageName}}.Test
 
         {{#vars}}
         /// <summary>
-        /// Test the property '{{name}}' 
+        /// Test the property '{{name}}'
         /// </summary>
         [Test]
         public void {{name}}Test()
         {
-            // TODO: unit test for the property '{{name}}' 
+            // TODO: unit test for the property '{{name}}'
         }
         {{/vars}}
 

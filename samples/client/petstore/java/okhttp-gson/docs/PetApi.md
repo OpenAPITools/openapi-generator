@@ -5,13 +5,10 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**addPetUsingByteArray**](PetApi.md#addPetUsingByteArray) | **POST** /pet?testing_byte_array=true | Fake endpoint to test byte array in body parameter for adding a new pet to the store
 [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**getPetByIdInObject**](PetApi.md#getPetByIdInObject) | **GET** /pet/{petId}?response=inline_arbitrary_object | Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
-[**petPetIdtestingByteArraytrueGet**](PetApi.md#petPetIdtestingByteArraytrueGet) | **GET** /pet/{petId}?testing_byte_array=true | Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -54,7 +51,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional]
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -67,59 +64,7 @@ null (empty response body)
 ### HTTP reuqest headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/json, application/xml
-
-<a name="addPetUsingByteArray"></a>
-# **addPetUsingByteArray**
-> addPetUsingByteArray(body)
-
-Fake endpoint to test byte array in body parameter for adding a new pet to the store
-
-
-
-### Example
-```java
-// Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
-
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-// Configure OAuth2 access token for authorization: petstore_auth
-OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
-PetApi apiInstance = new PetApi();
-byte[] body = BINARY_DATA_HERE; // byte[] | Pet object in the form of byte array
-try {
-    apiInstance.addPetUsingByteArray(body);
-} catch (ApiException e) {
-    System.err.println("Exception when calling PetApi#addPetUsingByteArray");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **byte[]**| Pet object in the form of byte array | [optional]
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP reuqest headers
-
- - **Content-Type**: application/json, application/xml
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="deletePet"></a>
 # **deletePet**
@@ -173,7 +118,7 @@ null (empty response body)
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
@@ -199,7 +144,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for query
+List<String> status = Arrays.asList("status_example"); // List<String> | Status values that need to be considered for filter
 try {
     List<Pet> result = apiInstance.findPetsByStatus(status);
     System.out.println(result);
@@ -213,7 +158,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for query | [optional] [default to available]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter |
 
 ### Return type
 
@@ -226,7 +171,7 @@ Name | Type | Description  | Notes
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
@@ -234,7 +179,7 @@ Name | Type | Description  | Notes
 
 Finds Pets by tags
 
-Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
 ```java
@@ -266,7 +211,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [optional]
+ **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
 
 ### Return type
 
@@ -279,7 +224,7 @@ Name | Type | Description  | Notes
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -287,7 +232,7 @@ Name | Type | Description  | Notes
 
 Find pet by ID
 
-Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+Returns a single pet
 
 ### Example
 ```java
@@ -300,10 +245,6 @@ Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API erro
 
 ApiClient defaultClient = Configuration.getDefaultApiClient();
 
-// Configure OAuth2 access token for authorization: petstore_auth
-OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
 // Configure API key authorization: api_key
 ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
 api_key.setApiKey("YOUR API KEY");
@@ -311,7 +252,7 @@ api_key.setApiKey("YOUR API KEY");
 //api_key.setApiKeyPrefix("Token");
 
 PetApi apiInstance = new PetApi();
-Long petId = 789L; // Long | ID of pet that needs to be fetched
+Long petId = 789L; // Long | ID of pet to return
 try {
     Pet result = apiInstance.getPetById(petId);
     System.out.println(result);
@@ -325,7 +266,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be fetched |
+ **petId** | **Long**| ID of pet to return |
 
 ### Return type
 
@@ -333,130 +274,12 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
+[api_key](../README.md#api_key)
 
 ### HTTP reuqest headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-<a name="getPetByIdInObject"></a>
-# **getPetByIdInObject**
-> InlineResponse200 getPetByIdInObject(petId)
-
-Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
-
-Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-
-### Example
-```java
-// Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
-
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-// Configure OAuth2 access token for authorization: petstore_auth
-OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
-// Configure API key authorization: api_key
-ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
-api_key.setApiKey("YOUR API KEY");
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//api_key.setApiKeyPrefix("Token");
-
-PetApi apiInstance = new PetApi();
-Long petId = 789L; // Long | ID of pet that needs to be fetched
-try {
-    InlineResponse200 result = apiInstance.getPetByIdInObject(petId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling PetApi#getPetByIdInObject");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be fetched |
-
-### Return type
-
-[**InlineResponse200**](InlineResponse200.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
-
-### HTTP reuqest headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-<a name="petPetIdtestingByteArraytrueGet"></a>
-# **petPetIdtestingByteArraytrueGet**
-> byte[] petPetIdtestingByteArraytrueGet(petId)
-
-Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-
-Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-
-### Example
-```java
-// Import classes:
-//import io.swagger.client.ApiClient;
-//import io.swagger.client.ApiException;
-//import io.swagger.client.Configuration;
-//import io.swagger.client.auth.*;
-//import io.swagger.client.api.PetApi;
-
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-// Configure OAuth2 access token for authorization: petstore_auth
-OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
-// Configure API key authorization: api_key
-ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
-api_key.setApiKey("YOUR API KEY");
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//api_key.setApiKeyPrefix("Token");
-
-PetApi apiInstance = new PetApi();
-Long petId = 789L; // Long | ID of pet that needs to be fetched
-try {
-    byte[] result = apiInstance.petPetIdtestingByteArraytrueGet(petId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling PetApi#petPetIdtestingByteArraytrueGet");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be fetched |
-
-### Return type
-
-**byte[]**
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
-
-### HTTP reuqest headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="updatePet"></a>
 # **updatePet**
@@ -495,7 +318,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional]
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -508,7 +331,7 @@ null (empty response body)
 ### HTTP reuqest headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
@@ -534,7 +357,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-String petId = "petId_example"; // String | ID of pet that needs to be updated
+Long petId = 789L; // Long | ID of pet that needs to be updated
 String name = "name_example"; // String | Updated name of the pet
 String status = "status_example"; // String | Updated status of the pet
 try {
@@ -549,7 +372,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **String**| ID of pet that needs to be updated |
+ **petId** | **Long**| ID of pet that needs to be updated |
  **name** | **String**| Updated name of the pet | [optional]
  **status** | **String**| Updated status of the pet | [optional]
 
@@ -564,11 +387,11 @@ null (empty response body)
 ### HTTP reuqest headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> uploadFile(petId, additionalMetadata, file)
+> ApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -594,7 +417,8 @@ Long petId = 789L; // Long | ID of pet to update
 String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
 File file = new File("/path/to/file.txt"); // File | file to upload
 try {
-    apiInstance.uploadFile(petId, additionalMetadata, file);
+    ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#uploadFile");
     e.printStackTrace();
@@ -611,7 +435,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
@@ -620,5 +444,5 @@ null (empty response body)
 ### HTTP reuqest headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 

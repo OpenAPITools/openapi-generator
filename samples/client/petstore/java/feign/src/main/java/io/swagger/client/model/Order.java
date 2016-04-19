@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-14T22:17:50.356+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-19T19:29:57.731+08:00")
 public class Order   {
   
   private Long id = null;
@@ -39,16 +39,26 @@ public class Order   {
   }
 
   private StatusEnum status = null;
-  private Boolean complete = null;
+  private Boolean complete = false;
 
+  
+  /**
+   **/
+  public Order id(Long id) {
+    this.id = id;
+    return this;
+  }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-  
+
   /**
    **/
   public Order petId(Long petId) {
@@ -65,7 +75,7 @@ public class Order   {
     this.petId = petId;
   }
 
-  
+
   /**
    **/
   public Order quantity(Integer quantity) {
@@ -82,7 +92,7 @@ public class Order   {
     this.quantity = quantity;
   }
 
-  
+
   /**
    **/
   public Order shipDate(Date shipDate) {
@@ -99,7 +109,7 @@ public class Order   {
     this.shipDate = shipDate;
   }
 
-  
+
   /**
    * Order Status
    **/
@@ -117,7 +127,7 @@ public class Order   {
     this.status = status;
   }
 
-  
+
   /**
    **/
   public Order complete(Boolean complete) {
@@ -134,7 +144,6 @@ public class Order   {
     this.complete = complete;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name="Pet")
 @XmlEnum
 public enum Pet {
-    {values=[available, pending, sold], enumVars=[{name=AVAILABLE, value=available}, {name=PENDING, value=pending}, {name=SOLD, value=sold}]}, 
+    {values&#x3D;[available, pending, sold], enumVars&#x3D;[{name&#x3D;AVAILABLE, value&#x3D;available}, {name&#x3D;PENDING, value&#x3D;pending}, {name&#x3D;SOLD, value&#x3D;sold}]}, 
     
     public String value() {
         return name();
@@ -51,7 +51,6 @@ public enum Pet {
 
   private StatusEnum status = null;
 
-  
   /**
    **/
   
@@ -61,7 +60,6 @@ public enum Pet {
   public void setId(Long id) {
     this.id = id;
   }
-  
   /**
    **/
   
@@ -71,7 +69,6 @@ public enum Pet {
   public void setCategory(Category category) {
     this.category = category;
   }
-  
   /**
    **/
   
@@ -81,7 +78,6 @@ public enum Pet {
   public void setName(String name) {
     this.name = name;
   }
-  
   /**
    **/
   
@@ -91,7 +87,6 @@ public enum Pet {
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
-  
   /**
    **/
   
@@ -101,7 +96,6 @@ public enum Pet {
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-  
   /**
    * pet status in the store
    **/
@@ -112,7 +106,6 @@ public enum Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-  
 
   @Override
   public String toString() {

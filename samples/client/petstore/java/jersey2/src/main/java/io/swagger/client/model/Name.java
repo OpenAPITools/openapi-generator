@@ -7,9 +7,12 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
+/**
+ * Model for testing model name same as property name
+ **/
 
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-23T19:44:38.177+08:00")
+@ApiModel(description = "Model for testing model name same as property name")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-19T19:29:55.995+08:00")
 public class Name   {
   
   private Integer name = null;
@@ -23,7 +26,7 @@ public class Name   {
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("name")
   public Integer getName() {
     return name;
@@ -32,24 +35,13 @@ public class Name   {
     this.name = name;
   }
 
-  
-  /**
-   **/
-  public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = snakeCase;
-    return this;
-  }
-  
+
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
-  public void setSnakeCase(Integer snakeCase) {
-    this.snakeCase = snakeCase;
-  }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

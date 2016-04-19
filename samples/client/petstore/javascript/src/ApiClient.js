@@ -48,7 +48,6 @@
       'test_api_key_query': {type: 'apiKey', 'in': 'query', name: 'test_api_key_query'},
       'petstore_auth': {type: 'oauth2'}
     };
-
     /**
      * The default HTTP headers to be included for all API calls.
      * @type {Array.<String>}

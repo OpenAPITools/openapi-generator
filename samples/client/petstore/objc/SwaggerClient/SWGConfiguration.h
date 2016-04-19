@@ -47,6 +47,11 @@
 @property (nonatomic) NSString *password;
 
 /**
+ * Access token for OAuth
+ */
+@property (nonatomic) NSString *accessToken;
+
+/**
  * Temp folder for file download
  */
 @property (nonatomic) NSString *tempFolderPath;
@@ -131,6 +136,11 @@
  * Gets Basic Auth token
  */
 - (NSString *) getBasicAuthToken;
+
+/**
+ * Gets OAuth access token
+ */
+- (NSString *) getAccessToken;
 
 /**
  * Gets Authentication Setings

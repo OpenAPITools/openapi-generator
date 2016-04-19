@@ -45,7 +45,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | [optional] 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -55,10 +55,10 @@ void (empty response body)
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -88,7 +88,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ARRAY[User]**](User.md)| List of user object | [optional] 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -98,10 +98,10 @@ void (empty response body)
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -131,7 +131,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ARRAY[User]**](User.md)| List of user object | [optional] 
+ **body** | [**ARRAY[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -141,10 +141,10 @@ void (empty response body)
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -158,10 +158,6 @@ This can only be done by the logged in user.
 ### Example 
 ```perl
 use Data::Dumper;
-
-# Configure HTTP basic authorization: test_http_basic
-$WWW::SwaggerClient::Configuration::username = 'YOUR_USERNAME';
-$WWW::SwaggerClient::Configuration::password = 'YOUR_PASSWORD';
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The name that needs to be deleted
@@ -186,12 +182,12 @@ void (empty response body)
 
 ### Authorization
 
-[test_http_basic](../README.md#test_http_basic)
+No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -207,7 +203,7 @@ Get user by user name
 use Data::Dumper;
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing.
+my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing. 
 
 eval { 
     my $result = $api_instance->get_user_by_name(username => $username);
@@ -222,7 +218,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
 
 ### Return type
 
@@ -232,10 +228,10 @@ Name | Type | Description  | Notes
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -267,8 +263,8 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login | [optional] 
- **password** | **string**| The password for login in clear text | [optional] 
+ **username** | **string**| The user name for login | 
+ **password** | **string**| The password for login in clear text | 
 
 ### Return type
 
@@ -278,10 +274,10 @@ Name | Type | Description  | Notes
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -317,10 +313,10 @@ void (empty response body)
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -352,7 +348,7 @@ if ($@) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | [optional] 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -362,10 +358,10 @@ void (empty response body)
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

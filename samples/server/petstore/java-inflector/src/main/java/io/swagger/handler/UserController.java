@@ -11,9 +11,9 @@ import java.util.List;
 import io.swagger.model.*;
 
 import io.swagger.model.User;
-import java.util.*;
+import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-01-19T23:33:17.124+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-04-15T17:48:04.458+08:00")
 public class UserController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
@@ -40,6 +40,18 @@ public class UserController  {
   */
 
   /*
+    public ResponseContext deleteUser(RequestContext request , String username) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext getUserByName(RequestContext request , String username) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
     public ResponseContext loginUser(RequestContext request , String username, String password) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
@@ -52,19 +64,7 @@ public class UserController  {
   */
 
   /*
-    public ResponseContext getUserByName(RequestContext request , String username) {
-        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
-    }
-  */
-
-  /*
     public ResponseContext updateUser(RequestContext request , String username, User body) {
-        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
-    }
-  */
-
-  /*
-    public ResponseContext deleteUser(RequestContext request , String username) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

@@ -74,6 +74,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
                     "Int",
+                    "Int32",
+                    "Int64",
                     "Float",
                     "Double",
                     "Bool",
@@ -93,9 +95,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
                     "Empty",
                     "AnyObject")
                 );
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<String>(
                 Arrays.asList(
-                    "class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
+                    "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject",
+                    "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
                     "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
                     "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
                     "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
@@ -115,10 +118,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("char", "Character");
         typeMapping.put("short", "Int");
-        typeMapping.put("int", "Int");
-        typeMapping.put("long", "Int");
-        typeMapping.put("integer", "Int");
-        typeMapping.put("Integer", "Int");
+        typeMapping.put("int", "Int32");
+        typeMapping.put("long", "Int64");
+        typeMapping.put("integer", "Int32");
+        typeMapping.put("Integer", "Int32");
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
@@ -127,6 +130,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
+        typeMapping.put("ByteArray", "String");
 
         importMapping = new HashMap<String, String>();
 
@@ -198,6 +202,11 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word); //don't lowercase as super does
     }
 
     @Override
@@ -331,10 +340,9 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             // Ensure that the enum type doesn't match a reserved word or
             // the variable name doesn't match the generated enum type or the
             // Swift compiler will generate an error
-            if (isReservedWord(codegenProperty.datatypeWithEnum) ||
-                    name.equals(codegenProperty.datatypeWithEnum)) {
-                codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
-                    }
+            if (isReservedWord(codegenProperty.datatypeWithEnum) || name.equals(codegenProperty.datatypeWithEnum)) {
+                codegenProperty.datatypeWithEnum = codegenProperty.datatypeWithEnum + "Enum";
+            }
         }
         return codegenProperty;
     }

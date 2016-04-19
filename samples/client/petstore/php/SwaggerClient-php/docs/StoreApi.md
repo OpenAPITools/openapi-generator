@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
 [**findOrdersByStatus**](StoreApi.md#findOrdersByStatus) | **GET** /store/findByStatus | Finds orders by status
 [**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getInventoryInObject**](StoreApi.md#getInventoryInObject) | **GET** /store/inventory?response=arbitrary_object | Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+[**getInventoryInObject**](StoreApi.md#getInventoryInObject) | **GET** /store/inventory?response&#x3D;arbitrary_object | Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
 [**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
 [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
 
@@ -49,7 +49,7 @@ void (empty response body)
 
 No authorization required
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -103,7 +103,7 @@ Name | Type | Description  | Notes
 
 [test_api_client_id](../README.md#test_api_client_id), [test_api_client_secret](../README.md#test_api_client_secret)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -149,7 +149,7 @@ This endpoint does not need any parameter.
 
 [api_key](../README.md#api_key)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -195,7 +195,7 @@ This endpoint does not need any parameter.
 
 [api_key](../README.md#api_key)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -214,14 +214,14 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Configure API key authorization: test_api_key_query
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('test_api_key_query', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('test_api_key_query', 'BEARER');
 // Configure API key authorization: test_api_key_header
 Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('test_api_key_header', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
 // Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('test_api_key_header', 'BEARER');
+// Configure API key authorization: test_api_key_query
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('test_api_key_query', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('test_api_key_query', 'BEARER');
 
 $api_instance = new Swagger\Client\Api\StoreApi();
 $order_id = "order_id_example"; // string | ID of pet that needs to be fetched
@@ -247,9 +247,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[test_api_key_query](../README.md#test_api_key_query), [test_api_key_header](../README.md#test_api_key_header)
+[test_api_key_header](../README.md#test_api_key_header), [test_api_key_query](../README.md#test_api_key_query)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
@@ -303,7 +303,7 @@ Name | Type | Description  | Notes
 
 [test_api_client_id](../README.md#test_api_client_id), [test_api_client_secret](../README.md#test_api_client_secret)
 
-### HTTP reuqest headers
+### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml

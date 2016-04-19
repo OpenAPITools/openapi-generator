@@ -24,7 +24,7 @@
 /// Create user
 /// This can only be done by the logged in user.
 ///
-/// @param body Created user object
+/// @param body Created user object (optional)
 /// 
 ///
 /// @return 
@@ -37,7 +37,7 @@
 /// Creates list of users with given input array
 /// 
 ///
-/// @param body List of user object
+/// @param body List of user object (optional)
 /// 
 ///
 /// @return 
@@ -50,7 +50,7 @@
 /// Creates list of users with given input array
 /// 
 ///
-/// @param body List of user object
+/// @param body List of user object (optional)
 /// 
 ///
 /// @return 
@@ -76,7 +76,7 @@
 /// Get user by user name
 /// 
 ///
-/// @param username The name that needs to be fetched. Use user1 for testing.
+/// @param username The name that needs to be fetched. Use user1 for testing. 
 /// 
 ///
 /// @return SWGUser*
@@ -89,8 +89,8 @@
 /// Logs user into the system
 /// 
 ///
-/// @param username The user name for login
-/// @param password The password for login in clear text
+/// @param username The user name for login (optional)
+/// @param password The password for login in clear text (optional)
 /// 
 ///
 /// @return NSString*
@@ -117,7 +117,7 @@
 /// This can only be done by the logged in user.
 ///
 /// @param username name that need to be deleted
-/// @param body Updated user object
+/// @param body Updated user object (optional)
 /// 
 ///
 /// @return 

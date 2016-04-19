@@ -371,7 +371,8 @@ class ApiClient(object):
         elif method == "DELETE":
             return self.rest_client.DELETE(url,
                                            query_params=query_params,
-                                           headers=headers)
+                                           headers=headers,
+                                           body=body)
         else:
             raise ValueError(
                 "http method must be `GET`, `HEAD`,"

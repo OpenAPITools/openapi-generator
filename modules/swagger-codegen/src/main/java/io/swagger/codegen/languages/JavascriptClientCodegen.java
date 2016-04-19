@@ -122,7 +122,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("float", "Number");
         typeMapping.put("number", "Number");
         typeMapping.put("DateTime", "Date"); // Should this be dateTime?
-        typeMapping.put("Date", "Date"); // Should this be date?
+        typeMapping.put("date", "Date"); // Should this be date?
         typeMapping.put("long", "Integer");
         typeMapping.put("short", "Integer");
         typeMapping.put("char", "String");

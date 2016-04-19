@@ -6,9 +6,8 @@ class Tag {
   
   int id = null;
   
-  
+
   String name = null;
-  
   
   Tag();
 

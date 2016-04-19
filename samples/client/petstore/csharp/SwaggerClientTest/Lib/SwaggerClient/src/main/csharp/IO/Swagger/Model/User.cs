@@ -43,7 +43,7 @@ namespace IO.Swagger.Model
             this.UserStatus = UserStatus;
             
         }
-        
+
     
         /// <summary>
         /// Gets or Sets Id
@@ -110,11 +110,10 @@ namespace IO.Swagger.Model
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Phone: ").Append(Phone).Append("\n");
             sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
-            
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -200,31 +199,22 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.Id != null)
                     hash = hash * 59 + this.Id.GetHashCode();
-                
                 if (this.Username != null)
                     hash = hash * 59 + this.Username.GetHashCode();
-                
                 if (this.FirstName != null)
                     hash = hash * 59 + this.FirstName.GetHashCode();
-                
                 if (this.LastName != null)
                     hash = hash * 59 + this.LastName.GetHashCode();
-                
                 if (this.Email != null)
                     hash = hash * 59 + this.Email.GetHashCode();
-                
                 if (this.Password != null)
                     hash = hash * 59 + this.Password.GetHashCode();
-                
                 if (this.Phone != null)
                     hash = hash * 59 + this.Phone.GetHashCode();
-                
                 if (this.UserStatus != null)
                     hash = hash * 59 + this.UserStatus.GetHashCode();
-                
                 return hash;
             }
         }
