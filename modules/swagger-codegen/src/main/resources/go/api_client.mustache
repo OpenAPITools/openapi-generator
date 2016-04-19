@@ -4,6 +4,7 @@ import (
     "strings"
     "github.com/go-resty/resty"
     "errors"
+    "reflect"
 )
 
 type ApiClient struct {
@@ -71,6 +72,14 @@ func (c *ApiClient) CallApi(path string, method string,
     }
 
     return nil, errors.New("Invalid method " + method)
+}
+
+func (c *ApiClient) ParameterToString (obj interface{}) string {
+    if reflect.TypeOf(obj).Len()  > 0 {
+        return strings.Join(obj.([]string), ",")
+    } else{
+        return obj.(string)
+    }
 }
 
 func prepareRequest(postBody interface{},
