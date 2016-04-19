@@ -81,7 +81,8 @@ func (a UserApi) CreateUser (body User) (error) {
     postBody = &body
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -142,7 +143,8 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
     postBody = &body
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -203,7 +205,8 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
     postBody = &body
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -262,7 +265,8 @@ func (a UserApi) DeleteUser (username string) (error) {
 
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -322,6 +326,7 @@ func (a UserApi) GetUserByName (username string) (User, error) {
 
   var successPayload = new(User)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
@@ -389,6 +394,7 @@ func (a UserApi) LoginUser (username string, password string) (string, error) {
 
   var successPayload = new(string)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
@@ -443,7 +449,8 @@ func (a UserApi) LogoutUser () (error) {
 
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -510,7 +517,8 @@ func (a UserApi) UpdateUser (username string, body User) (error) {
     postBody = &body
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }

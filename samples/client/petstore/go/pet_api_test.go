@@ -45,3 +45,13 @@ func TestUpdatePetWithForm(t *testing.T) {
 		t.Log(err)
 	}
 }
+
+func TestDeletePet(t *testing.T) {
+	s := sw.NewPetApi()
+	err := s.DeletePet(12830, "")
+
+	if err != nil {
+		t.Errorf("Error while deleting pet by id")
+		t.Log(err)
+	}
+}

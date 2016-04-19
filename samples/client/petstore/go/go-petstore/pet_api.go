@@ -91,7 +91,8 @@ func (a PetApi) AddPet (body Pet) (error) {
     postBody = &body
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -159,7 +160,8 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
 
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -225,6 +227,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 
   var successPayload = new([]Pet)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
@@ -292,6 +295,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 
   var successPayload = new([]Pet)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
@@ -358,6 +362,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
 
   var successPayload = new(Pet)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
@@ -428,7 +433,8 @@ func (a PetApi) UpdatePet (body Pet) (error) {
     postBody = &body
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -498,7 +504,8 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
         formParams["Status"] = status
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -569,6 +576,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
 
   var successPayload = new(ApiResponse)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
