@@ -343,7 +343,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $config = new Swagger\Client\Configuration();
         $config->setHost('http://petstore.swagger.io/v2');
         $api_client = new Swagger\Client\APIClient($config);
-        $store_api = new Swagger\Client\Api\StoreAPI($api_client);
+        $store_api = new Swagger\Client\Api\StoreApi($api_client);
         // get inventory
         $get_response = $store_api->getInventory();
   
