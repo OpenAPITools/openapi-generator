@@ -72,7 +72,7 @@ export class {{classname}} {
             search: queryParameters
         };
         {{#bodyParam}}
-        requestOptions.body = JSOG.stringify({{paramName}});
+        requestOptions.body = JSON.stringify({{paramName}});
         {{/bodyParam}}
         {{#hasFormParams}}
         requestOptions.body = formParams.toString();
