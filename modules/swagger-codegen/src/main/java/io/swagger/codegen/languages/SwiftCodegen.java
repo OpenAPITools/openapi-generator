@@ -335,10 +335,9 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             // Ensure that the enum type doesn't match a reserved word or
             // the variable name doesn't match the generated enum type or the
             // Swift compiler will generate an error
-            if (isReservedWord(codegenProperty.datatypeWithEnum) ||
-                    name.equals(codegenProperty.datatypeWithEnum)) {
+            if (isReservedWord(codegenProperty.datatypeWithEnum) || name.equals(codegenProperty.datatypeWithEnum)) {
                 codegenProperty.datatypeWithEnum = codegenProperty.datatypeWithEnum + "Enum";
-                    }
+            }
         }
         return codegenProperty;
     }
