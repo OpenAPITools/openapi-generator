@@ -79,7 +79,8 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
 
 
 
-_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return err
   }
@@ -137,6 +138,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
 
   var successPayload = new(map[string]int32)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
@@ -198,6 +200,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
 
   var successPayload = new(Order)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
@@ -261,6 +264,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
 
   var successPayload = new(Order)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
   if err != nil {
     return *successPayload, err
   }
