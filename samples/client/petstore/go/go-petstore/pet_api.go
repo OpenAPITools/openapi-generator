@@ -585,7 +585,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     }
 
     formParams["AdditionalMetadata"] = additionalMetadata
-    formParams["File"] = file.Name()
+    fileParams["File"] = file.Name()
 
   var successPayload = new(ApiResponse)
 
