@@ -9,9 +9,9 @@ import io.swagger.models.properties.FileProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
-public class TypeScriptAngular2ClientCodegen2 extends AbstractTypeScriptClientCodegen {
+public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCodegen {
 
-    public TypeScriptAngular2ClientCodegen2() {
+    public TypeScriptAngular2ClientCodegen() {
         super();
         this.outputFolder = "generated-code/typescript-angular2";
 
