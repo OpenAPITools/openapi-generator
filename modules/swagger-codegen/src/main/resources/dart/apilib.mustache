@@ -18,5 +18,5 @@ part 'auth/http_basic_auth.dart';
 
 {{#apiInfo}}{{#apis}}part 'api/{{classVarName}}_api.dart';
 {{/apis}}{{/apiInfo}}
-{{#models}}{{#model}}part 'model/{{classVarName}}.dart';
+{{#models}}{{#model}}part 'model/{{classFilename}}.dart';
 {{/model}}{{/models}}

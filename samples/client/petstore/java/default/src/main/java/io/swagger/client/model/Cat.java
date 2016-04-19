@@ -10,7 +10,7 @@ import io.swagger.client.model.Animal;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-29T18:13:32.007+08:00")
+
 public class Cat extends Animal  {
   
   private String className = null;
@@ -33,7 +33,7 @@ public class Cat extends Animal  {
     this.className = className;
   }
 
-  
+
   /**
    **/
   public Cat declawed(Boolean declawed) {
@@ -50,7 +50,6 @@ public class Cat extends Animal  {
     this.declawed = declawed;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

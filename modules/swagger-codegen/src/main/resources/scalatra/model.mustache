@@ -7,9 +7,8 @@ package {{package}}
 
 {{#model}}
 case class {{classname}} (
-  {{#vars}}{{name}}: {{#isNotRequired}}Option[{{/isNotRequired}}{{datatype}}{{#isNotRequired}}] {{#description}}  // {{description}}{{/description}}
-  {{/isNotRequired}}{{#hasMore}},
-  {{/hasMore}}{{/vars}}
+  {{#vars}}{{name}}: {{^required}}Option[{{/required}}{{datatype}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{#description}}  // {{description}}{{/description}}
+  {{/vars}}
 )
 {{/model}}
 {{/models}}

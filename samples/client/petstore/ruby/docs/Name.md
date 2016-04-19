@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **Integer** |  | [optional] 
+**name** | **Integer** |  | 
 **snake_case** | **Integer** |  | [optional] 
 
 

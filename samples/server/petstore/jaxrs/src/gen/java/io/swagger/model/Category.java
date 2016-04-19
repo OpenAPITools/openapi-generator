@@ -2,7 +2,6 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,15 +9,19 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-01-31T21:10:14.319Z")
+
 public class Category   {
   
   private Long id = null;
   private String name = null;
 
-  
   /**
    **/
+  public Category id(Long id) {
+    this.id = id;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -29,9 +32,13 @@ public class Category   {
     this.id = id;
   }
 
-  
   /**
    **/
+  public Category name(String name) {
+    this.name = name;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
@@ -42,7 +49,6 @@ public class Category   {
     this.name = name;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

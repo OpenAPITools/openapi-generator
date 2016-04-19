@@ -9,11 +9,11 @@ import org.scalatra.swagger._
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
-import org.scalatra.servlet.{FileUploadSupport, MultipartConfig, SizeConstraintExceededException}
+import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig, SizeConstraintExceededException }
 
 import scala.collection.JavaConverters._
 
-class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet 
+class StoreApi(implicit val swagger: Swagger) extends ScalatraServlet
     with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
@@ -26,71 +26,48 @@ class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet
     contentType = formats("json")
     response.headers += ("Access-Control-Allow-Origin" -> "*")
   }
-  
-
-  val getInventoryOperation = (apiOperation[Map[String, Int]]("getInventory")
-      summary "Returns pet inventories by status"
-      parameters()
-  )
-
-  get("/store/inventory",operation(getInventoryOperation)) {
-    
-  }
-
-  
-
-  val placeOrderOperation = (apiOperation[Order]("placeOrder")
-      summary "Place an order for a pet"
-      parameters(bodyParam[Order]("body").description("").optional)
-  )
-
-  post("/store/order",operation(placeOrderOperation)) {
-    
-    
-    
-                
-bodyParam[Order]("body").description("").optional
-    
-    println("body: " + body)
-  
-  }
-
-  
-
-  val getOrderByIdOperation = (apiOperation[Order]("getOrderById")
-      summary "Find purchase order by ID"
-      parameters(pathParam[String]("orderId").description(""))
-  )
-
-  get("/store/order/{orderId}",operation(getOrderByIdOperation)) {
-    
-    
-    
-      val orderId = params.getOrElse("orderId", halt(400))
-                
-
-    
-    println("orderId: " + orderId)
-  
-  }
-
-  
 
   val deleteOrderOperation = (apiOperation[Unit]("deleteOrder")
-      summary "Delete purchase order by ID"
-      parameters(pathParam[String]("orderId").description(""))
+    summary "Delete purchase order by ID"
+    parameters (pathParam[String]("orderId").description(""))
   )
 
-  delete("/store/order/{orderId}",operation(deleteOrderOperation)) {
-    
-    
-    
-      val orderId = params.getOrElse("orderId", halt(400))
-                
+  delete("/store/order/{orderId}", operation(deleteOrderOperation)) {
 
-    
+    val orderId = params.getOrElse("orderId", halt(400))
+
     println("orderId: " + orderId)
-  
+  }
+
+  val getInventoryOperation = (apiOperation[Map[String, Int]]("getInventory")
+    summary "Returns pet inventories by status"
+    parameters ()
+  )
+
+  get("/store/inventory", operation(getInventoryOperation)) {
+  }
+
+  val getOrderByIdOperation = (apiOperation[Order]("getOrderById")
+    summary "Find purchase order by ID"
+    parameters (pathParam[Long]("orderId").description(""))
+  )
+
+  get("/store/order/{orderId}", operation(getOrderByIdOperation)) {
+
+    val orderId = params.getOrElse("orderId", halt(400))
+
+    println("orderId: " + orderId)
+  }
+
+  val placeOrderOperation = (apiOperation[Order]("placeOrder")
+    summary "Place an order for a pet"
+    parameters (bodyParam[Order]("body").description(""))
+  )
+
+  post("/store/order", operation(placeOrderOperation)) {
+
+    bodyParam[Order]("body").description("")
+    println("body: " + body)
   }
 
 }

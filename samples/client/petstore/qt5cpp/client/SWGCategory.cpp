@@ -27,17 +27,15 @@ SWGCategory::~SWGCategory() {
 void
 SWGCategory::init() {
     id = 0L;
-    name = new QString("");
-    
+name = new QString("");
 }
 
 void
 SWGCategory::cleanup() {
     
-    if(name != NULL) {
+if(name != NULL) {
         delete name;
     }
-    
 }
 
 SWGCategory*
@@ -52,8 +50,7 @@ SWGCategory::fromJson(QString &json) {
 void
 SWGCategory::fromJsonObject(QJsonObject &pJson) {
     setValue(&id, pJson["id"], "qint64", "");
-    setValue(&name, pJson["name"], "QString", "QString");
-    
+setValue(&name, pJson["name"], "QString", "QString");
 }
 
 QString
@@ -70,13 +67,11 @@ QJsonObject*
 SWGCategory::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     obj->insert("id", QJsonValue(id));
-    
+
     
     toJsonValue(QString("name"), name, obj, QString("QString"));
     
-    
-    
-    
+        
 
     return obj;
 }

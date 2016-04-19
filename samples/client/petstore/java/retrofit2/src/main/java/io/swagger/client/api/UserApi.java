@@ -16,11 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserApi {
-  
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (optional)
+   * @param body Created user object (required)
    * @return Call<Void>
    */
   
@@ -29,11 +28,10 @@ public interface UserApi {
     @Body User body
   );
 
-  
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (optional)
+   * @param body List of user object (required)
    * @return Call<Void>
    */
   
@@ -42,11 +40,10 @@ public interface UserApi {
     @Body List<User> body
   );
 
-  
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (optional)
+   * @param body List of user object (required)
    * @return Call<Void>
    */
   
@@ -55,7 +52,6 @@ public interface UserApi {
     @Body List<User> body
   );
 
-  
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -68,11 +64,10 @@ public interface UserApi {
     @Path("username") String username
   );
 
-  
   /**
    * Get user by user name
    * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @return Call<User>
    */
   
@@ -81,12 +76,11 @@ public interface UserApi {
     @Path("username") String username
   );
 
-  
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login (optional)
-   * @param password The password for login in clear text (optional)
+   * @param username The user name for login (required)
+   * @param password The password for login in clear text (required)
    * @return Call<String>
    */
   
@@ -95,7 +89,6 @@ public interface UserApi {
     @Query("username") String username, @Query("password") String password
   );
 
-  
   /**
    * Logs out current logged in user session
    * 
@@ -106,12 +99,11 @@ public interface UserApi {
   Call<Void> logoutUser();
     
 
-  
   /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (optional)
+   * @param body Updated user object (required)
    * @return Call<Void>
    */
   
@@ -120,5 +112,4 @@ public interface UserApi {
     @Path("username") String username, @Body User body
   );
 
-  
 }

@@ -47,6 +47,12 @@ use \ArrayAccess;
 class Tag implements ArrayAccess
 {
     /**
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Tag';
+
+    /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
@@ -98,19 +104,16 @@ class Tag implements ArrayAccess
         return self::$getters;
     }
 
-    
     /**
       * $id 
       * @var int
       */
     protected $id;
-    
     /**
       * $name 
       * @var string
       */
     protected $name;
-    
 
     /**
      * Constructor
@@ -119,12 +122,12 @@ class Tag implements ArrayAccess
     public function __construct(array $data = null)
     {
         
+        
         if ($data != null) {
             $this->id = $data["id"];
             $this->name = $data["name"];
         }
     }
-    
     /**
      * Gets id
      * @return int
@@ -145,7 +148,6 @@ class Tag implements ArrayAccess
         $this->id = $id;
         return $this;
     }
-    
     /**
      * Gets name
      * @return string
@@ -166,7 +168,6 @@ class Tag implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -214,10 +215,10 @@ class Tag implements ArrayAccess
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
-        } else {
-            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
+
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }

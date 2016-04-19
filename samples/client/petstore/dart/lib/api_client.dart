@@ -61,32 +61,18 @@ class ApiClient {
     bool isMap = json is Map;
 
     switch(clazz) {
-      
-      
-      case User:
-        return isMap ? dson.map(json, new User()) : dson.decode(json, new User());
-      
-      
-      
+      case ApiResponse:
+        return isMap ? dson.map(json, new ApiResponse()) : dson.decode(json, new ApiResponse());
       case Category:
         return isMap ? dson.map(json, new Category()) : dson.decode(json, new Category());
-      
-      
-      
-      case Pet:
-        return isMap ? dson.map(json, new Pet()) : dson.decode(json, new Pet());
-      
-      
-      
-      case Tag:
-        return isMap ? dson.map(json, new Tag()) : dson.decode(json, new Tag());
-      
-      
-      
       case Order:
         return isMap ? dson.map(json, new Order()) : dson.decode(json, new Order());
-      
-      
+      case Pet:
+        return isMap ? dson.map(json, new Pet()) : dson.decode(json, new Pet());
+      case Tag:
+        return isMap ? dson.map(json, new Tag()) : dson.decode(json, new Tag());
+      case User:
+        return isMap ? dson.map(json, new User()) : dson.decode(json, new User());
       default:
         throw new ApiException(500, 'Could not find a suitable class for deserialization');
     }

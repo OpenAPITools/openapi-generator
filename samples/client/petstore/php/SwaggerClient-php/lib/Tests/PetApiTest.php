@@ -64,7 +64,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    
     /**
      * Test case for addPet
      *
@@ -74,17 +73,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_addPet() {
 
     }
-    
-    /**
-     * Test case for addPetUsingByteArray
-     *
-     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-     *
-     */
-    public function test_addPetUsingByteArray() {
-
-    }
-    
     /**
      * Test case for deletePet
      *
@@ -94,7 +82,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_deletePet() {
 
     }
-    
     /**
      * Test case for findPetsByStatus
      *
@@ -104,7 +91,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_findPetsByStatus() {
 
     }
-    
     /**
      * Test case for findPetsByTags
      *
@@ -114,7 +100,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_findPetsByTags() {
 
     }
-    
     /**
      * Test case for getPetById
      *
@@ -124,27 +109,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_getPetById() {
 
     }
-    
-    /**
-     * Test case for getPetByIdInObject
-     *
-     * Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
-     *
-     */
-    public function test_getPetByIdInObject() {
-
-    }
-    
-    /**
-     * Test case for petPetIdtestingByteArraytrueGet
-     *
-     * Fake endpoint to test byte array return by 'Find pet by ID'
-     *
-     */
-    public function test_petPetIdtestingByteArraytrueGet() {
-
-    }
-    
     /**
      * Test case for updatePet
      *
@@ -154,7 +118,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_updatePet() {
 
     }
-    
     /**
      * Test case for updatePetWithForm
      *
@@ -164,7 +127,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_updatePetWithForm() {
 
     }
-    
     /**
      * Test case for uploadFile
      *
@@ -174,5 +136,4 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function test_uploadFile() {
 
     }
-    
 }

@@ -7,13 +7,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Category;
 import io.swagger.model.Tag;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-01-31T21:10:14.319Z")
+
 public class Pet   {
   
   private Long id = null;
@@ -43,9 +44,13 @@ public class Pet   {
 
   private StatusEnum status = null;
 
-  
   /**
    **/
+  public Pet id(Long id) {
+    this.id = id;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -56,9 +61,13 @@ public class Pet   {
     this.id = id;
   }
 
-  
   /**
    **/
+  public Pet category(Category category) {
+    this.category = category;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("category")
@@ -69,11 +78,15 @@ public class Pet   {
     this.category = category;
   }
 
-  
   /**
    **/
+  public Pet name(String name) {
+    this.name = name;
+    return this;
+  }
+
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -82,9 +95,13 @@ public class Pet   {
     this.name = name;
   }
 
-  
   /**
    **/
+  public Pet photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
@@ -95,9 +112,13 @@ public class Pet   {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
+  public Pet tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
@@ -108,10 +129,14 @@ public class Pet   {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
+  public Pet status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
@@ -122,7 +147,6 @@ public class Pet   {
     this.status = status;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

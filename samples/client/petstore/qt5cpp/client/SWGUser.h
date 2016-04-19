@@ -32,32 +32,30 @@ public:
 
     qint64 getId();
     void setId(qint64 id);
-    QString* getUsername();
+QString* getUsername();
     void setUsername(QString* username);
-    QString* getFirstName();
+QString* getFirstName();
     void setFirstName(QString* firstName);
-    QString* getLastName();
+QString* getLastName();
     void setLastName(QString* lastName);
-    QString* getEmail();
+QString* getEmail();
     void setEmail(QString* email);
-    QString* getPassword();
+QString* getPassword();
     void setPassword(QString* password);
-    QString* getPhone();
+QString* getPhone();
     void setPhone(QString* phone);
-    qint32 getUserStatus();
+qint32 getUserStatus();
     void setUserStatus(qint32 userStatus);
-    
 
 private:
     qint64 id;
-    QString* username;
-    QString* firstName;
-    QString* lastName;
-    QString* email;
-    QString* password;
-    QString* phone;
-    qint32 userStatus;
-    
+QString* username;
+QString* firstName;
+QString* lastName;
+QString* email;
+QString* password;
+QString* phone;
+qint32 userStatus;
 };
 
 } /* namespace Swagger */

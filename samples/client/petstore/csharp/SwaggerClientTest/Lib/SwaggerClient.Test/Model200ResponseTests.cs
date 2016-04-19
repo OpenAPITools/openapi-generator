@@ -31,7 +31,7 @@ namespace IO.Swagger.Test
         {
             instance = new Model200Response();
         }
-    
+
         /// <summary>
         /// Clean up after each test
         /// </summary>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Test
         public void Cleanup()
         {
 
-        }   
+        }
 
         /// <summary>
         /// Test an instance of Model200Response
@@ -50,16 +50,14 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<Model200Response> (instance, "instance is a Model200Response");
         }
 
-        
         /// <summary>
-        /// Test the property 'Name' 
+        /// Test the property 'Name'
         /// </summary>
         [Test]
         public void NameTest()
         {
-            // TODO: unit test for the property 'Name' 
+            // TODO: unit test for the property 'Name'
         }
-        
 
     }
 
