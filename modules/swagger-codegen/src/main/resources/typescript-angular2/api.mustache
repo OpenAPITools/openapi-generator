@@ -2,7 +2,6 @@ import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from 'angu
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import * as model from "../model/model.d.ts"
-import {AppSettings} from "../../AppSettings"
 
 /* tslint:disable:no-unused-variable member-ordering */
 
@@ -19,9 +18,9 @@ export class {{classname}} {
     protected basePath = '{{basePath}}';
     public defaultHeaders : Headers = new Headers();
 
-    constructor(protected http: Http, appSettigs: AppSettings) {
-        if (appSettigs && appSettigs.apiBaseUrl) {
-            this.basePath = appSettigs.apiBaseUrl;
+    constructor(protected http: Http, basePath: string) {
+        if (basePath) {
+            this.basePath = basePath;
         }
     }
 

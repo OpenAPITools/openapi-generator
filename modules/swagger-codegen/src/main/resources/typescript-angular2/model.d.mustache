@@ -1,11 +1,11 @@
 {{#models}}
 {{#model}}
-export { {{{classname}}} } from './{{{ classname }}}';
+export * from './{{{ classname }}}';
 {{/model}}
 {{/models}}
 
 
-/*
+
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -13,5 +13,5 @@ export * from './{{classname}}';
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
-*/
+
 
