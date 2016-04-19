@@ -92,7 +92,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     
     {{#hasQueryParams}}    
     {{#queryParams}}
-    queryParams["{{vendorExtensions.x-exportParamName}}"] = strings.Join({{paramName}}, ",")
+    queryParams["{{vendorExtensions.x-exportParamName}}"] = a.Configuration.ApiClient.ParameterToString({{paramName}})
     {{/queryParams}}
     {{/hasQueryParams}}
 

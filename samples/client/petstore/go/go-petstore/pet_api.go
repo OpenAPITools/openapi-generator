@@ -207,7 +207,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
         headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
-    queryParams["Status"] = strings.Join(status, ",")
+    queryParams["Status"] = a.Configuration.ApiClient.ParameterToString(status)
 
     // to determine the Content-Type header
     localVarHttpContentTypes := []string {
@@ -277,7 +277,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
         headerParams[key] = a.Configuration.DefaultHeader[key]
     }
     
-    queryParams["Tags"] = strings.Join(tags, ",")
+    queryParams["Tags"] = a.Configuration.ApiClient.ParameterToString(tags)
 
     // to determine the Content-Type header
     localVarHttpContentTypes := []string {
@@ -585,7 +585,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     }
 
     formParams["AdditionalMetadata"] = additionalMetadata
-    formParams["File"] = file
+    formParams["File"] = file.Name()
 
   var successPayload = new(ApiResponse)
 
