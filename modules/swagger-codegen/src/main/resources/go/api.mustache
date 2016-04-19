@@ -123,7 +123,12 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 {{/headerParams}}{{/hasHeaderParams}}
 {{#hasFormParams}}    
 {{#formParams}}
+    {{#isFile}}
+    fileParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}.Name()
+    {{/isFile}}
+    {{^isFile}}
     formParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
+    {{/isFile}}    
 {{/formParams}}
 {{/hasFormParams}}
 {{#hasBodyParam}}{{#bodyParams}}
