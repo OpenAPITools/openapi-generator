@@ -121,10 +121,10 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 {{/headerParams}}{{/hasHeaderParams}}
 {{#hasFormParams}}
 {{#formParams}}
-  {{#isFile}} fileBytes, _ := ioutil.ReadAll(file)
+  {{#isFile}}fileBytes, _ := ioutil.ReadAll(file)
   postBody = fileBytes
   {{/isFile}}
-  {{^isFile}} formParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
+{{^isFile}}formParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
   {{/isFile}}
 {{/formParams}}
 {{/hasFormParams}}{{#hasBodyParam}}{{#bodyParams}}  // body params
