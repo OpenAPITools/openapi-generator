@@ -49,7 +49,6 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -80,10 +79,8 @@ func (a StoreApi) DeleteOrder (orderId string) (error) {
 
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -105,7 +102,6 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (api_key) required
@@ -140,10 +136,8 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
 
 
   var successPayload = new(map[string]int32)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 
@@ -173,7 +167,6 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -204,10 +197,8 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
 
 
   var successPayload = new(Order)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 
@@ -236,7 +227,6 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     
@@ -270,10 +260,8 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error) {
     postBody = &body
 
   var successPayload = new(Order)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 

@@ -7,6 +7,7 @@ import (
     "errors"
     "bytes"
     "os"
+    "io/ioutil"
 )
 
 type PetApi struct {
@@ -49,7 +50,6 @@ func (a PetApi) AddPet (body Pet) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (petstore_auth) required
@@ -91,10 +91,8 @@ func (a PetApi) AddPet (body Pet) (error) {
     postBody = &body
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -123,7 +121,6 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (petstore_auth) required
@@ -162,10 +159,8 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
 
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -192,7 +187,6 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (petstore_auth) required
@@ -230,10 +224,8 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
 
 
   var successPayload = new([]Pet)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 
@@ -262,7 +254,6 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (petstore_auth) required
@@ -300,10 +291,8 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
 
 
   var successPayload = new([]Pet)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 
@@ -333,7 +322,6 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (api_key) required
@@ -369,10 +357,8 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
 
 
   var successPayload = new(Pet)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 
@@ -401,7 +387,6 @@ func (a PetApi) UpdatePet (body Pet) (error) {
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (petstore_auth) required
@@ -443,10 +428,8 @@ func (a PetApi) UpdatePet (body Pet) (error) {
     postBody = &body
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -476,7 +459,6 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (petstore_auth) required
@@ -512,14 +494,12 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
         headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
-    formParams["Name"] = name
-    formParams["Status"] = status
+        formParams["Name"] = name
+        formParams["Status"] = status
 
 
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+_, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return err
   }
 
@@ -549,7 +529,6 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     // authentication (petstore_auth) required
@@ -584,14 +563,13 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
         headerParams["Accept"] = localVarHttpHeaderAccept
     }
 
-    formParams["AdditionalMetadata"] = additionalMetadata
-    fileParams["File"] = file.Name()
+        formParams["AdditionalMetadata"] = additionalMetadata
+    fileBytes, _ := ioutil.ReadAll(file)
+    postBody = fileBytes
 
   var successPayload = new(ApiResponse)
-
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  if err != nil {
     return *successPayload, err
   }
 

@@ -58,7 +58,6 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
     headerParams := make(map[string]string)
     queryParams := make(map[string]string)
     formParams := make(map[string]string)
-    fileParams := make(map[string]string)
     var postBody interface{}
 
     {{#authMethods}}// authentication ({{name}}) required
@@ -123,23 +122,24 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 {{/headerParams}}{{/hasHeaderParams}}
 {{#hasFormParams}}    
 {{#formParams}}
-    {{#isFile}}
-    fileParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}.Name()
+    {{#isFile}}fileBytes, _ := ioutil.ReadAll(file)
+    postBody = fileBytes
     {{/isFile}}
     {{^isFile}}
     formParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
     {{/isFile}}    
 {{/formParams}}
-{{/hasFormParams}}
-{{#hasBodyParam}}{{#bodyParams}}
+{{/hasFormParams}}{{#hasBodyParam}}{{#bodyParams}}
     // body params
     postBody = &{{paramName}}
 {{/bodyParams}}{{/hasBodyParam}}
 {{#returnType}}  var successPayload = new({{returnType}}){{/returnType}}
+{{#returnType}}  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+{{/returnType}}
+{{^returnType}}  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+{{/returnType}}
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileParams)
-
-  if err != nil && httpResponse.StatusCode() != 200{
+  if err != nil {
     return {{#returnType}}*successPayload, {{/returnType}}err
   }
 
