@@ -75,7 +75,7 @@ func (c *ApiClient) CallApi(path string, method string,
 }
 
 func (c *ApiClient) ParameterToString (obj interface{}) string {
-    if reflect.TypeOf(obj).Len()  > 0 {
+    if reflect.TypeOf(obj).String() == "[]string" {
         return strings.Join(obj.([]string), ",")
     } else{
         return obj.(string)
