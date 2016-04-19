@@ -6,7 +6,6 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "bytes"
 {{#imports}}    "{{import}}"
 {{/imports}}
 )
@@ -38,117 +37,112 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{#allParams}} * @param {{paramName}} {{description}}
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
-func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error) {
+func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error, ApiResponse) {
 
-    var httpMethod = "{{httpMethod}}"
-        // create path and map variables
-    path := a.Configuration.BasePath + "{{path}}"
+  var httpMethod = "{{httpMethod}}"
+      // create path and map variables
+  path := a.Configuration.BasePath + "{{path}}"
 {{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
 {{/pathParams}}
 
-    {{#allParams}}
-    {{#required}}
-    // verify the required parameter '{{paramName}}' is set
-    if &{{paramName}} == nil {
-        return {{#returnType}}*new({{{returnType}}}), {{/returnType}}errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
-    }
-    {{/required}}
-    {{/allParams}}
+  {{#allParams}}
+  {{#required}}
+  // verify the required parameter '{{paramName}}' is set
+  if &{{paramName}} == nil {
+      return {{#returnType}}*new({{{returnType}}}), {{/returnType}}errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+  }
+  {{/required}}
+  {{/allParams}}
 
-    headerParams := make(map[string]string)
-    queryParams := make(map[string]string)
-    formParams := make(map[string]string)
-    var postBody interface{}
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
 
-    {{#authMethods}}// authentication ({{name}}) required
-    {{#isApiKey}}{{#isKeyInHeader}}
-    // set key with prefix in header
-    headerParams["{{keyParamName}}"] = a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
-    {{/isKeyInHeader}}{{#isKeyInQuery}}
-    // set key with prefix in querystring
-    {{#hasKeyParamName}}    
-    queryParams["{{keyParamName}}"] =  a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
-    {{/hasKeyParamName}}
-    {{/isKeyInQuery}}{{/isApiKey}}    
-    {{#isBasic}}
-    // http basic authentication required
-    if a.Configuration.Username != "" || a.Configuration.Password != ""{
-        headerParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
-    }
-    {{/isBasic}}
-    {{#isOAuth}}
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
-    }
-    {{/isOAuth}}    
-    {{/authMethods}}
+  {{#authMethods}}// authentication ({{name}}) required
+  {{#isApiKey}}{{#isKeyInHeader}}
+  // set key with prefix in header
+  headerParams["{{keyParamName}}"] = a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
+  {{/isKeyInHeader}}{{#isKeyInQuery}}
+  // set key with prefix in querystring
+  {{#hasKeyParamName}}    
+  queryParams["{{keyParamName}}"] =  a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
+  {{/hasKeyParamName}}
+  {{/isKeyInQuery}}{{/isApiKey}}    
+  {{#isBasic}}
+  // http basic authentication required
+  if a.Configuration.Username != "" || a.Configuration.Password != ""{
+      headerParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
+  }
+  {{/isBasic}}
+  {{#isOAuth}}
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
+  {{/isOAuth}}    
+  {{/authMethods}}
 
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-        headerParams[key] = a.Configuration.DefaultHeader[key]
-    }
-    
-    {{#hasQueryParams}}    
-    {{#queryParams}}
-    queryParams["{{vendorExtensions.x-exportParamName}}"] = a.Configuration.ApiClient.ParameterToString({{paramName}})
-    {{/queryParams}}
-    {{/hasQueryParams}}
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+  {{#hasQueryParams}}    
+  {{#queryParams}}
+  queryParams["{{vendorExtensions.x-exportParamName}}"] = a.Configuration.ApiClient.ParameterToString({{paramName}})
+  {{/queryParams}}
+  {{/hasQueryParams}}
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-        {{#consumes}}
-        "{{mediaType}}", 
-        {{/consumes}}
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-        headerParams["Content-Type"] = localVarHttpContentType
-    }
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        {{#produces}}
-        "{{mediaType}}", 
-        {{/produces}}
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        headerParams["Accept"] = localVarHttpHeaderAccept
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+      {{#consumes}}
+      "{{mediaType}}", 
+      {{/consumes}}
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      {{#produces}}
+      "{{mediaType}}", 
+      {{/produces}}
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 {{#hasHeaderParams}}{{#headerParams}}    // header params "{{baseName}}"
     headerParams["{{baseName}}"] = {{paramName}}
 {{/headerParams}}{{/hasHeaderParams}}
-{{#hasFormParams}}    
+{{#hasFormParams}}
 {{#formParams}}
-    {{#isFile}}fileBytes, _ := ioutil.ReadAll(file)
-    postBody = fileBytes
-    {{/isFile}}
-    {{^isFile}}
-    formParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
-    {{/isFile}}    
+  {{#isFile}} fileBytes, _ := ioutil.ReadAll(file)
+  postBody = fileBytes
+  {{/isFile}}
+  {{^isFile}} formParams["{{vendorExtensions.x-exportParamName}}"] = {{paramName}}
+  {{/isFile}}
 {{/formParams}}
-{{/hasFormParams}}{{#hasBodyParam}}{{#bodyParams}}
-    // body params
-    postBody = &{{paramName}}
+{{/hasFormParams}}{{#hasBodyParam}}{{#bodyParams}}  // body params
+  postBody = &{{paramName}}
 {{/bodyParams}}{{/hasBodyParam}}
 {{#returnType}}  var successPayload = new({{returnType}}){{/returnType}}
-{{#returnType}}  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
-{{/returnType}}
-{{^returnType}}  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
-{{/returnType}}
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
 
   if err != nil {
-    return {{#returnType}}*successPayload, {{/returnType}}err
+    return {{#returnType}}*successPayload, {{/returnType}}err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
   }
-
 {{#returnType}}
-  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
-  err = decoder.Decode(&successPayload)
+
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
 {{/returnType}}
 
-  return {{#returnType}}*successPayload, {{/returnType}}err
+  return {{#returnType}}*successPayload, {{/returnType}}err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
 }
 {{/operation}}
 {{/operations}}

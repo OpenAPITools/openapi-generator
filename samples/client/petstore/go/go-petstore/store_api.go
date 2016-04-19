@@ -5,7 +5,6 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "bytes"
 )
 
 type StoreApi struct {
@@ -34,119 +33,119 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
  * @param orderId ID of the order that needs to be deleted
  * @return void
  */
-func (a StoreApi) DeleteOrder (orderId string) (error) {
+func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
 
-    var httpMethod = "Delete"
-        // create path and map variables
-    path := a.Configuration.BasePath + "/store/order/{orderId}"
+  var httpMethod = "Delete"
+      // create path and map variables
+  path := a.Configuration.BasePath + "/store/order/{orderId}"
     path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
-    // verify the required parameter 'orderId' is set
-    if &orderId == nil {
-        return errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder")
-    }
+  // verify the required parameter 'orderId' is set
+  if &orderId == nil {
+      return errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+  }
 
-    headerParams := make(map[string]string)
-    queryParams := make(map[string]string)
-    formParams := make(map[string]string)
-    var postBody interface{}
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
 
-    
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-        headerParams[key] = a.Configuration.DefaultHeader[key]
-    }
-    
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-        headerParams["Content-Type"] = localVarHttpContentType
-    }
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        headerParams["Accept"] = localVarHttpHeaderAccept
-    }
-
-
-
-  _, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
-
-  if err != nil {
-    return err
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
 
-  return err
+
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+
+
+  if err != nil {
+    return err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+  }
+
+  return err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
 }
 /**
  * Returns pet inventories by status
  * Returns a map of status codes to quantities
  * @return map[string]int32
  */
-func (a StoreApi) GetInventory () (map[string]int32, error) {
+func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
 
-    var httpMethod = "Get"
-        // create path and map variables
-    path := a.Configuration.BasePath + "/store/inventory"
+  var httpMethod = "Get"
+      // create path and map variables
+  path := a.Configuration.BasePath + "/store/inventory"
 
 
-    headerParams := make(map[string]string)
-    queryParams := make(map[string]string)
-    formParams := make(map[string]string)
-    var postBody interface{}
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
 
-    // authentication (api_key) required
-    
-    // set key with prefix in header
-    headerParams["api_key"] = a.Configuration.GetApiKeyWithPrefix("api_key")
-        
+  // authentication (api_key) required
+  
+  // set key with prefix in header
+  headerParams["api_key"] = a.Configuration.GetApiKeyWithPrefix("api_key")
+      
 
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-        headerParams[key] = a.Configuration.DefaultHeader[key]
-    }
-    
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-        headerParams["Content-Type"] = localVarHttpContentType
-    }
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        headerParams["Accept"] = localVarHttpHeaderAccept
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
 
   var successPayload = new(map[string]int32)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
 
+
   if err != nil {
-    return *successPayload, err
+    return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
   }
 
-  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
-  err = decoder.Decode(&successPayload)
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, err
+  return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
 }
 /**
  * Find purchase order by ID
@@ -154,61 +153,61 @@ func (a StoreApi) GetInventory () (map[string]int32, error) {
  * @param orderId ID of pet that needs to be fetched
  * @return Order
  */
-func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
+func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
 
-    var httpMethod = "Get"
-        // create path and map variables
-    path := a.Configuration.BasePath + "/store/order/{orderId}"
+  var httpMethod = "Get"
+      // create path and map variables
+  path := a.Configuration.BasePath + "/store/order/{orderId}"
     path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
-    // verify the required parameter 'orderId' is set
-    if &orderId == nil {
-        return *new(Order), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
-    }
+  // verify the required parameter 'orderId' is set
+  if &orderId == nil {
+      return *new(Order), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+  }
 
-    headerParams := make(map[string]string)
-    queryParams := make(map[string]string)
-    formParams := make(map[string]string)
-    var postBody interface{}
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
 
-    
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-        headerParams[key] = a.Configuration.DefaultHeader[key]
-    }
-    
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-        headerParams["Content-Type"] = localVarHttpContentType
-    }
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        headerParams["Accept"] = localVarHttpHeaderAccept
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
 
   var successPayload = new(Order)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
 
+
   if err != nil {
-    return *successPayload, err
+    return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
   }
 
-  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
-  err = decoder.Decode(&successPayload)
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, err
+  return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
 }
 /**
  * Place an order for a pet
@@ -216,61 +215,60 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error) {
  * @param body order placed for purchasing the pet
  * @return Order
  */
-func (a StoreApi) PlaceOrder (body Order) (Order, error) {
+func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
 
-    var httpMethod = "Post"
-        // create path and map variables
-    path := a.Configuration.BasePath + "/store/order"
+  var httpMethod = "Post"
+      // create path and map variables
+  path := a.Configuration.BasePath + "/store/order"
 
-    // verify the required parameter 'body' is set
-    if &body == nil {
-        return *new(Order), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
-    }
+  // verify the required parameter 'body' is set
+  if &body == nil {
+      return *new(Order), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+  }
 
-    headerParams := make(map[string]string)
-    queryParams := make(map[string]string)
-    formParams := make(map[string]string)
-    var postBody interface{}
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
 
-    
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-        headerParams[key] = a.Configuration.DefaultHeader[key]
-    }
-    
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-        headerParams["Content-Type"] = localVarHttpContentType
-    }
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        headerParams["Accept"] = localVarHttpHeaderAccept
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
-
-    // body params
-    postBody = &body
+  // body params
+  postBody = &body
 
   var successPayload = new(Order)
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
 
+
   if err != nil {
-    return *successPayload, err
+    return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
   }
 
-  decoder := json.NewDecoder(bytes.NewReader(httpResponse.Body()))
-  err = decoder.Decode(&successPayload)
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, err
+  return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
 }
