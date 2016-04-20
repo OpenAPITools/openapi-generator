@@ -192,9 +192,6 @@ public class UserAPI: APIBase {
      Delete user
      - DELETE /user/{username}
      - This can only be done by the logged in user.
-     - BASIC:
-       - type: basic
-       - name: test_http_basic
      
      - parameter username: (path) The name that needs to be deleted 
 
@@ -247,16 +244,44 @@ public class UserAPI: APIBase {
      Get user by user name
      - GET /user/{username}
      - 
-     - examples: [{contentType=application/json, example={
-  "id" : 1,
-  "username" : "johnp",
-  "firstName" : "John",
-  "lastName" : "Public",
-  "email" : "johnp@swagger.io",
-  "password" : "-secret-",
-  "phone" : "0123456789",
-  "userStatus" : 0
-}}]
+     - examples: [{example={
+  "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
+  "email" : "aeiou",
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}, {example=<User>
+  <id>123456</id>
+  <username>string</username>
+  <firstName>string</firstName>
+  <lastName>string</lastName>
+  <email>string</email>
+  <password>string</password>
+  <phone>string</phone>
+  <userStatus>0</userStatus>
+</User>, contentType=application/xml}]
+     - examples: [{example={
+  "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
+  "email" : "aeiou",
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}, {example=<User>
+  <id>123456</id>
+  <username>string</username>
+  <firstName>string</firstName>
+  <lastName>string</lastName>
+  <email>string</email>
+  <password>string</password>
+  <phone>string</phone>
+  <userStatus>0</userStatus>
+</User>, contentType=application/xml}]
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
 
@@ -311,8 +336,8 @@ public class UserAPI: APIBase {
      Logs user into the system
      - GET /user/login
      - 
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
+     - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
+     - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
      
      - parameter username: (query) The user name for login (optional)
      - parameter password: (query) The password for login in clear text (optional)
