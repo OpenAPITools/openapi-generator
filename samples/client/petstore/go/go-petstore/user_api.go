@@ -365,8 +365,8 @@ func (a UserApi) LoginUser (username string, password string) (string, error, Ap
       headerParams[key] = a.Configuration.DefaultHeader[key]
   }
   
-  queryParams["Username"] = a.Configuration.ApiClient.ParameterToString(username)
-  queryParams["Password"] = a.Configuration.ApiClient.ParameterToString(password)
+  queryParams["username"] = a.Configuration.ApiClient.ParameterToString(username)
+  queryParams["password"] = a.Configuration.ApiClient.ParameterToString(password)
 
   // to determine the Content-Type header
   localVarHttpContentTypes := []string {
