@@ -67,6 +67,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   {{#authMethods}}// authentication ({{name}}) required
   {{#isApiKey}}{{#isKeyInHeader}}
@@ -130,8 +131,8 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 {{/headerParams}}{{/hasHeaderParams}}
 {{#hasFormParams}}
 {{#formParams}}
-  {{#isFile}}fileBytes, _ := ioutil.ReadAll(file)
-  postBody = fileBytes
+  {{#isFile}}fbs, _ := ioutil.ReadAll(file)
+  fileBytes = fbs
   {{/isFile}}
 {{^isFile}}formParams["{{paramName}}"] = {{paramName}}
   {{/isFile}}
@@ -140,7 +141,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   postBody = &{{paramName}}
 {{/bodyParams}}{{/hasBodyParam}}
 {{#returnType}}  var successPayload = new({{returnType}}){{/returnType}}
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
