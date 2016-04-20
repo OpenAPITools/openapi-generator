@@ -73,12 +73,30 @@ func (c *ApiClient) CallApi(path string, method string,
     return nil, errors.New("Invalid method " + method)
 }
 
-func (c *ApiClient) ParameterToString (obj interface{}) string {
+func (c *ApiClient) ParameterToString(obj interface{}) string {
     if reflect.TypeOf(obj).String() == "[]string" {
         return strings.Join(obj.([]string), ",")
     } else {
         return obj.(string)
     }
+}
+
+func (c *ApiClient) GetApiResponse(httpResp interface{}) *ApiResponse{
+  httpResponse := httpResp.(*resty.Response)
+  apiResponse := new(ApiResponse) 
+  apiResponse.Code = int32(httpResponse.StatusCode()) 
+  apiResponse.Message = httpResponse.Status()
+
+  return apiResponse
+}
+
+func (c *ApiClient) SetErrorApiResponse(errorMessage string) *ApiResponse{
+
+  apiResponse := new(ApiResponse) 
+  apiResponse.Code = int32(400) 
+  apiResponse.Message = errorMessage
+
+  return apiResponse
 }
 
 func prepareRequest(postBody interface{},
@@ -106,22 +124,4 @@ func prepareRequest(postBody interface{},
     }
     
     return request
-}
-
-func (c *ApiClient) GetApiResponse(httpResp interface{}) *ApiResponse{
-  httpResponse := httpResp.(*resty.Response)
-  apiResponse := new(ApiResponse) 
-  apiResponse.Code = int32(httpResponse.StatusCode()) 
-  apiResponse.Message = httpResponse.Status()
-
-  return apiResponse
-}
-
-func (c *ApiClient) SetErrorApiResponse(errorMessage string) *ApiResponse{
-
-  apiResponse := new(ApiResponse) 
-  apiResponse.Code = int32(400) 
-  apiResponse.Message = errorMessage
-
-  return apiResponse
 }
