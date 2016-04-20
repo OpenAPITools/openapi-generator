@@ -50,6 +50,10 @@ func (c *ApiClient) CallApi(path string, method string,
     queryParams map[string]string,
     formParams map[string]string) (*resty.Response, error) {
 
+    //set debug flag
+    configuration := NewConfiguration()
+    resty.SetDebug(configuration.Debug)
+    
     request := prepareRequest(postBody, headerParams, queryParams, formParams)
 
     switch strings.ToUpper(method) {
