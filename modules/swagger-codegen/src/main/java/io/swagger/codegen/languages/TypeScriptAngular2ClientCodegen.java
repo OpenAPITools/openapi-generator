@@ -37,7 +37,15 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     public void processOpts() {
         super.processOpts();
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("model.d.mustache", modelPackage().replace('.', File.separatorChar), "model.d.ts"));
+
+        supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
+        supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
+    }
+
+    private String getIndexDirectory() {
+        String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
+        return indexPackage.replace('.', File.separatorChar);
     }
 
     @Override
@@ -69,7 +77,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             if (languageSpecificPrimitives.contains(type))
                 return type;
         } else
-            type = "model." + swaggerType;
+            type = "models." + swaggerType;
         return type;
     }
 
@@ -78,4 +86,5 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         super.postProcessParameter(parameter);
         parameter.dataType = addModelPrefix(parameter.dataType);
     }
+
 }

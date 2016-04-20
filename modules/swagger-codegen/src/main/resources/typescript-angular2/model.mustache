@@ -1,14 +1,14 @@
 {{#models}}
 {{#model}}
 'use strict';
-import * as model from "./model.d.ts"
+import * as models from "./models.ts"
 
 {{#description}}
 /**
  * {{{description}}}
  */
 {{/description}}
-export interface {{classname}} {{#parent}}extends model.{{{parent}}} {{/parent}}{
+export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}}{
 {{#vars}}
 
 {{#description}}
