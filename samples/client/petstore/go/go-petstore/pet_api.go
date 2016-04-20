@@ -5,8 +5,8 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "os"
     "io/ioutil"
+    "os"
 )
 
 type PetApi struct {
@@ -201,7 +201,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error, ApiResponse) {
       headerParams[key] = a.Configuration.DefaultHeader[key]
   }
   
-  queryParams["Status"] = a.Configuration.ApiClient.ParameterToString(status)
+  queryParams["status"] = a.Configuration.ApiClient.ParameterToString(status)
 
   // to determine the Content-Type header
   localVarHttpContentTypes := []string {
@@ -269,7 +269,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error, ApiResponse) {
       headerParams[key] = a.Configuration.DefaultHeader[key]
   }
   
-  queryParams["Tags"] = a.Configuration.ApiClient.ParameterToString(tags)
+  queryParams["tags"] = a.Configuration.ApiClient.ParameterToString(tags)
 
   // to determine the Content-Type header
   localVarHttpContentTypes := []string {
@@ -497,8 +497,8 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
-  formParams["Name"] = name
-  formParams["Status"] = status
+  formParams["name"] = name
+  formParams["status"] = status
 
 
   httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
@@ -567,7 +567,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
-  formParams["AdditionalMetadata"] = additionalMetadata
+  formParams["additionalMetadata"] = additionalMetadata
   fileBytes, _ := ioutil.ReadAll(file)
   postBody = fileBytes
 
