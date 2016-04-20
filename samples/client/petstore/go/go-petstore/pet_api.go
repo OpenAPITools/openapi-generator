@@ -50,6 +50,7 @@ func (a PetApi) AddPet (body Pet) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (petstore_auth) required
       
@@ -89,7 +90,7 @@ func (a PetApi) AddPet (body Pet) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -121,6 +122,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (petstore_auth) required
       
@@ -158,7 +160,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error, ApiResponse) {
 
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -188,6 +190,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (petstore_auth) required
       
@@ -224,7 +227,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error, ApiResponse) {
 
 
   var successPayload = new([]Pet)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -256,6 +259,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (petstore_auth) required
       
@@ -292,7 +296,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error, ApiResponse) {
 
 
   var successPayload = new([]Pet)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -325,6 +329,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (api_key) required
   
@@ -359,7 +364,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error, ApiResponse) {
 
 
   var successPayload = new(Pet)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -391,6 +396,7 @@ func (a PetApi) UpdatePet (body Pet) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (petstore_auth) required
       
@@ -430,7 +436,7 @@ func (a PetApi) UpdatePet (body Pet) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -463,6 +469,7 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (petstore_auth) required
       
@@ -501,7 +508,7 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
   formParams["status"] = status
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -534,6 +541,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (petstore_auth) required
       
@@ -568,11 +576,11 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
   }
 
   formParams["additionalMetadata"] = additionalMetadata
-  fileBytes, _ := ioutil.ReadAll(file)
-  postBody = fileBytes
+  fbs, _ := ioutil.ReadAll(file)
+  fileBytes = fbs
 
   var successPayload = new(ApiResponse)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {

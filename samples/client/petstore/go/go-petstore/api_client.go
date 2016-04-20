@@ -5,6 +5,7 @@ import (
     "github.com/go-resty/resty"
     "errors"
     "reflect"
+    "bytes"
 )
 
 type ApiClient struct {
@@ -48,13 +49,14 @@ func (c *ApiClient) CallApi(path string, method string,
     postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
-    formParams map[string]string) (*resty.Response, error) {
+    formParams map[string]string,
+    file []byte) (*resty.Response, error) {
 
     //set debug flag
     configuration := NewConfiguration()
     resty.SetDebug(configuration.Debug)
-    
-    request := prepareRequest(postBody, headerParams, queryParams, formParams)
+
+    request := prepareRequest(postBody, headerParams, queryParams, formParams,file)
 
     switch strings.ToUpper(method) {
     case "GET":
@@ -106,7 +108,8 @@ func (c *ApiClient) SetErrorApiResponse(errorMessage string) *ApiResponse{
 func prepareRequest(postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
-    formParams map[string]string) *resty.Request {
+    formParams map[string]string, 
+    file []byte) *resty.Request {
 
     request := resty.R()
 
@@ -127,5 +130,8 @@ func prepareRequest(postBody interface{},
         request.SetFormData(formParams)
     }
     
+    if len(file) > 0 {
+        request.SetFileReader("file", "test-img.png", bytes.NewReader(file))
+    }
     return request
 }

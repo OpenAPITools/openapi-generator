@@ -49,6 +49,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   
   // add default headers if any
@@ -78,7 +79,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
 
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -103,6 +104,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   // authentication (api_key) required
   
@@ -136,7 +138,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
 
 
   var successPayload = new(map[string]int32)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -169,6 +171,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   
   // add default headers if any
@@ -198,7 +201,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
 
 
   var successPayload = new(Order)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
@@ -230,6 +233,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileBytes []byte
 
   
   // add default headers if any
@@ -261,7 +265,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
   postBody = &body
 
   var successPayload = new(Order)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
 
 
   if err != nil {
