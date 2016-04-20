@@ -2322,6 +2322,13 @@ public class DefaultCodegen {
         return removeNonNameElementToCamelCase(name, "[-_:;#]");
     }
 
+    /**
+     * Remove characters that is not good to be included in method name from the input and camelize it
+     *
+     * @param name string to be camelize
+     * @param nonNameElementPattern a regex pattern of the characters that is not good to be included in name
+     * @return camelized string
+     */
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
         String result = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() {
             @Nullable
