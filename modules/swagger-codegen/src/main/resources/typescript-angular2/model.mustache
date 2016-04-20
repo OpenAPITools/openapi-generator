@@ -1,7 +1,7 @@
 {{#models}}
 {{#model}}
 'use strict';
-import * as models from "./models.ts"
+import * as models from './models.ts';
 
 {{#description}}
 /**
@@ -16,7 +16,6 @@ export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}
      * {{{description}}}
      */
 {{/description}}
-
     {{name}}?: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 }
