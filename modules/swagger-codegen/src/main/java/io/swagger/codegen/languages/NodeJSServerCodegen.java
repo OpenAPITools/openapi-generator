@@ -314,4 +314,10 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         }
         return super.postProcessSupportingFileData(objs);
     }
+
+    @Override
+    public String removeNonNameElementToCamelCase(String name) {
+        return removeNonNameElementToCamelCase(name, "[-:;#]");
+    }
+
 }
