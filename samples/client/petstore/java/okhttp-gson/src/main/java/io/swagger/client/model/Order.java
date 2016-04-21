@@ -52,16 +52,13 @@ public enum StatusEnum {
   private StatusEnum status = null;
 
   @SerializedName("complete")
-  private Boolean complete = false;
+  private Boolean complete = null;
 
   /**
    **/
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
   }
 
   /**

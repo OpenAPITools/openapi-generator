@@ -39,23 +39,13 @@ public class Order   {
   }
 
   private StatusEnum status = null;
-  private Boolean complete = false;
+  private Boolean complete = null;
 
-  
-  /**
-   **/
-  public Order id(Long id) {
-    this.id = id;
-    return this;
-  }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
   }
 
 

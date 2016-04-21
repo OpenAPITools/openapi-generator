@@ -65,7 +65,7 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -147,6 +147,109 @@ public class StoreApi {
     apiClient.executeAsync(call, callback);
     return call;
   }
+  /* Build call for findOrdersByStatus */
+  private Call findOrdersByStatusCall(String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+
+    // create path and map variables
+    String localVarPath = "/store/findByStatus".replaceAll("\\{format\\}","json");
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    if (status != null)
+      localVarQueryParams.addAll(apiClient.parameterToPairs("", "status", status));
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] { "test_api_client_id", "test_api_client_secret" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Finds orders by status
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query (optional, default to placed)
+   * @return List<Order>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public List<Order> findOrdersByStatus(String status) throws ApiException {
+    ApiResponse<List<Order>> resp = findOrdersByStatusWithHttpInfo(status);
+    return resp.getData();
+  }
+
+  /**
+   * Finds orders by status
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query (optional, default to placed)
+   * @return ApiResponse<List<Order>>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<List<Order>> findOrdersByStatusWithHttpInfo(String status) throws ApiException {
+    Call call = findOrdersByStatusCall(status, null, null);
+    Type localVarReturnType = new TypeToken<List<Order>>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
+  }
+
+  /**
+   * Finds orders by status (asynchronously)
+   * A single status value can be provided as a string
+   * @param status Status value that needs to be considered for query (optional, default to placed)
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call findOrdersByStatusAsync(String status, final ApiCallback<List<Order>> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = findOrdersByStatusCall(status, progressListener, progressRequestListener);
+    Type localVarReturnType = new TypeToken<List<Order>>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
+    return call;
+  }
   /* Build call for getInventory */
   private Call getInventoryCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = null;
@@ -162,7 +265,7 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -245,19 +348,13 @@ public class StoreApi {
     apiClient.executeAsync(call, localVarReturnType, callback);
     return call;
   }
-  /* Build call for getOrderById */
-  private Call getOrderByIdCall(Long orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  /* Build call for getInventoryInObject */
+  private Call getInventoryInObjectCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = null;
-    
-    // verify the required parameter 'orderId' is set
-    if (orderId == null) {
-       throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
-    }
     
 
     // create path and map variables
-    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+    String localVarPath = "/store/inventory?response&#x3D;arbitrary_object".replaceAll("\\{format\\}","json");
 
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -266,7 +363,7 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -289,7 +386,111 @@ public class StoreApi {
       });
     }
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "api_key" };
+    return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+  }
+
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return Object
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public Object getInventoryInObject() throws ApiException {
+    ApiResponse<Object> resp = getInventoryInObjectWithHttpInfo();
+    return resp.getData();
+  }
+
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @return ApiResponse<Object>
+   * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+   */
+  public ApiResponse<Object> getInventoryInObjectWithHttpInfo() throws ApiException {
+    Call call = getInventoryInObjectCall(null, null);
+    Type localVarReturnType = new TypeToken<Object>(){}.getType();
+    return apiClient.execute(call, localVarReturnType);
+  }
+
+  /**
+   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39; (asynchronously)
+   * Returns an arbitrary object which is actually a map of status codes to quantities
+   * @param callback The callback to be executed when the API call finishes
+   * @return The request call
+   * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+   */
+  public Call getInventoryInObjectAsync(final ApiCallback<Object> callback) throws ApiException {
+
+    ProgressResponseBody.ProgressListener progressListener = null;
+    ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+    if (callback != null) {
+      progressListener = new ProgressResponseBody.ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+          callback.onDownloadProgress(bytesRead, contentLength, done);
+        }
+      };
+
+      progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+        @Override
+        public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+          callback.onUploadProgress(bytesWritten, contentLength, done);
+        }
+      };
+    }
+
+    Call call = getInventoryInObjectCall(progressListener, progressRequestListener);
+    Type localVarReturnType = new TypeToken<Object>(){}.getType();
+    apiClient.executeAsync(call, localVarReturnType, callback);
+    return call;
+  }
+  /* Build call for getOrderById */
+  private Call getOrderByIdCall(String orderId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
+       throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
+    }
+    
+
+    // create path and map variables
+    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    final String[] localVarAccepts = {
+      "application/json", "application/xml"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    localVarHeaderParams.put("Content-Type", localVarContentType);
+
+    if(progressListener != null) {
+      apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        return originalResponse.newBuilder()
+                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                .build();
+        }
+      });
+    }
+
+    String[] localVarAuthNames = new String[] { "test_api_key_header", "test_api_key_query" };
     return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
@@ -300,7 +501,7 @@ public class StoreApi {
    * @return Order
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public Order getOrderById(Long orderId) throws ApiException {
+  public Order getOrderById(String orderId) throws ApiException {
     ApiResponse<Order> resp = getOrderByIdWithHttpInfo(orderId);
     return resp.getData();
   }
@@ -312,7 +513,7 @@ public class StoreApi {
    * @return ApiResponse<Order>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+  public ApiResponse<Order> getOrderByIdWithHttpInfo(String orderId) throws ApiException {
     Call call = getOrderByIdCall(orderId, null, null);
     Type localVarReturnType = new TypeToken<Order>(){}.getType();
     return apiClient.execute(call, localVarReturnType);
@@ -326,7 +527,7 @@ public class StoreApi {
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
-  public Call getOrderByIdAsync(Long orderId, final ApiCallback<Order> callback) throws ApiException {
+  public Call getOrderByIdAsync(String orderId, final ApiCallback<Order> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -356,11 +557,6 @@ public class StoreApi {
   private Call placeOrderCall(Order body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = body;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException("Missing the required parameter 'body' when calling placeOrder(Async)");
-    }
-    
 
     // create path and map variables
     String localVarPath = "/store/order".replaceAll("\\{format\\}","json");
@@ -372,7 +568,7 @@ public class StoreApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -395,14 +591,14 @@ public class StoreApi {
       });
     }
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "test_api_client_id", "test_api_client_secret" };
     return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (optional)
    * @return Order
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -414,7 +610,7 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (optional)
    * @return ApiResponse<Order>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -427,7 +623,7 @@ public class StoreApi {
   /**
    * Place an order for a pet (asynchronously)
    * 
-   * @param body order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object

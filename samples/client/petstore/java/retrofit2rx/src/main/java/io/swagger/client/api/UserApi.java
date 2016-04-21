@@ -19,7 +19,7 @@ public interface UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param body Created user object (optional)
    * @return Call<Void>
    */
   
@@ -31,7 +31,7 @@ public interface UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @return Call<Void>
    */
   
@@ -43,7 +43,7 @@ public interface UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @return Call<Void>
    */
   
@@ -79,8 +79,8 @@ public interface UserApi {
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login (required)
-   * @param password The password for login in clear text (required)
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return Call<String>
    */
   
@@ -103,7 +103,7 @@ public interface UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param body Updated user object (optional)
    * @return Call<Void>
    */
   
