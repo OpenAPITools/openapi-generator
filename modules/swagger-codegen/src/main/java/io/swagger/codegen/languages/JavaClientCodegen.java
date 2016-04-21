@@ -43,7 +43,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean serializeBigDecimalAsString = false;
     protected boolean useRxJava = false;
     protected boolean hideGenerationTimestamp = false;
-
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public JavaClientCodegen() {
         super();
@@ -60,6 +61,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "localVarPath", "localVarQueryParams", "localVarHeaderParams", "localVarFormParams",
                 "localVarPostBody", "localVarAccepts", "localVarAccept", "localVarContentTypes",
                 "localVarContentType", "localVarAuthNames", "localReturnType",
+                "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
 
                 // language reserved words
                 "abstract", "continue", "for", "new", "switch", "assert",
@@ -208,6 +210,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
 
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         importMapping.put("List", "java.util.List");
 
         if (fullJavaUtil) {
@@ -269,7 +275,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // library-specific files
-        if ("okhttp-gson".equals(getLibrary())) {
+        if (StringUtils.isEmpty(getLibrary())) {
+            // generate markdown docs
+            modelDocTemplateFiles.put("model_doc.mustache", ".md");
+            apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        } else if ("okhttp-gson".equals(getLibrary())) {
+            // generate markdown docs
+            modelDocTemplateFiles.put("model_doc.mustache", ".md");
+            apiDocTemplateFiles.put("api_doc.mustache", ".md");
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -282,6 +295,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
         } else if("jersey2".equals(getLibrary())) {
+            // generate markdown docs
+            modelDocTemplateFiles.put("model_doc.mustache", ".md");
+            apiDocTemplateFiles.put("api_doc.mustache", ".md");
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
         }
 
@@ -351,6 +367,26 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/');
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
     }
 
     @Override
@@ -495,6 +531,70 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "null";
         }
         return super.toDefaultValue(p);
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("String".equals(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Integer".equals(type) || "Short".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Long".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+            example = example + "L";
+        } else if ("Float".equals(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+            example = example + "F";
+        } else if ("Double".equals(type)) {
+            example = "3.4";
+            example = example + "D";
+        } else if ("Boolean".equals(type)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if ("File".equals(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "new File(\"" + escapeText(example) + "\")";
+        } else if ("Date".equals(type)) {
+            example = "new Date()";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + type + "()";
+        }
+
+        if (example == null) {
+            example = "null";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "Arrays.asList(" + example + ")";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "new HashMap()";
+        }
+
+        p.example = example;
     }
 
     @Override

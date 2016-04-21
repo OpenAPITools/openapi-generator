@@ -61,7 +61,7 @@ public class StoreApi {
     
     
     final String[] localVarAccepts = {
-      "application/json", "application/xml"
+      "application/xml", "application/json"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -75,43 +75,6 @@ public class StoreApi {
 
     apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
-  /**
-   * Finds orders by status
-   * A single status value can be provided as a string
-   * @param status Status value that needs to be considered for query (optional, default to placed)
-   * @return List<Order>
-   * @throws ApiException if fails to make API call
-   */
-  public List<Order> findOrdersByStatus(String status) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // create path and map variables
-    String localVarPath = "/store/findByStatus".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    localVarQueryParams.addAll(apiClient.parameterToPairs("", "status", status));
-
-    
-    
-    final String[] localVarAccepts = {
-      "application/json", "application/xml"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] { "test_api_client_id", "test_api_client_secret" };
-
-    GenericType<List<Order>> localVarReturnType = new GenericType<List<Order>>() {};
-    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
@@ -133,7 +96,7 @@ public class StoreApi {
     
     
     final String[] localVarAccepts = {
-      "application/json", "application/xml"
+      "application/json"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -148,48 +111,13 @@ public class StoreApi {
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
-   * Returns an arbitrary object which is actually a map of status codes to quantities
-   * @return Object
-   * @throws ApiException if fails to make API call
-   */
-  public Object getInventoryInObject() throws ApiException {
-    Object localVarPostBody = null;
-    
-    // create path and map variables
-    String localVarPath = "/store/inventory?response=arbitrary_object".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    final String[] localVarAccepts = {
-      "application/json", "application/xml"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] { "api_key" };
-
-    GenericType<Object> localVarReturnType = new GenericType<Object>() {};
-    return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
-  /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById(String orderId) throws ApiException {
+  public Order getOrderById(Long orderId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -210,7 +138,7 @@ public class StoreApi {
     
     
     final String[] localVarAccepts = {
-      "application/json", "application/xml"
+      "application/xml", "application/json"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -219,7 +147,7 @@ public class StoreApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "test_api_key_header", "test_api_key_query" };
+    String[] localVarAuthNames = new String[] {  };
 
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
@@ -227,12 +155,17 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (optional)
+   * @param body order placed for purchasing the pet (required)
    * @return Order
    * @throws ApiException if fails to make API call
    */
   public Order placeOrder(Order body) throws ApiException {
     Object localVarPostBody = body;
+    
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
+    }
     
     // create path and map variables
     String localVarPath = "/store/order".replaceAll("\\{format\\}","json");
@@ -246,7 +179,7 @@ public class StoreApi {
     
     
     final String[] localVarAccepts = {
-      "application/json", "application/xml"
+      "application/xml", "application/json"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
@@ -255,7 +188,7 @@ public class StoreApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "test_api_client_id", "test_api_client_secret" };
+    String[] localVarAuthNames = new String[] {  };
 
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
