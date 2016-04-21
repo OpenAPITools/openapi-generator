@@ -1,32 +1,25 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import com.google.gson.annotations.SerializedName;
 
 
-/**
- * Model for testing reserved words
- **/
 
-@ApiModel(description = "Model for testing reserved words")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-13T14:36:32.196+02:00")
-public class ModelReturn   {
+
+@ApiModel(description = "")
+public class ObjectReturn   {
   
+  @SerializedName("return")
   private Integer _return = null;
+  
 
   
   /**
    **/
-  public ModelReturn _return(Integer _return) {
-    this._return = _return;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("return")
+  @ApiModelProperty(value = "")
   public Integer getReturn() {
     return _return;
   }
@@ -34,17 +27,18 @@ public class ModelReturn   {
     this._return = _return;
   }
 
+  
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ModelReturn _return = (ModelReturn) o;
-    return Objects.equals(this._return, _return._return);
+    ObjectReturn _return = (ObjectReturn) o;
+    return Objects.equals(_return, _return._return);
   }
 
   @Override
@@ -55,7 +49,7 @@ public class ModelReturn   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ModelReturn {\n");
+    sb.append("class ObjectReturn {\n");
     
     sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
     sb.append("}");
@@ -66,11 +60,10 @@ public class ModelReturn   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
 }
-

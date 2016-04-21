@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.client.model.Category;
 import io.swagger.client.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +13,12 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-13T14:36:32.196+02:00")
-public class Pet   {
+
+public class InlineResponse200   {
   
-  private Long id = null;
-  private Category category = null;
-  private String name = null;
-  private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
+  private Long id = null;
+  private Object category = null;
 
 
   public enum StatusEnum {
@@ -43,79 +40,13 @@ public class Pet   {
   }
 
   private StatusEnum status = null;
+  private String name = null;
+  private List<String> photoUrls = new ArrayList<String>();
 
   
   /**
    **/
-  public Pet id(Long id) {
-    this.id = id;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("id")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-
-  /**
-   **/
-  public Pet category(Category category) {
-    this.category = category;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("category")
-  public Category getCategory() {
-    return category;
-  }
-  public void setCategory(Category category) {
-    this.category = category;
-  }
-
-
-  /**
-   **/
-  public Pet name(String name) {
-    this.name = name;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "doggie", required = true, value = "")
-  @JsonProperty("name")
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-  /**
-   **/
-  public Pet photoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", required = true, value = "")
-  @JsonProperty("photoUrls")
-  public List<String> getPhotoUrls() {
-    return photoUrls;
-  }
-  public void setPhotoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-  }
-
-
-  /**
-   **/
-  public Pet tags(List<Tag> tags) {
+  public InlineResponse200 tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -131,9 +62,43 @@ public class Pet   {
 
 
   /**
+   **/
+  public InlineResponse200 id(Long id) {
+    this.id = id;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", required = true, value = "")
+  @JsonProperty("id")
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+
+  /**
+   **/
+  public InlineResponse200 category(Object category) {
+    this.category = category;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("category")
+  public Object getCategory() {
+    return category;
+  }
+  public void setCategory(Object category) {
+    this.category = category;
+  }
+
+
+  /**
    * pet status in the store
    **/
-  public Pet status(StatusEnum status) {
+  public InlineResponse200 status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -148,6 +113,40 @@ public class Pet   {
   }
 
 
+  /**
+   **/
+  public InlineResponse200 name(String name) {
+    this.name = name;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "doggie", value = "")
+  @JsonProperty("name")
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+
+  /**
+   **/
+  public InlineResponse200 photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("photoUrls")
+  public List<String> getPhotoUrls() {
+    return photoUrls;
+  }
+  public void setPhotoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+  }
+
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -156,31 +155,31 @@ public class Pet   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Pet pet = (Pet) o;
-    return Objects.equals(this.id, pet.id) &&
-        Objects.equals(this.category, pet.category) &&
-        Objects.equals(this.name, pet.name) &&
-        Objects.equals(this.photoUrls, pet.photoUrls) &&
-        Objects.equals(this.tags, pet.tags) &&
-        Objects.equals(this.status, pet.status);
+    InlineResponse200 inlineResponse200 = (InlineResponse200) o;
+    return Objects.equals(this.tags, inlineResponse200.tags) &&
+        Objects.equals(this.id, inlineResponse200.id) &&
+        Objects.equals(this.category, inlineResponse200.category) &&
+        Objects.equals(this.status, inlineResponse200.status) &&
+        Objects.equals(this.name, inlineResponse200.name) &&
+        Objects.equals(this.photoUrls, inlineResponse200.photoUrls);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, category, name, photoUrls, tags, status);
+    return Objects.hash(tags, id, category, status, name, photoUrls);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Pet {\n");
+    sb.append("class InlineResponse200 {\n");
     
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }
