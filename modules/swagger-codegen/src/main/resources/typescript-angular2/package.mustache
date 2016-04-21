@@ -1,14 +1,11 @@
 {
-  "name": "@restore/fxt-configurator-client",
-  "version": "1.${project.version}",
-  "description": "client to consume the fxt-configurator-api",
+  "name": "{{npmName}}",
+  "version": "{{npmVersion}}",
+  "description": "swagger client for {{npmName}}",
   "keywords": [
     "swagger-client"
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/swagger-api/swagger-codegen/issues"
-  },
   "files": [
     "lib"
   ],
@@ -16,10 +13,6 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "build": "typings install && tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://stash.flexpond.com/scm/flxp/flextract-service-module.git"
   },
   "peerDependencies": {
     "angular2": "^2.0.0-beta.15",
@@ -33,9 +26,9 @@
     "es7-reflect-metadata": "^1.6.0",
     "rxjs": "5.0.0-beta.2",
     "zone.js": "^0.6.10"
-  },
-  "private": true,
+  }{{#npmRepository}},
   "publishConfig":{
-    "registry":"http://my-internal-registry.local"
+    "registry":"{{npmRepository}}"
   }
+{{/npmRepository}}
 }

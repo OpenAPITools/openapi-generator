@@ -1,4 +1,4 @@
-## {{npmName}}@{{npmVersion}}
+## PetstoreSwagger@0.0.1-SNAPSHOT.201604211539
 
 ### Building
 
@@ -19,7 +19,7 @@ navigate to the folder of your consuming project and run one of next commando's.
 _published:_
 
 ```
-npm install {{npmName}}@{{npmVersion}} --save
+npm install PetstoreSwagger@0.0.1-SNAPSHOT.201604211539 --save
 ```
 
 _unPublished (not recommended):_
