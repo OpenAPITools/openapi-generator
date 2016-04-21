@@ -48,7 +48,7 @@ public class PetstoreProfiling {
 
             /* UPDATE PET WITH FORM */
             start = System.nanoTime();
-            petApi.updatePetWithForm(String.valueOf(newPetId), "new profiler", "sold");
+            petApi.updatePetWithForm(newPetId, "new profiler", "sold");
             results.add(buildResult(index, "UPDATE PET", System.nanoTime() - start));
 
             /* DELETE PET */

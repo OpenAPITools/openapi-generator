@@ -18,7 +18,7 @@ public interface UserApi {
    * Create user
    * Sync method
    * This can only be done by the logged in user.
-   * @param body Created user object (optional)
+   * @param body Created user object (required)
    * @return Void
    */
   
@@ -30,7 +30,7 @@ public interface UserApi {
   /**
    * Create user
    * Async method
-   * @param body Created user object (optional)
+   * @param body Created user object (required)
    * @param cb callback method
    * @return void
    */
@@ -43,7 +43,7 @@ public interface UserApi {
    * Creates list of users with given input array
    * Sync method
    * 
-   * @param body List of user object (optional)
+   * @param body List of user object (required)
    * @return Void
    */
   
@@ -55,7 +55,7 @@ public interface UserApi {
   /**
    * Creates list of users with given input array
    * Async method
-   * @param body List of user object (optional)
+   * @param body List of user object (required)
    * @param cb callback method
    * @return void
    */
@@ -68,7 +68,7 @@ public interface UserApi {
    * Creates list of users with given input array
    * Sync method
    * 
-   * @param body List of user object (optional)
+   * @param body List of user object (required)
    * @return Void
    */
   
@@ -80,7 +80,7 @@ public interface UserApi {
   /**
    * Creates list of users with given input array
    * Async method
-   * @param body List of user object (optional)
+   * @param body List of user object (required)
    * @param cb callback method
    * @return void
    */
@@ -143,8 +143,8 @@ public interface UserApi {
    * Logs user into the system
    * Sync method
    * 
-   * @param username The user name for login (optional)
-   * @param password The password for login in clear text (optional)
+   * @param username The user name for login (required)
+   * @param password The password for login in clear text (required)
    * @return String
    */
   
@@ -156,8 +156,8 @@ public interface UserApi {
   /**
    * Logs user into the system
    * Async method
-   * @param username The user name for login (optional)
-   * @param password The password for login in clear text (optional)
+   * @param username The user name for login (required)
+   * @param password The password for login in clear text (required)
    * @param cb callback method
    * @return void
    */
@@ -193,7 +193,7 @@ public interface UserApi {
    * Sync method
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (optional)
+   * @param body Updated user object (required)
    * @return Void
    */
   
@@ -206,7 +206,7 @@ public interface UserApi {
    * Updated user
    * Async method
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (optional)
+   * @param body Updated user object (required)
    * @param cb callback method
    * @return void
    */
