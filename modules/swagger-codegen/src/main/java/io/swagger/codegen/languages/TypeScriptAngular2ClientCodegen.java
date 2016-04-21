@@ -1,15 +1,28 @@
 package io.swagger.codegen.languages;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.FileProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 
 public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
+    public static final String NMP_NAME = "nmpName";
+    public static final String NMP_VERSION = "nmpVersion";
+    public static final String NPM_REPOSITORY = "npmRepository";
+    public static final String SNAPSHOT = "Snapshot";
+
+    private String npmName = null;
+    private String npmVersion = "1.0.0";
+    private String npmRepository = null;
 
     public TypeScriptAngular2ClientCodegen() {
         super();
@@ -21,6 +34,12 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         typeMapping.put("Date","Date");
         apiPackage = "api";
         modelPackage = "model";
+
+
+        this.cliOptions.add(new CliOption(NMP_NAME, "The name under which you want to publish generated npm package"));
+        this.cliOptions.add(new CliOption(NMP_VERSION, "The version of your npm package"));
+        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -36,11 +55,31 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     public void processOpts() {
         super.processOpts();
-        supportingFiles.clear();
 
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
+
+        if(additionalProperties.containsKey(NMP_NAME)) {
+            addNpmPackageGeneration();
+        }
+    }
+
+    private void addNpmPackageGeneration() {
+        if(additionalProperties.containsKey(NMP_NAME)) {
+            this.setNpmName(additionalProperties.get(NMP_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(NMP_VERSION)) {
+            this.setNpmVersion(additionalProperties.get(NMP_VERSION).toString());
+        }
+
+        if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
+            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+        }
+        additionalProperties.put(NMP_VERSION, npmVersion);
+
+        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
     }
 
     private String getIndexDirectory() {
@@ -87,4 +126,27 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         parameter.dataType = addModelPrefix(parameter.dataType);
     }
 
+    public String getNpmName() {
+        return npmName;
+    }
+
+    public void setNpmName(String npmName) {
+        this.npmName = npmName;
+    }
+
+    public String getNpmVersion() {
+        return npmVersion;
+    }
+
+    public void setNpmVersion(String npmVersion) {
+        this.npmVersion = npmVersion;
+    }
+
+    public String getNpmRepository() {
+        return npmRepository;
+    }
+
+    public void setNpmRepository(String npmRepository) {
+        this.npmRepository = npmRepository;
+    }
 }
