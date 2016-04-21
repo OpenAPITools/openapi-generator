@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules",
+    "typings/browser",
+    "typings/main",
+    "typings/main.d.ts"
+  ]
+}
