@@ -9,8 +9,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-19T19:29:55.995+08:00")
-public class ApiResponse   {
+
+public class ModelApiResponse   {
   
   private Integer code = null;
   private String type = null;
@@ -19,7 +19,7 @@ public class ApiResponse   {
   
   /**
    **/
-  public ApiResponse code(Integer code) {
+  public ModelApiResponse code(Integer code) {
     this.code = code;
     return this;
   }
@@ -36,7 +36,7 @@ public class ApiResponse   {
 
   /**
    **/
-  public ApiResponse type(String type) {
+  public ModelApiResponse type(String type) {
     this.type = type;
     return this;
   }
@@ -53,7 +53,7 @@ public class ApiResponse   {
 
   /**
    **/
-  public ApiResponse message(String message) {
+  public ModelApiResponse message(String message) {
     this.message = message;
     return this;
   }
@@ -76,10 +76,10 @@ public class ApiResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiResponse apiResponse = (ApiResponse) o;
-    return Objects.equals(this.code, apiResponse.code) &&
-        Objects.equals(this.type, apiResponse.type) &&
-        Objects.equals(this.message, apiResponse.message);
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override
@@ -90,7 +90,7 @@ public class ApiResponse   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiResponse {\n");
+    sb.append("class ModelApiResponse {\n");
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");

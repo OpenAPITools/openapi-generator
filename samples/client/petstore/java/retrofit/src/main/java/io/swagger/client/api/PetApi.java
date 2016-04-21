@@ -7,8 +7,8 @@ import retrofit.http.*;
 import retrofit.mime.*;
 
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
-import io.swagger.client.model.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -206,12 +206,12 @@ public interface PetApi {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return ApiResponse
+   * @return ModelApiResponse
    */
   
   @Multipart
   @POST("/pet/{petId}/uploadImage")
-  ApiResponse uploadFile(
+  ModelApiResponse uploadFile(
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file
   );
 
@@ -228,6 +228,6 @@ public interface PetApi {
   @Multipart
   @POST("/pet/{petId}/uploadImage")
   void uploadFile(
-    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<ApiResponse> cb
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file") TypedFile file, Callback<ModelApiResponse> cb
   );
 }

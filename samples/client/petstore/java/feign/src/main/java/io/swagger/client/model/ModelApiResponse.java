@@ -1,29 +1,31 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import com.google.gson.annotations.SerializedName;
 
 
 
 
-
-public class ApiResponse   {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-21T18:26:32.462+08:00")
+public class ModelApiResponse   {
   
-  @SerializedName("code")
   private Integer code = null;
-
-  @SerializedName("type")
   private String type = null;
-
-  @SerializedName("message")
   private String message = null;
 
+  
   /**
    **/
-  @ApiModelProperty(value = "")
+  public ModelApiResponse code(Integer code) {
+    this.code = code;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
@@ -31,9 +33,16 @@ public class ApiResponse   {
     this.code = code;
   }
 
+
   /**
    **/
-  @ApiModelProperty(value = "")
+  public ModelApiResponse type(String type) {
+    this.type = type;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("type")
   public String getType() {
     return type;
   }
@@ -41,9 +50,16 @@ public class ApiResponse   {
     this.type = type;
   }
 
+
   /**
    **/
-  @ApiModelProperty(value = "")
+  public ModelApiResponse message(String message) {
+    this.message = message;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("message")
   public String getMessage() {
     return message;
   }
@@ -53,17 +69,17 @@ public class ApiResponse   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiResponse apiResponse = (ApiResponse) o;
-    return Objects.equals(code, apiResponse.code) &&
-        Objects.equals(type, apiResponse.type) &&
-        Objects.equals(message, apiResponse.message);
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override
@@ -74,7 +90,7 @@ public class ApiResponse   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiResponse {\n");
+    sb.append("class ModelApiResponse {\n");
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
@@ -87,10 +103,11 @@ public class ApiResponse   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
 }
+

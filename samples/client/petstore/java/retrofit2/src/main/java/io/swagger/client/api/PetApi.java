@@ -9,8 +9,8 @@ import retrofit2.http.*;
 import okhttp3.RequestBody;
 
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
-import io.swagger.client.model.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,12 +112,12 @@ public interface PetApi {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return Call<ApiResponse>
+   * @return Call<ModelApiResponse>
    */
   
   @Multipart
   @POST("pet/{petId}/uploadImage")
-  Call<ApiResponse> uploadFile(
+  Call<ModelApiResponse> uploadFile(
     @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file\"; filename=\"file\"") RequestBody file
   );
 

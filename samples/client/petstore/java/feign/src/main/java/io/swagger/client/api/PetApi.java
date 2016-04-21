@@ -3,8 +3,8 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
-import io.swagger.client.model.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-19T19:29:57.731+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-21T18:26:32.462+08:00")
 public interface PetApi extends ApiClient.Api {
 
 
@@ -117,12 +117,12 @@ public interface PetApi extends ApiClient.Api {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return ApiResponse
+   * @return ModelApiResponse
    */
   @RequestLine("POST /pet/{petId}/uploadImage")
   @Headers({
     "Content-type: multipart/form-data",
     "Accepts: application/json",
   })
-  ApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
 }
