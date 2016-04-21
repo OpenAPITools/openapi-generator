@@ -15,14 +15,15 @@ import io.swagger.models.properties.Property;
 
 public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
-    public static final String NMP_NAME = "nmpName";
-    public static final String NMP_VERSION = "nmpVersion";
-    public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String SNAPSHOT = "Snapshot";
 
-    private String npmName = null;
-    private String npmVersion = "1.0.0";
-    private String npmRepository = null;
+    public static final String NPM_NAME = "npmName";
+    public static final String NPM_VERSION = "npmVersion";
+    public static final String NPM_REPOSITORY = "npmRepository";
+    public static final String SNAPSHOT = "snapshot";
+
+    protected String npmName = null;
+    protected String npmVersion = "1.0.0";
+    protected String npmRepository = null;
 
     public TypeScriptAngular2ClientCodegen() {
         super();
@@ -36,8 +37,8 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         modelPackage = "model";
 
 
-        this.cliOptions.add(new CliOption(NMP_NAME, "The name under which you want to publish generated npm package"));
-        this.cliOptions.add(new CliOption(NMP_VERSION, "The version of your npm package"));
+        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
+        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
     }
@@ -55,31 +56,38 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     public void processOpts() {
         super.processOpts();
-
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
 
-        if(additionalProperties.containsKey(NMP_NAME)) {
+        if(additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
     }
 
     private void addNpmPackageGeneration() {
-        if(additionalProperties.containsKey(NMP_NAME)) {
-            this.setNpmName(additionalProperties.get(NMP_NAME).toString());
+        if(additionalProperties.containsKey(NPM_NAME)) {
+            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
 
-        if (additionalProperties.containsKey(NMP_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NMP_VERSION).toString());
+        if (additionalProperties.containsKey(NPM_VERSION)) {
+            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
         }
 
         if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
             this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
         }
-        additionalProperties.put(NMP_VERSION, npmVersion);
+        additionalProperties.put(NPM_VERSION, npmVersion);
 
+        if (additionalProperties.containsKey(NPM_REPOSITORY)) {
+            this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
+        }
+
+        //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
+        supportingFiles.add(new SupportingFile("typings.mustache", getIndexDirectory(), "typings.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
     }
 
     private String getIndexDirectory() {

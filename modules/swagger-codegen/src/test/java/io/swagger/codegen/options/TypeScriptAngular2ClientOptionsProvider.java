@@ -26,8 +26,8 @@ public class TypeScriptAngular2ClientOptionsProvider implements OptionsProvider 
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
-                .put(TypeScriptAngular2ClientCodegen.NMP_NAME, NMP_NAME)
-                .put(TypeScriptAngular2ClientCodegen.NMP_VERSION, NMP_VERSION)
+                .put(TypeScriptAngular2ClientCodegen.NPM_NAME, NMP_NAME)
+                .put(TypeScriptAngular2ClientCodegen.NPM_VERSION, NMP_VERSION)
                 .put(TypeScriptAngular2ClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
                 .put(TypeScriptAngular2ClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
                 .build();
