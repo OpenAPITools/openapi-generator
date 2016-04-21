@@ -524,26 +524,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             type = p.dataType;
         }
 
-        typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
-        typeMapping.put("map", "Object");
-        typeMapping.put("object", "Object");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("char", "String");
-        typeMapping.put("string", "String");
-        typeMapping.put("short", "Integer");
-        typeMapping.put("int", "Integer");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Integer");
-        typeMapping.put("float", "Number");
-        typeMapping.put("double", "Number");
-        typeMapping.put("number", "Number");
-        typeMapping.put("DateTime", "Date");
-        typeMapping.put("Date", "Date");
-        typeMapping.put("file", "File");
-        // binary not supported in JavaScript client right now, using String as a workaround
-        typeMapping.put("binary", "String");
-
         if ("String".equals(type)) {
             if (example == null) {
                 example = p.paramName + "_example";

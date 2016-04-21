@@ -39,6 +39,29 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   {{/vars}}
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
+    return {{#vars}}({{name}} == null ? {{classVarName}}.{{name}} == null : {{name}}.equals({{classVarName}}.{{name}})){{#hasMore}} &&
+        {{/hasMore}}{{^hasMore}};{{/hasMore}}{{/vars}}{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
+  }
+
+  @Override 
+  public int hashCode() {
+    int result = 17;
+    {{#vars}}
+    result = 31 * result + ({{name}} == null ? 0: {{name}}.hashCode());{{#hasMore}}{{/hasMore}}
+    {{/vars}}
+    return result;
+  }
+
+  @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");

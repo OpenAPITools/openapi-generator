@@ -6,12 +6,12 @@ Gem::Specification.new do |s|
   s.name        = "petstore"
   s.version     = Petstore::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = [""]
-  s.email       = [""]
-  s.homepage    = ""
-  s.summary     = ""
-  s.description = ""
-  s.license     = ""
+  s.authors     = ["Swagger-Codegen"]
+  s.email       = ["apiteam@swagger.io"]
+  s.homepage    = "https://github.com/swagger-api/swagger-codegen"
+  s.summary     = "Swagger Petstore Ruby Gem"
+  s.description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose."
+  s.license     = "Apache 2.0"
 
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
   s.add_runtime_dependency 'json', '~> 1.8', '>= 1.8.3'
