@@ -36,7 +36,7 @@ func NewUserApiWithBasePath(basePath string) *UserApi{
 func (a UserApi) CreateUser (body User) (error, ApiResponse) {
 
   var httpMethod = "Post"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user"
 
   // verify the required parameter 'body' is set
@@ -48,6 +48,7 @@ func (a UserApi) CreateUser (body User) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -80,7 +81,7 @@ func (a UserApi) CreateUser (body User) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -98,7 +99,7 @@ func (a UserApi) CreateUser (body User) (error, ApiResponse) {
 func (a UserApi) CreateUsersWithArrayInput (body []User) (error, ApiResponse) {
 
   var httpMethod = "Post"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user/createWithArray"
 
   // verify the required parameter 'body' is set
@@ -110,6 +111,7 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -142,7 +144,7 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -160,7 +162,7 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error, ApiResponse) {
 func (a UserApi) CreateUsersWithListInput (body []User) (error, ApiResponse) {
 
   var httpMethod = "Post"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user/createWithList"
 
   // verify the required parameter 'body' is set
@@ -172,6 +174,7 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -204,7 +207,7 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -222,9 +225,9 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error, ApiResponse) {
 func (a UserApi) DeleteUser (username string) (error, ApiResponse) {
 
   var httpMethod = "Delete"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+ path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
   // verify the required parameter 'username' is set
   if &username == nil {
@@ -235,6 +238,7 @@ func (a UserApi) DeleteUser (username string) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -265,7 +269,7 @@ func (a UserApi) DeleteUser (username string) (error, ApiResponse) {
 
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -283,9 +287,9 @@ func (a UserApi) DeleteUser (username string) (error, ApiResponse) {
 func (a UserApi) GetUserByName (username string) (User, error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+ path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
   // verify the required parameter 'username' is set
   if &username == nil {
@@ -296,6 +300,7 @@ func (a UserApi) GetUserByName (username string) (User, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -326,7 +331,7 @@ func (a UserApi) GetUserByName (username string) (User, error, ApiResponse) {
 
 
   var successPayload = new(User)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -347,7 +352,7 @@ func (a UserApi) GetUserByName (username string) (User, error, ApiResponse) {
 func (a UserApi) LoginUser (username string, password string) (string, error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user/login"
 
   // verify the required parameter 'username' is set
@@ -363,6 +368,7 @@ func (a UserApi) LoginUser (username string, password string) (string, error, Ap
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -395,7 +401,7 @@ func (a UserApi) LoginUser (username string, password string) (string, error, Ap
 
 
   var successPayload = new(string)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -414,7 +420,7 @@ func (a UserApi) LoginUser (username string, password string) (string, error, Ap
 func (a UserApi) LogoutUser () (error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user/logout"
 
 
@@ -422,6 +428,7 @@ func (a UserApi) LogoutUser () (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -452,7 +459,7 @@ func (a UserApi) LogoutUser () (error, ApiResponse) {
 
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -471,9 +478,9 @@ func (a UserApi) LogoutUser () (error, ApiResponse) {
 func (a UserApi) UpdateUser (username string, body User) (error, ApiResponse) {
 
   var httpMethod = "Put"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+ path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
   // verify the required parameter 'username' is set
   if &username == nil {
@@ -488,6 +495,7 @@ func (a UserApi) UpdateUser (username string, body User) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -520,7 +528,7 @@ func (a UserApi) UpdateUser (username string, body User) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {

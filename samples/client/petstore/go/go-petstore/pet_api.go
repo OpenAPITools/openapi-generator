@@ -38,7 +38,7 @@ func NewPetApiWithBasePath(basePath string) *PetApi{
 func (a PetApi) AddPet (body Pet) (error, ApiResponse) {
 
   var httpMethod = "Post"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet"
 
   // verify the required parameter 'body' is set
@@ -50,6 +50,7 @@ func (a PetApi) AddPet (body Pet) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (petstore_auth) required
@@ -90,7 +91,7 @@ func (a PetApi) AddPet (body Pet) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -109,9 +110,9 @@ func (a PetApi) AddPet (body Pet) (error, ApiResponse) {
 func (a PetApi) DeletePet (petId int64, apiKey string) (error, ApiResponse) {
 
   var httpMethod = "Delete"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
   // verify the required parameter 'petId' is set
   if &petId == nil {
@@ -122,6 +123,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (petstore_auth) required
@@ -160,7 +162,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error, ApiResponse) {
 
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -178,7 +180,7 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error, ApiResponse) {
 func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet/findByStatus"
 
   // verify the required parameter 'status' is set
@@ -190,6 +192,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (petstore_auth) required
@@ -227,7 +230,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error, ApiResponse) {
 
 
   var successPayload = new([]Pet)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -247,7 +250,7 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error, ApiResponse) {
 func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet/findByTags"
 
   // verify the required parameter 'tags' is set
@@ -259,6 +262,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (petstore_auth) required
@@ -296,7 +300,7 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error, ApiResponse) {
 
 
   var successPayload = new([]Pet)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -316,9 +320,9 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error, ApiResponse) {
 func (a PetApi) GetPetById (petId int64) (Pet, error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
   // verify the required parameter 'petId' is set
   if &petId == nil {
@@ -329,6 +333,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (api_key) required
@@ -364,7 +369,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error, ApiResponse) {
 
 
   var successPayload = new(Pet)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -384,7 +389,7 @@ func (a PetApi) GetPetById (petId int64) (Pet, error, ApiResponse) {
 func (a PetApi) UpdatePet (body Pet) (error, ApiResponse) {
 
   var httpMethod = "Put"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet"
 
   // verify the required parameter 'body' is set
@@ -396,6 +401,7 @@ func (a PetApi) UpdatePet (body Pet) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (petstore_auth) required
@@ -436,7 +442,7 @@ func (a PetApi) UpdatePet (body Pet) (error, ApiResponse) {
   postBody = &body
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -456,9 +462,9 @@ func (a PetApi) UpdatePet (body Pet) (error, ApiResponse) {
 func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (error, ApiResponse) {
 
   var httpMethod = "Post"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
   // verify the required parameter 'petId' is set
   if &petId == nil {
@@ -469,6 +475,7 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (petstore_auth) required
@@ -508,7 +515,7 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
   formParams["status"] = status
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -528,9 +535,9 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
 func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.File) (ApiResponse, error, ApiResponse) {
 
   var httpMethod = "Post"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/pet/{petId}/uploadImage"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
   // verify the required parameter 'petId' is set
   if &petId == nil {
@@ -541,6 +548,7 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (petstore_auth) required
@@ -578,9 +586,10 @@ func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.Fil
   formParams["additionalMetadata"] = additionalMetadata
   fbs, _ := ioutil.ReadAll(file)
   fileBytes = fbs
+  fileName = file.Name()
 
   var successPayload = new(ApiResponse)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
