@@ -1,0 +1,133 @@
+import * as querystring from 'querystring';
+import * as fetch from 'isomorphic-fetch';
+import {assign} from './assign';
+
+
+{{#models}}
+{{#model}}
+{{#description}}
+/**
+ * {{{description}}}
+ */
+{{/description}}
+export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{#vars}}
+{{#description}}
+
+    /**
+     * {{{description}}}
+     */
+{{/description}}
+    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+{{/vars}}
+}
+
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+
+export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
+    {{.}} = <any> '{{.}}'{{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{/model}}
+{{/models}}
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+//export namespace {{package}} {
+    'use strict';
+
+{{#description}}
+    /**
+    * {{&description}}
+    */
+{{/description}}
+    export class {{classname}} {
+        protected basePath = '{{basePath}}';
+        public defaultHeaders : any = {};
+
+        constructor(basePath?: string) {
+            if (basePath) {
+                this.basePath = basePath;
+            }
+        }
+
+{{#operation}}
+        /**
+         * {{summary}}
+         * {{notes}}
+         {{#allParams}}* @param {{paramName}} {{description}}
+         {{/allParams}}*/
+        public {{nickname}} (params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }, extraQueryParams?: any, extraFetchParams?: any ) : Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+            const localVarPath = this.basePath + '{{path}}'{{#pathParams}}
+                .replace('{' + '{{baseName}}' + '}', String(params.{{paramName}})){{/pathParams}};
+
+            let queryParameters: any = assign({}, extraQueryParams);
+            let headerParams: any = assign({}, this.defaultHeaders);
+{{#hasFormParams}}
+            let formParams: any = {};
+            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+{{/hasFormParams}}
+{{#hasBodyParam}}
+            headerParams['Content-Type'] = 'application/json';
+
+{{/hasBodyParam}}
+{{#allParams}}
+{{#required}}
+            // verify required parameter '{{paramName}}' is set
+            if (params.{{paramName}} == null) {
+                throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
+            }
+{{/required}}
+{{/allParams}}
+{{#queryParams}}
+            if (params.{{paramName}} !== undefined) {
+                queryParameters['{{baseName}}'] = params.{{paramName}};
+            }
+
+{{/queryParams}}
+{{#headerParams}}
+            headerParams['{{baseName}}'] = params.{{paramName}};
+
+{{/headerParams}}
+{{#formParams}}
+            formParams['{{baseName}}'] = params.{{paramName}};
+
+{{/formParams}}
+            let fetchParams = {
+                method: '{{httpMethod}}',
+                headers: headerParams,
+                {{#bodyParam}}body: JSON.stringify(params.{{paramName}}),
+                {{/bodyParam}}
+                {{#hasFormParams}}body: querystring.stringify(formParams),
+                {{/hasFormParams}}
+
+            };
+
+            if (extraFetchParams) {
+                fetchParams = assign(fetchParams, extraFetchParams);
+            }
+
+            let localVarPathWithQueryParameters = localVarPath + (localVarPath.indexOf('?') !== -1 ? '&' : '?') + querystring.stringify(queryParameters);
+
+            return fetch(localVarPathWithQueryParameters, fetchParams).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    var error = new Error(response.statusText);
+                    error['response'] = response;
+                    throw error;
+                }
+            });
+        }
+{{/operation}}
+    }
+//}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
