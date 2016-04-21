@@ -189,14 +189,9 @@ public class ApiInvoker {
 
      // Setup authentications (key: authentication name, value: authentication).
      INSTANCE.authentications = new HashMap<String, Authentication>();
+     INSTANCE.authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
      // TODO: comment out below as OAuth does not exist
      //INSTANCE.authentications.put("petstore_auth", new OAuth());
-     INSTANCE.authentications.put("test_api_client_id", new ApiKeyAuth("header", "x-test_api_client_id"));
-     INSTANCE.authentications.put("test_api_client_secret", new ApiKeyAuth("header", "x-test_api_client_secret"));
-     INSTANCE.authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-     INSTANCE.authentications.put("test_http_basic", new HttpBasicAuth());
-     INSTANCE.authentications.put("test_api_key_query", new ApiKeyAuth("query", "test_api_key_query"));
-     INSTANCE.authentications.put("test_api_key_header", new ApiKeyAuth("header", "test_api_key_header"));
      // Prevent the authentications from being modified.
      INSTANCE.authentications = Collections.unmodifiableMap(INSTANCE.authentications);
   }

@@ -37,7 +37,6 @@ public class UserApi {
     return basePath;
   }
 
-  
   /**
    * Create user
    * This can only be done by the logged in user.
@@ -58,9 +57,7 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -75,8 +72,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -90,7 +86,6 @@ public class UserApi {
       throw ex;
     }
   }
-  
   /**
    * Creates list of users with given input array
    * 
@@ -111,9 +106,7 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -128,8 +121,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -143,7 +135,6 @@ public class UserApi {
       throw ex;
     }
   }
-  
   /**
    * Creates list of users with given input array
    * 
@@ -164,9 +155,7 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -181,8 +170,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -196,7 +184,6 @@ public class UserApi {
       throw ex;
     }
   }
-  
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -222,9 +209,7 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -239,8 +224,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -254,7 +238,6 @@ public class UserApi {
       throw ex;
     }
   }
-  
   /**
    * Get user by user name
    * 
@@ -280,9 +263,7 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -297,8 +278,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -312,7 +292,6 @@ public class UserApi {
       throw ex;
     }
   }
-  
   /**
    * Logs user into the system
    * 
@@ -334,13 +313,9 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
     localVarQueryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
-    
     localVarQueryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -355,8 +330,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -370,7 +344,6 @@ public class UserApi {
       throw ex;
     }
   }
-  
   /**
    * Logs out current logged in user session
    * 
@@ -390,9 +363,7 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -407,8 +378,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -422,7 +392,6 @@ public class UserApi {
       throw ex;
     }
   }
-  
   /**
    * Updated user
    * This can only be done by the logged in user.
@@ -449,9 +418,7 @@ public class UserApi {
     // form params
     Map<String, String> localVarFormParams = new HashMap<String, String>();
 
-    
 
-    
 
     String[] localVarContentTypes = {
       
@@ -466,8 +433,7 @@ public class UserApi {
       localVarPostBody = localVarBuilder.build();
     } else {
       // normal form params
-      
-    }
+          }
 
     try {
       String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
@@ -481,5 +447,4 @@ public class UserApi {
       throw ex;
     }
   }
-  
 }
