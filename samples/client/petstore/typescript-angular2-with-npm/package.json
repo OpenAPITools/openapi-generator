@@ -1,7 +1,7 @@
 {
-  "name": "PetstoreSwagger",
-  "version": "0.0.1-SNAPSHOT.201604211539",
-  "description": "swagger client for PetstoreSwagger",
+  "name": "@swagger/angular2-typescript-petstore",
+  "version": "0.0.1-SNAPSHOT.201604211551",
+  "description": "swagger client for @swagger/angular2-typescript-petstore",
   "keywords": [
     "swagger-client"
   ],
@@ -26,4 +26,9 @@
     "es7-reflect-metadata": "^1.6.0",
     "rxjs": "5.0.0-beta.2",
     "zone.js": "^0.6.10"
-  }}
+  },
+  "publishConfig":{
+    "registry":"https://skimdb.npmjs.com/registry"
+  }
+
+}

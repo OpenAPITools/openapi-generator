@@ -1,4 +1,4 @@
-## PetstoreSwagger@0.0.1-SNAPSHOT.201604211539
+## @swagger/angular2-typescript-petstore@0.0.1-SNAPSHOT.201604211551
 
 ### Building
 
@@ -19,7 +19,7 @@ navigate to the folder of your consuming project and run one of next commando's.
 _published:_
 
 ```
-npm install PetstoreSwagger@0.0.1-SNAPSHOT.201604211539 --save
+npm install @swagger/angular2-typescript-petstore@0.0.1-SNAPSHOT.201604211551 --save
 ```
 
 _unPublished (not recommended):_
