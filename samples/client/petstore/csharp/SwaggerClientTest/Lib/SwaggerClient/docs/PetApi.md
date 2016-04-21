@@ -21,7 +21,7 @@ Add a new pet to the store
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -84,7 +84,7 @@ Deletes a pet
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -149,7 +149,7 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -213,7 +213,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -277,7 +277,7 @@ Find pet by ID
 
 Returns a single pet
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -343,7 +343,7 @@ Update an existing pet
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -406,7 +406,7 @@ Updates a pet in the store with form data
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -473,7 +473,7 @@ uploads an image
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
