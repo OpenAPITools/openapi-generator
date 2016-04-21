@@ -38,7 +38,6 @@ public class StoreApiTest {
         assertTrue(inventory.keySet().size() > 0);
     }
 
-    /*
     @Test
     public void testGetInventoryInObject() throws Exception {
         Object inventoryObj = api.getInventoryInObject();
@@ -52,14 +51,13 @@ public class StoreApiTest {
         // NOTE: Gson parses integer value to double.
         assertTrue(firstEntry.getValue() instanceof Double);
     }
-    */
 
     @Test
     public void testPlaceOrder() throws Exception {
         Order order = createOrder();
         api.placeOrder(order);
 
-        Order fetched = api.getOrderById(order.getId());
+        Order fetched = api.getOrderById(String.valueOf(order.getId()));
         assertEquals(order.getId(), fetched.getId());
         assertEquals(order.getPetId(), fetched.getPetId());
         assertEquals(order.getQuantity(), fetched.getQuantity());
@@ -70,13 +68,13 @@ public class StoreApiTest {
         Order order = createOrder();
         api.placeOrder(order);
 
-        Order fetched = api.getOrderById(order.getId());
+        Order fetched = api.getOrderById(String.valueOf(order.getId()));
         assertEquals(fetched.getId(), order.getId());
 
         api.deleteOrder(String.valueOf(order.getId()));
 
         try {
-            api.getOrderById(order.getId());
+            api.getOrderById(String.valueOf(order.getId()));
             // fail("expected an error");
         } catch (ApiException e) {
             // ok

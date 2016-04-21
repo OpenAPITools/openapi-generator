@@ -1,7 +1,6 @@
 package io.swagger.petstore.test;
 
 import io.swagger.client.ApiClient;
-import io.swagger.client.CollectionFormats.*;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 
@@ -80,7 +79,7 @@ public class PetApiTest {
         api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
             @Override
             public void onCompleted() {
-                api.findPetsByStatus(new CSVParams("available")).subscribe(new SkeletonSubscriber<List<Pet>>() {
+                api.findPetsByStatus(Arrays.asList(new String[]{"available"})).subscribe(new SkeletonSubscriber<List<Pet>>() {
                     @Override
                     public void onNext(List<Pet> pets) {
                         assertNotNull(pets);
@@ -117,7 +116,7 @@ public class PetApiTest {
         api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
             @Override
             public void onCompleted() {
-                api.findPetsByTags(new CSVParams("friendly")).subscribe(new SkeletonSubscriber<List<Pet>>() {
+                api.findPetsByTags(Arrays.asList(new String[]{"friendly"})).subscribe(new SkeletonSubscriber<List<Pet>>() {
                     @Override
                     public void onNext(List<Pet> pets) {
                         assertNotNull(pets);
@@ -146,7 +145,7 @@ public class PetApiTest {
         api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
             @Override
             public void onNext(final Pet fetched) {
-                api.updatePetWithForm(fetched.getId(), "furt", null)
+                api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null)
                         .subscribe(new SkeletonSubscriber<Void>() {
                             @Override
                             public void onCompleted() {
@@ -202,7 +201,7 @@ public class PetApiTest {
         api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
 
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
-        api.uploadFile(pet.getId(), "a test file", body).subscribe(new SkeletonSubscriber<ModelApiResponse>() {
+        api.uploadFile(pet.getId(), "a test file", body).subscribe(new SkeletonSubscriber<Void>() {
             @Override
             public void onError(Throwable e) {
                 // this also yields a 400 for other tests, so I guess it's okay...
