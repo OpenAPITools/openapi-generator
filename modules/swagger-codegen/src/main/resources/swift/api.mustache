@@ -76,9 +76,9 @@ public class {{classname}}: APIBase {
         {{#bodyParam}}
         let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
         let nillableParameters: [String:AnyObject?] = {{^queryParams}}{{^formParams}}[:]{{/formParams}}{{#formParams}}{{^secondaryParam}}[{{/secondaryParam}}
-            "{{baseName}}": {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+            "{{baseName}}": {{paramName}}{{#isInteger}}{{^required}}?{{/required}}.encodeToJSON(){{/isInteger}}{{#isLong}}{{^required}}?{{/required}}.encodeToJSON(){{/isLong}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]{{/hasMore}}{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
-            "{{baseName}}": {{paramName}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+            "{{baseName}}": {{paramName}}{{#isInteger}}{{^required}}?{{/required}}.encodeToJSON(){{/isInteger}}{{#isLong}}{{^required}}?{{/required}}.encodeToJSON(){{/isLong}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]{{/hasMore}}{{/queryParams}}
         let parameters = APIHelper.rejectNil(nillableParameters){{/bodyParam}}
 
