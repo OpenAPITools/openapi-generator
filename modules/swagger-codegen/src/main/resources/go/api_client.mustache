@@ -56,7 +56,7 @@ func (c *ApiClient) CallApi(path string, method string,
 
     //set debug flag
     configuration := NewConfiguration()
-    resty.SetDebug(configuration.Debug)
+    resty.SetDebug(configuration.GetDebug())
 
     request := prepareRequest(postBody, headerParams, queryParams, formParams,fileName,fileBytes)
 

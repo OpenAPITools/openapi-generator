@@ -9,7 +9,7 @@ type Configuration struct {
     Password  string  `json:"password,omitempty"`
     ApiKeyPrefix map[string] string `json:"apiKeyPrefix,omitempty"`
     ApiKey map[string] string  `json:"apiKey,omitempty"`
-    Debug  bool  `json:"debug,omitempty"`
+    debug  bool  `json:"debug,omitempty"`
     DebugFile  string  `json:"debugFile,omitempty"`
     OAuthToken  string  `json:"oAuthToken,omitempty"`
     Timeout  int  `json:"timeout,omitempty"`
@@ -26,7 +26,7 @@ func NewConfiguration() *Configuration {
     return &Configuration{
         BasePath: "{{basePath}}",
         UserName: "",
-        Debug: false,
+        debug: false,
         DefaultHeader: make(map[string]string),
         ApiKey: make(map[string]string),
         ApiKeyPrefix: make(map[string]string),
@@ -48,4 +48,12 @@ func (c *Configuration) GetApiKeyWithPrefix(apiKeyIdentifier string) string {
     }
         
     return c.ApiKey[apiKeyIdentifier]
+}
+
+func (c *Configuration) SetDebug(enable bool){
+    c.debug = enable
+}
+
+func (c *Configuration) GetDebug() bool {
+    return c.debug
 }
