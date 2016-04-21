@@ -451,7 +451,7 @@ public class UserApi {
       // normal form params
         }
 
-      String[] authNames = new String[] { "test_http_basic" };
+      String[] authNames = new String[] {  };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -521,7 +521,7 @@ public class UserApi {
       // normal form params
           }
 
-      String[] authNames = new String[] { "test_http_basic" };
+      String[] authNames = new String[] {  };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames,

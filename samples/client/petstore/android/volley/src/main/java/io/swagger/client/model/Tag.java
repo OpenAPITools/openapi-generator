@@ -35,6 +35,27 @@ public class Tag  {
 
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tag tag = (Tag) o;
+    return (id == null ? tag.id == null : id.equals(tag.id)) &&
+        (name == null ? tag.name == null : name.equals(tag.name));
+  }
+
+  @Override 
+  public int hashCode() {
+    int result = 17;
+    result = 31 * result + (id == null ? 0: id.hashCode());
+    result = 31 * result + (name == null ? 0: name.hashCode());
+    return result;
+  }
+
+  @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Tag {\n");

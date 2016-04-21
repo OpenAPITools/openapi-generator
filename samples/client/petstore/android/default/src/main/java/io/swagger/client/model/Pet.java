@@ -27,7 +27,6 @@ public class Pet  {
   @SerializedName("status")
   private StatusEnum status = null;
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -38,7 +37,6 @@ public class Pet  {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -49,7 +47,6 @@ public class Pet  {
     this.category = category;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -60,7 +57,6 @@ public class Pet  {
     this.name = name;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -71,7 +67,6 @@ public class Pet  {
     this.photoUrls = photoUrls;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -82,7 +77,6 @@ public class Pet  {
     this.tags = tags;
   }
 
-  
   /**
    * pet status in the store
    **/
@@ -94,7 +88,35 @@ public class Pet  {
     this.status = status;
   }
 
-  
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return (id == null ? pet.id == null : id.equals(pet.id)) &&
+        (category == null ? pet.category == null : category.equals(pet.category)) &&
+        (name == null ? pet.name == null : name.equals(pet.name)) &&
+        (photoUrls == null ? pet.photoUrls == null : photoUrls.equals(pet.photoUrls)) &&
+        (tags == null ? pet.tags == null : tags.equals(pet.tags)) &&
+        (status == null ? pet.status == null : status.equals(pet.status));
+  }
+
+  @Override 
+  public int hashCode() {
+    int result = 17;
+    result = 31 * result + (id == null ? 0: id.hashCode());
+    result = 31 * result + (category == null ? 0: category.hashCode());
+    result = 31 * result + (name == null ? 0: name.hashCode());
+    result = 31 * result + (photoUrls == null ? 0: photoUrls.hashCode());
+    result = 31 * result + (tags == null ? 0: tags.hashCode());
+    result = 31 * result + (status == null ? 0: status.hashCode());
+    return result;
+  }
 
   @Override
   public String toString()  {

@@ -108,6 +108,39 @@ public class User  {
 
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return (id == null ? user.id == null : id.equals(user.id)) &&
+        (username == null ? user.username == null : username.equals(user.username)) &&
+        (firstName == null ? user.firstName == null : firstName.equals(user.firstName)) &&
+        (lastName == null ? user.lastName == null : lastName.equals(user.lastName)) &&
+        (email == null ? user.email == null : email.equals(user.email)) &&
+        (password == null ? user.password == null : password.equals(user.password)) &&
+        (phone == null ? user.phone == null : phone.equals(user.phone)) &&
+        (userStatus == null ? user.userStatus == null : userStatus.equals(user.userStatus));
+  }
+
+  @Override 
+  public int hashCode() {
+    int result = 17;
+    result = 31 * result + (id == null ? 0: id.hashCode());
+    result = 31 * result + (username == null ? 0: username.hashCode());
+    result = 31 * result + (firstName == null ? 0: firstName.hashCode());
+    result = 31 * result + (lastName == null ? 0: lastName.hashCode());
+    result = 31 * result + (email == null ? 0: email.hashCode());
+    result = 31 * result + (password == null ? 0: password.hashCode());
+    result = 31 * result + (phone == null ? 0: phone.hashCode());
+    result = 31 * result + (userStatus == null ? 0: userStatus.hashCode());
+    return result;
+  }
+
+  @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
