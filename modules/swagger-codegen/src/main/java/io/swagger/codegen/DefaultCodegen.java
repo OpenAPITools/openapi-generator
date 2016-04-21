@@ -2319,18 +2319,28 @@ public class DefaultCodegen {
      */
     @SuppressWarnings("static-method")
     public String removeNonNameElementToCamelCase(String name) {
-        String nonNameElementPattern = "[-_:;#]";
-        name = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() { // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        return removeNonNameElementToCamelCase(name, "[-_:;#]");
+    }
+
+    /**
+     * Remove characters that is not good to be included in method name from the input and camelize it
+     *
+     * @param name string to be camelize
+     * @param nonNameElementPattern a regex pattern of the characters that is not good to be included in name
+     * @return camelized string
+     */
+    protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
+        String result = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() {
             @Nullable
             @Override
             public String apply(String input) {
                 return StringUtils.capitalize(input);
             }
         }), "");
-        if (name.length() > 0) {
-            name = name.substring(0, 1).toLowerCase() + name.substring(1);
+        if (result.length() > 0) {
+            result = result.substring(0, 1).toLowerCase() + result.substring(1);
         }
-        return name;
+        return result;
     }
 
     /**
