@@ -21,7 +21,7 @@ Create user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -81,7 +81,7 @@ Creates list of users with given input array
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -141,7 +141,7 @@ Creates list of users with given input array
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -201,7 +201,7 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -261,7 +261,7 @@ Get user by user name
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -322,7 +322,7 @@ Logs user into the system
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -385,7 +385,7 @@ Logs out current logged in user session
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -441,7 +441,7 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
