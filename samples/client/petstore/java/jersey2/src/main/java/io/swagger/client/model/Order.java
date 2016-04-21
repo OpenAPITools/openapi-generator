@@ -11,7 +11,7 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-13T14:36:32.196+02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-19T19:29:55.995+08:00")
 public class Order   {
   
   private Long id = null;
@@ -39,13 +39,23 @@ public class Order   {
   }
 
   private StatusEnum status = null;
-  private Boolean complete = null;
+  private Boolean complete = false;
 
+  
+  /**
+   **/
+  public Order id(Long id) {
+    this.id = id;
+    return this;
+  }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
   }
 
 
