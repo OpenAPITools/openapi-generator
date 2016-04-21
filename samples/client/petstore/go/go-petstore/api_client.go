@@ -56,7 +56,7 @@ func (c *ApiClient) CallApi(path string, method string,
 
     //set debug flag
     configuration := NewConfiguration()
-    resty.SetDebug(configuration.Debug)
+    resty.SetDebug(configuration.GetDebug())
 
     request := prepareRequest(postBody, headerParams, queryParams, formParams,fileName,fileBytes)
 
@@ -134,7 +134,7 @@ func prepareRequest(postBody interface{},
     }
     
     if len(fileBytes) > 0 && fileName != "" {
-    _, fileNm := filepath.Split(fileName)
+        _, fileNm := filepath.Split(fileName)
         request.SetFileReader("file", fileNm, bytes.NewReader(fileBytes))
     }
     return request
