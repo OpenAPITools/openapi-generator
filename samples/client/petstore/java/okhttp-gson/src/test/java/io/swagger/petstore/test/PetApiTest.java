@@ -72,6 +72,7 @@ public class PetApiTest {
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
     }
 
+    /*
     @Test
     public void testCreateAndGetPetWithByteArray() throws Exception {
         Pet pet = createRandomPet();
@@ -86,6 +87,7 @@ public class PetApiTest {
         assertNotNull(fetched.getCategory());
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
     }
+    */
 
     @Test
     public void testCreateAndGetPetWithHttpInfo() throws Exception {
@@ -197,6 +199,7 @@ public class PetApiTest {
         assertEquals("application/json", exception.getResponseHeaders().get("Content-Type").get(0));
     }
 
+    /*
     @Test
     public void testGetPetByIdInObject() throws Exception {
         Pet pet = new Pet();
@@ -230,6 +233,7 @@ public class PetApiTest {
         assertEquals(category.getId(), categoryIdLong);
         assertEquals(category.getName(), categoryMap.get("name"));
     }
+    */
 
     @Test
     public void testUpdatePet() throws Exception {
@@ -306,7 +310,7 @@ public class PetApiTest {
 
         Pet fetched = api.getPetById(pet.getId());
 
-        api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null);
+        api.updatePetWithForm(fetched.getId(), "furt", null);
         Pet updated = api.getPetById(fetched.getId());
 
         assertEquals(updated.getName(), "furt");
