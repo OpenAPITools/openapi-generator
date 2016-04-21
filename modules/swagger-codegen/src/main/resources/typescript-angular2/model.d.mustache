@@ -1,0 +1,17 @@
+{{#models}}
+{{#model}}
+export * from './{{{ classname }}}';
+{{/model}}
+{{/models}}
+
+
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+export * from '../api/{{classname}}';
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+

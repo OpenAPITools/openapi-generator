@@ -1,0 +1,28 @@
+<?php
+{{#apiInfo}}/**
+ * {{appName}}
+ * @version {{appVersion}}
+ */
+
+$app->get('/', function () use ($app) {
+    return $app->version();
+});
+
+{{#apis}}{{#operations}}{{#operation}}
+/**
+ * {{httpMethod}} {{nickname}}
+ * Summary: {{summary}}
+ * Notes: {{notes}}
+{{#hasProduces}} * Output-Formats: [{{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
+ */
+$app->{{httpMethod}}('{{path}}', function({{#pathParams}}${{paramName}}, {{/pathParams}}$null = null) use ($app) {
+    {{#hasHeaderParams}}$headers = Request::header();{{/hasHeaderParams}} 
+    {{#hasQueryParams}}{{#queryParams}}${{paramName}} = Request::input('{{paramName}}');{{newline}}    
+    {{/queryParams}}{{/hasQueryParams}}
+    {{#hasFormParams}}{{#formParams}}${{paramName}} = Request::input('{{paramName}}');{{newline}}    {{/formParams}}{{/hasFormParams}}
+
+    return response('How about implementing {{nickname}} as a {{httpMethod}} method ?');
+    });
+
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+

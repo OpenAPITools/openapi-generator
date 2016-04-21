@@ -48,4 +48,6 @@ cd $APP_DIR
 ./bin/swift-petstore.sh
 ./bin/tizen-petstore.sh
 ./bin/typescript-angular-petstore.sh
+./bin/typescript-angular2-petstore.sh
 ./bin/typescript-node-petstore.sh
+./bin/lumen-petstore-server.sh
