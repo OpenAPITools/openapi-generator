@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public class ApiResponse   {
+public class ModelApiResponse   {
   
   @SerializedName("code")
   private Integer code = null;
@@ -60,10 +60,10 @@ public class ApiResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiResponse apiResponse = (ApiResponse) o;
-    return Objects.equals(code, apiResponse.code) &&
-        Objects.equals(type, apiResponse.type) &&
-        Objects.equals(message, apiResponse.message);
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(code, _apiResponse.code) &&
+        Objects.equals(type, _apiResponse.type) &&
+        Objects.equals(message, _apiResponse.message);
   }
 
   @Override
@@ -74,7 +74,7 @@ public class ApiResponse   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiResponse {\n");
+    sb.append("class ModelApiResponse {\n");
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");

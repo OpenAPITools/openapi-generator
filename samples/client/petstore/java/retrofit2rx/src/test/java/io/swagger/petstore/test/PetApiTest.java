@@ -202,7 +202,7 @@ public class PetApiTest {
         api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
 
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
-        api.uploadFile(pet.getId(), "a test file", body).subscribe(new SkeletonSubscriber<ApiResponse>() {
+        api.uploadFile(pet.getId(), "a test file", body).subscribe(new SkeletonSubscriber<ModelApiResponse>() {
             @Override
             public void onError(Throwable e) {
                 // this also yields a 400 for other tests, so I guess it's okay...

@@ -8,15 +8,15 @@ import io.swagger.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
-import io.swagger.client.model.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-19T19:29:55.995+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-21T18:26:21.396+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -339,10 +339,10 @@ if (status != null)
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return ApiResponse
+   * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -378,7 +378,7 @@ if (file != null)
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-    GenericType<ApiResponse> localVarReturnType = new GenericType<ApiResponse>() {};
+    GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
 }

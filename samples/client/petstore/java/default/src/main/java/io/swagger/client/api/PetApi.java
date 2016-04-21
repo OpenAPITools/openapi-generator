@@ -8,8 +8,8 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
 import io.swagger.client.model.Pet;
+import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
-import io.swagger.client.model.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -339,10 +339,10 @@ if (status != null)
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return ApiResponse
+   * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -378,7 +378,7 @@ if (file != null)
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-    GenericType<ApiResponse> localVarReturnType = new GenericType<ApiResponse>() {};
+    GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
 }
