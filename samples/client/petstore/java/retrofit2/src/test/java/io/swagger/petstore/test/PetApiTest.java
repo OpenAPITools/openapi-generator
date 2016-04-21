@@ -3,7 +3,6 @@ package io.swagger.petstore.test;
 import io.swagger.TestUtils;
 
 import io.swagger.client.ApiClient;
-import io.swagger.client.CollectionFormats.*;
 import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 
@@ -66,7 +65,7 @@ public class PetApiTest {
 
         api.updatePet(pet).execute();
 
-        List<Pet> pets = api.findPetsByStatus(new CSVParams("available")).execute().body();
+        List<Pet> pets = api.findPetsByStatus(Arrays.asList(new String[]{"available"})).execute().body();
         assertNotNull(pets);
 
         boolean found = false;
@@ -94,7 +93,7 @@ public class PetApiTest {
 
         api.updatePet(pet).execute();
 
-        List<Pet> pets = api.findPetsByTags(new CSVParams("friendly")).execute().body();
+        List<Pet> pets = api.findPetsByTags(Arrays.asList(new String[]{"friendly"})).execute().body();
         assertNotNull(pets);
 
         boolean found = false;
@@ -115,7 +114,7 @@ public class PetApiTest {
 
         Pet fetched = api.getPetById(pet.getId()).execute().body();
 
-        api.updatePetWithForm(fetched.getId(), "furt", null).execute();
+        api.updatePetWithForm(String.valueOf(fetched.getId()), "furt", null).execute();
         Pet updated = api.getPetById(fetched.getId()).execute().body();
 
         assertEquals(updated.getName(), "furt");

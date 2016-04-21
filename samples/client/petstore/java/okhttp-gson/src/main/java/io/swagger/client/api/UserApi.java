@@ -48,11 +48,6 @@ public class UserApi {
   private Call createUserCall(User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = body;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException("Missing the required parameter 'body' when calling createUser(Async)");
-    }
-    
 
     // create path and map variables
     String localVarPath = "/user".replaceAll("\\{format\\}","json");
@@ -64,7 +59,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -94,7 +89,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param body Created user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUser(User body) throws ApiException {
@@ -104,7 +99,7 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param body Created user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -116,7 +111,7 @@ public class UserApi {
   /**
    * Create user (asynchronously)
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param body Created user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -150,11 +145,6 @@ public class UserApi {
   private Call createUsersWithArrayInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = body;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException("Missing the required parameter 'body' when calling createUsersWithArrayInput(Async)");
-    }
-    
 
     // create path and map variables
     String localVarPath = "/user/createWithArray".replaceAll("\\{format\\}","json");
@@ -166,7 +156,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -196,7 +186,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
@@ -206,7 +196,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -218,7 +208,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array (asynchronously)
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -252,11 +242,6 @@ public class UserApi {
   private Call createUsersWithListInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = body;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException("Missing the required parameter 'body' when calling createUsersWithListInput(Async)");
-    }
-    
 
     // create path and map variables
     String localVarPath = "/user/createWithList".replaceAll("\\{format\\}","json");
@@ -268,7 +253,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -298,7 +283,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
@@ -308,7 +293,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -320,7 +305,7 @@ public class UserApi {
   /**
    * Creates list of users with given input array (asynchronously)
    * 
-   * @param body List of user object (required)
+   * @param body List of user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -371,7 +356,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -394,7 +379,7 @@ public class UserApi {
       });
     }
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "test_http_basic" };
     return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
   }
 
@@ -474,7 +459,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -564,16 +549,6 @@ public class UserApi {
   private Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = null;
     
-    // verify the required parameter 'username' is set
-    if (username == null) {
-       throw new ApiException("Missing the required parameter 'username' when calling loginUser(Async)");
-    }
-    
-    // verify the required parameter 'password' is set
-    if (password == null) {
-       throw new ApiException("Missing the required parameter 'password' when calling loginUser(Async)");
-    }
-    
 
     // create path and map variables
     String localVarPath = "/user/login".replaceAll("\\{format\\}","json");
@@ -589,7 +564,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -619,8 +594,8 @@ public class UserApi {
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login (required)
-   * @param password The password for login in clear text (required)
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return String
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -632,8 +607,8 @@ public class UserApi {
   /**
    * Logs user into the system
    * 
-   * @param username The user name for login (required)
-   * @param password The password for login in clear text (required)
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @return ApiResponse<String>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -646,8 +621,8 @@ public class UserApi {
   /**
    * Logs user into the system (asynchronously)
    * 
-   * @param username The user name for login (required)
-   * @param password The password for login in clear text (required)
+   * @param username The user name for login (optional)
+   * @param password The password for login in clear text (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -693,7 +668,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -781,11 +756,6 @@ public class UserApi {
        throw new ApiException("Missing the required parameter 'username' when calling updateUser(Async)");
     }
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-       throw new ApiException("Missing the required parameter 'body' when calling updateUser(Async)");
-    }
-    
 
     // create path and map variables
     String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
@@ -798,7 +768,7 @@ public class UserApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/json", "application/xml"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -829,7 +799,7 @@ public class UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param body Updated user object (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
   public void updateUser(String username, User body) throws ApiException {
@@ -840,7 +810,7 @@ public class UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param body Updated user object (optional)
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
@@ -853,7 +823,7 @@ public class UserApi {
    * Updated user (asynchronously)
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param body Updated user object (optional)
    * @param callback The callback to be executed when the API call finishes
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object

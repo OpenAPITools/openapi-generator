@@ -35,7 +35,7 @@ public class StoreApiTest {
         Order order = createOrder();
         api.placeOrder(order);
 
-        Order fetched = api.getOrderById(order.getId());
+        Order fetched = api.getOrderById(order.getId().toString());
         assertEquals(order.getId(), fetched.getId());
         assertEquals(order.getPetId(), fetched.getPetId());
         assertEquals(order.getQuantity(), fetched.getQuantity());
@@ -46,13 +46,13 @@ public class StoreApiTest {
         Order order = createOrder();
         api.placeOrder(order);
 
-        Order fetched = api.getOrderById(order.getId());
+        Order fetched = api.getOrderById(order.getId().toString());
         assertEquals(fetched.getId(), order.getId());
 
         api.deleteOrder(order.getId().toString());
 
         try {
-            api.getOrderById(order.getId());
+            api.getOrderById(order.getId().toString());
             fail("expected an error");
         } catch (FeignException e) {
             assertTrue(e.getMessage().startsWith("status 404 "));

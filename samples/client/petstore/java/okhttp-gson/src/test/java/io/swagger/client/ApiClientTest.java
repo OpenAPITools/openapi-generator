@@ -150,7 +150,6 @@ public class ApiClientTest {
         }
     }
 
-    /*
     @Test
     public void testSetUsernameAndPassword() {
         HttpBasicAuth auth = null;
@@ -172,7 +171,6 @@ public class ApiClientTest {
         auth.setUsername(null);
         auth.setPassword(null);
     }
-    */
 
     @Test
     public void testSetApiKeyAndPrefix() {
