@@ -36,9 +36,9 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
 func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
 
   var httpMethod = "Delete"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/store/order/{orderId}"
-    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
+ path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
   // verify the required parameter 'orderId' is set
   if &orderId == nil {
@@ -49,6 +49,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -79,7 +80,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
 
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -96,7 +97,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
 func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/store/inventory"
 
 
@@ -104,6 +105,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   // authentication (api_key) required
@@ -138,7 +140,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
 
 
   var successPayload = new(map[string]int32)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -158,9 +160,9 @@ func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
 func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
 
   var httpMethod = "Get"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/store/order/{orderId}"
-    path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
+ path = strings.Replace(path, "{" + "orderId" + "}", fmt.Sprintf("%v", orderId), -1)
 
   // verify the required parameter 'orderId' is set
   if &orderId == nil {
@@ -171,6 +173,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -201,7 +204,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
 
 
   var successPayload = new(Order)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
@@ -221,7 +224,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
 func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
 
   var httpMethod = "Post"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "/store/order"
 
   // verify the required parameter 'body' is set
@@ -233,6 +236,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   
@@ -265,7 +269,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
   postBody = &body
 
   var successPayload = new(Order)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {

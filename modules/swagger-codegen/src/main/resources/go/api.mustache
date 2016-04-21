@@ -49,9 +49,9 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error, ApiResponse) {
 
   var httpMethod = "{{httpMethod}}"
-      // create path and map variables
+ // create path and map variables
   path := a.Configuration.BasePath + "{{path}}"
-{{#pathParams}}    path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
+{{#pathParams}} path = strings.Replace(path, "{" + "{{baseName}}" + "}", fmt.Sprintf("%v", {{paramName}}), -1)
 {{/pathParams}}
 
   {{#allParams}}
@@ -67,6 +67,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   queryParams := make(map[string]string)
   formParams := make(map[string]string)
   var postBody interface{}
+  var fileName string
   var fileBytes []byte
 
   {{#authMethods}}// authentication ({{name}}) required
@@ -133,6 +134,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 {{#formParams}}
   {{#isFile}}fbs, _ := ioutil.ReadAll(file)
   fileBytes = fbs
+  fileName = file.Name()
   {{/isFile}}
 {{^isFile}}formParams["{{paramName}}"] = {{paramName}}
   {{/isFile}}
@@ -141,7 +143,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   postBody = &{{paramName}}
 {{/bodyParams}}{{/hasBodyParam}}
 {{#returnType}}  var successPayload = new({{returnType}}){{/returnType}}
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileBytes)
+  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
