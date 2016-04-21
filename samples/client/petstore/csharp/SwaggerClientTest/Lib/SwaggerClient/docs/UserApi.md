@@ -21,7 +21,7 @@ Create user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -72,6 +72,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **CreateUsersWithArrayInput**
 > void CreateUsersWithArrayInput (List<User> body)
 
@@ -79,7 +81,7 @@ Creates list of users with given input array
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -130,6 +132,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **CreateUsersWithListInput**
 > void CreateUsersWithListInput (List<User> body)
 
@@ -137,7 +141,7 @@ Creates list of users with given input array
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -188,6 +192,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **DeleteUser**
 > void DeleteUser (string username)
 
@@ -195,7 +201,7 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -246,6 +252,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **GetUserByName**
 > User GetUserByName (string username)
 
@@ -253,7 +261,7 @@ Get user by user name
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -305,6 +313,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **LoginUser**
 > string LoginUser (string username, string password)
 
@@ -312,7 +322,7 @@ Logs user into the system
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -366,6 +376,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **LogoutUser**
 > void LogoutUser ()
 
@@ -373,7 +385,7 @@ Logs out current logged in user session
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -420,6 +432,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **UpdateUser**
 > void UpdateUser (string username, User body)
 
@@ -427,7 +441,7 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -479,4 +493,6 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
