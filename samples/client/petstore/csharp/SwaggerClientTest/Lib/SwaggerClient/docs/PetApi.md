@@ -21,7 +21,7 @@ Add a new pet to the store
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -75,6 +75,8 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **DeletePet**
 > void DeletePet (long? petId, string apiKey = null)
 
@@ -82,7 +84,7 @@ Deletes a pet
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -138,6 +140,8 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **FindPetsByStatus**
 > List<Pet> FindPetsByStatus (List<string> status)
 
@@ -145,7 +149,7 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -200,6 +204,8 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **FindPetsByTags**
 > List<Pet> FindPetsByTags (List<string> tags)
 
@@ -207,7 +213,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -262,6 +268,8 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **GetPetById**
 > Pet GetPetById (long? petId)
 
@@ -269,7 +277,7 @@ Find pet by ID
 
 Returns a single pet
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -326,6 +334,8 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **UpdatePet**
 > void UpdatePet (Pet body)
 
@@ -333,7 +343,7 @@ Update an existing pet
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -387,6 +397,8 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **UpdatePetWithForm**
 > void UpdatePetWithForm (long? petId, string name = null, string status = null)
 
@@ -394,7 +406,7 @@ Updates a pet in the store with form data
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -452,6 +464,8 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **UploadFile**
 > ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
 
@@ -459,7 +473,7 @@ uploads an image
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -517,4 +531,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

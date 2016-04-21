@@ -717,6 +717,8 @@ definitions:
         readOnly: true
         type: integer
         format: int32
+      property:
+        type: string
     xml:
       name: Name
   200_response:

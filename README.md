@@ -28,6 +28,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Run docker in Vagrant](#run-docker-in-vagrant)
       - [Public Docker image](#public-docker-image)
     - [Homebrew](#homebrew)
+  - [Getting Started](#getting-started)
   - Generators
     - [To generate a sample client library](#to-generate-a-sample-client-library)
     - [Generating libraries from your server](#generating-libraries-from-your-server)
@@ -141,7 +142,27 @@ Here is an example usage:
 ```
 swagger-codegen generate -i http://petstore.swagger.io/v2/swagger.json -l ruby -o /tmp/test/
 ```
+## Getting Started
 
+To generate a PHP client for http://petstore.swagger.io/v2/swagger.json, please run the following
+```sh
+git clone https://github.com/swagger-api/swagger-codegen
+cd swagger-codegen
+mvn clean package
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+   -i http://petstore.swagger.io/v2/swagger.json \
+   -l php \
+   -o /var/tmp/php_api_client
+```
+(if you're on Windows, replace the last command with `java -jar modules\swagger-codegen-cli\target\swagger-codegen-cli.jar generate -i http://petstore.swagger.io/v2/swagger.json -l php -o c:\temp\php_api_client`)
+
+You can also download the JAR (latest relesae) directly from [maven.org]( http://central.maven.org/maven2/io/swagger/swagger-codegen/2.1.6/swagger-codegen-2.1.6.jar)
+
+To get a list of **general** options available, please run `java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar help generate`
+
+To get a list of PHP specified options (which can be passed to the generator with a config file via the `-c` option), please run `java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l php`
+
+## Generators
 
 ### To generate a sample client library
 You can build a client against the swagger sample [petstore](http://petstore.swagger.io) API as follows:
@@ -150,7 +171,7 @@ You can build a client against the swagger sample [petstore](http://petstore.swa
 ./bin/java-petstore.sh
 ```
 
-(On Windows, run `./bin/windows/java-petstore.bat` instead)
+(On Windows, run `.\bin\windows\java-petstore.bat` instead)
 
 This will run the generator with this command:
 

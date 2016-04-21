@@ -17,7 +17,7 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -68,6 +68,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **GetInventory**
 > Dictionary<string, int?> GetInventory ()
 
@@ -75,7 +77,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -128,6 +130,8 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **GetOrderById**
 > Order GetOrderById (long? orderId)
 
@@ -135,7 +139,7 @@ Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -187,6 +191,8 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **PlaceOrder**
 > Order PlaceOrder (Order body)
 
@@ -194,7 +200,7 @@ Place an order for a pet
 
 
 
-### Example 
+### Example
 ```csharp
 using System;
 using System.Diagnostics;
@@ -245,4 +251,6 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
