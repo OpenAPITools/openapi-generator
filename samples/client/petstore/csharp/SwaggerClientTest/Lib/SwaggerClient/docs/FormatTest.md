@@ -1,5 +1,4 @@
 # IO.Swagger.Model.FormatTest
-
 ## Properties
 
 Name | Type | Description | Notes
@@ -16,4 +15,6 @@ Name | Type | Description | Notes
 **Date** | **DateTime?** |  | [optional] 
 **DateTime** | **DateTime?** |  | [optional] 
 **Password** | **string** |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

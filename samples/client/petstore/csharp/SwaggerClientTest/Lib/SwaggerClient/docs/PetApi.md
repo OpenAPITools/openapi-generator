@@ -75,6 +75,8 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **DeletePet**
 > void DeletePet (long? petId, string apiKey = null)
 
@@ -138,6 +140,8 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **FindPetsByStatus**
 > List<Pet> FindPetsByStatus (List<string> status)
 
@@ -200,6 +204,8 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **FindPetsByTags**
 > List<Pet> FindPetsByTags (List<string> tags)
 
@@ -261,6 +267,8 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetPetById**
 > Pet GetPetById (long? petId)
@@ -326,6 +334,8 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **UpdatePet**
 > void UpdatePet (Pet body)
 
@@ -386,6 +396,8 @@ void (empty response body)
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePetWithForm**
 > void UpdatePetWithForm (long? petId, string name = null, string status = null)
@@ -452,6 +464,8 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: application/xml, application/json
 
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **UploadFile**
 > ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
 
@@ -517,4 +531,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
