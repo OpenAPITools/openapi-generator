@@ -1,5 +1,6 @@
 {
-  "npmName": "PetstoreSwagger",
+  "npmName": "@swagger/angular2-typescript-petstore",
   "npmVersion": "0.0.1",
+  "npmRepository" : "https://skimdb.npmjs.com/registry",
   "snapshot" : true
 }
