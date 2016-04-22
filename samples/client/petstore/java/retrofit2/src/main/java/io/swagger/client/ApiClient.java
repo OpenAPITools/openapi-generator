@@ -49,16 +49,8 @@ public class ApiClient {
             Interceptor auth;
             if (authName == "petstore_auth") { 
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
-            } else if (authName == "test_api_client_id") { 
-                auth = new ApiKeyAuth("header", "x-test_api_client_id");
-            } else if (authName == "test_api_client_secret") { 
-                auth = new ApiKeyAuth("header", "x-test_api_client_secret");
             } else if (authName == "api_key") { 
                 auth = new ApiKeyAuth("header", "api_key");
-            } else if (authName == "test_api_key_query") { 
-                auth = new ApiKeyAuth("query", "test_api_key_query");
-            } else if (authName == "test_api_key_header") { 
-                auth = new ApiKeyAuth("header", "test_api_key_header");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
