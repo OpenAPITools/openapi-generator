@@ -8,17 +8,19 @@ import io.swagger.client.model.Animal;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
-
+/**
+ * Cat
+ */
 public class Cat extends Animal  {
   
   @SerializedName("className")
   private String className = null;
-
+  
   @SerializedName("declawed")
   private Boolean declawed = null;
+  
 
+  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -29,6 +31,7 @@ public class Cat extends Animal  {
     this.className = className;
   }
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -39,6 +42,7 @@ public class Cat extends Animal  {
     this.declawed = declawed;
   }
 
+  
 
   @Override
   public boolean equals(Object o) {
@@ -81,3 +85,4 @@ public class Cat extends Animal  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

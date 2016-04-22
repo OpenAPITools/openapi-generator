@@ -8,62 +8,65 @@ import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
-
+/**
+ * Order
+ */
 public class Order   {
   
   @SerializedName("id")
   private Long id = null;
-
+  
   @SerializedName("petId")
   private Long petId = null;
-
+  
   @SerializedName("quantity")
   private Integer quantity = null;
-
+  
   @SerializedName("shipDate")
   private Date shipDate = null;
+  
 
+  /**
+   * Order Status
+   */
+  public enum StatusEnum {
+    @SerializedName("placed")
+    PLACED("placed"),
 
-public enum StatusEnum {
-  @SerializedName("placed")
-  PLACED("placed"),
+    @SerializedName("approved")
+    APPROVED("approved"),
 
-  @SerializedName("approved")
-  APPROVED("approved"),
+    @SerializedName("delivered")
+    DELIVERED("delivered");
 
-  @SerializedName("delivered")
-  DELIVERED("delivered");
+    private String value;
 
-  private String value;
+    StatusEnum(String value) {
+      this.value = value;
+    }
 
-  StatusEnum(String value) {
-    this.value = value;
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
   }
-
-  @Override
-  public String toString() {
-    return value;
-  }
-}
 
   @SerializedName("status")
-  private StatusEnum status = null;
-
+  private StatusEnum status = StatusEnum.PLACED;
+  
   @SerializedName("complete")
-  private Boolean complete = false;
+  private Boolean complete = null;
+  
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
   }
-  public void setId(Long id) {
-    this.id = id;
-  }
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -74,6 +77,7 @@ public enum StatusEnum {
     this.petId = petId;
   }
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -84,6 +88,7 @@ public enum StatusEnum {
     this.quantity = quantity;
   }
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -94,6 +99,7 @@ public enum StatusEnum {
     this.shipDate = shipDate;
   }
 
+  
   /**
    * Order Status
    **/
@@ -105,6 +111,7 @@ public enum StatusEnum {
     this.status = status;
   }
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -115,6 +122,7 @@ public enum StatusEnum {
     this.complete = complete;
   }
 
+  
 
   @Override
   public boolean equals(Object o) {
@@ -164,3 +172,4 @@ public enum StatusEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
