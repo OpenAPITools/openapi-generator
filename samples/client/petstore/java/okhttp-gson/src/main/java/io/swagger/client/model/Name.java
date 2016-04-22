@@ -7,26 +7,22 @@ import io.swagger.annotations.ApiModelProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
 /**
- * Model for testing model name same as property name
- **/
-@ApiModel(description = "Model for testing model name same as property name")
+ * Name
+ */
 public class Name   {
   
   @SerializedName("name")
   private Integer name = null;
-
+  
   @SerializedName("snake_case")
   private Integer snakeCase = null;
+  
 
-  @SerializedName("property")
-  private String property = null;
-
+  
   /**
    **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   public Integer getName() {
     return name;
   }
@@ -34,23 +30,18 @@ public class Name   {
     this.name = name;
   }
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
   public Integer getSnakeCase() {
     return snakeCase;
   }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public String getProperty() {
-    return property;
-  }
-  public void setProperty(String property) {
-    this.property = property;
+  public void setSnakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
   }
 
+  
 
   @Override
   public boolean equals(Object o) {
@@ -62,13 +53,12 @@ public class Name   {
     }
     Name name = (Name) o;
     return Objects.equals(this.name, name.name) &&
-        Objects.equals(this.snakeCase, name.snakeCase) &&
-        Objects.equals(this.property, name.property);
+        Objects.equals(this.snakeCase, name.snakeCase);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property);
+    return Objects.hash(name, snakeCase);
   }
 
   @Override
@@ -78,7 +68,6 @@ public class Name   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
-    sb.append("    property: ").append(toIndentedString(property)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -94,3 +83,4 @@ public class Name   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

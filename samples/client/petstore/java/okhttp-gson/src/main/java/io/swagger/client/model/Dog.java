@@ -8,17 +8,19 @@ import io.swagger.client.model.Animal;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
-
+/**
+ * Dog
+ */
 public class Dog extends Animal  {
   
   @SerializedName("className")
   private String className = null;
-
+  
   @SerializedName("breed")
   private String breed = null;
+  
 
+  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -29,6 +31,7 @@ public class Dog extends Animal  {
     this.className = className;
   }
 
+  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -39,6 +42,7 @@ public class Dog extends Animal  {
     this.breed = breed;
   }
 
+  
 
   @Override
   public boolean equals(Object o) {
@@ -81,3 +85,4 @@ public class Dog extends Animal  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

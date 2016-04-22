@@ -7,14 +7,16 @@ import io.swagger.annotations.ApiModelProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
-
+/**
+ * Animal
+ */
 public class Animal   {
   
   @SerializedName("className")
   private String className = null;
+  
 
+  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -25,6 +27,7 @@ public class Animal   {
     this.className = className;
   }
 
+  
 
   @Override
   public boolean equals(Object o) {
@@ -64,3 +67,4 @@ public class Animal   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+
