@@ -1,15 +1,16 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-15T18:10:39.667+08:00")
-public class ApiResponse   {
+
+
+public class ModelApiResponse   {
   
   private Integer code = null;
   private String type = null;
@@ -17,7 +18,13 @@ public class ApiResponse   {
 
   /**
    **/
+  public ModelApiResponse code(Integer code) {
+    this.code = code;
+    return this;
+  }
+
   
+  @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -28,7 +35,13 @@ public class ApiResponse   {
 
   /**
    **/
+  public ModelApiResponse type(String type) {
+    this.type = type;
+    return this;
+  }
+
   
+  @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -39,7 +52,13 @@ public class ApiResponse   {
 
   /**
    **/
+  public ModelApiResponse message(String message) {
+    this.message = message;
+    return this;
+  }
+
   
+  @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;
@@ -57,10 +76,10 @@ public class ApiResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiResponse apiResponse = (ApiResponse) o;
-    return Objects.equals(code, apiResponse.code) &&
-        Objects.equals(type, apiResponse.type) &&
-        Objects.equals(message, apiResponse.message);
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(code, _apiResponse.code) &&
+        Objects.equals(type, _apiResponse.type) &&
+        Objects.equals(message, _apiResponse.message);
   }
 
   @Override
@@ -71,7 +90,7 @@ public class ApiResponse   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiResponse {\n");
+    sb.append("class ModelApiResponse {\n");
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
