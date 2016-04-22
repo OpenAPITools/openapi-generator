@@ -33,7 +33,7 @@ public class StoreApiTest {
         Order order = createOrder();
         api.placeOrder(order).execute();
 
-        Order fetched = api.getOrderById(String.valueOf(order.getId())).execute().body();
+        Order fetched = api.getOrderById(order.getId()).execute().body();
         assertEquals(order.getId(), fetched.getId());
         assertEquals(order.getPetId(), fetched.getPetId());
         assertEquals(order.getQuantity(), fetched.getQuantity());
@@ -44,12 +44,12 @@ public class StoreApiTest {
         Order order = createOrder();
         Response<Order> aa = api.placeOrder(order).execute();
 
-        Order fetched = api.getOrderById(String.valueOf(order.getId())).execute().body();
+        Order fetched = api.getOrderById(order.getId()).execute().body();
         assertEquals(fetched.getId(), order.getId());
 
         api.deleteOrder(String.valueOf(order.getId())).execute();
 
-        api.getOrderById(String.valueOf(order.getId())).execute();
+        api.getOrderById(order.getId()).execute();
         //also in retrofit 1 should return an error but don't, check server api impl.
     }
 

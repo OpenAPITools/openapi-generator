@@ -6,8 +6,8 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 
 import io.swagger.model.Pet;
-import io.swagger.model.ApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -17,7 +17,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-15T18:10:39.667+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-22T19:32:21.945+08:00")
 public abstract class PetApiService {
       public abstract Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException;

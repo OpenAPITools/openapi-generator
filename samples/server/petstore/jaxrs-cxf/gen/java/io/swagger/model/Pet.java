@@ -12,9 +12,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
 
 @XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "", propOrder =
+ @XmlType(name = "Pet", propOrder =
 	{ "id", "category", "name", "photoUrls", "tags", "status"
 })
 
@@ -32,19 +33,24 @@ public class Pet  {
 
   private List<Tag> tags = new ArrayList<Tag>();
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
-
-@XmlType(name="Pet")
+@XmlType(name="StatusEnum")
 @XmlEnum
-public enum Pet {
-    {values&#x3D;[available, pending, sold], enumVars&#x3D;[{name&#x3D;AVAILABLE, value&#x3D;available}, {name&#x3D;PENDING, value&#x3D;pending}, {name&#x3D;SOLD, value&#x3D;sold}]}, 
-    
-    public String value() {
-        return name();
+public enum StatusEnum {
+
+    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
+
+
+    private String value;
+
+    StatusEnum (String v) {
+        value = v;
     }
 
-    public static Pet fromValue(String v) {
+    public String value() {
+        return value;
+    }
+
+    public static StatusEnum fromValue(String v) {
         return valueOf(v);
     }
 }

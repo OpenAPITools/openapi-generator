@@ -146,12 +146,7 @@ public class ApiClient {
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
     authentications.put("petstore_auth", new OAuth());
-    authentications.put("test_api_client_id", new ApiKeyAuth("header", "x-test_api_client_id"));
-    authentications.put("test_api_client_secret", new ApiKeyAuth("header", "x-test_api_client_secret"));
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    authentications.put("test_http_basic", new HttpBasicAuth());
-    authentications.put("test_api_key_query", new ApiKeyAuth("query", "test_api_key_query"));
-    authentications.put("test_api_key_header", new ApiKeyAuth("header", "test_api_key_header"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
