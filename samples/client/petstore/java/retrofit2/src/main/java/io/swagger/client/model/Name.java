@@ -21,6 +21,9 @@ public class Name   {
   @SerializedName("snake_case")
   private Integer snakeCase = null;
 
+  @SerializedName("property")
+  private String property = null;
+
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -38,6 +41,16 @@ public class Name   {
     return snakeCase;
   }
 
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getProperty() {
+    return property;
+  }
+  public void setProperty(String property) {
+    this.property = property;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -49,12 +62,13 @@ public class Name   {
     }
     Name name = (Name) o;
     return Objects.equals(name, name.name) &&
-        Objects.equals(snakeCase, name.snakeCase);
+        Objects.equals(snakeCase, name.snakeCase) &&
+        Objects.equals(property, name.property);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase);
+    return Objects.hash(name, snakeCase, property);
   }
 
   @Override
@@ -64,6 +78,7 @@ public class Name   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
+    sb.append("    property: ").append(toIndentedString(property)).append("\n");
     sb.append("}");
     return sb.toString();
   }
