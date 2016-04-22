@@ -36,7 +36,7 @@ public class StoreApiTest {
     public void testPlaceOrder() throws Exception {
         final Order order = createOrder();
         api.placeOrder(order).subscribe(SkeletonSubscriber.failTestOnError());
-        api.getOrderById(String.valueOf(order.getId())).subscribe(new SkeletonSubscriber<Order>() {
+        api.getOrderById(order.getId()).subscribe(new SkeletonSubscriber<Order>() {
             @Override
             public void onNext(Order fetched) {
                 assertEquals(order.getId(), fetched.getId());
@@ -51,7 +51,7 @@ public class StoreApiTest {
         final Order order = createOrder();
         api.placeOrder(order).subscribe(SkeletonSubscriber.failTestOnError());
 
-        api.getOrderById(String.valueOf(order.getId())).subscribe(new SkeletonSubscriber<Order>() {
+        api.getOrderById(order.getId()).subscribe(new SkeletonSubscriber<Order>() {
             @Override
             public void onNext(Order fetched) {
                 assertEquals(fetched.getId(), order.getId());
@@ -60,7 +60,7 @@ public class StoreApiTest {
 
 
         api.deleteOrder(String.valueOf(order.getId())).subscribe(SkeletonSubscriber.failTestOnError());
-        api.getOrderById(String.valueOf(order.getId()))
+        api.getOrderById(order.getId())
                 .subscribe(new SkeletonSubscriber<Order>() {
                                @Override
                                public void onNext(Order order) {

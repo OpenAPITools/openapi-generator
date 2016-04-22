@@ -3,8 +3,8 @@ package io.swagger.api;
 import io.swagger.model.*;
 
 import io.swagger.model.Pet;
-import io.swagger.model.ApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:49:05.879+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-22T17:54:58.453+08:00")
 public class PetApi {
 
   @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
@@ -206,19 +206,19 @@ public class PetApi {
   }
 
 
-  @ApiOperation(value = "uploads an image", notes = "", response = ApiResponse.class, authorizations = {
+  @ApiOperation(value = "uploads an image", notes = "", response = ModelApiResponse.class, authorizations = {
     @Authorization(value = "petstore_auth", scopes = {
       @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
       })
   })
   @io.swagger.annotations.ApiResponses(value = { 
-    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponse.class) })
+    @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
   @RequestMapping(value = "/{petId}/uploadImage",
     produces = { "application/json" }, 
     consumes = { "multipart/form-data" },
     method = RequestMethod.POST)
-  public ResponseEntity<ApiResponse> uploadFile(
+  public ResponseEntity<ModelApiResponse> uploadFile(
 @ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId
 
 ,
@@ -233,7 +233,7 @@ public class PetApi {
 )
       throws NotFoundException {
       // do some magic!
-      return new ResponseEntity<ApiResponse>(HttpStatus.OK);
+      return new ResponseEntity<ModelApiResponse>(HttpStatus.OK);
   }
 
 }
