@@ -20,6 +20,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
+
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
 
@@ -71,6 +72,11 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // clear model and api doc template as this codegen 
+        // does not support auto-generated markdown doc at the moment
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
 
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER) ) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
