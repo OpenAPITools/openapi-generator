@@ -5,8 +5,8 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "io/ioutil"
     "os"
+    "io/ioutil"
 )
 
 type PetApi struct {

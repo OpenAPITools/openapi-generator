@@ -6,15 +6,6 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    {{#operation}}
-    {{#hasFormParams}}
-    {{#formParams}}
-    {{#isFile}}
-    "io/ioutil"
-    {{/isFile}}
-    {{/formParams}}
-    {{/hasFormParams}}
-    {{/operation}}
 {{#imports}}    "{{import}}"
 {{/imports}}
 )
