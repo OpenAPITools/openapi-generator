@@ -1,7 +1,7 @@
 import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from 'angular2/http';
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import * as model from "../model/model.d.ts"
+import * as models from '../model/models';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
@@ -79,7 +79,7 @@ export class {{classname}} {
         {{/hasFormParams}}
 
         return this.http.request(path, requestOptions)
-            .map(response => response.json());
+            .map((response: Response) => response.json());
     }
 
 {{/operation}}
