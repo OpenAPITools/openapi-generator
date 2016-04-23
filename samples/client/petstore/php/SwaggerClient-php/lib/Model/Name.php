@@ -58,7 +58,8 @@ class Name implements ArrayAccess
       */
     static $swaggerTypes = array(
         'name' => 'int',
-        'snake_case' => 'int'
+        'snake_case' => 'int',
+        'property' => 'string'
     );
   
     static function swaggerTypes() {
@@ -71,7 +72,8 @@ class Name implements ArrayAccess
       */
     static $attributeMap = array(
         'name' => 'name',
-        'snake_case' => 'snake_case'
+        'snake_case' => 'snake_case',
+        'property' => 'property'
     );
   
     static function attributeMap() {
@@ -84,7 +86,8 @@ class Name implements ArrayAccess
       */
     static $setters = array(
         'name' => 'setName',
-        'snake_case' => 'setSnakeCase'
+        'snake_case' => 'setSnakeCase',
+        'property' => 'setProperty'
     );
   
     static function setters() {
@@ -97,7 +100,8 @@ class Name implements ArrayAccess
       */
     static $getters = array(
         'name' => 'getName',
-        'snake_case' => 'getSnakeCase'
+        'snake_case' => 'getSnakeCase',
+        'property' => 'getProperty'
     );
   
     static function getters() {
@@ -114,6 +118,11 @@ class Name implements ArrayAccess
       * @var int
       */
     protected $snake_case;
+    /**
+      * $property 
+      * @var string
+      */
+    protected $property;
 
     /**
      * Constructor
@@ -126,6 +135,7 @@ class Name implements ArrayAccess
         if ($data != null) {
             $this->name = $data["name"];
             $this->snake_case = $data["snake_case"];
+            $this->property = $data["property"];
         }
     }
     /**
@@ -166,6 +176,26 @@ class Name implements ArrayAccess
     {
         
         $this->snake_case = $snake_case;
+        return $this;
+    }
+    /**
+     * Gets property
+     * @return string
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+  
+    /**
+     * Sets property
+     * @param string $property 
+     * @return $this
+     */
+    public function setProperty($property)
+    {
+        
+        $this->property = $property;
         return $this;
     }
     /**
