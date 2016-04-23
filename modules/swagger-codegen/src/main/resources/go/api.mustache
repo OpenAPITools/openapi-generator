@@ -37,7 +37,7 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{#allParams}} * @param {{paramName}} {{description}}
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
-func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}error, ApiResponse) {
+func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}ApiResponse, error) {
 
   var httpMethod = "{{httpMethod}}"
  // create path and map variables
@@ -49,7 +49,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   {{#required}}
   // verify the required parameter '{{paramName}}' is set
   if &{{paramName}} == nil {
-      return {{#returnType}}*new({{{returnType}}}), {{/returnType}}errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+      return {{#returnType}}*new({{{returnType}}}), {{/returnType}}*a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
   }
   {{/required}}
   {{/allParams}}
@@ -138,14 +138,14 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
 
   if err != nil {
-    return {{#returnType}}*successPayload, {{/returnType}}err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+    return {{#returnType}}*successPayload, {{/returnType}}*a.Configuration.ApiClient.GetApiResponse(httpResponse), err
   }
 {{#returnType}}
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 {{/returnType}}
 
-  return {{#returnType}}*successPayload, {{/returnType}}err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+  return {{#returnType}}*successPayload, {{/returnType}}*a.Configuration.ApiClient.GetApiResponse(httpResponse), err
 }
 {{/operation}}
 {{/operations}}

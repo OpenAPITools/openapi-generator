@@ -33,7 +33,7 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
  * @param orderId ID of the order that needs to be deleted
  * @return void
  */
-func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
+func (a StoreApi) DeleteOrder (orderId string) (ApiResponse, error) {
 
   var httpMethod = "Delete"
  // create path and map variables
@@ -42,7 +42,7 @@ func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
 
   // verify the required parameter 'orderId' is set
   if &orderId == nil {
-      return errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+      return *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder")
   }
 
   headerParams := make(map[string]string)
@@ -84,17 +84,17 @@ func (a StoreApi) DeleteOrder (orderId string) (error, ApiResponse) {
 
 
   if err != nil {
-    return err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+    return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
   }
 
-  return err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+  return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
 }
 /**
  * Returns pet inventories by status
  * Returns a map of status codes to quantities
  * @return map[string]int32
  */
-func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
+func (a StoreApi) GetInventory () (map[string]int32, ApiResponse, error) {
 
   var httpMethod = "Get"
  // create path and map variables
@@ -144,12 +144,12 @@ func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
 
 
   if err != nil {
-    return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+    return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+  return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
 }
 /**
  * Find purchase order by ID
@@ -157,7 +157,7 @@ func (a StoreApi) GetInventory () (map[string]int32, error, ApiResponse) {
  * @param orderId ID of pet that needs to be fetched
  * @return Order
  */
-func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
+func (a StoreApi) GetOrderById (orderId int64) (Order, ApiResponse, error) {
 
   var httpMethod = "Get"
  // create path and map variables
@@ -166,7 +166,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
 
   // verify the required parameter 'orderId' is set
   if &orderId == nil {
-      return *new(Order), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+      return *new(Order), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
   }
 
   headerParams := make(map[string]string)
@@ -208,12 +208,12 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
 
 
   if err != nil {
-    return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+    return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+  return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
 }
 /**
  * Place an order for a pet
@@ -221,7 +221,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, error, ApiResponse) {
  * @param body order placed for purchasing the pet
  * @return Order
  */
-func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
+func (a StoreApi) PlaceOrder (body Order) (Order, ApiResponse, error) {
 
   var httpMethod = "Post"
  // create path and map variables
@@ -229,7 +229,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
 
   // verify the required parameter 'body' is set
   if &body == nil {
-      return *new(Order), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder"), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request")
+      return *new(Order), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
   }
 
   headerParams := make(map[string]string)
@@ -273,10 +273,10 @@ func (a StoreApi) PlaceOrder (body Order) (Order, error, ApiResponse) {
 
 
   if err != nil {
-    return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+    return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, err, *a.Configuration.ApiClient.GetApiResponse(httpResponse)
+  return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
 }
