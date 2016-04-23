@@ -1889,7 +1889,7 @@ public class DefaultCodegen {
         // set the example value
         // if not specified in x-example, generate a default value
         if (p.vendorExtensions.containsKey("x-example")) {
-            p.example = (String) p.vendorExtensions.get("x-example");
+            p.example = Objects.toString(p.vendorExtensions.get("x-example"));
         } else if (Boolean.TRUE.equals(p.isString)) {
             p.example = p.paramName + "_example";
         } else if (Boolean.TRUE.equals(p.isBoolean)) {
