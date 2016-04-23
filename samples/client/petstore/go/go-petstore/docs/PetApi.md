@@ -221,7 +221,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UploadFile**
-> ApiResponse UploadFile($petId, $additionalMetadata, $file)
+> ModelApiResponse UploadFile($petId, $additionalMetadata, $file)
 
 uploads an image
 
@@ -238,7 +238,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ApiResponse.md)
 
 ### Authorization
 

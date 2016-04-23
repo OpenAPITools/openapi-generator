@@ -12,7 +12,7 @@ func TestAddPet(t *testing.T) {
 	newPet := (sw.Pet{Id: 12830, Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"})
 
-	err, apiResponse := s.AddPet(newPet)
+	apiResponse, err := s.AddPet(newPet)
 
 	if err != nil {
 		t.Errorf("Error while adding pet")
@@ -27,7 +27,7 @@ func TestGetPetById(t *testing.T) {
 	assert := assert.New(t)
 
 	s := sw.NewPetApi()
-	resp, err, apiResponse := s.GetPetById(12830)
+	resp, apiResponse, err := s.GetPetById(12830)
 	if err != nil {
 		t.Errorf("Error while getting pet by id")
 		t.Log(err)
@@ -45,7 +45,7 @@ func TestGetPetById(t *testing.T) {
 
 func TestGetPetByIdWithInvalidID(t *testing.T) {
 	s := sw.NewPetApi()
-	resp, err, apiResponse := s.GetPetById(999999999)
+	resp, apiResponse, err := s.GetPetById(999999999)
 	if err != nil {
 		t.Errorf("Error while getting pet by invalid id")
 		t.Log(err)
@@ -61,7 +61,7 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 
 func TestUpdatePetWithForm(t *testing.T) {
 	s := sw.NewPetApi()
-	err, apiResponse := s.UpdatePetWithForm(12830, "golang", "available")
+	apiResponse, err := s.UpdatePetWithForm(12830, "golang", "available")
 
 	if err != nil {
 		t.Errorf("Error while updating pet by id")
@@ -75,7 +75,7 @@ func TestUpdatePetWithForm(t *testing.T) {
 
 func TestFindPetsByStatus(t *testing.T) {
 	s := sw.NewPetApi()
-	resp, err, apiResponse := s.FindPetsByStatus([]string {"pending"})
+	resp, apiResponse, err := s.FindPetsByStatus([]string {"pending"})
 	if err != nil {
 		t.Errorf("Error while getting pet by id")
 		t.Log(err)
@@ -96,7 +96,7 @@ func TestUploadFile(t *testing.T) {
 	s := sw.NewPetApi()
 	file, _ := os.Open("../python/testfiles/foo.png") 
 
-	_, err, apiResponse := s.UploadFile(12830, "golang", file)
+	_, apiResponse, err := s.UploadFile(12830, "golang", file)
 
 	if err != nil {
 		t.Errorf("Error while uploading file")
@@ -109,7 +109,7 @@ func TestUploadFile(t *testing.T) {
 
 func TestDeletePet(t *testing.T) {
 	s := sw.NewPetApi()
-	err, apiResponse := s.DeletePet(12830, "")
+	apiResponse, err := s.DeletePet(12830, "")
 
 	if err != nil {
 		t.Errorf("Error while deleting pet by id")
