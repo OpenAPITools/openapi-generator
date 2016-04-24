@@ -6,6 +6,7 @@ io.swagger.codegen.languages.DartClientCodegen
 io.swagger.codegen.languages.FlashClientCodegen
 io.swagger.codegen.languages.FlaskConnexionCodegen
 io.swagger.codegen.languages.GoClientCodegen
+io.swagger.codegen.languages.GroovyClientCodegen
 io.swagger.codegen.languages.JavaClientCodegen
 io.swagger.codegen.languages.JavaJerseyServerCodegen
 io.swagger.codegen.languages.JavaCXFServerCodegen
