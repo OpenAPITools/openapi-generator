@@ -46,7 +46,7 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayAccess
+class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}implements ArrayAccess
 {
     /**
       * The original name of the model.
@@ -64,7 +64,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
     );
   
     static function swaggerTypes() {
-        return self::$swaggerTypes{{#parent}} + parent::swaggerTypes(){{/parent}};
+        return self::$swaggerTypes{{#parentSchema}} + parent::swaggerTypes(){{/parentSchema}};
     }
 
     /** 
@@ -77,7 +77,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
     );
   
     static function attributeMap() {
-        return {{#parent}}parent::attributeMap() + {{/parent}}self::$attributeMap;
+        return {{#parentSchema}}parent::attributeMap() + {{/parentSchema}}self::$attributeMap;
     }
 
     /**
@@ -90,7 +90,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
     );
   
     static function setters() {
-        return {{#parent}}parent::setters() + {{/parent}}self::$setters;
+        return {{#parentSchema}}parent::setters() + {{/parentSchema}}self::$setters;
     }
 
     /**
@@ -103,7 +103,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
     );
   
     static function getters() {
-        return {{#parent}}parent::getters() + {{/parent}}self::$getters;
+        return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
     }
 
     {{#vars}}
@@ -120,7 +120,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function __construct(array $data = null)
     {
-        {{#parent}}parent::__construct($data);{{/parent}}
+        {{#parentSchema}}parent::__construct($data);{{/parentSchema}}
         {{#discriminator}}// Initialize discriminator property with the model name.
         $discrimintor = array_search('{{discriminator}}', self::$attributeMap);
         $this->{$discrimintor} = static::$swaggerModelName;
