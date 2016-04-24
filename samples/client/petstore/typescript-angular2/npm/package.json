@@ -1,6 +1,6 @@
 {
   "name": "@swagger/angular2-typescript-petstore",
-  "version": "0.0.1-SNAPSHOT.201604211551",
+  "version": "0.0.1-SNAPSHOT.201604241113",
   "description": "swagger client for @swagger/angular2-typescript-petstore",
   "keywords": [
     "swagger-client"
