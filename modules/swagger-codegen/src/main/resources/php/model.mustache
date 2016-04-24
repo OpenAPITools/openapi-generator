@@ -106,13 +106,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
     }
 
-    {{#vars}}
     /**
-      * ${{name}} {{#description}}{{{description}}}{{/description}}
-      * @var {{datatype}}
-      */
-    protected ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
-    {{/vars}}
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array({{#vars}}
+        /**
+         * $container['{{{name}}}']{{#description}} {{{description}}}{{/description}}
+         * @var {{datatype}}
+         */
+        '{{{name}}}' => {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}},
+    {{/vars}});
 
     /**
      * Constructor
@@ -123,11 +127,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#parentSchema}}parent::__construct($data);{{/parentSchema}}
         {{#discriminator}}// Initialize discriminator property with the model name.
         $discrimintor = array_search('{{discriminator}}', self::$attributeMap);
-        $this->{$discrimintor} = static::$swaggerModelName;
+        $this->container[$discrimintor] = static::$swaggerModelName;
         {{/discriminator}}
 
         if ($data != null) {
-            {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
+            {{#vars}}$this->container['{{name}}'] = $data['{{name}}'];{{#hasMore}}
             {{/hasMore}}{{/vars}}
         }
     }
@@ -138,7 +142,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function {{getter}}()
     {
-        return $this->{{name}};
+        return $this->container['{{name}}'];
     }
   
     /**
@@ -148,11 +152,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function {{setter}}(${{name}})
     {
-        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array(${{{name}}}, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
         }{{/isEnum}}
-        $this->{{name}} = ${{name}};
+        $this->container['{{name}}'] = ${{name}};
         return $this;
     }
     {{/vars}}
@@ -163,7 +167,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
   
     /**
@@ -173,7 +177,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
   
     /**
@@ -184,7 +188,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
   
     /**
@@ -194,7 +202,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
   
     /**
