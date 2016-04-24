@@ -2307,6 +2307,12 @@ public class DefaultCodegen {
                 addImport(m, cp.baseType);
                 addImport(m, cp.complexType);
                 vars.add(cp);
+
+                if (Boolean.TRUE.equals(cp.required)) { // if required, add to the list "requiredVars"
+                    m.requiredVars.add(cp);
+                } else { // else add to the list "optionalVars" for optional property
+                    m.optionalVars.add(cp);
+                }
             }
         }
     }

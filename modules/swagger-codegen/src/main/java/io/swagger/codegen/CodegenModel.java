@@ -18,6 +18,8 @@ public class CodegenModel {
     public String discriminator;
     public String defaultValue;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
+    public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> allVars;
     public List<String> allowableValues;
 
