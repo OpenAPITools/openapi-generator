@@ -1,14 +1,9 @@
 package {{package}};
 
-
-
-
-
 import groovyx.net.http.*
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 import {{invokerPackage}}.ApiUtils
-//-------------
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -21,36 +16,37 @@ class {{classname}} {
     String basePath = "{{basePath}}"
     String versionPath = "/api/v1"
 
+    {{#operation}}
+    def {{operationId}} ({{#allParams}} {{{dataType}}} {{paramName}},{{/allParams}} Closure onSuccess, Closure onFailure)  {
+        // create path and map variables
+        String resourcePath = "{{path}}"
 
-  {{#operation}}
-  def {{nickname}} ({{#allParams}} {{{dataType}}} {{paramName}},{{/allParams}} Closure onSuccess, Closure onFailure)  {
-    // create path and map variables
-    String resourcePath = "{{path}}"
+        // query params
+        def queryParams = [:]
+        def headerParams = [:]
+    
+        {{#allParams}}
+        {{#required}}
+        // verify required params are set
+        if ({{paramName}} == null) {
+            throw new RuntimeException("missing required params {{paramName}}")
+        }
+        {{/required}}
+        {{/allParams}}
 
+        {{#queryParams}}if (!"null".equals(String.valueOf({{paramName}})))
+            queryParams.put("{{paramName}}", String.valueOf({{paramName}}))
+        {{/queryParams}}
 
-    // query params
-    def queryParams = [:]
-    def headerParams = [:]
+        {{#headerParams}}
+        headerParams.put("{{paramName}}", {{paramName}})
+        {{/headerParams}}
 
-    {{#allParams}}
-    // verify required params are set
-    if({{/allParams}}{{#required}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/required}}{{#allParams}}) {
-       throw new RuntimeException("missing required params")
-    }
-    {{/allParams}}
-
-    {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
-      queryParams.put("{{paramName}}", String.valueOf({{paramName}}))
-    {{/queryParams}}
-
-    {{#headerParams}}headerParams.put("{{paramName}}", {{paramName}})
-    {{/headerParams}}
-
-    invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
+        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "{{httpMethod}}", "{{returnContainer}}",
                     {{#returnBaseType}}{{{returnBaseType}}}.class {{/returnBaseType}}{{^returnBaseType}}null {{/returnBaseType}})
-
-  }
-  {{/operation}}
+                    
+    }
+    {{/operation}}
 }
 {{/operations}}
