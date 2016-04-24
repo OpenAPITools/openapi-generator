@@ -41,7 +41,7 @@ func (a UserApi) CreateUser (body User) (ApiResponse, error) {
 
   // verify the required parameter 'body' is set
   if &body == nil {
-      return *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
+      return *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
   }
 
   headerParams := make(map[string]string)
@@ -85,10 +85,10 @@ func (a UserApi) CreateUser (body User) (ApiResponse, error) {
 
 
   if err != nil {
-    return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *NewApiResponse(httpResponse.RawResponse), err
   }
 
-  return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *NewApiResponse(httpResponse.RawResponse), err
 }
 /**
  * Creates list of users with given input array
@@ -104,7 +104,7 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (ApiResponse, error) {
 
   // verify the required parameter 'body' is set
   if &body == nil {
-      return *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
+      return *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
   }
 
   headerParams := make(map[string]string)
@@ -148,10 +148,10 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (ApiResponse, error) {
 
 
   if err != nil {
-    return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *NewApiResponse(httpResponse.RawResponse), err
   }
 
-  return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *NewApiResponse(httpResponse.RawResponse), err
 }
 /**
  * Creates list of users with given input array
@@ -167,7 +167,7 @@ func (a UserApi) CreateUsersWithListInput (body []User) (ApiResponse, error) {
 
   // verify the required parameter 'body' is set
   if &body == nil {
-      return *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
+      return *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
   }
 
   headerParams := make(map[string]string)
@@ -211,10 +211,10 @@ func (a UserApi) CreateUsersWithListInput (body []User) (ApiResponse, error) {
 
 
   if err != nil {
-    return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *NewApiResponse(httpResponse.RawResponse), err
   }
 
-  return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *NewApiResponse(httpResponse.RawResponse), err
 }
 /**
  * Delete user
@@ -231,7 +231,7 @@ func (a UserApi) DeleteUser (username string) (ApiResponse, error) {
 
   // verify the required parameter 'username' is set
   if &username == nil {
-      return *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
+      return *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
   }
 
   headerParams := make(map[string]string)
@@ -273,10 +273,10 @@ func (a UserApi) DeleteUser (username string) (ApiResponse, error) {
 
 
   if err != nil {
-    return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *NewApiResponse(httpResponse.RawResponse), err
   }
 
-  return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *NewApiResponse(httpResponse.RawResponse), err
 }
 /**
  * Get user by user name
@@ -293,7 +293,7 @@ func (a UserApi) GetUserByName (username string) (User, ApiResponse, error) {
 
   // verify the required parameter 'username' is set
   if &username == nil {
-      return *new(User), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
+      return *new(User), *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
   }
 
   headerParams := make(map[string]string)
@@ -335,12 +335,12 @@ func (a UserApi) GetUserByName (username string) (User, ApiResponse, error) {
 
 
   if err != nil {
-    return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
 }
 /**
  * Logs user into the system
@@ -357,11 +357,11 @@ func (a UserApi) LoginUser (username string, password string) (string, ApiRespon
 
   // verify the required parameter 'username' is set
   if &username == nil {
-      return *new(string), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
+      return *new(string), *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
   }
   // verify the required parameter 'password' is set
   if &password == nil {
-      return *new(string), *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
+      return *new(string), *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
   }
 
   headerParams := make(map[string]string)
@@ -405,12 +405,12 @@ func (a UserApi) LoginUser (username string, password string) (string, ApiRespon
 
 
   if err != nil {
-    return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
 }
 /**
  * Logs out current logged in user session
@@ -463,10 +463,10 @@ func (a UserApi) LogoutUser () (ApiResponse, error) {
 
 
   if err != nil {
-    return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *NewApiResponse(httpResponse.RawResponse), err
   }
 
-  return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *NewApiResponse(httpResponse.RawResponse), err
 }
 /**
  * Updated user
@@ -484,11 +484,11 @@ func (a UserApi) UpdateUser (username string, body User) (ApiResponse, error) {
 
   // verify the required parameter 'username' is set
   if &username == nil {
-      return *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
+      return *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
   }
   // verify the required parameter 'body' is set
   if &body == nil {
-      return *a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
+      return *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
   }
 
   headerParams := make(map[string]string)
@@ -532,8 +532,8 @@ func (a UserApi) UpdateUser (username string, body User) (ApiResponse, error) {
 
 
   if err != nil {
-    return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return *NewApiResponse(httpResponse.RawResponse), err
   }
 
-  return *a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return *NewApiResponse(httpResponse.RawResponse), err
 }

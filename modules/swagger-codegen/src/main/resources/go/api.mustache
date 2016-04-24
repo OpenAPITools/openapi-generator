@@ -49,7 +49,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   {{#required}}
   // verify the required parameter '{{paramName}}' is set
   if &{{paramName}} == nil {
-      return {{#returnType}}*new({{{returnType}}}), {{/returnType}}*a.Configuration.ApiClient.SetErrorApiResponse("400 - Bad Request"), errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+      return {{#returnType}}*new({{{returnType}}}), {{/returnType}}*NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
   }
   {{/required}}
   {{/allParams}}
@@ -138,14 +138,14 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
 
 
   if err != nil {
-    return {{#returnType}}*successPayload, {{/returnType}}*a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+    return {{#returnType}}*successPayload, {{/returnType}}*NewApiResponse(httpResponse.RawResponse), err
   }
 {{#returnType}}
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 {{/returnType}}
 
-  return {{#returnType}}*successPayload, {{/returnType}}*a.Configuration.ApiClient.GetApiResponse(httpResponse), err
+  return {{#returnType}}*successPayload, {{/returnType}}*NewApiResponse(httpResponse.RawResponse), err
 }
 {{/operation}}
 {{/operations}}

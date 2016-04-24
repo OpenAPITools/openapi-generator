@@ -18,7 +18,21 @@ func TestAddPet(t *testing.T) {
 		t.Errorf("Error while adding pet")
 		t.Log(err)
 	}
-	if apiResponse.Code != 200 {
+	if apiResponse.Response.StatusCode != 200 {
+		t.Log(apiResponse.Response)
+	}	
+}
+
+func TestFindPetsByStatusWithMissingParam(t *testing.T) {
+	s := sw.NewPetApi()
+
+	_, apiResponse, err := s.FindPetsByStatus(nil)
+
+	if err != nil {
+		t.Errorf("Error while testing TestFindPetsByStatusWithMissingParam")
+		t.Log(err)
+	}
+	if apiResponse.Response.StatusCode != 200 {
 		t.Log(apiResponse)
 	}	
 }
@@ -38,8 +52,8 @@ func TestGetPetById(t *testing.T) {
 
 		//t.Log(resp)
 	}
-	if apiResponse.Code != 200 {
-		t.Log(apiResponse)
+	if apiResponse.Response.StatusCode != 200 {
+		t.Log(apiResponse.Response)
 	}	
 }
 
@@ -51,11 +65,10 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 		t.Log(err)
 		t.Log(apiResponse)
 	} else {
-
 		t.Log(resp)
 	}
-	if apiResponse.Code != 200 {
-		t.Log(apiResponse)
+	if apiResponse.Response.StatusCode != 200 {
+		t.Log(apiResponse.Response)
 	}	
 }
 
@@ -68,8 +81,8 @@ func TestUpdatePetWithForm(t *testing.T) {
 		t.Log(err)
 		t.Log(apiResponse)
 	}
-	if apiResponse.Code != 200 {
-		t.Log(apiResponse)
+	if apiResponse.Response.StatusCode != 200 {
+		t.Log(apiResponse.Response)
 	}
 }
 
@@ -86,8 +99,8 @@ func TestFindPetsByStatus(t *testing.T) {
 			t.Errorf("Error no pets returned")
 		}
 
-	if apiResponse.Code != 200 {
-		t.Log(apiResponse)
+	if apiResponse.Response.StatusCode != 200 {
+		t.Log(apiResponse.Response)
 	}
 	}
 }
@@ -102,8 +115,8 @@ func TestUploadFile(t *testing.T) {
 		t.Errorf("Error while uploading file")
 		t.Log(err)
 	}
-	if apiResponse.Code != 200 {
-		t.Log(apiResponse)
+	if apiResponse.Response.StatusCode != 200 {
+		t.Log(apiResponse.Response)
 	}
 }
 
@@ -115,7 +128,7 @@ func TestDeletePet(t *testing.T) {
 		t.Errorf("Error while deleting pet by id")
 		t.Log(err)
 	}
-	if apiResponse.Code != 200 {
-		t.Log(apiResponse)
+	if apiResponse.Response.StatusCode != 200 {
+		t.Log(apiResponse.Response)
 	}
 }

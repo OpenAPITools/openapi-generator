@@ -1,14 +1,24 @@
 package swagger
 
 import (
+  "net/http"
 )
 
 
 type ApiResponse struct {
-    
-    Code  int32  `json:"code,omitempty"`
-    
-    Type_  string  `json:"type,omitempty"`
-    
-    Message  string  `json:"message,omitempty"`
+  *http.Response
+  
+  Message  string  `json:"message,omitempty"`
+}
+
+func NewApiResponse(r *http.Response) *ApiResponse {
+  response := &ApiResponse{Response: r}
+
+  return response
+}
+
+func NewApiResponseWithError(errorMessage string) *ApiResponse {
+  response := &ApiResponse{Message: errorMessage}
+
+  return response
 }
