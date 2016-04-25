@@ -12,18 +12,9 @@
  * Do not edit the class manually.
  */
 
-#import "SWG200Response.h"
-#import "SWGAnimal.h"
-#import "SWGCat.h"
 #import "SWGCategory.h"
-#import "SWGDog.h"
-#import "SWGFormatTest.h"
-#import "SWGInlineResponse200.h"
-#import "SWGName.h"
 #import "SWGOrder.h"
 #import "SWGPet.h"
-#import "SWGReturn.h"
-#import "SWGSpecialModelName_.h"
 #import "SWGTag.h"
 #import "SWGUser.h"
 
@@ -37,6 +28,16 @@
  * The corresponding value is the parsed response body for an HTTP error.
  */
 extern NSString *const SWGResponseObjectErrorKey;
+
+/**
+ * A key for deserialization ErrorDomain
+ */
+extern NSString *const SWGDeserializationErrorDomainKey;
+
+/**
+ * Code for deserialization type mismatch error
+ */
+extern NSInteger const SWGTypeMismatchErrorCode;
 
 /**
  * Log debug message macro
@@ -184,8 +185,9 @@ extern NSString *const SWGResponseObjectErrorKey;
  *
  * @param data The data will be deserialized.
  * @param class The type of objective-c object.
+ * @param error The error
  */
-- (id) deserialize:(id) data class:(NSString *) class;
+- (id) deserialize:(id) data class:(NSString *) class error:(NSError**)error;
 
 /**
  * Logs request and response
