@@ -8,76 +8,9 @@ import http = require('http');
 
 /* tslint:disable:no-unused-variable */
 
-export class Animal {
-    "className": string;
-}
-
-export class Cat extends Animal {
-    "declawed": boolean;
-}
-
 export class Category {
     "id": number;
     "name": string;
-}
-
-export class Dog extends Animal {
-    "breed": string;
-}
-
-export class FormatTest {
-    "integer": number;
-    "int32": number;
-    "int64": number;
-    "number": number;
-    "float": number;
-    "double": number;
-    "string": string;
-    "byte": string;
-    "binary": string;
-    "date": Date;
-    "dateTime": string;
-}
-
-export class InlineResponse200 {
-    "tags": Array<Tag>;
-    "id": number;
-    "category": any;
-    /**
-    * pet status in the store
-    */
-    "status": InlineResponse200.StatusEnum;
-    "name": string;
-    "photoUrls": Array<string>;
-}
-
-export namespace InlineResponse200 {
-    export enum StatusEnum { 
-        available = <any> 'available',
-        pending = <any> 'pending',
-        sold = <any> 'sold'
-    }
-}
-/**
-* Model for testing model name starting with number
-*/
-export class Model200Response {
-    "name": number;
-}
-
-/**
-* Model for testing reserved words
-*/
-export class ModelReturn {
-    "return": number;
-}
-
-/**
-* Model for testing model name same as property name
-*/
-export class Name {
-    "name": number;
-    "snakeCase": number;
 }
 
 export class Order {
@@ -118,10 +51,6 @@ export namespace Pet {
         sold = <any> 'sold'
     }
 }
-export class SpecialModelName {
-    "$Special[propertyName]": number;
-}
-
 export class Tag {
     "id": number;
     "name": string;
@@ -191,11 +120,7 @@ class VoidAuth implements Authentication {
 }
 
 export enum PetApiApiKeys {
-    test_api_key_header,
     api_key,
-    test_api_client_secret,
-    test_api_client_id,
-    test_api_key_query,
 }
 
 export class PetApi {
@@ -204,21 +129,13 @@ export class PetApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
-        'test_http_basic': new HttpBasicAuth(),
-        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
-        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
-        'test_api_key_query': new ApiKeyAuth('query', 'test_api_key_query'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
-    constructor(username: string, password: string, basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
-            this.username = basePathOrUsername;
-            this.password = password
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -231,14 +148,6 @@ export class PetApi {
 
     public setApiKey(key: PetApiApiKeys, value: string) {
         this.authentications[PetApiApiKeys[key]].apiKey = value;
-    }
-
-    set username(username: string) {
-        this.authentications.test_http_basic.username = username;
-    }
-
-    set password(password: string) {
-        this.authentications.test_http_basic.password = password;
     }
 
     set accessToken(token: string) {
@@ -259,57 +168,6 @@ export class PetApi {
      */
     public addPet (body?: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
-        let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
-        let formParams: any = {};
-
-
-        let useFormData = false;
-
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
-
-        let requestOptions: request.Options = {
-            method: 'POST',
-            qs: queryParameters,
-            headers: headerParams,
-            uri: localVarPath,
-            json: true,
-            body: body,
-        }
-
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
-        this.authentications.default.applyToRequest(requestOptions);
-
-        if (Object.keys(formParams).length) {
-            if (useFormData) {
-                (<any>requestOptions).formData = formParams;
-            } else {
-                requestOptions.form = formParams;
-            }
-        }
-
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
-                } else {
-                    localVarDeferred.reject({ response: response, body: body });
-                }
-            }
-        });
-
-        return localVarDeferred.promise;
-    }
-    /**
-     * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-     * 
-     * @param body Pet object in the form of byte array
-     */
-    public addPetUsingByteArray (body?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
-        const localVarPath = this.basePath + '/pet?testing_byte_array&#x3D;true';
         let queryParameters: any = {};
         let headerParams: any = this.extendObj({}, this.defaultHeaders);
         let formParams: any = {};
@@ -415,8 +273,8 @@ export class PetApi {
     }
     /**
      * Finds Pets by status
-     * Multiple status values can be provided with comma separated strings
-     * @param status Status values that need to be considered for query
+     * Multiple status values can be provided with comma seperated strings
+     * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus (status?: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByStatus';
@@ -551,125 +409,9 @@ export class PetApi {
             json: true,
         }
 
-        this.authentications.api_key.applyToRequest(requestOptions);
-
         this.authentications.petstore_auth.applyToRequest(requestOptions);
 
-        this.authentications.default.applyToRequest(requestOptions);
-
-        if (Object.keys(formParams).length) {
-            if (useFormData) {
-                (<any>requestOptions).formData = formParams;
-            } else {
-                requestOptions.form = formParams;
-            }
-        }
-
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
-                } else {
-                    localVarDeferred.reject({ response: response, body: body });
-                }
-            }
-        });
-
-        return localVarDeferred.promise;
-    }
-    /**
-     * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
-     * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-     * @param petId ID of pet that needs to be fetched
-     */
-    public getPetByIdInObject (petId: number) : Promise<{ response: http.ClientResponse; body: InlineResponse200;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?response&#x3D;inline_arbitrary_object'
-            .replace('{' + 'petId' + '}', String(petId));
-        let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
-        let formParams: any = {};
-
-
-        // verify required parameter 'petId' is not null or undefined
-        if (petId === null || petId === undefined) {
-            throw new Error('Required parameter petId was null or undefined when calling getPetByIdInObject.');
-        }
-
-        let useFormData = false;
-
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: InlineResponse200;  }>();
-
-        let requestOptions: request.Options = {
-            method: 'GET',
-            qs: queryParameters,
-            headers: headerParams,
-            uri: localVarPath,
-            json: true,
-        }
-
         this.authentications.api_key.applyToRequest(requestOptions);
-
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
-        this.authentications.default.applyToRequest(requestOptions);
-
-        if (Object.keys(formParams).length) {
-            if (useFormData) {
-                (<any>requestOptions).formData = formParams;
-            } else {
-                requestOptions.form = formParams;
-            }
-        }
-
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
-                } else {
-                    localVarDeferred.reject({ response: response, body: body });
-                }
-            }
-        });
-
-        return localVarDeferred.promise;
-    }
-    /**
-     * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-     * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-     * @param petId ID of pet that needs to be fetched
-     */
-    public petPetIdtestingByteArraytrueGet (petId: number) : Promise<{ response: http.ClientResponse; body: string;  }> {
-        const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array&#x3D;true'
-            .replace('{' + 'petId' + '}', String(petId));
-        let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
-        let formParams: any = {};
-
-
-        // verify required parameter 'petId' is not null or undefined
-        if (petId === null || petId === undefined) {
-            throw new Error('Required parameter petId was null or undefined when calling petPetIdtestingByteArraytrueGet.');
-        }
-
-        let useFormData = false;
-
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: string;  }>();
-
-        let requestOptions: request.Options = {
-            method: 'GET',
-            qs: queryParameters,
-            headers: headerParams,
-            uri: localVarPath,
-            json: true,
-        }
-
-        this.authentications.api_key.applyToRequest(requestOptions);
-
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -881,11 +623,7 @@ export class PetApi {
     }
 }
 export enum StoreApiApiKeys {
-    test_api_key_header,
     api_key,
-    test_api_client_secret,
-    test_api_client_id,
-    test_api_key_query,
 }
 
 export class StoreApi {
@@ -894,21 +632,13 @@ export class StoreApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
-        'test_http_basic': new HttpBasicAuth(),
-        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
-        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
-        'test_api_key_query': new ApiKeyAuth('query', 'test_api_key_query'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
-    constructor(username: string, password: string, basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
-            this.username = basePathOrUsername;
-            this.password = password
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -921,14 +651,6 @@ export class StoreApi {
 
     public setApiKey(key: StoreApiApiKeys, value: string) {
         this.authentications[StoreApiApiKeys[key]].apiKey = value;
-    }
-
-    set username(username: string) {
-        this.authentications.test_http_basic.username = username;
-    }
-
-    set password(password: string) {
-        this.authentications.test_http_basic.password = password;
     }
 
     set accessToken(token: string) {
@@ -971,62 +693,6 @@ export class StoreApi {
             uri: localVarPath,
             json: true,
         }
-
-        this.authentications.default.applyToRequest(requestOptions);
-
-        if (Object.keys(formParams).length) {
-            if (useFormData) {
-                (<any>requestOptions).formData = formParams;
-            } else {
-                requestOptions.form = formParams;
-            }
-        }
-
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
-                } else {
-                    localVarDeferred.reject({ response: response, body: body });
-                }
-            }
-        });
-
-        return localVarDeferred.promise;
-    }
-    /**
-     * Finds orders by status
-     * A single status value can be provided as a string
-     * @param status Status value that needs to be considered for query
-     */
-    public findOrdersByStatus (status?: string) : Promise<{ response: http.ClientResponse; body: Array<Order>;  }> {
-        const localVarPath = this.basePath + '/store/findByStatus';
-        let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
-        let formParams: any = {};
-
-
-        if (status !== undefined) {
-            queryParameters['status'] = status;
-        }
-
-        let useFormData = false;
-
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: Array<Order>;  }>();
-
-        let requestOptions: request.Options = {
-            method: 'GET',
-            qs: queryParameters,
-            headers: headerParams,
-            uri: localVarPath,
-            json: true,
-        }
-
-        this.authentications.test_api_client_id.applyToRequest(requestOptions);
-
-        this.authentications.test_api_client_secret.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -1102,55 +768,6 @@ export class StoreApi {
         return localVarDeferred.promise;
     }
     /**
-     * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
-     * Returns an arbitrary object which is actually a map of status codes to quantities
-     */
-    public getInventoryInObject () : Promise<{ response: http.ClientResponse; body: any;  }> {
-        const localVarPath = this.basePath + '/store/inventory?response&#x3D;arbitrary_object';
-        let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
-        let formParams: any = {};
-
-
-        let useFormData = false;
-
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: any;  }>();
-
-        let requestOptions: request.Options = {
-            method: 'GET',
-            qs: queryParameters,
-            headers: headerParams,
-            uri: localVarPath,
-            json: true,
-        }
-
-        this.authentications.api_key.applyToRequest(requestOptions);
-
-        this.authentications.default.applyToRequest(requestOptions);
-
-        if (Object.keys(formParams).length) {
-            if (useFormData) {
-                (<any>requestOptions).formData = formParams;
-            } else {
-                requestOptions.form = formParams;
-            }
-        }
-
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
-                } else {
-                    localVarDeferred.reject({ response: response, body: body });
-                }
-            }
-        });
-
-        return localVarDeferred.promise;
-    }
-    /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
@@ -1179,10 +796,6 @@ export class StoreApi {
             uri: localVarPath,
             json: true,
         }
-
-        this.authentications.test_api_key_header.applyToRequest(requestOptions);
-
-        this.authentications.test_api_key_query.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -1233,10 +846,6 @@ export class StoreApi {
             body: body,
         }
 
-        this.authentications.test_api_client_id.applyToRequest(requestOptions);
-
-        this.authentications.test_api_client_secret.applyToRequest(requestOptions);
-
         this.authentications.default.applyToRequest(requestOptions);
 
         if (Object.keys(formParams).length) {
@@ -1263,11 +872,7 @@ export class StoreApi {
     }
 }
 export enum UserApiApiKeys {
-    test_api_key_header,
     api_key,
-    test_api_client_secret,
-    test_api_client_id,
-    test_api_key_query,
 }
 
 export class UserApi {
@@ -1276,21 +881,13 @@ export class UserApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'test_api_key_header': new ApiKeyAuth('header', 'test_api_key_header'),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
-        'test_http_basic': new HttpBasicAuth(),
-        'test_api_client_secret': new ApiKeyAuth('header', 'x-test_api_client_secret'),
-        'test_api_client_id': new ApiKeyAuth('header', 'x-test_api_client_id'),
-        'test_api_key_query': new ApiKeyAuth('query', 'test_api_key_query'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
-    constructor(username: string, password: string, basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
-            this.username = basePathOrUsername;
-            this.password = password
             if (basePath) {
                 this.basePath = basePath;
             }
@@ -1303,14 +900,6 @@ export class UserApi {
 
     public setApiKey(key: UserApiApiKeys, value: string) {
         this.authentications[UserApiApiKeys[key]].apiKey = value;
-    }
-
-    set username(username: string) {
-        this.authentications.test_http_basic.username = username;
-    }
-
-    set password(password: string) {
-        this.authentications.test_http_basic.password = password;
     }
 
     set accessToken(token: string) {
@@ -1500,8 +1089,6 @@ export class UserApi {
             uri: localVarPath,
             json: true,
         }
-
-        this.authentications.test_http_basic.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 

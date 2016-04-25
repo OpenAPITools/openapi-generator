@@ -1,7 +1,8 @@
 {
   "name": "@swagger/angular2-typescript-petstore",
-  "version": "0.0.1-SNAPSHOT.201604241113",
+  "version": "0.0.1-SNAPSHOT.201604242228",
   "description": "swagger client for @swagger/angular2-typescript-petstore",
+  "author": "Kristof Vrolijkx",
   "keywords": [
     "swagger-client"
   ],
@@ -30,5 +31,4 @@
   "publishConfig":{
     "registry":"https://skimdb.npmjs.com/registry"
   }
-
 }
