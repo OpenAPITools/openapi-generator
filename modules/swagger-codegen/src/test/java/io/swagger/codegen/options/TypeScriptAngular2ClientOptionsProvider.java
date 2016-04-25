@@ -10,8 +10,8 @@ import io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen;
 public class TypeScriptAngular2ClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
-    public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
-    public static final String NMP_NAME = "npmName";
+    private static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
+    private static final String NMP_NAME = "npmName";
     private static final String NMP_VERSION = "1.1.2";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
 
