@@ -1838,7 +1838,10 @@ public class DefaultCodegen {
                     p.minimum != null || p.exclusiveMinimum != null ||
                     p.maxLength != null || p.minLength != null ||
                     p.maxItems != null || p.minItems != null ||
-                    p.pattern != null ||
+                    p.pattern != null) {
+                p.hasValidation = true;
+            }
+
         } else {
             if (!(param instanceof BodyParameter)) {
                 LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
