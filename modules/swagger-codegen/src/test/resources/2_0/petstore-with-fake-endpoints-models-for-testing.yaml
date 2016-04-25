@@ -787,7 +787,7 @@ definitions:
         minimum: 67.8
       string:
         type: string
-        pattern: /[a‑z]/i
+        pattern: /[a-z]/i
       byte:
         type: string
         format: byte
