@@ -102,7 +102,7 @@ module Petstore
     # @return true if the model is valid
     def valid?
       allowed_values = ["placed", "approved", "delivered"]
-      if @status && !allowed_values.include?(status)
+      if @status && !allowed_values.include?(@status)
         return false
       end
     end

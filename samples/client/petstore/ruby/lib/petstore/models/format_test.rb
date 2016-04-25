@@ -190,6 +190,10 @@ module Petstore
         return false
       end
 
+      if @string !~ Regexp.new(/[a-z]/i)
+        return false
+      end
+
       if @byte.nil?
         return false
       end
@@ -307,6 +311,10 @@ module Petstore
     def string=(string)
       if string.nil?
         fail ArgumentError, "string cannot be nil"
+      end
+
+      if @string !~ Regexp.new(/[a-z]/i)
+        fail ArgumentError, "invalid value for 'string', must conform to the pattern /[a-z]/i."
       end
 
       @string = string
