@@ -45,6 +45,19 @@ module Petstore
       if attributes[:'$special[property.name]']
         self.special_property_name = attributes[:'$special[property.name]']
       end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
     end
 
     # Checks equality by comparing each attribute.

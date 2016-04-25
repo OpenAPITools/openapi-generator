@@ -761,22 +761,33 @@ definitions:
     properties:
       integer:
         type: integer
+        maximum: 100
+        minimum: 10
       int32:
         type: integer
         format: int32
+        maximum: 200
+        minimum: 20
       int64:
         type: integer
         format: int64
       number:
+        maximum: 543.2
+        minimum: 32.1
         type: number
       float:
         type: number
         format: float
+        maximum: 987.6
+        minimum: 54.3
       double:
         type: number
         format: double
+        maximum: 123.4
+        minimum: 67.8
       string:
         type: string
+        pattern: /[a-z]/i
       byte:
         type: string
         format: byte
@@ -792,6 +803,8 @@ definitions:
       password:
         type: string
         format: password
+        maxLength: 64
+        minLength: 10
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

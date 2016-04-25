@@ -49,9 +49,27 @@ module Petstore
       if attributes[:'className']
         self.class_name = attributes[:'className']
       end
+
       if attributes[:'declawed']
         self.declawed = attributes[:'declawed']
       end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
+      if @class_name.nil?
+        return false
+      end
+
     end
 
     # Checks equality by comparing each attribute.

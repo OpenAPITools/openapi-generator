@@ -328,6 +328,16 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
+     *
+     * @param pattern the pattern (regular expression)
+     * @return properly-escaped pattern
+     */
+    public String toJSONSchemaPattern(String pattern) {
+        return escapeText(pattern);
+    }
+
+    /**
      * Return the file name of the Api Test
      *
      * @param name the file name of the Api
@@ -1094,6 +1104,10 @@ public class DefaultCodegen {
             property.exclusiveMinimum = np.getExclusiveMinimum();
             property.exclusiveMaximum = np.getExclusiveMaximum();
 
+            // check if any validation rule defined
+            if (property.minimum != null || property.maximum != null || property.exclusiveMinimum != null || property.exclusiveMaximum != null)
+                property.hasValidation = true;
+
             // legacy support
             Map<String, Object> allowableValues = new HashMap<String, Object>();
             if (np.getMinimum() != null) {
@@ -1111,7 +1125,12 @@ public class DefaultCodegen {
             StringProperty sp = (StringProperty) p;
             property.maxLength = sp.getMaxLength();
             property.minLength = sp.getMinLength();
-            property.pattern = sp.getPattern();
+            property.pattern = toJSONSchemaPattern(sp.getPattern());
+
+            // check if any validation rule defined
+            if (property.pattern != null || property.minLength != null || property.maxLength != null)
+                property.hasValidation = true;
+
             property.isString = true;
             if (sp.getEnum() != null) {
                 List<String> _enum = sp.getEnum();
@@ -1802,9 +1821,6 @@ public class DefaultCodegen {
             if (model.complexType != null) {
                 imports.add(model.complexType);
             }
-            p.maxLength = qp.getMaxLength();
-            p.minLength = qp.getMinLength();
-            p.pattern = qp.getPattern();
 
             p.maximum = qp.getMaximum();
             p.exclusiveMaximum = qp.isExclusiveMaximum();
@@ -1812,7 +1828,7 @@ public class DefaultCodegen {
             p.exclusiveMinimum = qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
             p.minLength = qp.getMinLength();
-            p.pattern = qp.getPattern();
+            p.pattern = toJSONSchemaPattern(qp.getPattern());
             p.maxItems = qp.getMaxItems();
             p.minItems = qp.getMinItems();
             p.uniqueItems = qp.isUniqueItems();
