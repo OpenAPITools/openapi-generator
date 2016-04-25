@@ -51,7 +51,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "case", "defer", "go", "map", "struct",
                 "chan", "else", "goto", "package", "switch",
                 "const", "fallthrough", "if", "range", "type",
-                "continue", "for", "import", "return", "var", "error")
+                "continue", "for", "import", "return", "var", "error", "ApiResponse")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
 
@@ -104,6 +104,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
         importMapping.put("*os.File", "os");
+        importMapping.put("os", "io/ioutil");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
@@ -144,6 +145,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
         supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.go"));
+        supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.go"));
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
     }
 
@@ -323,7 +325,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             return swaggerType;
         }
 
-        return camelize(swaggerType, false);
+        return toModelName(swaggerType);
     }
 
     @Override
@@ -374,6 +376,23 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 iterator.remove();
         }
 
+        // recursivly add import for mapping one type to multipe imports
+        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
+        if (recursiveImports == null)
+            return objs;
+
+        ListIterator<Map<String, String>> listIterator = imports.listIterator();
+        while (listIterator.hasNext()) {
+            String _import = listIterator.next().get("import");
+            // if the import package happens to be found in the importMapping (key)
+            // add the corresponding import package to the list
+            if (importMapping.containsKey(_import)) {
+                Map<String, String> newImportMap= new HashMap<String, String>();
+                newImportMap.put("import", importMapping.get(_import));
+                listIterator.add(newImportMap);
+            }
+        }
+
         return objs;
     }
 
@@ -388,6 +407,24 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (_import.startsWith(prefix))
                 iterator.remove();
         }
+
+        // recursivly add import for mapping one type to multipe imports
+        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
+        if (recursiveImports == null)
+            return objs;
+
+        ListIterator<Map<String, String>> listIterator = imports.listIterator();
+        while (listIterator.hasNext()) {
+            String _import = listIterator.next().get("import");
+            // if the import package happens to be found in the importMapping (key)
+            // add the corresponding import package to the list
+            if (importMapping.containsKey(_import)) {
+                Map<String, String> newImportMap= new HashMap<String, String>();
+                newImportMap.put("import", importMapping.get(_import));
+                listIterator.add(newImportMap);
+            }
+        }
+
         return objs;
     }
 
