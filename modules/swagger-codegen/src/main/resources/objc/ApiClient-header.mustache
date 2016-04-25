@@ -26,6 +26,16 @@
 extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
 
 /**
+ * A key for deserialization ErrorDomain
+ */
+extern NSString *const {{classPrefix}}DeserializationErrorDomainKey;
+
+/**
+ * Code for deserialization type mismatch error
+ */
+extern NSInteger const {{classPrefix}}TypeMismatchErrorCode;
+
+/**
  * Log debug message macro
  */
 #define {{classPrefix}}DebugLog(format, ...) [{{classPrefix}}ApiClient debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
@@ -171,8 +181,9 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  *
  * @param data The data will be deserialized.
  * @param class The type of objective-c object.
+ * @param error The error
  */
-- (id) deserialize:(id) data class:(NSString *) class;
+- (id) deserialize:(id) data class:(NSString *) class error:(NSError**)error;
 
 /**
  * Logs request and response
