@@ -803,6 +803,8 @@ definitions:
       password:
         type: string
         format: password
+        maxLength: 64
+        minLength: 10
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
