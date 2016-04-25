@@ -121,6 +121,7 @@ public class CodegenParameter {
             output.items = this.items;
         }
         output.vendorExtensions = this.vendorExtensions;
+        output.hasValidation = this.hasValidation;
         output.isBinary = this.isBinary;
         output.isByteArray = this.isByteArray;
         output.isString = this.isString;

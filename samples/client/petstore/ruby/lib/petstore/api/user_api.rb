@@ -41,12 +41,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def create_user_with_http_info(body, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#create_user ..."
+        @api_client.config.logger.debug "Calling API: UserApi.create_user ..."
       end
-      
       # verify the required parameter 'body' is set
-      fail "Missing the required parameter 'body' when calling create_user" if body.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_user" if body.nil?
       # resource path
       local_var_path = "/user".sub('{format}','json')
 
@@ -99,12 +97,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def create_users_with_array_input_with_http_info(body, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#create_users_with_array_input ..."
+        @api_client.config.logger.debug "Calling API: UserApi.create_users_with_array_input ..."
       end
-      
       # verify the required parameter 'body' is set
-      fail "Missing the required parameter 'body' when calling create_users_with_array_input" if body.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_array_input" if body.nil?
       # resource path
       local_var_path = "/user/createWithArray".sub('{format}','json')
 
@@ -157,12 +153,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def create_users_with_list_input_with_http_info(body, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#create_users_with_list_input ..."
+        @api_client.config.logger.debug "Calling API: UserApi.create_users_with_list_input ..."
       end
-      
       # verify the required parameter 'body' is set
-      fail "Missing the required parameter 'body' when calling create_users_with_list_input" if body.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_list_input" if body.nil?
       # resource path
       local_var_path = "/user/createWithList".sub('{format}','json')
 
@@ -215,12 +209,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def delete_user_with_http_info(username, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#delete_user ..."
+        @api_client.config.logger.debug "Calling API: UserApi.delete_user ..."
       end
-      
       # verify the required parameter 'username' is set
-      fail "Missing the required parameter 'username' when calling delete_user" if username.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.delete_user" if username.nil?
       # resource path
       local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
@@ -273,12 +265,10 @@ module Petstore
     # @return [Array<(User, Fixnum, Hash)>] User data, response status code and response headers
     def get_user_by_name_with_http_info(username, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#get_user_by_name ..."
+        @api_client.config.logger.debug "Calling API: UserApi.get_user_by_name ..."
       end
-      
       # verify the required parameter 'username' is set
-      fail "Missing the required parameter 'username' when calling get_user_by_name" if username.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.get_user_by_name" if username.nil?
       # resource path
       local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 
@@ -334,15 +324,12 @@ module Petstore
     # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
     def login_user_with_http_info(username, password, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#login_user ..."
+        @api_client.config.logger.debug "Calling API: UserApi.login_user ..."
       end
-      
       # verify the required parameter 'username' is set
-      fail "Missing the required parameter 'username' when calling login_user" if username.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.login_user" if username.nil?
       # verify the required parameter 'password' is set
-      fail "Missing the required parameter 'password' when calling login_user" if password.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'password' when calling UserApi.login_user" if password.nil?
       # resource path
       local_var_path = "/user/login".sub('{format}','json')
 
@@ -396,9 +383,8 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def logout_user_with_http_info(opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#logout_user ..."
+        @api_client.config.logger.debug "Calling API: UserApi.logout_user ..."
       end
-      
       # resource path
       local_var_path = "/user/logout".sub('{format}','json')
 
@@ -453,15 +439,12 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def update_user_with_http_info(username, body, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: UserApi#update_user ..."
+        @api_client.config.logger.debug "Calling API: UserApi.update_user ..."
       end
-      
       # verify the required parameter 'username' is set
-      fail "Missing the required parameter 'username' when calling update_user" if username.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.update_user" if username.nil?
       # verify the required parameter 'body' is set
-      fail "Missing the required parameter 'body' when calling update_user" if body.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.update_user" if body.nil?
       # resource path
       local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
 

@@ -86,6 +86,7 @@ public class CodegenProperty {
         result = prime * result + ((setter == null) ? 0 : setter.hashCode());
         result = prime * result + ((unescapedDescription == null) ? 0 : unescapedDescription.hashCode());
         result = prime * result + ((vendorExtensions == null) ? 0 : vendorExtensions.hashCode());
+        result = prime * result + ((hasValidation == null) ? 0 : hasValidation.hashCode());
         result = prime * result + ((isString == null) ? 0 : isString.hashCode());
         result = prime * result + ((isInteger == null) ? 0 : isInteger.hashCode());
         result = prime * result + ((isLong == null) ? 0 : isLong.hashCode());
@@ -203,12 +204,19 @@ public class CodegenProperty {
         if (this.allowableValues != other.allowableValues && (this.allowableValues == null || !this.allowableValues.equals(other.allowableValues))) {
             return false;
         }
+
         if (this.vendorExtensions != other.vendorExtensions && (this.vendorExtensions == null || !this.vendorExtensions.equals(other.vendorExtensions))) {
             return false;
         }
+
+        if (this.hasValidation != other.hasValidation && (this.hasValidation == null || !this.hasValidation.equals(other.hasValidation))) {
+            return false;
+        }
+
         if (this.isString != other.isString && (this.isString == null || !this.isString.equals(other.isString))) {
             return false;
         }
+
         if (this.isInteger != other.isInteger && (this.isInteger == null || !this.isInteger.equals(other.isInteger))) {
             return false;
         }
