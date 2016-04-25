@@ -42,7 +42,7 @@ public class CodegenProperty {
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions;
-    public Boolean needValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
+    public Boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
 
     @Override
     public int hashCode()
