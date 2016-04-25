@@ -37,7 +37,7 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}}{
 {{#allParams}} * @param {{paramName}} {{description}}
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
-func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}ApiResponse, error) {
+func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}APIResponse, error) {
 
   var httpMethod = "{{httpMethod}}"
  // create path and map variables
@@ -49,7 +49,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   {{#required}}
   // verify the required parameter '{{paramName}}' is set
   if &{{paramName}} == nil {
-      return {{#returnType}}*new({{{returnType}}}), {{/returnType}}*NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+      return {{#returnType}}*new({{{returnType}}}), {{/returnType}}*NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
   }
   {{/required}}
   {{/allParams}}
@@ -64,11 +64,11 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   {{#authMethods}}// authentication ({{name}}) required
   {{#isApiKey}}{{#isKeyInHeader}}
   // set key with prefix in header
-  headerParams["{{keyParamName}}"] = a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
+  headerParams["{{keyParamName}}"] = a.Configuration.GetAPIKeyWithPrefix("{{keyParamName}}")
   {{/isKeyInHeader}}{{#isKeyInQuery}}
   // set key with prefix in querystring
   {{#hasKeyParamName}}    
-  queryParams["{{keyParamName}}"] =  a.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")
+  queryParams["{{keyParamName}}"] =  a.Configuration.GetAPIKeyWithPrefix("{{keyParamName}}")
   {{/hasKeyParamName}}
   {{/isKeyInQuery}}{{/isApiKey}}    
   {{#isBasic}}
@@ -92,7 +92,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   
   {{#hasQueryParams}}    
   {{#queryParams}}
-  queryParams["{{paramName}}"] = a.Configuration.ApiClient.ParameterToString({{paramName}})
+  queryParams["{{paramName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}})
   {{/queryParams}}
   {{/hasQueryParams}}
 
@@ -103,7 +103,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
       {{/consumes}}
   }
   //set Content-Type header
-  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
   if localVarHttpContentType != "" {    
       headerParams["Content-Type"] = localVarHttpContentType
   }
@@ -114,7 +114,7 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
       {{/produces}}
   }
   //set Accept header
-  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
   if localVarHttpHeaderAccept != "" {  
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
@@ -134,18 +134,18 @@ func (a {{classname}}) {{nickname}} ({{#allParams}}{{paramName}} {{{dataType}}}{
   postBody = &{{paramName}}
 {{/bodyParams}}{{/hasBodyParam}}
 {{#returnType}}  var successPayload = new({{returnType}}){{/returnType}}
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
-    return {{#returnType}}*successPayload, {{/returnType}}*NewApiResponse(httpResponse.RawResponse), err
+    return {{#returnType}}*successPayload, {{/returnType}}*NewAPIResponse(httpResponse.RawResponse), err
   }
 {{#returnType}}
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 {{/returnType}}
 
-  return {{#returnType}}*successPayload, {{/returnType}}*NewApiResponse(httpResponse.RawResponse), err
+  return {{#returnType}}*successPayload, {{/returnType}}*NewAPIResponse(httpResponse.RawResponse), err
 }
 {{/operation}}
 {{/operations}}

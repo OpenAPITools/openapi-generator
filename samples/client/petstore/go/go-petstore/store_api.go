@@ -33,7 +33,7 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi{
  * @param orderId ID of the order that needs to be deleted
  * @return void
  */
-func (a StoreApi) DeleteOrder (orderId string) (ApiResponse, error) {
+func (a StoreApi) DeleteOrder (orderId string) (APIResponse, error) {
 
   var httpMethod = "Delete"
  // create path and map variables
@@ -42,7 +42,7 @@ func (a StoreApi) DeleteOrder (orderId string) (ApiResponse, error) {
 
   // verify the required parameter 'orderId' is set
   if &orderId == nil {
-      return *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder")
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'orderId' when calling StoreApi->DeleteOrder")
   }
 
   headerParams := make(map[string]string)
@@ -63,7 +63,7 @@ func (a StoreApi) DeleteOrder (orderId string) (ApiResponse, error) {
   localVarHttpContentTypes := []string {
   }
   //set Content-Type header
-  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
   if localVarHttpContentType != "" {    
       headerParams["Content-Type"] = localVarHttpContentType
   }
@@ -73,28 +73,28 @@ func (a StoreApi) DeleteOrder (orderId string) (ApiResponse, error) {
       "application/json", 
   }
   //set Accept header
-  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
   if localVarHttpHeaderAccept != "" {  
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
 
 
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
-    return *NewApiResponse(httpResponse.RawResponse), err
+    return *NewAPIResponse(httpResponse.RawResponse), err
   }
 
-  return *NewApiResponse(httpResponse.RawResponse), err
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Returns pet inventories by status
  * Returns a map of status codes to quantities
  * @return map[string]int32
  */
-func (a StoreApi) GetInventory () (map[string]int32, ApiResponse, error) {
+func (a StoreApi) GetInventory () (map[string]int32, APIResponse, error) {
 
   var httpMethod = "Get"
  // create path and map variables
@@ -111,7 +111,7 @@ func (a StoreApi) GetInventory () (map[string]int32, ApiResponse, error) {
   // authentication (api_key) required
   
   // set key with prefix in header
-  headerParams["api_key"] = a.Configuration.GetApiKeyWithPrefix("api_key")
+  headerParams["api_key"] = a.Configuration.GetAPIKeyWithPrefix("api_key")
       
 
   // add default headers if any
@@ -124,7 +124,7 @@ func (a StoreApi) GetInventory () (map[string]int32, ApiResponse, error) {
   localVarHttpContentTypes := []string {
   }
   //set Content-Type header
-  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
   if localVarHttpContentType != "" {    
       headerParams["Content-Type"] = localVarHttpContentType
   }
@@ -133,23 +133,23 @@ func (a StoreApi) GetInventory () (map[string]int32, ApiResponse, error) {
       "application/json", 
   }
   //set Accept header
-  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
   if localVarHttpHeaderAccept != "" {  
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
 
   var successPayload = new(map[string]int32)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
-    return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Find purchase order by ID
@@ -157,7 +157,7 @@ func (a StoreApi) GetInventory () (map[string]int32, ApiResponse, error) {
  * @param orderId ID of pet that needs to be fetched
  * @return Order
  */
-func (a StoreApi) GetOrderById (orderId int64) (Order, ApiResponse, error) {
+func (a StoreApi) GetOrderById (orderId int64) (Order, APIResponse, error) {
 
   var httpMethod = "Get"
  // create path and map variables
@@ -166,7 +166,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, ApiResponse, error) {
 
   // verify the required parameter 'orderId' is set
   if &orderId == nil {
-      return *new(Order), *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
+      return *new(Order), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
   }
 
   headerParams := make(map[string]string)
@@ -187,7 +187,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, ApiResponse, error) {
   localVarHttpContentTypes := []string {
   }
   //set Content-Type header
-  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
   if localVarHttpContentType != "" {    
       headerParams["Content-Type"] = localVarHttpContentType
   }
@@ -197,23 +197,23 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, ApiResponse, error) {
       "application/json", 
   }
   //set Accept header
-  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
   if localVarHttpHeaderAccept != "" {  
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
 
   var successPayload = new(Order)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
-    return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Place an order for a pet
@@ -221,7 +221,7 @@ func (a StoreApi) GetOrderById (orderId int64) (Order, ApiResponse, error) {
  * @param body order placed for purchasing the pet
  * @return Order
  */
-func (a StoreApi) PlaceOrder (body Order) (Order, ApiResponse, error) {
+func (a StoreApi) PlaceOrder (body Order) (Order, APIResponse, error) {
 
   var httpMethod = "Post"
  // create path and map variables
@@ -229,7 +229,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, ApiResponse, error) {
 
   // verify the required parameter 'body' is set
   if &body == nil {
-      return *new(Order), *NewApiResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
+      return *new(Order), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
   }
 
   headerParams := make(map[string]string)
@@ -250,7 +250,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, ApiResponse, error) {
   localVarHttpContentTypes := []string {
   }
   //set Content-Type header
-  localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
   if localVarHttpContentType != "" {    
       headerParams["Content-Type"] = localVarHttpContentType
   }
@@ -260,7 +260,7 @@ func (a StoreApi) PlaceOrder (body Order) (Order, ApiResponse, error) {
       "application/json", 
   }
   //set Accept header
-  localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
   if localVarHttpHeaderAccept != "" {  
       headerParams["Accept"] = localVarHttpHeaderAccept
   }
@@ -269,14 +269,14 @@ func (a StoreApi) PlaceOrder (body Order) (Order, ApiResponse, error) {
   postBody = &body
 
   var successPayload = new(Order)
-  httpResponse, err := a.Configuration.ApiClient.CallApi(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 
   if err != nil {
-    return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
   err = json.Unmarshal(httpResponse.Body(), &successPayload)
 
-  return *successPayload, *NewApiResponse(httpResponse.RawResponse), err
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }

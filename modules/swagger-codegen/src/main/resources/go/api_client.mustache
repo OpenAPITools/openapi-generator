@@ -3,17 +3,17 @@ package {{packageName}}
 import (
     "strings"
     "github.com/go-resty/resty"
-    "errors"
+    "fmt"
     "reflect"
     "bytes"
     "path/filepath"
 )
 
-type ApiClient struct {
+type APIClient struct {
 
 }
 
-func (c *ApiClient) SelectHeaderContentType(contentTypes []string) string {
+func (c *APIClient) SelectHeaderContentType(contentTypes []string) string {
     if (len(contentTypes) == 0){
         return ""
     }
@@ -24,7 +24,7 @@ func (c *ApiClient) SelectHeaderContentType(contentTypes []string) string {
     return contentTypes[0] // use the first content type specified in 'consumes'
 }
 
-func (c *ApiClient) SelectHeaderAccept(accepts []string) string {
+func (c *APIClient) SelectHeaderAccept(accepts []string) string {
     if (len(accepts) == 0){        
         return ""
     }
@@ -46,7 +46,7 @@ func contains(source []string, containvalue string) bool {
 }
 
 
-func (c *ApiClient) CallApi(path string, method string,
+func (c *APIClient) CallAPI(path string, method string,
     postBody interface{},
     headerParams map[string]string,
     queryParams map[string]string,
@@ -78,10 +78,10 @@ func (c *ApiClient) CallApi(path string, method string,
         return response, err
     }
 
-    return nil, errors.New("Invalid method " + method)
+    return nil, fmt.Errorf("invalid method %v", method)
 }
 
-func (c *ApiClient) ParameterToString(obj interface{}) string {
+func (c *APIClient) ParameterToString(obj interface{}) string {
     if reflect.TypeOf(obj).String() == "[]string" {
         return strings.Join(obj.([]string), ",")
     } else {

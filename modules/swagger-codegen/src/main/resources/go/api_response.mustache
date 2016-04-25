@@ -5,20 +5,20 @@ import (
 )
 
 
-type ApiResponse struct {
+type APIResponse struct {
   *http.Response
   
   Message  string  `json:"message,omitempty"`
 }
 
-func NewApiResponse(r *http.Response) *ApiResponse {
-  response := &ApiResponse{Response: r}
+func NewAPIResponse(r *http.Response) *APIResponse {
+  response := &APIResponse{Response: r}
 
   return response
 }
 
-func NewApiResponseWithError(errorMessage string) *ApiResponse {
-  response := &ApiResponse{Message: errorMessage}
+func NewAPIResponseWithError(errorMessage string) *APIResponse {
+  response := &APIResponse{Message: errorMessage}
 
   return response
 }
