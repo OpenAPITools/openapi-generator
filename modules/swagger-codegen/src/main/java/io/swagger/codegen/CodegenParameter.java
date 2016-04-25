@@ -20,6 +20,7 @@ public class CodegenParameter {
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions;
+    public Boolean hasValidation;
 
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",

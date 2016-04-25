@@ -1833,6 +1833,12 @@ public class DefaultCodegen {
             p.minItems = qp.getMinItems();
             p.uniqueItems = qp.isUniqueItems();
             p.multipleOf = qp.getMultipleOf();
+
+            if (p.maximum != null || p.exclusiveMaximum != null ||
+                    p.minimum != null || p.exclusiveMinimum != null ||
+                    p.maxLength != null || p.minLength != null ||
+                    p.maxItems != null || p.minItems != null ||
+                    p.pattern != null ||
         } else {
             if (!(param instanceof BodyParameter)) {
                 LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
