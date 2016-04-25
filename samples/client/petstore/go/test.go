@@ -22,7 +22,9 @@ func main() {
 	s.UpdatePetWithForm(12830, "golang", "available")
 
 	// test GET
-	resp, err := s.GetPetById(12830)
-	fmt.Println("GetPetById: ", resp, err)
+	resp, err, apiResponse := s.GetPetById(12830)
+	fmt.Println("GetPetById: ", resp, err, apiResponse)
 
+	err2, apiResponse2 := s.DeletePet(12830, "")
+	fmt.Println("DeletePet: ", err2, apiResponse2)
 }
