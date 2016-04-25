@@ -66,15 +66,33 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     # Custom attribute writer method with validation
     # @param [Object] {{{name}}} Value to be assigned
     def {{{name}}}=({{{name}}})
+      if {{{name}}}.nil?
+        fail "{{{name}}} cannot be nil"
+      end
+
+      {{#minLength}}
+      if {{{name}}}.to_s.length > {{{maxLength}}}
+        fail "invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}"
+      end
+
+      {{/minLength}}
+      {{#maxLength}}
+      if {{{name}}}.to_s.length < {{{minLength}}}
+        fail "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}"
+      end
+
+      {{/maxLength}}
       {{#maximum}}
       if {{{name}}} > {{{maximum}}}
         fail "invalid value for '{{{name}}}', must be smaller than or equal to {{{maximum}}}"
       end
+
       {{/maximum}}
       {{#minimum}}
       if {{{name}}} < {{{minimum}}}
         fail "invalid value for '{{{name}}}', must be greater than or equal to {{{minimum}}}"
       end
+
       {{/minimum}}
       @{{{name}}} = {{{name}}}
     end
