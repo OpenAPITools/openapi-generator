@@ -23,11 +23,14 @@ module Petstore
 
     attr_accessor :snake_case
 
+    attr_accessor :property
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'name' => :'name',
-        :'snake_case' => :'snake_case'
+        :'snake_case' => :'snake_case',
+        :'property' => :'property'
       }
     end
 
@@ -35,7 +38,8 @@ module Petstore
     def self.swagger_types
       {
         :'name' => :'Integer',
-        :'snake_case' => :'Integer'
+        :'snake_case' => :'Integer',
+        :'property' => :'String'
       }
     end
 
@@ -50,9 +54,31 @@ module Petstore
       if attributes[:'name']
         self.name = attributes[:'name']
       end
+
       if attributes[:'snake_case']
         self.snake_case = attributes[:'snake_case']
       end
+
+      if attributes[:'property']
+        self.property = attributes[:'property']
+      end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
+      if @name.nil?
+        return false
+      end
+
     end
 
     # Checks equality by comparing each attribute.
@@ -61,7 +87,8 @@ module Petstore
       return true if self.equal?(o)
       self.class == o.class &&
           name == o.name &&
-          snake_case == o.snake_case
+          snake_case == o.snake_case &&
+          property == o.property
     end
 
     # @see the `==` method
@@ -73,7 +100,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name, snake_case].hash
+      [name, snake_case, property].hash
     end
 
     # Builds the object from hash
