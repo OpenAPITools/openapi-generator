@@ -62,36 +62,36 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
       invalid_properties = Array.new
       {{#isEnum}}
       allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-      if {{{name}}} && !allowed_values.include?({{{name}}})
+      if @{{{name}}} && !allowed_values.include?(@{{{name}}})
         invalid_properties.push("invalid value for '{{{name}}}', must be one of #{allowed_values}.")
       end
 
       {{/isEnum}}
       {{#hasValidation}}
-      if {{{name}}}.nil?
+      if @{{{name}}}.nil?
         fail ArgumentError, "{{{name}}} cannot be nil"
       end
 
       {{#minLength}}
-      if {{{name}}}.to_s.length > {{{maxLength}}}
+      if @{{{name}}}.to_s.length > {{{maxLength}}}
         invalid_properties.push("invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/minLength}}
       {{#maxLength}}
-      if {{{name}}}.to_s.length < {{{minLength}}}
+      if @{{{name}}}.to_s.length < {{{minLength}}}
         invalid_properties.push("invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}.")
       end
 
       {{/maxLength}}
       {{#maximum}}
-      if {{{name}}} > {{{maximum}}}
+      if @{{{name}}} > {{{maximum}}}
         invalid_properties.push("invalid value for '{{{name}}}', must be smaller than or equal to {{{maximum}}}.")
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{{name}}} < {{{minimum}}}
+      if @{{{name}}} < {{{minimum}}}
         invalid_properties.push("invalid value for '{{{name}}}', must be greater than or equal to {{{minimum}}}.")
       end
 
@@ -112,31 +112,31 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
       {{/required}}
       {{#isEnum}}
       allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-      if {{{name}}} && !allowed_values.include?({{{name}}})
+      if @{{{name}}} && !allowed_values.include?(@{{{name}}})
         return false
       end
       {{/isEnum}}
       {{#hasValidation}}
       {{#minLength}}
-      if {{{name}}}.to_s.length > {{{maxLength}}}
+      if @{{{name}}}.to_s.length > {{{maxLength}}}
         return false
       end
 
       {{/minLength}}
       {{#maxLength}}
-      if {{{name}}}.to_s.length < {{{minLength}}}
+      if @{{{name}}}.to_s.length < {{{minLength}}}
         return false
       end
 
       {{/maxLength}}
       {{#maximum}}
-      if {{{name}}} > {{{maximum}}}
+      if @{{{name}}} > {{{maximum}}}
         return false
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{{name}}} < {{{minimum}}}
+      if @{{{name}}} < {{{minimum}}}
         return false
       end
 
@@ -151,7 +151,7 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
       allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-      if {{{name}}} && !allowed_values.include?({{{name}}})
+      if {{{name}}} && !allowed_values.include?(@{{{name}}})
         fail ArgumentError, "invalid value for '{{{name}}}', must be one of #{allowed_values}."
       end
       @{{{name}}} = {{{name}}}
