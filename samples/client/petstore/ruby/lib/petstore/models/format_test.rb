@@ -146,19 +146,19 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      if integer > 100.0
+      if @integer > 100.0
         return false
       end
 
-      if integer < 10.0
+      if @integer < 10.0
         return false
       end
 
-      if int32 > 200.0
+      if @int32 > 200.0
         return false
       end
 
-      if int32 < 20.0
+      if @int32 < 20.0
         return false
       end
 
@@ -166,27 +166,27 @@ module Petstore
         return false
       end
 
-      if number > 543.2
+      if @number > 543.2
         return false
       end
 
-      if number < 32.1
+      if @number < 32.1
         return false
       end
 
-      if float > 987.6
+      if @float > 987.6
         return false
       end
 
-      if float < 54.3
+      if @float < 54.3
         return false
       end
 
-      if double > 123.4
+      if @double > 123.4
         return false
       end
 
-      if double < 67.8
+      if @double < 67.8
         return false
       end
 
@@ -202,11 +202,11 @@ module Petstore
         return false
       end
 
-      if password.to_s.length > 64
+      if @password.to_s.length > 64
         return false
       end
 
-      if password.to_s.length < 10
+      if @password.to_s.length < 10
         return false
       end
 

@@ -112,7 +112,7 @@ module Petstore
       end
 
       allowed_values = ["available", "pending", "sold"]
-      if status && !allowed_values.include?(status)
+      if @status && !allowed_values.include?(status)
         return false
       end
     end
