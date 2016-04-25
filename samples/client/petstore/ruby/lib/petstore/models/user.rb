@@ -74,27 +74,47 @@ module Petstore
       if attributes[:'id']
         self.id = attributes[:'id']
       end
+
       if attributes[:'username']
         self.username = attributes[:'username']
       end
+
       if attributes[:'firstName']
         self.first_name = attributes[:'firstName']
       end
+
       if attributes[:'lastName']
         self.last_name = attributes[:'lastName']
       end
+
       if attributes[:'email']
         self.email = attributes[:'email']
       end
+
       if attributes[:'password']
         self.password = attributes[:'password']
       end
+
       if attributes[:'phone']
         self.phone = attributes[:'phone']
       end
+
       if attributes[:'userStatus']
         self.user_status = attributes[:'userStatus']
       end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
     end
 
     # Checks equality by comparing each attribute.

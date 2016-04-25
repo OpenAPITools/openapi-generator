@@ -66,24 +66,54 @@ module Petstore
       if attributes[:'id']
         self.id = attributes[:'id']
       end
+
       if attributes[:'category']
         self.category = attributes[:'category']
       end
+
       if attributes[:'name']
         self.name = attributes[:'name']
       end
+
       if attributes[:'photoUrls']
         if (value = attributes[:'photoUrls']).is_a?(Array)
           self.photo_urls = value
         end
       end
+
       if attributes[:'tags']
         if (value = attributes[:'tags']).is_a?(Array)
           self.tags = value
         end
       end
+
       if attributes[:'status']
         self.status = attributes[:'status']
+      end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
+      if @name.nil?
+        return false
+      end
+
+      if @photo_urls.nil?
+        return false
+      end
+
+      allowed_values = ["available", "pending", "sold"]
+      if status && !allowed_values.include?(status)
+        return false
       end
     end
 
@@ -92,7 +122,7 @@ module Petstore
     def status=(status)
       allowed_values = ["available", "pending", "sold"]
       if status && !allowed_values.include?(status)
-        fail ArgumentError, "invalid value for 'status', must be one of #{allowed_values}"
+        fail ArgumentError, "invalid value for 'status', must be one of #{allowed_values}."
       end
       @status = status
     end

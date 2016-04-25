@@ -89,39 +89,127 @@ module Petstore
       if attributes[:'integer']
         self.integer = attributes[:'integer']
       end
+
       if attributes[:'int32']
         self.int32 = attributes[:'int32']
       end
+
       if attributes[:'int64']
         self.int64 = attributes[:'int64']
       end
+
       if attributes[:'number']
         self.number = attributes[:'number']
       end
+
       if attributes[:'float']
         self.float = attributes[:'float']
       end
+
       if attributes[:'double']
         self.double = attributes[:'double']
       end
+
       if attributes[:'string']
         self.string = attributes[:'string']
       end
+
       if attributes[:'byte']
         self.byte = attributes[:'byte']
       end
+
       if attributes[:'binary']
         self.binary = attributes[:'binary']
       end
+
       if attributes[:'date']
         self.date = attributes[:'date']
       end
+
       if attributes[:'dateTime']
         self.date_time = attributes[:'dateTime']
       end
+
       if attributes[:'password']
         self.password = attributes[:'password']
       end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
+      if integer > 100.0
+        return false
+      end
+
+      if integer < 10.0
+        return false
+      end
+
+      if int32 > 200.0
+        return false
+      end
+
+      if int32 < 20.0
+        return false
+      end
+
+      if @number.nil?
+        return false
+      end
+
+      if number > 543.2
+        return false
+      end
+
+      if number < 32.1
+        return false
+      end
+
+      if float > 987.6
+        return false
+      end
+
+      if float < 54.3
+        return false
+      end
+
+      if double > 123.4
+        return false
+      end
+
+      if double < 67.8
+        return false
+      end
+
+      if @byte.nil?
+        return false
+      end
+
+      if @date.nil?
+        return false
+      end
+
+      if @password.nil?
+        return false
+      end
+
+      if password.to_s.length > 64
+        return false
+      end
+
+      if password.to_s.length < 10
+        return false
+      end
+
     end
 
     # Custom attribute writer method with validation
@@ -132,11 +220,11 @@ module Petstore
       end
 
       if integer > 100.0
-        fail ArgumentError, "invalid value for 'integer', must be smaller than or equal to 100.0"
+        fail ArgumentError, "invalid value for 'integer', must be smaller than or equal to 100.0."
       end
 
       if integer < 10.0
-        fail ArgumentError, "invalid value for 'integer', must be greater than or equal to 10.0"
+        fail ArgumentError, "invalid value for 'integer', must be greater than or equal to 10.0."
       end
 
       @integer = integer
@@ -150,11 +238,11 @@ module Petstore
       end
 
       if int32 > 200.0
-        fail ArgumentError, "invalid value for 'int32', must be smaller than or equal to 200.0"
+        fail ArgumentError, "invalid value for 'int32', must be smaller than or equal to 200.0."
       end
 
       if int32 < 20.0
-        fail ArgumentError, "invalid value for 'int32', must be greater than or equal to 20.0"
+        fail ArgumentError, "invalid value for 'int32', must be greater than or equal to 20.0."
       end
 
       @int32 = int32
@@ -168,11 +256,11 @@ module Petstore
       end
 
       if number > 543.2
-        fail ArgumentError, "invalid value for 'number', must be smaller than or equal to 543.2"
+        fail ArgumentError, "invalid value for 'number', must be smaller than or equal to 543.2."
       end
 
       if number < 32.1
-        fail ArgumentError, "invalid value for 'number', must be greater than or equal to 32.1"
+        fail ArgumentError, "invalid value for 'number', must be greater than or equal to 32.1."
       end
 
       @number = number
@@ -186,11 +274,11 @@ module Petstore
       end
 
       if float > 987.6
-        fail ArgumentError, "invalid value for 'float', must be smaller than or equal to 987.6"
+        fail ArgumentError, "invalid value for 'float', must be smaller than or equal to 987.6."
       end
 
       if float < 54.3
-        fail ArgumentError, "invalid value for 'float', must be greater than or equal to 54.3"
+        fail ArgumentError, "invalid value for 'float', must be greater than or equal to 54.3."
       end
 
       @float = float
@@ -204,11 +292,11 @@ module Petstore
       end
 
       if double > 123.4
-        fail ArgumentError, "invalid value for 'double', must be smaller than or equal to 123.4"
+        fail ArgumentError, "invalid value for 'double', must be smaller than or equal to 123.4."
       end
 
       if double < 67.8
-        fail ArgumentError, "invalid value for 'double', must be greater than or equal to 67.8"
+        fail ArgumentError, "invalid value for 'double', must be greater than or equal to 67.8."
       end
 
       @double = double
@@ -232,11 +320,11 @@ module Petstore
       end
 
       if password.to_s.length > 64
-        fail ArgumentError, "invalid value for 'password', the character length must be smaller than or equal to 64"
+        fail ArgumentError, "invalid value for 'password', the character length must be smaller than or equal to 64."
       end
 
       if password.to_s.length < 10
-        fail ArgumentError, "invalid value for 'password', the character length must be great than or equal to 10"
+        fail ArgumentError, "invalid value for 'password', the character length must be great than or equal to 10."
       end
 
       @password = password

@@ -1106,7 +1106,7 @@ public class DefaultCodegen {
 
             // check if any validation rule defined
             if (property.minimum != null || property.maximum != null || property.exclusiveMinimum != null || property.exclusiveMaximum != null)
-                property.needValidation = true;
+                property.hasValidation = true;
 
             // legacy support
             Map<String, Object> allowableValues = new HashMap<String, Object>();
@@ -1129,7 +1129,7 @@ public class DefaultCodegen {
 
             // check if any validation rule defined
             if (property.pattern != null || property.minLength != null || property.maxLength != null)
-                property.needValidation = true;
+                property.hasValidation = true;
 
             property.isString = true;
             if (sp.getEnum() != null) {
