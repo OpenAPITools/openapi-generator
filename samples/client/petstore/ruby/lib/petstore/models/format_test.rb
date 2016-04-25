@@ -124,6 +124,72 @@ module Petstore
       end
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] integer Value to be assigned
+    def integer=(integer)
+      if integer > 100.0
+        fail "invalid value for 'integer', must be smaller than or equal to 100.0"
+      end
+      if integer < 10.0
+        fail "invalid value for 'integer', must be greater than or equal to 10.0"
+      end
+      @integer = integer
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] int32 Value to be assigned
+    def int32=(int32)
+      if int32 > 200.0
+        fail "invalid value for 'int32', must be smaller than or equal to 200.0"
+      end
+      if int32 < 20.0
+        fail "invalid value for 'int32', must be greater than or equal to 20.0"
+      end
+      @int32 = int32
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] number Value to be assigned
+    def number=(number)
+      if number > 543.2
+        fail "invalid value for 'number', must be smaller than or equal to 543.2"
+      end
+      if number < 32.1
+        fail "invalid value for 'number', must be greater than or equal to 32.1"
+      end
+      @number = number
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] float Value to be assigned
+    def float=(float)
+      if float > 987.6
+        fail "invalid value for 'float', must be smaller than or equal to 987.6"
+      end
+      if float < 54.3
+        fail "invalid value for 'float', must be greater than or equal to 54.3"
+      end
+      @float = float
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] double Value to be assigned
+    def double=(double)
+      if double > 123.4
+        fail "invalid value for 'double', must be smaller than or equal to 123.4"
+      end
+      if double < 67.8
+        fail "invalid value for 'double', must be greater than or equal to 67.8"
+      end
+      @double = double
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] string Value to be assigned
+    def string=(string)
+      @string = string
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared 
     def ==(o)

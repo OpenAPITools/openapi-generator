@@ -10,10 +10,10 @@ Name | Type | Description | Notes
 **float** | **Float** |  | [optional] 
 **double** | **Float** |  | [optional] 
 **string** | **String** |  | [optional] 
-**byte** | **String** |  | [optional] 
+**byte** | **String** |  | 
 **binary** | **String** |  | [optional] 
-**date** | **Date** |  | [optional] 
+**date** | **Date** |  | 
 **date_time** | **DateTime** |  | [optional] 
-**password** | **String** |  | [optional] 
+**password** | **String** |  | 
 
 
