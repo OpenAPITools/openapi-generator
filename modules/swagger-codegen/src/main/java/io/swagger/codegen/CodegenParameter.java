@@ -20,6 +20,7 @@ public class CodegenParameter {
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions;
+    public Boolean hasValidation;
 
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",
@@ -120,6 +121,7 @@ public class CodegenParameter {
             output.items = this.items;
         }
         output.vendorExtensions = this.vendorExtensions;
+        output.hasValidation = this.hasValidation;
         output.isBinary = this.isBinary;
         output.isByteArray = this.isByteArray;
         output.isString = this.isString;

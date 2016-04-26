@@ -41,12 +41,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def add_pet_with_http_info(body, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#add_pet ..."
+        @api_client.config.logger.debug "Calling API: PetApi.add_pet ..."
       end
-      
       # verify the required parameter 'body' is set
-      fail "Missing the required parameter 'body' when calling add_pet" if body.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.add_pet" if body.nil?
       # resource path
       local_var_path = "/pet".sub('{format}','json')
 
@@ -101,12 +99,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def delete_pet_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#delete_pet ..."
+        @api_client.config.logger.debug "Calling API: PetApi.delete_pet ..."
       end
-      
       # verify the required parameter 'pet_id' is set
-      fail "Missing the required parameter 'pet_id' when calling delete_pet" if pet_id.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.delete_pet" if pet_id.nil?
       # resource path
       local_var_path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -160,12 +156,10 @@ module Petstore
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_status_with_http_info(status, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#find_pets_by_status ..."
+        @api_client.config.logger.debug "Calling API: PetApi.find_pets_by_status ..."
       end
-      
       # verify the required parameter 'status' is set
-      fail "Missing the required parameter 'status' when calling find_pets_by_status" if status.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'status' when calling PetApi.find_pets_by_status" if status.nil?
       # resource path
       local_var_path = "/pet/findByStatus".sub('{format}','json')
 
@@ -220,12 +214,10 @@ module Petstore
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_tags_with_http_info(tags, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#find_pets_by_tags ..."
+        @api_client.config.logger.debug "Calling API: PetApi.find_pets_by_tags ..."
       end
-      
       # verify the required parameter 'tags' is set
-      fail "Missing the required parameter 'tags' when calling find_pets_by_tags" if tags.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'tags' when calling PetApi.find_pets_by_tags" if tags.nil?
       # resource path
       local_var_path = "/pet/findByTags".sub('{format}','json')
 
@@ -280,12 +272,10 @@ module Petstore
     # @return [Array<(Pet, Fixnum, Hash)>] Pet data, response status code and response headers
     def get_pet_by_id_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#get_pet_by_id ..."
+        @api_client.config.logger.debug "Calling API: PetApi.get_pet_by_id ..."
       end
-      
       # verify the required parameter 'pet_id' is set
-      fail "Missing the required parameter 'pet_id' when calling get_pet_by_id" if pet_id.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id" if pet_id.nil?
       # resource path
       local_var_path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -339,12 +329,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def update_pet_with_http_info(body, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#update_pet ..."
+        @api_client.config.logger.debug "Calling API: PetApi.update_pet ..."
       end
-      
       # verify the required parameter 'body' is set
-      fail "Missing the required parameter 'body' when calling update_pet" if body.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.update_pet" if body.nil?
       # resource path
       local_var_path = "/pet".sub('{format}','json')
 
@@ -401,12 +389,10 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def update_pet_with_form_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#update_pet_with_form ..."
+        @api_client.config.logger.debug "Calling API: PetApi.update_pet_with_form ..."
       end
-      
       # verify the required parameter 'pet_id' is set
-      fail "Missing the required parameter 'pet_id' when calling update_pet_with_form" if pet_id.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.update_pet_with_form" if pet_id.nil?
       # resource path
       local_var_path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -465,12 +451,10 @@ module Petstore
     # @return [Array<(ApiResponse, Fixnum, Hash)>] ApiResponse data, response status code and response headers
     def upload_file_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: PetApi#upload_file ..."
+        @api_client.config.logger.debug "Calling API: PetApi.upload_file ..."
       end
-      
       # verify the required parameter 'pet_id' is set
-      fail "Missing the required parameter 'pet_id' when calling upload_file" if pet_id.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.upload_file" if pet_id.nil?
       # resource path
       local_var_path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
 
