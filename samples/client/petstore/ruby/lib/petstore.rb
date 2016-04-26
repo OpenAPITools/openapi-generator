@@ -37,6 +37,7 @@ require 'petstore/models/tag'
 require 'petstore/models/user'
 
 # APIs
+require 'petstore/api/fake_api'
 require 'petstore/api/pet_api'
 require 'petstore/api/store_api'
 require 'petstore/api/user_api'
