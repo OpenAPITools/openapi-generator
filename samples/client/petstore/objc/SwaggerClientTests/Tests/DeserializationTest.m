@@ -26,9 +26,9 @@
     [formatter setTimeZone:timezone];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *date = [formatter dateFromString:dateStr];
-    
-    NSDate *deserializedDate = [apiClient deserialize:dateStr class:@"NSDate*"];
-    
+    NSError* error;
+    NSDate *deserializedDate = [apiClient deserialize:dateStr class:@"NSDate*" error:&error];
+    XCTAssertNil(error);
     XCTAssertEqualWithAccuracy([date timeIntervalSinceReferenceDate], [deserializedDate timeIntervalSinceReferenceDate], 0.001);
 }
 
@@ -38,30 +38,33 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
     NSDate *dateTime = [formatter dateFromString:dateTimeStr];
-    
-    NSDate *deserializedDateTime = [apiClient deserialize:dateTimeStr class:@"NSDate*"];
-    
+    NSError* error;
+    NSDate *deserializedDateTime = [apiClient deserialize:dateTimeStr class:@"NSDate*" error:&error];
+    XCTAssertNil(error);
     XCTAssertEqualWithAccuracy([dateTime timeIntervalSinceReferenceDate], [deserializedDateTime timeIntervalSinceReferenceDate], 0.001);
 }
 
 - (void)testDeserializeObject {
     NSNumber *data = @1;
-    NSNumber *result = [apiClient deserialize:data class:@"NSObject*"];
-    
+    NSError* error;
+    NSNumber *result = [apiClient deserialize:data class:@"NSObject*" error:&error];
+    XCTAssertNil(error);
     XCTAssertEqualObjects(data, result);
 }
 
 - (void)testDeserializeString {
     NSString *data = @"test string";
-    NSString *result = [apiClient deserialize:data class:@"NSString*"];
-    
+    NSError* error;
+    NSString *result = [apiClient deserialize:data class:@"NSString*" error:&error];
+    XCTAssertNil(error);
     XCTAssertTrue([result isEqualToString:data]);
 }
 
 - (void)testDeserializeListOfString {
     NSArray *data = @[@"test string"];
-    NSArray *result = [apiClient deserialize:data class:@"NSArray* /* NSString */"];
-    
+    NSError* error;
+    NSArray *result = [apiClient deserialize:data class:@"NSArray* /* NSString */" error:&error];
+    XCTAssertNil(error);
     XCTAssertTrue([result isKindOfClass:[NSArray class]]);
     XCTAssertTrue([result[0] isKindOfClass:[NSString class]]);
 }
@@ -88,8 +91,8 @@
           @"status": @"available"
           
           }];
-    
-    NSArray *result = [apiClient deserialize:data class:@"NSArray<SWGPet>*"];
+    NSError* error;
+    NSArray *result = [apiClient deserialize:data class:@"NSArray<SWGPet>*" error:&error];
     
     XCTAssertTrue([result isKindOfClass:[NSArray class]]);
     XCTAssertTrue([[result firstObject] isKindOfClass:[SWGPet class]]);
@@ -119,8 +122,8 @@
               
               }
       };
-    
-    NSDictionary *result = [apiClient deserialize:data class:@"NSDictionary* /* NSString, SWGPet */"];
+    NSError* error;
+    NSDictionary *result = [apiClient deserialize:data class:@"NSDictionary* /* NSString, SWGPet */" error:&error];
     
     XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
     XCTAssertTrue([result[@"pet"] isKindOfClass:[SWGPet class]]);
@@ -134,8 +137,8 @@
               @"bar": @1
               }
     };
-    
-    NSDictionary *result = [apiClient deserialize:data class:@"NSDictionary* /* NSString, NSDictionary* /* NSString, NSNumber */ */"];
+    NSError* error;
+    NSDictionary *result = [apiClient deserialize:data class:@"NSDictionary* /* NSString, NSDictionary* /* NSString, NSNumber */ */" error:&error];
     
     XCTAssertTrue([result isKindOfClass:[NSDictionary class]]);
     XCTAssertTrue([result[@"foo"] isKindOfClass:[NSDictionary class]]);
@@ -144,8 +147,8 @@
 
 - (void)testDeserializeNestedList {
     NSArray *data = @[@[@"foo"]];
-    
-    NSArray *result = [apiClient deserialize:data class:@"NSArray* /* NSArray* /* NSString */ */"];
+    NSError* error;
+    NSArray *result = [apiClient deserialize:data class:@"NSArray* /* NSArray* /* NSString */ */" error:&error];
     
     XCTAssertTrue([result isKindOfClass:[NSArray class]]);
     XCTAssertTrue([result[0] isKindOfClass:[NSArray class]]);
@@ -157,11 +160,12 @@
     NSNumber *result;
     
     data = @"true";
-    result = [apiClient deserialize:data class:@"NSNumber*"];
+    NSError* error;
+    result = [apiClient deserialize:data class:@"NSNumber*" error:&error];
     XCTAssertTrue([result isEqual:@YES]);
     
     data = @"false";
-    result = [apiClient deserialize:data class:@"NSNumber*"];
+    result = [apiClient deserialize:data class:@"NSNumber*" error:&error];
     XCTAssertTrue([result isEqual:@NO]);
 }
 
