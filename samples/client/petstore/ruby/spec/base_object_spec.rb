@@ -30,8 +30,16 @@ class ArrayMapObject < Petstore::Category
   end
 end
 
-
 describe 'BaseObject' do
+  describe 'boolean values' do
+    let(:obj) { Petstore::Cat.new({declawed: false}) }
+
+    it 'should have values set' do
+      obj.declawed.should_not eq nil
+      obj.declawed.should eq false
+    end
+  end
+
   describe 'array and map properties' do
     let(:obj) { ArrayMapObject.new }
 

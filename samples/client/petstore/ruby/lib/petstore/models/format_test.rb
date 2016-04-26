@@ -86,51 +86,51 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'integer']
+      if attributes.has_key?(:'integer')
         self.integer = attributes[:'integer']
       end
 
-      if attributes[:'int32']
+      if attributes.has_key?(:'int32')
         self.int32 = attributes[:'int32']
       end
 
-      if attributes[:'int64']
+      if attributes.has_key?(:'int64')
         self.int64 = attributes[:'int64']
       end
 
-      if attributes[:'number']
+      if attributes.has_key?(:'number')
         self.number = attributes[:'number']
       end
 
-      if attributes[:'float']
+      if attributes.has_key?(:'float')
         self.float = attributes[:'float']
       end
 
-      if attributes[:'double']
+      if attributes.has_key?(:'double')
         self.double = attributes[:'double']
       end
 
-      if attributes[:'string']
+      if attributes.has_key?(:'string')
         self.string = attributes[:'string']
       end
 
-      if attributes[:'byte']
+      if attributes.has_key?(:'byte')
         self.byte = attributes[:'byte']
       end
 
-      if attributes[:'binary']
+      if attributes.has_key?(:'binary')
         self.binary = attributes[:'binary']
       end
 
-      if attributes[:'date']
+      if attributes.has_key?(:'date')
         self.date = attributes[:'date']
       end
 
-      if attributes[:'dateTime']
+      if attributes.has_key?(:'dateTime')
         self.date_time = attributes[:'dateTime']
       end
 
-      if attributes[:'password']
+      if attributes.has_key?(:'password')
         self.password = attributes[:'password']
       end
 

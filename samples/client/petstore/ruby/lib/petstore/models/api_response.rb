@@ -50,15 +50,15 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'code']
+      if attributes.has_key?(:'code')
         self.code = attributes[:'code']
       end
 
-      if attributes[:'type']
+      if attributes.has_key?(:'type')
         self.type = attributes[:'type']
       end
 
-      if attributes[:'message']
+      if attributes.has_key?(:'message')
         self.message = attributes[:'message']
       end
 

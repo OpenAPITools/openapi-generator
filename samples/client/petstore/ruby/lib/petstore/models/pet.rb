@@ -63,31 +63,31 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'id']
+      if attributes.has_key?(:'id')
         self.id = attributes[:'id']
       end
 
-      if attributes[:'category']
+      if attributes.has_key?(:'category')
         self.category = attributes[:'category']
       end
 
-      if attributes[:'name']
+      if attributes.has_key?(:'name')
         self.name = attributes[:'name']
       end
 
-      if attributes[:'photoUrls']
+      if attributes.has_key?(:'photoUrls')
         if (value = attributes[:'photoUrls']).is_a?(Array)
           self.photo_urls = value
         end
       end
 
-      if attributes[:'tags']
+      if attributes.has_key?(:'tags')
         if (value = attributes[:'tags']).is_a?(Array)
           self.tags = value
         end
       end
 
-      if attributes[:'status']
+      if attributes.has_key?(:'status')
         self.status = attributes[:'status']
       end
 
