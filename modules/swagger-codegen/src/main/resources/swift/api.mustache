@@ -80,11 +80,14 @@ public class {{classname}}: APIBase {
         ]{{/hasMore}}{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
             "{{baseName}}": {{paramName}}{{#isInteger}}{{^required}}?{{/required}}.encodeToJSON(){{/isInteger}}{{#isLong}}{{^required}}?{{/required}}.encodeToJSON(){{/isLong}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]{{/hasMore}}{{/queryParams}}
-        let parameters = APIHelper.rejectNil(nillableParameters){{/bodyParam}}
-
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters!){{/bodyParam}}
+ 
         let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: URLString, parameters: parameters, isBody: {{^queryParams}}{{^formParams}}true{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/queryParams}}{{#formParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/formParams}})
+        return requestBuilder.init(method: "{{httpMethod}}", URLString: URLString, parameters: convertedParameters, isBody: {{^queryParams}}{{^formParams}}true{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/queryParams}}{{#formParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/formParams}})
     }
 
 {{/operation}}
