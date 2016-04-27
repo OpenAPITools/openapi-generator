@@ -29,11 +29,11 @@ namespace IO.Swagger.Model
         /// <param name="_Float">_Float.</param>
         /// <param name="_Double">_Double.</param>
         /// <param name="_String">_String.</param>
-        /// <param name="_Byte">_Byte.</param>
+        /// <param name="_Byte">_Byte (required).</param>
         /// <param name="Binary">Binary.</param>
-        /// <param name="Date">Date.</param>
+        /// <param name="Date">Date (required).</param>
         /// <param name="DateTime">DateTime.</param>
-        /// <param name="Password">Password.</param>
+        /// <param name="Password">Password (required).</param>
 
         public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, string Password = null)
         {
@@ -46,17 +46,41 @@ namespace IO.Swagger.Model
             {
                 this.Number = Number;
             }
+            // to ensure "_Byte" is required (not null)
+            if (_Byte == null)
+            {
+                throw new InvalidDataException("_Byte is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this._Byte = _Byte;
+            }
+            // to ensure "Date" is required (not null)
+            if (Date == null)
+            {
+                throw new InvalidDataException("Date is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this.Date = Date;
+            }
+            // to ensure "Password" is required (not null)
+            if (Password == null)
+            {
+                throw new InvalidDataException("Password is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this.Password = Password;
+            }
             this.Integer = Integer;
             this.Int32 = Int32;
             this.Int64 = Int64;
             this._Float = _Float;
             this._Double = _Double;
             this._String = _String;
-            this._Byte = _Byte;
             this.Binary = Binary;
-            this.Date = Date;
             this.DateTime = DateTime;
-            this.Password = Password;
             
         }
 
