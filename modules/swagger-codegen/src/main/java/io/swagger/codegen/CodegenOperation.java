@@ -88,4 +88,157 @@ public class CodegenOperation {
         return nonempty(formParams);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", baseName, path);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CodegenOperation that = (CodegenOperation) o;
+
+        if (responseHeaders != null ? !responseHeaders.equals(that.responseHeaders) : that.responseHeaders != null)
+            return false;
+        if (hasAuthMethods != null ? !hasAuthMethods.equals(that.hasAuthMethods) : that.hasAuthMethods != null)
+            return false;
+        if (hasConsumes != null ? !hasConsumes.equals(that.hasConsumes) : that.hasConsumes != null)
+            return false;
+        if (hasProduces != null ? !hasProduces.equals(that.hasProduces) : that.hasProduces != null)
+            return false;
+        if (hasParams != null ? !hasParams.equals(that.hasParams) : that.hasParams != null)
+            return false;
+        if (hasOptionalParams != null ? !hasOptionalParams.equals(that.hasOptionalParams) : that.hasOptionalParams != null)
+            return false;
+        if (returnTypeIsPrimitive != null ? !returnTypeIsPrimitive.equals(that.returnTypeIsPrimitive) : that.returnTypeIsPrimitive != null)
+            return false;
+        if (returnSimpleType != null ? !returnSimpleType.equals(that.returnSimpleType) : that.returnSimpleType != null)
+            return false;
+        if (subresourceOperation != null ? !subresourceOperation.equals(that.subresourceOperation) : that.subresourceOperation != null)
+            return false;
+        if (isMapContainer != null ? !isMapContainer.equals(that.isMapContainer) : that.isMapContainer != null)
+            return false;
+        if (isListContainer != null ? !isListContainer.equals(that.isListContainer) : that.isListContainer != null)
+            return false;
+        if (isMultipart != null ? !isMultipart.equals(that.isMultipart) : that.isMultipart != null)
+            return false;
+        if (hasMore != null ? !hasMore.equals(that.hasMore) : that.hasMore != null)
+            return false;
+        if (isResponseBinary != null ? !isResponseBinary.equals(that.isResponseBinary) : that.isResponseBinary != null)
+            return false;
+        if (hasReference != null ? !hasReference.equals(that.hasReference) : that.hasReference != null)
+            return false;
+        if (path != null ? !path.equals(that.path) : that.path != null)
+            return false;
+        if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
+            return false;
+        if (returnType != null ? !returnType.equals(that.returnType) : that.returnType != null)
+            return false;
+        if (httpMethod != null ? !httpMethod.equals(that.httpMethod) : that.httpMethod != null)
+            return false;
+        if (returnBaseType != null ? !returnBaseType.equals(that.returnBaseType) : that.returnBaseType != null)
+            return false;
+        if (returnContainer != null ? !returnContainer.equals(that.returnContainer) : that.returnContainer != null)
+            return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null)
+            return false;
+        if (unescapedNotes != null ? !unescapedNotes.equals(that.unescapedNotes) : that.unescapedNotes != null)
+            return false;
+        if (notes != null ? !notes.equals(that.notes) : that.notes != null)
+            return false;
+        if (baseName != null ? !baseName.equals(that.baseName) : that.baseName != null)
+            return false;
+        if (defaultResponse != null ? !defaultResponse.equals(that.defaultResponse) : that.defaultResponse != null)
+            return false;
+        if (discriminator != null ? !discriminator.equals(that.discriminator) : that.discriminator != null)
+            return false;
+        if (consumes != null ? !consumes.equals(that.consumes) : that.consumes != null)
+            return false;
+        if (produces != null ? !produces.equals(that.produces) : that.produces != null)
+            return false;
+        if (bodyParam != null ? !bodyParam.equals(that.bodyParam) : that.bodyParam != null)
+            return false;
+        if (allParams != null ? !allParams.equals(that.allParams) : that.allParams != null)
+            return false;
+        if (bodyParams != null ? !bodyParams.equals(that.bodyParams) : that.bodyParams != null)
+            return false;
+        if (pathParams != null ? !pathParams.equals(that.pathParams) : that.pathParams != null)
+            return false;
+        if (queryParams != null ? !queryParams.equals(that.queryParams) : that.queryParams != null)
+            return false;
+        if (headerParams != null ? !headerParams.equals(that.headerParams) : that.headerParams != null)
+            return false;
+        if (formParams != null ? !formParams.equals(that.formParams) : that.formParams != null)
+            return false;
+        if (authMethods != null ? !authMethods.equals(that.authMethods) : that.authMethods != null)
+            return false;
+        if (tags != null ? !tags.equals(that.tags) : that.tags != null)
+            return false;
+        if (responses != null ? !responses.equals(that.responses) : that.responses != null)
+            return false;
+        if (imports != null ? !imports.equals(that.imports) : that.imports != null)
+            return false;
+        if (examples != null ? !examples.equals(that.examples) : that.examples != null)
+            return false;
+        if (externalDocs != null ? !externalDocs.equals(that.externalDocs) : that.externalDocs != null)
+            return false;
+        if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
+            return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null)
+            return false;
+        return operationIdLowerCase != null ? operationIdLowerCase.equals(that.operationIdLowerCase) : that.operationIdLowerCase == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = responseHeaders != null ? responseHeaders.hashCode() : 0;
+        result = 31 * result + (hasAuthMethods != null ? hasAuthMethods.hashCode() : 0);
+        result = 31 * result + (hasConsumes != null ? hasConsumes.hashCode() : 0);
+        result = 31 * result + (hasProduces != null ? hasProduces.hashCode() : 0);
+        result = 31 * result + (hasParams != null ? hasParams.hashCode() : 0);
+        result = 31 * result + (hasOptionalParams != null ? hasOptionalParams.hashCode() : 0);
+        result = 31 * result + (returnTypeIsPrimitive != null ? returnTypeIsPrimitive.hashCode() : 0);
+        result = 31 * result + (returnSimpleType != null ? returnSimpleType.hashCode() : 0);
+        result = 31 * result + (subresourceOperation != null ? subresourceOperation.hashCode() : 0);
+        result = 31 * result + (isMapContainer != null ? isMapContainer.hashCode() : 0);
+        result = 31 * result + (isListContainer != null ? isListContainer.hashCode() : 0);
+        result = 31 * result + (isMultipart != null ? isMultipart.hashCode() : 0);
+        result = 31 * result + (hasMore != null ? hasMore.hashCode() : 0);
+        result = 31 * result + (isResponseBinary != null ? isResponseBinary.hashCode() : 0);
+        result = 31 * result + (hasReference != null ? hasReference.hashCode() : 0);
+        result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
+        result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
+        result = 31 * result + (httpMethod != null ? httpMethod.hashCode() : 0);
+        result = 31 * result + (returnBaseType != null ? returnBaseType.hashCode() : 0);
+        result = 31 * result + (returnContainer != null ? returnContainer.hashCode() : 0);
+        result = 31 * result + (summary != null ? summary.hashCode() : 0);
+        result = 31 * result + (unescapedNotes != null ? unescapedNotes.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
+        result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
+        result = 31 * result + (defaultResponse != null ? defaultResponse.hashCode() : 0);
+        result = 31 * result + (discriminator != null ? discriminator.hashCode() : 0);
+        result = 31 * result + (consumes != null ? consumes.hashCode() : 0);
+        result = 31 * result + (produces != null ? produces.hashCode() : 0);
+        result = 31 * result + (bodyParam != null ? bodyParam.hashCode() : 0);
+        result = 31 * result + (allParams != null ? allParams.hashCode() : 0);
+        result = 31 * result + (bodyParams != null ? bodyParams.hashCode() : 0);
+        result = 31 * result + (pathParams != null ? pathParams.hashCode() : 0);
+        result = 31 * result + (queryParams != null ? queryParams.hashCode() : 0);
+        result = 31 * result + (headerParams != null ? headerParams.hashCode() : 0);
+        result = 31 * result + (formParams != null ? formParams.hashCode() : 0);
+        result = 31 * result + (authMethods != null ? authMethods.hashCode() : 0);
+        result = 31 * result + (tags != null ? tags.hashCode() : 0);
+        result = 31 * result + (responses != null ? responses.hashCode() : 0);
+        result = 31 * result + (imports != null ? imports.hashCode() : 0);
+        result = 31 * result + (examples != null ? examples.hashCode() : 0);
+        result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
+        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (operationIdLowerCase != null ? operationIdLowerCase.hashCode() : 0);
+        return result;
+    }
 }
