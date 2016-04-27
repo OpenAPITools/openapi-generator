@@ -590,6 +590,7 @@ paths:
           in: formData
           description: None
         - name: number
+          type: number
           maximum: 543.2
           minimum: 32.1
           in: formData
@@ -890,6 +891,9 @@ definitions:
       dateTime:
         type: string
         format: date-time
+      uuid:
+        type: string
+        format: uuid 
       password:
         type: string
         format: password
