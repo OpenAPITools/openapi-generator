@@ -7,9 +7,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * ModelReturn
+ * Model for testing reserved words
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-12T22:48:50.833+08:00")
+@ApiModel(description = "Model for testing reserved words")
+
 public class ModelReturn   {
   
   private Integer _return = null;
@@ -31,7 +32,6 @@ public class ModelReturn   {
     this._return = _return;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {
