@@ -17,6 +17,7 @@ from .models.tag import Tag
 from .models.user import User
 
 # import apis into sdk package
+from .apis.fake_api import FakeApi
 from .apis.pet_api import PetApi
 from .apis.store_api import StoreApi
 from .apis.user_api import UserApi
