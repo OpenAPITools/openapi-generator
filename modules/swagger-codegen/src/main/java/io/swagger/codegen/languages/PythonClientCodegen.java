@@ -41,7 +41,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
         
-        testFolder = "tests";
+        testFolder = "test";
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
