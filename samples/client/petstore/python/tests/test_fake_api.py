@@ -25,25 +25,16 @@ import sys
 import unittest
 
 import swagger_client
-from swagger_client.apis.store_api import StoreApi
+from swagger_client.apis.fake_api import FakeApi
 
-class StoreApiTest(unittest.TestCase):
+class FakeApiTest(unittest.TestCase):
 
     def setUp(self):
-        self.api = swagger_client.apis.store_api.StoreApi()
+        self.api = swagger_client.apis.fake_api.FakeApi()
 
     def tearDown(self):
         pass
 
-    def test_delete_order(self):
-        pass
-
-    def test_get_inventory(self):
-        pass
-
-    def test_get_order_by_id(self):
-        pass
-
-    def test_place_order(self):
+    def test_test_endpoint_parameters(self):
         pass
 

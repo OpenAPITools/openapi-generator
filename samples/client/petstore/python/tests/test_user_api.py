@@ -25,25 +25,37 @@ import sys
 import unittest
 
 import swagger_client
-from swagger_client.apis.store_api import StoreApi
+from swagger_client.apis.user_api import UserApi
 
-class StoreApiTest(unittest.TestCase):
+class UserApiTest(unittest.TestCase):
 
     def setUp(self):
-        self.api = swagger_client.apis.store_api.StoreApi()
+        self.api = swagger_client.apis.user_api.UserApi()
 
     def tearDown(self):
         pass
 
-    def test_delete_order(self):
+    def test_create_user(self):
         pass
 
-    def test_get_inventory(self):
+    def test_create_users_with_array_input(self):
         pass
 
-    def test_get_order_by_id(self):
+    def test_create_users_with_list_input(self):
         pass
 
-    def test_place_order(self):
+    def test_delete_user(self):
+        pass
+
+    def test_get_user_by_name(self):
+        pass
+
+    def test_login_user(self):
+        pass
+
+    def test_logout_user(self):
+        pass
+
+    def test_update_user(self):
         pass
 
