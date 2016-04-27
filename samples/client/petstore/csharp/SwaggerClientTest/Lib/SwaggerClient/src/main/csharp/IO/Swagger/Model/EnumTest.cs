@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -17,7 +16,7 @@ namespace IO.Swagger.Model
     /// </summary>
     [DataContract]
     public partial class EnumTest :  IEquatable<EnumTest>
-    { 
+    {
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
@@ -78,42 +77,39 @@ namespace IO.Swagger.Model
             NUMBER_MINUS_1_DOT_2
         }
 
-    
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
         [DataMember(Name="enum_string", EmitDefaultValue=false)]
         public EnumStringEnum? EnumString { get; set; }
-    
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
         [DataMember(Name="enum_integer", EmitDefaultValue=false)]
         public EnumIntegerEnum? EnumInteger { get; set; }
-    
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
         [DataMember(Name="enum_number", EmitDefaultValue=false)]
         public EnumNumberEnum? EnumNumber { get; set; }
-    
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
-        /// Initializes a new instance of the <see cref="EnumTest" />class.
         /// </summary>
         /// <param name="EnumString">EnumString.</param>
         /// <param name="EnumInteger">EnumInteger.</param>
         /// <param name="EnumNumber">EnumNumber.</param>
-
         public EnumTest(EnumStringEnum? EnumString = null, EnumIntegerEnum? EnumInteger = null, EnumNumberEnum? EnumNumber = null)
         {
-            this.EnumString = EnumString;
-            this.EnumInteger = EnumInteger;
-            this.EnumNumber = EnumNumber;
+            
+            
+                        this.EnumString = EnumString;
+            
+                        this.EnumInteger = EnumInteger;
+            
+                        this.EnumNumber = EnumNumber;
             
         }
         
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -123,9 +119,8 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
             sb.Append("  EnumString: ").Append(EnumString).Append("\n");
-            sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
-            sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
-            
+sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
+sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -190,16 +185,12 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this.EnumString != null)
                     hash = hash * 59 + this.EnumString.GetHashCode();
-                
                 if (this.EnumInteger != null)
                     hash = hash * 59 + this.EnumInteger.GetHashCode();
-                
                 if (this.EnumNumber != null)
                     hash = hash * 59 + this.EnumNumber.GetHashCode();
-                
                 return hash;
             }
         }

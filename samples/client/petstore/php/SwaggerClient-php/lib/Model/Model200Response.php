@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Model200Response Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Model for testing model name starting with number
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -47,9 +47,15 @@ use \ArrayAccess;
 class Model200Response implements ArrayAccess
 {
     /**
-     * Array of property to type mappings. Used for (de)serialization 
-     * @var string[]
-     */
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = '200_response';
+
+    /**
+      * Array of property to type mappings. Used for (de)serialization 
+      * @var string[]
+      */
     static $swaggerTypes = array(
         'name' => 'int'
     );
@@ -98,13 +104,11 @@ class Model200Response implements ArrayAccess
 
     
 
-    
     /**
      * $name 
      * @var int
      */
     protected $name;
-    
 
     /**
      * Constructor
@@ -113,13 +117,13 @@ class Model200Response implements ArrayAccess
     public function __construct(array $data = null)
     {
         
+        
         if ($data != null) {
             $this->name = $data["name"];
         }
     }
-    
     /**
-     * Gets name.
+     * Gets name
      * @return int
      */
     public function getName()
@@ -128,7 +132,7 @@ class Model200Response implements ArrayAccess
     }
 
     /**
-     * Sets name.
+     * Sets name
      * @param int $name 
      * @return $this
      */
@@ -138,7 +142,6 @@ class Model200Response implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -181,17 +184,15 @@ class Model200Response implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object.
+     * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
-        } else {
-            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
+
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-?>

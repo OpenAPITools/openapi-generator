@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -17,14 +16,11 @@ namespace IO.Swagger.Model
     /// </summary>
     [DataContract]
     public partial class Animal :  IEquatable<Animal>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
-        /// Initializes a new instance of the <see cref="Animal" />class.
         /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
-
         public Animal(string ClassName = null)
         {
             // to ensure "ClassName" is required (not null)
@@ -37,15 +33,14 @@ namespace IO.Swagger.Model
                 this.ClassName = ClassName;
             }
             
+            
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name="className", EmitDefaultValue=false)]
         public string ClassName { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -58,7 +53,7 @@ namespace IO.Swagger.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>

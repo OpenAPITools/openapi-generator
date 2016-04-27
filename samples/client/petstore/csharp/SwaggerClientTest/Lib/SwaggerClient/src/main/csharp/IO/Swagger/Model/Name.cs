@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -13,39 +12,48 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// Name
+    /// Model for testing model name same as property name
     /// </summary>
     [DataContract]
     public partial class Name :  IEquatable<Name>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
-        /// Initializes a new instance of the <see cref="Name" />class.
         /// </summary>
-        /// <param name="_Name">_Name.</param>
-        /// <param name="SnakeCase">SnakeCase.</param>
-
-        public Name(int? _Name = null, int? SnakeCase = null)
+        /// <param name="_Name">_Name (required).</param>
+        /// <param name="Property">Property.</param>
+        public Name(int? _Name = null, string Property = null)
         {
-            this._Name = _Name;
-            this.SnakeCase = SnakeCase;
+            // to ensure "_Name" is required (not null)
+            if (_Name == null)
+            {
+                throw new InvalidDataException("_Name is a required property for Name and cannot be null");
+            }
+            else
+            {
+                this._Name = _Name;
+            }
+            
+            
+                        this.Property = Property;
             
         }
         
-    
         /// <summary>
         /// Gets or Sets _Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public int? _Name { get; set; }
-    
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name="snake_case", EmitDefaultValue=false)]
-        public int? SnakeCase { get; set; }
-    
+        public int? SnakeCase { get; private set; }
+        /// <summary>
+        /// Gets or Sets Property
+        /// </summary>
+        [DataMember(Name="property", EmitDefaultValue=false)]
+        public string Property { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -55,8 +63,8 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  _Name: ").Append(_Name).Append("\n");
-            sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
-            
+sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
+sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -102,6 +110,11 @@ namespace IO.Swagger.Model
                     this.SnakeCase == other.SnakeCase ||
                     this.SnakeCase != null &&
                     this.SnakeCase.Equals(other.SnakeCase)
+                ) && 
+                (
+                    this.Property == other.Property ||
+                    this.Property != null &&
+                    this.Property.Equals(other.Property)
                 );
         }
 
@@ -116,13 +129,12 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this._Name != null)
                     hash = hash * 59 + this._Name.GetHashCode();
-                
                 if (this.SnakeCase != null)
                     hash = hash * 59 + this.SnakeCase.GetHashCode();
-                
+                if (this.Property != null)
+                    hash = hash * 59 + this.Property.GetHashCode();
                 return hash;
             }
         }

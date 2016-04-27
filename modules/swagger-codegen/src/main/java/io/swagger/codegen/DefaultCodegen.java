@@ -1301,7 +1301,8 @@ public class DefaultCodegen {
             }
         }
 
-        if (p instanceof BaseIntegerProperty) {
+        // type is integer and without format
+        if (p instanceof BaseIntegerProperty && !(p instanceof IntegerProperty) && !(p instanceof LongProperty)) {
             BaseIntegerProperty sp = (BaseIntegerProperty) p;
             property.isInteger = true;
             /*if (sp.getEnum() != null) {
@@ -1367,7 +1368,8 @@ public class DefaultCodegen {
             property.isByteArray = true;
         }
 
-        if (p instanceof DecimalProperty) {
+        // type is number and without format
+        if (p instanceof DecimalProperty && !(p instanceof DoubleProperty) && !(p instanceof FloatProperty)) {
             DecimalProperty sp = (DecimalProperty) p;
             property.isFloat = true;
             /*if (sp.getEnum() != null) {

@@ -47,9 +47,15 @@ use \ArrayAccess;
 class Tag implements ArrayAccess
 {
     /**
-     * Array of property to type mappings. Used for (de)serialization 
-     * @var string[]
-     */
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Tag';
+
+    /**
+      * Array of property to type mappings. Used for (de)serialization 
+      * @var string[]
+      */
     static $swaggerTypes = array(
         'id' => 'int',
         'name' => 'string'
@@ -102,19 +108,16 @@ class Tag implements ArrayAccess
 
     
 
-    
     /**
      * $id 
      * @var int
      */
     protected $id;
-    
     /**
      * $name 
      * @var string
      */
     protected $name;
-    
 
     /**
      * Constructor
@@ -123,14 +126,14 @@ class Tag implements ArrayAccess
     public function __construct(array $data = null)
     {
         
+        
         if ($data != null) {
             $this->id = $data["id"];
             $this->name = $data["name"];
         }
     }
-    
     /**
-     * Gets id.
+     * Gets id
      * @return int
      */
     public function getId()
@@ -139,7 +142,7 @@ class Tag implements ArrayAccess
     }
 
     /**
-     * Sets id.
+     * Sets id
      * @param int $id 
      * @return $this
      */
@@ -149,9 +152,8 @@ class Tag implements ArrayAccess
         $this->id = $id;
         return $this;
     }
-    
     /**
-     * Gets name.
+     * Gets name
      * @return string
      */
     public function getName()
@@ -160,7 +162,7 @@ class Tag implements ArrayAccess
     }
 
     /**
-     * Sets name.
+     * Sets name
      * @param string $name 
      * @return $this
      */
@@ -170,7 +172,6 @@ class Tag implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -213,17 +214,15 @@ class Tag implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object.
+     * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
-        } else {
-            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
+
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-?>

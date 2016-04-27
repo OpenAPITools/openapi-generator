@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -13,31 +12,28 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// ModelReturn
+    /// Model for testing reserved words
     /// </summary>
     [DataContract]
     public partial class ModelReturn :  IEquatable<ModelReturn>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelReturn" /> class.
-        /// Initializes a new instance of the <see cref="ModelReturn" />class.
         /// </summary>
         /// <param name="_Return">_Return.</param>
-
         public ModelReturn(int? _Return = null)
         {
-            this._Return = _Return;
+            
+            
+                        this._Return = _Return;
             
         }
         
-    
         /// <summary>
         /// Gets or Sets _Return
         /// </summary>
         [DataMember(Name="return", EmitDefaultValue=false)]
         public int? _Return { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -47,7 +43,6 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class ModelReturn {\n");
             sb.Append("  _Return: ").Append(_Return).Append("\n");
-            
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -102,10 +97,8 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                
                 if (this._Return != null)
                     hash = hash * 59 + this._Return.GetHashCode();
-                
                 return hash;
             }
         }
