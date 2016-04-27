@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.model_return import ModelReturn
 
 
-class ModelReturnTest(unittest.TestCase):
+class TestModelReturn(unittest.TestCase):
+    """ ModelReturn unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class ModelReturnTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test ModelReturn
-    """
     def testModelReturn(self):
-        self.model = swagger_client.models.model_return.ModelReturn()
+        """
+        Test ModelReturn
+        """
+        model = swagger_client.models.model_return.ModelReturn()
 
+
+if __name__ == '__main__':
+    unittest.main()

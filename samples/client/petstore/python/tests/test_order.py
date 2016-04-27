@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.order import Order
 
 
-class OrderTest(unittest.TestCase):
+class TestOrder(unittest.TestCase):
+    """ Order unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class OrderTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test Order
-    """
     def testOrder(self):
-        self.model = swagger_client.models.order.Order()
+        """
+        Test Order
+        """
+        model = swagger_client.models.order.Order()
 
+
+if __name__ == '__main__':
+    unittest.main()

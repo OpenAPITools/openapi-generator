@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.animal import Animal
 
 
-class AnimalTest(unittest.TestCase):
+class TestAnimal(unittest.TestCase):
+    """ Animal unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class AnimalTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test Animal
-    """
     def testAnimal(self):
-        self.model = swagger_client.models.animal.Animal()
+        """
+        Test Animal
+        """
+        model = swagger_client.models.animal.Animal()
 
+
+if __name__ == '__main__':
+    unittest.main()

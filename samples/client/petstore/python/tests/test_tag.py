@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.tag import Tag
 
 
-class TagTest(unittest.TestCase):
+class TestTag(unittest.TestCase):
+    """ Tag unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class TagTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test Tag
-    """
     def testTag(self):
-        self.model = swagger_client.models.tag.Tag()
+        """
+        Test Tag
+        """
+        model = swagger_client.models.tag.Tag()
 
+
+if __name__ == '__main__':
+    unittest.main()

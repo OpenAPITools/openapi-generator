@@ -25,9 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.apis.{{classVarName}} import {{classname}}
 
-class {{#operations}}{{classname}}Test(unittest.TestCase):
+
+class {{#operations}}Test{{classname}}(unittest.TestCase):
+    """ {{classname}} unit test stubs """
 
     def setUp(self):
         self.api = swagger_client.apis.{{classVarName}}.{{classname}}()
@@ -37,7 +40,15 @@ class {{#operations}}{{classname}}Test(unittest.TestCase):
 
    {{#operation}}
     def test_{{operationId}}(self):
+        """
+        Test case for {{{operationId}}}
+
+        {{{summary}}}
+        """
         pass
 
    {{/operation}}
 {{/operations}}
+
+if __name__ == '__main__':
+    unittest.main()

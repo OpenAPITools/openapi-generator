@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.format_test import FormatTest
 
 
-class FormatTestTest(unittest.TestCase):
+class TestFormatTest(unittest.TestCase):
+    """ FormatTest unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class FormatTestTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test FormatTest
-    """
     def testFormatTest(self):
-        self.model = swagger_client.models.format_test.FormatTest()
+        """
+        Test FormatTest
+        """
+        model = swagger_client.models.format_test.FormatTest()
 
+
+if __name__ == '__main__':
+    unittest.main()

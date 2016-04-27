@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.special_model_name import SpecialModelName
 
 
-class SpecialModelNameTest(unittest.TestCase):
+class TestSpecialModelName(unittest.TestCase):
+    """ SpecialModelName unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class SpecialModelNameTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test SpecialModelName
-    """
     def testSpecialModelName(self):
-        self.model = swagger_client.models.special_model_name.SpecialModelName()
+        """
+        Test SpecialModelName
+        """
+        model = swagger_client.models.special_model_name.SpecialModelName()
 
+
+if __name__ == '__main__':
+    unittest.main()

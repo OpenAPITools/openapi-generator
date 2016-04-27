@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.model_200_response import Model200Response
 
 
-class Model200ResponseTest(unittest.TestCase):
+class TestModel200Response(unittest.TestCase):
+    """ Model200Response unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class Model200ResponseTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test Model200Response
-    """
     def testModel200Response(self):
-        self.model = swagger_client.models.model_200_response.Model200Response()
+        """
+        Test Model200Response
+        """
+        model = swagger_client.models.model_200_response.Model200Response()
 
+
+if __name__ == '__main__':
+    unittest.main()

@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.pet import Pet
 
 
-class PetTest(unittest.TestCase):
+class TestPet(unittest.TestCase):
+    """ Pet unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class PetTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test Pet
-    """
     def testPet(self):
-        self.model = swagger_client.models.pet.Pet()
+        """
+        Test Pet
+        """
+        model = swagger_client.models.pet.Pet()
 
+
+if __name__ == '__main__':
+    unittest.main()

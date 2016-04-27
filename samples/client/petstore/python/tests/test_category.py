@@ -25,10 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.category import Category
 
 
-class CategoryTest(unittest.TestCase):
+class TestCategory(unittest.TestCase):
+    """ Category unit test stubs """
 
     def setUp(self):
         pass
@@ -36,9 +38,12 @@ class CategoryTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test Category
-    """
     def testCategory(self):
-        self.model = swagger_client.models.category.Category()
+        """
+        Test Category
+        """
+        model = swagger_client.models.category.Category()
 
+
+if __name__ == '__main__':
+    unittest.main()
