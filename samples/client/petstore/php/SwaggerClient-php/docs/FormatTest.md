@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **binary** | **string** |  | [optional] 
 **date** | [**\DateTime**](Date.md) |  | 
 **date_time** | [**\DateTime**](\DateTime.md) |  | [optional] 
+**uuid** | [**UUID**](UUID.md) |  | [optional] 
 **password** | **string** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

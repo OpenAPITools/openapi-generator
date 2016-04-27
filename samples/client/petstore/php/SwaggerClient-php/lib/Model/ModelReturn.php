@@ -101,10 +101,16 @@ class ModelReturn implements ArrayAccess
     }
 
     /**
-      * $return 
-      * @var int
-      */
-    protected $return;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['return']
+         * @var int
+         */
+        'return' => null,
+    );
 
     /**
      * Constructor
@@ -115,7 +121,7 @@ class ModelReturn implements ArrayAccess
         
         
         if ($data != null) {
-            $this->return = $data["return"];
+            $this->container['return'] = $data['return'];
         }
     }
     /**
@@ -124,7 +130,7 @@ class ModelReturn implements ArrayAccess
      */
     public function getReturn()
     {
-        return $this->return;
+        return $this->container['return'];
     }
   
     /**
@@ -135,7 +141,7 @@ class ModelReturn implements ArrayAccess
     public function setReturn($return)
     {
         
-        $this->return = $return;
+        $this->container['return'] = $return;
         return $this;
     }
     /**
@@ -145,7 +151,7 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
   
     /**
@@ -155,7 +161,7 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
   
     /**
@@ -166,7 +172,11 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
   
     /**
@@ -176,7 +186,7 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
   
     /**

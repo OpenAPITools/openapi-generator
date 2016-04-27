@@ -105,15 +105,22 @@ class Tag implements ArrayAccess
     }
 
     /**
-      * $id 
-      * @var int
-      */
-    protected $id;
-    /**
-      * $name 
-      * @var string
-      */
-    protected $name;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['id']
+         * @var int
+         */
+        'id' => null,
+    
+        /**
+         * $container['name']
+         * @var string
+         */
+        'name' => null,
+    );
 
     /**
      * Constructor
@@ -124,8 +131,8 @@ class Tag implements ArrayAccess
         
         
         if ($data != null) {
-            $this->id = $data["id"];
-            $this->name = $data["name"];
+            $this->container['id'] = $data['id'];
+            $this->container['name'] = $data['name'];
         }
     }
     /**
@@ -134,7 +141,7 @@ class Tag implements ArrayAccess
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
   
     /**
@@ -145,7 +152,7 @@ class Tag implements ArrayAccess
     public function setId($id)
     {
         
-        $this->id = $id;
+        $this->container['id'] = $id;
         return $this;
     }
     /**
@@ -154,7 +161,7 @@ class Tag implements ArrayAccess
      */
     public function getName()
     {
-        return $this->name;
+        return $this->container['name'];
     }
   
     /**
@@ -165,7 +172,7 @@ class Tag implements ArrayAccess
     public function setName($name)
     {
         
-        $this->name = $name;
+        $this->container['name'] = $name;
         return $this;
     }
     /**
@@ -175,7 +182,7 @@ class Tag implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
   
     /**
@@ -185,7 +192,7 @@ class Tag implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
   
     /**
@@ -196,7 +203,11 @@ class Tag implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
   
     /**
@@ -206,7 +217,7 @@ class Tag implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
   
     /**
