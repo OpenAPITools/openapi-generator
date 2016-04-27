@@ -1,7 +1,7 @@
 {
-    "name": "{{npmName}}",
-    "version": "{{npmVersion}}",
-    "description": "NodeJS client for {{npmName}}",
+    "name": "@swagger/angular2-typescript-petstore",
+    "version": "0.0.1-SNAPSHOT.201604272308",
+    "description": "NodeJS client for @swagger/angular2-typescript-petstore",
     "main": "api.js",
     "scripts": {
         "build": "typings install && tsc"
@@ -15,8 +15,8 @@
     "devDependencies": {
         "typescript": "^1.8.10",
         "typings": "^0.8.1"
-    }{{#npmRepository}},
+    },
     "publishConfig":{
-        "registry":"{{npmRepository}}"
-    }{{/npmRepository}}
+        "registry":"https://skimdb.npmjs.com/registry"
+    }
 }
