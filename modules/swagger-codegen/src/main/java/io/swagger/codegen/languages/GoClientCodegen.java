@@ -378,9 +378,9 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         // if the return type is not primitive, import encoding/json
         for (CodegenOperation operation : operations) {
             if(operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
-                Map<String, String> newImportMap2 = new HashMap<String, String>();
-                newImportMap2.put("import", "encoding/json");
-                imports.add(newImportMap2);
+                Map<String, String> customImport = new HashMap<String, String>();
+                customImport.put("import", "encoding/json");
+                imports.add(customImport);
                 break; //just need to import once
             }
         }
