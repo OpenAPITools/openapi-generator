@@ -25,25 +25,20 @@ import sys
 import unittest
 
 import swagger_client
-from swagger_client.apis.store_api import StoreApi
+from swagger_client.models.format_test import FormatTest
 
-class StoreApiTest(unittest.TestCase):
+
+class FormatTestTest(unittest.TestCase):
 
     def setUp(self):
-        self.api = swagger_client.apis.store_api.StoreApi()
+        pass
 
     def tearDown(self):
         pass
 
-    def test_delete_order(self):
-        pass
-
-    def test_get_inventory(self):
-        pass
-
-    def test_get_order_by_id(self):
-        pass
-
-    def test_place_order(self):
-        pass
+    """
+    Test FormatTest
+    """
+    def testFormatTest(self):
+        self.model = swagger_client.models.format_test.FormatTest()
 

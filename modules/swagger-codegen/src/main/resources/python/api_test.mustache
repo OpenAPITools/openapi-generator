@@ -25,25 +25,19 @@ import sys
 import unittest
 
 import swagger_client
-from swagger_client.apis.store_api import StoreApi
+from swagger_client.apis.{{classVarName}} import {{classname}}
 
-class StoreApiTest(unittest.TestCase):
+class {{#operations}}{{classname}}Test(unittest.TestCase):
 
     def setUp(self):
-        self.api = swagger_client.apis.store_api.StoreApi()
+        self.api = swagger_client.apis.{{classVarName}}.{{classname}}()
 
     def tearDown(self):
         pass
 
-    def test_delete_order(self):
+   {{#operation}}
+    def test_{{operationId}}(self):
         pass
 
-    def test_get_inventory(self):
-        pass
-
-    def test_get_order_by_id(self):
-        pass
-
-    def test_place_order(self):
-        pass
-
+   {{/operation}}
+{{/operations}}
