@@ -109,20 +109,28 @@ class ApiResponse implements ArrayAccess
     }
 
     /**
-      * $code 
-      * @var int
-      */
-    protected $code;
-    /**
-      * $type 
-      * @var string
-      */
-    protected $type;
-    /**
-      * $message 
-      * @var string
-      */
-    protected $message;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['code']
+         * @var int
+         */
+        'code' => null,
+    
+        /**
+         * $container['type']
+         * @var string
+         */
+        'type' => null,
+    
+        /**
+         * $container['message']
+         * @var string
+         */
+        'message' => null,
+    );
 
     /**
      * Constructor
@@ -133,9 +141,9 @@ class ApiResponse implements ArrayAccess
         
         
         if ($data != null) {
-            $this->code = $data["code"];
-            $this->type = $data["type"];
-            $this->message = $data["message"];
+            $this->container['code'] = $data['code'];
+            $this->container['type'] = $data['type'];
+            $this->container['message'] = $data['message'];
         }
     }
     /**
@@ -144,7 +152,7 @@ class ApiResponse implements ArrayAccess
      */
     public function getCode()
     {
-        return $this->code;
+        return $this->container['code'];
     }
   
     /**
@@ -155,7 +163,7 @@ class ApiResponse implements ArrayAccess
     public function setCode($code)
     {
         
-        $this->code = $code;
+        $this->container['code'] = $code;
         return $this;
     }
     /**
@@ -164,7 +172,7 @@ class ApiResponse implements ArrayAccess
      */
     public function getType()
     {
-        return $this->type;
+        return $this->container['type'];
     }
   
     /**
@@ -175,7 +183,7 @@ class ApiResponse implements ArrayAccess
     public function setType($type)
     {
         
-        $this->type = $type;
+        $this->container['type'] = $type;
         return $this;
     }
     /**
@@ -184,7 +192,7 @@ class ApiResponse implements ArrayAccess
      */
     public function getMessage()
     {
-        return $this->message;
+        return $this->container['message'];
     }
   
     /**
@@ -195,7 +203,7 @@ class ApiResponse implements ArrayAccess
     public function setMessage($message)
     {
         
-        $this->message = $message;
+        $this->container['message'] = $message;
         return $this;
     }
     /**
@@ -205,7 +213,7 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
   
     /**
@@ -215,7 +223,7 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
   
     /**
@@ -226,7 +234,11 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
   
     /**
@@ -236,7 +248,7 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
   
     /**

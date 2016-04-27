@@ -68,6 +68,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'string',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
+        'uuid' => 'UUID',
         'password' => 'string'
     );
   
@@ -91,6 +92,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'binary',
         'date' => 'date',
         'date_time' => 'dateTime',
+        'uuid' => 'uuid',
         'password' => 'password'
     );
   
@@ -114,6 +116,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'setBinary',
         'date' => 'setDate',
         'date_time' => 'setDateTime',
+        'uuid' => 'setUuid',
         'password' => 'setPassword'
     );
   
@@ -137,6 +140,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'getBinary',
         'date' => 'getDate',
         'date_time' => 'getDateTime',
+        'uuid' => 'getUuid',
         'password' => 'getPassword'
     );
   
@@ -145,65 +149,88 @@ class FormatTest implements ArrayAccess
     }
 
     /**
-      * $integer 
-      * @var int
-      */
-    protected $integer;
-    /**
-      * $int32 
-      * @var int
-      */
-    protected $int32;
-    /**
-      * $int64 
-      * @var int
-      */
-    protected $int64;
-    /**
-      * $number 
-      * @var float
-      */
-    protected $number;
-    /**
-      * $float 
-      * @var float
-      */
-    protected $float;
-    /**
-      * $double 
-      * @var double
-      */
-    protected $double;
-    /**
-      * $string 
-      * @var string
-      */
-    protected $string;
-    /**
-      * $byte 
-      * @var string
-      */
-    protected $byte;
-    /**
-      * $binary 
-      * @var string
-      */
-    protected $binary;
-    /**
-      * $date 
-      * @var \DateTime
-      */
-    protected $date;
-    /**
-      * $date_time 
-      * @var \DateTime
-      */
-    protected $date_time;
-    /**
-      * $password 
-      * @var string
-      */
-    protected $password;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['integer']
+         * @var int
+         */
+        'integer' => null,
+    
+        /**
+         * $container['int32']
+         * @var int
+         */
+        'int32' => null,
+    
+        /**
+         * $container['int64']
+         * @var int
+         */
+        'int64' => null,
+    
+        /**
+         * $container['number']
+         * @var float
+         */
+        'number' => null,
+    
+        /**
+         * $container['float']
+         * @var float
+         */
+        'float' => null,
+    
+        /**
+         * $container['double']
+         * @var double
+         */
+        'double' => null,
+    
+        /**
+         * $container['string']
+         * @var string
+         */
+        'string' => null,
+    
+        /**
+         * $container['byte']
+         * @var string
+         */
+        'byte' => null,
+    
+        /**
+         * $container['binary']
+         * @var string
+         */
+        'binary' => null,
+    
+        /**
+         * $container['date']
+         * @var \DateTime
+         */
+        'date' => null,
+    
+        /**
+         * $container['date_time']
+         * @var \DateTime
+         */
+        'date_time' => null,
+    
+        /**
+         * $container['uuid']
+         * @var UUID
+         */
+        'uuid' => null,
+    
+        /**
+         * $container['password']
+         * @var string
+         */
+        'password' => null,
+    );
 
     /**
      * Constructor
@@ -214,18 +241,19 @@ class FormatTest implements ArrayAccess
         
         
         if ($data != null) {
-            $this->integer = $data["integer"];
-            $this->int32 = $data["int32"];
-            $this->int64 = $data["int64"];
-            $this->number = $data["number"];
-            $this->float = $data["float"];
-            $this->double = $data["double"];
-            $this->string = $data["string"];
-            $this->byte = $data["byte"];
-            $this->binary = $data["binary"];
-            $this->date = $data["date"];
-            $this->date_time = $data["date_time"];
-            $this->password = $data["password"];
+            $this->container['integer'] = $data['integer'];
+            $this->container['int32'] = $data['int32'];
+            $this->container['int64'] = $data['int64'];
+            $this->container['number'] = $data['number'];
+            $this->container['float'] = $data['float'];
+            $this->container['double'] = $data['double'];
+            $this->container['string'] = $data['string'];
+            $this->container['byte'] = $data['byte'];
+            $this->container['binary'] = $data['binary'];
+            $this->container['date'] = $data['date'];
+            $this->container['date_time'] = $data['date_time'];
+            $this->container['uuid'] = $data['uuid'];
+            $this->container['password'] = $data['password'];
         }
     }
     /**
@@ -234,7 +262,7 @@ class FormatTest implements ArrayAccess
      */
     public function getInteger()
     {
-        return $this->integer;
+        return $this->container['integer'];
     }
   
     /**
@@ -245,7 +273,7 @@ class FormatTest implements ArrayAccess
     public function setInteger($integer)
     {
         
-        $this->integer = $integer;
+        $this->container['integer'] = $integer;
         return $this;
     }
     /**
@@ -254,7 +282,7 @@ class FormatTest implements ArrayAccess
      */
     public function getInt32()
     {
-        return $this->int32;
+        return $this->container['int32'];
     }
   
     /**
@@ -265,7 +293,7 @@ class FormatTest implements ArrayAccess
     public function setInt32($int32)
     {
         
-        $this->int32 = $int32;
+        $this->container['int32'] = $int32;
         return $this;
     }
     /**
@@ -274,7 +302,7 @@ class FormatTest implements ArrayAccess
      */
     public function getInt64()
     {
-        return $this->int64;
+        return $this->container['int64'];
     }
   
     /**
@@ -285,7 +313,7 @@ class FormatTest implements ArrayAccess
     public function setInt64($int64)
     {
         
-        $this->int64 = $int64;
+        $this->container['int64'] = $int64;
         return $this;
     }
     /**
@@ -294,7 +322,7 @@ class FormatTest implements ArrayAccess
      */
     public function getNumber()
     {
-        return $this->number;
+        return $this->container['number'];
     }
   
     /**
@@ -305,7 +333,7 @@ class FormatTest implements ArrayAccess
     public function setNumber($number)
     {
         
-        $this->number = $number;
+        $this->container['number'] = $number;
         return $this;
     }
     /**
@@ -314,7 +342,7 @@ class FormatTest implements ArrayAccess
      */
     public function getFloat()
     {
-        return $this->float;
+        return $this->container['float'];
     }
   
     /**
@@ -325,7 +353,7 @@ class FormatTest implements ArrayAccess
     public function setFloat($float)
     {
         
-        $this->float = $float;
+        $this->container['float'] = $float;
         return $this;
     }
     /**
@@ -334,7 +362,7 @@ class FormatTest implements ArrayAccess
      */
     public function getDouble()
     {
-        return $this->double;
+        return $this->container['double'];
     }
   
     /**
@@ -345,7 +373,7 @@ class FormatTest implements ArrayAccess
     public function setDouble($double)
     {
         
-        $this->double = $double;
+        $this->container['double'] = $double;
         return $this;
     }
     /**
@@ -354,7 +382,7 @@ class FormatTest implements ArrayAccess
      */
     public function getString()
     {
-        return $this->string;
+        return $this->container['string'];
     }
   
     /**
@@ -365,7 +393,7 @@ class FormatTest implements ArrayAccess
     public function setString($string)
     {
         
-        $this->string = $string;
+        $this->container['string'] = $string;
         return $this;
     }
     /**
@@ -374,7 +402,7 @@ class FormatTest implements ArrayAccess
      */
     public function getByte()
     {
-        return $this->byte;
+        return $this->container['byte'];
     }
   
     /**
@@ -385,7 +413,7 @@ class FormatTest implements ArrayAccess
     public function setByte($byte)
     {
         
-        $this->byte = $byte;
+        $this->container['byte'] = $byte;
         return $this;
     }
     /**
@@ -394,7 +422,7 @@ class FormatTest implements ArrayAccess
      */
     public function getBinary()
     {
-        return $this->binary;
+        return $this->container['binary'];
     }
   
     /**
@@ -405,7 +433,7 @@ class FormatTest implements ArrayAccess
     public function setBinary($binary)
     {
         
-        $this->binary = $binary;
+        $this->container['binary'] = $binary;
         return $this;
     }
     /**
@@ -414,7 +442,7 @@ class FormatTest implements ArrayAccess
      */
     public function getDate()
     {
-        return $this->date;
+        return $this->container['date'];
     }
   
     /**
@@ -425,7 +453,7 @@ class FormatTest implements ArrayAccess
     public function setDate($date)
     {
         
-        $this->date = $date;
+        $this->container['date'] = $date;
         return $this;
     }
     /**
@@ -434,7 +462,7 @@ class FormatTest implements ArrayAccess
      */
     public function getDateTime()
     {
-        return $this->date_time;
+        return $this->container['date_time'];
     }
   
     /**
@@ -445,7 +473,27 @@ class FormatTest implements ArrayAccess
     public function setDateTime($date_time)
     {
         
-        $this->date_time = $date_time;
+        $this->container['date_time'] = $date_time;
+        return $this;
+    }
+    /**
+     * Gets uuid
+     * @return UUID
+     */
+    public function getUuid()
+    {
+        return $this->container['uuid'];
+    }
+  
+    /**
+     * Sets uuid
+     * @param UUID $uuid 
+     * @return $this
+     */
+    public function setUuid($uuid)
+    {
+        
+        $this->container['uuid'] = $uuid;
         return $this;
     }
     /**
@@ -454,7 +502,7 @@ class FormatTest implements ArrayAccess
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->container['password'];
     }
   
     /**
@@ -465,7 +513,7 @@ class FormatTest implements ArrayAccess
     public function setPassword($password)
     {
         
-        $this->password = $password;
+        $this->container['password'] = $password;
         return $this;
     }
     /**
@@ -475,7 +523,7 @@ class FormatTest implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
   
     /**
@@ -485,7 +533,7 @@ class FormatTest implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
   
     /**
@@ -496,7 +544,11 @@ class FormatTest implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
   
     /**
@@ -506,7 +558,7 @@ class FormatTest implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
   
     /**

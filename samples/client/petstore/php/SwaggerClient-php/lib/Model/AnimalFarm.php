@@ -1,6 +1,6 @@
 <?php
 /**
- * SpecialModelName
+ * AnimalFarm
  *
  * PHP version 5
  *
@@ -35,7 +35,7 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 /**
- * SpecialModelName Class Doc Comment
+ * AnimalFarm Class Doc Comment
  *
  * @category    Class
  * @description 
@@ -44,20 +44,20 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class SpecialModelName implements ArrayAccess
+class AnimalFarm implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = '$special[model.name]';
+    static $swaggerModelName = 'AnimalFarm';
 
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'special_property_name' => 'int'
+        
     );
   
     static function swaggerTypes() {
@@ -69,7 +69,7 @@ class SpecialModelName implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'special_property_name' => '$special[property.name]'
+        
     );
   
     static function attributeMap() {
@@ -81,7 +81,7 @@ class SpecialModelName implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'special_property_name' => 'setSpecialPropertyName'
+        
     );
   
     static function setters() {
@@ -93,7 +93,7 @@ class SpecialModelName implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'special_property_name' => 'getSpecialPropertyName'
+        
     );
   
     static function getters() {
@@ -104,13 +104,7 @@ class SpecialModelName implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['special_property_name']
-         * @var int
-         */
-        'special_property_name' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -121,28 +115,8 @@ class SpecialModelName implements ArrayAccess
         
         
         if ($data != null) {
-            $this->container['special_property_name'] = $data['special_property_name'];
+            
         }
-    }
-    /**
-     * Gets special_property_name
-     * @return int
-     */
-    public function getSpecialPropertyName()
-    {
-        return $this->container['special_property_name'];
-    }
-  
-    /**
-     * Sets special_property_name
-     * @param int $special_property_name 
-     * @return $this
-     */
-    public function setSpecialPropertyName($special_property_name)
-    {
-        
-        $this->container['special_property_name'] = $special_property_name;
-        return $this;
     }
     /**
      * Returns true if offset exists. False otherwise.

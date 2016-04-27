@@ -101,10 +101,16 @@ class Cat extends Animal implements ArrayAccess
     }
 
     /**
-      * $declawed 
-      * @var bool
-      */
-    protected $declawed;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['declawed']
+         * @var bool
+         */
+        'declawed' => null,
+    );
 
     /**
      * Constructor
@@ -115,7 +121,7 @@ class Cat extends Animal implements ArrayAccess
         parent::__construct($data);
         
         if ($data != null) {
-            $this->declawed = $data["declawed"];
+            $this->container['declawed'] = $data['declawed'];
         }
     }
     /**
@@ -124,7 +130,7 @@ class Cat extends Animal implements ArrayAccess
      */
     public function getDeclawed()
     {
-        return $this->declawed;
+        return $this->container['declawed'];
     }
   
     /**
@@ -135,7 +141,7 @@ class Cat extends Animal implements ArrayAccess
     public function setDeclawed($declawed)
     {
         
-        $this->declawed = $declawed;
+        $this->container['declawed'] = $declawed;
         return $this;
     }
     /**
@@ -145,7 +151,7 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
   
     /**
@@ -155,7 +161,7 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
   
     /**
@@ -166,7 +172,11 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
   
     /**
@@ -176,7 +186,7 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
   
     /**
