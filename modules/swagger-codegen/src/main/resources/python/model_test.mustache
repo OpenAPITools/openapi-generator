@@ -27,10 +27,12 @@ import unittest
 {{#models}}
 {{#model}}
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.models.{{classFilename}} import {{classname}}
 
 
-class {{classname}}Test(unittest.TestCase):
+class Test{{classname}}(unittest.TestCase):
+    """ {{classname}} unit test stubs """
 
     def setUp(self):
         pass
@@ -38,11 +40,14 @@ class {{classname}}Test(unittest.TestCase):
     def tearDown(self):
         pass
 
-    """
-    Test {{classname}}
-    """
     def test{{classname}}(self):
-        self.model = swagger_client.models.{{classFilename}}.{{classname}}()
+        """
+        Test {{classname}}
+        """
+        model = swagger_client.models.{{classFilename}}.{{classname}}()
 
 {{/model}}
 {{/models}}
+
+if __name__ == '__main__':
+    unittest.main()

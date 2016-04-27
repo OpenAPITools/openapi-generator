@@ -25,9 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.apis.user_api import UserApi
 
-class UserApiTest(unittest.TestCase):
+
+class TestUserApi(unittest.TestCase):
+    """ UserApi unit test stubs """
 
     def setUp(self):
         self.api = swagger_client.apis.user_api.UserApi()
@@ -36,26 +39,69 @@ class UserApiTest(unittest.TestCase):
         pass
 
     def test_create_user(self):
+        """
+        Test case for create_user
+
+        Create user
+        """
         pass
 
     def test_create_users_with_array_input(self):
+        """
+        Test case for create_users_with_array_input
+
+        Creates list of users with given input array
+        """
         pass
 
     def test_create_users_with_list_input(self):
+        """
+        Test case for create_users_with_list_input
+
+        Creates list of users with given input array
+        """
         pass
 
     def test_delete_user(self):
+        """
+        Test case for delete_user
+
+        Delete user
+        """
         pass
 
     def test_get_user_by_name(self):
+        """
+        Test case for get_user_by_name
+
+        Get user by user name
+        """
         pass
 
     def test_login_user(self):
+        """
+        Test case for login_user
+
+        Logs user into the system
+        """
         pass
 
     def test_logout_user(self):
+        """
+        Test case for logout_user
+
+        Logs out current logged in user session
+        """
         pass
 
     def test_update_user(self):
+        """
+        Test case for update_user
+
+        Updated user
+        """
         pass
 
+
+if __name__ == '__main__':
+    unittest.main()

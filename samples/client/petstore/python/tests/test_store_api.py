@@ -25,9 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.apis.store_api import StoreApi
 
-class StoreApiTest(unittest.TestCase):
+
+class TestStoreApi(unittest.TestCase):
+    """ StoreApi unit test stubs """
 
     def setUp(self):
         self.api = swagger_client.apis.store_api.StoreApi()
@@ -36,14 +39,37 @@ class StoreApiTest(unittest.TestCase):
         pass
 
     def test_delete_order(self):
+        """
+        Test case for delete_order
+
+        Delete purchase order by ID
+        """
         pass
 
     def test_get_inventory(self):
+        """
+        Test case for get_inventory
+
+        Returns pet inventories by status
+        """
         pass
 
     def test_get_order_by_id(self):
+        """
+        Test case for get_order_by_id
+
+        Find purchase order by ID
+        """
         pass
 
     def test_place_order(self):
+        """
+        Test case for place_order
+
+        Place an order for a pet
+        """
         pass
 
+
+if __name__ == '__main__':
+    unittest.main()

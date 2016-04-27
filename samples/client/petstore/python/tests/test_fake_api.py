@@ -25,9 +25,12 @@ import sys
 import unittest
 
 import swagger_client
+from swagger_client.rest import ApiException
 from swagger_client.apis.fake_api import FakeApi
 
-class FakeApiTest(unittest.TestCase):
+
+class TestFakeApi(unittest.TestCase):
+    """ FakeApi unit test stubs """
 
     def setUp(self):
         self.api = swagger_client.apis.fake_api.FakeApi()
@@ -36,5 +39,13 @@ class FakeApiTest(unittest.TestCase):
         pass
 
     def test_test_endpoint_parameters(self):
+        """
+        Test case for test_endpoint_parameters
+
+        Fake endpoint for testing various parameters
+        """
         pass
 
+
+if __name__ == '__main__':
+    unittest.main()
