@@ -73,6 +73,9 @@ namespace SwaggerClientTest.TestOrder
 				
 		}
 
+		/*
+		 * Skip the following test as the fake endpiont has been removed from the swagger spec
+		 * We'll uncomment below after we update the Petstore server
 		/// <summary>
 		/// Test TestGetInventoryInObject
 		/// </summary>
@@ -93,6 +96,7 @@ namespace SwaggerClientTest.TestOrder
 				Assert.IsInstanceOf (typeof(int?), Int32.Parse(entry.Value));
 			}
 		}
+		*/
 
 		/// <summary>
 		/// Test Enum

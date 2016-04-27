@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Name Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Model for testing model name same as property name
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -47,12 +47,19 @@ use \ArrayAccess;
 class Name implements ArrayAccess
 {
     /**
-     * Array of property to type mappings. Used for (de)serialization 
-     * @var string[]
-     */
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Name';
+
+    /**
+      * Array of property to type mappings. Used for (de)serialization 
+      * @var string[]
+      */
     static $swaggerTypes = array(
         'name' => 'int',
-        'snake_case' => 'int'
+        'snake_case' => 'int',
+        'property' => 'string'
     );
  
     static function swaggerTypes() {
@@ -65,7 +72,8 @@ class Name implements ArrayAccess
      */
     static $attributeMap = array(
         'name' => 'name',
-        'snake_case' => 'snake_case'
+        'snake_case' => 'snake_case',
+        'property' => 'property'
     );
  
     static function attributeMap() {
@@ -78,7 +86,8 @@ class Name implements ArrayAccess
      */
     static $setters = array(
         'name' => 'setName',
-        'snake_case' => 'setSnakeCase'
+        'snake_case' => 'setSnakeCase',
+        'property' => 'setProperty'
     );
  
     static function setters() {
@@ -91,7 +100,8 @@ class Name implements ArrayAccess
      */
     static $getters = array(
         'name' => 'getName',
-        'snake_case' => 'getSnakeCase'
+        'snake_case' => 'getSnakeCase',
+        'property' => 'getProperty'
     );
  
     static function getters() {
@@ -102,19 +112,21 @@ class Name implements ArrayAccess
 
     
 
-    
     /**
      * $name 
      * @var int
      */
     protected $name;
-    
     /**
      * $snake_case 
      * @var int
      */
     protected $snake_case;
-    
+    /**
+     * $property 
+     * @var string
+     */
+    protected $property;
 
     /**
      * Constructor
@@ -123,14 +135,15 @@ class Name implements ArrayAccess
     public function __construct(array $data = null)
     {
         
+        
         if ($data != null) {
             $this->name = $data["name"];
             $this->snake_case = $data["snake_case"];
+            $this->property = $data["property"];
         }
     }
-    
     /**
-     * Gets name.
+     * Gets name
      * @return int
      */
     public function getName()
@@ -139,7 +152,7 @@ class Name implements ArrayAccess
     }
 
     /**
-     * Sets name.
+     * Sets name
      * @param int $name 
      * @return $this
      */
@@ -149,9 +162,8 @@ class Name implements ArrayAccess
         $this->name = $name;
         return $this;
     }
-    
     /**
-     * Gets snake_case.
+     * Gets snake_case
      * @return int
      */
     public function getSnakeCase()
@@ -160,7 +172,7 @@ class Name implements ArrayAccess
     }
 
     /**
-     * Sets snake_case.
+     * Sets snake_case
      * @param int $snake_case 
      * @return $this
      */
@@ -170,7 +182,26 @@ class Name implements ArrayAccess
         $this->snake_case = $snake_case;
         return $this;
     }
-    
+    /**
+     * Gets property
+     * @return string
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * Sets property
+     * @param string $property 
+     * @return $this
+     */
+    public function setProperty($property)
+    {
+        
+        $this->property = $property;
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -213,17 +244,15 @@ class Name implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object.
+     * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
-        } else {
-            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
+
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-?>

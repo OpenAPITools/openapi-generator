@@ -68,18 +68,17 @@ class FormatTest implements ArrayAccess
         'binary' => 'string',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
-        'uuid' => 'string',
         'password' => 'string'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'integer' => 'integer',
         'int32' => 'int32',
@@ -92,18 +91,17 @@ class FormatTest implements ArrayAccess
         'binary' => 'binary',
         'date' => 'date',
         'date_time' => 'dateTime',
-        'uuid' => 'uuid',
         'password' => 'password'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'integer' => 'setInteger',
         'int32' => 'setInt32',
@@ -116,18 +114,17 @@ class FormatTest implements ArrayAccess
         'binary' => 'setBinary',
         'date' => 'setDate',
         'date_time' => 'setDateTime',
-        'uuid' => 'setUuid',
         'password' => 'setPassword'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'integer' => 'getInteger',
         'int32' => 'getInt32',
@@ -140,78 +137,76 @@ class FormatTest implements ArrayAccess
         'binary' => 'getBinary',
         'date' => 'getDate',
         'date_time' => 'getDateTime',
-        'uuid' => 'getUuid',
         'password' => 'getPassword'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $integer 
-      * @var int
-      */
+     * $integer 
+     * @var int
+     */
     protected $integer;
     /**
-      * $int32 
-      * @var int
-      */
+     * $int32 
+     * @var int
+     */
     protected $int32;
     /**
-      * $int64 
-      * @var int
-      */
+     * $int64 
+     * @var int
+     */
     protected $int64;
     /**
-      * $number 
-      * @var float
-      */
+     * $number 
+     * @var float
+     */
     protected $number;
     /**
-      * $float 
-      * @var float
-      */
+     * $float 
+     * @var float
+     */
     protected $float;
     /**
-      * $double 
-      * @var double
-      */
+     * $double 
+     * @var double
+     */
     protected $double;
     /**
-      * $string 
-      * @var string
-      */
+     * $string 
+     * @var string
+     */
     protected $string;
     /**
-      * $byte 
-      * @var string
-      */
+     * $byte 
+     * @var string
+     */
     protected $byte;
     /**
-      * $binary 
-      * @var string
-      */
+     * $binary 
+     * @var string
+     */
     protected $binary;
     /**
-      * $date 
-      * @var \DateTime
-      */
+     * $date 
+     * @var \DateTime
+     */
     protected $date;
     /**
-      * $date_time 
-      * @var \DateTime
-      */
+     * $date_time 
+     * @var \DateTime
+     */
     protected $date_time;
     /**
-      * $uuid 
-      * @var string
-      */
-    protected $uuid;
-    /**
-      * $password 
-      * @var string
-      */
+     * $password 
+     * @var string
+     */
     protected $password;
 
     /**
@@ -234,7 +229,6 @@ class FormatTest implements ArrayAccess
             $this->binary = $data["binary"];
             $this->date = $data["date"];
             $this->date_time = $data["date_time"];
-            $this->uuid = $data["uuid"];
             $this->password = $data["password"];
         }
     }
@@ -246,7 +240,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->integer;
     }
-  
+
     /**
      * Sets integer
      * @param int $integer 
@@ -266,7 +260,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->int32;
     }
-  
+
     /**
      * Sets int32
      * @param int $int32 
@@ -286,7 +280,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->int64;
     }
-  
+
     /**
      * Sets int64
      * @param int $int64 
@@ -306,7 +300,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->number;
     }
-  
+
     /**
      * Sets number
      * @param float $number 
@@ -326,7 +320,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->float;
     }
-  
+
     /**
      * Sets float
      * @param float $float 
@@ -346,7 +340,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->double;
     }
-  
+
     /**
      * Sets double
      * @param double $double 
@@ -366,7 +360,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->string;
     }
-  
+
     /**
      * Sets string
      * @param string $string 
@@ -386,7 +380,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->byte;
     }
-  
+
     /**
      * Sets byte
      * @param string $byte 
@@ -406,7 +400,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->binary;
     }
-  
+
     /**
      * Sets binary
      * @param string $binary 
@@ -426,7 +420,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->date;
     }
-  
+
     /**
      * Sets date
      * @param \DateTime $date 
@@ -446,7 +440,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->date_time;
     }
-  
+
     /**
      * Sets date_time
      * @param \DateTime $date_time 
@@ -459,26 +453,6 @@ class FormatTest implements ArrayAccess
         return $this;
     }
     /**
-     * Gets uuid
-     * @return string
-     */
-    public function getUuid()
-    {
-        return $this->uuid;
-    }
-  
-    /**
-     * Sets uuid
-     * @param string $uuid 
-     * @return $this
-     */
-    public function setUuid($uuid)
-    {
-        
-        $this->uuid = $uuid;
-        return $this;
-    }
-    /**
      * Gets password
      * @return string
      */
@@ -486,7 +460,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->password;
     }
-  
+
     /**
      * Sets password
      * @param string $password 
@@ -507,7 +481,7 @@ class FormatTest implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -517,7 +491,7 @@ class FormatTest implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -528,7 +502,7 @@ class FormatTest implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -538,7 +512,7 @@ class FormatTest implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

@@ -106,7 +106,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         return {{#parent}}parent::getters() + {{/parent}}self::$getters;
     }
 
-    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{datatypeWithEnum}}_{{{name}}} = "{{{value}}}";
+    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{datatypeWithEnum}}_{{{name}}} = {{{value}}};
     {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
 
     {{#vars}}{{#isEnum}}

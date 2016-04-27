@@ -47,9 +47,15 @@ use \ArrayAccess;
 class Cat extends Animal implements ArrayAccess
 {
     /**
-     * Array of property to type mappings. Used for (de)serialization 
-     * @var string[]
-     */
+      * The original name of the model.
+      * @var string
+      */
+    static $swaggerModelName = 'Cat';
+
+    /**
+      * Array of property to type mappings. Used for (de)serialization 
+      * @var string[]
+      */
     static $swaggerTypes = array(
         'declawed' => 'bool'
     );
@@ -98,13 +104,11 @@ class Cat extends Animal implements ArrayAccess
 
     
 
-    
     /**
      * $declawed 
      * @var bool
      */
     protected $declawed;
-    
 
     /**
      * Constructor
@@ -113,13 +117,13 @@ class Cat extends Animal implements ArrayAccess
     public function __construct(array $data = null)
     {
         parent::__construct($data);
+        
         if ($data != null) {
             $this->declawed = $data["declawed"];
         }
     }
-    
     /**
-     * Gets declawed.
+     * Gets declawed
      * @return bool
      */
     public function getDeclawed()
@@ -128,7 +132,7 @@ class Cat extends Animal implements ArrayAccess
     }
 
     /**
-     * Sets declawed.
+     * Sets declawed
      * @param bool $declawed 
      * @return $this
      */
@@ -138,7 +142,6 @@ class Cat extends Animal implements ArrayAccess
         $this->declawed = $declawed;
         return $this;
     }
-    
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -181,17 +184,15 @@ class Cat extends Animal implements ArrayAccess
     }
  
     /**
-     * Gets the string presentation of the object.
+     * Gets the string presentation of the object
      * @return string
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) {
+        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
             return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
-        } else {
-            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
         }
+
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-?>
