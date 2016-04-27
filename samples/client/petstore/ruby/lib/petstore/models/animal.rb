@@ -42,7 +42,7 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'className']
+      if attributes.has_key?(:'className')
         self.class_name = attributes[:'className']
       end
 

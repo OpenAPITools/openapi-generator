@@ -38,7 +38,7 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
       {{#vars}}
-      if attributes[:'{{{baseName}}}']
+      if attributes.has_key?(:'{{{baseName}}}')
         {{#isContainer}}
         if (value = attributes[:'{{{baseName}}}']).is_a?(Array)
           self.{{{name}}} = value
