@@ -100,8 +100,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-            <source>
-            1.7</source>
+            <source>1.7</source>
             <target>1.7</target>
         </configuration>
       </plugin>
@@ -111,7 +110,12 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
-      <version>${swagger-annotations-version}</version>
+      <version>${swagger-core-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.retrofit2</groupId>
+        <artifactId>converter-gson</artifactId>
+        <version>${retrofit-version}</version>
     </dependency>
     <dependency>
       <groupId>com.squareup.retrofit2</groupId>
@@ -121,11 +125,6 @@
     <dependency>
       <groupId>com.squareup.retrofit2</groupId>
       <artifactId>converter-scalars</artifactId>
-      <version>${retrofit-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.retrofit2</groupId>
-      <artifactId>converter-gson</artifactId>
       <version>${retrofit-version}</version>
     </dependency>
     <dependency>
@@ -143,9 +142,11 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-annotations-version>1.5.0</swagger-annotations-version>
-    <retrofit-version>2.0.0-beta4</retrofit-version>
-    <oltu-version>1.0.0</oltu-version>
+    <swagger-core-version>1.5.8</swagger-core-version>
+    <retrofit-version>2.0.2</retrofit-version>
+    
+    <okhttp-version>3.2.0</okhttp-version>
+    <oltu-version>1.0.1</oltu-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>

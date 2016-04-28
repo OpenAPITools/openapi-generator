@@ -8,9 +8,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
 
 @XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "", propOrder =
+ @XmlType(name = "Order", propOrder =
 	{ "id", "petId", "quantity", "shipDate", "status", "complete"
 })
 
@@ -26,19 +27,24 @@ public class Order  {
 
   private javax.xml.datatype.XMLGregorianCalendar shipDate = null;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
-
-@XmlType(name="Order")
+@XmlType(name="StatusEnum")
 @XmlEnum
-public enum Order {
-    {values&#x3D;[placed, approved, delivered], enumVars&#x3D;[{name&#x3D;PLACED, value&#x3D;placed}, {name&#x3D;APPROVED, value&#x3D;approved}, {name&#x3D;DELIVERED, value&#x3D;delivered}]}, 
-    
-    public String value() {
-        return name();
+public enum StatusEnum {
+
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+
+
+    private String value;
+
+    StatusEnum (String v) {
+        value = v;
     }
 
-    public static Order fromValue(String v) {
+    public String value() {
+        return value;
+    }
+
+    public static StatusEnum fromValue(String v) {
         return valueOf(v);
     }
 }

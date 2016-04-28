@@ -41,12 +41,14 @@ module Petstore
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def delete_order_with_http_info(order_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: StoreApi#delete_order ..."
+        @api_client.config.logger.debug "Calling API: StoreApi.delete_order ..."
       end
-      
       # verify the required parameter 'order_id' is set
-      fail "Missing the required parameter 'order_id' when calling delete_order" if order_id.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.delete_order" if order_id.nil?
+      if order_id < 1.0
+        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.delete_order, must be greater than or equal to 1.0.'
+      end
+
       # resource path
       local_var_path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
 
@@ -97,9 +99,8 @@ module Petstore
     # @return [Array<(Hash<String, Integer>, Fixnum, Hash)>] Hash<String, Integer> data, response status code and response headers
     def get_inventory_with_http_info(opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: StoreApi#get_inventory ..."
+        @api_client.config.logger.debug "Calling API: StoreApi.get_inventory ..."
       end
-      
       # resource path
       local_var_path = "/store/inventory".sub('{format}','json')
 
@@ -153,12 +154,18 @@ module Petstore
     # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
     def get_order_by_id_with_http_info(order_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: StoreApi#get_order_by_id ..."
+        @api_client.config.logger.debug "Calling API: StoreApi.get_order_by_id ..."
       end
-      
       # verify the required parameter 'order_id' is set
-      fail "Missing the required parameter 'order_id' when calling get_order_by_id" if order_id.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.get_order_by_id" if order_id.nil?
+      if order_id > 5.0
+        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be smaller than or equal to 5.0.'
+      end
+
+      if order_id < 1.0
+        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be greater than or equal to 1.0.'
+      end
+
       # resource path
       local_var_path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
 
@@ -212,12 +219,10 @@ module Petstore
     # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
     def place_order_with_http_info(body, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: StoreApi#place_order ..."
+        @api_client.config.logger.debug "Calling API: StoreApi.place_order ..."
       end
-      
       # verify the required parameter 'body' is set
-      fail "Missing the required parameter 'body' when calling place_order" if body.nil?
-      
+      fail ArgumentError, "Missing the required parameter 'body' when calling StoreApi.place_order" if body.nil?
       # resource path
       local_var_path = "/store/order".sub('{format}','json')
 

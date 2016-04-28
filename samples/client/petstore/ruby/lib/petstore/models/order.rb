@@ -63,25 +63,47 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'id']
+      if attributes.has_key?(:'id')
         self.id = attributes[:'id']
       end
-      if attributes[:'petId']
+
+      if attributes.has_key?(:'petId')
         self.pet_id = attributes[:'petId']
       end
-      if attributes[:'quantity']
+
+      if attributes.has_key?(:'quantity')
         self.quantity = attributes[:'quantity']
       end
-      if attributes[:'shipDate']
+
+      if attributes.has_key?(:'shipDate')
         self.ship_date = attributes[:'shipDate']
       end
-      if attributes[:'status']
+
+      if attributes.has_key?(:'status')
         self.status = attributes[:'status']
       end
-      if attributes[:'complete']
+
+      if attributes.has_key?(:'complete')
         self.complete = attributes[:'complete']
       else
         self.complete = false
+      end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
+      allowed_values = ["placed", "approved", "delivered"]
+      if @status && !allowed_values.include?(@status)
+        return false
       end
     end
 
@@ -90,7 +112,7 @@ module Petstore
     def status=(status)
       allowed_values = ["placed", "approved", "delivered"]
       if status && !allowed_values.include?(status)
-        fail "invalid value for 'status', must be one of #{allowed_values}"
+        fail ArgumentError, "invalid value for 'status', must be one of #{allowed_values}."
       end
       @status = status
     end

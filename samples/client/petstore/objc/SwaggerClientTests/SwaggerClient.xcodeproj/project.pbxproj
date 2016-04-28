@@ -15,14 +15,15 @@
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* SWGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* SWGAppDelegate.m */; };
 		6003F5A7195388D20070C39A /* SWGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* SWGViewController.m */; };
-		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
-		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		94BE6BE84795B5034A811E61 /* libPods-SwaggerClient_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */; };
+		B2ADC17C287DCABF329BA8AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2ADC7027D4B025ABCA7999F /* Main.storyboard */; };
+		B2ADC2D632658A5F73C6CE66 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2ADC65E342ADA697322D68C /* Images.xcassets */; };
+		B2ADC56977372855A63F4E4D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2ADC084A2C0BDF217832B03 /* Launch Screen.storyboard */; };
 		CF0ADB481B5F95D6008A2729 /* PetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0ADB471B5F95D6008A2729 /* PetTest.m */; };
 		CF8F71391B5F73AC00162980 /* DeserializationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8F71381B5F73AC00162980 /* DeserializationTest.m */; };
 		CFDFB4121B3CFFA8009739C5 /* UserApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDFB40D1B3CFEC3009739C5 /* UserApiTest.m */; };
@@ -56,7 +57,6 @@
 		6003F59D195388D20070C39A /* SWGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWGAppDelegate.m; sourceTree = "<group>"; };
 		6003F5A5195388D20070C39A /* SWGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWGViewController.h; sourceTree = "<group>"; };
 		6003F5A6195388D20070C39A /* SWGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWGViewController.m; sourceTree = "<group>"; };
-		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AE195388D20070C39A /* SwaggerClient_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwaggerClient_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
@@ -64,8 +64,10 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		73CCD82196AABD64F2807C7B /* Pods-SwaggerClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwaggerClient_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2ADC084A2C0BDF217832B03 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "SwaggerClient/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		B2ADC65E342ADA697322D68C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SwaggerClient/Images.xcassets; sourceTree = "<group>"; };
+		B2ADC7027D4B025ABCA7999F /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Main.storyboard; path = SwaggerClient/Main.storyboard; sourceTree = "<group>"; };
 		BFB4BE760737508B3CFC23B2 /* Pods-SwaggerClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CF0ADB471B5F95D6008A2729 /* PetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PetTest.m; sourceTree = "<group>"; };
 		CF8F71381B5F73AC00162980 /* DeserializationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeserializationTest.m; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			children = (
 				6003F58A195388D20070C39A /* SwaggerClient_Example.app */,
 				6003F5AE195388D20070C39A /* SwaggerClient_Tests.xctest */,
+				B2ADC084A2C0BDF217832B03 /* Launch Screen.storyboard */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,10 +146,8 @@
 			children = (
 				6003F59C195388D20070C39A /* SWGAppDelegate.h */,
 				6003F59D195388D20070C39A /* SWGAppDelegate.m */,
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* SWGViewController.h */,
 				6003F5A6195388D20070C39A /* SWGViewController.m */,
-				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
 			name = "Example for SwaggerClient";
@@ -194,6 +195,8 @@
 			children = (
 				E9675D953C6DCDE71A1BDFD4 /* SwaggerClient.podspec */,
 				4CCE21315897B7D544C83242 /* README.md */,
+				B2ADC7027D4B025ABCA7999F /* Main.storyboard */,
+				B2ADC65E342ADA697322D68C /* Images.xcassets */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
@@ -287,9 +290,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				B2ADC17C287DCABF329BA8AC /* Main.storyboard in Resources */,
+				B2ADC2D632658A5F73C6CE66 /* Images.xcassets in Resources */,
+				B2ADC56977372855A63F4E4D /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

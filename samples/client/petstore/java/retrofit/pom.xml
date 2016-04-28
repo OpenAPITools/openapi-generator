@@ -100,8 +100,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
     </plugins>
@@ -110,7 +110,7 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
-      <version>${swagger-annotations-version}</version>
+      <version>${swagger-core-version}</version>
     </dependency>
     <dependency>
       <groupId>com.squareup.retrofit</groupId>
@@ -137,10 +137,10 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-annotations-version>1.5.0</swagger-annotations-version>
+    <swagger-core-version>1.5.8</swagger-core-version>
     <retrofit-version>1.9.0</retrofit-version>
-    <okhttp-version>2.4.0</okhttp-version>
-    <oltu-version>1.0.0</oltu-version>
+    <okhttp-version>2.7.5</okhttp-version>
+    <oltu-version>1.0.1</oltu-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>

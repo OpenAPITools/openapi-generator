@@ -559,6 +559,97 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+
+  /fake:
+    post:
+      tags:
+        - fake 
+      summary: Fake endpoint for testing various parameters
+      description: Fake endpoint for testing various parameters
+      operationId: testEndpointParameters
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: integer
+          type: integer
+          maximum: 100
+          minimum: 10
+          in: formData
+          description: None
+        - name: int32
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+          in: formData
+          description: None
+        - name: int64
+          type: integer
+          format: int64
+          in: formData
+          description: None
+        - name: number
+          type: number
+          maximum: 543.2
+          minimum: 32.1
+          in: formData
+          description: None
+          required: true
+        - name: float
+          type: number
+          format: float
+          maximum: 987.6
+          in: formData
+          description: None
+        - name: double
+          type: number
+          in: formData
+          format: double
+          maximum: 123.4
+          minimum: 67.8
+          required: true
+          description: None
+        - name: string
+          type: string
+          pattern: /[a-z]/i
+          in: formData
+          description: None
+          required: true
+        - name: byte
+          type: string
+          format: byte
+          in: formData
+          description: None
+          required: true
+        - name: binary
+          type: string
+          format: binary
+          in: formData
+          description: None
+        - name: date
+          type: string
+          format: date
+          in: formData
+          description: None
+        - name: dateTime
+          type: string
+          format: date-time
+          in: formData
+          description: None
+        - name: password
+          type: string
+          format: password
+          maxLength: 64
+          minLength: 10
+          in: formData
+          description: None
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -755,25 +846,39 @@ definitions:
     type: object
     required:
       - number
+      - byte
+      - date
+      - password
     properties:
       integer:
         type: integer
+        maximum: 100
+        minimum: 10
       int32:
         type: integer
         format: int32
+        maximum: 200
+        minimum: 20
       int64:
         type: integer
         format: int64
       number:
+        maximum: 543.2
+        minimum: 32.1
         type: number
       float:
         type: number
         format: float
+        maximum: 987.6
+        minimum: 54.3
       double:
         type: number
         format: double
+        maximum: 123.4
+        minimum: 67.8
       string:
         type: string
+        pattern: /[a-z]/i
       byte:
         type: string
         format: byte
@@ -786,9 +891,14 @@ definitions:
       dateTime:
         type: string
         format: date-time
+      uuid:
+        type: string
+        format: uuid 
       password:
         type: string
         format: password
+        maxLength: 64
+        minLength: 10
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

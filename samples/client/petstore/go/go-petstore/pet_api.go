@@ -5,8 +5,8 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "github.com/dghubble/sling"
     "os"
+    "io/ioutil"
 )
 
 type PetApi struct {
@@ -35,89 +35,70 @@ func NewPetApiWithBasePath(basePath string) *PetApi{
  * @param body Pet object that needs to be added to the store
  * @return void
  */
-func (a PetApi) AddPet (body Pet) (error) {
-    // verify the required parameter 'body' is set
-    if &body == nil {
-        return errors.New("Missing required parameter 'body' when calling PetApi->AddPet")
-    }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+func (a PetApi) AddPet (body Pet) (APIResponse, error) {
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
+  var httpMethod = "Post"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet"
 
-    // create path and map variables
-    path := "/v2/pet"
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-        "application/json", 
-        "application/xml", 
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-// body params
-    _sling = _sling.BodyJSON(body)
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'body' is set
+  if &body == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling PetApi->AddPet")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  // authentication (petstore_auth) required
+      
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
+
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+      "application/json", 
+      "application/xml", 
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  // body params
+  postBody = &body
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Deletes a pet
@@ -126,88 +107,69 @@ func (a PetApi) AddPet (body Pet) (error) {
  * @param apiKey 
  * @return void
  */
-func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
-    // verify the required parameter 'petId' is set
-    if &petId == nil {
-        return errors.New("Missing required parameter 'petId' when calling PetApi->DeletePet")
-    }
-    _sling := sling.New().Delete(a.Configuration.BasePath)
+func (a PetApi) DeletePet (petId int64, apiKey string) (APIResponse, error) {
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
+  var httpMethod = "Delete"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet/{petId}"
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
-    // create path and map variables
-    path := "/v2/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-    // header params "api_key"
-    _sling = _sling.Set("api_key", apiKey)
-
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'petId' is set
+  if &petId == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'petId' when calling PetApi->DeletePet")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  // authentication (petstore_auth) required
+      
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
+
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+    // header params "api_key"
+    headerParams["api_key"] = apiKey
+
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Finds Pets by status
@@ -215,89 +177,69 @@ func (a PetApi) DeletePet (petId int64, apiKey string) (error) {
  * @param status Status values that need to be considered for filter
  * @return []Pet
  */
-func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
-    // verify the required parameter 'status' is set
-    if &status == nil {
-        return *new([]Pet), errors.New("Missing required parameter 'status' when calling PetApi->FindPetsByStatus")
-    }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+func (a PetApi) FindPetsByStatus (status []string) ([]Pet, APIResponse, error) {
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
+  var httpMethod = "Get"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet/findByStatus"
 
-    // create path and map variables
-    path := "/v2/pet/findByStatus"
+  // verify the required parameter 'status' is set
+  if &status == nil {
+      return *new([]Pet), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'status' when calling PetApi->FindPetsByStatus")
+  }
 
-    _sling = _sling.Path(path)
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
 
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    type QueryParams struct {
-        Status    []string `url:"status,omitempty"`
-}
-    _sling = _sling.QueryStruct(&QueryParams{ Status: status })
+  // authentication (petstore_auth) required
+      
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+  queryParams["status"] = a.Configuration.APIClient.ParameterToString(status)
 
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
 
   var successPayload = new([]Pet)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil {
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
-  return *successPayload, err
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
+
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Finds Pets by tags
@@ -305,89 +247,69 @@ func (a PetApi) FindPetsByStatus (status []string) ([]Pet, error) {
  * @param tags Tags to filter by
  * @return []Pet
  */
-func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
-    // verify the required parameter 'tags' is set
-    if &tags == nil {
-        return *new([]Pet), errors.New("Missing required parameter 'tags' when calling PetApi->FindPetsByTags")
-    }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+func (a PetApi) FindPetsByTags (tags []string) ([]Pet, APIResponse, error) {
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
+  var httpMethod = "Get"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet/findByTags"
 
-    // create path and map variables
-    path := "/v2/pet/findByTags"
+  // verify the required parameter 'tags' is set
+  if &tags == nil {
+      return *new([]Pet), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'tags' when calling PetApi->FindPetsByTags")
+  }
 
-    _sling = _sling.Path(path)
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
 
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    type QueryParams struct {
-        Tags    []string `url:"tags,omitempty"`
-}
-    _sling = _sling.QueryStruct(&QueryParams{ Tags: tags })
+  // authentication (petstore_auth) required
+      
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+  queryParams["tags"] = a.Configuration.APIClient.ParameterToString(tags)
 
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
 
   var successPayload = new([]Pet)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil {
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
-  return *successPayload, err
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
+
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Find pet by ID
@@ -395,85 +317,68 @@ func (a PetApi) FindPetsByTags (tags []string) ([]Pet, error) {
  * @param petId ID of pet to return
  * @return Pet
  */
-func (a PetApi) GetPetById (petId int64) (Pet, error) {
-    // verify the required parameter 'petId' is set
-    if &petId == nil {
-        return *new(Pet), errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
-    }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+func (a PetApi) GetPetById (petId int64) (Pet, APIResponse, error) {
 
-    // authentication (api_key) required
-    
-    // set key with prefix in header
-    _sling.Set("api_key", a.Configuration.GetApiKeyWithPrefix("api_key"))
-        
+  var httpMethod = "Get"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet/{petId}"
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
-    // create path and map variables
-    path := "/v2/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
+  // verify the required parameter 'petId' is set
+  if &petId == nil {
+      return *new(Pet), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
+  }
 
-    _sling = _sling.Path(path)
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
 
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
+  // authentication (api_key) required
+  
+  // set key with prefix in header
+  headerParams["api_key"] = a.Configuration.GetAPIKeyWithPrefix("api_key")
+      
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
 
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
 
   var successPayload = new(Pet)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil {
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
-  return *successPayload, err
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
+
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Update an existing pet
@@ -481,89 +386,70 @@ func (a PetApi) GetPetById (petId int64) (Pet, error) {
  * @param body Pet object that needs to be added to the store
  * @return void
  */
-func (a PetApi) UpdatePet (body Pet) (error) {
-    // verify the required parameter 'body' is set
-    if &body == nil {
-        return errors.New("Missing required parameter 'body' when calling PetApi->UpdatePet")
-    }
-    _sling := sling.New().Put(a.Configuration.BasePath)
+func (a PetApi) UpdatePet (body Pet) (APIResponse, error) {
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
+  var httpMethod = "Put"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet"
 
-    // create path and map variables
-    path := "/v2/pet"
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-        "application/json", 
-        "application/xml", 
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-// body params
-    _sling = _sling.BodyJSON(body)
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'body' is set
+  if &body == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling PetApi->UpdatePet")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  // authentication (petstore_auth) required
+      
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
+
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+      "application/json", 
+      "application/xml", 
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  // body params
+  postBody = &body
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Updates a pet in the store with form data
@@ -573,92 +459,70 @@ func (a PetApi) UpdatePet (body Pet) (error) {
  * @param status Updated status of the pet
  * @return void
  */
-func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (error) {
-    // verify the required parameter 'petId' is set
-    if &petId == nil {
-        return errors.New("Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm")
-    }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (APIResponse, error) {
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
+  var httpMethod = "Post"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet/{petId}"
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
-    // create path and map variables
-    path := "/v2/pet/{petId}"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-        "application/x-www-form-urlencoded", 
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-    type FormParams struct {
-        Name    string `url:"name,omitempty"`
-        Status    string `url:"status,omitempty"`
-    }
-    _sling = _sling.BodyForm(&FormParams{ Name: name,Status: status })
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'petId' is set
+  if &petId == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  // authentication (petstore_auth) required
+      
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
+
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+      "application/x-www-form-urlencoded", 
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  formParams["name"] = name
+  formParams["status"] = status
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * uploads an image
@@ -666,91 +530,73 @@ func (a PetApi) UpdatePetWithForm (petId int64, name string, status string) (err
  * @param petId ID of pet to update
  * @param additionalMetadata Additional data to pass to server
  * @param file file to upload
- * @return ApiResponse
+ * @return ModelApiResponse
  */
-func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.File) (ApiResponse, error) {
-    // verify the required parameter 'petId' is set
-    if &petId == nil {
-        return *new(ApiResponse), errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
-    }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+func (a PetApi) UploadFile (petId int64, additionalMetadata string, file *os.File) (ModelApiResponse, APIResponse, error) {
 
-    // authentication (petstore_auth) required
-        
-    // oauth required
-    if a.Configuration.AccessToken != ""{
-        _sling.Set("Authorization", "Bearer " +  a.Configuration.AccessToken)
-    }
+  var httpMethod = "Post"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/pet/{petId}/uploadImage"
+ path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
 
-    // create path and map variables
-    path := "/v2/pet/{petId}/uploadImage"
-    path = strings.Replace(path, "{" + "petId" + "}", fmt.Sprintf("%v", petId), -1)
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-        "multipart/form-data", 
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-    type FormParams struct {
-        AdditionalMetadata    string `url:"additionalMetadata,omitempty"`
-        File    *os.File `url:"file,omitempty"`
-    }
-    _sling = _sling.BodyForm(&FormParams{ AdditionalMetadata: additionalMetadata,File: file })
-
-  var successPayload = new(ApiResponse)
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'petId' is set
+  if &petId == nil {
+      return *new(ModelApiResponse), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
   }
 
-  return *successPayload, err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  // authentication (petstore_auth) required
+      
+  // oauth required
+  if a.Configuration.AccessToken != ""{
+      headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+  }
+
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+      "multipart/form-data", 
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  formParams["additionalMetadata"] = additionalMetadata
+  fbs, _ := ioutil.ReadAll(file)
+  fileBytes = fbs
+  fileName = file.Name()
+
+  var successPayload = new(ModelApiResponse)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
+
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
