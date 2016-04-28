@@ -71,14 +71,14 @@ export class User {
 }
 
 
-interface Authentication {
+export interface Authentication {
     /**
     * Apply authentication settings to header and query params.
     */
     applyToRequest(requestOptions: request.Options): void;
 }
 
-class HttpBasicAuth implements Authentication {
+export class HttpBasicAuth implements Authentication {
     public username: string;
     public password: string;
     applyToRequest(requestOptions: request.Options): void {
@@ -88,7 +88,7 @@ class HttpBasicAuth implements Authentication {
     }
 }
 
-class ApiKeyAuth implements Authentication {
+export class ApiKeyAuth implements Authentication {
     public apiKey: string;
 
     constructor(private location: string, private paramName: string) {
@@ -103,7 +103,7 @@ class ApiKeyAuth implements Authentication {
     }
 }
 
-class OAuth implements Authentication {
+export class OAuth implements Authentication {
     public accessToken: string;
 
     applyToRequest(requestOptions: request.Options): void {
@@ -111,7 +111,7 @@ class OAuth implements Authentication {
     }
 }
 
-class VoidAuth implements Authentication {
+export class VoidAuth implements Authentication {
     public username: string;
     public password: string;
     applyToRequest(requestOptions: request.Options): void {
