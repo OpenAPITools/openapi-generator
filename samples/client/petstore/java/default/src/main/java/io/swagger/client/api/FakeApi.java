@@ -8,7 +8,6 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
 import java.util.Date;
-import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +51,7 @@ public class FakeApi {
    * @param password None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
+  public void testEndpointParameters(String number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
