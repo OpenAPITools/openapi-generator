@@ -34,7 +34,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-28T13:55:54.953+02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-28T15:08:30.859+02:00")
 public interface UserApi {
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
