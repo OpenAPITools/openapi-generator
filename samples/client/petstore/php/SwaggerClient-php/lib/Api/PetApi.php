@@ -122,6 +122,7 @@ class PetApi
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling addPet');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet";
@@ -141,8 +142,7 @@ class PetApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        // body params
+                // body params
         $_tempBody = null;
         if (isset($body)) {
             $_tempBody = $body;
@@ -209,6 +209,7 @@ class PetApi
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling deletePet');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet/{petId}";
@@ -238,8 +239,7 @@ class PetApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -300,6 +300,7 @@ class PetApi
         if ($status === null) {
             throw new \InvalidArgumentException('Missing the required parameter $status when calling findPetsByStatus');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet/findByStatus";
@@ -325,8 +326,7 @@ class PetApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -394,6 +394,7 @@ class PetApi
         if ($tags === null) {
             throw new \InvalidArgumentException('Missing the required parameter $tags when calling findPetsByTags');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet/findByTags";
@@ -419,8 +420,7 @@ class PetApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -488,6 +488,7 @@ class PetApi
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling getPetById');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet/{petId}";
@@ -514,8 +515,7 @@ class PetApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -585,6 +585,7 @@ class PetApi
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePet');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet";
@@ -604,8 +605,7 @@ class PetApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        // body params
+                // body params
         $_tempBody = null;
         if (isset($body)) {
             $_tempBody = $body;
@@ -674,6 +674,7 @@ class PetApi
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling updatePetWithForm');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet/{petId}";
@@ -703,7 +704,8 @@ class PetApi
         // form params
         if ($name !== null) {
             $formParams['name'] = $this->apiClient->getSerializer()->toFormValue($name);
-        }// form params
+        }
+// form params
         if ($status !== null) {
             $formParams['status'] = $this->apiClient->getSerializer()->toFormValue($status);
         }
@@ -772,6 +774,7 @@ class PetApi
         if ($pet_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pet_id when calling uploadFile');
         }
+        
   
         // parse inputs
         $resourcePath = "/pet/{petId}/uploadImage";
@@ -801,7 +804,8 @@ class PetApi
         // form params
         if ($additional_metadata !== null) {
             $formParams['additionalMetadata'] = $this->apiClient->getSerializer()->toFormValue($additional_metadata);
-        }// form params
+        }
+// form params
         if ($file !== null) {
             // PHP 5.5 introduced a CurlFile object that deprecates the old @filename syntax
             // See: https://wiki.php.net/rfc/curl-file-upload
