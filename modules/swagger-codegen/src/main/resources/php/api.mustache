@@ -122,7 +122,36 @@ use \{{invokerPackage}}\ObjectSerializer;
         // verify the required parameter '{{paramName}}' is set
         if (${{paramName}} === null) {
             throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{operationId}}');
-        }{{/required}}{{/allParams}}
+        }
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen(${{paramName}}) > {{maxLength}}) {
+            throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
+        }
+        {{/maxLength}}
+        {{#minLength}}
+        if (strlen(${{paramName}}) > {{minLength}}) {
+            throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if (${{paramName}} > {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if (${{paramName}} < {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", ${{paramName}})) {
+            throw new \InvalidArgumentException('invalid value for "{{paramName}}" when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        }
+        {{/pattern}}
+
+        {{/hasValidation}}
+        {{/required}}{{/allParams}}
   
         // parse inputs
         $resourcePath = "{{path}}";
@@ -172,6 +201,33 @@ use \{{invokerPackage}}\ObjectSerializer;
 
         {{#formParams}}// form params
         if (${{paramName}} !== null) {
+            {{#hasValidation}}
+            {{#maxLength}}
+            if (strlen(${{paramName}}) > {{maxLength}}) {
+                throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
+            }
+            {{/maxLength}}
+            {{#minLength}}
+            if (strlen(${{paramName}}) > {{minLength}}) {
+                throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
+            }
+            {{/minLength}}
+            {{#maximum}}
+            if (${{paramName}} > {{maximum}}) {
+                throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+            }
+            {{/maximum}}
+            {{#minimum}}
+            if (${{paramName}} < {{minimum}}) {
+                throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+            }
+            {{/minimum}}
+            {{#pattern}}
+            if (!preg_match("{{pattern}}", ${{paramName}})) {
+                throw new \InvalidArgumentException('invalid value for "{{paramName}}" when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+            }
+            {{/pattern}}
+            {{/hasValidation}}
             {{#isFile}}
             // PHP 5.5 introduced a CurlFile object that deprecates the old @filename syntax
             // See: https://wiki.php.net/rfc/curl-file-upload
@@ -184,7 +240,8 @@ use \{{invokerPackage}}\ObjectSerializer;
             {{^isFile}}
             $formParams['{{baseName}}'] = $this->apiClient->getSerializer()->toFormValue(${{paramName}});
             {{/isFile}}
-        }{{/formParams}}
+        }
+        {{/formParams}}
         {{#bodyParams}}// body params
         $_tempBody = null;
         if (isset(${{paramName}})) {

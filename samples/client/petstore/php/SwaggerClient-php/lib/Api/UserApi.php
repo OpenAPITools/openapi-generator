@@ -122,6 +122,7 @@ class UserApi
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling createUser');
         }
+        
   
         // parse inputs
         $resourcePath = "/user";
@@ -141,8 +142,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        // body params
+                // body params
         $_tempBody = null;
         if (isset($body)) {
             $_tempBody = $body;
@@ -202,6 +202,7 @@ class UserApi
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithArrayInput');
         }
+        
   
         // parse inputs
         $resourcePath = "/user/createWithArray";
@@ -221,8 +222,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        // body params
+                // body params
         $_tempBody = null;
         if (isset($body)) {
             $_tempBody = $body;
@@ -282,6 +282,7 @@ class UserApi
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithListInput');
         }
+        
   
         // parse inputs
         $resourcePath = "/user/createWithList";
@@ -301,8 +302,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        // body params
+                // body params
         $_tempBody = null;
         if (isset($body)) {
             $_tempBody = $body;
@@ -362,6 +362,7 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling deleteUser');
         }
+        
   
         // parse inputs
         $resourcePath = "/user/{username}";
@@ -388,8 +389,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -445,6 +445,7 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling getUserByName');
         }
+        
   
         // parse inputs
         $resourcePath = "/user/{username}";
@@ -471,8 +472,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -537,10 +537,12 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling loginUser');
         }
+        
         // verify the required parameter 'password' is set
         if ($password === null) {
             throw new \InvalidArgumentException('Missing the required parameter $password when calling loginUser');
         }
+        
   
         // parse inputs
         $resourcePath = "/user/login";
@@ -566,8 +568,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -643,8 +644,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        
+                
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -702,10 +702,12 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling updateUser');
         }
+        
         // verify the required parameter 'body' is set
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling updateUser');
         }
+        
   
         // parse inputs
         $resourcePath = "/user/{username}";
@@ -732,8 +734,7 @@ class UserApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
-        // body params
+                // body params
         $_tempBody = null;
         if (isset($body)) {
             $_tempBody = $body;
