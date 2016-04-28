@@ -15,16 +15,16 @@ public class Order   {
   
   @SerializedName("id")
   private Long id = null;
-  
+
   @SerializedName("petId")
   private Long petId = null;
-  
+
   @SerializedName("quantity")
   private Integer quantity = null;
-  
+
   @SerializedName("shipDate")
   private Date shipDate = null;
-  
+
 
   /**
    * Order Status
@@ -52,21 +52,21 @@ public class Order   {
   }
 
   @SerializedName("status")
-  private StatusEnum status = StatusEnum.PLACED;
-  
-  @SerializedName("complete")
-  private Boolean complete = null;
-  
+  private StatusEnum status = null;
 
-  
+  @SerializedName("complete")
+  private Boolean complete = false;
+
   /**
    **/
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
   }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -77,7 +77,6 @@ public class Order   {
     this.petId = petId;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -88,7 +87,6 @@ public class Order   {
     this.quantity = quantity;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -99,7 +97,6 @@ public class Order   {
     this.shipDate = shipDate;
   }
 
-  
   /**
    * Order Status
    **/
@@ -111,7 +108,6 @@ public class Order   {
     this.status = status;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -122,7 +118,6 @@ public class Order   {
     this.complete = complete;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

@@ -27,14 +27,14 @@ public class Order   {
 
 
 public enum StatusEnum {
-  @SerializedName("placed")
-  PLACED("placed"),
+  @SerializedName(""placed"")
+  PLACED(""placed""),
 
-  @SerializedName("approved")
-  APPROVED("approved"),
+  @SerializedName(""approved"")
+  APPROVED(""approved""),
 
-  @SerializedName("delivered")
-  DELIVERED("delivered");
+  @SerializedName(""delivered"")
+  DELIVERED(""delivered"");
 
   private String value;
 

@@ -14,9 +14,7 @@ public class Animal   {
   
   @SerializedName("className")
   private String className = null;
-  
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -27,7 +25,6 @@ public class Animal   {
     this.className = className;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

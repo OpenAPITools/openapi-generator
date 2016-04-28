@@ -37,7 +37,7 @@ public class EnumTest   {
 
   @SerializedName("enum_string")
   private EnumStringEnum enumString = null;
-  
+
 
   /**
    * Gets or Sets enumInteger
@@ -63,7 +63,7 @@ public class EnumTest   {
 
   @SerializedName("enum_integer")
   private EnumIntegerEnum enumInteger = null;
-  
+
 
   /**
    * Gets or Sets enumNumber
@@ -89,9 +89,7 @@ public class EnumTest   {
 
   @SerializedName("enum_number")
   private EnumNumberEnum enumNumber = null;
-  
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -102,7 +100,6 @@ public class EnumTest   {
     this.enumString = enumString;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -113,7 +110,6 @@ public class EnumTest   {
     this.enumInteger = enumInteger;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -124,7 +120,6 @@ public class EnumTest   {
     this.enumNumber = enumNumber;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {
