@@ -55,7 +55,7 @@ end
 
 # create a random order, return its id
 def prepare_store(store_api)
-  order_id = random_id
+  order_id = 5
   order = Petstore::Order.new("id" => order_id,
 		  "petId" => 123,
 		  "quantity" => 789,

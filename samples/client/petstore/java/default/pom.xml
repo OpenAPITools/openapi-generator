@@ -172,9 +172,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <swagger-annotations-version>1.5.8</swagger-annotations-version>
-    <jersey-version>1.18</jersey-version>
-    <jackson-version>2.4.2</jackson-version>
-    <jodatime-version>2.3</jodatime-version>
+    <jersey-version>1.19.1</jersey-version>
+    <jackson-version>2.7.0</jackson-version>
+    <jodatime-version>2.9.3</jodatime-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>

@@ -9,8 +9,8 @@ import io.swagger.annotations.ApiParam;
 import com.sun.jersey.multipart.FormDataParam;
 
 import io.swagger.model.Pet;
-import io.swagger.model.ApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -169,14 +169,14 @@ public class PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ApiResponse.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ModelApiResponse.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
     }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ApiResponse.class) })
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFile(
         @ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId,
         @FormDataParam("additionalMetadata")  String additionalMetadata,

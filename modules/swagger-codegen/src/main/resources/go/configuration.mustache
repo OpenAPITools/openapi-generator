@@ -7,9 +7,9 @@ import (
 type Configuration struct {
     UserName  string  `json:"userName,omitempty"`
     Password  string  `json:"password,omitempty"`
-    ApiKeyPrefix map[string] string `json:"apiKeyPrefix,omitempty"`
-    ApiKey map[string] string  `json:"apiKey,omitempty"`
-    Debug  bool  `json:"debug,omitempty"`
+    APIKeyPrefix map[string] string `json:"APIKeyPrefix,omitempty"`
+    APIKey map[string] string  `json:"APIKey,omitempty"`
+    debug  bool  `json:"debug,omitempty"`
     DebugFile  string  `json:"debugFile,omitempty"`
     OAuthToken  string  `json:"oAuthToken,omitempty"`
     Timeout  int  `json:"timeout,omitempty"`
@@ -19,17 +19,17 @@ type Configuration struct {
     AccessToken string `json:"accessToken,omitempty"`
     DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
     UserAgent string `json:"userAgent,omitempty"`
-    ApiClient ApiClient `json:"apiClient,omitempty"`
+    APIClient APIClient `json:"APIClient,omitempty"`
 }
 
 func NewConfiguration() *Configuration {
     return &Configuration{
         BasePath: "{{basePath}}",
         UserName: "",
-        Debug: false,
+        debug: false,
         DefaultHeader: make(map[string]string),
-        ApiKey: make(map[string]string),
-        ApiKeyPrefix: make(map[string]string),
+        APIKey: make(map[string]string),
+        APIKeyPrefix: make(map[string]string),
         UserAgent: "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{packageVersion}}}/go{{/httpUserAgent}}",
         }
 }
@@ -42,10 +42,18 @@ func (c *Configuration) AddDefaultHeader(key string, value string) {
     c.DefaultHeader[key] = value
 }
 
-func (c *Configuration) GetApiKeyWithPrefix(apiKeyIdentifier string) string {
-    if c.ApiKeyPrefix[apiKeyIdentifier] != ""{
-        return c.ApiKeyPrefix[apiKeyIdentifier] + " " + c.ApiKey[apiKeyIdentifier]
+func (c *Configuration) GetAPIKeyWithPrefix(APIKeyIdentifier string) string {
+    if c.APIKeyPrefix[APIKeyIdentifier] != ""{
+        return c.APIKeyPrefix[APIKeyIdentifier] + " " + c.APIKey[APIKeyIdentifier]
     }
         
-    return c.ApiKey[apiKeyIdentifier]
+    return c.APIKey[APIKeyIdentifier]
+}
+
+func (c *Configuration) SetDebug(enable bool){
+    c.debug = enable
+}
+
+func (c *Configuration) GetDebug() bool {
+    return c.debug
 }

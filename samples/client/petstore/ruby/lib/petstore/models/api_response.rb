@@ -50,15 +50,30 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'code']
+      if attributes.has_key?(:'code')
         self.code = attributes[:'code']
       end
-      if attributes[:'type']
+
+      if attributes.has_key?(:'type')
         self.type = attributes[:'type']
       end
-      if attributes[:'message']
+
+      if attributes.has_key?(:'message')
         self.message = attributes[:'message']
       end
+
+    end
+
+    # Show invalid properties with the reasons. Usually used together with valid?
+    # @return Array for valid properies with the reasons
+    def list_invalid_properties
+      invalid_properties = Array.new
+      return invalid_properties
+    end
+
+    # Check to see if the all the properties in the model are valid
+    # @return true if the model is valid
+    def valid?
     end
 
     # Checks equality by comparing each attribute.

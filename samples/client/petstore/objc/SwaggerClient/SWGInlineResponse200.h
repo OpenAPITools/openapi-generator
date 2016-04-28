@@ -16,17 +16,17 @@
 @interface SWGInlineResponse200 : SWGObject
 
 
-@property(nonatomic) NSArray<SWGTag>* tags;
+@property(nonatomic) NSArray* /* NSString */ photoUrls;
+
+@property(nonatomic) NSString* name;
 
 @property(nonatomic) NSNumber* _id;
 
 @property(nonatomic) NSObject* category;
+
+@property(nonatomic) NSArray<SWGTag>* tags;
 /* pet status in the store [optional]
  */
 @property(nonatomic) NSString* status;
-
-@property(nonatomic) NSString* name;
-
-@property(nonatomic) NSArray* /* NSString */ photoUrls;
 
 @end

@@ -111,7 +111,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
 
         super.typeMapping = new HashMap<String, String>();
 
-        typeMapping.put("Date", "QDate");
+        typeMapping.put("date", "QDate");
         typeMapping.put("DateTime", "QDateTime");
         typeMapping.put("string", "QString");
         typeMapping.put("integer", "qint32");

@@ -18,8 +18,8 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 import io.swagger.client.model.Pet;
-import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.client.model.ModelApiResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

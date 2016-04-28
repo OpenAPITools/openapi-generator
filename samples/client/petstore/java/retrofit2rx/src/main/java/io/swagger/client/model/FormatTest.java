@@ -51,6 +51,8 @@ public class FormatTest   {
   private String password = null;
 
   /**
+   * minimum: 10.0
+   * maximum: 100.0
    **/
   @ApiModelProperty(value = "")
   public Integer getInteger() {
@@ -61,6 +63,8 @@ public class FormatTest   {
   }
 
   /**
+   * minimum: 20.0
+   * maximum: 200.0
    **/
   @ApiModelProperty(value = "")
   public Integer getInt32() {
@@ -81,6 +85,8 @@ public class FormatTest   {
   }
 
   /**
+   * minimum: 32.1
+   * maximum: 543.2
    **/
   @ApiModelProperty(required = true, value = "")
   public BigDecimal getNumber() {
@@ -91,6 +97,8 @@ public class FormatTest   {
   }
 
   /**
+   * minimum: 54.3
+   * maximum: 987.6
    **/
   @ApiModelProperty(value = "")
   public Float getFloat() {
@@ -101,6 +109,8 @@ public class FormatTest   {
   }
 
   /**
+   * minimum: 67.8
+   * maximum: 123.4
    **/
   @ApiModelProperty(value = "")
   public Double getDouble() {
@@ -122,7 +132,7 @@ public class FormatTest   {
 
   /**
    **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public byte[] getByte() {
     return _byte;
   }
@@ -142,7 +152,7 @@ public class FormatTest   {
 
   /**
    **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public Date getDate() {
     return date;
   }
@@ -162,7 +172,7 @@ public class FormatTest   {
 
   /**
    **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getPassword() {
     return password;
   }

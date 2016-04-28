@@ -5,7 +5,6 @@ import (
     "fmt"
     "encoding/json"
     "errors"
-    "github.com/dghubble/sling"
 )
 
 type UserApi struct {
@@ -34,81 +33,62 @@ func NewUserApiWithBasePath(basePath string) *UserApi{
  * @param body Created user object
  * @return void
  */
-func (a UserApi) CreateUser (body User) (error) {
-    // verify the required parameter 'body' is set
-    if &body == nil {
-        return errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
-    }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+func (a UserApi) CreateUser (body User) (APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user"
+  var httpMethod = "Post"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user"
 
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-// body params
-    _sling = _sling.BodyJSON(body)
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'body' is set
+  if &body == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  // body params
+  postBody = &body
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Creates list of users with given input array
@@ -116,81 +96,62 @@ func (a UserApi) CreateUser (body User) (error) {
  * @param body List of user object
  * @return void
  */
-func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
-    // verify the required parameter 'body' is set
-    if &body == nil {
-        return errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
-    }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+func (a UserApi) CreateUsersWithArrayInput (body []User) (APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user/createWithArray"
+  var httpMethod = "Post"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user/createWithArray"
 
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-// body params
-    _sling = _sling.BodyJSON(body)
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'body' is set
+  if &body == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  // body params
+  postBody = &body
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Creates list of users with given input array
@@ -198,81 +159,62 @@ func (a UserApi) CreateUsersWithArrayInput (body []User) (error) {
  * @param body List of user object
  * @return void
  */
-func (a UserApi) CreateUsersWithListInput (body []User) (error) {
-    // verify the required parameter 'body' is set
-    if &body == nil {
-        return errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
-    }
-    _sling := sling.New().Post(a.Configuration.BasePath)
+func (a UserApi) CreateUsersWithListInput (body []User) (APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user/createWithList"
+  var httpMethod = "Post"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user/createWithList"
 
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-// body params
-    _sling = _sling.BodyJSON(body)
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'body' is set
+  if &body == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  // body params
+  postBody = &body
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Delete user
@@ -280,80 +222,61 @@ func (a UserApi) CreateUsersWithListInput (body []User) (error) {
  * @param username The name that needs to be deleted
  * @return void
  */
-func (a UserApi) DeleteUser (username string) (error) {
-    // verify the required parameter 'username' is set
-    if &username == nil {
-        return errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
-    }
-    _sling := sling.New().Delete(a.Configuration.BasePath)
+func (a UserApi) DeleteUser (username string) (APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+  var httpMethod = "Delete"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user/{username}"
+ path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'username' is set
+  if &username == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Get user by user name
@@ -361,80 +284,63 @@ func (a UserApi) DeleteUser (username string) (error) {
  * @param username The name that needs to be fetched. Use user1 for testing. 
  * @return User
  */
-func (a UserApi) GetUserByName (username string) (User, error) {
-    // verify the required parameter 'username' is set
-    if &username == nil {
-        return *new(User), errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
-    }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+func (a UserApi) GetUserByName (username string) (User, APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+  var httpMethod = "Get"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user/{username}"
+ path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
-    _sling = _sling.Path(path)
+  // verify the required parameter 'username' is set
+  if &username == nil {
+      return *new(User), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
+  }
 
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
 
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
 
   var successPayload = new(User)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil {
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
-  return *successPayload, err
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
+
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Logs user into the system
@@ -443,163 +349,124 @@ func (a UserApi) GetUserByName (username string) (User, error) {
  * @param password The password for login in clear text
  * @return string
  */
-func (a UserApi) LoginUser (username string, password string) (string, error) {
-    // verify the required parameter 'username' is set
-    if &username == nil {
-        return *new(string), errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
-    }
-    // verify the required parameter 'password' is set
-    if &password == nil {
-        return *new(string), errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
-    }
-    _sling := sling.New().Get(a.Configuration.BasePath)
+func (a UserApi) LoginUser (username string, password string) (string, APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user/login"
+  var httpMethod = "Get"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user/login"
 
-    _sling = _sling.Path(path)
+  // verify the required parameter 'username' is set
+  if &username == nil {
+      return *new(string), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
+  }
+  // verify the required parameter 'password' is set
+  if &password == nil {
+      return *new(string), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
+  }
 
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-    type QueryParams struct {
-        Username    string `url:"username,omitempty"`
-Password    string `url:"password,omitempty"`
-}
-    _sling = _sling.QueryStruct(&QueryParams{ Username: username,Password: password })
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
 
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+  queryParams["username"] = a.Configuration.APIClient.ParameterToString(username)
+  queryParams["password"] = a.Configuration.APIClient.ParameterToString(password)
 
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
 
 
   var successPayload = new(string)
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
 
-  httpResponse, err := _sling.Receive(successPayload, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  if err != nil {
+    return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
   }
 
-  return *successPayload, err
+  err = json.Unmarshal(httpResponse.Body(), &successPayload)
+
+  return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Logs out current logged in user session
  * 
  * @return void
  */
-func (a UserApi) LogoutUser () (error) {
-    _sling := sling.New().Get(a.Configuration.BasePath)
+func (a UserApi) LogoutUser () (APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user/logout"
-
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
+  var httpMethod = "Get"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user/logout"
 
 
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
 
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
 
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
   }
 
-  return err
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }
 /**
  * Updated user
@@ -608,84 +475,65 @@ func (a UserApi) LogoutUser () (error) {
  * @param body Updated user object
  * @return void
  */
-func (a UserApi) UpdateUser (username string, body User) (error) {
-    // verify the required parameter 'username' is set
-    if &username == nil {
-        return errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
-    }
-    // verify the required parameter 'body' is set
-    if &body == nil {
-        return errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
-    }
-    _sling := sling.New().Put(a.Configuration.BasePath)
+func (a UserApi) UpdateUser (username string, body User) (APIResponse, error) {
 
-    
-    // create path and map variables
-    path := "/v2/user/{username}"
-    path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
+  var httpMethod = "Put"
+ // create path and map variables
+  path := a.Configuration.BasePath + "/user/{username}"
+ path = strings.Replace(path, "{" + "username" + "}", fmt.Sprintf("%v", username), -1)
 
-    _sling = _sling.Path(path)
-
-    // add default headers if any
-    for key := range a.Configuration.DefaultHeader {
-      _sling = _sling.Set(key, a.Configuration.DefaultHeader[key])
-    }
-    
-
-    // to determine the Content-Type header
-    localVarHttpContentTypes := []string {
-    }
-    //set Content-Type header
-    localVarHttpContentType := a.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes)
-    if localVarHttpContentType != "" {    
-      _sling = _sling.Set("Content-Type", localVarHttpContentType)
-    }
-
-    // to determine the Accept header
-    localVarHttpHeaderAccepts := []string {
-        "application/xml", 
-        "application/json", 
-    }
-    //set Accept header
-    localVarHttpHeaderAccept := a.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-    if localVarHttpHeaderAccept != "" {  
-        _sling = _sling.Set("Accept", localVarHttpHeaderAccept)
-    }
-
-// body params
-    _sling = _sling.BodyJSON(body)
-
-
-
-  // We use this map (below) so that any arbitrary error JSON can be handled.
-  // FIXME: This is in the absence of this Go generator honoring the non-2xx
-  // response (error) models, which needs to be implemented at some point.
-  var failurePayload map[string]interface{}
-
-  httpResponse, err := _sling.Receive(nil, &failurePayload)
-
-  if err == nil {
-    // err == nil only means that there wasn't a sub-application-layer error (e.g. no network error)
-    if failurePayload != nil {
-      // If the failurePayload is present, there likely was some kind of non-2xx status
-      // returned (and a JSON payload error present)
-      var str []byte
-      str, err = json.Marshal(failurePayload)
-      if err == nil { // For safety, check for an error marshalling... probably superfluous
-        // This will return the JSON error body as a string
-        err = errors.New(string(str))
-      }
-  } else {
-    // So, there was no network-type error, and nothing in the failure payload,
-    // but we should still check the status code
-    if httpResponse == nil {
-      // This should never happen...
-      err = errors.New("No HTTP Response received.")
-    } else if code := httpResponse.StatusCode; 200 > code || code > 299 {
-        err = errors.New("HTTP Error: " + string(httpResponse.StatusCode))
-      }
-    }
+  // verify the required parameter 'username' is set
+  if &username == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
+  }
+  // verify the required parameter 'body' is set
+  if &body == nil {
+      return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
   }
 
-  return err
+  headerParams := make(map[string]string)
+  queryParams := make(map[string]string)
+  formParams := make(map[string]string)
+  var postBody interface{}
+  var fileName string
+  var fileBytes []byte
+
+  
+  // add default headers if any
+  for key := range a.Configuration.DefaultHeader {
+      headerParams[key] = a.Configuration.DefaultHeader[key]
+  }
+  
+
+  // to determine the Content-Type header
+  localVarHttpContentTypes := []string {
+  }
+  //set Content-Type header
+  localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+  if localVarHttpContentType != "" {    
+      headerParams["Content-Type"] = localVarHttpContentType
+  }
+  // to determine the Accept header
+  localVarHttpHeaderAccepts := []string {
+      "application/xml", 
+      "application/json", 
+  }
+  //set Accept header
+  localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+  if localVarHttpHeaderAccept != "" {  
+      headerParams["Accept"] = localVarHttpHeaderAccept
+  }
+
+  // body params
+  postBody = &body
+
+
+  httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+
+  if err != nil {
+    return *NewAPIResponse(httpResponse.RawResponse), err
+  }
+
+  return *NewAPIResponse(httpResponse.RawResponse), err
 }

@@ -5,8 +5,8 @@ import io.swagger.api.PetApiService;
 import io.swagger.api.factories.PetApiServiceFactory;
 
 import io.swagger.model.Pet;
-import io.swagger.model.ApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -22,7 +22,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 @Path("/pet")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-15T18:10:39.667+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-22T19:32:21.945+08:00")
 public class PetApi  {
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
 

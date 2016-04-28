@@ -328,6 +328,16 @@ public class DefaultCodegen {
     }
 
     /**
+     * Return the regular expression/JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
+     *
+     * @param pattern the pattern (regular expression)
+     * @return properly-escaped pattern
+     */
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
+    }
+
+    /**
      * Return the file name of the Api Test
      *
      * @param name the file name of the Api
@@ -1094,6 +1104,10 @@ public class DefaultCodegen {
             property.exclusiveMinimum = np.getExclusiveMinimum();
             property.exclusiveMaximum = np.getExclusiveMaximum();
 
+            // check if any validation rule defined
+            if (property.minimum != null || property.maximum != null || property.exclusiveMinimum != null || property.exclusiveMaximum != null)
+                property.hasValidation = true;
+
             // legacy support
             Map<String, Object> allowableValues = new HashMap<String, Object>();
             if (np.getMinimum() != null) {
@@ -1111,7 +1125,12 @@ public class DefaultCodegen {
             StringProperty sp = (StringProperty) p;
             property.maxLength = sp.getMaxLength();
             property.minLength = sp.getMinLength();
-            property.pattern = sp.getPattern();
+            property.pattern = toRegularExpression(sp.getPattern());
+
+            // check if any validation rule defined
+            if (property.pattern != null || property.minLength != null || property.maxLength != null)
+                property.hasValidation = true;
+
             property.isString = true;
             if (sp.getEnum() != null) {
                 List<String> _enum = sp.getEnum();
@@ -1802,9 +1821,6 @@ public class DefaultCodegen {
             if (model.complexType != null) {
                 imports.add(model.complexType);
             }
-            p.maxLength = qp.getMaxLength();
-            p.minLength = qp.getMinLength();
-            p.pattern = qp.getPattern();
 
             p.maximum = qp.getMaximum();
             p.exclusiveMaximum = qp.isExclusiveMaximum();
@@ -1812,11 +1828,20 @@ public class DefaultCodegen {
             p.exclusiveMinimum = qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
             p.minLength = qp.getMinLength();
-            p.pattern = qp.getPattern();
+            p.pattern = toRegularExpression(qp.getPattern());
             p.maxItems = qp.getMaxItems();
             p.minItems = qp.getMinItems();
             p.uniqueItems = qp.isUniqueItems();
             p.multipleOf = qp.getMultipleOf();
+
+            if (p.maximum != null || p.exclusiveMaximum != null ||
+                    p.minimum != null || p.exclusiveMinimum != null ||
+                    p.maxLength != null || p.minLength != null ||
+                    p.maxItems != null || p.minItems != null ||
+                    p.pattern != null) {
+                p.hasValidation = true;
+            }
+
         } else {
             if (!(param instanceof BodyParameter)) {
                 LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
@@ -1889,7 +1914,7 @@ public class DefaultCodegen {
         // set the example value
         // if not specified in x-example, generate a default value
         if (p.vendorExtensions.containsKey("x-example")) {
-            p.example = (String) p.vendorExtensions.get("x-example");
+            p.example = Objects.toString(p.vendorExtensions.get("x-example"));
         } else if (Boolean.TRUE.equals(p.isString)) {
             p.example = p.paramName + "_example";
         } else if (Boolean.TRUE.equals(p.isBoolean)) {
@@ -2307,6 +2332,12 @@ public class DefaultCodegen {
                 addImport(m, cp.baseType);
                 addImport(m, cp.complexType);
                 vars.add(cp);
+
+                if (Boolean.TRUE.equals(cp.required)) { // if required, add to the list "requiredVars"
+                    m.requiredVars.add(cp);
+                } else { // else add to the list "optionalVars" for optional property
+                    m.optionalVars.add(cp);
+                }
             }
         }
     }
@@ -2319,18 +2350,28 @@ public class DefaultCodegen {
      */
     @SuppressWarnings("static-method")
     public String removeNonNameElementToCamelCase(String name) {
-        String nonNameElementPattern = "[-_:;#]";
-        name = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() { // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        return removeNonNameElementToCamelCase(name, "[-_:;#]");
+    }
+
+    /**
+     * Remove characters that is not good to be included in method name from the input and camelize it
+     *
+     * @param name string to be camelize
+     * @param nonNameElementPattern a regex pattern of the characters that is not good to be included in name
+     * @return camelized string
+     */
+    protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
+        String result = StringUtils.join(Lists.transform(Lists.newArrayList(name.split(nonNameElementPattern)), new Function<String, String>() {
             @Nullable
             @Override
             public String apply(String input) {
                 return StringUtils.capitalize(input);
             }
         }), "");
-        if (name.length() > 0) {
-            name = name.substring(0, 1).toLowerCase() + name.substring(1);
+        if (result.length() > 0) {
+            result = result.substring(0, 1).toLowerCase() + result.substring(1);
         }
-        return name;
+        return result;
     }
 
     /**
