@@ -17,9 +17,9 @@ import com.google.gson.annotations.SerializedName;
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}
 
-{{>libraries/okhttp-gson/enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>libraries/common/modelInnerEnum}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 
-{{>libraries/okhttp-gson/enumClass}}{{/items}}{{/items.isEnum}}
+{{>libraries/common/modelInnerEnum}}{{/items}}{{/items.isEnum}}
   @SerializedName("{{baseName}}")
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
   {{/vars}}
