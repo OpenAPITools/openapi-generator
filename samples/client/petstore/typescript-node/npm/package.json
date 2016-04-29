@@ -6,8 +6,8 @@
     "scripts": {
         "build": "typings install && tsc"
     },
-    "author": "Mads M. Tandrup",
-    "license": "Apache 2.0",
+    "author": "Swagger Codegen Contributors",
+    "license": "MIT",
     "dependencies": {
         "bluebird": "^3.3.5",
         "request": "^2.72.0"
