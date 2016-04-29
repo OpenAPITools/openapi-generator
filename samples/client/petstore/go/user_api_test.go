@@ -84,7 +84,7 @@ func TestGetUserByName(t *testing.T) {
   s := sw.NewUserApi()
   resp, apiResponse, err := s.GetUserByName("gopher")
   if err != nil {
-    t.Errorf("Error while getting pet by id")
+    t.Errorf("Error while getting user by id")
     t.Log(err)
   } else {
     assert.Equal(resp.Id, int64(1000), "User id should be equal")
@@ -101,7 +101,7 @@ func TestGetUserByNameWithInvalidID(t *testing.T) {
   s := sw.NewUserApi()
   resp, apiResponse, err := s.GetUserByName("999999999")
   if err != nil {
-    t.Errorf("Error while getting pet by invalid id")
+    t.Errorf("Error while getting user by invalid id")
     t.Log(err)
     t.Log(apiResponse)
   } else {
@@ -128,7 +128,7 @@ func TestUpdateUser(t *testing.T) {
   apiResponse, err := s.UpdateUser("gopher", newUser)
 
   if err != nil {
-    t.Errorf("Error while deleting pet by id")
+    t.Errorf("Error while deleting user by id")
     t.Log(err)
   }
   if apiResponse.Response.StatusCode != 200 {
@@ -138,7 +138,7 @@ func TestUpdateUser(t *testing.T) {
   //verify changings are correct
   resp, apiResponse, err := s.GetUserByName("gopher")
   if err != nil {
-    t.Errorf("Error while getting pet by id")
+    t.Errorf("Error while getting user by id")
     t.Log(err)
   } else {
     assert.Equal(resp.Id, int64(1000), "User id should be equal")
