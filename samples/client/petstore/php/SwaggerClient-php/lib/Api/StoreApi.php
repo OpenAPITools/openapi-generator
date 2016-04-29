@@ -126,7 +126,6 @@ class StoreApi
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
         }
 
-        
   
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
@@ -153,7 +152,8 @@ class StoreApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-                
+        
+        
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -202,8 +202,7 @@ class StoreApi
      */
     public function getInventoryWithHttpInfo()
     {
-        
-  
+          
         // parse inputs
         $resourcePath = "/store/inventory";
         $httpBody = '';
@@ -222,7 +221,8 @@ class StoreApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-                
+        
+        
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -299,7 +299,6 @@ class StoreApi
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.0.');
         }
 
-        
   
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
@@ -326,7 +325,8 @@ class StoreApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-                
+        
+        
   
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -389,7 +389,6 @@ class StoreApi
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling placeOrder');
         }
-        
   
         // parse inputs
         $resourcePath = "/store/order";
@@ -409,7 +408,8 @@ class StoreApi
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-                // body params
+        
+        // body params
         $_tempBody = null;
         if (isset($body)) {
             $_tempBody = $body;

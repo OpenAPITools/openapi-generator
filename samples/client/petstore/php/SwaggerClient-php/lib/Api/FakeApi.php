@@ -151,7 +151,7 @@ class FakeApi
             throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
         }
 
-        
+
         // verify the required parameter 'double' is set
         if ($double === null) {
             throw new \InvalidArgumentException('Missing the required parameter $double when calling testEndpointParameters');
@@ -163,7 +163,7 @@ class FakeApi
             throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
         }
 
-        
+
         // verify the required parameter 'string' is set
         if ($string === null) {
             throw new \InvalidArgumentException('Missing the required parameter $string when calling testEndpointParameters');
@@ -172,12 +172,36 @@ class FakeApi
             throw new \InvalidArgumentException('invalid value for "string" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.');
         }
 
-        
+
         // verify the required parameter 'byte' is set
         if ($byte === null) {
             throw new \InvalidArgumentException('Missing the required parameter $byte when calling testEndpointParameters');
         }
-        
+        if ($integer > 100.0) {
+            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.0.');
+        }
+        if ($integer < 10.0) {
+            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.0.');
+        }
+
+        if ($int32 > 200.0) {
+            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.0.');
+        }
+        if ($int32 < 20.0) {
+            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.0.');
+        }
+
+        if ($float > 987.6) {
+            throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
+        }
+
+        if (strlen($password) > 64) {
+            throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
+        }
+        if (strlen($password) > 10) {
+            throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
+        }
+
   
         // parse inputs
         $resourcePath = "/fake";
@@ -199,86 +223,39 @@ class FakeApi
 
         // form params
         if ($integer !== null) {
-            if ($integer > 100.0) {
-                throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.0.');
-            }
-            if ($integer < 10.0) {
-                throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.0.');
-            }
             $formParams['integer'] = $this->apiClient->getSerializer()->toFormValue($integer);
-        }
-// form params
+        }// form params
         if ($int32 !== null) {
-            if ($int32 > 200.0) {
-                throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.0.');
-            }
-            if ($int32 < 20.0) {
-                throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.0.');
-            }
             $formParams['int32'] = $this->apiClient->getSerializer()->toFormValue($int32);
-        }
-// form params
+        }// form params
         if ($int64 !== null) {
             $formParams['int64'] = $this->apiClient->getSerializer()->toFormValue($int64);
-        }
-// form params
+        }// form params
         if ($number !== null) {
-            if ($number > 543.2) {
-                throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 543.2.');
-            }
-            if ($number < 32.1) {
-                throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
-            }
             $formParams['number'] = $this->apiClient->getSerializer()->toFormValue($number);
-        }
-// form params
+        }// form params
         if ($float !== null) {
-            if ($float > 987.6) {
-                throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
-            }
             $formParams['float'] = $this->apiClient->getSerializer()->toFormValue($float);
-        }
-// form params
+        }// form params
         if ($double !== null) {
-            if ($double > 123.4) {
-                throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 123.4.');
-            }
-            if ($double < 67.8) {
-                throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
-            }
             $formParams['double'] = $this->apiClient->getSerializer()->toFormValue($double);
-        }
-// form params
+        }// form params
         if ($string !== null) {
-            if (!preg_match("/[a-z]/i", $string)) {
-                throw new \InvalidArgumentException('invalid value for "string" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.');
-            }
             $formParams['string'] = $this->apiClient->getSerializer()->toFormValue($string);
-        }
-// form params
+        }// form params
         if ($byte !== null) {
             $formParams['byte'] = $this->apiClient->getSerializer()->toFormValue($byte);
-        }
-// form params
+        }// form params
         if ($binary !== null) {
             $formParams['binary'] = $this->apiClient->getSerializer()->toFormValue($binary);
-        }
-// form params
+        }// form params
         if ($date !== null) {
             $formParams['date'] = $this->apiClient->getSerializer()->toFormValue($date);
-        }
-// form params
+        }// form params
         if ($date_time !== null) {
             $formParams['dateTime'] = $this->apiClient->getSerializer()->toFormValue($date_time);
-        }
-// form params
+        }// form params
         if ($password !== null) {
-            if (strlen($password) > 64) {
-                throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
-            }
-            if (strlen($password) > 10) {
-                throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
-            }
             $formParams['password'] = $this->apiClient->getSerializer()->toFormValue($password);
         }
         
