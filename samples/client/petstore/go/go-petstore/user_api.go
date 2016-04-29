@@ -3,8 +3,8 @@ package swagger
 import (
     "strings"
     "fmt"
-    "encoding/json"
     "errors"
+    "encoding/json"
 )
 
 type UserApi struct {
