@@ -3,10 +3,10 @@ package swagger
 import (
     "strings"
     "fmt"
-    "encoding/json"
     "errors"
     "os"
     "io/ioutil"
+    "encoding/json"
 )
 
 type PetApi struct {
