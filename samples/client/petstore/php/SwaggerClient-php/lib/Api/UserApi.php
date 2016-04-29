@@ -537,6 +537,7 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling loginUser');
         }
+
         // verify the required parameter 'password' is set
         if ($password === null) {
             throw new \InvalidArgumentException('Missing the required parameter $password when calling loginUser');
@@ -623,8 +624,7 @@ class UserApi
      */
     public function logoutUserWithHttpInfo()
     {
-        
-  
+          
         // parse inputs
         $resourcePath = "/user/logout";
         $httpBody = '';
@@ -702,6 +702,7 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling updateUser');
         }
+
         // verify the required parameter 'body' is set
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling updateUser');
