@@ -29,54 +29,55 @@ func TestCreateUser(t *testing.T) {
   } 
 }
 
-// func TestCreateUsersWithArrayInput(t *testing.T) {
-//  s := sw.NewUserApi()
-//   newUsers := []sw.User{
-//                          sw.User {
-//                            Id: int64(1001), 
-//                            FirstName: "gopher1",
-//                            LastName : "lang1",
-//                            Username : "gopher1",
-//                            Password : "lang1",
-//                            Email : "lang1@test.com",
-//                            Phone : "5101112222",
-//                            UserStatus: int32(1),
-//                          },
-//                          sw.User {
-//                            Id: int64(1002), 
-//                            FirstName: "gopher2",
-//                            LastName : "lang2",
-//                            Username : "gopher2",
-//                            Password : "lang2",
-//                            Email : "lang2@test.com",
-//                            Phone : "5101112222",
-//                            UserStatus: int32(1),
-//                          },
-//                        }
+//adding x to skip the test, currently it is failing
+func xTestCreateUsersWithArrayInput(t *testing.T) {
+ s := sw.NewUserApi()
+  newUsers := []sw.User{
+                         sw.User {
+                           Id: int64(1001), 
+                           FirstName: "gopher1",
+                           LastName : "lang1",
+                           Username : "gopher1",
+                           Password : "lang1",
+                           Email : "lang1@test.com",
+                           Phone : "5101112222",
+                           UserStatus: int32(1),
+                         },
+                         sw.User {
+                           Id: int64(1002), 
+                           FirstName: "gopher2",
+                           LastName : "lang2",
+                           Username : "gopher2",
+                           Password : "lang2",
+                           Email : "lang2@test.com",
+                           Phone : "5101112222",
+                           UserStatus: int32(1),
+                         },
+                       }
     
-//  apiResponse, err := s.CreateUsersWithArrayInput(newUsers)
+ apiResponse, err := s.CreateUsersWithArrayInput(newUsers)
 
-//  if err != nil {
-//    t.Errorf("Error while adding users")
-//    t.Log(err)
-//  }
-//  if apiResponse.Response.StatusCode != 200 {
-//    t.Log(apiResponse.Response)
-//  }
+ if err != nil {
+   t.Errorf("Error while adding users")
+   t.Log(err)
+ }
+ if apiResponse.Response.StatusCode != 200 {
+   t.Log(apiResponse.Response)
+ }
 
-//  //tear down
-//  _, err1 := s.DeleteUser("gopher1")
-//  if(err1 != nil){
-//        t.Errorf("Error while deleting user")
-//    t.Log(err1)
-//  }
+ //tear down
+ _, err1 := s.DeleteUser("gopher1")
+ if(err1 != nil){
+       t.Errorf("Error while deleting user")
+   t.Log(err1)
+ }
 
-//  _, err2 := s.DeleteUser("gopher2")
-//  if(err2 != nil){
-//        t.Errorf("Error while deleting user")
-//    t.Log(err2)
-//  } 
-// }
+ _, err2 := s.DeleteUser("gopher2")
+ if(err2 != nil){
+       t.Errorf("Error while deleting user")
+   t.Log(err2)
+ } 
+}
 
 func TestGetUserByName(t *testing.T) {
   assert := assert.New(t)
