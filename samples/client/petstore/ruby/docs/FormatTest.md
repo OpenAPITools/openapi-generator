@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **binary** | **String** |  | [optional] 
 **date** | **Date** |  | 
 **date_time** | **DateTime** |  | [optional] 
+**uuid** | [**UUID**](UUID.md) |  | [optional] 
 **password** | **String** |  | 
 
 
