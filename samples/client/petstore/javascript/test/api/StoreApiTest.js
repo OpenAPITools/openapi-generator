@@ -19,6 +19,9 @@
   });
 
   describe('StoreApi', function() {
+    /* commented out the following as the fake endpoint has been removed from the spec
+     * we'll add it back after updating the petstore server
+     *
     it('getInventoryInObject', function(done) {
       api.getInventoryInObject(function(error, obj) {
         if (error) throw error;
@@ -36,6 +39,7 @@
         done();
       });
     });
+    */
   });
 
 }));
