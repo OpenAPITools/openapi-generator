@@ -40,12 +40,7 @@
      * @type {Array.<String>}
      */
     this.authentications = {
-      'test_api_key_header': {type: 'apiKey', 'in': 'header', name: 'test_api_key_header'},
       'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
-      'test_http_basic': {type: 'basic'},
-      'test_api_client_secret': {type: 'apiKey', 'in': 'header', name: 'x-test_api_client_secret'},
-      'test_api_client_id': {type: 'apiKey', 'in': 'header', name: 'x-test_api_client_id'},
-      'test_api_key_query': {type: 'apiKey', 'in': 'query', name: 'test_api_key_query'},
       'petstore_auth': {type: 'oauth2'}
     };
     /**
