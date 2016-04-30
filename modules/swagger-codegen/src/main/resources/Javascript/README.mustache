@@ -32,11 +32,11 @@ npm install {{{projectName}}} --save
 #### git
 #
 If the library is hosted at a git repository, e.g.
-https://github.com/{{#gitUserName}}{{.}}{{/gitUserName}}{{^gitUserName}}YOUR_USERNAME{{/gitUserName}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{projectName}}{{/gitRepoId}}
+https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{projectName}}{{/gitRepoId}}
 then install it via:
 
 ```shell
-npm install {{#gitUserName}}{{.}}{{/gitUserName}}{{^gitUserName}}YOUR_USERNAME{{/gitUserName}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{projectName}}{{/gitRepoId}} --save
+    npm install {{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{projectName}}{{/gitRepoId}} --save
 ```
 
 ### For browser

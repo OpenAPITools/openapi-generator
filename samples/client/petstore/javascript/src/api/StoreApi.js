@@ -78,49 +78,6 @@
     }
 
     /**
-     * Callback function to receive the result of the findOrdersByStatus operation.
-     * @callback module:api/StoreApi~findOrdersByStatusCallback
-     * @param {String} error Error message, if any.
-     * @param {Array.<module:model/Order>} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Finds orders by status
-     * A single status value can be provided as a string
-     * @param {Object} opts Optional parameters
-     * @param {module:model/String} opts.status Status value that needs to be considered for query (default to placed)
-     * @param {module:api/StoreApi~findOrdersByStatusCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {Array.<module:model/Order>}
-     */
-    this.findOrdersByStatus = function(opts, callback) {
-      opts = opts || {};
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-        'status': opts['status']
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = ['test_api_client_id', 'test_api_client_secret'];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = [Order];
-
-      return this.apiClient.callApi(
-        '/store/findByStatus', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the getInventory operation.
      * @callback module:api/StoreApi~getInventoryCallback
      * @param {String} error Error message, if any.
@@ -160,45 +117,6 @@
     }
 
     /**
-     * Callback function to receive the result of the getInventoryInObject operation.
-     * @callback module:api/StoreApi~getInventoryInObjectCallback
-     * @param {String} error Error message, if any.
-     * @param {Object} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
-     * Returns an arbitrary object which is actually a map of status codes to quantities
-     * @param {module:api/StoreApi~getInventoryInObjectCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {Object}
-     */
-    this.getInventoryInObject = function(callback) {
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = ['api_key'];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = Object;
-
-      return this.apiClient.callApi(
-        '/store/inventory?response=arbitrary_object', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the getOrderById operation.
      * @callback module:api/StoreApi~getOrderByIdCallback
      * @param {String} error Error message, if any.
@@ -232,7 +150,7 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_key_header', 'test_api_key_query'];
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -274,7 +192,7 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_client_id', 'test_api_client_secret'];
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
