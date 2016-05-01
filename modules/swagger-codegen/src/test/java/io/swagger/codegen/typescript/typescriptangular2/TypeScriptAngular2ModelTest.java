@@ -1,4 +1,4 @@
-package io.swagger.codegen.typescriptangular2;
+package io.swagger.codegen.typescript.typescriptangular2;
 
 import com.google.common.collect.Sets;
 

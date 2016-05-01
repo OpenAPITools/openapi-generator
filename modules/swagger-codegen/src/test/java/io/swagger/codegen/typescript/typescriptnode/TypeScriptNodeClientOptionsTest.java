@@ -1,4 +1,4 @@
-package io.swagger.codegen.typescriptnode;
+package io.swagger.codegen.typescript.typescriptnode;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;

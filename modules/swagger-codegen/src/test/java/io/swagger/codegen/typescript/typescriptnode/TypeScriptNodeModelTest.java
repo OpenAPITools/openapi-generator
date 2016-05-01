@@ -1,9 +1,9 @@
-package io.swagger.codegen.typescriptangular;
+package io.swagger.codegen.typescript.typescriptnode;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.languages.TypeScriptAngularClientCodegen;
+import io.swagger.codegen.languages.TypeScriptNodeClientCodegen;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
@@ -18,9 +18,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
-public class TypeScriptAngularModelTest {
+public class TypeScriptNodeModelTest {
 
-    @Test(description = "convert a simple TypeScript Angular model")
+    @Test(description = "convert a simple TypeScript Node model")
     public void simpleModelTest() {
         final Model model = new ModelImpl()
                 .description("a sample model")
@@ -29,7 +29,7 @@ public class TypeScriptAngularModelTest {
                 .property("createdAt", new DateTimeProperty())
                 .required("id")
                 .required("name");
-        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -75,7 +75,7 @@ public class TypeScriptAngularModelTest {
                 .property("id", new LongProperty())
                 .property("urls", new ArrayProperty().items(new StringProperty()))
                 .required("id");
-        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -108,7 +108,7 @@ public class TypeScriptAngularModelTest {
         final Model model = new ModelImpl()
                 .description("a sample model")
                 .property("children", new RefProperty("#/definitions/Children"));
-        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -120,7 +120,6 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.datatype, "Children");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertNull(property1.required);
         Assert.assertTrue(property1.isNotContainer);
@@ -132,7 +131,7 @@ public class TypeScriptAngularModelTest {
                 .description("a sample model")
                 .property("children", new ArrayProperty()
                         .items(new RefProperty("#/definitions/Children")));
-        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -155,7 +154,7 @@ public class TypeScriptAngularModelTest {
         final Model model = new ArrayModel()
                 .description("an array model")
                 .items(new RefProperty("#/definitions/Children"));
-        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -169,7 +168,7 @@ public class TypeScriptAngularModelTest {
         final Model model = new ModelImpl()
                 .description("a map model")
                 .additionalProperties(new RefProperty("#/definitions/Children"));
-        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
