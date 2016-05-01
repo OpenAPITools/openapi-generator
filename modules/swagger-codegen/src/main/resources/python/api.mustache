@@ -99,6 +99,14 @@ class {{classname}}(object):
 
 {{#allParams}}
 {{#hasValidation}}
+    {{#maxLength}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) > {{maxLength}}: 
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be less than `{{maxLength}}`")
+    {{/maxLength}}
+    {{#minLength}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) < {{minLength}}: 
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than `{{minLength}}`")
+    {{/minLength}}
     {{#maximum}}
         if '{{paramName}}' in params and params['{{paramName}}'] > {{maximum}}: 
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than `{{maximum}}`")
