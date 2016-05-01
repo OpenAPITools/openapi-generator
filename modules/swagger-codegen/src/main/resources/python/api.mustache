@@ -100,15 +100,15 @@ class {{classname}}(object):
 {{#allParams}}
 {{#hasValidation}}
     {{#maximum}}
-        if {{#required}}{{paramName}}{{/required}}{{^required}}'{{paramName}}' in params and params['{{paramName}}']{{/required}} > {{maximum}}: 
+        if '{{paramName}}' in params and params['{{paramName}}'] > {{maximum}}: 
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than `{{maximum}}`")
     {{/maximum}}
     {{#minimum}}
-        if {{#required}}{{paramName}}{{/required}}{{^required}}'{{paramName}}' in params and params['{{paramName}}']{{/required}} < {{minimum}}: 
+        if '{{paramName}}' in params and params['{{paramName}}'] < {{minimum}}: 
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than `{{minimum}}`")
     {{/minimum}}
     {{#pattern}}
-        #if not re.match('{{pattern}}', {{#required}}{{paramName}}{{/required}}{{^required}}'{{paramName}}' in params and  params['{{paramName}}']{{/required}}): 
+        #if not re.match('{{pattern}}', '{{paramName}}' in params and  params['{{paramName}}']): 
         #    raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{pattern}}`")
     {{/pattern}}
 {{/hasValidation}}
