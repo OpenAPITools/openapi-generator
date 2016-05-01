@@ -1,4 +1,4 @@
-package io.swagger.codegen.typescript.integrationtest;
+package io.swagger.codegen.utils;
 
 import org.testng.Assert;
 
@@ -48,12 +48,12 @@ public class AssertFile {
                     Path actualDir = absoluteActual.resolve(relativeExpectedDir);
 
                     if (!Files.exists(actualDir)) {
-                        fail(String.format("Directory \'%s\' missing in target.", expectedDir.getFileName()));
+                        fail(String.format("Directory '%s' is missing.", actualDir));
                     }
 
-                    assertEquals(expectedDir.toFile().list().length,
-                                        actualDir.toFile().list().length,
-                                        String.format("Directory size of \'%s\' differ. ", relativeExpectedDir));
+                    assertEquals(expectedDir.toFile().list(),
+                                 actualDir.toFile().list(),
+                                 String.format("Directory content of '%s' and '%s' differ.", expectedDir, actualDir));
 
                     return FileVisitResult.CONTINUE;
                 }
@@ -64,11 +64,11 @@ public class AssertFile {
                     Path actualFile = absoluteActual.resolve(relativeExpectedFile);
 
                     if (!Files.exists(actualFile)) {
-                        fail(String.format("File \'%s\' missing in target.", expectedFile.getFileName()));
+                        fail(String.format("File '%s' is missing.", actualFile));
                     }
                     assertEquals(Files.readAllLines(expectedFile, Charset.defaultCharset()),
-                                        Files.readAllLines(actualFile, Charset.defaultCharset()),
-                                        String.format("File content of \'%s\' differ. ", relativeExpectedFile));
+                                 Files.readAllLines(actualFile, Charset.defaultCharset()),
+                                 String.format("File content of '%s' and '%s' differ.", expectedFile, actualFile));
 
                     return FileVisitResult.CONTINUE;
                 }
