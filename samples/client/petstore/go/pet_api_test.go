@@ -95,7 +95,7 @@ func TestFindPetsByStatus(t *testing.T) {
 		t.Log(apiResponse)
 	} else {
 		t.Log(apiResponse)
-		if len(resp) == 0 {
+		if len(*resp) == 0 {
 			t.Errorf("Error no pets returned")
 		}
 
