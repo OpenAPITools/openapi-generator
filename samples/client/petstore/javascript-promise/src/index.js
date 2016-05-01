@@ -1,11 +1,7 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-<<<<<<< HEAD
-    define(['./ApiClient', './model/Category', './model/Order', './model/Pet', './model/Tag', './model/User', './api/PetApi', './api/StoreApi', './api/UserApi'], factory);
-=======
-    define(['ApiClient', 'model/Category', 'model/InlineResponse200', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
->>>>>>> 7dfddd449ddc2ae8e7e35b6d5ab7fc10e52bc93d
+    define(['ApiClient', 'model/Category', 'model/Order', 'model/Pet', 'model/Tag', 'model/User', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('./ApiClient'), require('./model/Category'), require('./model/Order'), require('./model/Pet'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));

@@ -27,6 +27,7 @@
    * @class
    */
   var exports = function() {
+    var _this = this;
 
 
 
@@ -46,7 +47,7 @@
    * @return {module:model/User} The populated <code>User</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('id')) {
