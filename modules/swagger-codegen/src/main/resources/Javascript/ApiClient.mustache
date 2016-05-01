@@ -16,7 +16,7 @@
   'use strict';
 
 {{#emitJSDoc}}  /**
-   * @module ApiClient
+   * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient
    * @version {{projectVersion}}
    */
 
@@ -24,7 +24,7 @@
    * Manages low level client-server communications, parameter marshalling, etc. There should not be any need for an
    * application to use this class directly - the *Api and model classes provide the public API for the service. The
    * contents of this file should be regarded as internal but are documented for completeness.
-   * @alias module:ApiClient
+   * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient
    * @class
    */
 {{/emitJSDoc}}  var exports = function() {
@@ -218,7 +218,7 @@
   /**
    * Builds a string representation of an array-type actual parameter, according to the given collection format.
    * @param {Array} param An array parameter.
-   * @param {module:ApiClient.CollectionFormatEnum} collectionFormat The array element separator strategy.
+   * @param {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient.CollectionFormatEnum} collectionFormat The array element separator strategy.
    * @returns {String|Array} A string representation of the supplied collection, using the specified delimiter. Returns
    * <code>param</code> as is if <code>collectionFormat</code> is <code>multi</code>.
    */
@@ -309,7 +309,7 @@
 
 {{#emitJSDoc}}{{^usePromises}}  /**
    * Callback function to receive the result of the operation.
-   * @callback module:ApiClient~callApiCallback
+   * @callback module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient~callApiCallback
    * @param {String} error Error message, if any.
    * @param data The data returned by the service call.
    * @param {String} response The complete HTTP response.
@@ -329,7 +329,7 @@
    * @param {Array.<String>} accepts An array of acceptable response MIME types.
    * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
    * constructor for a complex type.{{^usePromises}}
-   * @param {module:ApiClient~callApiCallback} callback The callback function.
+   * @param {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient~callApiCallback} callback The callback function.
 {{/usePromises}}   * @returns {{#usePromises}}{Promise} A Promise object{{/usePromises}}{{^usePromises}}{Object} The SuperAgent request object{{/usePromises}}.
    */
 {{/emitJSDoc}}  exports.prototype.callApi = function callApi(path, httpMethod, pathParams,
@@ -475,8 +475,27 @@
   };
 
 {{#emitJSDoc}}  /**
+   * Constructs a new map or array model from REST data.
+   * @param data {Object|Array} The REST data.
+   * @param obj {Object|Array} The target object or array.
+   */
+{{/emitJSDoc}}  exports.constructFromObject = function(data, obj, itemType) {
+    if (Array.isArray(data)) {
+      for (var i = 0; i < data.length; i++) {
+        if (data.hasOwnProperty(i))
+          obj[i] = exports.convertToType(data[i], itemType);
+      }
+    } else {
+      for (var k in data) {
+        if (data.hasOwnProperty(k))
+          result[k] = exports.convertToType(data[k], itemType);
+      }
+    }
+  };
+
+{{#emitJSDoc}}  /**
    * The default API client implementation.
-   * @type {module:ApiClient}
+   * @type {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient}
    */
 {{/emitJSDoc}}  exports.instance = new exports();
 
