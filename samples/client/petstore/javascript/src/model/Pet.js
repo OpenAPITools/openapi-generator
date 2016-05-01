@@ -29,11 +29,12 @@
    * @param photoUrls
    */
   var exports = function(name, photoUrls) {
+    var _this = this;
 
 
 
-    this['name'] = name;
-    this['photoUrls'] = photoUrls;
+    _this['name'] = name;
+    _this['photoUrls'] = photoUrls;
 
 
   };
@@ -46,7 +47,7 @@
    * @return {module:model/Pet} The populated <code>Pet</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('id')) {
