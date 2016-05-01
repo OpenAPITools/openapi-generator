@@ -1,7 +1,11 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
+<<<<<<< HEAD
     define(['./ApiClient', './model/Category', './model/Order', './model/Pet', './model/Tag', './model/User', './api/PetApi', './api/StoreApi', './api/UserApi'], factory);
+=======
+    define(['ApiClient', 'model/Category', 'model/InlineResponse200', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
+>>>>>>> 7dfddd449ddc2ae8e7e35b6d5ab7fc10e52bc93d
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('./ApiClient'), require('./model/Category'), require('./model/Order'), require('./model/Pet'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
@@ -15,7 +19,7 @@
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
    * <pre>
-   * var SwaggerPetstore = require('./index'); // See note below*.
+   * var SwaggerPetstore = require('index'); // See note below*.
    * var xxxSvc = new SwaggerPetstore.XxxApi(); // Allocate the API class we're going to use.
    * var yyyModel = new SwaggerPetstore.Yyy(); // Construct a model instance.
    * yyyModel.someProperty = 'someValue';
@@ -23,8 +27,8 @@
    * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
    * ...
    * </pre>
-   * <em>*NOTE: For a top-level AMD script, use require(['./index'], function(){...}) and put the application logic within the
-   * callback function.</em>
+   * <em>*NOTE: For a top-level AMD script, use require(['index'], function(){...})
+   * and put the application logic within the callback function.</em>
    * </p>
    * <p>
    * A non-AMD browser application (discouraged) might do something like this:

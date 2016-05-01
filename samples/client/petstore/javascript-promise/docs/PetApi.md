@@ -59,6 +59,58 @@ null (empty response body)
 [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
+<<<<<<< HEAD
+=======
+
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: application/json, application/xml
+
+<a name="addPetUsingByteArray"></a>
+# **addPetUsingByteArray**
+> addPetUsingByteArray(opts)
+
+Fake endpoint to test byte array in body parameter for adding a new pet to the store
+
+
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger-petstore');
+var defaultClient = SwaggerPetstore.ApiClient.default;
+
+// Configure OAuth2 access token for authorization: petstore_auth
+var petstore_auth = defaultClient.authentications['petstore_auth'];
+petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+
+var apiInstance = new SwaggerPetstore.PetApi()
+
+var opts = { 
+  'body': "B" // {String} Pet object in the form of byte array
+};
+apiInstance.addPetUsingByteArray(opts).then(function() {
+  console.log('API called successfully.');
+}, function(error) {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **String**| Pet object in the form of byte array | [optional] 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+>>>>>>> 7dfddd449ddc2ae8e7e35b6d5ab7fc10e52bc93d
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/json, application/xml
@@ -263,6 +315,117 @@ Name | Type | Description  | Notes
 [api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
+<<<<<<< HEAD
+=======
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
+
+<a name="getPetByIdInObject"></a>
+# **getPetByIdInObject**
+> InlineResponse200 getPetByIdInObject(petId)
+
+Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
+
+Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger-petstore');
+var defaultClient = SwaggerPetstore.ApiClient.default;
+
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token"
+
+// Configure OAuth2 access token for authorization: petstore_auth
+var petstore_auth = defaultClient.authentications['petstore_auth'];
+petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+
+var apiInstance = new SwaggerPetstore.PetApi()
+
+var petId = 789; // {Integer} ID of pet that needs to be fetched
+
+apiInstance.getPetByIdInObject(petId).then(function(data) {
+  console.log('API called successfully. Returned data: ' + data);
+}, function(error) {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **Integer**| ID of pet that needs to be fetched | 
+
+### Return type
+
+[**InlineResponse200**](InlineResponse200.md)
+
+### Authorization
+
+[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
+
+<a name="petPetIdtestingByteArraytrueGet"></a>
+# **petPetIdtestingByteArraytrueGet**
+> &#39;String&#39; petPetIdtestingByteArraytrueGet(petId)
+
+Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
+
+Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger-petstore');
+var defaultClient = SwaggerPetstore.ApiClient.default;
+
+// Configure API key authorization: api_key
+var api_key = defaultClient.authentications['api_key'];
+api_key.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.apiKeyPrefix['api_key'] = "Token"
+
+// Configure OAuth2 access token for authorization: petstore_auth
+var petstore_auth = defaultClient.authentications['petstore_auth'];
+petstore_auth.accessToken = "YOUR ACCESS TOKEN"
+
+var apiInstance = new SwaggerPetstore.PetApi()
+
+var petId = 789; // {Integer} ID of pet that needs to be fetched
+
+apiInstance.petPetIdtestingByteArraytrueGet(petId).then(function(data) {
+  console.log('API called successfully. Returned data: ' + data);
+}, function(error) {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **Integer**| ID of pet that needs to be fetched | 
+
+### Return type
+
+**&#39;String&#39;**
+
+### Authorization
+
+[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+>>>>>>> 7dfddd449ddc2ae8e7e35b6d5ab7fc10e52bc93d
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
