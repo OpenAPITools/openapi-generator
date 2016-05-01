@@ -30,7 +30,7 @@ func TestCreateUser(t *testing.T) {
 }
 
 //adding x to skip the test, currently it is failing
-func xTestCreateUsersWithArrayInput(t *testing.T) {
+func TestCreateUsersWithArrayInput(t *testing.T) {
  s := sw.NewUserApi()
   newUsers := []sw.User{
                          sw.User {
