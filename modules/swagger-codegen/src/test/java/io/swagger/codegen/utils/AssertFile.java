@@ -9,6 +9,11 @@ import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.List;
+
+import difflib.Delta;
+import difflib.DiffUtils;
+import difflib.Patch;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -27,14 +32,14 @@ public class AssertFile {
     /**
      * Asserts that two directories are recursively equal. If they are not, an {@link AssertionError} is thrown with the
      * given message.<br/>
-     * There will be a binary comparison of all files under expected with all files under actual. File attributes will
+     * There will be a textual comparison of all files under expected with all files under actual. File attributes will
      * not be considered.<br/>
      * Missing or additional files are considered an error.<br/>
      *
      * @param expected Path expected directory
      * @param actual   Path actual directory
      */
-    public static final void assertPathEqualsRecursively(final Path expected, final Path actual) {
+    public static void assertPathEqualsRecursively(final Path expected, final Path actual) {
         Assert.assertNotNull(expected);
         Assert.assertNotNull(actual);
         final Path absoluteExpected = expected.toAbsolutePath();
@@ -66,9 +71,8 @@ public class AssertFile {
                     if (!Files.exists(actualFile)) {
                         fail(String.format("File '%s' is missing.", actualFile));
                     }
-                    assertEquals(Files.readAllLines(expectedFile, Charset.defaultCharset()),
-                                 Files.readAllLines(actualFile, Charset.defaultCharset()),
-                                 String.format("File content of '%s' and '%s' differ.", expectedFile, actualFile));
+
+                    assertFilesAreEqual(expectedFile, actualFile);
 
                     return FileVisitResult.CONTINUE;
                 }
@@ -86,9 +90,43 @@ public class AssertFile {
 
             });
         } catch (IOException e) {
-            fail(e.getMessage());
+            fail(e.getMessage(), e);
         }
     }
 
+
+    public static void assertFilesAreEqual(final Path expected, final Path actual) {
+
+        if(!Files.isRegularFile(expected)) {
+            fail("expected: '%s' is not a readable file");
+        }
+
+        if(!Files.isRegularFile(actual)) {
+            fail("actual: '%s' is not a readable file");
+        }
+
+        try {
+            List<String> expectedLines = Files.readAllLines(expected, Charset.defaultCharset());
+            List<String> actualLines = Files.readAllLines(actual, Charset.defaultCharset());
+            Patch diff = DiffUtils.diff(expectedLines, actualLines);
+            List<Delta> deltas = diff.getDeltas();
+            if(!deltas.isEmpty()) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("files diff:\n");
+                stringBuilder.append("\tfile: '" + expected.toAbsolutePath().toString() + "' \n");
+                stringBuilder.append("\tfile: '" + actual.toAbsolutePath().toString() + "' \n");
+                stringBuilder.append("\tdiffs:\n");
+
+                for (Delta delta: deltas) {
+                    stringBuilder.append(delta.toString() + "\n");
+                }
+
+                fail(stringBuilder.toString());
+            }
+
+        } catch (IOException e) {
+            fail(e.getMessage(), e);
+        }
+    }
 }
 
