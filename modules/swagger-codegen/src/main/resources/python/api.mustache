@@ -21,6 +21,7 @@ from __future__ import absolute_import
 
 import sys
 import os
+import re
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -94,6 +95,23 @@ class {{classname}}(object):
         if ('{{paramName}}' not in params) or (params['{{paramName}}'] is None):
             raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")
 {{/required}}
+{{/allParams}}
+
+{{#allParams}}
+{{#hasValidation}}
+    {{#maximum}}
+        if {{#required}}{{paramName}}{{/required}}{{^required}}'{{paramName}}' in params and params['{{paramName}}']{{/required}} > {{maximum}}: 
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than `{{maximum}}`")
+    {{/maximum}}
+    {{#minimum}}
+        if {{#required}}{{paramName}}{{/required}}{{^required}}'{{paramName}}' in params and params['{{paramName}}']{{/required}} < {{minimum}}: 
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than `{{minimum}}`")
+    {{/minimum}}
+    {{#pattern}}
+        #if not re.match('{{pattern}}', {{#required}}{{paramName}}{{/required}}{{^required}}'{{paramName}}' in params and  params['{{paramName}}']{{/required}}): 
+        #    raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{pattern}}`")
+    {{/pattern}}
+{{/hasValidation}}
 {{/allParams}}
 
         resource_path = '{{path}}'.replace('{format}', 'json')
