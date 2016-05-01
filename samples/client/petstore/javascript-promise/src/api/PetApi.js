@@ -1,7 +1,11 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
+<<<<<<< HEAD
     define(['../ApiClient', '../model/Pet'], factory);
+=======
+    define(['ApiClient', 'model/Pet', 'model/InlineResponse200'], factory);
+>>>>>>> 7dfddd449ddc2ae8e7e35b6d5ab7fc10e52bc93d
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('../model/Pet'));
@@ -25,8 +29,8 @@
    * Constructs a new PetApi. 
    * @alias module:api/PetApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
-   * if unspecified.
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
    */
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
