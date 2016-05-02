@@ -551,7 +551,8 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
 
-	formParams["additionalMetadata"] = additionalMetadata	fbs, _ := ioutil.ReadAll(file)
+	formParams["additionalMetadata"] = additionalMetadata
+	fbs, _ := ioutil.ReadAll(file)
 	fileBytes = fbs
 	fileName = file.Name()
 

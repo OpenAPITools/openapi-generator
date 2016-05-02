@@ -102,7 +102,8 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 {{#headerParams}}	// header params "{{baseName}}"
 	headerParams["{{baseName}}"] = {{paramName}}
 {{/headerParams}}{{/hasHeaderParams}}{{#hasFormParams}}
-{{#formParams}}{{#isFile}}	fbs, _ := ioutil.ReadAll(file)
+{{#formParams}}{{#isFile}}
+	fbs, _ := ioutil.ReadAll(file)
 	fileBytes = fbs
 	fileName = file.Name(){{/isFile}}
 {{^isFile}}	formParams["{{paramName}}"] = {{paramName}}{{/isFile}}{{/formParams}}{{/hasFormParams}}{{#hasBodyParam}}
