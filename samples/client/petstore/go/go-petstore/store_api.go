@@ -1,10 +1,10 @@
-package swagger
+package petstore
 
 import (
     "strings"
     "fmt"
-    "encoding/json"
     "errors"
+    "encoding/json"
 )
 
 type StoreApi struct {

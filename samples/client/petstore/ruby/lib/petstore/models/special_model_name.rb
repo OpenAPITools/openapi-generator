@@ -42,7 +42,7 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'$special[property.name]']
+      if attributes.has_key?(:'$special[property.name]')
         self.special_property_name = attributes[:'$special[property.name]']
       end
 

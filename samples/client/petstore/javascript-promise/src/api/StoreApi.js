@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/Order'], factory);
+    define(['ApiClient', 'model/Order'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('../model/Order'));
@@ -25,8 +25,8 @@
    * Constructs a new StoreApi. 
    * @alias module:api/StoreApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
-   * if unspecified.
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
    */
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
@@ -71,41 +71,6 @@
 
 
     /**
-     * Finds orders by status
-     * A single status value can be provided as a string
-     * @param {Object} opts Optional parameters
-     * @param {module:model/String} opts.status Status value that needs to be considered for query (default to placed)
-     * data is of type: {Array.<module:model/Order>}
-     */
-    this.findOrdersByStatus = function(opts) {
-      opts = opts || {};
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-        'status': opts['status']
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = ['test_api_client_id', 'test_api_client_secret'];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = [Order];
-
-      return this.apiClient.callApi(
-        '/store/findByStatus', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-    }
-
-
-    /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * data is of type: {Object.<String, {'String': 'Integer'}>}
@@ -137,37 +102,6 @@
 
 
     /**
-     * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
-     * Returns an arbitrary object which is actually a map of status codes to quantities
-     * data is of type: {Object}
-     */
-    this.getInventoryInObject = function() {
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = ['api_key'];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = Object;
-
-      return this.apiClient.callApi(
-        '/store/inventory?response=arbitrary_object', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-    }
-
-
-    /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param {String} orderId ID of pet that needs to be fetched
@@ -192,7 +126,7 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_key_header', 'test_api_key_query'];
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;
@@ -226,7 +160,7 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_client_id', 'test_api_client_secret'];
+      var authNames = [];
       var contentTypes = [];
       var accepts = ['application/json', 'application/xml'];
       var returnType = Order;

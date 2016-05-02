@@ -79,6 +79,8 @@
       });
     });
 
+    /* commented out the following as the fake endpoint has been removed from the spec
+     * we'll add it back after updating the Petstore server
     it('getPetByIdInObject', function(done) {
       var pet = createRandomPet();
       api.addPet({body: pet}, function(error) {
@@ -104,6 +106,7 @@
         });
       });
     });
+    */
   });
 
 }));
