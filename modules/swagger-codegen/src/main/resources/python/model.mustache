@@ -79,7 +79,32 @@ class {{classname}}(object):
                 "Invalid value for `{{name}}`, must be one of {0}"
                 .format(allowed_values)
             )
-        {{/isEnum}}self._{{name}} = {{name}}
+        {{/isEnum}}
+        {{^isEnum}}
+
+        {{#hasValidation}}
+        {{#maxLength}}
+        if len({{name}}) > {{maxLength}}: 
+            raise ValueError("Invalid value for `{{name}}`, length must be less than `{{maxLength}}`")
+        {{/maxLength}}
+        {{#minLength}}
+        if len({{name}}) < {{minLength}}: 
+            raise ValueError("Invalid value for `{{name}}`, length must be greater than `{{minLength}}`")
+        {{/minLength}}
+        {{#maximum}}
+        if {{name}} > {{maximum}}: 
+            raise ValueError("Invalid value for `{{name}}`, must be a value less than `{{maximum}}`")
+        {{/maximum}}
+        {{#minimum}}
+        if {{name}} < {{minimum}}: 
+            raise ValueError("Invalid value for `{{name}}`, must be a value greater than `{{minimum}}`")
+        {{/minimum}}
+        {{#pattern}}
+        #Check pattern
+        {{/pattern}}
+        {{/hasValidation}}
+        {{/isEnum}}
+        self._{{name}} = {{name}}
 
 {{/vars}}
     def to_dict(self):
