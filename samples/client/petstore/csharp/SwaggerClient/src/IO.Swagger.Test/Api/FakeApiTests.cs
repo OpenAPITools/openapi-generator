@@ -59,7 +59,7 @@ namespace IO.Swagger.Test
         public void TestEndpointParametersTest()
         {
             // TODO: add unit test for the method 'TestEndpointParameters'
-            string number = null; // TODO: replace null with proper value
+            double? number = null; // TODO: replace null with proper value
             double? _double = null; // TODO: replace null with proper value
             string _string = null; // TODO: replace null with proper value
             byte[] _byte = null; // TODO: replace null with proper value

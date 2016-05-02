@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **TestEndpointParameters**
-> void TestEndpointParameters (string number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
+> void TestEndpointParameters (double? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
 
 Fake endpoint for testing various parameters
 
@@ -30,7 +30,7 @@ namespace Example
         {
             
             var apiInstance = new FakeApi();
-            var number = number_example;  // string | None
+            var number = 3.4;  // double? | None
             var _double = 1.2;  // double? | None
             var _string = _string_example;  // string | None
             var _byte = B;  // byte[] | None
@@ -61,7 +61,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **string**| None | 
+ **number** | **double?**| None | 
  **_double** | **double?**| None | 
  **_string** | **string**| None | 
  **_byte** | **byte[]**| None | 
