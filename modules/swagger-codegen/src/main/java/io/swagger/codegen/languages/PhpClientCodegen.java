@@ -36,11 +36,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
     protected String testBasePath = "test";
+    protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
     protected String variableNamingConvention= "snake_case";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = docsBasePath + "/" + apiDirName;
+    protected String modelDocPath = docsBasePath + "docs/" + modelDirName;
 
     public PhpClientCodegen() {
         super();
@@ -271,13 +272,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiDocFileFolder() {
-        //return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
         return (outputFolder + "/" + getPackagePath() + "/" + apiDocPath);
     }
 
     @Override
     public String modelDocFileFolder() {
-        //return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
         return (outputFolder + "/" + getPackagePath() + "/" + modelDocPath);
     }
 
