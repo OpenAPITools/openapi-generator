@@ -35,6 +35,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packagePath = "SwaggerClient-php";
     protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
+    protected String testBasePath = "test";
+    protected String apiDirName = "Api";
+    protected String modelDirName = "Model";
     protected String variableNamingConvention= "snake_case";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -49,9 +52,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".php");
         apiTestTemplateFiles.put("api_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php";
-        apiPackage = invokerPackage + "\\Api";
-        modelPackage = invokerPackage + "\\Model";
-        testPackage = invokerPackage + "\\Tests";
+        apiPackage = invokerPackage + "\\" + apiDirName;
+        modelPackage = invokerPackage + "\\" + modelDirName;
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -259,12 +261,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+        return (outputFolder + "/" + getPackagePath() + "/" + testBasePath + "/" + apiDirName);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+        return (outputFolder + "/" + getPackagePath() + "/" + testBasePath + "/" + modelDirName);
     }
 
     @Override
