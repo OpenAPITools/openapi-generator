@@ -136,6 +136,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // binary not supported in JavaScript client right now, using String as a workaround
         typeMapping.put("ByteArray", "String"); // I don't see ByteArray defined in the Swagger docs.
         typeMapping.put("binary", "String");
+        typeMapping.put("UUID", "String");
 
         importMapping.clear();
 
