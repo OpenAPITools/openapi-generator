@@ -1,4 +1,4 @@
-package swagger
+package petstore
 
 import (
     "encoding/base64"

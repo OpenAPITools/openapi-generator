@@ -1,12 +1,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './model/Animal', './model/Cat', './model/Category', './model/Dog', './model/FormatTest', './model/InlineResponse200', './model/Model200Response', './model/ModelReturn', './model/Name', './model/Order', './model/Pet', './model/SpecialModelName', './model/Tag', './model/User', './api/PetApi', './api/StoreApi', './api/UserApi'], factory);
+    define(['ApiClient', 'model/Category', 'model/Order', 'model/Pet', 'model/Tag', 'model/User', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/FormatTest'), require('./model/InlineResponse200'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/Category'), require('./model/Order'), require('./model/Pet'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, Animal, Cat, Category, Dog, FormatTest, InlineResponse200, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, Category, Order, Pet, Tag, User, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
@@ -15,7 +15,7 @@
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
    * <pre>
-   * var SwaggerPetstore = require('./index'); // See note below*.
+   * var SwaggerPetstore = require('index'); // See note below*.
    * var xxxSvc = new SwaggerPetstore.XxxApi(); // Allocate the API class we're going to use.
    * var yyyModel = new SwaggerPetstore.Yyy(); // Construct a model instance.
    * yyyModel.someProperty = 'someValue';
@@ -23,8 +23,8 @@
    * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
    * ...
    * </pre>
-   * <em>*NOTE: For a top-level AMD script, use require(['./index'], function(){...}) and put the application logic within the
-   * callback function.</em>
+   * <em>*NOTE: For a top-level AMD script, use require(['index'], function(){...})
+   * and put the application logic within the callback function.</em>
    * </p>
    * <p>
    * A non-AMD browser application (discouraged) might do something like this:
@@ -47,50 +47,10 @@
      */
     ApiClient: ApiClient,
     /**
-     * The Animal model constructor.
-     * @property {module:model/Animal}
-     */
-    Animal: Animal,
-    /**
-     * The Cat model constructor.
-     * @property {module:model/Cat}
-     */
-    Cat: Cat,
-    /**
      * The Category model constructor.
      * @property {module:model/Category}
      */
     Category: Category,
-    /**
-     * The Dog model constructor.
-     * @property {module:model/Dog}
-     */
-    Dog: Dog,
-    /**
-     * The FormatTest model constructor.
-     * @property {module:model/FormatTest}
-     */
-    FormatTest: FormatTest,
-    /**
-     * The InlineResponse200 model constructor.
-     * @property {module:model/InlineResponse200}
-     */
-    InlineResponse200: InlineResponse200,
-    /**
-     * The Model200Response model constructor.
-     * @property {module:model/Model200Response}
-     */
-    Model200Response: Model200Response,
-    /**
-     * The ModelReturn model constructor.
-     * @property {module:model/ModelReturn}
-     */
-    ModelReturn: ModelReturn,
-    /**
-     * The Name model constructor.
-     * @property {module:model/Name}
-     */
-    Name: Name,
     /**
      * The Order model constructor.
      * @property {module:model/Order}
@@ -101,11 +61,6 @@
      * @property {module:model/Pet}
      */
     Pet: Pet,
-    /**
-     * The SpecialModelName model constructor.
-     * @property {module:model/SpecialModelName}
-     */
-    SpecialModelName: SpecialModelName,
     /**
      * The Tag model constructor.
      * @property {module:model/Tag}

@@ -40,6 +40,8 @@ module Petstore
 
     attr_accessor :date_time
 
+    attr_accessor :uuid
+
     attr_accessor :password
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -56,6 +58,7 @@ module Petstore
         :'binary' => :'binary',
         :'date' => :'date',
         :'date_time' => :'dateTime',
+        :'uuid' => :'uuid',
         :'password' => :'password'
       }
     end
@@ -74,6 +77,7 @@ module Petstore
         :'binary' => :'String',
         :'date' => :'Date',
         :'date_time' => :'DateTime',
+        :'uuid' => :'UUID',
         :'password' => :'String'
       }
     end
@@ -86,51 +90,55 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes[:'integer']
+      if attributes.has_key?(:'integer')
         self.integer = attributes[:'integer']
       end
 
-      if attributes[:'int32']
+      if attributes.has_key?(:'int32')
         self.int32 = attributes[:'int32']
       end
 
-      if attributes[:'int64']
+      if attributes.has_key?(:'int64')
         self.int64 = attributes[:'int64']
       end
 
-      if attributes[:'number']
+      if attributes.has_key?(:'number')
         self.number = attributes[:'number']
       end
 
-      if attributes[:'float']
+      if attributes.has_key?(:'float')
         self.float = attributes[:'float']
       end
 
-      if attributes[:'double']
+      if attributes.has_key?(:'double')
         self.double = attributes[:'double']
       end
 
-      if attributes[:'string']
+      if attributes.has_key?(:'string')
         self.string = attributes[:'string']
       end
 
-      if attributes[:'byte']
+      if attributes.has_key?(:'byte')
         self.byte = attributes[:'byte']
       end
 
-      if attributes[:'binary']
+      if attributes.has_key?(:'binary')
         self.binary = attributes[:'binary']
       end
 
-      if attributes[:'date']
+      if attributes.has_key?(:'date')
         self.date = attributes[:'date']
       end
 
-      if attributes[:'dateTime']
+      if attributes.has_key?(:'dateTime')
         self.date_time = attributes[:'dateTime']
       end
 
-      if attributes[:'password']
+      if attributes.has_key?(:'uuid')
+        self.uuid = attributes[:'uuid']
+      end
+
+      if attributes.has_key?(:'password')
         self.password = attributes[:'password']
       end
 
@@ -354,6 +362,7 @@ module Petstore
           binary == o.binary &&
           date == o.date &&
           date_time == o.date_time &&
+          uuid == o.uuid &&
           password == o.password
     end
 
@@ -366,7 +375,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, password].hash
+      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, uuid, password].hash
     end
 
     # Builds the object from hash

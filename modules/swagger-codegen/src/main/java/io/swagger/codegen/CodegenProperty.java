@@ -45,6 +45,12 @@ public class CodegenProperty {
     public Boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
 
     @Override
+    public String toString() {
+        return String.format("%s(%s)", baseName, datatype);
+    }
+
+
+    @Override
     public int hashCode()
     {
         final int prime = 31;

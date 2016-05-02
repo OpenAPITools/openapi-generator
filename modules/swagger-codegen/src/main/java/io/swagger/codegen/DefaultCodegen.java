@@ -97,10 +97,10 @@ public class DefaultCodegen {
     @SuppressWarnings({ "static-method", "unchecked" })
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         if (supportsInheritance) {
-            // Index all CodegenModels by name.
+            // Index all CodegenModels by model name.
             Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
             for (Entry<String, Object> entry : objs.entrySet()) {
-                String modelName = entry.getKey();
+                String modelName = toModelName(entry.getKey());
                 Map<String, Object> inner = (Map<String, Object>) entry.getValue();
                 List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
                 for (Map<String, Object> mo : models) {
@@ -328,12 +328,12 @@ public class DefaultCodegen {
     }
 
     /**
-     * Return the JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
+     * Return the regular expression/JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
      *
      * @param pattern the pattern (regular expression)
      * @return properly-escaped pattern
      */
-    public String toJSONSchemaPattern(String pattern) {
+    public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
 
@@ -986,7 +986,7 @@ public class DefaultCodegen {
                     m.interfaces.add(interfaceRef);
                     addImport(m, interfaceRef);
                     if (allDefinitions != null) {
-                        final Model interfaceModel = allDefinitions.get(interfaceRef);
+                        final Model interfaceModel = allDefinitions.get(_interface.getSimpleRef());
                         if (supportsInheritance) {
                             addProperties(allProperties, allRequired, interfaceModel, allDefinitions);
                         } else {
@@ -1043,7 +1043,7 @@ public class DefaultCodegen {
                 required.addAll(mi.getRequired());
             }
         } else if (model instanceof RefModel) {
-            String interfaceRef = toModelName(((RefModel) model).getSimpleRef());
+            String interfaceRef = ((RefModel) model).getSimpleRef();
             Model interfaceModel = allDefinitions.get(interfaceRef);
             addProperties(properties, required, interfaceModel, allDefinitions);
         } else if (model instanceof ComposedModel) {
@@ -1125,7 +1125,7 @@ public class DefaultCodegen {
             StringProperty sp = (StringProperty) p;
             property.maxLength = sp.getMaxLength();
             property.minLength = sp.getMinLength();
-            property.pattern = toJSONSchemaPattern(sp.getPattern());
+            property.pattern = toRegularExpression(sp.getPattern());
 
             // check if any validation rule defined
             if (property.pattern != null || property.minLength != null || property.maxLength != null)
@@ -1828,7 +1828,7 @@ public class DefaultCodegen {
             p.exclusiveMinimum = qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
             p.minLength = qp.getMinLength();
-            p.pattern = toJSONSchemaPattern(qp.getPattern());
+            p.pattern = toRegularExpression(qp.getPattern());
             p.maxItems = qp.getMaxItems();
             p.minItems = qp.getMinItems();
             p.uniqueItems = qp.isUniqueItems();

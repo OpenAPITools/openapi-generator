@@ -10,11 +10,12 @@ Name | Type | Description | Notes
 **float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 **string** | **str** |  | [optional] 
-**byte** | **str** |  | [optional] 
+**byte** | **str** |  | 
 **binary** | **str** |  | [optional] 
-**date** | **date** |  | [optional] 
+**date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
-**password** | **str** |  | [optional] 
+**uuid** | **str** |  | [optional] 
+**password** | **str** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

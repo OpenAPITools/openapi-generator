@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -22,15 +24,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
     @Bean
     ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo(
-        "{{appName}}",
-        "{{{appDescription}}}",
-        "{{appVersion}}",
-        "{{infoUrl}}",
-        "{{infoEmail}}",
-        "{{licenseInfo}}",
-        "{{licenseUrl}}" );
-        return apiInfo;
+        return new ApiInfoBuilder()
+            .title("{{appName}}")
+            .description("{{{appDescription}}}")
+            .license("{{licenseInfo}}")
+            .licenseUrl("{{licenseUrl}}")
+            .termsOfServiceUrl("{{infoUrl}}")
+            .version("{{appVersion}}")
+            .contact(new Contact("","", "{{infoEmail}}"))
+            .build();
     }
 
     @Bean
