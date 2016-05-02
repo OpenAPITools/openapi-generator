@@ -29,13 +29,14 @@ namespace IO.Swagger.Model
         /// <param name="_Float">_Float.</param>
         /// <param name="_Double">_Double.</param>
         /// <param name="_String">_String.</param>
-        /// <param name="_Byte">_Byte.</param>
+        /// <param name="_Byte">_Byte (required).</param>
         /// <param name="Binary">Binary.</param>
-        /// <param name="Date">Date.</param>
+        /// <param name="Date">Date (required).</param>
         /// <param name="DateTime">DateTime.</param>
-        /// <param name="Password">Password.</param>
+        /// <param name="Uuid">Uuid.</param>
+        /// <param name="Password">Password (required).</param>
 
-        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, string Password = null)
+        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, Guid? Uuid = null, string Password = null)
         {
             // to ensure "Number" is required (not null)
             if (Number == null)
@@ -46,17 +47,42 @@ namespace IO.Swagger.Model
             {
                 this.Number = Number;
             }
+            // to ensure "_Byte" is required (not null)
+            if (_Byte == null)
+            {
+                throw new InvalidDataException("_Byte is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this._Byte = _Byte;
+            }
+            // to ensure "Date" is required (not null)
+            if (Date == null)
+            {
+                throw new InvalidDataException("Date is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this.Date = Date;
+            }
+            // to ensure "Password" is required (not null)
+            if (Password == null)
+            {
+                throw new InvalidDataException("Password is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this.Password = Password;
+            }
             this.Integer = Integer;
             this.Int32 = Int32;
             this.Int64 = Int64;
             this._Float = _Float;
             this._Double = _Double;
             this._String = _String;
-            this._Byte = _Byte;
             this.Binary = Binary;
-            this.Date = Date;
             this.DateTime = DateTime;
-            this.Password = Password;
+            this.Uuid = Uuid;
             
         }
 
@@ -128,6 +154,12 @@ namespace IO.Swagger.Model
         public DateTime? DateTime { get; set; }
     
         /// <summary>
+        /// Gets or Sets Uuid
+        /// </summary>
+        [DataMember(Name="uuid", EmitDefaultValue=false)]
+        public Guid? Uuid { get; set; }
+    
+        /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password", EmitDefaultValue=false)]
@@ -152,6 +184,7 @@ namespace IO.Swagger.Model
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -245,6 +278,11 @@ namespace IO.Swagger.Model
                     this.DateTime.Equals(other.DateTime)
                 ) && 
                 (
+                    this.Uuid == other.Uuid ||
+                    this.Uuid != null &&
+                    this.Uuid.Equals(other.Uuid)
+                ) && 
+                (
                     this.Password == other.Password ||
                     this.Password != null &&
                     this.Password.Equals(other.Password)
@@ -284,6 +322,8 @@ namespace IO.Swagger.Model
                     hash = hash * 59 + this.Date.GetHashCode();
                 if (this.DateTime != null)
                     hash = hash * 59 + this.DateTime.GetHashCode();
+                if (this.Uuid != null)
+                    hash = hash * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hash = hash * 59 + this.Password.GetHashCode();
                 return hash;

@@ -77,7 +77,7 @@ module Petstore
         :'binary' => :'String',
         :'date' => :'Date',
         :'date_time' => :'DateTime',
-        :'uuid' => :'UUID',
+        :'uuid' => :'String',
         :'password' => :'String'
       }
     end
