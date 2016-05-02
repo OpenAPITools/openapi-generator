@@ -55,7 +55,7 @@
   describe('PetApi', function() {
     it('should create and get pet', function(done) {
       var pet = createRandomPet();
-      api.addPet({body: pet}, function(error) {
+      api.addPet(pet, function(error) {
         if (error) throw error;
 
         api.getPetById(pet.id, function(error, fetched, response) {
