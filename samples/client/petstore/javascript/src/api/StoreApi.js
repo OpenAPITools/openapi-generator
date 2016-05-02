@@ -67,7 +67,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(
@@ -106,7 +106,7 @@
 
       var authNames = ['api_key'];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/json'];
       var returnType = {'String': 'Integer'};
 
       return this.apiClient.callApi(
@@ -127,7 +127,7 @@
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     * @param {String} orderId ID of pet that needs to be fetched
+     * @param {Integer} orderId ID of pet that needs to be fetched
      * @param {module:api/StoreApi~getOrderByIdCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {module:model/Order}
      */
@@ -152,7 +152,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = Order;
 
       return this.apiClient.callApi(
@@ -173,14 +173,17 @@
     /**
      * Place an order for a pet
      * 
-     * @param {Object} opts Optional parameters
-     * @param {module:model/Order} opts.body order placed for purchasing the pet
+     * @param {module:model/Order} body order placed for purchasing the pet
      * @param {module:api/StoreApi~placeOrderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {module:model/Order}
      */
-    this.placeOrder = function(opts, callback) {
-      opts = opts || {};
-      var postBody = opts['body'];
+    this.placeOrder = function(body, callback) {
+      var postBody = body;
+
+      // verify the required parameter 'body' is set
+      if (body == undefined || body == null) {
+        throw "Missing the required parameter 'body' when calling placeOrder";
+      }
 
 
       var pathParams = {
@@ -194,7 +197,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = Order;
 
       return this.apiClient.callApi(

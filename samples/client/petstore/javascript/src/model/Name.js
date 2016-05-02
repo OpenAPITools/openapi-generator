@@ -29,8 +29,10 @@
    * @param name
    */
   var exports = function(name) {
+    var _this = this;
 
-    this['name'] = name;
+    _this['name'] = name;
+
 
   };
 
@@ -42,7 +44,7 @@
    * @return {module:model/Name} The populated <code>Name</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('name')) {
@@ -50,6 +52,9 @@
       }
       if (data.hasOwnProperty('snake_case')) {
         obj['snake_case'] = ApiClient.convertToType(data['snake_case'], 'Integer');
+      }
+      if (data.hasOwnProperty('property')) {
+        obj['property'] = ApiClient.convertToType(data['property'], 'String');
       }
     }
     return obj;
@@ -65,6 +70,11 @@
    * @member {Integer} snake_case
    */
   exports.prototype['snake_case'] = undefined;
+
+  /**
+   * @member {String} property
+   */
+  exports.prototype['property'] = undefined;
 
 
 

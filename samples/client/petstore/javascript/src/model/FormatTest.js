@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'));
@@ -26,20 +26,26 @@
    * @alias module:model/FormatTest
    * @class
    * @param _number
+   * @param _byte
+   * @param _date
+   * @param password
    */
-  var exports = function(_number) {
+  var exports = function(_number, _byte, _date, password) {
+    var _this = this;
 
 
 
 
-    this['number'] = _number;
+    _this['number'] = _number;
 
 
 
+    _this['byte'] = _byte;
+
+    _this['date'] = _date;
 
 
-
-
+    _this['password'] = password;
   };
 
   /**
@@ -50,7 +56,7 @@
    * @return {module:model/FormatTest} The populated <code>FormatTest</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('integer')) {
@@ -84,7 +90,13 @@
         obj['date'] = ApiClient.convertToType(data['date'], 'Date');
       }
       if (data.hasOwnProperty('dateTime')) {
-        obj['dateTime'] = ApiClient.convertToType(data['dateTime'], 'String');
+        obj['dateTime'] = ApiClient.convertToType(data['dateTime'], 'Date');
+      }
+      if (data.hasOwnProperty('uuid')) {
+        obj['uuid'] = ApiClient.convertToType(data['uuid'], 'String');
+      }
+      if (data.hasOwnProperty('password')) {
+        obj['password'] = ApiClient.convertToType(data['password'], 'String');
       }
     }
     return obj;
@@ -142,9 +154,19 @@
   exports.prototype['date'] = undefined;
 
   /**
-   * @member {String} dateTime
+   * @member {Date} dateTime
    */
   exports.prototype['dateTime'] = undefined;
+
+  /**
+   * @member {String} uuid
+   */
+  exports.prototype['uuid'] = undefined;
+
+  /**
+   * @member {String} password
+   */
+  exports.prototype['password'] = undefined;
 
 
 

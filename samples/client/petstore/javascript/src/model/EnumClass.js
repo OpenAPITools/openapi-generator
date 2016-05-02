@@ -10,52 +10,42 @@
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    root.SwaggerPetstore.ModelReturn = factory(root.SwaggerPetstore.ApiClient);
+    root.SwaggerPetstore.EnumClass = factory(root.SwaggerPetstore.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
 
   /**
-   * The ModelReturn model module.
-   * @module model/ModelReturn
+   * The EnumClass model module.
+   * @module model/EnumClass
    * @version 1.0.0
    */
 
   /**
-   * Constructs a new <code>ModelReturn</code>.
-   * Model for testing reserved words
-   * @alias module:model/ModelReturn
+   * Constructs a new <code>EnumClass</code>.
+   * @alias module:model/EnumClass
    * @class
    */
   var exports = function() {
     var _this = this;
 
-
   };
 
   /**
-   * Constructs a <code>ModelReturn</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>EnumClass</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/ModelReturn} obj Optional instance to populate.
-   * @return {module:model/ModelReturn} The populated <code>ModelReturn</code> instance.
+   * @param {module:model/EnumClass} obj Optional instance to populate.
+   * @return {module:model/EnumClass} The populated <code>EnumClass</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('return')) {
-        obj['return'] = ApiClient.convertToType(data['return'], 'Integer');
-      }
     }
     return obj;
   }
 
-
-  /**
-   * @member {Integer} return
-   */
-  exports.prototype['return'] = undefined;
 
 
 

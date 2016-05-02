@@ -892,7 +892,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         }
                     }
                     enumVar.put("name", toEnumVarName(enumName, var.datatype));
-                    enumVar.put("value", value.toString());
+                    enumVar.put("value",toEnumValue(value.toString(), var.datatype));
                     enumVars.add(enumVar);
                 }
                 allowableValues.put("enumVars", enumVars);
@@ -938,15 +938,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
 */
-    @Override
-    public String toEnumVarName(String value, String datatype) {
-        String var = value.replaceAll("\\W+", "_").toUpperCase();
-        if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
-        }
-    }
 
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
@@ -1003,6 +994,43 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return "invalidPackageName";
         }
         return packageName;
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return sanitizeName(camelize(property.name)) + "Enum";
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        return value;
+        /*
+        // number
+        if ("Integer".equals(datatype) || "Number".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String var = value.replaceAll("\\W+", "_").replaceAll("_+", "_").toUpperCase();
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
+        }
+        */
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("Integer".equals(datatype) || "Number".equals(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 
 }

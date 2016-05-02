@@ -110,25 +110,23 @@
    * @enum {String}
    * @readonly
    */
-  exports.StatusEnum = { 
+  exports.StatusEnum = {
     /**
-     * value: available
+     * value: "available"
      * @const
      */
-    AVAILABLE: "available",
-    
+    "available": "available",
     /**
-     * value: pending
+     * value: "pending"
      * @const
      */
-    PENDING: "pending",
-    
+    "pending": "pending",
     /**
-     * value: sold
+     * value: "sold"
      * @const
      */
-    SOLD: "sold"
-  };
+    "sold": "sold"  };
+
 
   return exports;
 }));

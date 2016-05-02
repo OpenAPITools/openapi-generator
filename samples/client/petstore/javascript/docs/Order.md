@@ -8,6 +8,6 @@ Name | Type | Description | Notes
 **quantity** | **Integer** |  | [optional] 
 **shipDate** | **Date** |  | [optional] 
 **status** | **String** | Order Status | [optional] 
-**complete** | **Boolean** |  | [optional] 
+**complete** | **Boolean** |  | [optional] [default to false]
 
 
