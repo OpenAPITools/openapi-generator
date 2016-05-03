@@ -1,6 +1,6 @@
 {
     "name": "@swagger/angular2-typescript-petstore",
-    "version": "0.0.1-SNAPSHOT.201605022215",
+    "version": "0.0.1-SNAPSHOT.201605031634",
     "description": "NodeJS client for @swagger/angular2-typescript-petstore",
     "main": "api.js",
     "scripts": {
