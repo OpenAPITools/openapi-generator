@@ -59,51 +59,55 @@ class Cat extends Animal implements ArrayAccess
     static $swaggerTypes = array(
         'declawed' => 'bool'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'declawed' => 'declawed'
     );
-  
+ 
     static function attributeMap() {
         return parent::attributeMap() + self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'declawed' => 'setDeclawed'
     );
-  
+ 
     static function setters() {
         return parent::setters() + self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'declawed' => 'getDeclawed'
     );
-  
+ 
     static function getters() {
         return parent::getters() + self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $declawed 
-      * @var bool
-      */
+     * $declawed 
+     * @var bool
+     */
     protected $declawed;
 
     /**
@@ -126,7 +130,7 @@ class Cat extends Animal implements ArrayAccess
     {
         return $this->declawed;
     }
-  
+
     /**
      * Sets declawed
      * @param bool $declawed 
@@ -147,7 +151,7 @@ class Cat extends Animal implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -157,7 +161,7 @@ class Cat extends Animal implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -168,7 +172,7 @@ class Cat extends Animal implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -178,7 +182,7 @@ class Cat extends Animal implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

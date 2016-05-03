@@ -1,28 +1,12 @@
 ﻿<Properties StartupItem="SwaggerClientTest.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestPet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/EnumTest.cs">
     <Files>
-      <File FileName="TestPet.cs" Line="29" Column="39" />
-      <File FileName="TestOrder.cs" Line="99" Column="6" />
-      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Api/PetApi.cs" Line="711" Column="1" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/EnumTest.cs" Line="18" Column="58" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/Order.cs" Line="1" Column="1" />
+      <File FileName="TestEnum.cs" Line="28" Column="75" />
+      <File FileName="Lib/SwaggerClient/src/main/csharp/IO/Swagger/Model/EnumClass.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="SwaggerClientTest" expanded="True">
-            <Node name="SwaggerClientTest" expanded="True">
-              <Node name="SwaggerClientTest" expanded="True">
-                <Node name="TestPet" expanded="True">
-                  <Node name="TestPet" expanded="True">
-                    <Node name="TestGetPetByIdAsyncWithHttpInfo" selected="True" />
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -69,8 +69,11 @@
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Animal.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Cat.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Dog.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\FormatTest.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\EnumClass.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\EnumTest.cs" />
+    <Compile Include="TestEnum.cs" />
     <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ApiResponse.cs" />
+    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\FormatTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

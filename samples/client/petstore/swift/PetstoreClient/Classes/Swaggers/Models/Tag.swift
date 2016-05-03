@@ -18,7 +18,6 @@ public class Tag: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["name"] = self.name
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

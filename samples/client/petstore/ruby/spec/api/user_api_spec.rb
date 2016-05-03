@@ -103,7 +103,7 @@ describe 'UserApi' do
   # unit tests for get_user_by_name
   # Get user by user name
   # 
-  # @param username The name that needs to be fetched. Use user1 for testing. 
+  # @param username The name that needs to be fetched. Use user1 for testing.
   # @param [Hash] opts the optional parameters
   # @return [User]
   describe 'get_user_by_name test' do

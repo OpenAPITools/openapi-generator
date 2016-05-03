@@ -12,40 +12,46 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// Pet
     /// </summary>
     [DataContract]
     public partial class Pet :  IEquatable<Pet>
-    { 
-
+    {
         /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum StatusEnum {
+        public enum StatusEnum
+        {
             
+            /// <summary>
+            /// Enum Available for "available"
+            /// </summary>
             [EnumMember(Value = "available")]
             Available,
             
+            /// <summary>
+            /// Enum Pending for "pending"
+            /// </summary>
             [EnumMember(Value = "pending")]
             Pending,
             
+            /// <summary>
+            /// Enum Sold for "sold"
+            /// </summary>
             [EnumMember(Value = "sold")]
             Sold
         }
 
-    
         /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
         [DataMember(Name="status", EmitDefaultValue=false)]
         public StatusEnum? Status { get; set; }
-    
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
-        /// Initializes a new instance of the <see cref="Pet" />class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Category">Category.</param>
@@ -53,7 +59,6 @@ namespace IO.Swagger.Model
         /// <param name="PhotoUrls">PhotoUrls (required).</param>
         /// <param name="Tags">Tags.</param>
         /// <param name="Status">pet status in the store.</param>
-
         public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, StatusEnum? Status = null)
         {
             // to ensure "Name" is required (not null)
@@ -74,44 +79,43 @@ namespace IO.Swagger.Model
             {
                 this.PhotoUrls = PhotoUrls;
             }
-            this.Id = Id;
-            this.Category = Category;
-            this.Tags = Tags;
-            this.Status = Status;
+            
+            
+                        this.Id = Id;
+            
+                        this.Category = Category;
+            
+                        this.Tags = Tags;
+            
+                        this.Status = Status;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
-    
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name="category", EmitDefaultValue=false)]
         public Category Category { get; set; }
-    
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
-    
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [DataMember(Name="photoUrls", EmitDefaultValue=false)]
         public List<string> PhotoUrls { get; set; }
-    
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [DataMember(Name="tags", EmitDefaultValue=false)]
         public List<Tag> Tags { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -121,15 +125,15 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Pet {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-            sb.Append("  Tags: ").Append(Tags).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
+sb.Append("  Category: ").Append(Category).Append("\n");
+sb.Append("  Name: ").Append(Name).Append("\n");
+sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
+sb.Append("  Tags: ").Append(Tags).Append("\n");
+sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -220,6 +224,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }

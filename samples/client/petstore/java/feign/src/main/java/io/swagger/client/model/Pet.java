@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-23T12:48:24.088+08:00")
+/**
+ * Pet
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-27T23:17:22.230+08:00")
 public class Pet   {
   
   private Long id = null;
@@ -23,7 +23,9 @@ public class Pet   {
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
 
-
+  /**
+   * pet status in the store
+   */
   public enum StatusEnum {
     AVAILABLE("available"),
     PENDING("pending"),
@@ -38,7 +40,7 @@ public class Pet   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 

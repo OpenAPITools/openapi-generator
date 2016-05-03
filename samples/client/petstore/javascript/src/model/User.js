@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The User model module.
    * @module model/User
@@ -78,42 +81,34 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} id
    */
   exports.prototype['id'] = undefined;
-
   /**
    * @member {String} username
    */
   exports.prototype['username'] = undefined;
-
   /**
    * @member {String} firstName
    */
   exports.prototype['firstName'] = undefined;
-
   /**
    * @member {String} lastName
    */
   exports.prototype['lastName'] = undefined;
-
   /**
    * @member {String} email
    */
   exports.prototype['email'] = undefined;
-
   /**
    * @member {String} password
    */
   exports.prototype['password'] = undefined;
-
   /**
    * @member {String} phone
    */
   exports.prototype['phone'] = undefined;
-
   /**
    * User Status
    * @member {Integer} userStatus
@@ -125,3 +120,5 @@
 
   return exports;
 }));
+
+
