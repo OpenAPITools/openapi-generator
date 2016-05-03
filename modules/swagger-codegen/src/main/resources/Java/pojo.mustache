@@ -1,11 +1,14 @@
-{{#description}}@ApiModel(description = "{{{description}}}"){{/description}}
+/**
+ * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ */{{#description}}
+@ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}
 
-{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>modelInnerEnum}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 
-{{>enumClass}}{{/items}}{{/items.isEnum}}
+{{>modelInnerEnum}}{{/items}}{{/items.isEnum}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}{{^isReadOnly}}

@@ -6,11 +6,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-
 /**
  * Model for testing model name starting with number
- **/
-
+ */
 @ApiModel(description = "Model for testing model name starting with number")
 
 public class Model200Response   {

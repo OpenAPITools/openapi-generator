@@ -60,7 +60,7 @@ use \{{invokerPackage}}\ObjectSerializer;
      * Constructor
      * @param \{{invokerPackage}}\ApiClient|null $apiClient The api client to use
      */
-    function __construct($apiClient = null)
+    function __construct(\{{invokerPackage}}\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -84,7 +84,7 @@ use \{{invokerPackage}}\ObjectSerializer;
      * @param \{{invokerPackage}}\ApiClient $apiClient set the API client
      * @return {{classname}}
      */
-    public function setApiClient(ApiClient $apiClient)
+    public function setApiClient(\{{invokerPackage}}\ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
         return $this;

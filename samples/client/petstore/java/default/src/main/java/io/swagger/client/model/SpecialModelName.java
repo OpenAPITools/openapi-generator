@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-
-
+/**
+ * SpecialModelName
+ */
 
 public class SpecialModelName   {
   

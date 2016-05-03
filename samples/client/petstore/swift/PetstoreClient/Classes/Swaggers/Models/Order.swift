@@ -9,7 +9,7 @@ import Foundation
 
 
 public class Order: JSONEncodable {
-    public enum Status: String { 
+    public enum ST: String { 
         case Placed = "placed"
         case Approved = "approved"
         case Delivered = "delivered"
@@ -19,7 +19,7 @@ public class Order: JSONEncodable {
     public var quantity: Int32?
     public var shipDate: NSDate?
     /** Order Status */
-    public var status: Status?
+    public var status: ST?
     public var complete: Bool?
 
     public init() {}
@@ -28,8 +28,6 @@ public class Order: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
-        nillableDictionary["petId"] = self.petId?.encodeToJSON()
         nillableDictionary["petId"] = self.petId?.encodeToJSON()
         nillableDictionary["quantity"] = self.quantity?.encodeToJSON()
         nillableDictionary["shipDate"] = self.shipDate?.encodeToJSON()

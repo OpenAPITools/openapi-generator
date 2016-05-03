@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
+/**
+ * Pet
+ */
 
 public class Pet   {
   
@@ -23,7 +23,9 @@ public class Pet   {
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
 
-
+  /**
+   * pet status in the store
+   */
   public enum StatusEnum {
     AVAILABLE("available"),
     PENDING("pending"),
@@ -38,7 +40,7 @@ public class Pet   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 

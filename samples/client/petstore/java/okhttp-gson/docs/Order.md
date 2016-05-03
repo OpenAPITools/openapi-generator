@@ -16,9 +16,9 @@ Name | Type | Description | Notes
 ## Enum: StatusEnum
 Name | Value
 ---- | -----
-PLACED | placed
-APPROVED | approved
-DELIVERED | delivered
+PLACED | &quot;placed&quot;
+APPROVED | &quot;approved&quot;
+DELIVERED | &quot;delivered&quot;
 
 
 

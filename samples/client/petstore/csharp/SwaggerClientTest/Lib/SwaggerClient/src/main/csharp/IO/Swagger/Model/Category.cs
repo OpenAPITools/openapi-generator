@@ -12,39 +12,36 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// Category
     /// </summary>
     [DataContract]
     public partial class Category :  IEquatable<Category>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
-        /// Initializes a new instance of the <see cref="Category" />class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Name">Name.</param>
-
         public Category(long? Id = null, string Name = null)
         {
-            this.Id = Id;
-            this.Name = Name;
+            
+            
+                        this.Id = Id;
+            
+                        this.Name = Name;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
-    
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -54,11 +51,11 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Category {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -121,6 +118,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }
