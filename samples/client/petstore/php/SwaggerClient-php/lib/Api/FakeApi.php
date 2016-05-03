@@ -95,7 +95,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters
      *
-     * @param string $number None (required)
+     * @param float $number None (required)
      * @param double $double None (required)
      * @param string $string None (required)
      * @param string $byte None (required)
@@ -122,7 +122,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters
      *
-     * @param string $number None (required)
+     * @param float $number None (required)
      * @param double $double None (required)
      * @param string $string None (required)
      * @param string $byte None (required)

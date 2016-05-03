@@ -68,6 +68,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'string',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
+        'uuid' => 'string',
         'password' => 'string'
     );
   
@@ -91,6 +92,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'binary',
         'date' => 'date',
         'date_time' => 'dateTime',
+        'uuid' => 'uuid',
         'password' => 'password'
     );
   
@@ -114,6 +116,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'setBinary',
         'date' => 'setDate',
         'date_time' => 'setDateTime',
+        'uuid' => 'setUuid',
         'password' => 'setPassword'
     );
   
@@ -137,6 +140,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'getBinary',
         'date' => 'getDate',
         'date_time' => 'getDateTime',
+        'uuid' => 'getUuid',
         'password' => 'getPassword'
     );
   
@@ -200,6 +204,11 @@ class FormatTest implements ArrayAccess
       */
     protected $date_time;
     /**
+      * $uuid 
+      * @var string
+      */
+    protected $uuid;
+    /**
       * $password 
       * @var string
       */
@@ -225,6 +234,7 @@ class FormatTest implements ArrayAccess
             $this->binary = $data["binary"];
             $this->date = $data["date"];
             $this->date_time = $data["date_time"];
+            $this->uuid = $data["uuid"];
             $this->password = $data["password"];
         }
     }
@@ -446,6 +456,26 @@ class FormatTest implements ArrayAccess
     {
         
         $this->date_time = $date_time;
+        return $this;
+    }
+    /**
+     * Gets uuid
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+  
+    /**
+     * Sets uuid
+     * @param string $uuid 
+     * @return $this
+     */
+    public function setUuid($uuid)
+    {
+        
+        $this->uuid = $uuid;
         return $this;
     }
     /**

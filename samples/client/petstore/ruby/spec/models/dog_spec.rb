@@ -36,7 +36,7 @@ describe 'Dog' do
       @instance.should be_a(Petstore::Dog) 
     end
   end
-  describe 'test attribute "class_name"' do
+  describe 'test attribute "breed"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -46,7 +46,7 @@ describe 'Dog' do
     end
   end
 
-  describe 'test attribute "breed"' do
+  describe 'test attribute "class_name"' do
     it 'should work' do
        # assertion here
        # should be_a()
