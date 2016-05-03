@@ -129,8 +129,8 @@ export class PetApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
@@ -409,9 +409,9 @@ export class PetApi {
             json: true,
         }
 
-        this.authentications.api_key.applyToRequest(requestOptions);
-
         this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.api_key.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -632,8 +632,8 @@ export class StoreApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
@@ -881,8 +881,8 @@ export class UserApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
