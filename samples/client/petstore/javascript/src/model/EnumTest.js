@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The EnumTest model module.
    * @module model/EnumTest
@@ -58,17 +61,14 @@
     return obj;
   }
 
-
   /**
    * @member {module:model/EnumTest.EnumStringEnum} enum_string
    */
   exports.prototype['enum_string'] = undefined;
-
   /**
    * @member {module:model/EnumTest.EnumIntegerEnum} enum_integer
    */
   exports.prototype['enum_integer'] = undefined;
-
   /**
    * @member {module:model/EnumTest.EnumNumberEnum} enum_number
    */
@@ -127,3 +127,5 @@
 
   return exports;
 }));
+
+

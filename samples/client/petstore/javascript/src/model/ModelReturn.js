@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The ModelReturn model module.
    * @module model/ModelReturn
@@ -51,7 +54,6 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} return
    */
@@ -62,3 +64,5 @@
 
   return exports;
 }));
+
+

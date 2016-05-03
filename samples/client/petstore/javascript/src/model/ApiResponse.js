@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The ApiResponse model module.
    * @module model/ApiResponse
@@ -58,17 +61,14 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} code
    */
   exports.prototype['code'] = undefined;
-
   /**
    * @member {String} type
    */
   exports.prototype['type'] = undefined;
-
   /**
    * @member {String} message
    */
@@ -79,3 +79,5 @@
 
   return exports;
 }));
+
+

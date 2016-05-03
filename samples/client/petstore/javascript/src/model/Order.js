@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The Order model module.
    * @module model/Order
@@ -70,33 +73,27 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} id
    */
   exports.prototype['id'] = undefined;
-
   /**
    * @member {Integer} petId
    */
   exports.prototype['petId'] = undefined;
-
   /**
    * @member {Integer} quantity
    */
   exports.prototype['quantity'] = undefined;
-
   /**
    * @member {Date} shipDate
    */
   exports.prototype['shipDate'] = undefined;
-
   /**
    * Order Status
    * @member {module:model/Order.StatusEnum} status
    */
   exports.prototype['status'] = undefined;
-
   /**
    * @member {Boolean} complete
    * @default false
@@ -129,3 +126,5 @@
 
   return exports;
 }));
+
+

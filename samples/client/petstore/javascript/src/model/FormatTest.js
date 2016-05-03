@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The FormatTest model module.
    * @module model/FormatTest
@@ -102,67 +105,54 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} integer
    */
   exports.prototype['integer'] = undefined;
-
   /**
    * @member {Integer} int32
    */
   exports.prototype['int32'] = undefined;
-
   /**
    * @member {Integer} int64
    */
   exports.prototype['int64'] = undefined;
-
   /**
    * @member {Number} number
    */
   exports.prototype['number'] = undefined;
-
   /**
    * @member {Number} float
    */
   exports.prototype['float'] = undefined;
-
   /**
    * @member {Number} double
    */
   exports.prototype['double'] = undefined;
-
   /**
    * @member {String} string
    */
   exports.prototype['string'] = undefined;
-
   /**
    * @member {String} byte
    */
   exports.prototype['byte'] = undefined;
-
   /**
    * @member {String} binary
    */
   exports.prototype['binary'] = undefined;
-
   /**
    * @member {Date} date
    */
   exports.prototype['date'] = undefined;
-
   /**
    * @member {Date} dateTime
    */
   exports.prototype['dateTime'] = undefined;
-
   /**
    * @member {String} uuid
    */
   exports.prototype['uuid'] = undefined;
-
   /**
    * @member {String} password
    */
@@ -173,3 +163,5 @@
 
   return exports;
 }));
+
+

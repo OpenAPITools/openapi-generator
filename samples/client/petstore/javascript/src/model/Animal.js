@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The Animal model module.
    * @module model/Animal
@@ -51,7 +54,6 @@
     return obj;
   }
 
-
   /**
    * @member {String} className
    */
@@ -62,3 +64,5 @@
 
   return exports;
 }));
+
+

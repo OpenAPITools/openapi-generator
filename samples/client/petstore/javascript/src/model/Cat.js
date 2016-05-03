@@ -15,6 +15,9 @@
 }(this, function(ApiClient, Animal) {
   'use strict';
 
+
+
+
   /**
    * The Cat model module.
    * @module model/Cat
@@ -55,7 +58,6 @@
   exports.prototype = Object.create(Animal.prototype);
   exports.prototype.constructor = exports;
 
-
   /**
    * @member {Boolean} declawed
    */
@@ -66,3 +68,5 @@
 
   return exports;
 }));
+
+
