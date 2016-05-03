@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected String modelPropertyNaming= "camelCase";
+    protected Boolean supportsES6 = true;
 
 	public AbstractTypeScriptClientCodegen() {
 	    super();
@@ -63,15 +64,21 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("UUID", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
-
+        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
 
 	}
 
     @Override
     public void processOpts() {
         super.processOpts();
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
+            setSupportsES6(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SUPPORTS_ES6)));
+            additionalProperties.put("supportsES6", getSupportsES6());
         }
     }
 
@@ -230,5 +237,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                                     "'PascalCase' or 'snake_case'");
         }
 
+    }
+
+    public void setSupportsES6(Boolean value) {
+        supportsES6 = value;
+    }
+
+    public Boolean getSupportsES6() {
+        return supportsES6;
     }
 }
