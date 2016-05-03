@@ -88,20 +88,25 @@ func TestUpdatePetWithForm(t *testing.T) {
 
 func TestFindPetsByStatus(t *testing.T) {
 	s := sw.NewPetApi()
-	resp, apiResponse, err := s.FindPetsByStatus([]string {"pending"})
+	resp, apiResponse, err := s.FindPetsByStatus([]string {"available"})
 	if err != nil {
 		t.Errorf("Error while getting pet by id")
 		t.Log(err)
 		t.Log(apiResponse)
 	} else {
-		t.Log(apiResponse)
+
 		if len(resp) == 0 {
 			t.Errorf("Error no pets returned")
+		} else {
+			assert := assert.New(t)
+			for i := 0; i < len(resp); i++ {
+				assert.Equal(resp[i].Status, "available", "Pet status should be `available`")
+			}
 		}
 
-	if apiResponse.Response.StatusCode != 200 {
-		t.Log(apiResponse.Response)
-	}
+		if apiResponse.Response.StatusCode != 200 {
+			t.Log(apiResponse.Response)
+		}
 	}
 }
 
