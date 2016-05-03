@@ -18,8 +18,8 @@ func TestAddPet(t *testing.T) {
 		t.Errorf("Error while adding pet")
 		t.Log(err)
 	}
-	if apiResponse.Response.StatusCode != 200 {
-		t.Log(apiResponse.Response)
+	if *apiResponse.Response.StatusCode != 200 {
+		t.Log(*apiResponse.Response)
 	}	
 }
 
@@ -32,8 +32,8 @@ func TestFindPetsByStatusWithMissingParam(t *testing.T) {
 		t.Errorf("Error while testing TestFindPetsByStatusWithMissingParam")
 		t.Log(err)
 	}
-	if apiResponse.Response.StatusCode != 200 {
-		t.Log(apiResponse)
+	if *apiResponse.Response.StatusCode != 200 {
+		t.Log(*apiResponse)
 	}	
 }
 
@@ -52,8 +52,8 @@ func TestGetPetById(t *testing.T) {
 
 		//t.Log(resp)
 	}
-	if apiResponse.Response.StatusCode != 200 {
-		t.Log(apiResponse.Response)
+	if *apiResponse.Response.StatusCode != 200 {
+		t.Log(*apiResponse.Response)
 	}	
 }
 
@@ -67,8 +67,8 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 	} else {
 		t.Log(resp)
 	}
-	if apiResponse.Response.StatusCode != 200 {
-		t.Log(apiResponse.Response)
+	if *apiResponse.Response.StatusCode != 200 {
+		t.Log(*apiResponse.Response)
 	}	
 }
 
@@ -79,29 +79,29 @@ func TestUpdatePetWithForm(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error while updating pet by id")
 		t.Log(err)
-		t.Log(apiResponse)
+		t.Log(*apiResponse)
 	}
-	if apiResponse.Response.StatusCode != 200 {
-		t.Log(apiResponse.Response)
+	if *apiResponse.Response.StatusCode != 200 {
+		t.Log(*apiResponse.Response)
 	}
 }
 
 func TestFindPetsByStatus(t *testing.T) {
 	s := sw.NewPetApi()
-	resp, apiResponse, err := s.FindPetsByStatus([]string {"pending"})
+	resp, apiResponse, err := s.FindPetsByStatus([]string {"available"})
 	if err != nil {
 		t.Errorf("Error while getting pet by id")
 		t.Log(err)
-		t.Log(apiResponse)
+		t.Log(*apiResponse)
 	} else {
-		t.Log(apiResponse)
+		t.Log(*apiResponse)
 		if len(*resp) == 0 {
 			t.Errorf("Error no pets returned")
 		}
 
-	if apiResponse.Response.StatusCode != 200 {
-		t.Log(apiResponse.Response)
-	}
+		if *apiResponse.Response.StatusCode != 200 {
+			t.Log(*apiResponse.Response)
+		}
 	}
 }
 
@@ -115,7 +115,8 @@ func TestUploadFile(t *testing.T) {
 		t.Errorf("Error while uploading file")
 		t.Log(err)
 	}
-	if apiResponse.Response.StatusCode != 200 {
+
+	if *apiResponse.Response.StatusCode != 200 {
 		t.Log(apiResponse.Response)
 	}
 }
@@ -128,7 +129,7 @@ func TestDeletePet(t *testing.T) {
 		t.Errorf("Error while deleting pet by id")
 		t.Log(err)
 	}
-	if apiResponse.Response.StatusCode != 200 {
+	if *apiResponse.Response.StatusCode != 200 {
 		t.Log(apiResponse.Response)
 	}
 }
