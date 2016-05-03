@@ -20,7 +20,7 @@ import javax.ws.rs.*;
 @Path("/user")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-22T19:32:21.945+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-29T00:20:47.240+08:00")
 public class UserApi  {
    private final UserApiService delegate = UserApiServiceFactory.getUserApi();
 

@@ -7,11 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
 /**
  * Model for testing model name same as property name
- **/
+ */
 @ApiModel(description = "Model for testing model name same as property name")
 public class Name   {
   
@@ -94,3 +92,4 @@ public class Name   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

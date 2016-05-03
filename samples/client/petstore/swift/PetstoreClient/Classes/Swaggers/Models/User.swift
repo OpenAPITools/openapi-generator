@@ -25,7 +25,6 @@ public class User: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
-        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["username"] = self.username
         nillableDictionary["firstName"] = self.firstName
         nillableDictionary["lastName"] = self.lastName

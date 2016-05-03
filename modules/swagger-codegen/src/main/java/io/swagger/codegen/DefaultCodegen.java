@@ -133,6 +133,161 @@ public class DefaultCodegen {
         return objs;
     }
 
+    /**
+     * post process enum defined in model's properties
+     * 
+     * @param objs Map of models
+     * @return maps of models with better enum support
+     */
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                Map<String, Object> allowableValues = cm.allowableValues;
+
+                List<Object> values = (List<Object>) allowableValues.get("values");
+                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                String commonPrefix = findCommonPrefixOfVars(values);
+                int truncateIdx = commonPrefix.length();
+                for (Object value : values) {
+                    Map<String, String> enumVar = new HashMap<String, String>();
+                    String enumName;
+                    if (truncateIdx == 0) {
+                        enumName = value.toString();
+                    } else {
+                        enumName = value.toString().substring(truncateIdx);
+                        if ("".equals(enumName)) {
+                            enumName = value.toString();
+                        }
+                    }
+                    enumVar.put("name", toEnumVarName(enumName, cm.dataType));
+                    enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
+                    enumVars.add(enumVar);
+                }
+                cm.allowableValues.put("enumVars", enumVars);
+            }
+
+            // for enum model's properties
+            for (CodegenProperty var : cm.vars) {
+                Map<String, Object> allowableValues = var.allowableValues;
+
+                // handle ArrayProperty
+                if (var.items != null) {
+                    allowableValues = var.items.allowableValues;
+                }
+
+                if (allowableValues == null) {
+                    continue;
+                }
+                //List<String> values = (List<String>) allowableValues.get("values");
+                List<Object> values = (List<Object>) allowableValues.get("values");
+                if (values == null) {
+                    continue;
+                }
+
+                // put "enumVars" map into `allowableValues", including `name` and `value`
+                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                String commonPrefix = findCommonPrefixOfVars(values);
+                int truncateIdx = commonPrefix.length();
+                for (Object value : values) {
+                    Map<String, String> enumVar = new HashMap<String, String>();
+                    String enumName;
+                    if (truncateIdx == 0) {
+                        enumName = value.toString();
+                    } else {
+                        enumName = value.toString().substring(truncateIdx);
+                        if ("".equals(enumName)) {
+                            enumName = value.toString();
+                        }
+                    }
+                    enumVar.put("name", toEnumVarName(enumName, var.datatype));
+                    enumVar.put("value", toEnumValue(value.toString(), var.datatype));
+                    enumVars.add(enumVar);
+                }
+                allowableValues.put("enumVars", enumVars);
+                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
+                if (var.defaultValue != null) {
+                    String enumName = null;
+                    for (Map<String, String> enumVar : enumVars) {
+                        if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
+                            enumName = enumVar.get("name");
+                            break;
+                        }
+                    }
+                    if (enumName != null) {
+                        var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    /**
+     * Returns the common prefix of variables for enum naming
+     * 
+     * @param vars List of variable names
+     * @return the common prefix for naming
+     */
+    public String findCommonPrefixOfVars(List<Object> vars) {
+        try {
+            String[] listStr = vars.toArray(new String[vars.size()]);
+
+            String prefix = StringUtils.getCommonPrefix(listStr);
+            // exclude trailing characters that should be part of a valid variable
+            // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
+            return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+        } catch (ArrayStoreException e) {
+            return "";
+        }
+    }
+    
+    /**
+     * Return the enum default value in the language specifed format
+     * 
+     * @param value enum variable name
+     * @param datatype data type
+     * @return the default value for the enum
+     */
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "." + value;
+    }
+
+    /**
+     * Return the enum value in the language specifed format
+     * e.g. status becomes "status"
+     * 
+     * @param value enum variable name
+     * @param datatype data type
+     * @return the sanitized value for enum
+     */
+    public String toEnumValue(String value, String datatype) {
+        if ("number".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+    
+    /**
+     * Return the sanitized variable name for enum
+     * 
+     * @param value enum variable name
+     * @param datatype data type
+     * @return the sanitized variable name for enum
+     */
+    public String toEnumVarName(String value, String datatype) {
+        String var = value.replaceAll("\\W+", "_").toUpperCase();
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
+        }
+    }
 
     // override with any special post-processing
     @SuppressWarnings("static-method")
@@ -456,7 +611,7 @@ public class DefaultCodegen {
     /**
      * Return the Enum name (e.g. StatusEnum given 'status')
      *
-     * @param property Codegen property object
+     * @param property Codegen property
      * @return the Enum name
      */
     @SuppressWarnings("static-method")
@@ -1012,7 +1167,9 @@ public class DefaultCodegen {
             ModelImpl impl = (ModelImpl) model;
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
                 m.isEnum = true;
-                m.allowableValues = impl.getEnum();
+                // comment out below as allowableValues is not set in post processing model enum
+                m.allowableValues = new HashMap<String, Object>();
+                m.allowableValues.put("values", impl.getEnum());
                 Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
                 m.dataType = getSwaggerType(p);
             }
@@ -1144,7 +1301,8 @@ public class DefaultCodegen {
             }
         }
 
-        if (p instanceof BaseIntegerProperty) {
+        // type is integer and without format
+        if (p instanceof BaseIntegerProperty && !(p instanceof IntegerProperty) && !(p instanceof LongProperty)) {
             BaseIntegerProperty sp = (BaseIntegerProperty) p;
             property.isInteger = true;
             /*if (sp.getEnum() != null) {
@@ -1210,7 +1368,8 @@ public class DefaultCodegen {
             property.isByteArray = true;
         }
 
-        if (p instanceof DecimalProperty) {
+        // type is number and without format
+        if (p instanceof DecimalProperty && !(p instanceof DoubleProperty) && !(p instanceof FloatProperty)) {
             DecimalProperty sp = (DecimalProperty) p;
             property.isFloat = true;
             /*if (sp.getEnum() != null) {

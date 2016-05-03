@@ -1,0 +1,24 @@
+{{#emitJSDoc}}
+  /**
+   * Enum class {{classname}}.
+   * @enum {{=<% %>=}}{<%datatype%>}<%={{ }}=%>
+   * @readonly
+   */
+{{/emitJSDoc}}
+  exports.{{classname}} = {
+  {{#allowableValues}}
+  {{#values}}
+{{#emitJSDoc}}
+    /**
+     * value: {{{.}}}
+     * @const
+     */
+{{/emitJSDoc}}
+    "{{{.}}}": "{{{.}}}"{{^-last}},
+    {{/-last}}
+  {{/values}}
+  {{/allowableValues}}
+  };
+
+  return exports;
+}));

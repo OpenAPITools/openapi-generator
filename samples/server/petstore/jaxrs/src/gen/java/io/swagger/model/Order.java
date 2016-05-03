@@ -19,12 +19,15 @@ public class Order   {
   private Integer quantity = null;
   private Date shipDate = null;
 
-
+  /**
+   * Order Status
+   */
   public enum StatusEnum {
     PLACED("placed"),
-    APPROVED("approved"),
-    DELIVERED("delivered");
 
+        APPROVED("approved"),
+
+        DELIVERED("delivered");
     private String value;
 
     StatusEnum(String value) {
@@ -34,7 +37,7 @@ public class Order   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 

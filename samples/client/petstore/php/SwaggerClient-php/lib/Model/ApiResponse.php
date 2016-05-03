@@ -61,67 +61,71 @@ class ApiResponse implements ArrayAccess
         'type' => 'string',
         'message' => 'string'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'code' => 'code',
         'type' => 'type',
         'message' => 'message'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'code' => 'setCode',
         'type' => 'setType',
         'message' => 'setMessage'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'code' => 'getCode',
         'type' => 'getType',
         'message' => 'getMessage'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $code 
-      * @var int
-      */
+     * $code 
+     * @var int
+     */
     protected $code;
     /**
-      * $type 
-      * @var string
-      */
+     * $type 
+     * @var string
+     */
     protected $type;
     /**
-      * $message 
-      * @var string
-      */
+     * $message 
+     * @var string
+     */
     protected $message;
 
     /**
@@ -146,7 +150,7 @@ class ApiResponse implements ArrayAccess
     {
         return $this->code;
     }
-  
+
     /**
      * Sets code
      * @param int $code 
@@ -166,7 +170,7 @@ class ApiResponse implements ArrayAccess
     {
         return $this->type;
     }
-  
+
     /**
      * Sets type
      * @param string $type 
@@ -186,7 +190,7 @@ class ApiResponse implements ArrayAccess
     {
         return $this->message;
     }
-  
+
     /**
      * Sets message
      * @param string $message 
@@ -207,7 +211,7 @@ class ApiResponse implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -217,7 +221,7 @@ class ApiResponse implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -228,7 +232,7 @@ class ApiResponse implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -238,7 +242,7 @@ class ApiResponse implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string
