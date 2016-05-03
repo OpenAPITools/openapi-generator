@@ -7,9 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
 
 
-
-
-
+/**
+ * Dog
+ */
 
 public class Dog extends Animal  {
   

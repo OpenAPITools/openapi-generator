@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The Category model module.
    * @module model/Category
@@ -54,12 +57,10 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} id
    */
   exports.prototype['id'] = undefined;
-
   /**
    * @member {String} name
    */
@@ -70,3 +71,5 @@
 
   return exports;
 }));
+
+

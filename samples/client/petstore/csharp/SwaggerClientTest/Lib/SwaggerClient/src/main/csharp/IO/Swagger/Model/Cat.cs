@@ -12,19 +12,16 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// Cat
     /// </summary>
     [DataContract]
     public partial class Cat : Animal,  IEquatable<Cat>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
-        /// Initializes a new instance of the <see cref="Cat" />class.
         /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
         /// <param name="Declawed">Declawed.</param>
-
         public Cat(string ClassName = null, bool? Declawed = null)
         {
             // to ensure "ClassName" is required (not null)
@@ -36,23 +33,22 @@ namespace IO.Swagger.Model
             {
                 this.ClassName = ClassName;
             }
-            this.Declawed = Declawed;
+            
+            
+                        this.Declawed = Declawed;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name="className", EmitDefaultValue=false)]
         public string ClassName { get; set; }
-    
         /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name="declawed", EmitDefaultValue=false)]
         public bool? Declawed { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -62,11 +58,11 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+sb.Append("  Declawed: ").Append(Declawed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -129,6 +125,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }

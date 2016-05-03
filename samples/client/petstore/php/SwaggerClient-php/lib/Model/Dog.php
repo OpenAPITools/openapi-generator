@@ -59,51 +59,55 @@ class Dog extends Animal implements ArrayAccess
     static $swaggerTypes = array(
         'breed' => 'string'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'breed' => 'breed'
     );
-  
+ 
     static function attributeMap() {
         return parent::attributeMap() + self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'breed' => 'setBreed'
     );
-  
+ 
     static function setters() {
         return parent::setters() + self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'breed' => 'getBreed'
     );
-  
+ 
     static function getters() {
         return parent::getters() + self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $breed 
-      * @var string
-      */
+     * $breed 
+     * @var string
+     */
     protected $breed;
 
     /**
@@ -126,7 +130,7 @@ class Dog extends Animal implements ArrayAccess
     {
         return $this->breed;
     }
-  
+
     /**
      * Sets breed
      * @param string $breed 
@@ -147,7 +151,7 @@ class Dog extends Animal implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -157,7 +161,7 @@ class Dog extends Animal implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -168,7 +172,7 @@ class Dog extends Animal implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -178,7 +182,7 @@ class Dog extends Animal implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

@@ -20,7 +20,7 @@ public class CodegenModel {
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> allVars;
-    public List<String> allowableValues;
+    public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
     public Set<String> mandatory = new TreeSet<String>();

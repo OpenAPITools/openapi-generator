@@ -8,9 +8,9 @@ import io.swagger.client.model.Animal;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
-
+/**
+ * Dog
+ */
 public class Dog extends Animal  {
   
   @SerializedName("className")
@@ -81,3 +81,4 @@ public class Dog extends Animal  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

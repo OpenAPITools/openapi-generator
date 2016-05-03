@@ -13,6 +13,13 @@ class OrderApiTest extends \PHPUnit_Framework_TestCase
     }
   
     // test get inventory
+    public function testOrderEnum()
+    {
+        $this->assertSame(Swagger\Client\Model\Order::STATUS_PLACED, "placed");
+        $this->assertSame(Swagger\Client\Model\Order::STATUS_APPROVED, "approved");
+    }
+
+    // test get inventory
     public function testOrder()
     {
         // initialize the API client
