@@ -308,75 +308,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-        Map<String, Object> objs = super.postProcessModels(objMap);
-
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            for (CodegenProperty var : cm.vars) {
-                Map<String, Object> allowableValues = var.allowableValues;
-
-                // handle ArrayProperty
-                if (var.items != null) {
-                    allowableValues = var.items.allowableValues;
-                }
-
-                if (allowableValues == null) {
-                    continue;
-                }
-                List<String> values = (List<String>) allowableValues.get("values");
-                if (values == null) {
-                    continue;
-                }
-
-                // put "enumVars" map into `allowableValues", including `name` and `value`
-                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
-                String commonPrefix = findCommonPrefixOfVars(values);
-                int truncateIdx = commonPrefix.length();
-                for (String value : values) {
-                    Map<String, String> enumVar = new HashMap<String, String>();
-                    String enumName;
-                    if (truncateIdx == 0) {
-                        enumName = value;
-                    } else {
-                        enumName = value.substring(truncateIdx);
-                        if ("".equals(enumName)) {
-                            enumName = value;
-                        }
-                    }
-                    enumVar.put("name", toEnumVarName(enumName));
-                    enumVar.put("jsonname", value);
-                    enumVar.put("value", value);
-                    enumVars.add(enumVar);
-                }
-                allowableValues.put("enumVars", enumVars);
-                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
-
-                // HACK: strip ? from enum
-                if (var.datatypeWithEnum != null) {
-                    var.vendorExtensions.put(DATA_TYPE_WITH_ENUM_EXTENSION, var.datatypeWithEnum.substring(0, var.datatypeWithEnum.length() - 1));
-                }
-
-                if (var.defaultValue != null) {
-                    String enumName = null;
-
-                    for (Map<String, String> enumVar : enumVars) {
-
-                        if (var.defaultValue.replace("\"", "").equals(enumVar.get("value"))) {
-                            enumName = enumVar.get("name");
-                            break;
-                        }
-                    }
-                    if (enumName != null && var.vendorExtensions.containsKey(DATA_TYPE_WITH_ENUM_EXTENSION)) {
-                        var.defaultValue = var.vendorExtensions.get(DATA_TYPE_WITH_ENUM_EXTENSION) + "." + enumName;
-                    }
-                }
-
-            }
-        }
-
-        return objs;
+    	return super.postProcessModels(objMap);
     }
 
     public void setTargetFramework(String dotnetFramework) {
@@ -436,17 +368,33 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return codegenModel;
     }
 
-    private String findCommonPrefixOfVars(List<String> vars) {
-        String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
-        // exclude trailing characters that should be part of a valid variable
-        // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
-        return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int?".equalsIgnoreCase(datatype) || "long?".equalsIgnoreCase(datatype) ||
+            "double?".equalsIgnoreCase(datatype) || "float?".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 
-    private String toEnumVarName(String value) {
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        // number
+        if ("int?".equals(datatype) || "long?".equals(datatype) || 
+            "double?".equals(datatype) || "float?".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
         String var = value.replaceAll("_", " ");
         var = WordUtils.capitalizeFully(var);
         var = var.replaceAll("\\W+", "");
+
 
         if (var.matches("\\d.*")) {
             return "_" + var;

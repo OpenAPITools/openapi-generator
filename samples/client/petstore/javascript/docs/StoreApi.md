@@ -54,7 +54,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="getInventory"></a>
 # **getInventory**
@@ -101,7 +101,7 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 <a name="getOrderById"></a>
 # **getOrderById**
@@ -117,7 +117,7 @@ var SwaggerPetstore = require('swagger-petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
 
-var orderId = "orderId_example"; // String | ID of pet that needs to be fetched
+var orderId = 789; // Integer | ID of pet that needs to be fetched
 
 
 var callback = function(error, data, response) {
@@ -134,7 +134,7 @@ apiInstance.getOrderById(orderId, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of pet that needs to be fetched | 
+ **orderId** | **Integer**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -147,11 +147,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(opts)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -163,9 +163,8 @@ var SwaggerPetstore = require('swagger-petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
 
-var opts = { 
-  'body': new SwaggerPetstore.Order() // Order | order placed for purchasing the pet
-};
+var body = new SwaggerPetstore.Order(); // Order | order placed for purchasing the pet
+
 
 var callback = function(error, data, response) {
   if (error) {
@@ -174,14 +173,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.placeOrder(opts, callback);
+apiInstance.placeOrder(body, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | [optional] 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -194,5 +193,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 

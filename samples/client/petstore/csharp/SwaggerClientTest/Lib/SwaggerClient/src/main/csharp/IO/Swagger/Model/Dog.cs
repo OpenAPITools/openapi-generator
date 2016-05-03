@@ -12,19 +12,16 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// Dog
     /// </summary>
     [DataContract]
     public partial class Dog : Animal,  IEquatable<Dog>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
-        /// Initializes a new instance of the <see cref="Dog" />class.
         /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
         /// <param name="Breed">Breed.</param>
-
         public Dog(string ClassName = null, string Breed = null)
         {
             // to ensure "ClassName" is required (not null)
@@ -36,23 +33,22 @@ namespace IO.Swagger.Model
             {
                 this.ClassName = ClassName;
             }
-            this.Breed = Breed;
+            
+            
+                        this.Breed = Breed;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
         [DataMember(Name="className", EmitDefaultValue=false)]
         public string ClassName { get; set; }
-    
         /// <summary>
         /// Gets or Sets Breed
         /// </summary>
         [DataMember(Name="breed", EmitDefaultValue=false)]
         public string Breed { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -62,11 +58,11 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Dog {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Breed: ").Append(Breed).Append("\n");
+sb.Append("  Breed: ").Append(Breed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -129,6 +125,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }
