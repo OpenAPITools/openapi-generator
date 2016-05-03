@@ -12,31 +12,28 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// SpecialModelName
     /// </summary>
     [DataContract]
     public partial class SpecialModelName :  IEquatable<SpecialModelName>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
-        /// Initializes a new instance of the <see cref="SpecialModelName" />class.
         /// </summary>
         /// <param name="SpecialPropertyName">SpecialPropertyName.</param>
-
         public SpecialModelName(long? SpecialPropertyName = null)
         {
-            this.SpecialPropertyName = SpecialPropertyName;
+            
+            
+                        this.SpecialPropertyName = SpecialPropertyName;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [DataMember(Name="$special[property.name]", EmitDefaultValue=false)]
         public long? SpecialPropertyName { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -49,7 +46,7 @@ namespace IO.Swagger.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -105,6 +102,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }

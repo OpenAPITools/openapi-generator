@@ -59,51 +59,55 @@ class ModelReturn implements ArrayAccess
     static $swaggerTypes = array(
         'return' => 'int'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'return' => 'return'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'return' => 'setReturn'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'return' => 'getReturn'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $return 
-      * @var int
-      */
+     * $return 
+     * @var int
+     */
     protected $return;
 
     /**
@@ -126,7 +130,7 @@ class ModelReturn implements ArrayAccess
     {
         return $this->return;
     }
-  
+
     /**
      * Sets return
      * @param int $return 
@@ -147,7 +151,7 @@ class ModelReturn implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -157,7 +161,7 @@ class ModelReturn implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -168,7 +172,7 @@ class ModelReturn implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -178,7 +182,7 @@ class ModelReturn implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

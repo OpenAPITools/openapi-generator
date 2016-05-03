@@ -1,16 +1,16 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Category', 'model/Order', 'model/Pet', 'model/Tag', 'model/User', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
+    define(['ApiClient', 'model/Animal', 'model/ApiResponse', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Category'), require('./model/Order'), require('./model/Pet'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/ApiResponse'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, Category, Order, Pet, Tag, User, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, Animal, ApiResponse, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
-   * This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href&#x3D;\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters.<br>
+   * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose..<br>
    * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -47,10 +47,60 @@
      */
     ApiClient: ApiClient,
     /**
+     * The Animal model constructor.
+     * @property {module:model/Animal}
+     */
+    Animal: Animal,
+    /**
+     * The ApiResponse model constructor.
+     * @property {module:model/ApiResponse}
+     */
+    ApiResponse: ApiResponse,
+    /**
+     * The Cat model constructor.
+     * @property {module:model/Cat}
+     */
+    Cat: Cat,
+    /**
      * The Category model constructor.
      * @property {module:model/Category}
      */
     Category: Category,
+    /**
+     * The Dog model constructor.
+     * @property {module:model/Dog}
+     */
+    Dog: Dog,
+    /**
+     * The EnumClass model constructor.
+     * @property {module:model/EnumClass}
+     */
+    EnumClass: EnumClass,
+    /**
+     * The EnumTest model constructor.
+     * @property {module:model/EnumTest}
+     */
+    EnumTest: EnumTest,
+    /**
+     * The FormatTest model constructor.
+     * @property {module:model/FormatTest}
+     */
+    FormatTest: FormatTest,
+    /**
+     * The Model200Response model constructor.
+     * @property {module:model/Model200Response}
+     */
+    Model200Response: Model200Response,
+    /**
+     * The ModelReturn model constructor.
+     * @property {module:model/ModelReturn}
+     */
+    ModelReturn: ModelReturn,
+    /**
+     * The Name model constructor.
+     * @property {module:model/Name}
+     */
+    Name: Name,
     /**
      * The Order model constructor.
      * @property {module:model/Order}
@@ -62,6 +112,11 @@
      */
     Pet: Pet,
     /**
+     * The SpecialModelName model constructor.
+     * @property {module:model/SpecialModelName}
+     */
+    SpecialModelName: SpecialModelName,
+    /**
      * The Tag model constructor.
      * @property {module:model/Tag}
      */
@@ -71,6 +126,11 @@
      * @property {module:model/User}
      */
     User: User,
+    /**
+     * The FakeApi service constructor.
+     * @property {module:api/FakeApi}
+     */
+    FakeApi: FakeApi,
     /**
      * The PetApi service constructor.
      * @property {module:api/PetApi}

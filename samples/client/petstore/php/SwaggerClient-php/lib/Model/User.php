@@ -66,15 +66,15 @@ class User implements ArrayAccess
         'phone' => 'string',
         'user_status' => 'int'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'id' => 'id',
         'username' => 'username',
@@ -85,15 +85,15 @@ class User implements ArrayAccess
         'phone' => 'phone',
         'user_status' => 'userStatus'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'id' => 'setId',
         'username' => 'setUsername',
@@ -104,15 +104,15 @@ class User implements ArrayAccess
         'phone' => 'setPhone',
         'user_status' => 'setUserStatus'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'id' => 'getId',
         'username' => 'getUsername',
@@ -123,50 +123,54 @@ class User implements ArrayAccess
         'phone' => 'getPhone',
         'user_status' => 'getUserStatus'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $id 
-      * @var int
-      */
+     * $id 
+     * @var int
+     */
     protected $id;
     /**
-      * $username 
-      * @var string
-      */
+     * $username 
+     * @var string
+     */
     protected $username;
     /**
-      * $first_name 
-      * @var string
-      */
+     * $first_name 
+     * @var string
+     */
     protected $first_name;
     /**
-      * $last_name 
-      * @var string
-      */
+     * $last_name 
+     * @var string
+     */
     protected $last_name;
     /**
-      * $email 
-      * @var string
-      */
+     * $email 
+     * @var string
+     */
     protected $email;
     /**
-      * $password 
-      * @var string
-      */
+     * $password 
+     * @var string
+     */
     protected $password;
     /**
-      * $phone 
-      * @var string
-      */
+     * $phone 
+     * @var string
+     */
     protected $phone;
     /**
-      * $user_status User Status
-      * @var int
-      */
+     * $user_status User Status
+     * @var int
+     */
     protected $user_status;
 
     /**
@@ -196,7 +200,7 @@ class User implements ArrayAccess
     {
         return $this->id;
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -216,7 +220,7 @@ class User implements ArrayAccess
     {
         return $this->username;
     }
-  
+
     /**
      * Sets username
      * @param string $username 
@@ -236,7 +240,7 @@ class User implements ArrayAccess
     {
         return $this->first_name;
     }
-  
+
     /**
      * Sets first_name
      * @param string $first_name 
@@ -256,7 +260,7 @@ class User implements ArrayAccess
     {
         return $this->last_name;
     }
-  
+
     /**
      * Sets last_name
      * @param string $last_name 
@@ -276,7 +280,7 @@ class User implements ArrayAccess
     {
         return $this->email;
     }
-  
+
     /**
      * Sets email
      * @param string $email 
@@ -296,7 +300,7 @@ class User implements ArrayAccess
     {
         return $this->password;
     }
-  
+
     /**
      * Sets password
      * @param string $password 
@@ -316,7 +320,7 @@ class User implements ArrayAccess
     {
         return $this->phone;
     }
-  
+
     /**
      * Sets phone
      * @param string $phone 
@@ -336,7 +340,7 @@ class User implements ArrayAccess
     {
         return $this->user_status;
     }
-  
+
     /**
      * Sets user_status
      * @param int $user_status User Status
@@ -357,7 +361,7 @@ class User implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -367,7 +371,7 @@ class User implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -378,7 +382,7 @@ class User implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -388,7 +392,7 @@ class User implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

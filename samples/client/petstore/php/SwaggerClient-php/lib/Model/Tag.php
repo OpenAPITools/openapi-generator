@@ -60,59 +60,63 @@ class Tag implements ArrayAccess
         'id' => 'int',
         'name' => 'string'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'id' => 'id',
         'name' => 'name'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'id' => 'setId',
         'name' => 'setName'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'id' => 'getId',
         'name' => 'getName'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $id 
-      * @var int
-      */
+     * $id 
+     * @var int
+     */
     protected $id;
     /**
-      * $name 
-      * @var string
-      */
+     * $name 
+     * @var string
+     */
     protected $name;
 
     /**
@@ -136,7 +140,7 @@ class Tag implements ArrayAccess
     {
         return $this->id;
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -156,7 +160,7 @@ class Tag implements ArrayAccess
     {
         return $this->name;
     }
-  
+
     /**
      * Sets name
      * @param string $name 
@@ -177,7 +181,7 @@ class Tag implements ArrayAccess
     {
         return isset($this->$offset);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -187,7 +191,7 @@ class Tag implements ArrayAccess
     {
         return $this->$offset;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -198,7 +202,7 @@ class Tag implements ArrayAccess
     {
         $this->$offset = $value;
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -208,7 +212,7 @@ class Tag implements ArrayAccess
     {
         unset($this->$offset);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

@@ -7,9 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
-
+/**
+ * Animal
+ */
 public class Animal   {
   
   @SerializedName("className")
@@ -64,3 +64,4 @@ public class Animal   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

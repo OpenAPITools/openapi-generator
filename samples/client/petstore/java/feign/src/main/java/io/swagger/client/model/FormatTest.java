@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-23T12:48:24.088+08:00")
+/**
+ * FormatTest
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-27T23:17:22.230+08:00")
 public class FormatTest   {
   
   private Integer integer = null;
@@ -29,6 +29,8 @@ public class FormatTest   {
 
   
   /**
+   * minimum: 10.0
+   * maximum: 100.0
    **/
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -46,6 +48,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 20.0
+   * maximum: 200.0
    **/
   public FormatTest int32(Integer int32) {
     this.int32 = int32;
@@ -80,6 +84,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 32.1
+   * maximum: 543.2
    **/
   public FormatTest number(BigDecimal number) {
     this.number = number;
@@ -97,6 +103,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 54.3
+   * maximum: 987.6
    **/
   public FormatTest _float(Float _float) {
     this._float = _float;
@@ -114,6 +122,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 67.8
+   * maximum: 123.4
    **/
   public FormatTest _double(Double _double) {
     this._double = _double;
@@ -154,7 +164,7 @@ public class FormatTest   {
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
@@ -188,7 +198,7 @@ public class FormatTest   {
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("date")
   public Date getDate() {
     return date;
@@ -222,7 +232,7 @@ public class FormatTest   {
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;

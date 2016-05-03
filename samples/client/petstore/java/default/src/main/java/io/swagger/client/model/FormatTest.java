@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 
-
-
-
+/**
+ * FormatTest
+ */
 
 public class FormatTest   {
   
@@ -25,10 +25,13 @@ public class FormatTest   {
   private byte[] binary = null;
   private Date date = null;
   private Date dateTime = null;
+  private String uuid = null;
   private String password = null;
 
   
   /**
+   * minimum: 10.0
+   * maximum: 100.0
    **/
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -46,6 +49,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 20.0
+   * maximum: 200.0
    **/
   public FormatTest int32(Integer int32) {
     this.int32 = int32;
@@ -80,6 +85,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 32.1
+   * maximum: 543.2
    **/
   public FormatTest number(BigDecimal number) {
     this.number = number;
@@ -97,6 +104,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 54.3
+   * maximum: 987.6
    **/
   public FormatTest _float(Float _float) {
     this._float = _float;
@@ -114,6 +123,8 @@ public class FormatTest   {
 
 
   /**
+   * minimum: 67.8
+   * maximum: 123.4
    **/
   public FormatTest _double(Double _double) {
     this._double = _double;
@@ -154,7 +165,7 @@ public class FormatTest   {
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
@@ -188,7 +199,7 @@ public class FormatTest   {
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("date")
   public Date getDate() {
     return date;
@@ -217,12 +228,29 @@ public class FormatTest   {
 
   /**
    **/
+  public FormatTest uuid(String uuid) {
+    this.uuid = uuid;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("uuid")
+  public String getUuid() {
+    return uuid;
+  }
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
+
+
+  /**
+   **/
   public FormatTest password(String password) {
     this.password = password;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -252,12 +280,13 @@ public class FormatTest   {
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
   }
 
   @Override
@@ -276,6 +305,7 @@ public class FormatTest   {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();

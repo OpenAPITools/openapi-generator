@@ -136,6 +136,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // binary not supported in JavaScript client right now, using String as a workaround
         typeMapping.put("ByteArray", "String"); // I don't see ByteArray defined in the Swagger docs.
         typeMapping.put("binary", "String");
+        typeMapping.put("UUID", "String");
 
         importMapping.clear();
 
@@ -870,7 +871,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 if (allowableValues == null) {
                     continue;
                 }
-                List<String> values = (List<String>) allowableValues.get("values");
+                List<Object> values = (List<Object>) allowableValues.get("values");
                 if (values == null) {
                     continue;
                 }
@@ -879,19 +880,19 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
                 String commonPrefix = findCommonPrefixOfVars(values);
                 int truncateIdx = commonPrefix.length();
-                for (String value : values) {
+                for (Object value : values) {
                     Map<String, String> enumVar = new HashMap<String, String>();
                     String enumName;
                     if (truncateIdx == 0) {
-                        enumName = value;
+                        enumName = value.toString();
                     } else {
-                        enumName = value.substring(truncateIdx);
+                        enumName = value.toString().substring(truncateIdx);
                         if ("".equals(enumName)) {
-                            enumName = value;
+                            enumName = value.toString();
                         }
                     }
-                    enumVar.put("name", toEnumVarName(enumName));
-                    enumVar.put("value", value);
+                    enumVar.put("name", toEnumVarName(enumName, var.datatype));
+                    enumVar.put("value",toEnumValue(value.toString(), var.datatype));
                     enumVars.add(enumVar);
                 }
                 allowableValues.put("enumVars", enumVars);
@@ -928,22 +929,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return !defaultIncludes.contains(type)
             && !languageSpecificPrimitives.contains(type);
     }
-
-    private static String findCommonPrefixOfVars(List<String> vars) {
+/*
+    @Override
+    public String findCommonPrefixOfVars(List<String> vars) {
         String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
         // exclude trailing characters that should be part of a valid variable
         // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
         return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
     }
-
-    private static String toEnumVarName(String value) {
-        String var = value.replaceAll("\\W+", "_").toUpperCase();
-        if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
-        }
-    }
+*/
 
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
@@ -1000,6 +994,43 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return "invalidPackageName";
         }
         return packageName;
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return sanitizeName(camelize(property.name)) + "Enum";
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        return value;
+        /*
+        // number
+        if ("Integer".equals(datatype) || "Number".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String var = value.replaceAll("\\W+", "_").replaceAll("_+", "_").toUpperCase();
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
+        }
+        */
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("Integer".equals(datatype) || "Number".equals(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 
 }
