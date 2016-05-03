@@ -15,6 +15,9 @@
 }(this, function(ApiClient, Animal) {
   'use strict';
 
+
+
+
   /**
    * The Dog model module.
    * @module model/Dog
@@ -55,7 +58,6 @@
   exports.prototype = Object.create(Animal.prototype);
   exports.prototype.constructor = exports;
 
-
   /**
    * @member {String} breed
    */
@@ -66,3 +68,5 @@
 
   return exports;
 }));
+
+

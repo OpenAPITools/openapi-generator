@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The Name model module.
    * @module model/Name
@@ -60,17 +63,14 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} name
    */
   exports.prototype['name'] = undefined;
-
   /**
    * @member {Integer} snake_case
    */
   exports.prototype['snake_case'] = undefined;
-
   /**
    * @member {String} property
    */
@@ -81,3 +81,5 @@
 
   return exports;
 }));
+
+

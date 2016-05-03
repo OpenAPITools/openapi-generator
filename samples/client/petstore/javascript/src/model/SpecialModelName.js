@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The SpecialModelName model module.
    * @module model/SpecialModelName
@@ -50,7 +53,6 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} $special[property.name]
    */
@@ -61,3 +63,5 @@
 
   return exports;
 }));
+
+
