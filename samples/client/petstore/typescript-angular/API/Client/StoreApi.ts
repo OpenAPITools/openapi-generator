@@ -45,39 +45,7 @@ namespace API.Client {
                 method: 'DELETE',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * Finds orders by status
-         * A single status value can be provided as a string
-         * @param status Status value that needs to be considered for query
-         */
-        public findOrdersByStatus (status?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<Order>> {
-            const localVarPath = this.basePath + '/store/findByStatus';
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            if (status !== undefined) {
-                queryParameters['status'] = status;
-            }
-
-            let httpRequestParams: any = {
-                method: 'GET',
-                url: localVarPath,
-                json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -100,34 +68,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
-         * Returns an arbitrary object which is actually a map of status codes to quantities
-         */
-        public getInventoryInObject (extraHttpRequestParams?: any ) : ng.IHttpPromise<any> {
-            const localVarPath = this.basePath + '/store/inventory?response=arbitrary_object';
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
-                method: 'GET',
-                url: localVarPath,
-                json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -139,7 +80,7 @@ namespace API.Client {
         }
         /**
          * Find purchase order by ID
-         * For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions
+         * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
          * @param orderId ID of pet that needs to be fetched
          */
         public getOrderById (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<Order> {
@@ -156,9 +97,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -183,9 +122,7 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
+                                params: queryParameters,
                 headers: headerParams
             };
 

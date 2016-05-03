@@ -88,7 +88,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "Int32",
                         "Int64",
                         "Float",
-                        "Guid",
+                        "Guid?",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
@@ -115,7 +115,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
-        typeMapping.put("uuid", "Guid");
+        typeMapping.put("uuid", "Guid?");
     }
 
     public void setReturnICollection(boolean returnICollection) {
