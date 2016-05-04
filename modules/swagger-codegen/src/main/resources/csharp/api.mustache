@@ -227,7 +227,7 @@ namespace {{packageName}}.Api
             if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
-            if ({{paramName}}.GetType() != typeof(byte[]))
+            if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize({{paramName}}); // http body (model) parameter
             }
@@ -360,7 +360,7 @@ namespace {{packageName}}.Api
             if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
-            if ({{paramName}}.GetType() != typeof(byte[]))
+            if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize({{paramName}}); // http body (model) parameter
             }
