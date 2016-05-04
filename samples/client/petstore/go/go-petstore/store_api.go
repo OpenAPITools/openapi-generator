@@ -90,7 +90,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
  * Returns pet inventories by status
  * Returns a map of status codes to quantities
  *
- * @return map[string]int32
+ * @return *map[string]int32
  */
 func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 
@@ -133,13 +133,13 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(map[string]int32)
+	var successPayload = new(*map[string]int32)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -147,7 +147,7 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
  * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  *
  * @param orderId ID of pet that needs to be fetched
- * @return Order
+ * @return *Order
  */
 func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 
@@ -158,7 +158,7 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 
 	// verify the required parameter 'orderId' is set
 	if &orderId == nil {
-		return new(Order), nil, errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
+		return *new(*Order), nil, errors.New("Missing required parameter 'orderId' when calling StoreApi->GetOrderById")
 	}
 
 	headerParams := make(map[string]string)
@@ -192,13 +192,13 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(Order)
+	var successPayload = new(*Order)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -206,7 +206,7 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
  * 
  *
  * @param body order placed for purchasing the pet
- * @return Order
+ * @return *Order
  */
 func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 
@@ -216,7 +216,7 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 
 	// verify the required parameter 'body' is set
 	if &body == nil {
-		return new(Order), nil, errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
+		return *new(*Order), nil, errors.New("Missing required parameter 'body' when calling StoreApi->PlaceOrder")
 	}
 
 	headerParams := make(map[string]string)
@@ -253,12 +253,12 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 	// body params
 	postBody = &body
 
-	var successPayload = new(Order)
+	var successPayload = new(*Order)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 

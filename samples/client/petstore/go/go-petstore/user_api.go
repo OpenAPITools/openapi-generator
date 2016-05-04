@@ -274,7 +274,7 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
  * 
  *
  * @param username The name that needs to be fetched. Use user1 for testing. 
- * @return User
+ * @return *User
  */
 func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 
@@ -285,7 +285,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 
 	// verify the required parameter 'username' is set
 	if &username == nil {
-		return new(User), nil, errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
+		return *new(*User), nil, errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
 	}
 
 	headerParams := make(map[string]string)
@@ -319,13 +319,13 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(User)
+	var successPayload = new(*User)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -334,7 +334,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
  *
  * @param username The user name for login
  * @param password The password for login in clear text
- * @return string
+ * @return *string
  */
 func (a UserApi) LoginUser(username string, password string) (*string, *APIResponse, error) {
 
@@ -344,11 +344,11 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 
 	// verify the required parameter 'username' is set
 	if &username == nil {
-		return new(string), nil, errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
+		return *new(*string), nil, errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
 	}
 	// verify the required parameter 'password' is set
 	if &password == nil {
-		return new(string), nil, errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
+		return *new(*string), nil, errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
 	}
 
 	headerParams := make(map[string]string)
@@ -388,13 +388,13 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(string)
+	var successPayload = new(*string)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
