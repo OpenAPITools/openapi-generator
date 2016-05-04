@@ -1,5 +1,5 @@
 import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
-import {Injectable} from '@angular/core';
+import {Injectable, Optional} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import * as models from '../model/models';
 
@@ -12,10 +12,10 @@ export class PetApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders : Headers = new Headers();
 
-    constructor(protected http: Http) {}
-
-    setBasePath(basePath: string) {
-        this.basePath = basePath;
+    constructor(protected http: Http, @Optional() basePath: string) {
+        if (basePath) {
+            this.basePath = basePath;
+        }
     }
 
     /**
