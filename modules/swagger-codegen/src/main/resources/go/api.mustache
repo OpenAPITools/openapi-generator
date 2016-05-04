@@ -37,7 +37,7 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}} {
 {{#allParams}} * @param {{paramName}} {{description}}
 {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
  */
-func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}APIResponse, error) {
+func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}*{{{returnType}}}, {{/returnType}}*APIResponse, error) {
 
 	var httpMethod = "{{httpMethod}}"
 	// create path and map variables
@@ -46,7 +46,7 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 {{#allParams}}{{#required}}
 	// verify the required parameter '{{paramName}}' is set
 	if &{{paramName}} == nil {
-		return {{#returnType}}*new({{{returnType}}}), {{/returnType}}*NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+		return {{#returnType}}new({{{returnType}}}), {{/returnType}}nil, errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
 	}{{/required}}{{/allParams}}
 
 	headerParams := make(map[string]string)
@@ -113,10 +113,10 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 {{#returnType}}	var successPayload = new({{returnType}}){{/returnType}}
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return {{#returnType}}*successPayload, {{/returnType}}*NewAPIResponse(httpResponse.RawResponse), err
+		return {{#returnType}}successPayload, {{/returnType}}NewAPIResponse(httpResponse.RawResponse), err
 	}
 {{#returnType}}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload){{/returnType}}
-	return {{#returnType}}*successPayload, {{/returnType}}*NewAPIResponse(httpResponse.RawResponse), err
+	return {{#returnType}}successPayload, {{/returnType}}NewAPIResponse(httpResponse.RawResponse), err
 }
 {{/operation}}{{/operations}}
