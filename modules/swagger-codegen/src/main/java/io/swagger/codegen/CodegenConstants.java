@@ -89,7 +89,7 @@ public class CodegenConstants {
     public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names. Default is the empty string.";
 
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
-    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue, default false.";
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
 
     public static final String GIT_USER_ID = "gitUserId";
     public static final String GIT_USER_ID_DESC = "Git user ID, e.g. swagger-api.";
@@ -103,4 +103,6 @@ public class CodegenConstants {
     public static final String HTTP_USER_AGENT = "httpUserAgent";
     public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'Swagger-Codegen/{packageVersion}}/{language}'";
 
+    public static final String SUPPORTS_ES6 = "supportsES6";
+    public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
 }
