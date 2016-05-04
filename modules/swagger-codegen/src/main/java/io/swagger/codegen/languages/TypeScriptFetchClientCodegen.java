@@ -1,10 +1,46 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.SupportingFile;
 
 import java.io.File;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
+
+    public static final String NPM_NAME = "npmName";
+    public static final String NPM_VERSION = "npmVersion";
+
+    protected String npmName = null;
+    protected String npmVersion = "1.0.0";
+
+    public TypeScriptFetchClientCodegen() {
+        super();
+        outputFolder = "generated-code/typescript-fetch";
+        embeddedTemplateDir = templateDir = "TypeScript-Fetch";
+        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
+        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        final String defaultFolder = apiPackage().replace('.', File.separatorChar);
+
+        supportingFiles.add(new SupportingFile("api.mustache", null, "api.ts"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("assign.ts", defaultFolder, "assign.ts"));
+        supportingFiles.add(new SupportingFile("package.json.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("typings.json.mustache", "", "typings.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.json.mustache", "", "tsconfig.json"));
+
+        if(additionalProperties.containsKey(NPM_NAME)) {
+            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(NPM_VERSION)) {
+            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+        }
+    }
 
     @Override
     public String getName() {
@@ -16,23 +52,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return "Generates a TypeScript client library using Fetch API (beta).";
     }
 
-    @Override
-    public void processOpts() {
-        super.processOpts();
-        final String defaultFolder = apiPackage().replace('.', File.separatorChar);
-
-        supportingFiles.add(new SupportingFile("api.mustache", null, "api.ts"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("assign.ts", defaultFolder, "assign.ts"));
-        supportingFiles.add(new SupportingFile("package.json", "", "package.json"));
-        supportingFiles.add(new SupportingFile("typings.json", "", "typings.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.json", "", "tsconfig.json"));
+    public String getNpmName() {
+        return npmName;
     }
 
-    public TypeScriptFetchClientCodegen() {
-        super();
-        outputFolder = "generated-code/typescript-fetch";
-        embeddedTemplateDir = templateDir = "TypeScript-Fetch";
+    public void setNpmName(String npmName) {
+        this.npmName = npmName;
+    }
+
+    public String getNpmVersion() {
+        return npmVersion;
+    }
+
+    public void setNpmVersion(String npmVersion) {
+        this.npmVersion = npmVersion;
     }
 
 }
