@@ -131,7 +131,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         }
         {{/maxLength}}
         {{#minLength}}
-        if (strlen(${{paramName}}) > {{minLength}}) {
+        if (strlen(${{paramName}}) < {{minLength}}) {
             throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
