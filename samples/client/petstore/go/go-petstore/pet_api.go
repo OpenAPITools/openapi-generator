@@ -171,7 +171,7 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
  * @param status Status values that need to be considered for filter
  * @return []Pet
  */
-func (a PetApi) FindPetsByStatus(status []string) (*[]Pet, *APIResponse, error) {
+func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -179,7 +179,7 @@ func (a PetApi) FindPetsByStatus(status []string) (*[]Pet, *APIResponse, error) 
 
 	// verify the required parameter 'status' is set
 	if &status == nil {
-		return new([]Pet), nil, errors.New("Missing required parameter 'status' when calling PetApi->FindPetsByStatus")
+		return *new([]Pet), nil, errors.New("Missing required parameter 'status' when calling PetApi->FindPetsByStatus")
 	}
 
 	headerParams := make(map[string]string)
@@ -224,10 +224,10 @@ func (a PetApi) FindPetsByStatus(status []string) (*[]Pet, *APIResponse, error) 
 	var successPayload = new([]Pet)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -237,7 +237,7 @@ func (a PetApi) FindPetsByStatus(status []string) (*[]Pet, *APIResponse, error) 
  * @param tags Tags to filter by
  * @return []Pet
  */
-func (a PetApi) FindPetsByTags(tags []string) (*[]Pet, *APIResponse, error) {
+func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -245,7 +245,7 @@ func (a PetApi) FindPetsByTags(tags []string) (*[]Pet, *APIResponse, error) {
 
 	// verify the required parameter 'tags' is set
 	if &tags == nil {
-		return new([]Pet), nil, errors.New("Missing required parameter 'tags' when calling PetApi->FindPetsByTags")
+		return *new([]Pet), nil, errors.New("Missing required parameter 'tags' when calling PetApi->FindPetsByTags")
 	}
 
 	headerParams := make(map[string]string)
@@ -290,10 +290,10 @@ func (a PetApi) FindPetsByTags(tags []string) (*[]Pet, *APIResponse, error) {
 	var successPayload = new([]Pet)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -301,7 +301,7 @@ func (a PetApi) FindPetsByTags(tags []string) (*[]Pet, *APIResponse, error) {
  * Returns a single pet
  *
  * @param petId ID of pet to return
- * @return Pet
+ * @return *Pet
  */
 func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 
@@ -312,7 +312,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 
 	// verify the required parameter 'petId' is set
 	if &petId == nil {
-		return new(Pet), nil, errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
+		return *new(*Pet), nil, errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
 	}
 
 	headerParams := make(map[string]string)
@@ -350,13 +350,13 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(Pet)
+	var successPayload = new(*Pet)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -501,7 +501,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
  * @param petId ID of pet to update
  * @param additionalMetadata Additional data to pass to server
  * @param file file to upload
- * @return ModelApiResponse
+ * @return *ModelApiResponse
  */
 func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File) (*ModelApiResponse, *APIResponse, error) {
 
@@ -512,7 +512,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 
 	// verify the required parameter 'petId' is set
 	if &petId == nil {
-		return new(ModelApiResponse), nil, errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
+		return *new(*ModelApiResponse), nil, errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
 	}
 
 	headerParams := make(map[string]string)
@@ -556,12 +556,12 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	fileBytes = fbs
 	fileName = file.Name()
 
-	var successPayload = new(ModelApiResponse)
+	var successPayload = new(*ModelApiResponse)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
