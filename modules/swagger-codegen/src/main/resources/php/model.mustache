@@ -127,10 +127,60 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         {{/discriminator}}
 
         if ($data != null) {
-            {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
-            {{/hasMore}}{{/vars}}
+            {{#vars}}
+            if (isset($data["{{name}}"])) {
+                $this->{{name}} = $data["{{name}}"];
+            }{{#hasMore}}{{/hasMore}}
+            {{/vars}}
         }
     }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        {{#vars}}
+        {{#required}}
+        if ($this->{{name}} === null) {
+            return false;
+        }
+        {{/required}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen($this->{{name}}) > {{maxLength}}) {
+            return false;
+        }
+        {{/maxLength}}
+        {{#minLength}}
+        if (strlen($this->{{name}}) < {{minLength}}) {
+            return false;
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if ($this->{{name}} > {{maximum}}) {
+            return false;
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if ($this->{{name}} < {{minimum}}) {
+            return false;
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", $this->{{name}})) {
+            return false;
+        }
+        {{/pattern}}
+        {{/hasValidation}}
+        {{/vars}}
+        return true;
+    }
+
+
     {{#vars}}
     /**
      * Gets {{name}}
@@ -152,6 +202,32 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         if (!in_array(${{{name}}}, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
         }{{/isEnum}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen(${{name}}) > {{maxLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
+        }{{/maxLength}}
+        {{#minLength}}
+        if (strlen(${{name}}) < {{minLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if (${{name}} > {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if (${{name}} < {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", ${{name}})) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        }
+        {{/pattern}}
+        {{/hasValidation}}
         $this->{{name}} = ${{name}};
         return $this;
     }
