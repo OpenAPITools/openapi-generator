@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetPetById**
-> *Pet GetPetById($petId)
+> Pet GetPetById($petId)
 
 Find pet by ID
 
@@ -147,7 +147,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[***Pet**](Pet.md)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -221,7 +221,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UploadFile**
-> *ModelApiResponse UploadFile($petId, $additionalMetadata, $file)
+> ModelApiResponse UploadFile($petId, $additionalMetadata, $file)
 
 uploads an image
 
@@ -238,7 +238,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[***ModelApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ApiResponse.md)
 
 ### Authorization
 

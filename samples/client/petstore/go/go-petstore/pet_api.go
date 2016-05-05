@@ -312,7 +312,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 
 	// verify the required parameter 'petId' is set
 	if &petId == nil {
-		return *new(*Pet), nil, errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
+		return new(Pet), nil, errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
 	}
 
 	headerParams := make(map[string]string)
@@ -350,13 +350,13 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new(*Pet)
+	var successPayload = new(Pet)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -512,7 +512,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 
 	// verify the required parameter 'petId' is set
 	if &petId == nil {
-		return *new(*ModelApiResponse), nil, errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
+		return new(ModelApiResponse), nil, errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
 	}
 
 	headerParams := make(map[string]string)
@@ -556,12 +556,12 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	fileBytes = fbs
 	fileName = file.Name()
 
-	var successPayload = new(*ModelApiResponse)
+	var successPayload = new(ModelApiResponse)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
