@@ -124,10 +124,48 @@ class Category implements ArrayAccess
         
         
         if ($data != null) {
-            $this->id = $data["id"];
-            $this->name = $data["name"];
+            if (isset($data["id"])) {
+                $this->id = $data["id"];
+            }
+            if (isset($data["name"])) {
+                $this->name = $data["name"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        
+        
+
+        
+
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        
+        
+
+        
+
+        return true;
+    }
+
+
     /**
      * Gets id
      * @return int
@@ -145,6 +183,7 @@ class Category implements ArrayAccess
     public function setId($id)
     {
         
+
         $this->id = $id;
         return $this;
     }
@@ -165,6 +204,7 @@ class Category implements ArrayAccess
     public function setName($name)
     {
         
+
         $this->name = $name;
         return $this;
     }

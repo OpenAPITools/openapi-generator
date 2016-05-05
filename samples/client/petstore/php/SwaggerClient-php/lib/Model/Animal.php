@@ -118,9 +118,47 @@ class Animal implements ArrayAccess
         $this->{$discrimintor} = static::$swaggerModelName;
 
         if ($data != null) {
-            $this->class_name = $data["class_name"];
+            if (isset($data["class_name"])) {
+                $this->class_name = $data["class_name"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        
+        if ($this->class_name === null) {
+            $invalid_properties[] = "'$class_name' can't be null";
+        }
+        
+
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        
+        if ($this->class_name === null) {
+            return false;
+        }
+        
+
+        return true;
+    }
+
+
     /**
      * Gets class_name
      * @return string
@@ -138,6 +176,7 @@ class Animal implements ArrayAccess
     public function setClassName($class_name)
     {
         
+
         $this->class_name = $class_name;
         return $this;
     }

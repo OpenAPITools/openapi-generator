@@ -214,20 +214,220 @@ class FormatTest implements ArrayAccess
         
         
         if ($data != null) {
-            $this->integer = $data["integer"];
-            $this->int32 = $data["int32"];
-            $this->int64 = $data["int64"];
-            $this->number = $data["number"];
-            $this->float = $data["float"];
-            $this->double = $data["double"];
-            $this->string = $data["string"];
-            $this->byte = $data["byte"];
-            $this->binary = $data["binary"];
-            $this->date = $data["date"];
-            $this->date_time = $data["date_time"];
-            $this->password = $data["password"];
+            if (isset($data["integer"])) {
+                $this->integer = $data["integer"];
+            }
+            if (isset($data["int32"])) {
+                $this->int32 = $data["int32"];
+            }
+            if (isset($data["int64"])) {
+                $this->int64 = $data["int64"];
+            }
+            if (isset($data["number"])) {
+                $this->number = $data["number"];
+            }
+            if (isset($data["float"])) {
+                $this->float = $data["float"];
+            }
+            if (isset($data["double"])) {
+                $this->double = $data["double"];
+            }
+            if (isset($data["string"])) {
+                $this->string = $data["string"];
+            }
+            if (isset($data["byte"])) {
+                $this->byte = $data["byte"];
+            }
+            if (isset($data["binary"])) {
+                $this->binary = $data["binary"];
+            }
+            if (isset($data["date"])) {
+                $this->date = $data["date"];
+            }
+            if (isset($data["date_time"])) {
+                $this->date_time = $data["date_time"];
+            }
+            if (isset($data["password"])) {
+                $this->password = $data["password"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        
+        
+        if ($this->integer > 100.0) {
+            $invalid_properties[] = "invalid value for '$integer', must be smaller than or equal to 100.0.";
+        }
+        if ($this->integer < 10.0) {
+            $invalid_properties[] = "invalid value for '$integer', must be bigger than or equal to 10.0.";
+        }
+
+        
+        if ($this->int32 > 200.0) {
+            $invalid_properties[] = "invalid value for '$int32', must be smaller than or equal to 200.0.";
+        }
+        if ($this->int32 < 20.0) {
+            $invalid_properties[] = "invalid value for '$int32', must be bigger than or equal to 20.0.";
+        }
+
+        
+
+        if ($this->number === null) {
+            $invalid_properties[] = "'$number' can't be null";
+        }
+        
+        if ($this->number > 543.2) {
+            $invalid_properties[] = "invalid value for '$number', must be smaller than or equal to 543.2.";
+        }
+        if ($this->number < 32.1) {
+            $invalid_properties[] = "invalid value for '$number', must be bigger than or equal to 32.1.";
+        }
+
+        
+        if ($this->float > 987.6) {
+            $invalid_properties[] = "invalid value for '$float', must be smaller than or equal to 987.6.";
+        }
+        if ($this->float < 54.3) {
+            $invalid_properties[] = "invalid value for '$float', must be bigger than or equal to 54.3.";
+        }
+
+        
+        if ($this->double > 123.4) {
+            $invalid_properties[] = "invalid value for '$double', must be smaller than or equal to 123.4.";
+        }
+        if ($this->double < 67.8) {
+            $invalid_properties[] = "invalid value for '$double', must be bigger than or equal to 67.8.";
+        }
+
+        
+        if (!preg_match("/[a-z]/i", $this->string)) {
+            $invalid_properties[] = "invalid value for '$string', must be conform to the pattern /[a-z]/i.";
+        }
+        
+        if ($this->byte === null) {
+            $invalid_properties[] = "'$byte' can't be null";
+        }
+        
+
+        
+
+        if ($this->date === null) {
+            $invalid_properties[] = "'$date' can't be null";
+        }
+        
+
+        
+
+        if ($this->password === null) {
+            $invalid_properties[] = "'$password' can't be null";
+        }
+        
+        if (strlen($this->password) > 64) {
+            $invalid_properties[] = "invalid value for '$password', the character length must be smaller than or equal to 64.";
+        }
+        if (strlen($this->password) < 10) {
+            $invalid_properties[] = "invalid value for '$password', the character length must be bigger than or equal to 10.";
+        }
+
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        
+        
+        if ($this->integer > 100.0) {
+            return false;
+        }
+        if ($this->integer < 10.0) {
+            return false;
+        }
+
+        
+        if ($this->int32 > 200.0) {
+            return false;
+        }
+        if ($this->int32 < 20.0) {
+            return false;
+        }
+
+        
+
+        if ($this->number === null) {
+            return false;
+        }
+        
+        if ($this->number > 543.2) {
+            return false;
+        }
+        if ($this->number < 32.1) {
+            return false;
+        }
+
+        
+        if ($this->float > 987.6) {
+            return false;
+        }
+        if ($this->float < 54.3) {
+            return false;
+        }
+
+        
+        if ($this->double > 123.4) {
+            return false;
+        }
+        if ($this->double < 67.8) {
+            return false;
+        }
+
+        
+        if (!preg_match("/[a-z]/i", $this->string)) {
+            return false;
+        }
+        
+        if ($this->byte === null) {
+            return false;
+        }
+        
+
+        
+
+        if ($this->date === null) {
+            return false;
+        }
+        
+
+        
+
+        if ($this->password === null) {
+            return false;
+        }
+        
+        if (strlen($this->password) > 64) {
+            return false;
+        }
+        if (strlen($this->password) < 10) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     /**
      * Gets integer
      * @return int
@@ -245,6 +445,14 @@ class FormatTest implements ArrayAccess
     public function setInteger($integer)
     {
         
+
+        if ($integer > 100.0) {
+            throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be smaller than or equal to 100.0.');
+        }
+        if ($integer < 10.0) {
+            throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be bigger than or equal to 10.0.');
+        }
+
         $this->integer = $integer;
         return $this;
     }
@@ -265,6 +473,14 @@ class FormatTest implements ArrayAccess
     public function setInt32($int32)
     {
         
+
+        if ($int32 > 200.0) {
+            throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be smaller than or equal to 200.0.');
+        }
+        if ($int32 < 20.0) {
+            throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be bigger than or equal to 20.0.');
+        }
+
         $this->int32 = $int32;
         return $this;
     }
@@ -285,6 +501,7 @@ class FormatTest implements ArrayAccess
     public function setInt64($int64)
     {
         
+
         $this->int64 = $int64;
         return $this;
     }
@@ -305,6 +522,14 @@ class FormatTest implements ArrayAccess
     public function setNumber($number)
     {
         
+
+        if ($number > 543.2) {
+            throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be smaller than or equal to 543.2.');
+        }
+        if ($number < 32.1) {
+            throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be bigger than or equal to 32.1.');
+        }
+
         $this->number = $number;
         return $this;
     }
@@ -325,6 +550,14 @@ class FormatTest implements ArrayAccess
     public function setFloat($float)
     {
         
+
+        if ($float > 987.6) {
+            throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be smaller than or equal to 987.6.');
+        }
+        if ($float < 54.3) {
+            throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be bigger than or equal to 54.3.');
+        }
+
         $this->float = $float;
         return $this;
     }
@@ -345,6 +578,14 @@ class FormatTest implements ArrayAccess
     public function setDouble($double)
     {
         
+
+        if ($double > 123.4) {
+            throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be smaller than or equal to 123.4.');
+        }
+        if ($double < 67.8) {
+            throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be bigger than or equal to 67.8.');
+        }
+
         $this->double = $double;
         return $this;
     }
@@ -364,6 +605,11 @@ class FormatTest implements ArrayAccess
      */
     public function setString($string)
     {
+        
+
+        if (!preg_match("/[a-z]/i", $string)) {
+            throw new \InvalidArgumentException('invalid value for $string when calling FormatTest., must be conform to the pattern /[a-z]/i.');
+        }
         
         $this->string = $string;
         return $this;
@@ -385,6 +631,7 @@ class FormatTest implements ArrayAccess
     public function setByte($byte)
     {
         
+
         $this->byte = $byte;
         return $this;
     }
@@ -405,6 +652,7 @@ class FormatTest implements ArrayAccess
     public function setBinary($binary)
     {
         
+
         $this->binary = $binary;
         return $this;
     }
@@ -425,6 +673,7 @@ class FormatTest implements ArrayAccess
     public function setDate($date)
     {
         
+
         $this->date = $date;
         return $this;
     }
@@ -445,6 +694,7 @@ class FormatTest implements ArrayAccess
     public function setDateTime($date_time)
     {
         
+
         $this->date_time = $date_time;
         return $this;
     }
@@ -465,6 +715,13 @@ class FormatTest implements ArrayAccess
     public function setPassword($password)
     {
         
+        if (strlen($password) > 64) {
+            throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be smaller than or equal to 64.');
+        }
+        if (strlen($password) < 10) {
+            throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be bigger than or equal to 10.');
+        }
+
         $this->password = $password;
         return $this;
     }

@@ -115,9 +115,41 @@ class Model200Response implements ArrayAccess
         
         
         if ($data != null) {
-            $this->name = $data["name"];
+            if (isset($data["name"])) {
+                $this->name = $data["name"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        
+        
+
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        
+        
+
+        return true;
+    }
+
+
     /**
      * Gets name
      * @return int
@@ -135,6 +167,7 @@ class Model200Response implements ArrayAccess
     public function setName($name)
     {
         
+
         $this->name = $name;
         return $this;
     }

@@ -160,14 +160,94 @@ class Pet implements ArrayAccess
         
         
         if ($data != null) {
-            $this->id = $data["id"];
-            $this->category = $data["category"];
-            $this->name = $data["name"];
-            $this->photo_urls = $data["photo_urls"];
-            $this->tags = $data["tags"];
-            $this->status = $data["status"];
+            if (isset($data["id"])) {
+                $this->id = $data["id"];
+            }
+            if (isset($data["category"])) {
+                $this->category = $data["category"];
+            }
+            if (isset($data["name"])) {
+                $this->name = $data["name"];
+            }
+            if (isset($data["photo_urls"])) {
+                $this->photo_urls = $data["photo_urls"];
+            }
+            if (isset($data["tags"])) {
+                $this->tags = $data["tags"];
+            }
+            if (isset($data["status"])) {
+                $this->status = $data["status"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        
+        
+
+        
+
+        if ($this->name === null) {
+            $invalid_properties[] = "'$name' can't be null";
+        }
+        
+
+        if ($this->photo_urls === null) {
+            $invalid_properties[] = "'$photo_urls' can't be null";
+        }
+        
+
+        
+
+        $allowed_values = array("available", "pending", "sold");
+        if (!in_array($this->status, $allowed_values))) {
+            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+        }
+
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        
+        
+
+        
+
+        if ($this->name === null) {
+            return false;
+        }
+        
+
+        if ($this->photo_urls === null) {
+            return false;
+        }
+        
+
+        
+
+        $allowed_values = array("available", "pending", "sold");
+        if (!in_array($this->status, $allowed_values))) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     /**
      * Gets id
      * @return int
@@ -185,6 +265,7 @@ class Pet implements ArrayAccess
     public function setId($id)
     {
         
+
         $this->id = $id;
         return $this;
     }
@@ -205,6 +286,7 @@ class Pet implements ArrayAccess
     public function setCategory($category)
     {
         
+
         $this->category = $category;
         return $this;
     }
@@ -225,6 +307,7 @@ class Pet implements ArrayAccess
     public function setName($name)
     {
         
+
         $this->name = $name;
         return $this;
     }
@@ -245,6 +328,7 @@ class Pet implements ArrayAccess
     public function setPhotoUrls($photo_urls)
     {
         
+
         $this->photo_urls = $photo_urls;
         return $this;
     }
@@ -265,6 +349,7 @@ class Pet implements ArrayAccess
     public function setTags($tags)
     {
         
+
         $this->tags = $tags;
         return $this;
     }
@@ -288,6 +373,7 @@ class Pet implements ArrayAccess
         if (!in_array($status, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
         }
+
         $this->status = $status;
         return $this;
     }
