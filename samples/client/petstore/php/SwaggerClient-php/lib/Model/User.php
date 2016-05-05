@@ -178,16 +178,90 @@ class User implements ArrayAccess
         
         
         if ($data != null) {
-            $this->id = $data["id"];
-            $this->username = $data["username"];
-            $this->first_name = $data["first_name"];
-            $this->last_name = $data["last_name"];
-            $this->email = $data["email"];
-            $this->password = $data["password"];
-            $this->phone = $data["phone"];
-            $this->user_status = $data["user_status"];
+            if (isset($data["id"])) {
+                $this->id = $data["id"];
+            }
+            if (isset($data["username"])) {
+                $this->username = $data["username"];
+            }
+            if (isset($data["first_name"])) {
+                $this->first_name = $data["first_name"];
+            }
+            if (isset($data["last_name"])) {
+                $this->last_name = $data["last_name"];
+            }
+            if (isset($data["email"])) {
+                $this->email = $data["email"];
+            }
+            if (isset($data["password"])) {
+                $this->password = $data["password"];
+            }
+            if (isset($data["phone"])) {
+                $this->phone = $data["phone"];
+            }
+            if (isset($data["user_status"])) {
+                $this->user_status = $data["user_status"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        return true;
+    }
+
+
     /**
      * Gets id
      * @return int
@@ -205,6 +279,7 @@ class User implements ArrayAccess
     public function setId($id)
     {
         
+
         $this->id = $id;
         return $this;
     }
@@ -225,6 +300,7 @@ class User implements ArrayAccess
     public function setUsername($username)
     {
         
+
         $this->username = $username;
         return $this;
     }
@@ -245,6 +321,7 @@ class User implements ArrayAccess
     public function setFirstName($first_name)
     {
         
+
         $this->first_name = $first_name;
         return $this;
     }
@@ -265,6 +342,7 @@ class User implements ArrayAccess
     public function setLastName($last_name)
     {
         
+
         $this->last_name = $last_name;
         return $this;
     }
@@ -285,6 +363,7 @@ class User implements ArrayAccess
     public function setEmail($email)
     {
         
+
         $this->email = $email;
         return $this;
     }
@@ -305,6 +384,7 @@ class User implements ArrayAccess
     public function setPassword($password)
     {
         
+
         $this->password = $password;
         return $this;
     }
@@ -325,6 +405,7 @@ class User implements ArrayAccess
     public function setPhone($phone)
     {
         
+
         $this->phone = $phone;
         return $this;
     }
@@ -345,6 +426,7 @@ class User implements ArrayAccess
     public function setUserStatus($user_status)
     {
         
+
         $this->user_status = $user_status;
         return $this;
     }

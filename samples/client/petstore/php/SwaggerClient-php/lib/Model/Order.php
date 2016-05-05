@@ -160,14 +160,82 @@ class Order implements ArrayAccess
         
         
         if ($data != null) {
-            $this->id = $data["id"];
-            $this->pet_id = $data["pet_id"];
-            $this->quantity = $data["quantity"];
-            $this->ship_date = $data["ship_date"];
-            $this->status = $data["status"];
-            $this->complete = $data["complete"];
+            if (isset($data["id"])) {
+                $this->id = $data["id"];
+            }
+            if (isset($data["pet_id"])) {
+                $this->pet_id = $data["pet_id"];
+            }
+            if (isset($data["quantity"])) {
+                $this->quantity = $data["quantity"];
+            }
+            if (isset($data["ship_date"])) {
+                $this->ship_date = $data["ship_date"];
+            }
+            if (isset($data["status"])) {
+                $this->status = $data["status"];
+            }
+            if (isset($data["complete"])) {
+                $this->complete = $data["complete"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        
+        
+
+        
+
+        
+
+        
+
+        $allowed_values = array("placed", "approved", "delivered");
+        if (!in_array($this->status, $allowed_values))) {
+            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+        }
+
+        
+
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+        
+        
+
+        
+
+        
+
+        
+
+        $allowed_values = array("placed", "approved", "delivered");
+        if (!in_array($this->status, $allowed_values))) {
+            return false;
+        }
+
+        
+
+        return true;
+    }
+
+
     /**
      * Gets id
      * @return int
@@ -185,6 +253,7 @@ class Order implements ArrayAccess
     public function setId($id)
     {
         
+
         $this->id = $id;
         return $this;
     }
@@ -205,6 +274,7 @@ class Order implements ArrayAccess
     public function setPetId($pet_id)
     {
         
+
         $this->pet_id = $pet_id;
         return $this;
     }
@@ -225,6 +295,7 @@ class Order implements ArrayAccess
     public function setQuantity($quantity)
     {
         
+
         $this->quantity = $quantity;
         return $this;
     }
@@ -245,6 +316,7 @@ class Order implements ArrayAccess
     public function setShipDate($ship_date)
     {
         
+
         $this->ship_date = $ship_date;
         return $this;
     }
@@ -268,6 +340,7 @@ class Order implements ArrayAccess
         if (!in_array($status, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'placed', 'approved', 'delivered'");
         }
+
         $this->status = $status;
         return $this;
     }
@@ -288,6 +361,7 @@ class Order implements ArrayAccess
     public function setComplete($complete)
     {
         
+
         $this->complete = $complete;
         return $this;
     }
