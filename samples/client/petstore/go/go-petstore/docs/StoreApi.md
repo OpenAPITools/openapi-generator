@@ -40,7 +40,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetInventory**
-> *map[string]int32 GetInventory()
+> map[string]int32 GetInventory()
 
 Returns pet inventories by status
 
@@ -52,7 +52,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[***map[string]int32**](map.md)
+[**map[string]int32**](map.md)
 
 ### Authorization
 
@@ -66,7 +66,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetOrderById**
-> *Order GetOrderById($orderId)
+> Order GetOrderById($orderId)
 
 Find purchase order by ID
 
@@ -81,7 +81,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[***Order**](Order.md)
+[**Order**](Order.md)
 
 ### Authorization
 
@@ -95,7 +95,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **PlaceOrder**
-> *Order PlaceOrder($body)
+> Order PlaceOrder($body)
 
 Place an order for a pet
 
@@ -110,7 +110,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[***Order**](Order.md)
+[**Order**](Order.md)
 
 ### Authorization
 

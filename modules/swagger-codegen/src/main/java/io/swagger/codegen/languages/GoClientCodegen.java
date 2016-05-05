@@ -401,13 +401,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 listIterator.add(newImportMap);
             }
         }
-        // add pointer to return type string if it is not array
-        for (CodegenOperation operation : operations) {
-            if((operation.returnContainer == null || operation.returnContainer != "array") 
-                && operation.returnType != null) {
-                operation.returnType = "*" + operation.returnType;
-            }
-        }
+
         return objs;
     }
 
