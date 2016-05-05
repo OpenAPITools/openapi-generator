@@ -13,7 +13,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript client library using Fetch API.";
+        return "Generates a TypeScript client library using Fetch API (beta).";
     }
 
     @Override
