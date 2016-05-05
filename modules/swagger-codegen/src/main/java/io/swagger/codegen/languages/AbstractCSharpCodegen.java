@@ -12,7 +12,7 @@ import java.util.*;
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
-    protected boolean optionalProjectFileFlag = false;
+    protected boolean optionalProjectFileFlag = true;
     protected boolean optionalEmitDefaultValue = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
