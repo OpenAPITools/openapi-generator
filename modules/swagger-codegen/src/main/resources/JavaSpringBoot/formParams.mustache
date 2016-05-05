@@ -1,0 +1,2 @@
+{{#isFormParam}}{{#notFile}}
+@ApiParam(value = "{{{description}}}"{{#required}}, required=true{{/required}} {{#allowableValues}}, allowableValues="{{{allowableValues}}}"{{/allowableValues}}{{#defaultValue}}, defaultValue="{{{defaultValue}}}"{{/defaultValue}}) @RequestPart(value="{{paramName}}"{{#required}}, required=true{{/required}}{{^required}}, required=false{{/required}})  {{{dataType}}} {{paramName}}{{/notFile}}{{#isFile}}@ApiParam(value = "file detail") @RequestPart("file") MultipartFile {{baseName}}{{/isFile}}{{/isFormParam}}
