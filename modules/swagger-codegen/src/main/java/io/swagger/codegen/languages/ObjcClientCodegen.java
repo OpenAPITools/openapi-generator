@@ -109,7 +109,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                     "break", "enum", "register", "typedef",
                     "case", "extern", "return", "union",
                     "char", "float", "short", "unsigned",
-                    "co nst", "for", "signed", "void",
+                    "const", "for", "signed", "void",
                     "continue", "goto", "sizeof", "volatile",
                     "default", "if", "id", "static", "while",
                     "do", "int", "struct", "_Packed",
