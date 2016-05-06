@@ -140,35 +140,46 @@ class Pet implements ArrayAccess
     
 
     /**
-     * $id 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $id;
-    /**
-     * $category 
-     * @var \Swagger\Client\Model\Category
-     */
-    protected $category;
-    /**
-     * $name 
-     * @var string
-     */
-    protected $name;
-    /**
-     * $photo_urls 
-     * @var string[]
-     */
-    protected $photo_urls;
-    /**
-     * $tags 
-     * @var \Swagger\Client\Model\Tag[]
-     */
-    protected $tags;
-    /**
-     * $status pet status in the store
-     * @var string
-     */
-    protected $status;
+    protected $container = array(
+        /**
+         * $container['id']
+         * @var int
+         */
+        'id' => null,
+    
+        /**
+         * $container['category']
+         * @var \Swagger\Client\Model\Category
+         */
+        'category' => null,
+    
+        /**
+         * $container['name']
+         * @var string
+         */
+        'name' => null,
+    
+        /**
+         * $container['photo_urls']
+         * @var string[]
+         */
+        'photo_urls' => null,
+    
+        /**
+         * $container['tags']
+         * @var \Swagger\Client\Model\Tag[]
+         */
+        'tags' => null,
+    
+        /**
+         * $container['status'] pet status in the store
+         * @var string
+         */
+        'status' => null,
+    );
 
     /**
      * Constructor
@@ -179,12 +190,12 @@ class Pet implements ArrayAccess
         
         
         if ($data != null) {
-            $this->id = $data["id"];
-            $this->category = $data["category"];
-            $this->name = $data["name"];
-            $this->photo_urls = $data["photo_urls"];
-            $this->tags = $data["tags"];
-            $this->status = $data["status"];
+            $this->container['id'] = $data['id'];
+            $this->container['category'] = $data['category'];
+            $this->container['name'] = $data['name'];
+            $this->container['photo_urls'] = $data['photo_urls'];
+            $this->container['tags'] = $data['tags'];
+            $this->container['status'] = $data['status'];
         }
     }
     /**
@@ -193,7 +204,7 @@ class Pet implements ArrayAccess
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
 
     /**
@@ -204,7 +215,7 @@ class Pet implements ArrayAccess
     public function setId($id)
     {
         
-        $this->id = $id;
+        $this->container['id'] = $id;
         return $this;
     }
     /**
@@ -213,7 +224,7 @@ class Pet implements ArrayAccess
      */
     public function getCategory()
     {
-        return $this->category;
+        return $this->container['category'];
     }
 
     /**
@@ -224,7 +235,7 @@ class Pet implements ArrayAccess
     public function setCategory($category)
     {
         
-        $this->category = $category;
+        $this->container['category'] = $category;
         return $this;
     }
     /**
@@ -233,7 +244,7 @@ class Pet implements ArrayAccess
      */
     public function getName()
     {
-        return $this->name;
+        return $this->container['name'];
     }
 
     /**
@@ -244,7 +255,7 @@ class Pet implements ArrayAccess
     public function setName($name)
     {
         
-        $this->name = $name;
+        $this->container['name'] = $name;
         return $this;
     }
     /**
@@ -253,7 +264,7 @@ class Pet implements ArrayAccess
      */
     public function getPhotoUrls()
     {
-        return $this->photo_urls;
+        return $this->container['photo_urls'];
     }
 
     /**
@@ -264,7 +275,7 @@ class Pet implements ArrayAccess
     public function setPhotoUrls($photo_urls)
     {
         
-        $this->photo_urls = $photo_urls;
+        $this->container['photo_urls'] = $photo_urls;
         return $this;
     }
     /**
@@ -273,7 +284,7 @@ class Pet implements ArrayAccess
      */
     public function getTags()
     {
-        return $this->tags;
+        return $this->container['tags'];
     }
 
     /**
@@ -284,7 +295,7 @@ class Pet implements ArrayAccess
     public function setTags($tags)
     {
         
-        $this->tags = $tags;
+        $this->container['tags'] = $tags;
         return $this;
     }
     /**
@@ -293,7 +304,7 @@ class Pet implements ArrayAccess
      */
     public function getStatus()
     {
-        return $this->status;
+        return $this->container['status'];
     }
 
     /**
@@ -303,11 +314,11 @@ class Pet implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array("available", "pending", "sold");
+        $allowed_values = array('available', 'pending', 'sold');
         if (!in_array($status, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
         }
-        $this->status = $status;
+        $this->container['status'] = $status;
         return $this;
     }
     /**
@@ -317,7 +328,7 @@ class Pet implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -327,7 +338,7 @@ class Pet implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -338,7 +349,11 @@ class Pet implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -348,7 +363,7 @@ class Pet implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**
