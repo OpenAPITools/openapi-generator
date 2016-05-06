@@ -36,6 +36,7 @@
 namespace {{modelPackage}};
 
 use \ArrayAccess;
+
 /**
  * {{classname}} Class Doc Comment
  *
@@ -62,7 +63,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes{{#parentSchema}} + parent::swaggerTypes(){{/parentSchema}};
     }
@@ -75,7 +76,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
- 
+
     static function attributeMap() {
         return {{#parentSchema}}parent::attributeMap() + {{/parentSchema}}self::$attributeMap;
     }
@@ -88,7 +89,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#vars}}'{{name}}' => '{{setter}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
- 
+
     static function setters() {
         return {{#parentSchema}}parent::setters() + {{/parentSchema}}self::$setters;
     }
@@ -126,13 +127,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array({{#vars}}
-        /**
-         * $container['{{{name}}}']{{#description}} {{{description}}}{{/description}}
-         * @var {{datatype}}
-         */
-        '{{{name}}}' => {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}},
-    {{/vars}});
+    protected $container = array();
 
     /**
      * Constructor
@@ -140,18 +135,22 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function __construct(array $data = null)
     {
-        {{#parentSchema}}parent::__construct($data);{{/parentSchema}}
-        {{#discriminator}}// Initialize discriminator property with the model name.
+        {{#parentSchema}}
+        parent::__construct($data);
+
+        {{/parentSchema}}
+        {{#vars}}
+        $this->container['{{name}}'] = isset($data['{{name}}']) ? $data['{{name}}'] : {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};
+        {{/vars}}
+        {{#discriminator}}
+
+        // Initialize discriminator property with the model name.
         $discrimintor = array_search('{{discriminator}}', self::$attributeMap);
         $this->container[$discrimintor] = static::$swaggerModelName;
         {{/discriminator}}
-
-        if ($data != null) {
-            {{#vars}}$this->container['{{name}}'] = $data['{{name}}'];{{#hasMore}}
-            {{/hasMore}}{{/vars}}
-        }
     }
     {{#vars}}
+
     /**
      * Gets {{name}}
      * @return {{datatype}}

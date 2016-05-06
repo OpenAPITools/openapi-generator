@@ -450,6 +450,20 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    // test if default values works
+    public function testDefaultValues()
+    {
+        // add some animals to the farm to make sure the ArrayAccess
+        // interface works
+        $dog = new Swagger\Client\Model\Dog();
+        $animal = new Swagger\Client\Model\Animal();
+
+        // assert we can look up the animals in the farm by array
+        // indices (let's try a random order)
+        $this->assertSame('red', $dog->getColor());
+        $this->assertSame('red', $animal->getColor());
+    }
+
 }
 
 ?>
