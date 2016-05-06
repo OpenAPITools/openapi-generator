@@ -21,6 +21,11 @@ extern NSInteger const SWGTypeMismatchErrorCode;
  */
 extern NSInteger const SWGEmptyValueOccurredErrorCode;
 
+/**
+ * Error code for unknown response
+ */
+extern NSInteger const SWGUnknownResponseObjectErrorCode;
+
 @protocol SWGResponseDeserializer <NSObject>
 
 /**

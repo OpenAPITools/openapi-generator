@@ -8,6 +8,9 @@ NSInteger const {{classPrefix}}TypeMismatchErrorCode = 143553;
 
 NSInteger const {{classPrefix}}EmptyValueOccurredErrorCode = 143509;
 
+NSInteger const {{classPrefix}}UnknownResponseObjectErrorCode = 143528;
+
+
 @interface {{classPrefix}}ResponseDeserializer ()
 
 @property (nonatomic, strong) NSNumberFormatter* numberFormatter;
@@ -70,33 +73,31 @@ NSInteger const {{classPrefix}}EmptyValueOccurredErrorCode = 143509;
     }
 
     NSTextCheckingResult *match = nil;
-
+    NSRange range = NSMakeRange(0, [className length]);
     // list of models
-    match = [self.arrayOfModelsPatExpression firstMatchInString:className options:0 range:NSMakeRange(0, [className length])];
+    match = [self.arrayOfModelsPatExpression firstMatchInString:className options:0 range:range];
     if (match) {
         NSString *innerType = [className substringWithRange:[match rangeAtIndex:1]];
         return [self deserializeArrayValue:data innerType:innerType error:error];
     }
 
     // list of primitives
-    match = [self.arrayOfPrimitivesPatExpression firstMatchInString:className options:0 range:NSMakeRange(0, [className length])];
+    match = [self.arrayOfPrimitivesPatExpression firstMatchInString:className options:0 range:range];
     if (match) {
         NSString *innerType = [className substringWithRange:[match rangeAtIndex:1]];
         return [self deserializeArrayValue:data innerType:innerType error:error];
     }
 
     // map
-    match = [self.dictPatExpression firstMatchInString:className options:0 range:NSMakeRange(0, [className length])];
+    match = [self.dictPatExpression firstMatchInString:className options:0 range:range];
     if (match) {
         NSString *valueType = [className substringWithRange:[match rangeAtIndex:2]];
         return [self deserializeDictionaryValue:data valueType:valueType error:error];
     }
 
-    match = [self.dictModelsPatExpression firstMatchInString:className options:0 range:NSMakeRange(0, [className length])];
+    match = [self.dictModelsPatExpression firstMatchInString:className options:0 range:range];
     if (match) {
-        NSRange range =[match rangeAtIndex:2];
-        range = NSMakeRange(range.location, [className length] - range.location -1);
-        NSString *valueType = [className substringWithRange:range];
+        NSString *valueType = [className substringWithRange:[match rangeAtIndex:2]];
         return [self deserializeDictionaryValue:data valueType:valueType error:error];
     }
 
@@ -106,6 +107,9 @@ NSInteger const {{classPrefix}}EmptyValueOccurredErrorCode = 143509;
         return [(JSONModel *) [ModelClass alloc] initWithDictionary:data error:error];
     }
 
+    if(error) {
+        *error = [self unknownResponseErrorWithExpectedType:className data:data];
+    }
     return nil;
 }
 
@@ -216,6 +220,12 @@ NSInteger const {{classPrefix}}EmptyValueOccurredErrorCode = 143509;
     NSString * message = NSLocalizedString(@"Received response contains null value in dictionary or array response",nil);
     NSDictionary * userInfo = @{NSLocalizedDescriptionKey : message};
     return [NSError errorWithDomain:{{classPrefix}}DeserializationErrorDomainKey code:{{classPrefix}}EmptyValueOccurredErrorCode userInfo:userInfo];
+}
+
+-(NSError *)unknownResponseErrorWithExpectedType:(NSString *)expected data:(id)data  {
+    NSString * message = [NSString stringWithFormat:NSLocalizedString(@"Unknown response expected type %@ [reponse: %@]",nil),expected,data];
+    NSDictionary * userInfo = @{NSLocalizedDescriptionKey : message};
+    return [NSError errorWithDomain:{{classPrefix}}DeserializationErrorDomainKey code:{{classPrefix}}UnknownResponseObjectErrorCode userInfo:userInfo];
 }
 
 @end
