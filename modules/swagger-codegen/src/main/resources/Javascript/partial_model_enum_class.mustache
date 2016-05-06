@@ -7,16 +7,16 @@
 {{/emitJSDoc}}
   var exports = {
   {{#allowableValues}}
-  {{#values}}
+  {{#enumVars}}
 {{#emitJSDoc}}
     /**
-     * value: {{{.}}}
+     * value: {{{value}}}
      * @const
      */
 {{/emitJSDoc}}
-    "{{{.}}}": "{{{.}}}"{{^-last}},
+    "{{name}}": {{{value}}}{{^-last}},
     {{/-last}}
-  {{/values}}
+  {{/enumVars}}
   {{/allowableValues}}
   };
 

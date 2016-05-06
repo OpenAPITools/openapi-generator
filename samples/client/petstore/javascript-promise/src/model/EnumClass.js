@@ -23,17 +23,17 @@
    */
   var exports = {
     /**
-     * value: _abc
+     * value: "_abc"
      * @const
      */
     "_abc": "_abc",
     /**
-     * value: -efg
+     * value: "-efg"
      * @const
      */
     "-efg": "-efg",
     /**
-     * value: (xyz)
+     * value: "(xyz)"
      * @const
      */
     "(xyz)": "(xyz)"  };

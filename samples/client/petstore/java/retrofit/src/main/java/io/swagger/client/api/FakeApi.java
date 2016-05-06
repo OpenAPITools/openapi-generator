@@ -6,6 +6,7 @@ import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public interface FakeApi {
   @FormUrlEncoded
   @POST("/fake")
   Void testEndpointParameters(
-    @Field("number") String number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") Date date, @Field("dateTime") Date dateTime, @Field("password") String password
+    @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") Date date, @Field("dateTime") Date dateTime, @Field("password") String password
   );
 
   /**
@@ -61,6 +62,6 @@ public interface FakeApi {
   @FormUrlEncoded
   @POST("/fake")
   void testEndpointParameters(
-    @Field("number") String number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") Date date, @Field("dateTime") Date dateTime, @Field("password") String password, Callback<Void> cb
+    @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") Date date, @Field("dateTime") Date dateTime, @Field("password") String password, Callback<Void> cb
   );
 }

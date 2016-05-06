@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -49,7 +48,7 @@ public class FormatTest   {
   private Date dateTime = null;
 
   @SerializedName("uuid")
-  private UUID uuid = null;
+  private String uuid = null;
 
   @SerializedName("password")
   private String password = null;
@@ -177,10 +176,10 @@ public class FormatTest   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public UUID getUuid() {
+  public String getUuid() {
     return uuid;
   }
-  public void setUuid(UUID uuid) {
+  public void setUuid(String uuid) {
     this.uuid = uuid;
   }
 
