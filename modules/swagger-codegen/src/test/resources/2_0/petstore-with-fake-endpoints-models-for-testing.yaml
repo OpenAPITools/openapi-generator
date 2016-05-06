@@ -842,6 +842,10 @@ definitions:
     properties:
       className:
         type: string
+  AnimalFarm:
+    type: array
+    items:
+      $ref: '#/definitions/Animal'
   format_test:
     type: object
     required:

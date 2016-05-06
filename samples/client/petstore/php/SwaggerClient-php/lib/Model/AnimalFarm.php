@@ -1,13 +1,11 @@
 <?php
-{{#models}}
-{{#model}}
 /**
- * {{classname}}
+ * AnimalFarm
  *
  * PHP version 5
  *
  * @category Class
- * @package  {{invokerPackage}}
+ * @package  Swagger\Client
  * @author   http://github.com/swagger-api/swagger-codegen
  * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link     https://github.com/swagger-api/swagger-codegen
@@ -33,38 +31,37 @@
  * Do not edit the class manually.
  */
 
-namespace {{modelPackage}};
+namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 /**
- * {{classname}} Class Doc Comment
+ * AnimalFarm Class Doc Comment
  *
  * @category    Class
- * @description {{description}}
- * @package     {{invokerPackage}}
+ * @description 
+ * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}implements ArrayAccess
+class AnimalFarm implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = '{{name}}';
+    static $swaggerModelName = 'AnimalFarm';
 
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
-        {{/hasMore}}{{/vars}}
+        
     );
  
     static function swaggerTypes() {
-        return self::$swaggerTypes{{#parentSchema}} + parent::swaggerTypes(){{/parentSchema}};
+        return self::$swaggerTypes;
     }
 
     /** 
@@ -72,12 +69,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * @var string[]
      */
     static $attributeMap = array(
-        {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
-        {{/hasMore}}{{/vars}}
+        
     );
  
     static function attributeMap() {
-        return {{#parentSchema}}parent::attributeMap() + {{/parentSchema}}self::$attributeMap;
+        return self::$attributeMap;
     }
 
     /**
@@ -85,12 +81,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * @var string[]
      */
     static $setters = array(
-        {{#vars}}'{{name}}' => '{{setter}}'{{#hasMore}},
-        {{/hasMore}}{{/vars}}
+        
     );
  
     static function setters() {
-        return {{#parentSchema}}parent::setters() + {{/parentSchema}}self::$setters;
+        return self::$setters;
     }
 
     /**
@@ -98,41 +93,22 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * @var string[]
      */
     static $getters = array(
-        {{#vars}}'{{name}}' => '{{getter}}'{{#hasMore}},
-        {{/hasMore}}{{/vars}}
+        
     );
  
     static function getters() {
-        return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
+        return self::$getters;
     }
 
-    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{datatypeWithEnum}}_{{{name}}} = {{{value}}};
-    {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
+    
 
-    {{#vars}}{{#isEnum}}
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public function {{getter}}AllowableValues() {
-        return [
-            {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
-            {{/-last}}{{/enumVars}}{{/allowableValues}}
-        ];
-    }
-    {{/isEnum}}{{/vars}}
+    
 
     /**
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array({{#vars}}
-        /**
-         * $container['{{{name}}}']{{#description}} {{{description}}}{{/description}}
-         * @var {{datatype}}
-         */
-        '{{{name}}}' => {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}},
-    {{/vars}});
+    protected $container = array();
 
     /**
      * Constructor
@@ -140,42 +116,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function __construct(array $data = null)
     {
-        {{#parentSchema}}parent::__construct($data);{{/parentSchema}}
-        {{#discriminator}}// Initialize discriminator property with the model name.
-        $discrimintor = array_search('{{discriminator}}', self::$attributeMap);
-        $this->container[$discrimintor] = static::$swaggerModelName;
-        {{/discriminator}}
-
+        
+        
         if ($data != null) {
-            {{#vars}}$this->container['{{name}}'] = $data['{{name}}'];{{#hasMore}}
-            {{/hasMore}}{{/vars}}
+            
         }
     }
-    {{#vars}}
-    /**
-     * Gets {{name}}
-     * @return {{datatype}}
-     */
-    public function {{getter}}()
-    {
-        return $this->container['{{name}}'];
-    }
-
-    /**
-     * Sets {{name}}
-     * @param {{datatype}} ${{name}} {{#description}}{{{description}}}{{/description}}
-     * @return $this
-     */
-    public function {{setter}}(${{name}})
-    {
-        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
-        if (!in_array(${{{name}}}, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
-        }{{/isEnum}}
-        $this->container['{{name}}'] = ${{name}};
-        return $this;
-    }
-    {{/vars}}
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset 
@@ -228,11 +174,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     public function __toString()
     {
         if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
-            return json_encode(\{{invokerPackage}}\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+            return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
         }
 
-        return json_encode(\{{invokerPackage}}\ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-{{/model}}
-{{/models}}
