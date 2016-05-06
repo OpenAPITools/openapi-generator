@@ -6,13 +6,11 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
     // initalise property's default value, if any
     {{#vars}}{{#defaultValue}}self.{{name}} = {{{defaultValue}}};
     {{/defaultValue}}{{/vars}}
   }
-
   return self;
 }
 
@@ -21,7 +19,6 @@
  Maps "discriminator" value to the sub-class name, so that inheritance is supported.
  */
 - (id)initWithDictionary:(NSDictionary *)dict error:(NSError *__autoreleasing *)err {
-
 
     NSString * discriminatedClassName = [dict valueForKey:@"{{discriminator}}"];
 
@@ -45,8 +42,7 @@
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
++ (JSONKeyMapper *)keyMapper {
   return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
 }
 
@@ -55,24 +51,11 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+
   NSArray *optionalProperties = @[{{#vars}}{{^required}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/required}}{{/vars}}];
+  return [optionalProperties containsObject:propertyName];
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
 }
 
 {{/model}}
