@@ -21,7 +21,7 @@
    * @enum {}
    * @readonly
    */
-  exports.EnumClass = {
+  var exports = {
     /**
      * value: _abc
      * @const
