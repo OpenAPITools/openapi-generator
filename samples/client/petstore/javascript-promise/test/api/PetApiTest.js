@@ -49,7 +49,7 @@ var createRandomPet = function() {
 describe('PetApi', function() {
   it('should create and get pet', function(done) {
     var pet = createRandomPet();
-    api.addPet({body: pet})
+    api.addPet(pet)
         .then(function() {
             return api.getPetById(pet.id)
         })
@@ -63,7 +63,7 @@ describe('PetApi', function() {
               .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
 
             api.deletePet(pet.id);
-            done();   
+            done();
         });
   });
 });

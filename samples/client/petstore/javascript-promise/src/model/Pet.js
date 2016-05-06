@@ -15,6 +15,9 @@
 }(this, function(ApiClient, Category, Tag) {
   'use strict';
 
+
+
+
   /**
    * The Pet model module.
    * @module model/Pet
@@ -72,32 +75,26 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} id
    */
   exports.prototype['id'] = undefined;
-
   /**
    * @member {module:model/Category} category
    */
   exports.prototype['category'] = undefined;
-
   /**
    * @member {String} name
    */
   exports.prototype['name'] = undefined;
-
   /**
    * @member {Array.<String>} photoUrls
    */
   exports.prototype['photoUrls'] = undefined;
-
   /**
    * @member {Array.<module:model/Tag>} tags
    */
   exports.prototype['tags'] = undefined;
-
   /**
    * pet status in the store
    * @member {module:model/Pet.StatusEnum} status
@@ -110,25 +107,25 @@
    * @enum {String}
    * @readonly
    */
-  exports.StatusEnum = { 
+  exports.StatusEnum = {
     /**
-     * value: available
+     * value: "available"
      * @const
      */
-    AVAILABLE: "available",
-    
+    "available": "available",
     /**
-     * value: pending
+     * value: "pending"
      * @const
      */
-    PENDING: "pending",
-    
+    "pending": "pending",
     /**
-     * value: sold
+     * value: "sold"
      * @const
      */
-    SOLD: "sold"
-  };
+    "sold": "sold"  };
+
 
   return exports;
 }));
+
+
