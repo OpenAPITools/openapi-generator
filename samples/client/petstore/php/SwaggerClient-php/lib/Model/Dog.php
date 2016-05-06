@@ -105,10 +105,16 @@ class Dog extends Animal implements ArrayAccess
     
 
     /**
-     * $breed 
-     * @var string
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $breed;
+    protected $container = array(
+        /**
+         * $container['breed']
+         * @var string
+         */
+        'breed' => null,
+    );
 
     /**
      * Constructor
@@ -119,7 +125,7 @@ class Dog extends Animal implements ArrayAccess
         parent::__construct($data);
         
         if ($data != null) {
-            $this->breed = $data["breed"];
+            $this->container['breed'] = $data['breed'];
         }
     }
     /**
@@ -128,7 +134,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function getBreed()
     {
-        return $this->breed;
+        return $this->container['breed'];
     }
 
     /**
@@ -139,7 +145,7 @@ class Dog extends Animal implements ArrayAccess
     public function setBreed($breed)
     {
         
-        $this->breed = $breed;
+        $this->container['breed'] = $breed;
         return $this;
     }
     /**
@@ -149,7 +155,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -159,7 +165,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -170,7 +176,11 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -180,7 +190,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**
