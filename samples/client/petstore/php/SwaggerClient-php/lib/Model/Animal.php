@@ -105,10 +105,16 @@ class Animal implements ArrayAccess
     
 
     /**
-     * $class_name 
-     * @var string
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $class_name;
+    protected $container = array(
+        /**
+         * $container['class_name']
+         * @var string
+         */
+        'class_name' => null,
+    );
 
     /**
      * Constructor
@@ -119,10 +125,10 @@ class Animal implements ArrayAccess
         
         // Initialize discriminator property with the model name.
         $discrimintor = array_search('className', self::$attributeMap);
-        $this->{$discrimintor} = static::$swaggerModelName;
+        $this->container[$discrimintor] = static::$swaggerModelName;
 
         if ($data != null) {
-            $this->class_name = $data["class_name"];
+            $this->container['class_name'] = $data['class_name'];
         }
     }
     /**
@@ -131,7 +137,7 @@ class Animal implements ArrayAccess
      */
     public function getClassName()
     {
-        return $this->class_name;
+        return $this->container['class_name'];
     }
 
     /**
@@ -142,7 +148,7 @@ class Animal implements ArrayAccess
     public function setClassName($class_name)
     {
         
-        $this->class_name = $class_name;
+        $this->container['class_name'] = $class_name;
         return $this;
     }
     /**
@@ -152,7 +158,7 @@ class Animal implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -162,7 +168,7 @@ class Animal implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -173,7 +179,11 @@ class Animal implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -183,7 +193,7 @@ class Animal implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**
