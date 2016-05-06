@@ -64,6 +64,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/json", "application/xml",  }
 
@@ -132,6 +133,7 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -198,8 +200,14 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
-
-	queryParams["status"] = a.Configuration.APIClient.ParameterToString(status)
+	var collectionFormat = "csv"
+	if collectionFormat == "multi" {
+		for _, value := range status {
+			queryParams["status"] = value
+		}
+	} else {
+		queryParams["status"] = a.Configuration.APIClient.ParameterToString(status)
+	}
 	
 
 	// to determine the Content-Type header
@@ -264,8 +272,14 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
-
-	queryParams["tags"] = a.Configuration.APIClient.ParameterToString(tags)
+	var collectionFormat = "csv"
+	if collectionFormat == "multi" {
+		for _, value := range tags {
+			queryParams["tags"] = value
+		}
+	} else {
+		queryParams["tags"] = a.Configuration.APIClient.ParameterToString(tags)
+	}
 	
 
 	// to determine the Content-Type header
@@ -331,6 +345,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -393,6 +408,7 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/json", "application/xml",  }
@@ -463,6 +479,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/x-www-form-urlencoded",  }
 
@@ -531,6 +548,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "multipart/form-data",  }
