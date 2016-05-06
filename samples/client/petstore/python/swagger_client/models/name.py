@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class Name(object):
@@ -72,6 +73,7 @@ class Name(object):
         :param name: The name of this Name.
         :type: int
         """
+        
         self._name = name
 
     @property
@@ -94,6 +96,7 @@ class Name(object):
         :param snake_case: The snake_case of this Name.
         :type: int
         """
+        
         self._snake_case = snake_case
 
     @property
@@ -116,6 +119,7 @@ class Name(object):
         :param _property: The _property of this Name.
         :type: str
         """
+        
         self.__property = _property
 
     def to_dict(self):
