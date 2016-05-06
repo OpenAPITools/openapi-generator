@@ -2,10 +2,6 @@
 
 NSString *const SWGResponseObjectErrorKey = @"SWGResponseObject";
 
-NSString *const SWGDeserializationErrorDomainKey = @"SWGDeserializationErrorDomainKey";
-
-NSInteger const SWGTypeMismatchErrorCode = 143553;
-
 static long requestId = 0;
 static bool offlineState = false;
 static NSMutableSet * queuedRequests = nil;
@@ -33,6 +29,7 @@ static void (^reachabilityChangeBlock)(int);
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.securityPolicy = [self customSecurityPolicy];
+        self.responseDeserializer = [[SWGResponseDeserializer alloc] init];
         // configure reachability
         [self configureCacheReachibility];
     }
@@ -290,154 +287,6 @@ static void (^reachabilityChangeBlock)(int);
     [self.reachabilityManager startMonitoring];
 }
 
-#pragma mark - Deserialize methods
-
-- (id) deserialize:(id) data class:(NSString *) class error:(NSError **) error {
-    // return nil if data is nil or class is nil
-    if (!data || !class) {
-        return nil;
-    }
-
-    // remove "*" from class, if ends with "*"
-    if ([class hasSuffix:@"*"]) {
-        class = [class substringToIndex:[class length] - 1];
-    }
-
-    // pure object
-    if ([class isEqualToString:@"NSObject"]) {
-        return data;
-    }
-
-    NSRegularExpression *regexp = nil;
-    NSTextCheckingResult *match = nil;
-    NSMutableArray *resultArray = nil;
-    NSMutableDictionary *resultDict = nil;
-    NSString *innerType = nil;
-
-    // list of models
-    NSString *arrayOfModelsPat = @"NSArray<(.+)>";
-    regexp = [NSRegularExpression regularExpressionWithPattern:arrayOfModelsPat
-                                                      options:NSRegularExpressionCaseInsensitive
-                                                        error:nil];
-
-    match = [regexp firstMatchInString:class
-                               options:0
-                                 range:NSMakeRange(0, [class length])];
-
-    if (match) {
-        if(![data isKindOfClass: [NSArray class]]) {
-            if(error) {
-                NSDictionary * userInfo = @{NSLocalizedDescriptionKey : NSLocalizedString(@"Received response is not an array", nil)};
-                *error = [NSError errorWithDomain:SWGDeserializationErrorDomainKey code:SWGTypeMismatchErrorCode userInfo:userInfo];
-            }
-            return nil;
-        }
-        NSArray *dataArray = data;
-        innerType = [class substringWithRange:[match rangeAtIndex:1]];
-
-        resultArray = [NSMutableArray arrayWithCapacity:[dataArray count]];
-        [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id arrObj = [self deserialize:obj class:innerType error:error];
-            if(arrObj) {
-                [resultArray addObject:arrObj];
-            } else {
-                * stop = YES;
-            }
-        }];
-
-        return resultArray;
-    }
-
-    // list of primitives
-    NSString *arrayOfPrimitivesPat = @"NSArray\\* /\\* (.+) \\*/";
-    regexp = [NSRegularExpression regularExpressionWithPattern:arrayOfPrimitivesPat
-                                                       options:NSRegularExpressionCaseInsensitive
-                                                         error:nil];
-    match = [regexp firstMatchInString:class
-                               options:0
-                                 range:NSMakeRange(0, [class length])];
-
-    if (match) {
-        NSArray *dataArray = data;
-        innerType = [class substringWithRange:[match rangeAtIndex:1]];
-
-        resultArray = [NSMutableArray arrayWithCapacity:[dataArray count]];
-        [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id arrObj = [self deserialize:obj class:innerType error:error];
-            if(arrObj) {
-                [resultArray addObject:arrObj];
-            } else {
-                * stop = YES;
-            }
-        }];
-
-        return resultArray;
-    }
-
-    // map
-    NSString *dictPat = @"NSDictionary\\* /\\* (.+?), (.+) \\*/";
-    regexp = [NSRegularExpression regularExpressionWithPattern:dictPat
-                                                       options:NSRegularExpressionCaseInsensitive
-                                                         error:nil];
-    match = [regexp firstMatchInString:class
-                               options:0
-                                 range:NSMakeRange(0, [class length])];
-
-    if (match) {
-        NSDictionary *dataDict = data;
-        NSString *valueType = [class substringWithRange:[match rangeAtIndex:2]];
-
-        resultDict = [NSMutableDictionary dictionaryWithCapacity:[dataDict count]];
-        [data enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            id dicObj = [self deserialize:obj class:valueType error:error];
-            if(dicObj) {
-                [resultDict setValue:dicObj forKey:key];
-            } else {
-                * stop = YES;
-            }
-        }];
-
-        return resultDict;
-    }
-
-    // primitives
-    NSArray *primitiveTypes = @[@"NSString", @"NSDate", @"NSNumber"];
-
-    if ([primitiveTypes containsObject:class]) {
-        if ([class isEqualToString:@"NSString"]) {
-            return [NSString stringWithString:data];
-        }
-        else if ([class isEqualToString:@"NSDate"]) {
-            return [NSDate dateWithISO8601String:data];
-        }
-        else if ([class isEqualToString:@"NSNumber"]) {
-            // NSNumber from NSNumber
-            if ([data isKindOfClass:[NSNumber class]]) {
-                return data;
-            }
-            else if ([data isKindOfClass:[NSString class]]) {
-                // NSNumber (NSCFBoolean) from NSString
-                if ([[data lowercaseString] isEqualToString:@"true"] || [[data lowercaseString] isEqualToString:@"false"]) {
-                    return [NSNumber numberWithBool:[data boolValue]];
-                // NSNumber from NSString
-                } else {
-                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-                    formatter.numberStyle = NSNumberFormatterDecimalStyle;
-                    return [formatter numberFromString:data];
-                }
-            }
-        }
-    }
-
-   // model
-    Class ModelClass = NSClassFromString(class);
-    if ([ModelClass instancesRespondToSelector:@selector(initWithDictionary:error:)]) {
-        return [(JSONModel *) [ModelClass alloc] initWithDictionary:data error:error];
-    }
-
-    return nil;
-}
-
 #pragma mark - Operation Methods
 
 - (void) operationWithCompletionBlock: (NSURLRequest *)request
@@ -661,7 +510,7 @@ static void (^reachabilityChangeBlock)(int);
     else {
         [self operationWithCompletionBlock:request requestId:requestId completionBlock:^(id data, NSError *error) {
             NSError * serializationError;
-            id response = [self deserialize:data class:responseType error:&serializationError];
+            id response = [self.responseDeserializer deserialize:data class:responseType error:&serializationError];
             if(!response && !error){
                 error = serializationError;
             }

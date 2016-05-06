@@ -109,7 +109,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                     "break", "enum", "register", "typedef",
                     "case", "extern", "return", "union",
                     "char", "float", "short", "unsigned",
-                    "const", "for", "signed", "void",
+                    "co nst", "for", "signed", "void",
                     "continue", "goto", "sizeof", "volatile",
                     "default", "if", "id", "static", "while",
                     "do", "int", "struct", "_Packed",
@@ -223,6 +223,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.h"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache", swaggerFolder, classPrefix + "ResponseDeserializer.m"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache", swaggerFolder, classPrefix + "ResponseDeserializer.h"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", swaggerFolder, "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", swaggerFolder, "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));
