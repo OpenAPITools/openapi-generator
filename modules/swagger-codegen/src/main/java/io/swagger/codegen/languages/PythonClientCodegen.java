@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName;
