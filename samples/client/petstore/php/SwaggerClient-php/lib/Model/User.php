@@ -133,45 +133,58 @@ class User implements ArrayAccess
     
 
     /**
-     * $id 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $id;
-    /**
-     * $username 
-     * @var string
-     */
-    protected $username;
-    /**
-     * $first_name 
-     * @var string
-     */
-    protected $first_name;
-    /**
-     * $last_name 
-     * @var string
-     */
-    protected $last_name;
-    /**
-     * $email 
-     * @var string
-     */
-    protected $email;
-    /**
-     * $password 
-     * @var string
-     */
-    protected $password;
-    /**
-     * $phone 
-     * @var string
-     */
-    protected $phone;
-    /**
-     * $user_status User Status
-     * @var int
-     */
-    protected $user_status;
+    protected $container = array(
+        /**
+         * $container['id']
+         * @var int
+         */
+        'id' => null,
+    
+        /**
+         * $container['username']
+         * @var string
+         */
+        'username' => null,
+    
+        /**
+         * $container['first_name']
+         * @var string
+         */
+        'first_name' => null,
+    
+        /**
+         * $container['last_name']
+         * @var string
+         */
+        'last_name' => null,
+    
+        /**
+         * $container['email']
+         * @var string
+         */
+        'email' => null,
+    
+        /**
+         * $container['password']
+         * @var string
+         */
+        'password' => null,
+    
+        /**
+         * $container['phone']
+         * @var string
+         */
+        'phone' => null,
+    
+        /**
+         * $container['user_status'] User Status
+         * @var int
+         */
+        'user_status' => null,
+    );
 
     /**
      * Constructor
@@ -182,14 +195,14 @@ class User implements ArrayAccess
         
         
         if ($data != null) {
-            $this->id = $data["id"];
-            $this->username = $data["username"];
-            $this->first_name = $data["first_name"];
-            $this->last_name = $data["last_name"];
-            $this->email = $data["email"];
-            $this->password = $data["password"];
-            $this->phone = $data["phone"];
-            $this->user_status = $data["user_status"];
+            $this->container['id'] = $data['id'];
+            $this->container['username'] = $data['username'];
+            $this->container['first_name'] = $data['first_name'];
+            $this->container['last_name'] = $data['last_name'];
+            $this->container['email'] = $data['email'];
+            $this->container['password'] = $data['password'];
+            $this->container['phone'] = $data['phone'];
+            $this->container['user_status'] = $data['user_status'];
         }
     }
     /**
@@ -198,7 +211,7 @@ class User implements ArrayAccess
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
 
     /**
@@ -209,7 +222,7 @@ class User implements ArrayAccess
     public function setId($id)
     {
         
-        $this->id = $id;
+        $this->container['id'] = $id;
         return $this;
     }
     /**
@@ -218,7 +231,7 @@ class User implements ArrayAccess
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->container['username'];
     }
 
     /**
@@ -229,7 +242,7 @@ class User implements ArrayAccess
     public function setUsername($username)
     {
         
-        $this->username = $username;
+        $this->container['username'] = $username;
         return $this;
     }
     /**
@@ -238,7 +251,7 @@ class User implements ArrayAccess
      */
     public function getFirstName()
     {
-        return $this->first_name;
+        return $this->container['first_name'];
     }
 
     /**
@@ -249,7 +262,7 @@ class User implements ArrayAccess
     public function setFirstName($first_name)
     {
         
-        $this->first_name = $first_name;
+        $this->container['first_name'] = $first_name;
         return $this;
     }
     /**
@@ -258,7 +271,7 @@ class User implements ArrayAccess
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->container['last_name'];
     }
 
     /**
@@ -269,7 +282,7 @@ class User implements ArrayAccess
     public function setLastName($last_name)
     {
         
-        $this->last_name = $last_name;
+        $this->container['last_name'] = $last_name;
         return $this;
     }
     /**
@@ -278,7 +291,7 @@ class User implements ArrayAccess
      */
     public function getEmail()
     {
-        return $this->email;
+        return $this->container['email'];
     }
 
     /**
@@ -289,7 +302,7 @@ class User implements ArrayAccess
     public function setEmail($email)
     {
         
-        $this->email = $email;
+        $this->container['email'] = $email;
         return $this;
     }
     /**
@@ -298,7 +311,7 @@ class User implements ArrayAccess
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->container['password'];
     }
 
     /**
@@ -309,7 +322,7 @@ class User implements ArrayAccess
     public function setPassword($password)
     {
         
-        $this->password = $password;
+        $this->container['password'] = $password;
         return $this;
     }
     /**
@@ -318,7 +331,7 @@ class User implements ArrayAccess
      */
     public function getPhone()
     {
-        return $this->phone;
+        return $this->container['phone'];
     }
 
     /**
@@ -329,7 +342,7 @@ class User implements ArrayAccess
     public function setPhone($phone)
     {
         
-        $this->phone = $phone;
+        $this->container['phone'] = $phone;
         return $this;
     }
     /**
@@ -338,7 +351,7 @@ class User implements ArrayAccess
      */
     public function getUserStatus()
     {
-        return $this->user_status;
+        return $this->container['user_status'];
     }
 
     /**
@@ -349,7 +362,7 @@ class User implements ArrayAccess
     public function setUserStatus($user_status)
     {
         
-        $this->user_status = $user_status;
+        $this->container['user_status'] = $user_status;
         return $this;
     }
     /**
@@ -359,7 +372,7 @@ class User implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -369,7 +382,7 @@ class User implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -380,7 +393,11 @@ class User implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -390,7 +407,7 @@ class User implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**
