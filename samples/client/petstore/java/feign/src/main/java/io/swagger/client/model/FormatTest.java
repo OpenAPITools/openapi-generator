@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-27T23:17:22.230+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-06T18:35:05.435+08:00")
 public class FormatTest   {
   
   private Integer integer = null;
@@ -25,6 +25,7 @@ public class FormatTest   {
   private byte[] binary = null;
   private Date date = null;
   private Date dateTime = null;
+  private String uuid = null;
   private String password = null;
 
   
@@ -227,6 +228,23 @@ public class FormatTest   {
 
   /**
    **/
+  public FormatTest uuid(String uuid) {
+    this.uuid = uuid;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("uuid")
+  public String getUuid() {
+    return uuid;
+  }
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
+
+
+  /**
+   **/
   public FormatTest password(String password) {
     this.password = password;
     return this;
@@ -262,12 +280,13 @@ public class FormatTest   {
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
   }
 
   @Override
@@ -286,6 +305,7 @@ public class FormatTest   {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();

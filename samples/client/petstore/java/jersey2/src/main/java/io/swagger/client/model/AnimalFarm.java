@@ -1,37 +1,19 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.client.model.Animal;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
- * Animal
+ * AnimalFarm
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-06T18:35:03.551+08:00")
-public class Animal   {
+public class AnimalFarm extends ArrayList<Animal>  {
   
-  private String className = null;
 
   
-  /**
-   **/
-  public Animal className(String className) {
-    this.className = className;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", required = true, value = "")
-  @JsonProperty("className")
-  public String getClassName() {
-    return className;
-  }
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -40,21 +22,19 @@ public class Animal   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className);
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className);
+    return Objects.hash(super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Animal {\n");
-    
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("class AnimalFarm {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();
   }

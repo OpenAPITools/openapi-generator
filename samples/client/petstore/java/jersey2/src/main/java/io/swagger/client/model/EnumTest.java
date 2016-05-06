@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-12T23:06:12.393+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-06T18:35:03.551+08:00")
 public class EnumTest   {
   
 
@@ -97,7 +97,7 @@ public class EnumTest   {
     this.enumString = enumString;
   }
 
-  
+
   /**
    **/
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
@@ -114,7 +114,7 @@ public class EnumTest   {
     this.enumInteger = enumInteger;
   }
 
-  
+
   /**
    **/
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
@@ -131,7 +131,6 @@ public class EnumTest   {
     this.enumNumber = enumNumber;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

@@ -1,11 +1,11 @@
 package io.swagger.client.api;
 
-import com.sun.jersey.api.client.GenericType;
-
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
+
+import javax.ws.rs.core.GenericType;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-06T18:35:03.551+08:00")
 public class FakeApi {
   private ApiClient apiClient;
 

@@ -1,7 +1,12 @@
 # SwaggerPetstore.EnumClass
 
-## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
+## Enum
+
+
+* `_abc` (value: `"_abc"`)
+
+* `-efg` (value: `"-efg"`)
+
+* `(xyz)` (value: `"(xyz)"`)
 
 
