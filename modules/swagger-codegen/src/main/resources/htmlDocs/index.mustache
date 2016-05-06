@@ -127,6 +127,7 @@
     {{#responses}}
     <h4 class="field-label">{{code}}</h4>
     {{message}}
+        {{#simpleType}}<a href="#{{dataType}}">{{dataType}}</a>{{/simpleType}}
     {{#examples}}
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: {{{contentType}}}</div>
@@ -158,7 +159,7 @@
   <div class="model">
     <h3 class="field-label"><a name="{{classname}}">{{classname}}</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{datatype}}</span> {{description}}</div>
+      {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{datatype}}</a>{{/isPrimitiveType}}</span> {{description}}</div>
       {{#isEnum}}
         <div class="param-enum-header">Enum:</div>
         {{#_enum}}<div class="param-enum">{{this}}</div>{{/_enum}}
