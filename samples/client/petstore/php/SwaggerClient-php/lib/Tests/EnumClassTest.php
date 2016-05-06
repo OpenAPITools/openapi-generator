@@ -1,6 +1,6 @@
 <?php
 /**
- * InlineResponse200Test
+ * EnumClassTest
  *
  * PHP version 5
  *
@@ -34,7 +34,7 @@
 namespace Swagger\Client\Model;
 
 /**
- * InlineResponse200Test Class Doc Comment
+ * EnumClassTest Class Doc Comment
  *
  * @category    Class
  * @description 
@@ -43,7 +43,7 @@ namespace Swagger\Client\Model;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class InlineResponse200Test extends \PHPUnit_Framework_TestCase
+class EnumClassTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -61,9 +61,9 @@ class InlineResponse200Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test InlineResponse200
+     * Test EnumClass
      */
-    public function testInlineResponse200() {
+    public function testEnumClass() {
 
     }
 

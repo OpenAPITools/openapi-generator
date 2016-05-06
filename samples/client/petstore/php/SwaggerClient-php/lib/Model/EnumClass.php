@@ -1,6 +1,6 @@
 <?php
 /**
- * Name
+ * EnumClass
  *
  * PHP version 5
  *
@@ -36,31 +36,29 @@ namespace Swagger\Client\Model;
 use \ArrayAccess;
 
 /**
- * Name Class Doc Comment
+ * EnumClass Class Doc Comment
  *
  * @category    Class
- * @description Model for testing model name same as property name
+ * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class Name implements ArrayAccess
+class EnumClass implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'Name';
+    static $swaggerModelName = 'EnumClass';
 
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'name' => 'int',
-        'snake_case' => 'int',
-        'property' => 'string'
+        
     );
 
     static function swaggerTypes() {
@@ -72,9 +70,7 @@ class Name implements ArrayAccess
      * @var string[]
      */
     static $attributeMap = array(
-        'name' => 'name',
-        'snake_case' => 'snake_case',
-        'property' => 'property'
+        
     );
 
     static function attributeMap() {
@@ -86,9 +82,7 @@ class Name implements ArrayAccess
      * @var string[]
      */
     static $setters = array(
-        'name' => 'setName',
-        'snake_case' => 'setSnakeCase',
-        'property' => 'setProperty'
+        
     );
 
     static function setters() {
@@ -100,9 +94,7 @@ class Name implements ArrayAccess
      * @var string[]
      */
     static $getters = array(
-        'name' => 'getName',
-        'snake_case' => 'getSnakeCase',
-        'property' => 'getProperty'
+        
     );
  
     static function getters() {
@@ -125,72 +117,6 @@ class Name implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['snake_case'] = isset($data['snake_case']) ? $data['snake_case'] : null;
-        $this->container['property'] = isset($data['property']) ? $data['property'] : null;
-    }
-
-    /**
-     * Gets name
-     * @return int
-     */
-    public function getName()
-    {
-        return $this->container['name'];
-    }
-
-    /**
-     * Sets name
-     * @param int $name 
-     * @return $this
-     */
-    public function setName($name)
-    {
-        
-        $this->container['name'] = $name;
-        return $this;
-    }
-
-    /**
-     * Gets snake_case
-     * @return int
-     */
-    public function getSnakeCase()
-    {
-        return $this->container['snake_case'];
-    }
-
-    /**
-     * Sets snake_case
-     * @param int $snake_case 
-     * @return $this
-     */
-    public function setSnakeCase($snake_case)
-    {
-        
-        $this->container['snake_case'] = $snake_case;
-        return $this;
-    }
-
-    /**
-     * Gets property
-     * @return string
-     */
-    public function getProperty()
-    {
-        return $this->container['property'];
-    }
-
-    /**
-     * Sets property
-     * @param string $property 
-     * @return $this
-     */
-    public function setProperty($property)
-    {
-        
-        $this->container['property'] = $property;
-        return $this;
     }
     /**
      * Returns true if offset exists. False otherwise.

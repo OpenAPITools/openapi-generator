@@ -1,6 +1,6 @@
 <?php
 /**
- * Name
+ * EnumTest
  *
  * PHP version 5
  *
@@ -36,31 +36,31 @@ namespace Swagger\Client\Model;
 use \ArrayAccess;
 
 /**
- * Name Class Doc Comment
+ * EnumTest Class Doc Comment
  *
  * @category    Class
- * @description Model for testing model name same as property name
+ * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class Name implements ArrayAccess
+class EnumTest implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'Name';
+    static $swaggerModelName = 'Enum_Test';
 
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'name' => 'int',
-        'snake_case' => 'int',
-        'property' => 'string'
+        'enum_string' => 'string',
+        'enum_integer' => 'int',
+        'enum_number' => 'double'
     );
 
     static function swaggerTypes() {
@@ -72,9 +72,9 @@ class Name implements ArrayAccess
      * @var string[]
      */
     static $attributeMap = array(
-        'name' => 'name',
-        'snake_case' => 'snake_case',
-        'property' => 'property'
+        'enum_string' => 'enum_string',
+        'enum_integer' => 'enum_integer',
+        'enum_number' => 'enum_number'
     );
 
     static function attributeMap() {
@@ -86,9 +86,9 @@ class Name implements ArrayAccess
      * @var string[]
      */
     static $setters = array(
-        'name' => 'setName',
-        'snake_case' => 'setSnakeCase',
-        'property' => 'setProperty'
+        'enum_string' => 'setEnumString',
+        'enum_integer' => 'setEnumInteger',
+        'enum_number' => 'setEnumNumber'
     );
 
     static function setters() {
@@ -100,17 +100,56 @@ class Name implements ArrayAccess
      * @var string[]
      */
     static $getters = array(
-        'name' => 'getName',
-        'snake_case' => 'getSnakeCase',
-        'property' => 'getProperty'
+        'enum_string' => 'getEnumString',
+        'enum_integer' => 'getEnumInteger',
+        'enum_number' => 'getEnumNumber'
     );
  
     static function getters() {
         return self::$getters;
     }
 
+    const ENUM_STRING_UPPER = 'UPPER';
+    const ENUM_STRING_LOWER = 'lower';
+    const ENUM_INTEGER_1 = 1;
+    const ENUM_INTEGER_MINUS_1 = -1;
+    const ENUM_NUMBER_1_DOT_1 = 1.1;
+    const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
     
 
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getEnumStringAllowableValues() {
+        return [
+            self::ENUM_STRING_UPPER,
+            self::ENUM_STRING_LOWER,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getEnumIntegerAllowableValues() {
+        return [
+            self::ENUM_INTEGER_1,
+            self::ENUM_INTEGER_MINUS_1,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getEnumNumberAllowableValues() {
+        return [
+            self::ENUM_NUMBER_1_DOT_1,
+            self::ENUM_NUMBER_MINUS_1_DOT_2,
+        ];
+    }
     
 
     /**
@@ -125,71 +164,80 @@ class Name implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['snake_case'] = isset($data['snake_case']) ? $data['snake_case'] : null;
-        $this->container['property'] = isset($data['property']) ? $data['property'] : null;
+        $this->container['enum_string'] = isset($data['enum_string']) ? $data['enum_string'] : null;
+        $this->container['enum_integer'] = isset($data['enum_integer']) ? $data['enum_integer'] : null;
+        $this->container['enum_number'] = isset($data['enum_number']) ? $data['enum_number'] : null;
     }
 
     /**
-     * Gets name
-     * @return int
-     */
-    public function getName()
-    {
-        return $this->container['name'];
-    }
-
-    /**
-     * Sets name
-     * @param int $name 
-     * @return $this
-     */
-    public function setName($name)
-    {
-        
-        $this->container['name'] = $name;
-        return $this;
-    }
-
-    /**
-     * Gets snake_case
-     * @return int
-     */
-    public function getSnakeCase()
-    {
-        return $this->container['snake_case'];
-    }
-
-    /**
-     * Sets snake_case
-     * @param int $snake_case 
-     * @return $this
-     */
-    public function setSnakeCase($snake_case)
-    {
-        
-        $this->container['snake_case'] = $snake_case;
-        return $this;
-    }
-
-    /**
-     * Gets property
+     * Gets enum_string
      * @return string
      */
-    public function getProperty()
+    public function getEnumString()
     {
-        return $this->container['property'];
+        return $this->container['enum_string'];
     }
 
     /**
-     * Sets property
-     * @param string $property 
+     * Sets enum_string
+     * @param string $enum_string 
      * @return $this
      */
-    public function setProperty($property)
+    public function setEnumString($enum_string)
     {
-        
-        $this->container['property'] = $property;
+        $allowed_values = array('UPPER', 'lower');
+        if (!in_array($enum_string, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'enum_string', must be one of 'UPPER', 'lower'");
+        }
+        $this->container['enum_string'] = $enum_string;
+        return $this;
+    }
+
+    /**
+     * Gets enum_integer
+     * @return int
+     */
+    public function getEnumInteger()
+    {
+        return $this->container['enum_integer'];
+    }
+
+    /**
+     * Sets enum_integer
+     * @param int $enum_integer 
+     * @return $this
+     */
+    public function setEnumInteger($enum_integer)
+    {
+        $allowed_values = array('1', '-1');
+        if (!in_array($enum_integer, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'enum_integer', must be one of '1', '-1'");
+        }
+        $this->container['enum_integer'] = $enum_integer;
+        return $this;
+    }
+
+    /**
+     * Gets enum_number
+     * @return double
+     */
+    public function getEnumNumber()
+    {
+        return $this->container['enum_number'];
+    }
+
+    /**
+     * Sets enum_number
+     * @param double $enum_number 
+     * @return $this
+     */
+    public function setEnumNumber($enum_number)
+    {
+        $allowed_values = array('1.1', '-1.2');
+        if (!in_array($enum_number, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'enum_number', must be one of '1.1', '-1.2'");
+        }
+        $this->container['enum_number'] = $enum_number;
         return $this;
     }
     /**
