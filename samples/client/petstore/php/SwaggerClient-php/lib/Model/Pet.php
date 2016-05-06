@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Pet Class Doc Comment
  *
@@ -64,7 +65,7 @@ class Pet implements ArrayAccess
         'tags' => '\Swagger\Client\Model\Tag[]',
         'status' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -81,7 +82,7 @@ class Pet implements ArrayAccess
         'tags' => 'tags',
         'status' => 'status'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -98,7 +99,7 @@ class Pet implements ArrayAccess
         'tags' => 'setTags',
         'status' => 'setStatus'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -143,43 +144,7 @@ class Pet implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['id']
-         * @var int
-         */
-        'id' => null,
-    
-        /**
-         * $container['category']
-         * @var \Swagger\Client\Model\Category
-         */
-        'category' => null,
-    
-        /**
-         * $container['name']
-         * @var string
-         */
-        'name' => null,
-    
-        /**
-         * $container['photo_urls']
-         * @var string[]
-         */
-        'photo_urls' => null,
-    
-        /**
-         * $container['tags']
-         * @var \Swagger\Client\Model\Tag[]
-         */
-        'tags' => null,
-    
-        /**
-         * $container['status'] pet status in the store
-         * @var string
-         */
-        'status' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -187,17 +152,14 @@ class Pet implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->container['id'] = $data['id'];
-            $this->container['category'] = $data['category'];
-            $this->container['name'] = $data['name'];
-            $this->container['photo_urls'] = $data['photo_urls'];
-            $this->container['tags'] = $data['tags'];
-            $this->container['status'] = $data['status'];
-        }
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['category'] = isset($data['category']) ? $data['category'] : null;
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['photo_urls'] = isset($data['photo_urls']) ? $data['photo_urls'] : null;
+        $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
+        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
     }
+
     /**
      * Gets id
      * @return int
@@ -218,6 +180,7 @@ class Pet implements ArrayAccess
         $this->container['id'] = $id;
         return $this;
     }
+
     /**
      * Gets category
      * @return \Swagger\Client\Model\Category
@@ -238,6 +201,7 @@ class Pet implements ArrayAccess
         $this->container['category'] = $category;
         return $this;
     }
+
     /**
      * Gets name
      * @return string
@@ -258,6 +222,7 @@ class Pet implements ArrayAccess
         $this->container['name'] = $name;
         return $this;
     }
+
     /**
      * Gets photo_urls
      * @return string[]
@@ -278,6 +243,7 @@ class Pet implements ArrayAccess
         $this->container['photo_urls'] = $photo_urls;
         return $this;
     }
+
     /**
      * Gets tags
      * @return \Swagger\Client\Model\Tag[]
@@ -298,6 +264,7 @@ class Pet implements ArrayAccess
         $this->container['tags'] = $tags;
         return $this;
     }
+
     /**
      * Gets status
      * @return string

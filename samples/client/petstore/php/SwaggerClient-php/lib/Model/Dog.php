@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Dog Class Doc Comment
  *
@@ -59,7 +60,7 @@ class Dog extends Animal implements ArrayAccess
     static $swaggerTypes = array(
         'breed' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes + parent::swaggerTypes();
     }
@@ -71,7 +72,7 @@ class Dog extends Animal implements ArrayAccess
     static $attributeMap = array(
         'breed' => 'breed'
     );
- 
+
     static function attributeMap() {
         return parent::attributeMap() + self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class Dog extends Animal implements ArrayAccess
     static $setters = array(
         'breed' => 'setBreed'
     );
- 
+
     static function setters() {
         return parent::setters() + self::$setters;
     }
@@ -108,13 +109,7 @@ class Dog extends Animal implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['breed']
-         * @var string
-         */
-        'breed' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -123,11 +118,10 @@ class Dog extends Animal implements ArrayAccess
     public function __construct(array $data = null)
     {
         parent::__construct($data);
-        
-        if ($data != null) {
-            $this->container['breed'] = $data['breed'];
-        }
+
+        $this->container['breed'] = isset($data['breed']) ? $data['breed'] : null;
     }
+
     /**
      * Gets breed
      * @return string

@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * User Class Doc Comment
  *
@@ -66,7 +67,7 @@ class User implements ArrayAccess
         'phone' => 'string',
         'user_status' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -85,7 +86,7 @@ class User implements ArrayAccess
         'phone' => 'phone',
         'user_status' => 'userStatus'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -104,7 +105,7 @@ class User implements ArrayAccess
         'phone' => 'setPhone',
         'user_status' => 'setUserStatus'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -136,55 +137,7 @@ class User implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['id']
-         * @var int
-         */
-        'id' => null,
-    
-        /**
-         * $container['username']
-         * @var string
-         */
-        'username' => null,
-    
-        /**
-         * $container['first_name']
-         * @var string
-         */
-        'first_name' => null,
-    
-        /**
-         * $container['last_name']
-         * @var string
-         */
-        'last_name' => null,
-    
-        /**
-         * $container['email']
-         * @var string
-         */
-        'email' => null,
-    
-        /**
-         * $container['password']
-         * @var string
-         */
-        'password' => null,
-    
-        /**
-         * $container['phone']
-         * @var string
-         */
-        'phone' => null,
-    
-        /**
-         * $container['user_status'] User Status
-         * @var int
-         */
-        'user_status' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -192,19 +145,16 @@ class User implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->container['id'] = $data['id'];
-            $this->container['username'] = $data['username'];
-            $this->container['first_name'] = $data['first_name'];
-            $this->container['last_name'] = $data['last_name'];
-            $this->container['email'] = $data['email'];
-            $this->container['password'] = $data['password'];
-            $this->container['phone'] = $data['phone'];
-            $this->container['user_status'] = $data['user_status'];
-        }
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['username'] = isset($data['username']) ? $data['username'] : null;
+        $this->container['first_name'] = isset($data['first_name']) ? $data['first_name'] : null;
+        $this->container['last_name'] = isset($data['last_name']) ? $data['last_name'] : null;
+        $this->container['email'] = isset($data['email']) ? $data['email'] : null;
+        $this->container['password'] = isset($data['password']) ? $data['password'] : null;
+        $this->container['phone'] = isset($data['phone']) ? $data['phone'] : null;
+        $this->container['user_status'] = isset($data['user_status']) ? $data['user_status'] : null;
     }
+
     /**
      * Gets id
      * @return int
@@ -225,6 +175,7 @@ class User implements ArrayAccess
         $this->container['id'] = $id;
         return $this;
     }
+
     /**
      * Gets username
      * @return string
@@ -245,6 +196,7 @@ class User implements ArrayAccess
         $this->container['username'] = $username;
         return $this;
     }
+
     /**
      * Gets first_name
      * @return string
@@ -265,6 +217,7 @@ class User implements ArrayAccess
         $this->container['first_name'] = $first_name;
         return $this;
     }
+
     /**
      * Gets last_name
      * @return string
@@ -285,6 +238,7 @@ class User implements ArrayAccess
         $this->container['last_name'] = $last_name;
         return $this;
     }
+
     /**
      * Gets email
      * @return string
@@ -305,6 +259,7 @@ class User implements ArrayAccess
         $this->container['email'] = $email;
         return $this;
     }
+
     /**
      * Gets password
      * @return string
@@ -325,6 +280,7 @@ class User implements ArrayAccess
         $this->container['password'] = $password;
         return $this;
     }
+
     /**
      * Gets phone
      * @return string
@@ -345,6 +301,7 @@ class User implements ArrayAccess
         $this->container['phone'] = $phone;
         return $this;
     }
+
     /**
      * Gets user_status
      * @return int
