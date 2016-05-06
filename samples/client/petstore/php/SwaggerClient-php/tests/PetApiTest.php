@@ -423,6 +423,33 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Dog', $new_dog->getClassName());
     }
 
+    // test if ArrayAccess interface works
+    public function testArrayStuff()
+    {
+        // create an AnimalFarm which is an object implementing the
+        // ArrayAccess interface
+        $farm = new Swagger\Client\Model\AnimalFarm();
+
+        // add some animals to the farm to make sure the ArrayAccess
+        // interface works
+        $farm[] = new Swagger\Client\Model\Dog();
+        $farm[] = new Swagger\Client\Model\Cat();
+        $farm[] = new Swagger\Client\Model\Animal();
+
+        // assert we can look up the animals in the farm by array
+        // indices (let's try a random order)
+        $this->assertInstanceOf('Swagger\Client\Model\Cat', $farm[1]);
+        $this->assertInstanceOf('Swagger\Client\Model\Dog', $farm[0]);
+        $this->assertInstanceOf('Swagger\Client\Model\Animal', $farm[2]);
+
+        // let's try to `foreach` the animals in the farm and let's
+        // try to use the objects we loop through
+        foreach ($farm as $animal) {
+            $this->assertContains($animal->getClassName(), array('Dog', 'Cat', 'Animal'));
+            $this->assertInstanceOf('Swagger\Client\Model\Animal', $animal);
+        }
+    }
+
 }
 
 ?>

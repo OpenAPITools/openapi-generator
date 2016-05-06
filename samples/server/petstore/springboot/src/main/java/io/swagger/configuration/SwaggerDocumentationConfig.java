@@ -13,7 +13,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 
 @Configuration
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-05-05T15:10:34.669+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-05-05T15:30:42.322+08:00")
 public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {

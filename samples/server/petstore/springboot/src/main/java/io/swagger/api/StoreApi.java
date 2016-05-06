@@ -26,7 +26,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-05-05T15:10:34.669+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-05-05T15:30:42.322+08:00")
 public class StoreApi {
 
   @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class)
