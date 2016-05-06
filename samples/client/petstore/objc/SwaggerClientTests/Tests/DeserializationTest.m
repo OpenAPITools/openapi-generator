@@ -61,6 +61,14 @@
     XCTAssertEqualWithAccuracy([dateTime timeIntervalSinceReferenceDate], [deserializedDateTime timeIntervalSinceReferenceDate], 0.001);
 }
 
+- (void)testDeserializeUnknownObject {
+    NSString *data = @"random string";
+    NSError* error;
+    NSNumber *result = [apiClient.responseDeserializer deserialize:data class:@"DeserializationTest*" error:&error];
+    XCTAssertNotNil(error);
+    XCTAssertNil(result);
+}
+
 - (void)testDeserializeObject {
     NSNumber *data = @1;
     NSError* error;
