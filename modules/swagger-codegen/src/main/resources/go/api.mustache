@@ -75,9 +75,22 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
-	}{{#hasQueryParams}}{{#queryParams}}
-
-	queryParams["{{paramName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}})
+	}
+	{{#hasQueryParams}}
+	{{#queryParams}}
+	{{#isListContainer}}
+	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
+	if collectionFormat == "multi" {
+		for _, value := range {{paramName}} {
+			queryParams["{{paramName}}"] = value
+		}
+	} else {
+		queryParams["{{paramName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}})
+	}
+	{{/isListContainer}}
+	{{^isListContainer}}
+		queryParams["{{paramName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}})
+	{{/isListContainer}}
 	{{/queryParams}}{{/hasQueryParams}}
 
 	// to determine the Content-Type header

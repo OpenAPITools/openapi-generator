@@ -57,6 +57,7 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -118,6 +119,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -178,6 +180,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -241,6 +244,7 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -299,6 +303,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -362,11 +367,8 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
-
-	queryParams["username"] = a.Configuration.APIClient.ParameterToString(username)
-	
-
-	queryParams["password"] = a.Configuration.APIClient.ParameterToString(password)
+		queryParams["username"] = a.Configuration.APIClient.ParameterToString(username)
+			queryParams["password"] = a.Configuration.APIClient.ParameterToString(password)
 	
 
 	// to determine the Content-Type header
@@ -421,6 +423,7 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -485,6 +488,7 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }

@@ -58,6 +58,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -114,6 +115,7 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -173,6 +175,7 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -230,6 +233,7 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
