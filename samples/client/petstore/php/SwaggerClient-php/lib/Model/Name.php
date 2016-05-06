@@ -113,20 +113,28 @@ class Name implements ArrayAccess
     
 
     /**
-     * $name 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $name;
-    /**
-     * $snake_case 
-     * @var int
-     */
-    protected $snake_case;
-    /**
-     * $property 
-     * @var string
-     */
-    protected $property;
+    protected $container = array(
+        /**
+         * $container['name']
+         * @var int
+         */
+        'name' => null,
+    
+        /**
+         * $container['snake_case']
+         * @var int
+         */
+        'snake_case' => null,
+    
+        /**
+         * $container['property']
+         * @var string
+         */
+        'property' => null,
+    );
 
     /**
      * Constructor
@@ -137,9 +145,9 @@ class Name implements ArrayAccess
         
         
         if ($data != null) {
-            $this->name = $data["name"];
-            $this->snake_case = $data["snake_case"];
-            $this->property = $data["property"];
+            $this->container['name'] = $data['name'];
+            $this->container['snake_case'] = $data['snake_case'];
+            $this->container['property'] = $data['property'];
         }
     }
     /**
@@ -148,7 +156,7 @@ class Name implements ArrayAccess
      */
     public function getName()
     {
-        return $this->name;
+        return $this->container['name'];
     }
 
     /**
@@ -159,7 +167,7 @@ class Name implements ArrayAccess
     public function setName($name)
     {
         
-        $this->name = $name;
+        $this->container['name'] = $name;
         return $this;
     }
     /**
@@ -168,7 +176,7 @@ class Name implements ArrayAccess
      */
     public function getSnakeCase()
     {
-        return $this->snake_case;
+        return $this->container['snake_case'];
     }
 
     /**
@@ -179,7 +187,7 @@ class Name implements ArrayAccess
     public function setSnakeCase($snake_case)
     {
         
-        $this->snake_case = $snake_case;
+        $this->container['snake_case'] = $snake_case;
         return $this;
     }
     /**
@@ -188,7 +196,7 @@ class Name implements ArrayAccess
      */
     public function getProperty()
     {
-        return $this->property;
+        return $this->container['property'];
     }
 
     /**
@@ -199,7 +207,7 @@ class Name implements ArrayAccess
     public function setProperty($property)
     {
         
-        $this->property = $property;
+        $this->container['property'] = $property;
         return $this;
     }
     /**
@@ -209,7 +217,7 @@ class Name implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -219,7 +227,7 @@ class Name implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -230,7 +238,11 @@ class Name implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -240,7 +252,7 @@ class Name implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**
