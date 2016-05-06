@@ -274,7 +274,7 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
  * 
  *
  * @param username The name that needs to be fetched. Use user1 for testing. 
- * @return User
+ * @return *User
  */
 func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 
@@ -334,7 +334,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
  *
  * @param username The user name for login
  * @param password The password for login in clear text
- * @return string
+ * @return *string
  */
 func (a UserApi) LoginUser(username string, password string) (*string, *APIResponse, error) {
 
