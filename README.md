@@ -763,6 +763,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Acunetix](https://www.acunetix.com/)
 - [Atlassian](https://www.atlassian.com/)
 - [beemo](http://www.beemo.eu)
+- [bitly](https://bitly.com)
 - [Cachet Financial](http://www.cachetfinancial.com/)
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Cupix](http://www.cupix.com)

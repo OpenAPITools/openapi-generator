@@ -11,3 +11,16 @@ Name | Type | Description | Notes
 **complete** | **Boolean** |  | [optional] [default to false]
 
 
+<a name="StatusEnum"></a>
+## Enum: StatusEnum
+
+
+* `placed` (value: `"placed"`)
+
+* `approved` (value: `"approved"`)
+
+* `delivered` (value: `"delivered"`)
+
+
+
+
