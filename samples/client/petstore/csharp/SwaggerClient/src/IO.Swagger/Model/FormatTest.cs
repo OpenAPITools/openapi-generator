@@ -31,8 +31,9 @@ namespace IO.Swagger.Model
         /// <param name="Binary">Binary.</param>
         /// <param name="Date">Date (required).</param>
         /// <param name="DateTime">DateTime.</param>
+        /// <param name="Uuid">Uuid.</param>
         /// <param name="Password">Password (required).</param>
-        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, string Password = null)
+        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, Guid? Uuid = null, string Password = null)
         {
             // to ensure "Number" is required (not null)
             if (Number == null)
@@ -87,6 +88,8 @@ namespace IO.Swagger.Model
                         this.Binary = Binary;
             
                         this.DateTime = DateTime;
+            
+                        this.Uuid = Uuid;
             
         }
         
@@ -146,6 +149,11 @@ namespace IO.Swagger.Model
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
         public DateTime? DateTime { get; set; }
         /// <summary>
+        /// Gets or Sets Uuid
+        /// </summary>
+        [DataMember(Name="uuid", EmitDefaultValue=false)]
+        public Guid? Uuid { get; set; }
+        /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password", EmitDefaultValue=false)]
@@ -169,6 +177,7 @@ sb.Append("  _Byte: ").Append(_Byte).Append("\n");
 sb.Append("  Binary: ").Append(Binary).Append("\n");
 sb.Append("  Date: ").Append(Date).Append("\n");
 sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+sb.Append("  Uuid: ").Append(Uuid).Append("\n");
 sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -262,6 +271,11 @@ sb.Append("  Password: ").Append(Password).Append("\n");
                     this.DateTime.Equals(other.DateTime)
                 ) && 
                 (
+                    this.Uuid == other.Uuid ||
+                    this.Uuid != null &&
+                    this.Uuid.Equals(other.Uuid)
+                ) && 
+                (
                     this.Password == other.Password ||
                     this.Password != null &&
                     this.Password.Equals(other.Password)
@@ -301,6 +315,8 @@ sb.Append("  Password: ").Append(Password).Append("\n");
                     hash = hash * 59 + this.Date.GetHashCode();
                 if (this.DateTime != null)
                     hash = hash * 59 + this.DateTime.GetHashCode();
+                if (this.Uuid != null)
+                    hash = hash * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hash = hash * 59 + this.Password.GetHashCode();
                 return hash;
