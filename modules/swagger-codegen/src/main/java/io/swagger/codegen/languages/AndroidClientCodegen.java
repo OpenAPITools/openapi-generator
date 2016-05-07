@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -32,6 +33,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     // requestPackage and authPackage are used by the "volley" template/library
     protected String requestPackage = "io.swagger.client.request";
     protected String authPackage = "io.swagger.client.auth";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public AndroidClientCodegen() {
         super();
@@ -121,6 +124,26 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace( '/', File.separatorChar );
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return ( outputFolder + "/" + modelDocPath ).replace( '/', File.separatorChar );
+    }
+
+    @Override
+    public String toApiDocFilename( String name ) {
+        return toApiName( name );
+    }
+
+    @Override
+    public String toModelDocFilename( String name ) {
+        return toModelName( name );
     }
 
     @Override
@@ -225,6 +248,70 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("String".equals(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "\"" + escapeText(example) + "\"";
+        } else if ("Integer".equals(type) || "Short".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Long".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+            example = example + "L";
+        } else if ("Float".equals(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+            example = example + "F";
+        } else if ("Double".equals(type)) {
+            example = "3.4";
+            example = example + "D";
+        } else if ("Boolean".equals(type)) {
+            if (example == null) {
+                example = "true";
+            }
+        } else if ("File".equals(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "new File(\"" + escapeText(example) + "\")";
+        } else if ("Date".equals(type)) {
+            example = "new Date()";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = "new " + type + "()";
+        }
+
+        if (example == null) {
+            example = "null";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "Arrays.asList(" + example + ")";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "new HashMap()";
+        }
+
+        p.example = example;
+    }
+
+    @Override
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
@@ -290,9 +377,23 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
+        //make api and model doc path available in mustache template
+        additionalProperties.put( "apiDocPath", apiDocPath );
+        additionalProperties.put( "modelDocPath", modelDocPath );
+
         if (StringUtils.isEmpty(getLibrary())) {
+            modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
+            apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
+            //supportingFiles.add(new SupportingFile("api_doc.mustache", apiDocPath, "api.md"));
+            //supportingFiles.add(new SupportingFile("model_doc.mustache", modelDocPath, "model.md"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             addSupportingFilesForDefault();
         } else if ("volley".equals(getLibrary())) {
+            modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
+            apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            //supportingFiles.add(new SupportingFile("api_doc.mustache", apiDocPath, "api.md"));
+            //supportingFiles.add(new SupportingFile("model_doc.mustache", modelDocPath, "model.md"));
             addSupportingFilesForVolley();
         }
     }
