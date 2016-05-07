@@ -230,23 +230,6 @@ class User implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
         return $invalid_properties;
     }
 
@@ -258,22 +241,21 @@ class User implements ArrayAccess
      */
     public function valid()
     {
-        
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
 
         return true;
     }
@@ -295,9 +277,6 @@ class User implements ArrayAccess
      */
     public function setId($id)
     {
-        
-
-
         $this->container['id'] = $id;
 
         return $this;
@@ -318,9 +297,6 @@ class User implements ArrayAccess
      */
     public function setUsername($username)
     {
-        
-
-
         $this->container['username'] = $username;
 
         return $this;
@@ -341,9 +317,6 @@ class User implements ArrayAccess
      */
     public function setFirstName($first_name)
     {
-        
-
-
         $this->container['first_name'] = $first_name;
 
         return $this;
@@ -364,9 +337,6 @@ class User implements ArrayAccess
      */
     public function setLastName($last_name)
     {
-        
-
-
         $this->container['last_name'] = $last_name;
 
         return $this;
@@ -387,9 +357,6 @@ class User implements ArrayAccess
      */
     public function setEmail($email)
     {
-        
-
-
         $this->container['email'] = $email;
 
         return $this;
@@ -410,9 +377,6 @@ class User implements ArrayAccess
      */
     public function setPassword($password)
     {
-        
-
-
         $this->container['password'] = $password;
 
         return $this;
@@ -433,9 +397,6 @@ class User implements ArrayAccess
      */
     public function setPhone($phone)
     {
-        
-
-
         $this->container['phone'] = $phone;
 
         return $this;
@@ -456,9 +417,6 @@ class User implements ArrayAccess
      */
     public function setUserStatus($user_status)
     {
-        
-
-
         $this->container['user_status'] = $user_status;
 
         return $this;

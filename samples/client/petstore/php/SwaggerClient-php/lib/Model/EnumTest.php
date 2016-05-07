@@ -204,22 +204,18 @@ class EnumTest implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
         $allowed_values = array("UPPER", "lower");
         if (!in_array($this->container['enum_string'], $allowed_values))) {
             $invalid_properties[] = "invalid value for '$enum_string', must be one of #{allowed_values}.";
         }
-
         $allowed_values = array("1", "-1");
         if (!in_array($this->container['enum_integer'], $allowed_values))) {
             $invalid_properties[] = "invalid value for '$enum_integer', must be one of #{allowed_values}.";
         }
-
         $allowed_values = array("1.1", "-1.2");
         if (!in_array($this->container['enum_number'], $allowed_values))) {
             $invalid_properties[] = "invalid value for '$enum_number', must be one of #{allowed_values}.";
         }
-
         return $invalid_properties;
     }
 
@@ -231,7 +227,7 @@ class EnumTest implements ArrayAccess
      */
     public function valid()
     {
-        
+
         $allowed_values = array("UPPER", "lower");
         if (!in_array($this->container['enum_string'], $allowed_values))) {
             return false;
@@ -246,7 +242,6 @@ class EnumTest implements ArrayAccess
         if (!in_array($this->container['enum_number'], $allowed_values))) {
             return false;
         }
-
         return true;
     }
 
@@ -271,8 +266,6 @@ class EnumTest implements ArrayAccess
         if (!in_array($enum_string, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'enum_string', must be one of 'UPPER', 'lower'");
         }
-
-
         $this->container['enum_string'] = $enum_string;
 
         return $this;
@@ -297,8 +290,6 @@ class EnumTest implements ArrayAccess
         if (!in_array($enum_integer, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'enum_integer', must be one of '1', '-1'");
         }
-
-
         $this->container['enum_integer'] = $enum_integer;
 
         return $this;
@@ -323,8 +314,6 @@ class EnumTest implements ArrayAccess
         if (!in_array($enum_number, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'enum_number', must be one of '1.1', '-1.2'");
         }
-
-
         $this->container['enum_number'] = $enum_number;
 
         return $this;

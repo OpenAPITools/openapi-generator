@@ -165,16 +165,9 @@ class Name implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'$name' can't be null";
         }
-        
-
-        
-
-        
-
         return $invalid_properties;
     }
 
@@ -186,15 +179,13 @@ class Name implements ArrayAccess
      */
     public function valid()
     {
-        
         if ($this->container['name'] === null) {
             return false;
         }
-        
 
-        
 
-        
+
+
 
         return true;
     }
@@ -216,9 +207,6 @@ class Name implements ArrayAccess
      */
     public function setName($name)
     {
-        
-
-
         $this->container['name'] = $name;
 
         return $this;
@@ -239,9 +227,6 @@ class Name implements ArrayAccess
      */
     public function setSnakeCase($snake_case)
     {
-        
-
-
         $this->container['snake_case'] = $snake_case;
 
         return $this;
@@ -262,9 +247,6 @@ class Name implements ArrayAccess
      */
     public function setProperty($property)
     {
-        
-
-
         $this->container['property'] = $property;
 
         return $this;

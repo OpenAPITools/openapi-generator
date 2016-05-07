@@ -139,9 +139,6 @@ class Dog extends Animal implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
         return $invalid_properties;
     }
 
@@ -153,8 +150,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function valid()
     {
-        
-        
+
 
         return true;
     }
@@ -176,9 +172,6 @@ class Dog extends Animal implements ArrayAccess
      */
     public function setBreed($breed)
     {
-        
-
-
         $this->container['breed'] = $breed;
 
         return $this;

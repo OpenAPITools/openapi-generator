@@ -219,22 +219,10 @@ class Order implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
-        
-
-        
-
-        
-
         $allowed_values = array("placed", "approved", "delivered");
         if (!in_array($this->container['status'], $allowed_values))) {
             $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
         }
-
-        
-
         return $invalid_properties;
     }
 
@@ -246,21 +234,20 @@ class Order implements ArrayAccess
      */
     public function valid()
     {
-        
-        
 
-        
 
-        
 
-        
+
+
+
+
+
 
         $allowed_values = array("placed", "approved", "delivered");
         if (!in_array($this->container['status'], $allowed_values))) {
             return false;
         }
 
-        
 
         return true;
     }
@@ -282,9 +269,6 @@ class Order implements ArrayAccess
      */
     public function setId($id)
     {
-        
-
-
         $this->container['id'] = $id;
 
         return $this;
@@ -305,9 +289,6 @@ class Order implements ArrayAccess
      */
     public function setPetId($pet_id)
     {
-        
-
-
         $this->container['pet_id'] = $pet_id;
 
         return $this;
@@ -328,9 +309,6 @@ class Order implements ArrayAccess
      */
     public function setQuantity($quantity)
     {
-        
-
-
         $this->container['quantity'] = $quantity;
 
         return $this;
@@ -351,9 +329,6 @@ class Order implements ArrayAccess
      */
     public function setShipDate($ship_date)
     {
-        
-
-
         $this->container['ship_date'] = $ship_date;
 
         return $this;
@@ -378,8 +353,6 @@ class Order implements ArrayAccess
         if (!in_array($status, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'placed', 'approved', 'delivered'");
         }
-
-
         $this->container['status'] = $status;
 
         return $this;
@@ -400,9 +373,6 @@ class Order implements ArrayAccess
      */
     public function setComplete($complete)
     {
-        
-
-
         $this->container['complete'] = $complete;
 
         return $this;

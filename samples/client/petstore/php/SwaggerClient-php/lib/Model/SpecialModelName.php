@@ -139,9 +139,6 @@ class SpecialModelName implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
         return $invalid_properties;
     }
 
@@ -153,8 +150,7 @@ class SpecialModelName implements ArrayAccess
      */
     public function valid()
     {
-        
-        
+
 
         return true;
     }
@@ -176,9 +172,6 @@ class SpecialModelName implements ArrayAccess
      */
     public function setSpecialPropertyName($special_property_name)
     {
-        
-
-
         $this->container['special_property_name'] = $special_property_name;
 
         return $this;

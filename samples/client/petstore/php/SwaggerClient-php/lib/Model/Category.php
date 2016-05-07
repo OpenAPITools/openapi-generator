@@ -152,11 +152,6 @@ class Category implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
-        
-
         return $invalid_properties;
     }
 
@@ -168,10 +163,9 @@ class Category implements ArrayAccess
      */
     public function valid()
     {
-        
-        
 
-        
+
+
 
         return true;
     }
@@ -193,9 +187,6 @@ class Category implements ArrayAccess
      */
     public function setId($id)
     {
-        
-
-
         $this->container['id'] = $id;
 
         return $this;
@@ -216,9 +207,6 @@ class Category implements ArrayAccess
      */
     public function setName($name)
     {
-        
-
-
         $this->container['name'] = $name;
 
         return $this;
