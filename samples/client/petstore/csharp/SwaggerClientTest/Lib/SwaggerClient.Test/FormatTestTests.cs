@@ -139,6 +139,14 @@ namespace IO.Swagger.Test
             // TODO: unit test for the property 'DateTime'
         }
         /// <summary>
+        /// Test the property 'Uuid'
+        /// </summary>
+        [Test]
+        public void UuidTest()
+        {
+            // TODO: unit test for the property 'Uuid'
+        }
+        /// <summary>
         /// Test the property 'Password'
         /// </summary>
         [Test]

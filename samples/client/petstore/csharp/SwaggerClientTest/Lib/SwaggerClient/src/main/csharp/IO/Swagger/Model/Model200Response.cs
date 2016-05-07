@@ -16,27 +16,24 @@ namespace IO.Swagger.Model
     /// </summary>
     [DataContract]
     public partial class Model200Response :  IEquatable<Model200Response>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
-        /// Initializes a new instance of the <see cref="Model200Response" />class.
         /// </summary>
         /// <param name="Name">Name.</param>
-
         public Model200Response(int? Name = null)
         {
-            this.Name = Name;
+            
+            
+                        this.Name = Name;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public int? Name { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -49,7 +46,7 @@ namespace IO.Swagger.Model
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -105,6 +102,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }

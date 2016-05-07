@@ -21,7 +21,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 
-number = "number_example" # String | None
+number = 3.4 # Float | None
 
 double = 1.2 # Float | None
 
@@ -52,7 +52,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **String**| None | 
+ **number** | **Float**| None | 
  **double** | **Float**| None | 
  **string** | **String**| None | 
  **byte** | **String**| None | 

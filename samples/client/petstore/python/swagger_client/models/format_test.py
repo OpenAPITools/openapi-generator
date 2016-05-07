@@ -48,6 +48,7 @@ class FormatTest(object):
             'binary': 'str',
             'date': 'date',
             'date_time': 'datetime',
+            'uuid': 'str',
             'password': 'str'
         }
 
@@ -63,6 +64,7 @@ class FormatTest(object):
             'binary': 'binary',
             'date': 'date',
             'date_time': 'dateTime',
+            'uuid': 'uuid',
             'password': 'password'
         }
 
@@ -77,6 +79,7 @@ class FormatTest(object):
         self._binary = None
         self._date = None
         self._date_time = None
+        self._uuid = None
         self._password = None
 
     @property
@@ -320,6 +323,28 @@ class FormatTest(object):
         :type: datetime
         """
         self._date_time = date_time
+
+    @property
+    def uuid(self):
+        """
+        Gets the uuid of this FormatTest.
+
+
+        :return: The uuid of this FormatTest.
+        :rtype: str
+        """
+        return self._uuid
+
+    @uuid.setter
+    def uuid(self, uuid):
+        """
+        Sets the uuid of this FormatTest.
+
+
+        :param uuid: The uuid of this FormatTest.
+        :type: str
+        """
+        self._uuid = uuid
 
     @property
     def password(self):

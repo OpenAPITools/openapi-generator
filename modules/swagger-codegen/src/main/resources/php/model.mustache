@@ -46,7 +46,7 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayAccess
+class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}implements ArrayAccess
 {
     /**
       * The original name of the model.
@@ -62,57 +62,77 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
-  
+ 
     static function swaggerTypes() {
-        return self::$swaggerTypes{{#parent}} + parent::swaggerTypes(){{/parent}};
+        return self::$swaggerTypes{{#parentSchema}} + parent::swaggerTypes(){{/parentSchema}};
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
-  
+ 
     static function attributeMap() {
-        return {{#parent}}parent::attributeMap() + {{/parent}}self::$attributeMap;
+        return {{#parentSchema}}parent::attributeMap() + {{/parentSchema}}self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         {{#vars}}'{{name}}' => '{{setter}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
-  
+ 
     static function setters() {
-        return {{#parent}}parent::setters() + {{/parent}}self::$setters;
+        return {{#parentSchema}}parent::setters() + {{/parentSchema}}self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         {{#vars}}'{{name}}' => '{{getter}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
-  
+ 
     static function getters() {
-        return {{#parent}}parent::getters() + {{/parent}}self::$getters;
+        return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
     }
 
-    {{#vars}}
+    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{datatypeWithEnum}}_{{{name}}} = {{{value}}};
+    {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
+
+    {{#vars}}{{#isEnum}}
     /**
-      * ${{name}} {{#description}}{{{description}}}{{/description}}
-      * @var {{datatype}}
-      */
-    protected ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
-    {{/vars}}
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function {{getter}}AllowableValues() {
+        return [
+            {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
+            {{/-last}}{{/enumVars}}{{/allowableValues}}
+        ];
+    }
+    {{/isEnum}}{{/vars}}
+
+    /**
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array({{#vars}}
+        /**
+         * $container['{{{name}}}']{{#description}} {{{description}}}{{/description}}
+         * @var {{datatype}}
+         */
+        '{{{name}}}' => {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}},
+    {{/vars}});
 
     /**
      * Constructor
@@ -120,16 +140,16 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function __construct(array $data = null)
     {
-        {{#parent}}parent::__construct($data);{{/parent}}
+        {{#parentSchema}}parent::__construct($data);{{/parentSchema}}
         {{#discriminator}}// Initialize discriminator property with the model name.
         $discrimintor = array_search('{{discriminator}}', self::$attributeMap);
-        $this->{$discrimintor} = static::$swaggerModelName;
+        $this->container[$discrimintor] = static::$swaggerModelName;
         {{/discriminator}}
 
         if ($data != null) {
             {{#vars}}
             if (isset($data["{{name}}"])) {
-                $this->{{name}} = $data["{{name}}"];
+                $this->container['{{name}}'] = $data["{{name}}"];
             }{{#hasMore}}{{/hasMore}}
             {{/vars}}
         }
@@ -233,9 +253,9 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function {{getter}}()
     {
-        return $this->{{name}};
+        return $this->container['{{name}}'];
     }
-  
+
     /**
      * Sets {{name}}
      * @param {{datatype}} ${{name}} {{#description}}{{{description}}}{{/description}}
@@ -243,10 +263,11 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function {{setter}}(${{name}})
     {
-        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array(${{{name}}}, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
         }{{/isEnum}}
+
         {{#hasValidation}}
         {{#maxLength}}
         if (strlen(${{name}}) > {{maxLength}}) {
@@ -272,7 +293,8 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
             throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be conform to the pattern {{pattern}}.');
         }
         {{/pattern}}{{/hasValidation}}
-        $this->{{name}} = ${{name}};
+        $this->container['{{name}}'] = ${{name}};
+
         return $this;
     }
     {{/vars}}
@@ -283,9 +305,9 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -293,9 +315,9 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -304,9 +326,13 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -314,9 +340,9 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

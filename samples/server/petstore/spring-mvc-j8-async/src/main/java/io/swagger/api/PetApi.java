@@ -3,7 +3,6 @@ package io.swagger.api;
 import io.swagger.model.*;
 
 import io.swagger.model.Pet;
-import io.swagger.model.ApiResponse;
 import java.io.File;
 
 import java.util.concurrent.Callable;
@@ -35,7 +34,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:50:52.711+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:42:56.594+02:00")
 public interface PetApi {
 
   @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
@@ -47,12 +46,12 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     consumes = { "application/json", "application/xml" },
     method = RequestMethod.POST)
   default Callable<ResponseEntity<Void>> addPet(
 
-@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body
+@ApiParam(value = "Pet object that needs to be added to the store"  ) @RequestBody Pet body
 )
       throws NotFoundException {
       // do some magic!
@@ -69,7 +68,7 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 400, message = "Invalid pet value") })
   @RequestMapping(value = "/{petId}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
   default Callable<ResponseEntity<Void>> deletePet(
@@ -86,7 +85,7 @@ public interface PetApi {
   }
 
 
-  @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
+  @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma seperated strings", response = Pet.class, responseContainer = "List", authorizations = {
     @Authorization(value = "petstore_auth", scopes = {
       @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
@@ -96,10 +95,10 @@ public interface PetApi {
     @ApiResponse(code = 200, message = "successful operation"),
     @ApiResponse(code = 400, message = "Invalid status value") })
   @RequestMapping(value = "/findByStatus", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  default Callable<ResponseEntity<List<Pet>>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true) @RequestParam(value = "status", required = true) List<String> status
+  default Callable<ResponseEntity<List<Pet>>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", defaultValue = "available") @RequestParam(value = "status", required = false, defaultValue="available") List<String> status
 
 
 )
@@ -109,7 +108,7 @@ public interface PetApi {
   }
 
 
-  @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
+  @ApiOperation(value = "Finds Pets by tags", notes = "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
     @Authorization(value = "petstore_auth", scopes = {
       @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
@@ -119,10 +118,10 @@ public interface PetApi {
     @ApiResponse(code = 200, message = "successful operation"),
     @ApiResponse(code = 400, message = "Invalid tag value") })
   @RequestMapping(value = "/findByTags", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  default Callable<ResponseEntity<List<Pet>>> findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags
+  default Callable<ResponseEntity<List<Pet>>> findPetsByTags(@ApiParam(value = "Tags to filter by") @RequestParam(value = "tags", required = false) List<String> tags
 
 
 )
@@ -132,7 +131,11 @@ public interface PetApi {
   }
 
 
-  @ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", response = Pet.class, authorizations = {
+  @ApiOperation(value = "Find pet by ID", notes = "Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions", response = Pet.class, authorizations = {
+    @Authorization(value = "petstore_auth", scopes = {
+      @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+      @AuthorizationScope(scope = "read:pets", description = "read your pets")
+      }),
     @Authorization(value = "api_key")
   })
   @ApiResponses(value = { 
@@ -140,11 +143,11 @@ public interface PetApi {
     @ApiResponse(code = 400, message = "Invalid ID supplied"),
     @ApiResponse(code = 404, message = "Pet not found") })
   @RequestMapping(value = "/{petId}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   default Callable<ResponseEntity<Pet>> getPetById(
-@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId
+@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("petId") Long petId
 
 )
       throws NotFoundException {
@@ -164,12 +167,12 @@ public interface PetApi {
     @ApiResponse(code = 404, message = "Pet not found"),
     @ApiResponse(code = 405, message = "Validation exception") })
   @RequestMapping(value = "", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     consumes = { "application/json", "application/xml" },
     method = RequestMethod.PUT)
   default Callable<ResponseEntity<Void>> updatePet(
 
-@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body
+@ApiParam(value = "Pet object that needs to be added to the store"  ) @RequestBody Pet body
 )
       throws NotFoundException {
       // do some magic!
@@ -186,11 +189,11 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input") })
   @RequestMapping(value = "/{petId}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     consumes = { "application/x-www-form-urlencoded" },
     method = RequestMethod.POST)
   default Callable<ResponseEntity<Void>> updatePetWithForm(
-@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId
+@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") String petId
 
 ,
     
@@ -209,7 +212,7 @@ public interface PetApi {
   }
 
 
-  @ApiOperation(value = "uploads an image", notes = "", response = ApiResponse.class, authorizations = {
+  @ApiOperation(value = "uploads an image", notes = "", response = Void.class, authorizations = {
     @Authorization(value = "petstore_auth", scopes = {
       @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
       @AuthorizationScope(scope = "read:pets", description = "read your pets")
@@ -218,10 +221,10 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/{petId}/uploadImage", 
-    produces = { "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     consumes = { "multipart/form-data" },
     method = RequestMethod.POST)
-  default Callable<ResponseEntity<ApiResponse>> uploadFile(
+  default Callable<ResponseEntity<Void>> uploadFile(
 @ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId
 
 ,
@@ -236,7 +239,7 @@ public interface PetApi {
 )
       throws NotFoundException {
       // do some magic!
-      return () -> new ResponseEntity<ApiResponse>(HttpStatus.OK);
+      return () -> new ResponseEntity<Void>(HttpStatus.OK);
   }
 
 }

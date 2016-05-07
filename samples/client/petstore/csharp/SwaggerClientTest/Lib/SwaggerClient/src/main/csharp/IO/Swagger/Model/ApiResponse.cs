@@ -12,47 +12,44 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// ApiResponse
     /// </summary>
     [DataContract]
     public partial class ApiResponse :  IEquatable<ApiResponse>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiResponse" /> class.
-        /// Initializes a new instance of the <see cref="ApiResponse" />class.
         /// </summary>
         /// <param name="Code">Code.</param>
         /// <param name="Type">Type.</param>
         /// <param name="Message">Message.</param>
-
         public ApiResponse(int? Code = null, string Type = null, string Message = null)
         {
-            this.Code = Code;
-            this.Type = Type;
-            this.Message = Message;
+            
+            
+                        this.Code = Code;
+            
+                        this.Type = Type;
+            
+                        this.Message = Message;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
         [DataMember(Name="code", EmitDefaultValue=false)]
         public int? Code { get; set; }
-    
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name="type", EmitDefaultValue=false)]
         public string Type { get; set; }
-    
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [DataMember(Name="message", EmitDefaultValue=false)]
         public string Message { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -62,12 +59,12 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class ApiResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
+sb.Append("  Type: ").Append(Type).Append("\n");
+sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -137,6 +134,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }

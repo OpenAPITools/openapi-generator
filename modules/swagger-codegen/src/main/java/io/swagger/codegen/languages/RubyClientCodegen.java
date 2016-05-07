@@ -117,6 +117,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
+        typeMapping.put("UUID", "String");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
@@ -641,5 +642,12 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setGemAuthorEmail(String gemAuthorEmail) {
         this.gemAuthorEmail = gemAuthorEmail;
+    }
+
+
+    @Override
+    public boolean shouldOverwrite(String filename) {
+        // skip spec file as the file might have been updated with new test cases
+        return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
 }

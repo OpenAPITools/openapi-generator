@@ -31,7 +31,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-22T17:54:58.453+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:43:02.966+02:00")
 public class StoreApi {
 
   @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class)
@@ -39,7 +39,7 @@ public class StoreApi {
     @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
     @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
   @RequestMapping(value = "/order/{orderId}",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
   public ResponseEntity<Void> deleteOrder(
@@ -58,7 +58,7 @@ public class StoreApi {
   @io.swagger.annotations.ApiResponses(value = { 
     @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Integer.class) })
   @RequestMapping(value = "/inventory",
-    produces = { "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   public ResponseEntity<Map<String, Integer>> getInventory()
@@ -74,11 +74,11 @@ public class StoreApi {
     @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
     @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Order.class) })
   @RequestMapping(value = "/order/{orderId}",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   public ResponseEntity<Order> getOrderById(
-@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId
+@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") String orderId
 
 )
       throws NotFoundException {
@@ -92,12 +92,12 @@ public class StoreApi {
     @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
     @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
   @RequestMapping(value = "/order",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   public ResponseEntity<Order> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body
+@ApiParam(value = "order placed for purchasing the pet"  ) @RequestBody Order body
 )
       throws NotFoundException {
       // do some magic!

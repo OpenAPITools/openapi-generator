@@ -1,0 +1,34 @@
+{
+  "name": "@swagger/angular2-typescript-petstore",
+  "version": "0.0.1-SNAPSHOT.201604282253",
+  "description": "swagger client for @swagger/angular2-typescript-petstore",
+  "author": "Swagger Codegen Contributors",
+  "keywords": [
+    "swagger-client"
+  ],
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "typings install && tsc"
+  },
+  "peerDependencies": {
+    "angular2": "^2.0.0-beta.15",
+    "rxjs": "^5.0.0-beta.2"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.10",
+    "typings": "^0.8.1",
+    "angular2": "^2.0.0-beta.15",
+    "es6-shim": "^0.35.0",
+    "es7-reflect-metadata": "^1.6.0",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "^0.6.10"
+  },
+  "publishConfig":{
+    "registry":"https://skimdb.npmjs.com/registry"
+  }
+}

@@ -55,7 +55,7 @@
   describe('PetApi', function() {
     it('should create and get pet', function(done) {
       var pet = createRandomPet();
-      api.addPet({body: pet}, function(error) {
+      api.addPet(pet, function(error) {
         if (error) throw error;
 
         api.getPetById(pet.id, function(error, fetched, response) {
@@ -79,6 +79,8 @@
       });
     });
 
+    /* commented out the following as the fake endpoint has been removed from the spec
+     * we'll add it back after updating the Petstore server
     it('getPetByIdInObject', function(done) {
       var pet = createRandomPet();
       api.addPet({body: pet}, function(error) {
@@ -104,6 +106,7 @@
         });
       });
     });
+    */
   });
 
 }));
