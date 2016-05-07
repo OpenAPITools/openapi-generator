@@ -30,6 +30,7 @@ static void (^reachabilityChangeBlock)(int);
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.securityPolicy = [self customSecurityPolicy];
         self.responseDeserializer = [[SWGResponseDeserializer alloc] init];
+        self.sanitizer = [[SWGSanitizer alloc] init];
         // configure reachability
         [self configureCacheReachibility];
     }
@@ -418,11 +419,11 @@ static void (^reachabilityChangeBlock)(int);
     }
 
     // sanitize parameters
-    pathParams = [self sanitizeForSerialization:pathParams];
-    queryParams = [self sanitizeForSerialization:queryParams];
-    headerParams = [self sanitizeForSerialization:headerParams];
-    formParams = [self sanitizeForSerialization:formParams];
-    body = [self sanitizeForSerialization:body];
+    pathParams = [self.sanitizer sanitizeForSerialization:pathParams];
+    queryParams = [self.sanitizer sanitizeForSerialization:queryParams];
+    headerParams = [self.sanitizer sanitizeForSerialization:headerParams];
+    formParams = [self.sanitizer sanitizeForSerialization:formParams];
+    body = [self.sanitizer sanitizeForSerialization:body];
 
     // auth setting
     [self updateHeaderParams:&headerParams queryParams:&queryParams WithAuthSettings:authSettings];
@@ -442,12 +443,13 @@ static void (^reachabilityChangeBlock)(int);
 
     NSString* urlString = [[NSURL URLWithString:pathWithQueryParams relativeToURL:self.baseURL] absoluteString];
     if (files.count > 0) {
+        __weak __typeof(self)weakSelf = self;
         request = [self.requestSerializer multipartFormRequestWithMethod:@"POST"
                                                                URLString:urlString
                                                               parameters:nil
                                                constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                                                    [formParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                                                       NSString *objString = [self parameterToString:obj];
+                                                       NSString *objString = [weakSelf.sanitizer parameterToString:obj];
                                                        NSData *data = [objString dataUsingEncoding:NSUTF8StringEncoding];
                                                        [formData appendPartWithFormData:data name:key];
                                                    }];
@@ -609,48 +611,6 @@ static void (^reachabilityChangeBlock)(int);
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
-- (id) sanitizeForSerialization:(id) object {
-    if (object == nil) {
-        return nil;
-    }
-    else if ([object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[SWGQueryParamCollection class]]) {
-        return object;
-    }
-    else if ([object isKindOfClass:[NSDate class]]) {
-        return [object ISO8601String];
-    }
-    else if ([object isKindOfClass:[NSArray class]]) {
-        NSArray *objectArray = object;
-        NSMutableArray *sanitizedObjs = [NSMutableArray arrayWithCapacity:[objectArray count]];
-        [object enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if (obj) {
-                [sanitizedObjs addObject:[self sanitizeForSerialization:obj]];
-            }
-        }];
-        return sanitizedObjs;
-    }
-    else if ([object isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *objectDict = object;
-        NSMutableDictionary *sanitizedObjs = [NSMutableDictionary dictionaryWithCapacity:[objectDict count]];
-        [object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            if (obj) {
-                [sanitizedObjs setValue:[self sanitizeForSerialization:obj] forKey:key];
-            }
-        }];
-        return sanitizedObjs;
-    }
-    else if ([object isKindOfClass:[SWGObject class]]) {
-        return [object toDictionary];
-    }
-    else {
-        NSException *e = [NSException
-                          exceptionWithName:@"InvalidObjectArgumentException"
-                          reason:[NSString stringWithFormat:@"*** The argument object: %@ is invalid", object]
-                          userInfo:nil];
-        @throw e;
-    }
-}
-
 - (AFSecurityPolicy *) customSecurityPolicy {
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
 
@@ -670,32 +630,6 @@ static void (^reachabilityChangeBlock)(int);
     }
 
     return securityPolicy;
-}
-
-- (NSString *) parameterToString:(id)param {
-    if ([param isKindOfClass:[NSString class]]) {
-        return param;
-    }
-    else if ([param isKindOfClass:[NSNumber class]]) {
-        return [param stringValue];
-    }
-    else if ([param isKindOfClass:[NSDate class]]) {
-        return [param ISO8601String];
-    }
-    else if ([param isKindOfClass:[NSArray class]]) {
-        NSMutableArray *mutableParam;
-        [param enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [mutableParam addObject:[self parameterToString:obj]];
-        }];
-        return [mutableParam componentsJoinedByString:@","];
-    }
-    else {
-        NSException *e = [NSException
-                          exceptionWithName:@"InvalidObjectArgumentException"
-                          reason:[NSString stringWithFormat:@"*** The argument object: %@ is invalid", param]
-                          userInfo:nil];
-        @throw e;
-    }
 }
 
 @end
