@@ -317,7 +317,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     private void addSupportingFilesForVolley() {
-        // supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         // supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
