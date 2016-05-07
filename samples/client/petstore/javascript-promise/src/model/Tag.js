@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The Tag model module.
    * @module model/Tag
@@ -54,12 +57,10 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} id
    */
   exports.prototype['id'] = undefined;
-
   /**
    * @member {String} name
    */
@@ -70,3 +71,5 @@
 
   return exports;
 }));
+
+

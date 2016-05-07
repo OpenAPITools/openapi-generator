@@ -15,6 +15,9 @@
 }(this, function(ApiClient) {
   'use strict';
 
+
+
+
   /**
    * The ModelReturn model module.
    * @module model/ModelReturn
@@ -28,6 +31,7 @@
    * @class
    */
   var exports = function() {
+    var _this = this;
 
 
   };
@@ -40,7 +44,7 @@
    * @return {module:model/ModelReturn} The populated <code>ModelReturn</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('return')) {
@@ -49,7 +53,6 @@
     }
     return obj;
   }
-
 
   /**
    * @member {Integer} return
@@ -61,3 +64,5 @@
 
   return exports;
 }));
+
+
