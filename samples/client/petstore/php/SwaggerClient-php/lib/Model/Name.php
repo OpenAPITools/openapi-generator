@@ -166,7 +166,7 @@ class Name implements ArrayAccess
     {
         $invalid_properties = array();
         
-        if ($this->name === null) {
+        if ($this->container['name'] === null) {
             $invalid_properties[] = "'$name' can't be null";
         }
         
@@ -187,7 +187,7 @@ class Name implements ArrayAccess
     public function valid()
     {
         
-        if ($this->name === null) {
+        if ($this->container['name'] === null) {
             return false;
         }
         

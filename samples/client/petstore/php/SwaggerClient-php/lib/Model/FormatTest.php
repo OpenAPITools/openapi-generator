@@ -297,63 +297,63 @@ class FormatTest implements ArrayAccess
         $invalid_properties = array();
         
         
-        if ($this->integer > 100.0) {
+        if ($this->container['integer'] > 100.0) {
             $invalid_properties[] = "invalid value for '$integer', must be smaller than or equal to 100.0.";
         }
-        if ($this->integer < 10.0) {
+        if ($this->container['integer'] < 10.0) {
             $invalid_properties[] = "invalid value for '$integer', must be bigger than or equal to 10.0.";
         }
 
         
-        if ($this->int32 > 200.0) {
+        if ($this->container['int32'] > 200.0) {
             $invalid_properties[] = "invalid value for '$int32', must be smaller than or equal to 200.0.";
         }
-        if ($this->int32 < 20.0) {
+        if ($this->container['int32'] < 20.0) {
             $invalid_properties[] = "invalid value for '$int32', must be bigger than or equal to 20.0.";
         }
 
         
 
-        if ($this->number === null) {
+        if ($this->container['number'] === null) {
             $invalid_properties[] = "'$number' can't be null";
         }
         
-        if ($this->number > 543.2) {
+        if ($this->container['number'] > 543.2) {
             $invalid_properties[] = "invalid value for '$number', must be smaller than or equal to 543.2.";
         }
-        if ($this->number < 32.1) {
+        if ($this->container['number'] < 32.1) {
             $invalid_properties[] = "invalid value for '$number', must be bigger than or equal to 32.1.";
         }
 
         
-        if ($this->float > 987.6) {
+        if ($this->container['float'] > 987.6) {
             $invalid_properties[] = "invalid value for '$float', must be smaller than or equal to 987.6.";
         }
-        if ($this->float < 54.3) {
+        if ($this->container['float'] < 54.3) {
             $invalid_properties[] = "invalid value for '$float', must be bigger than or equal to 54.3.";
         }
 
         
-        if ($this->double > 123.4) {
+        if ($this->container['double'] > 123.4) {
             $invalid_properties[] = "invalid value for '$double', must be smaller than or equal to 123.4.";
         }
-        if ($this->double < 67.8) {
+        if ($this->container['double'] < 67.8) {
             $invalid_properties[] = "invalid value for '$double', must be bigger than or equal to 67.8.";
         }
 
         
-        if (!preg_match("/[a-z]/i", $this->string)) {
+        if (!preg_match("/[a-z]/i", $this->container['string'])) {
             $invalid_properties[] = "invalid value for '$string', must be conform to the pattern /[a-z]/i.";
         }
         
-        if ($this->byte === null) {
+        if ($this->container['byte'] === null) {
             $invalid_properties[] = "'$byte' can't be null";
         }
         
 
         
 
-        if ($this->date === null) {
+        if ($this->container['date'] === null) {
             $invalid_properties[] = "'$date' can't be null";
         }
         
@@ -362,14 +362,14 @@ class FormatTest implements ArrayAccess
 
         
 
-        if ($this->password === null) {
+        if ($this->container['password'] === null) {
             $invalid_properties[] = "'$password' can't be null";
         }
         
-        if (strlen($this->password) > 64) {
+        if (strlen($this->container['password']) > 64) {
             $invalid_properties[] = "invalid value for '$password', the character length must be smaller than or equal to 64.";
         }
-        if (strlen($this->password) < 10) {
+        if (strlen($this->container['password']) < 10) {
             $invalid_properties[] = "invalid value for '$password', the character length must be bigger than or equal to 10.";
         }
 
@@ -386,79 +386,79 @@ class FormatTest implements ArrayAccess
     {
         
         
-        if ($this->integer > 100.0) {
+        if ($this->container['integer'] > 100.0) {
             return false;
         }
-        if ($this->integer < 10.0) {
-            return false;
-        }
-
-        
-        if ($this->int32 > 200.0) {
-            return false;
-        }
-        if ($this->int32 < 20.0) {
+        if ($this->container['integer'] < 10.0) {
             return false;
         }
 
         
-
-        if ($this->number === null) {
+        if ($this->container['int32'] > 200.0) {
             return false;
         }
-        
-        if ($this->number > 543.2) {
-            return false;
-        }
-        if ($this->number < 32.1) {
+        if ($this->container['int32'] < 20.0) {
             return false;
         }
 
         
-        if ($this->float > 987.6) {
+
+        if ($this->container['number'] === null) {
             return false;
         }
-        if ($this->float < 54.3) {
+        
+        if ($this->container['number'] > 543.2) {
+            return false;
+        }
+        if ($this->container['number'] < 32.1) {
             return false;
         }
 
         
-        if ($this->double > 123.4) {
+        if ($this->container['float'] > 987.6) {
             return false;
         }
-        if ($this->double < 67.8) {
+        if ($this->container['float'] < 54.3) {
             return false;
         }
 
         
-        if (!preg_match("/[a-z]/i", $this->string)) {
+        if ($this->container['double'] > 123.4) {
+            return false;
+        }
+        if ($this->container['double'] < 67.8) {
+            return false;
+        }
+
+        
+        if (!preg_match("/[a-z]/i", $this->container['string'])) {
             return false;
         }
         
-        if ($this->byte === null) {
-            return false;
-        }
-        
-
-        
-
-        if ($this->date === null) {
+        if ($this->container['byte'] === null) {
             return false;
         }
         
 
         
 
+        if ($this->container['date'] === null) {
+            return false;
+        }
         
 
-        if ($this->password === null) {
+        
+
+        
+
+        if ($this->container['password'] === null) {
             return false;
         }
         
-        if (strlen($this->password) > 64) {
+        if (strlen($this->container['password']) > 64) {
             return false;
         }
-        if (strlen($this->password) < 10) {
+        if (strlen($this->container['password']) < 10) {
             return false;
         }
 
