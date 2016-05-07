@@ -335,8 +335,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
                 swiftEnums.add(map);
             }
             codegenProperty.allowableValues.put("values", swiftEnums);
-            codegenProperty.datatypeWithEnum =
-                StringUtils.left(codegenProperty.datatypeWithEnum, codegenProperty.datatypeWithEnum.length() - "Enum".length());
+            codegenProperty.datatypeWithEnum = toEnumName(codegenProperty);
+            //codegenProperty.datatypeWithEnum =
+            //    StringUtils.left(codegenProperty.datatypeWithEnum, codegenProperty.datatypeWithEnum.length() - "Enum".length());
+ 
             // Ensure that the enum type doesn't match a reserved word or
             // the variable name doesn't match the generated enum type or the
             // Swift compiler will generate an error
@@ -483,4 +485,59 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     public void setResponseAs(String[] responseAs) {
         this.responseAs = responseAs;
     }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "_" + value;
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        // number
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            String varName = new String(name);
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String enumName = sanitizeName(underscore(name).toUpperCase());
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        String enumName = underscore(toModelName(property.name)).toUpperCase();
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
+
 }

@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected String modelPropertyNaming= "camelCase";
+    protected Boolean supportsES6 = true;
 
 	public AbstractTypeScriptClientCodegen() {
 	    super();
@@ -60,17 +61,24 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // mapped to String as a workaround
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("UUID", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
-
+        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
 
 	}
 
     @Override
     public void processOpts() {
         super.processOpts();
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
+            setSupportsES6(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SUPPORTS_ES6)));
+            additionalProperties.put("supportsES6", getSupportsES6());
         }
     }
 
@@ -229,5 +237,67 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                                     "'PascalCase' or 'snake_case'");
         }
 
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "_" + value;
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        // number
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            String varName = new String(name);
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String enumName = sanitizeName(underscore(name).toUpperCase());
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        String enumName = toModelName(property.name) + "Enum";
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
+
+    public void setSupportsES6(Boolean value) {
+        supportsES6 = value;
+    }
+
+    public Boolean getSupportsES6() {
+        return supportsES6;
     }
 }

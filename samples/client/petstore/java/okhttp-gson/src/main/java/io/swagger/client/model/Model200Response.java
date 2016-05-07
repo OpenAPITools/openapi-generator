@@ -7,11 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
 /**
  * Model for testing model name starting with number
- **/
+ */
 @ApiModel(description = "Model for testing model name starting with number")
 public class Model200Response   {
   
@@ -67,3 +65,4 @@ public class Model200Response   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -590,6 +590,7 @@ paths:
           in: formData
           description: None
         - name: number
+          type: number
           maximum: 543.2
           minimum: 32.1
           in: formData
@@ -841,6 +842,10 @@ definitions:
     properties:
       className:
         type: string
+  AnimalFarm:
+    type: array
+    items:
+      $ref: '#/definitions/Animal'
   format_test:
     type: object
     required:
@@ -890,11 +895,41 @@ definitions:
       dateTime:
         type: string
         format: date-time
+      uuid:
+        type: string
+        format: uuid 
       password:
         type: string
         format: password
         maxLength: 64
         minLength: 10
+  EnumClass:
+    type: string
+    default: '-efg'
+    enum:
+      - _abc
+      - '-efg'
+      - (xyz)
+  Enum_Test:
+    type: object
+    properties:
+      enum_string:
+        type: string
+        enum:
+          - UPPER
+          - lower
+      enum_integer:
+        type: integer
+        format: int32
+        enum:
+          - 1
+          - -1
+      enum_number:
+        type: number
+        format: double
+        enum:
+          - 1.1
+          - -1.2
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

@@ -20,7 +20,7 @@ Fake endpoint for testing various parameters
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\FakeApi();
-$number = "number_example"; // string | None
+$number = 3.4; // float | None
 $double = 1.2; // double | None
 $string = "string_example"; // string | None
 $byte = "B"; // string | None
@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **string**| None | 
+ **number** | **float**| None | 
  **double** | **double**| None | 
  **string** | **string**| None | 
  **byte** | **string**| None | 

@@ -12,15 +12,13 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// 
+    /// FormatTest
     /// </summary>
     [DataContract]
     public partial class FormatTest :  IEquatable<FormatTest>
-    { 
-    
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
-        /// Initializes a new instance of the <see cref="FormatTest" />class.
         /// </summary>
         /// <param name="Integer">Integer.</param>
         /// <param name="Int32">Int32.</param>
@@ -29,12 +27,11 @@ namespace IO.Swagger.Model
         /// <param name="_Float">_Float.</param>
         /// <param name="_Double">_Double.</param>
         /// <param name="_String">_String.</param>
-        /// <param name="_Byte">_Byte.</param>
+        /// <param name="_Byte">_Byte (required).</param>
         /// <param name="Binary">Binary.</param>
-        /// <param name="Date">Date.</param>
+        /// <param name="Date">Date (required).</param>
         /// <param name="DateTime">DateTime.</param>
-        /// <param name="Password">Password.</param>
-
+        /// <param name="Password">Password (required).</param>
         public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, string Password = null)
         {
             // to ensure "Number" is required (not null)
@@ -46,93 +43,113 @@ namespace IO.Swagger.Model
             {
                 this.Number = Number;
             }
-            this.Integer = Integer;
-            this.Int32 = Int32;
-            this.Int64 = Int64;
-            this._Float = _Float;
-            this._Double = _Double;
-            this._String = _String;
-            this._Byte = _Byte;
-            this.Binary = Binary;
-            this.Date = Date;
-            this.DateTime = DateTime;
-            this.Password = Password;
+            // to ensure "_Byte" is required (not null)
+            if (_Byte == null)
+            {
+                throw new InvalidDataException("_Byte is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this._Byte = _Byte;
+            }
+            // to ensure "Date" is required (not null)
+            if (Date == null)
+            {
+                throw new InvalidDataException("Date is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this.Date = Date;
+            }
+            // to ensure "Password" is required (not null)
+            if (Password == null)
+            {
+                throw new InvalidDataException("Password is a required property for FormatTest and cannot be null");
+            }
+            else
+            {
+                this.Password = Password;
+            }
+            
+            
+                        this.Integer = Integer;
+            
+                        this.Int32 = Int32;
+            
+                        this.Int64 = Int64;
+            
+                        this._Float = _Float;
+            
+                        this._Double = _Double;
+            
+                        this._String = _String;
+            
+                        this.Binary = Binary;
+            
+                        this.DateTime = DateTime;
             
         }
-
-    
+        
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name="integer", EmitDefaultValue=false)]
         public int? Integer { get; set; }
-    
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name="int32", EmitDefaultValue=false)]
         public int? Int32 { get; set; }
-    
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name="int64", EmitDefaultValue=false)]
         public long? Int64 { get; set; }
-    
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name="number", EmitDefaultValue=false)]
         public double? Number { get; set; }
-    
         /// <summary>
         /// Gets or Sets _Float
         /// </summary>
         [DataMember(Name="float", EmitDefaultValue=false)]
         public float? _Float { get; set; }
-    
         /// <summary>
         /// Gets or Sets _Double
         /// </summary>
         [DataMember(Name="double", EmitDefaultValue=false)]
         public double? _Double { get; set; }
-    
         /// <summary>
         /// Gets or Sets _String
         /// </summary>
         [DataMember(Name="string", EmitDefaultValue=false)]
         public string _String { get; set; }
-    
         /// <summary>
         /// Gets or Sets _Byte
         /// </summary>
         [DataMember(Name="byte", EmitDefaultValue=false)]
         public byte[] _Byte { get; set; }
-    
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
         [DataMember(Name="binary", EmitDefaultValue=false)]
         public byte[] Binary { get; set; }
-    
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
         [DataMember(Name="date", EmitDefaultValue=false)]
         public DateTime? Date { get; set; }
-    
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
         public DateTime? DateTime { get; set; }
-    
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password", EmitDefaultValue=false)]
         public string Password { get; set; }
-    
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -142,21 +159,21 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
-            sb.Append("  Int32: ").Append(Int32).Append("\n");
-            sb.Append("  Int64: ").Append(Int64).Append("\n");
-            sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  _Float: ").Append(_Float).Append("\n");
-            sb.Append("  _Double: ").Append(_Double).Append("\n");
-            sb.Append("  _String: ").Append(_String).Append("\n");
-            sb.Append("  _Byte: ").Append(_Byte).Append("\n");
-            sb.Append("  Binary: ").Append(Binary).Append("\n");
-            sb.Append("  Date: ").Append(Date).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
+sb.Append("  Int32: ").Append(Int32).Append("\n");
+sb.Append("  Int64: ").Append(Int64).Append("\n");
+sb.Append("  Number: ").Append(Number).Append("\n");
+sb.Append("  _Float: ").Append(_Float).Append("\n");
+sb.Append("  _Double: ").Append(_Double).Append("\n");
+sb.Append("  _String: ").Append(_String).Append("\n");
+sb.Append("  _Byte: ").Append(_Byte).Append("\n");
+sb.Append("  Binary: ").Append(Binary).Append("\n");
+sb.Append("  Date: ").Append(Date).Append("\n");
+sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
+  
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
@@ -289,6 +306,6 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
-
     }
+
 }

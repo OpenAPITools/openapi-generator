@@ -59,52 +59,62 @@ class Cat extends Animal implements ArrayAccess
     static $swaggerTypes = array(
         'declawed' => 'bool'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'declawed' => 'declawed'
     );
-  
+ 
     static function attributeMap() {
         return parent::attributeMap() + self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'declawed' => 'setDeclawed'
     );
-  
+ 
     static function setters() {
         return parent::setters() + self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'declawed' => 'getDeclawed'
     );
-  
+ 
     static function getters() {
         return parent::getters() + self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $declawed 
-      * @var bool
-      */
-    protected $declawed;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['declawed']
+         * @var bool
+         */
+        'declawed' => null,
+    );
 
     /**
      * Constructor
@@ -116,7 +126,7 @@ class Cat extends Animal implements ArrayAccess
         
         if ($data != null) {
             if (isset($data["declawed"])) {
-                $this->declawed = $data["declawed"];
+                $this->container['declawed'] = $data["declawed"];
             }
         }
     }
@@ -156,9 +166,9 @@ class Cat extends Animal implements ArrayAccess
      */
     public function getDeclawed()
     {
-        return $this->declawed;
+        return $this->container['declawed'];
     }
-  
+
     /**
      * Sets declawed
      * @param bool $declawed 
@@ -168,7 +178,9 @@ class Cat extends Animal implements ArrayAccess
     {
         
 
-        $this->declawed = $declawed;
+
+        $this->container['declawed'] = $declawed;
+
         return $this;
     }
     /**
@@ -178,9 +190,9 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -188,9 +200,9 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -199,9 +211,13 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -209,9 +225,9 @@ class Cat extends Animal implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

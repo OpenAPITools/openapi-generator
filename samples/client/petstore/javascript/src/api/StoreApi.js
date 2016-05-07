@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/Order'], factory);
+    define(['ApiClient', 'model/Order'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('../model/Order'));
@@ -25,8 +25,8 @@
    * Constructs a new StoreApi. 
    * @alias module:api/StoreApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
-   * if unspecified.
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
    */
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
@@ -67,54 +67,11 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(
         '/store/order/{orderId}', 'DELETE',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
-    /**
-     * Callback function to receive the result of the findOrdersByStatus operation.
-     * @callback module:api/StoreApi~findOrdersByStatusCallback
-     * @param {String} error Error message, if any.
-     * @param {Array.<module:model/Order>} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Finds orders by status
-     * A single status value can be provided as a string
-     * @param {Object} opts Optional parameters
-     * @param {module:model/String} opts.status Status value that needs to be considered for query (default to placed)
-     * @param {module:api/StoreApi~findOrdersByStatusCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {Array.<module:model/Order>}
-     */
-    this.findOrdersByStatus = function(opts, callback) {
-      opts = opts || {};
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-        'status': opts['status']
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = ['test_api_client_id', 'test_api_client_secret'];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = [Order];
-
-      return this.apiClient.callApi(
-        '/store/findByStatus', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -149,50 +106,11 @@
 
       var authNames = ['api_key'];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/json'];
       var returnType = {'String': 'Integer'};
 
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
-    /**
-     * Callback function to receive the result of the getInventoryInObject operation.
-     * @callback module:api/StoreApi~getInventoryInObjectCallback
-     * @param {String} error Error message, if any.
-     * @param {Object} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Fake endpoint to test arbitrary object return by &#39;Get inventory&#39;
-     * Returns an arbitrary object which is actually a map of status codes to quantities
-     * @param {module:api/StoreApi~getInventoryInObjectCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {Object}
-     */
-    this.getInventoryInObject = function(callback) {
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = ['api_key'];
-      var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
-      var returnType = Object;
-
-      return this.apiClient.callApi(
-        '/store/inventory?response=arbitrary_object', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -209,7 +127,7 @@
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     * @param {String} orderId ID of pet that needs to be fetched
+     * @param {Integer} orderId ID of pet that needs to be fetched
      * @param {module:api/StoreApi~getOrderByIdCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {module:model/Order}
      */
@@ -232,9 +150,9 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_key_header', 'test_api_key_query'];
+      var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = Order;
 
       return this.apiClient.callApi(
@@ -255,14 +173,17 @@
     /**
      * Place an order for a pet
      * 
-     * @param {Object} opts Optional parameters
-     * @param {module:model/Order} opts.body order placed for purchasing the pet
+     * @param {module:model/Order} body order placed for purchasing the pet
      * @param {module:api/StoreApi~placeOrderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {module:model/Order}
      */
-    this.placeOrder = function(opts, callback) {
-      opts = opts || {};
-      var postBody = opts['body'];
+    this.placeOrder = function(body, callback) {
+      var postBody = body;
+
+      // verify the required parameter 'body' is set
+      if (body == undefined || body == null) {
+        throw "Missing the required parameter 'body' when calling placeOrder";
+      }
 
 
       var pathParams = {
@@ -274,9 +195,9 @@
       var formParams = {
       };
 
-      var authNames = ['test_api_client_id', 'test_api_client_secret'];
+      var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = Order;
 
       return this.apiClient.callApi(

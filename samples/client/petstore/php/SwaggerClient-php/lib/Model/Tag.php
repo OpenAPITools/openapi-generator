@@ -60,60 +60,71 @@ class Tag implements ArrayAccess
         'id' => 'int',
         'name' => 'string'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'id' => 'id',
         'name' => 'name'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'id' => 'setId',
         'name' => 'setName'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'id' => 'getId',
         'name' => 'getName'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $id 
-      * @var int
-      */
-    protected $id;
-    /**
-      * $name 
-      * @var string
-      */
-    protected $name;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['id']
+         * @var int
+         */
+        'id' => null,
+    
+        /**
+         * $container['name']
+         * @var string
+         */
+        'name' => null,
+    );
 
     /**
      * Constructor
@@ -125,10 +136,10 @@ class Tag implements ArrayAccess
         
         if ($data != null) {
             if (isset($data["id"])) {
-                $this->id = $data["id"];
+                $this->container['id'] = $data["id"];
             }
             if (isset($data["name"])) {
-                $this->name = $data["name"];
+                $this->container['name'] = $data["name"];
             }
         }
     }
@@ -172,9 +183,9 @@ class Tag implements ArrayAccess
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -184,7 +195,9 @@ class Tag implements ArrayAccess
     {
         
 
-        $this->id = $id;
+
+        $this->container['id'] = $id;
+
         return $this;
     }
     /**
@@ -193,9 +206,9 @@ class Tag implements ArrayAccess
      */
     public function getName()
     {
-        return $this->name;
+        return $this->container['name'];
     }
-  
+
     /**
      * Sets name
      * @param string $name 
@@ -205,7 +218,9 @@ class Tag implements ArrayAccess
     {
         
 
-        $this->name = $name;
+
+        $this->container['name'] = $name;
+
         return $this;
     }
     /**
@@ -215,9 +230,9 @@ class Tag implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -225,9 +240,9 @@ class Tag implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -236,9 +251,13 @@ class Tag implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -246,9 +265,9 @@ class Tag implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

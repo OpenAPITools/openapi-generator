@@ -60,7 +60,7 @@ class FakeApi
      * Constructor
      * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
      */
-    function __construct($apiClient = null)
+    function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -84,7 +84,7 @@ class FakeApi
      * @param \Swagger\Client\ApiClient $apiClient set the API client
      * @return FakeApi
      */
-    public function setApiClient(ApiClient $apiClient)
+    public function setApiClient(\Swagger\Client\ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
         return $this;
@@ -95,7 +95,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters
      *
-     * @param string $number None (required)
+     * @param float $number None (required)
      * @param double $double None (required)
      * @param string $string None (required)
      * @param string $byte None (required)
@@ -122,7 +122,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters
      *
-     * @param string $number None (required)
+     * @param float $number None (required)
      * @param double $double None (required)
      * @param string $string None (required)
      * @param string $byte None (required)

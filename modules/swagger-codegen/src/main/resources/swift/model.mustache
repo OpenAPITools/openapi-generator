@@ -34,11 +34,9 @@ public class {{classname}}: JSONEncodable {
 {{/unwrapRequired}}
 {{#unwrapRequired}}
     public init({{#requiredVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}!{{/isEnum}}{{^isEnum}}{{datatype}}!{{/isEnum}}{{/requiredVars}}) {
-        {{#vars}}
         {{#requiredVars}}
         self.{{name}} = {{name}}
         {{/requiredVars}}
-        {{/vars}}
     }
 {{/unwrapRequired}}
 

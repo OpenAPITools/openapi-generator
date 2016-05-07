@@ -66,15 +66,15 @@ class User implements ArrayAccess
         'phone' => 'string',
         'user_status' => 'int'
     );
-  
+ 
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
         'id' => 'id',
         'username' => 'username',
@@ -85,15 +85,15 @@ class User implements ArrayAccess
         'phone' => 'phone',
         'user_status' => 'userStatus'
     );
-  
+ 
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
         'id' => 'setId',
         'username' => 'setUsername',
@@ -104,15 +104,15 @@ class User implements ArrayAccess
         'phone' => 'setPhone',
         'user_status' => 'setUserStatus'
     );
-  
+ 
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
         'id' => 'getId',
         'username' => 'getUsername',
@@ -123,51 +123,68 @@ class User implements ArrayAccess
         'phone' => 'getPhone',
         'user_status' => 'getUserStatus'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $id 
-      * @var int
-      */
-    protected $id;
-    /**
-      * $username 
-      * @var string
-      */
-    protected $username;
-    /**
-      * $first_name 
-      * @var string
-      */
-    protected $first_name;
-    /**
-      * $last_name 
-      * @var string
-      */
-    protected $last_name;
-    /**
-      * $email 
-      * @var string
-      */
-    protected $email;
-    /**
-      * $password 
-      * @var string
-      */
-    protected $password;
-    /**
-      * $phone 
-      * @var string
-      */
-    protected $phone;
-    /**
-      * $user_status User Status
-      * @var int
-      */
-    protected $user_status;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array(
+        /**
+         * $container['id']
+         * @var int
+         */
+        'id' => null,
+    
+        /**
+         * $container['username']
+         * @var string
+         */
+        'username' => null,
+    
+        /**
+         * $container['first_name']
+         * @var string
+         */
+        'first_name' => null,
+    
+        /**
+         * $container['last_name']
+         * @var string
+         */
+        'last_name' => null,
+    
+        /**
+         * $container['email']
+         * @var string
+         */
+        'email' => null,
+    
+        /**
+         * $container['password']
+         * @var string
+         */
+        'password' => null,
+    
+        /**
+         * $container['phone']
+         * @var string
+         */
+        'phone' => null,
+    
+        /**
+         * $container['user_status'] User Status
+         * @var int
+         */
+        'user_status' => null,
+    );
 
     /**
      * Constructor
@@ -179,28 +196,28 @@ class User implements ArrayAccess
         
         if ($data != null) {
             if (isset($data["id"])) {
-                $this->id = $data["id"];
+                $this->container['id'] = $data["id"];
             }
             if (isset($data["username"])) {
-                $this->username = $data["username"];
+                $this->container['username'] = $data["username"];
             }
             if (isset($data["first_name"])) {
-                $this->first_name = $data["first_name"];
+                $this->container['first_name'] = $data["first_name"];
             }
             if (isset($data["last_name"])) {
-                $this->last_name = $data["last_name"];
+                $this->container['last_name'] = $data["last_name"];
             }
             if (isset($data["email"])) {
-                $this->email = $data["email"];
+                $this->container['email'] = $data["email"];
             }
             if (isset($data["password"])) {
-                $this->password = $data["password"];
+                $this->container['password'] = $data["password"];
             }
             if (isset($data["phone"])) {
-                $this->phone = $data["phone"];
+                $this->container['phone'] = $data["phone"];
             }
             if (isset($data["user_status"])) {
-                $this->user_status = $data["user_status"];
+                $this->container['user_status'] = $data["user_status"];
             }
         }
     }
@@ -268,9 +285,9 @@ class User implements ArrayAccess
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
-  
+
     /**
      * Sets id
      * @param int $id 
@@ -280,7 +297,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->id = $id;
+
+        $this->container['id'] = $id;
+
         return $this;
     }
     /**
@@ -289,9 +308,9 @@ class User implements ArrayAccess
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->container['username'];
     }
-  
+
     /**
      * Sets username
      * @param string $username 
@@ -301,7 +320,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->username = $username;
+
+        $this->container['username'] = $username;
+
         return $this;
     }
     /**
@@ -310,9 +331,9 @@ class User implements ArrayAccess
      */
     public function getFirstName()
     {
-        return $this->first_name;
+        return $this->container['first_name'];
     }
-  
+
     /**
      * Sets first_name
      * @param string $first_name 
@@ -322,7 +343,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->first_name = $first_name;
+
+        $this->container['first_name'] = $first_name;
+
         return $this;
     }
     /**
@@ -331,9 +354,9 @@ class User implements ArrayAccess
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->container['last_name'];
     }
-  
+
     /**
      * Sets last_name
      * @param string $last_name 
@@ -343,7 +366,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->last_name = $last_name;
+
+        $this->container['last_name'] = $last_name;
+
         return $this;
     }
     /**
@@ -352,9 +377,9 @@ class User implements ArrayAccess
      */
     public function getEmail()
     {
-        return $this->email;
+        return $this->container['email'];
     }
-  
+
     /**
      * Sets email
      * @param string $email 
@@ -364,7 +389,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->email = $email;
+
+        $this->container['email'] = $email;
+
         return $this;
     }
     /**
@@ -373,9 +400,9 @@ class User implements ArrayAccess
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->container['password'];
     }
-  
+
     /**
      * Sets password
      * @param string $password 
@@ -385,7 +412,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->password = $password;
+
+        $this->container['password'] = $password;
+
         return $this;
     }
     /**
@@ -394,9 +423,9 @@ class User implements ArrayAccess
      */
     public function getPhone()
     {
-        return $this->phone;
+        return $this->container['phone'];
     }
-  
+
     /**
      * Sets phone
      * @param string $phone 
@@ -406,7 +435,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->phone = $phone;
+
+        $this->container['phone'] = $phone;
+
         return $this;
     }
     /**
@@ -415,9 +446,9 @@ class User implements ArrayAccess
      */
     public function getUserStatus()
     {
-        return $this->user_status;
+        return $this->container['user_status'];
     }
-  
+
     /**
      * Sets user_status
      * @param int $user_status User Status
@@ -427,7 +458,9 @@ class User implements ArrayAccess
     {
         
 
-        $this->user_status = $user_status;
+
+        $this->container['user_status'] = $user_status;
+
         return $this;
     }
     /**
@@ -437,9 +470,9 @@ class User implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -447,9 +480,9 @@ class User implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -458,9 +491,13 @@ class User implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -468,9 +505,9 @@ class User implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

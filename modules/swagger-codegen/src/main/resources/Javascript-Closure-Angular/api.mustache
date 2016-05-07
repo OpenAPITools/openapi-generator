@@ -47,8 +47,8 @@ goog.require('{{import}}');
   /** @private {!angular.$http} */
   this.http_ = $http;
 
-  /** @private {!Object} */
-  this.httpParamSerializer_ = $injector.get('$httpParamSerializer');
+  /** @package {!Object} */
+  this.httpParamSerializer = $injector.get('$httpParamSerializer');
 }
 {{package}}.{{classname}}.$inject = ['$http', '$httpParamSerializer', '$injector'];
 {{#operation}}
@@ -69,7 +69,7 @@ goog.require('{{import}}');
   var queryParameters = {};
 
   /** @type {!Object} */
-  var headerParams = angular.extend({}, this.defaultHeaders);
+  var headerParams = angular.extend({}, this.defaultHeaders_);
 {{#hasFormParams}}
   /** @type {!Object} */
   var formParams = {};
@@ -108,7 +108,7 @@ goog.require('{{import}}');
     json: {{#hasFormParams}}false{{/hasFormParams}}{{^hasFormParams}}true{{/hasFormParams}},
     {{#bodyParam}}data: {{^required}}opt_{{/required}}{{paramName}},
     {{/bodyParam}}
-    {{#hasFormParams}}data: this.httpParamSerializer_(formParams),
+    {{#hasFormParams}}data: this.httpParamSerializer(formParams),
     {{/hasFormParams}}
     params: queryParameters,
     headers: headerParams
@@ -118,7 +118,7 @@ goog.require('{{import}}');
     httpRequestParams = angular.extend(httpRequestParams, opt_extraHttpRequestParams);
   }
 
-  return this.http_(httpRequestParams);
+  return (/** @type {?} */ (this.http_))(httpRequestParams);
 }
 {{/operation}}
 {{/operations}}
