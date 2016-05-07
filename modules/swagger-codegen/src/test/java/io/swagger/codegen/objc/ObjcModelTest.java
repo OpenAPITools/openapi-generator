@@ -27,6 +27,31 @@ import java.util.Map;
 @SuppressWarnings("static-method")
 public class ObjcModelTest {
 
+    @Test(description = "convert a model with a advanced map property")
+    public void advancedMapPropertyTest() {
+        final Model model = new ModelImpl()
+        .description("a sample model")
+        .property("translations", new MapProperty()
+                  .additionalProperties(new MapProperty().additionalProperties(new StringProperty())))
+        .required("id");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "SWGSample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "translations");
+        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
+        Assert.assertEquals(property1.name, "translations");
+        Assert.assertEquals(property1.baseType, "NSDictionary");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertNull(property1.required);
+        Assert.assertTrue(property1.isContainer);
+    }
+    
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {
         final Model model = new ModelImpl()
@@ -108,7 +133,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
-        Assert.assertEquals(property2.datatype, "NSArray* /* NSString */");
+        Assert.assertEquals(property2.datatype, "NSArray<NSString*>*");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSArray");
@@ -136,7 +161,7 @@ public class ObjcModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.datatype, "NSDictionary* /* NSString, NSString */");
+        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, NSString*>*");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
@@ -145,6 +170,7 @@ public class ObjcModelTest {
         Assert.assertTrue(property1.isPrimitiveType);
     }
 
+    
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
         final Model model = new ModelImpl()
@@ -210,7 +236,7 @@ public class ObjcModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "SWGChildren");
-        Assert.assertEquals(property1.datatype, "NSDictionary* /* NSString, SWGChildren */");
+        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, SWGChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");

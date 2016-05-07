@@ -141,10 +141,10 @@ static SWGStoreApi* singletonAPI = nil;
 ///
 /// Returns pet inventories by status
 /// Returns a map of status codes to quantities
-///  @returns NSDictionary* /* NSString, NSNumber */
+///  @returns NSDictionary<NSString*, NSNumber*>*
 ///
 -(NSNumber*) getInventoryWithCompletionHandler: 
-    (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error)) handler {
+    (void (^)(NSDictionary<NSString*, NSNumber*>* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/inventory"];
 
     // remove format in URL if needed
@@ -192,9 +192,9 @@ static SWGStoreApi* singletonAPI = nil;
                               authSettings: authSettings
                         requestContentType: requestContentType
                        responseContentType: responseContentType
-                              responseType: @"NSDictionary* /* NSString, NSNumber */"
+                              responseType: @"NSDictionary<NSString*, NSNumber*>*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((NSDictionary* /* NSString, NSNumber */)data, error);
+                               handler((NSDictionary<NSString*, NSNumber*>*)data, error);
                            }
           ];
 }

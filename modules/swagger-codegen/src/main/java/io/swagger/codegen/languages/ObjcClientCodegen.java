@@ -39,6 +39,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String[] specialWords = {"new", "copy"};
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    
+    protected Set<String> advancedMapingTypes = new HashSet<String>();
 
     public ObjcClientCodegen() {
         super();
@@ -65,6 +67,16 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("NSDictionary");
         defaultIncludes.add("NSMutableArray");
         defaultIncludes.add("NSMutableDictionary");
+        
+        advancedMapingTypes.add("NSDictionary");
+        advancedMapingTypes.add("NSArray");
+        advancedMapingTypes.add("NSMutableArray");
+        advancedMapingTypes.add("NSMutableDictionary");
+        advancedMapingTypes.add("NSObject");
+        advancedMapingTypes.add("NSNumber");
+        advancedMapingTypes.add("NSURL");
+        advancedMapingTypes.add("NSString");
+        advancedMapingTypes.add("NSDate");
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("NSNumber");
@@ -284,15 +296,20 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
-
+            
             // In this codition, type of property p is array of primitive,
-            // return container type with pointer, e.g. `NSArray* /* NSString */'
-            if (languageSpecificPrimitives.contains(innerType)) {
-                return getSwaggerType(p) + "*" + " /* " + innerTypeDeclaration + " */";
+            // return container type with pointer, e.g. `NSArray*<NSString*>*'
+            if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
+                return getSwaggerType(p) +  "<" + innerTypeDeclaration + "*>*";
             }
             // In this codition, type of property p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
+                for (String sd : advancedMapingTypes) {
+                    if(innerTypeDeclaration.startsWith(sd)) {
+                        return getSwaggerType(p) + "<" + innerTypeDeclaration + "*>*";
+                    }
+                }
                 return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else if (p instanceof MapProperty) {
@@ -300,11 +317,20 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             Property inner = mp.getAdditionalProperties();
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
-
+            
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
-            return getSwaggerType(p) + "* /* NSString, " + innerTypeDeclaration + " */";
+            if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
+                return getSwaggerType(p) +  "<NSString*, " + innerTypeDeclaration + "*>*";
+            } else {
+                for (String s : advancedMapingTypes) {
+                    if(innerTypeDeclaration.startsWith(s)) {
+                        return getSwaggerType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
+                    }
+                }
+                return getSwaggerType(p) + "<NSString*, " + innerTypeDeclaration + ">*";
+            }
         } else {
             String swaggerType = getSwaggerType(p);
 
