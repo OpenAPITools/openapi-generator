@@ -165,13 +165,6 @@ class ApiResponse implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
-        
-
-        
-
         return $invalid_properties;
     }
 
@@ -183,12 +176,11 @@ class ApiResponse implements ArrayAccess
      */
     public function valid()
     {
-        
-        
 
-        
 
-        
+
+
+
 
         return true;
     }
@@ -210,9 +202,6 @@ class ApiResponse implements ArrayAccess
      */
     public function setCode($code)
     {
-        
-
-
         $this->container['code'] = $code;
 
         return $this;
@@ -233,9 +222,6 @@ class ApiResponse implements ArrayAccess
      */
     public function setType($type)
     {
-        
-
-
         $this->container['type'] = $type;
 
         return $this;
@@ -256,9 +242,6 @@ class ApiResponse implements ArrayAccess
      */
     public function setMessage($message)
     {
-        
-
-
         $this->container['message'] = $message;
 
         return $this;

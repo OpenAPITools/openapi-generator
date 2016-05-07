@@ -139,9 +139,6 @@ class Model200Response implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
         return $invalid_properties;
     }
 
@@ -153,8 +150,7 @@ class Model200Response implements ArrayAccess
      */
     public function valid()
     {
-        
-        
+
 
         return true;
     }
@@ -176,9 +172,6 @@ class Model200Response implements ArrayAccess
      */
     public function setName($name)
     {
-        
-
-
         $this->container['name'] = $name;
 
         return $this;

@@ -219,28 +219,16 @@ class Pet implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
-        
-
-        
-
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'$name' can't be null";
         }
-        
-
         if ($this->container['photo_urls'] === null) {
             $invalid_properties[] = "'$photo_urls' can't be null";
         }
-        
-
-        
-
         $allowed_values = array("available", "pending", "sold");
         if (!in_array($this->container['status'], $allowed_values))) {
             $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
         }
-
         return $invalid_properties;
     }
 
@@ -252,28 +240,25 @@ class Pet implements ArrayAccess
      */
     public function valid()
     {
-        
-        
 
-        
+
+
 
         if ($this->container['name'] === null) {
             return false;
         }
-        
 
         if ($this->container['photo_urls'] === null) {
             return false;
         }
-        
 
-        
+
+
 
         $allowed_values = array("available", "pending", "sold");
         if (!in_array($this->container['status'], $allowed_values))) {
             return false;
         }
-
         return true;
     }
 
@@ -294,9 +279,6 @@ class Pet implements ArrayAccess
      */
     public function setId($id)
     {
-        
-
-
         $this->container['id'] = $id;
 
         return $this;
@@ -317,9 +299,6 @@ class Pet implements ArrayAccess
      */
     public function setCategory($category)
     {
-        
-
-
         $this->container['category'] = $category;
 
         return $this;
@@ -340,9 +319,6 @@ class Pet implements ArrayAccess
      */
     public function setName($name)
     {
-        
-
-
         $this->container['name'] = $name;
 
         return $this;
@@ -363,9 +339,6 @@ class Pet implements ArrayAccess
      */
     public function setPhotoUrls($photo_urls)
     {
-        
-
-
         $this->container['photo_urls'] = $photo_urls;
 
         return $this;
@@ -386,9 +359,6 @@ class Pet implements ArrayAccess
      */
     public function setTags($tags)
     {
-        
-
-
         $this->container['tags'] = $tags;
 
         return $this;
@@ -413,8 +383,6 @@ class Pet implements ArrayAccess
         if (!in_array($status, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
         }
-
-
         $this->container['status'] = $status;
 
         return $this;

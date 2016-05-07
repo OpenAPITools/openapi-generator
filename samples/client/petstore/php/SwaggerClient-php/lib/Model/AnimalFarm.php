@@ -130,7 +130,6 @@ class AnimalFarm implements ArrayAccess
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        
         return $invalid_properties;
     }
 
@@ -142,7 +141,6 @@ class AnimalFarm implements ArrayAccess
      */
     public function valid()
     {
-        
         return true;
     }
 

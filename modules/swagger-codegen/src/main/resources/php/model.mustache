@@ -163,14 +163,18 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     public function list_invalid_properties()
     {
         $invalid_properties = array();
-        {{#vars}}{{#required}}
+        {{#vars}}
+        {{#required}}
         if ($this->container['{{name}}'] === null) {
             $invalid_properties[] = "'${{name}}' can't be null";
-        }{{/required}}
-        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        }
+        {{/required}}
+        {{#isEnum}}
+        $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values))) {
             $invalid_properties[] = "invalid value for '${{name}}', must be one of #{allowed_values}.";
-        }{{/isEnum}}
+        }
+        {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
         if (strlen($this->container['{{name}}']) > {{maxLength}}) {
@@ -196,7 +200,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
             $invalid_properties[] = "invalid value for '${{name}}', must be conform to the pattern {{pattern}}.";
         }
-        {{/pattern}}{{/hasValidation}}{{/vars}}
+        {{/pattern}}
+        {{/hasValidation}}
+        {{/vars}}
         return $invalid_properties;
     }
 
@@ -208,11 +214,13 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function valid()
     {
-        {{#vars}}{{#required}}
+        {{#vars}}
+        {{#required}}
         if ($this->container['{{name}}'] === null) {
             return false;
         }{{/required}}
-        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        {{#isEnum}}
+        $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values))) {
             return false;
         }{{/isEnum}}
@@ -241,7 +249,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
             return false;
         }
-        {{/pattern}}{{/hasValidation}}{{/vars}}
+        {{/pattern}}
+        {{/hasValidation}}
+        {{/vars}}
         return true;
     }
 
@@ -263,11 +273,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function {{setter}}(${{name}})
     {
-        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        {{#isEnum}}
+        $allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array(${{{name}}}, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
-        }{{/isEnum}}
-
+        }
+        {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
         if (strlen(${{name}}) > {{maxLength}}) {
@@ -292,7 +303,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         if (!preg_match("{{pattern}}", ${{name}})) {
             throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be conform to the pattern {{pattern}}.');
         }
-        {{/pattern}}{{/hasValidation}}
+        {{/pattern}}
+        {{/hasValidation}}
         $this->container['{{name}}'] = ${{name}};
 
         return $this;
