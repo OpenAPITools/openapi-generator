@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"strings"
-
+	"net/url"
 	"github.com/go-resty/resty"
 )
 
@@ -47,7 +47,7 @@ func contains(source []string, containvalue string) bool {
 func (c *APIClient) CallAPI(path string, method string,
 	postBody interface{},
 	headerParams map[string]string,
-	queryParams map[string]string,
+	queryParams url.Values,
 	formParams map[string]string,
 	fileName string,
 	fileBytes []byte) (*resty.Response, error) {
@@ -89,7 +89,7 @@ func (c *APIClient) ParameterToString(obj interface{}) string {
 
 func prepareRequest(postBody interface{},
 	headerParams map[string]string,
-	queryParams map[string]string,
+	queryParams url.Values,
 	formParams map[string]string,
 	fileName string,
 	fileBytes []byte) *resty.Request {
@@ -104,7 +104,7 @@ func prepareRequest(postBody interface{},
 
 	// add query parameter, if any
 	if len(queryParams) > 0 {
-		request.SetQueryParams(queryParams)
+		request.SetMultiValueQueryParams(queryParams)
 	}
 
 	// add form parameter, if any
