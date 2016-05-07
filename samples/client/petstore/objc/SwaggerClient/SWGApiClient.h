@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <ISO8601/ISO8601.h>
-#import <AFNetworking/AFHTTPRequestOperationManager.h>
+#import <AFNetworking.h>
 #import "SWGJSONResponseSerializer.h"
 #import "SWGJSONRequestSerializer.h"
 #import "SWGQueryParamCollection.h"
@@ -44,7 +44,7 @@ extern NSInteger const SWGTypeMismatchErrorCode;
  */
 #define SWGDebugLog(format, ...) [SWGApiClient debugLog:[NSString stringWithFormat:@"%s", __PRETTY_FUNCTION__] message: format, ##__VA_ARGS__];
 
-@interface SWGApiClient : AFHTTPRequestOperationManager
+@interface SWGApiClient : AFHTTPSessionManager
 
 @property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
@@ -84,7 +84,7 @@ extern NSInteger const SWGTypeMismatchErrorCode;
  *
  * @return The client offline state
  */
-+(bool) getOfflineState;
++(BOOL) getOfflineState;
 
 /**
  * Sets the client reachability, this may be overridden by the reachability manager if reachability changes
@@ -192,12 +192,14 @@ extern NSInteger const SWGTypeMismatchErrorCode;
 /**
  * Logs request and response
  *
- * @param operation AFHTTPRequestOperation for the HTTP request.
+ * @param response NSURLResponse for the HTTP request.
+ * @param responseObject response object of the HTTP request.
  * @param request   The HTTP request.
  * @param error     The error of the HTTP request.
  */
-- (void)logResponse:(AFHTTPRequestOperation *)operation
-         forRequest:(NSURLRequest *)request
+- (void)logResponse:(NSURLResponse *)response
+     responseObject:(id)responseObject
+            request:(NSURLRequest *)request
               error:(NSError *)error;
 
 /**
