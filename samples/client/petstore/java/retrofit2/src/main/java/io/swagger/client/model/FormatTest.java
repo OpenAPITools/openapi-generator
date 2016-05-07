@@ -47,6 +47,9 @@ public class FormatTest   {
   @SerializedName("dateTime")
   private Date dateTime = null;
 
+  @SerializedName("uuid")
+  private String uuid = null;
+
   @SerializedName("password")
   private String password = null;
 
@@ -172,6 +175,16 @@ public class FormatTest   {
 
   /**
    **/
+  @ApiModelProperty(value = "")
+  public String getUuid() {
+    return uuid;
+  }
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
+
+  /**
+   **/
   @ApiModelProperty(required = true, value = "")
   public String getPassword() {
     return password;
@@ -201,12 +214,13 @@ public class FormatTest   {
         Objects.equals(binary, formatTest.binary) &&
         Objects.equals(date, formatTest.date) &&
         Objects.equals(dateTime, formatTest.dateTime) &&
+        Objects.equals(uuid, formatTest.uuid) &&
         Objects.equals(password, formatTest.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
   }
 
   @Override
@@ -225,6 +239,7 @@ public class FormatTest   {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
