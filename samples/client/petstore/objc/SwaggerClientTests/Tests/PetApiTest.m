@@ -165,7 +165,7 @@ which causes an exception when deserializing the data
     SWGTag* tag = [[SWGTag alloc] init];
     tag.name = @"tony";
     NSLog(@"%@", pet._id);
-    pet.tags = [[NSArray alloc] initWithObjects:tag, nil];
+    pet.tags = (id)[[NSArray alloc] initWithObjects:tag, nil];
 
     [api addPetWithBody:pet completionHandler:^(NSError *error) {
         if(error) {
