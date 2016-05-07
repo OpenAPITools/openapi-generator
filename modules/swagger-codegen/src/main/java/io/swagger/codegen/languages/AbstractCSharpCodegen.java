@@ -12,7 +12,7 @@ import java.util.*;
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
-    protected boolean optionalProjectFileFlag = false;
+    protected boolean optionalProjectFileFlag = true;
     protected boolean optionalEmitDefaultValue = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
@@ -21,7 +21,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String packageVersion = "1.0.0";
     protected String packageName = "IO.Swagger";
-    protected String sourceFolder = "src" + File.separator + packageName;
+
+    protected String sourceFolder = "src";
+
+    // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
+    //       This would require updating relative paths (e.g. path to main project file in test project file)
+    protected String testFolder = sourceFolder;
 
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
@@ -273,12 +278,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + apiPackage();
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + modelPackage();
     }
 
     @Override
@@ -528,7 +533,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return toModelName(name) + "Tests";
     }
 
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
@@ -541,7 +545,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.sourceFolder = sourceFolder;
     }
 
-    
     @Override
     public String toEnumVarName(String name, String datatype) {
         String enumName = sanitizeName(name);
@@ -590,4 +593,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
     */
+
+    public String testPackageName() {
+        return this.packageName + ".Test";
+    }
 }
