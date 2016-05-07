@@ -47,24 +47,7 @@
     <Compile Include="TestApiClient.cs" />
     <Compile Include="TestConfiguration.cs" />
     <Compile Include="TestOrder.cs" />
-<<<<<<< HEAD
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\InlineResponse200.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ObjectReturn.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\SpecialModelName.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ModelReturn.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Name.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Task.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Model200Response.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Animal.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Cat.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Dog.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\EnumClass.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\EnumTest.cs" />
     <Compile Include="TestEnum.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ApiResponse.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\FormatTest.cs" />
-=======
->>>>>>> 9b1d43c6f539add1b436ea52f5351125c2da7f3a
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
