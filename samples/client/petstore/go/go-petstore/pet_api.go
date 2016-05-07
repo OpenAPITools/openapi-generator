@@ -4,6 +4,7 @@ import (
 	"strings"
 	"fmt"
 	"errors"
+	"net/url"
 	"os"
 "io/ioutil"
 "encoding/json"
@@ -48,7 +49,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -117,7 +118,7 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -185,7 +186,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -203,10 +204,10 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	var collectionFormat = "csv"
 	if collectionFormat == "multi" {
 		for _, value := range status {
-			queryParams["status"] = value
+			queryParams.Add("status", value)
 		}
 	} else {
-		queryParams["status"] = a.Configuration.APIClient.ParameterToString(status)
+		queryParams.Add("status", a.Configuration.APIClient.ParameterToString(status))
 	}
 	
 
@@ -257,7 +258,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -275,10 +276,10 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	var collectionFormat = "csv"
 	if collectionFormat == "multi" {
 		for _, value := range tags {
-			queryParams["tags"] = value
+			queryParams.Add("tags", value)
 		}
 	} else {
-		queryParams["tags"] = a.Configuration.APIClient.ParameterToString(tags)
+		queryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags))
 	}
 	
 
@@ -330,7 +331,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -393,7 +394,7 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -463,7 +464,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -533,7 +534,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string

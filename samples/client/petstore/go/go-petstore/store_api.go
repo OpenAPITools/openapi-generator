@@ -4,6 +4,7 @@ import (
 	"strings"
 	"fmt"
 	"errors"
+	"net/url"
 	"encoding/json"
 )
 
@@ -47,7 +48,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -101,7 +102,7 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -164,7 +165,7 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -223,7 +224,7 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string

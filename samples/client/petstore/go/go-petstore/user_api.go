@@ -4,6 +4,7 @@ import (
 	"strings"
 	"fmt"
 	"errors"
+	"net/url"
 	"encoding/json"
 )
 
@@ -46,7 +47,7 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -108,7 +109,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -170,7 +171,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -233,7 +234,7 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -293,7 +294,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -357,7 +358,7 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -367,8 +368,8 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
-		queryParams["username"] = a.Configuration.APIClient.ParameterToString(username)
-			queryParams["password"] = a.Configuration.APIClient.ParameterToString(password)
+		queryParams.Add("username", a.Configuration.APIClient.ParameterToString(username))
+			queryParams.Add("password", a.Configuration.APIClient.ParameterToString(password))
 	
 
 	// to determine the Content-Type header
@@ -413,7 +414,7 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
 
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -478,7 +479,7 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 	}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
