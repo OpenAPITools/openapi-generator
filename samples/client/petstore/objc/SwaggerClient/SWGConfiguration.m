@@ -72,7 +72,7 @@
         return @"";
     }
     else {
-        return [NSString stringWithFormat:@"BEARER %@", self.accessToken];
+        return [NSString stringWithFormat:@"Bearer %@", self.accessToken];
     }
 }
 

@@ -90,7 +90,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
  * Returns pet inventories by status
  * Returns a map of status codes to quantities
  *
- * @return map[string]int32
+ * @return *map[string]int32
  */
 func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 
@@ -147,7 +147,7 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
  * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  *
  * @param orderId ID of pet that needs to be fetched
- * @return Order
+ * @return *Order
  */
 func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 
@@ -206,7 +206,7 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
  * 
  *
  * @param body order placed for purchasing the pet
- * @return Order
+ * @return *Order
  */
 func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 

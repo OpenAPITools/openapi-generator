@@ -29,8 +29,8 @@ require '{{{gemName}}}'
   config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'BEARER' (defaults to nil)
-  #config.api_key_prefix['{{{keyParamName}}}'] = 'BEARER'{{/isApiKey}}{{#isOAuth}}
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
   # Configure OAuth2 access token for authorization: {{{name}}}
   config.access_token = 'YOUR ACCESS TOKEN'{{/isOAuth}}
 {{/authMethods}}end

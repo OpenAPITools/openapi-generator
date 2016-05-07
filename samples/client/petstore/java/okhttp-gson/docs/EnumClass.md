@@ -4,11 +4,11 @@
 ## Enum
 
 
-* `_ABC` (value: `&quot;_abc&quot;`)
+* `_ABC` (value: `"_abc"`)
 
-* `_EFG` (value: `&quot;-efg&quot;`)
+* `_EFG` (value: `"-efg"`)
 
-* `_XYZ_` (value: `&quot;(xyz)&quot;`)
+* `_XYZ_` (value: `"(xyz)"`)
 
 
 

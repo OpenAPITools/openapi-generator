@@ -72,8 +72,8 @@ namespace Example
             Configuration.Default.Password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
             // Configure API key authorization: {{{name}}}
             Configuration.Default.ApiKey.Add('{{{keyParamName}}}', 'YOUR_API_KEY');
-            // Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add('{{{keyParamName}}}', 'BEARER');{{/isApiKey}}{{#isOAuth}}
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add('{{{keyParamName}}}', 'Bearer');{{/isApiKey}}{{#isOAuth}}
             // Configure OAuth2 access token for authorization: {{{name}}}
             Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
             {{/hasAuthMethods}}
