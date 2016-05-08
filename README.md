@@ -59,6 +59,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
+  - [Swagger Codegen Core Team](#swagger-codegen-core-team)
   - [License](#license)
 
 
@@ -793,6 +794,77 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [uShip](https://www.uship.com/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
+
+# Swagger Codegen Core Team
+
+Swaagger Codegen core team members are contributors who have been making signficiant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis. To join the core team, please reach out to wing328hk@gmail.com for more information.
+
+## API Clients
+| Langauges     | Core Team (join date) | 
+|:-------------|:-------------| 
+| ActionScript | |
+| C++      |  |  
+| C#      | @jimschubert (2016/05/01) |  |
+| Clojure | |
+| Dart      |  |  
+| Groovy     |  |  
+| Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
+| Java      | @cbornet (2016/05/01) @xhh (2016/05/01) |
+| NodeJS/Javascript |  | 
+| ObjC      |   |
+| Perl      | @wing328 (2016/05/01) |
+| PHP      | @arnested (2016/05/01) |
+| Python   | @scottrw93 (2016/05/01) |
+| Ruby      |  |  |
+| Scala     |  |  |
+| Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
+| TypeScript (Node) | @kristof (2016/05/01) @Vrolijkx (2016/05/01) | 
+| TypeScript (Angular1) | @kristof (2016/05/01) @Vrolijkx (2016/05/01) | 
+| TypeScript (Fetch) |  |
+| TypeScript (Angular2) | @kristof (2016/05/01) @Vrolijkx (2016/05/01) |
+## Server Stubs
+| Langauges     | Core Team (date joined) | 
+|:------------- |:-------------| 
+| C# ASP.NET5 |  @jimschubert (2016/05/01) |
+| Haskell Servant |  |
+| Java Spring Boot |  |
+| Java SpringMVC |  |
+| Java JAX-RS |  |
+| NodeJS |  |  
+| PHP Lumen | @abcsum (2016/05/01) |
+| PHP Silex |  |
+| PHP Slim  |  |
+| Python Flask  |  |
+| Ruby Sinatra     |  |  |
+| Scala Scalatra |  |  |
+
+## Template Creator
+Here is a list of template creators:
+ * API Clients:
+   * Clojure: @xhh
+   * Dart: @yissachar  
+   * Groovy: @victorgit  
+   * Go: @wing328  
+   * Java (Retrofit): @0legg
+   * Java (Retrofi2): @emilianobonassi
+   * Java (Jersey2): @xhh 
+   * Java (okhttp-gson): @xhh
+   * Javascript/NodeJS: @jfiala  
+   * Javascript (Closure-annotated Angular) @achew22
+   * Perl: @wing328
+   * Swift: @tkqubo
+   * TypeScript (Node):  @mhardorf 
+   * TypeScript (Angular1):  @mhardorf 
+   * TypeScript (Fetch): @leonyu
+   * TypeScript (Angular2): @roni-frantchi
+ * Server Stubs
+   * C# ASP.NET5: @jimschubert
+   * Haskell Servant: @algas
+   * Java Spring Boot: @diyfr
+   * JAX-RS RestEasy: @chameleon82
+   * JAX-RS CXF: @hiveship 
+   * PHP Lumen: @abcsum
+   * PHP Slim: @jfastnacht
 
 License
 -------
