@@ -820,8 +820,8 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
 | TypeScript (Node) | @Vrolijkx (2016/05/01) | 
 | TypeScript (Angular1) | @Vrolijkx (2016/05/01) | 
-| TypeScript (Fetch) |  |
 | TypeScript (Angular2) | @Vrolijkx (2016/05/01) |
+| TypeScript (Fetch) |  |
 ## Server Stubs
 | Langauges     | Core Team (date joined) | 
 |:------------- |:-------------| 
