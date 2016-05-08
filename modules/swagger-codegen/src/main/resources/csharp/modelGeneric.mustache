@@ -24,6 +24,13 @@
         public {{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{name}} { get; set; }
         {{/isEnum}}
         {{/vars}}
+    {{#hasRequired}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        protected {{classname}}() { }
+    {{/hasRequired}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
