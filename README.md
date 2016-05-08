@@ -805,7 +805,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | ActionScript | |
 | C++      |  |  
 | C#      | @jimschubert (2016/05/01) |  |
-| Clojure | |
+| Clojure | @xhh (2016/05/01) |
 | Dart      |  |  
 | Groovy     |  |  
 | Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
@@ -815,8 +815,8 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Perl      | @wing328 (2016/05/01) |
 | PHP      | @arnested (2016/05/01) |
 | Python   | @scottrw93 (2016/05/01) |
-| Ruby      |  |  |
-| Scala     |  |  |
+| Ruby      | @wing328 (2016/05/01) |
+| Scala     |  |
 | Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
 | TypeScript (Node) | @kristof (2016/05/01) @Vrolijkx (2016/05/01) | 
 | TypeScript (Angular1) | @kristof (2016/05/01) @Vrolijkx (2016/05/01) | 
@@ -828,14 +828,14 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | C# ASP.NET5 |  @jimschubert (2016/05/01) |
 | Haskell Servant |  |
 | Java Spring Boot |  |
-| Java SpringMVC |  |
+| Java SpringMVC | @kolyjjj (2016/05/01) |
 | Java JAX-RS |  |
-| NodeJS |  |  
+| NodeJS | @kolyjjj (2016/05/01) |  
 | PHP Lumen | @abcsum (2016/05/01) |
 | PHP Silex |  |
 | PHP Slim  |  |
 | Python Flask  |  |
-| Ruby Sinatra     |  |  |
+| Ruby Sinatra     | @wing328 (2016/05/01) |  |
 | Scala Scalatra |  |  |
 
 ## Template Creator
