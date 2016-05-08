@@ -797,7 +797,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 
 # Swagger Codegen Core Team
 
-Swaagger Codegen core team members are contributors who have been making signficiant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis. To join the core team, please reach out to wing328hk@gmail.com for more information.
+Swaagger Codegen core team members are contributors who have been making signficiant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ## API Clients
 | Langauges     | Core Team (join date) | 
@@ -866,6 +866,19 @@ Here is a list of template creators:
    * JAX-RS CXF: @hiveship 
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
+
+## How to join the core team
+
+Here are the requirements to become a core team member:
+- rank within top 50 in https://github.com/swagger-api/swagger-codegen/graphs/contributors
+  - to contribute, here are some good [starting points](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22) 
+- regular contributions to the project
+  - about 3 hours per week
+  - for contribution, it can be addressing issues, reviewing PRs submitted by others, submitting PR to fix bugs or make enhancements, etc
+
+ To join the core team, please reach out to wing328hk@gmail.com (@wing328) for more information.
+ 
+ To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
 License
 -------
