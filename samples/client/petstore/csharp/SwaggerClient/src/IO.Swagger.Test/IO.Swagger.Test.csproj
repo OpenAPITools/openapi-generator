@@ -65,7 +65,7 @@
   <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
       <ProjectReference Include="..\IO.Swagger\IO.Swagger.csproj">
-          <Project>{AC0D0300-7030-473F-B672-17C40187815A}</Project>
+          <Project>{086EEE3F-4CAC-475B-A3D9-F0D944DC9D79}</Project>
           <Name>IO.Swagger</Name>
       </ProjectReference>
   </ItemGroup>

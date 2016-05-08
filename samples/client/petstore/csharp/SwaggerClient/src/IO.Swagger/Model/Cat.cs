@@ -20,6 +20,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Cat() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cat" /> class.
+        /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
         /// <param name="Declawed">Declawed.</param>
         public Cat(string ClassName = null, bool? Declawed = null)

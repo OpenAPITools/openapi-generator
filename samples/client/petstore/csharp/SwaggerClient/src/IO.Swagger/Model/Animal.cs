@@ -20,6 +20,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Animal() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Animal" /> class.
+        /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
         public Animal(string ClassName = null)
         {
