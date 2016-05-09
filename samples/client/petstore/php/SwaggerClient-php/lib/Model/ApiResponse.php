@@ -145,11 +145,40 @@ class ApiResponse implements ArrayAccess
         
         
         if ($data != null) {
-            $this->container['code'] = $data['code'];
-            $this->container['type'] = $data['type'];
-            $this->container['message'] = $data['message'];
+            if (isset($data["code"])) {
+                $this->container['code'] = $data["code"];
+            }
+            if (isset($data["type"])) {
+                $this->container['type'] = $data["type"];
+            }
+            if (isset($data["message"])) {
+                $this->container['message'] = $data["message"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
     /**
      * Gets code
      * @return int
@@ -166,8 +195,8 @@ class ApiResponse implements ArrayAccess
      */
     public function setCode($code)
     {
-        
         $this->container['code'] = $code;
+
         return $this;
     }
     /**
@@ -186,8 +215,8 @@ class ApiResponse implements ArrayAccess
      */
     public function setType($type)
     {
-        
         $this->container['type'] = $type;
+
         return $this;
     }
     /**
@@ -206,8 +235,8 @@ class ApiResponse implements ArrayAccess
      */
     public function setMessage($message)
     {
-        
         $this->container['message'] = $message;
+
         return $this;
     }
     /**
