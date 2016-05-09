@@ -279,7 +279,7 @@ class FormatTest(object):
         
         if not string:
             raise ValueError("Invalid value for `string`, must not be `None`")
-        if not re.match('/[a-z]/i', string):
+        if not re.search('[a-z]', string, flags=re.IGNORECASE): 
             raise ValueError("Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")
 
         self._string = string

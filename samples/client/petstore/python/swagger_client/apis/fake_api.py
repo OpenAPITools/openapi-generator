@@ -112,8 +112,8 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to  `123.4`")
         if 'double' in params and params['double'] < 67.8: 
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")
-        if 'string' in params and not re.match('[a-z]+', params['string']): 
-            raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `[a-z]+`")
+        if 'string' in params and not re.search('[a-z]', params['string'], flags=re.IGNORECASE): 
+            raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")
         if 'integer' in params and params['integer'] > 100.0: 
             raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to  `100.0`")
         if 'integer' in params and params['integer'] < 10.0: 
