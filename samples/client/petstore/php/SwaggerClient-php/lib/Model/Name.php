@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Name Class Doc Comment
  *
@@ -61,7 +62,7 @@ class Name implements ArrayAccess
         'snake_case' => 'int',
         'property' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -75,7 +76,7 @@ class Name implements ArrayAccess
         'snake_case' => 'snake_case',
         'property' => 'property'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -89,7 +90,7 @@ class Name implements ArrayAccess
         'snake_case' => 'setSnakeCase',
         'property' => 'setProperty'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -116,25 +117,7 @@ class Name implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['name']
-         * @var int
-         */
-        'name' => null,
-    
-        /**
-         * $container['snake_case']
-         * @var int
-         */
-        'snake_case' => null,
-    
-        /**
-         * $container['property']
-         * @var string
-         */
-        'property' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -142,19 +125,9 @@ class Name implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["name"])) {
-                $this->container['name'] = $data["name"];
-            }
-            if (isset($data["snake_case"])) {
-                $this->container['snake_case'] = $data["snake_case"];
-            }
-            if (isset($data["property"])) {
-                $this->container['property'] = $data["property"];
-            }
-        }
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['snake_case'] = isset($data['snake_case']) ? $data['snake_case'] : null;
+        $this->container['property'] = isset($data['property']) ? $data['property'] : null;
     }
 
     /**
@@ -185,6 +158,7 @@ class Name implements ArrayAccess
         return true;
     }
 
+
     /**
      * Gets name
      * @return int
@@ -205,6 +179,7 @@ class Name implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets snake_case
      * @return int
@@ -225,6 +200,7 @@ class Name implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets property
      * @return string

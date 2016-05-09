@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * ApiResponse Class Doc Comment
  *
@@ -61,7 +62,7 @@ class ApiResponse implements ArrayAccess
         'type' => 'string',
         'message' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -75,7 +76,7 @@ class ApiResponse implements ArrayAccess
         'type' => 'type',
         'message' => 'message'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -89,7 +90,7 @@ class ApiResponse implements ArrayAccess
         'type' => 'setType',
         'message' => 'setMessage'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -116,25 +117,7 @@ class ApiResponse implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['code']
-         * @var int
-         */
-        'code' => null,
-    
-        /**
-         * $container['type']
-         * @var string
-         */
-        'type' => null,
-    
-        /**
-         * $container['message']
-         * @var string
-         */
-        'message' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -142,19 +125,9 @@ class ApiResponse implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["code"])) {
-                $this->container['code'] = $data["code"];
-            }
-            if (isset($data["type"])) {
-                $this->container['type'] = $data["type"];
-            }
-            if (isset($data["message"])) {
-                $this->container['message'] = $data["message"];
-            }
-        }
+        $this->container['code'] = isset($data['code']) ? $data['code'] : null;
+        $this->container['type'] = isset($data['type']) ? $data['type'] : null;
+        $this->container['message'] = isset($data['message']) ? $data['message'] : null;
     }
 
     /**
@@ -179,6 +152,7 @@ class ApiResponse implements ArrayAccess
         return true;
     }
 
+
     /**
      * Gets code
      * @return int
@@ -199,6 +173,7 @@ class ApiResponse implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets type
      * @return string
@@ -219,6 +194,7 @@ class ApiResponse implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets message
      * @return string

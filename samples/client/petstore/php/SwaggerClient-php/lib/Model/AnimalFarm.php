@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * AnimalFarm Class Doc Comment
  *
@@ -59,7 +60,7 @@ class AnimalFarm implements ArrayAccess
     static $swaggerTypes = array(
         
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -71,7 +72,7 @@ class AnimalFarm implements ArrayAccess
     static $attributeMap = array(
         
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class AnimalFarm implements ArrayAccess
     static $setters = array(
         
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -116,10 +117,6 @@ class AnimalFarm implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-        }
     }
 
     /**

@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * EnumTest Class Doc Comment
  *
@@ -61,7 +62,7 @@ class EnumTest implements ArrayAccess
         'enum_integer' => 'int',
         'enum_number' => 'double'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -75,7 +76,7 @@ class EnumTest implements ArrayAccess
         'enum_integer' => 'enum_integer',
         'enum_number' => 'enum_number'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -89,7 +90,7 @@ class EnumTest implements ArrayAccess
         'enum_integer' => 'setEnumInteger',
         'enum_number' => 'setEnumNumber'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -155,25 +156,7 @@ class EnumTest implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['enum_string']
-         * @var string
-         */
-        'enum_string' => null,
-    
-        /**
-         * $container['enum_integer']
-         * @var int
-         */
-        'enum_integer' => null,
-    
-        /**
-         * $container['enum_number']
-         * @var double
-         */
-        'enum_number' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -181,19 +164,9 @@ class EnumTest implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["enum_string"])) {
-                $this->container['enum_string'] = $data["enum_string"];
-            }
-            if (isset($data["enum_integer"])) {
-                $this->container['enum_integer'] = $data["enum_integer"];
-            }
-            if (isset($data["enum_number"])) {
-                $this->container['enum_number'] = $data["enum_number"];
-            }
-        }
+        $this->container['enum_string'] = isset($data['enum_string']) ? $data['enum_string'] : null;
+        $this->container['enum_integer'] = isset($data['enum_integer']) ? $data['enum_integer'] : null;
+        $this->container['enum_number'] = isset($data['enum_number']) ? $data['enum_number'] : null;
     }
 
     /**
@@ -242,6 +215,7 @@ class EnumTest implements ArrayAccess
         return true;
     }
 
+
     /**
      * Gets enum_string
      * @return string
@@ -266,6 +240,7 @@ class EnumTest implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets enum_integer
      * @return int
@@ -290,6 +265,7 @@ class EnumTest implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets enum_number
      * @return double
