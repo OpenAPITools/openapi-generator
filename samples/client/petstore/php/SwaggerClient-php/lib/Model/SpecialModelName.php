@@ -143,18 +143,15 @@ class SpecialModelName implements ArrayAccess
     }
 
     /**
-     * validate all the parameters in the model
+     * validate all the properties in the model
      * return true if all passed
      * 
-     * @return bool [description]
+     * @return bool True if all properteis are valid 
      */
     public function valid()
     {
-
-
         return true;
     }
-
 
     /**
      * Gets special_property_name

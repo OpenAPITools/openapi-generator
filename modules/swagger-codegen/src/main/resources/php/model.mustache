@@ -171,7 +171,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/required}}
         {{#isEnum}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
-        if (!in_array($this->container['{{name}}'], $allowed_values))) {
+        if (!in_array($this->container['{{name}}'], $allowed_values)) {
             $invalid_properties[] = "invalid value for '${{name}}', must be one of #{allowed_values}.";
         }
         {{/isEnum}}
@@ -207,10 +207,10 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     }
 
     /**
-     * validate all the parameters in the model
+     * validate all the properties in the model
      * return true if all passed
      * 
-     * @return bool [description]
+     * @return bool True if all properteis are valid 
      */
     public function valid()
     {
@@ -218,12 +218,14 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#required}}
         if ($this->container['{{name}}'] === null) {
             return false;
-        }{{/required}}
+        }
+        {{/required}}
         {{#isEnum}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
-        if (!in_array($this->container['{{name}}'], $allowed_values))) {
+        if (!in_array($this->container['{{name}}'], $allowed_values)) {
             return false;
-        }{{/isEnum}}
+        }
+        {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
         if (strlen($this->container['{{name}}']) > {{maxLength}}) {
@@ -254,7 +256,6 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/vars}}
         return true;
     }
-
 
     {{#vars}}
     /**

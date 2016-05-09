@@ -172,24 +172,18 @@ class Name implements ArrayAccess
     }
 
     /**
-     * validate all the parameters in the model
+     * validate all the properties in the model
      * return true if all passed
      * 
-     * @return bool [description]
+     * @return bool True if all properteis are valid 
      */
     public function valid()
     {
         if ($this->container['name'] === null) {
             return false;
         }
-
-
-
-
-
         return true;
     }
-
 
     /**
      * Gets name
