@@ -4,16 +4,16 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
 > testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password)
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
 ```java
