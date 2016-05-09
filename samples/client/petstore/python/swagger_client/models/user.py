@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class User(object):
@@ -87,6 +88,7 @@ class User(object):
         :param id: The id of this User.
         :type: int
         """
+        
         self._id = id
 
     @property
@@ -109,6 +111,7 @@ class User(object):
         :param username: The username of this User.
         :type: str
         """
+        
         self._username = username
 
     @property
@@ -131,6 +134,7 @@ class User(object):
         :param first_name: The first_name of this User.
         :type: str
         """
+        
         self._first_name = first_name
 
     @property
@@ -153,6 +157,7 @@ class User(object):
         :param last_name: The last_name of this User.
         :type: str
         """
+        
         self._last_name = last_name
 
     @property
@@ -175,6 +180,7 @@ class User(object):
         :param email: The email of this User.
         :type: str
         """
+        
         self._email = email
 
     @property
@@ -197,6 +203,7 @@ class User(object):
         :param password: The password of this User.
         :type: str
         """
+        
         self._password = password
 
     @property
@@ -219,6 +226,7 @@ class User(object):
         :param phone: The phone of this User.
         :type: str
         """
+        
         self._phone = phone
 
     @property
@@ -241,6 +249,7 @@ class User(object):
         :param user_status: The user_status of this User.
         :type: int
         """
+        
         self._user_status = user_status
 
     def to_dict(self):
