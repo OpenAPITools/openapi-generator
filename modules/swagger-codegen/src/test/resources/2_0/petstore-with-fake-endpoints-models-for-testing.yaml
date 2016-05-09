@@ -564,8 +564,16 @@ paths:
     post:
       tags:
         - fake 
-      summary: Fake endpoint for testing various parameters
-      description: Fake endpoint for testing various parameters
+      summary: |
+        Fake endpoint for testing various parameters
+        假端點
+        偽のエンドポイント
+        가짜 엔드 포인트
+      description: |
+        Fake endpoint for testing various parameters
+        假端點
+        偽のエンドポイント
+        가짜 엔드 포인트
       operationId: testEndpointParameters
       produces:
         - application/xml
