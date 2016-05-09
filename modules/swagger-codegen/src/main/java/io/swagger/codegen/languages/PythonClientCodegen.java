@@ -162,42 +162,42 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     
     @Override
     public void postProcessParameter(CodegenParameter parameter){
-    	postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
     }
-    
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-    	postProcessPattern(property.pattern, property.vendorExtensions);
+        postProcessPattern(property.pattern, property.vendorExtensions);
     }
 
-	/*
-	 * The swagger pattern spec follows the Perl convention and style of modifiers. Python
-	 * does not support this in as natural a way so it needs to convert it. See
-	 * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
-	 */
+    /*
+     * The swagger pattern spec follows the Perl convention and style of modifiers. Python
+     * does not support this in as natural a way so it needs to convert it. See
+     * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
+     */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions){
-    	if(pattern != null) {
-    		int i = pattern.lastIndexOf('/');
-    		
-    		//Must follow Perl /pattern/modifiers convention
-    		if(pattern.charAt(0) != '/' || i < 2) {
-    			throw new IllegalArgumentException("Pattern must follow the Perl "
-    					+ "/pattern/modifiers convention. "+pattern+" is not valid.");
-    		}
+        if(pattern != null) {
+            int i = pattern.lastIndexOf('/');
 
-    		String regex = pattern.substring(1, i).replace("'", "\'");
-    		List<String> modifiers = new ArrayList<String>();
+            //Must follow Perl /pattern/modifiers convention
+            if(pattern.charAt(0) != '/' || i < 2) {
+                throw new IllegalArgumentException("Pattern must follow the Perl "
+                        + "/pattern/modifiers convention. "+pattern+" is not valid.");
+            }
 
-    		for(char c : pattern.substring(i).toCharArray()) {
-    			if(regexModifiers.containsKey(c)) {
-    				String modifier = regexModifiers.get(c);
-    				modifiers.add(modifier);
-    			}
-    		}
+            String regex = pattern.substring(1, i).replace("'", "\'");
+            List<String> modifiers = new ArrayList<String>();
 
-    		vendorExtensions.put("x-regex", regex);
-    		vendorExtensions.put("x-modifiers", modifiers);
-    	}
+            for(char c : pattern.substring(i).toCharArray()) {
+                if(regexModifiers.containsKey(c)) {
+                    String modifier = regexModifiers.get(c);
+                    modifiers.add(modifier);
+                }
+            }
+
+            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-modifiers", modifiers);
+        }
     }
 
     @Override
