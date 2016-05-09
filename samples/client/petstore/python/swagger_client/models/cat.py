@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class Cat(object):
@@ -69,6 +70,7 @@ class Cat(object):
         :param class_name: The class_name of this Cat.
         :type: str
         """
+        
         self._class_name = class_name
 
     @property
@@ -91,6 +93,7 @@ class Cat(object):
         :param declawed: The declawed of this Cat.
         :type: bool
         """
+        
         self._declawed = declawed
 
     def to_dict(self):

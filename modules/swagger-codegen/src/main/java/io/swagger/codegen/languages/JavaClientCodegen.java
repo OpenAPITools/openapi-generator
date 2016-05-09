@@ -9,9 +9,9 @@ import io.swagger.models.Swagger;
 import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.*;
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

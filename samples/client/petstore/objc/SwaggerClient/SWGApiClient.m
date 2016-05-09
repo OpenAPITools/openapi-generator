@@ -10,6 +10,30 @@ static AFNetworkReachabilityStatus reachabilityStatus = AFNetworkReachabilitySta
 static void (^reachabilityChangeBlock)(int);
 
 
+static NSDictionary * SWG__headerFieldsForResponse(NSURLResponse *response) {
+    if(![response isKindOfClass:[NSHTTPURLResponse class]]) {
+        return nil;
+    }
+    return ((NSHTTPURLResponse*)response).allHeaderFields;
+}
+
+static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
+    NSDictionary * headers = SWG__headerFieldsForResponse(response);
+    if(!headers[@"Content-Disposition"]) {
+        return [NSString stringWithFormat:@"%@", [[NSProcessInfo processInfo] globallyUniqueString]];
+    }
+    NSString *pattern = @"filename=['\"]?([^'\"\\s]+)['\"]?";
+    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                            options:NSRegularExpressionCaseInsensitive
+                                                                              error:nil];
+    NSString *contentDispositionHeader = headers[@"Content-Disposition"];
+    NSTextCheckingResult *match = [regexp firstMatchInString:contentDispositionHeader
+                                                     options:0
+                                                       range:NSMakeRange(0, [contentDispositionHeader length])];
+    return [contentDispositionHeader substringWithRange:[match rangeAtIndex:1]];
+}
+
+
 @interface SWGApiClient ()
 
 @property (readwrite, nonatomic) NSDictionary *HTTPResponseHeaders;
@@ -97,14 +121,12 @@ static void (^reachabilityChangeBlock)(int);
     va_end(args);
 }
 
-- (void)logResponse:(AFHTTPRequestOperation *)operation
-         forRequest:(NSURLRequest *)request
-              error:(NSError*)error {
+- (void)logResponse:(NSURLResponse *)response responseObject:(id)responseObject request:(NSURLRequest *)request error:(NSError *)error {
 
     NSString *message = [NSString stringWithFormat:@"\n[DEBUG] HTTP request body \n~BEGIN~\n %@\n~END~\n"\
                          "[DEBUG] HTTP response body \n~BEGIN~\n %@\n~END~\n",
                         [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding],
-                        operation.responseString];
+                         responseObject];
 
     SWGDebugLog(message);
 }
@@ -220,20 +242,14 @@ static void (^reachabilityChangeBlock)(int);
 
 -(Boolean) executeRequestWithId:(NSNumber*) requestId {
     NSSet* matchingItems = [queuedRequests objectsPassingTest:^BOOL(id obj, BOOL *stop) {
-        if ([obj intValue]  == [requestId intValue]) {
-            return YES;
-        }
-        else {
-            return NO;
-        }
+        return [obj intValue]  == [requestId intValue];
     }];
 
     if (matchingItems.count == 1) {
         SWGDebugLog(@"removed request id %@", requestId);
         [queuedRequests removeObject:requestId];
         return YES;
-    }
-    else {
+    } else {
         return NO;
     }
 }
@@ -244,7 +260,7 @@ static void (^reachabilityChangeBlock)(int);
     return reachabilityStatus;
 }
 
-+(bool) getOfflineState {
++(BOOL) getOfflineState {
     return offlineState;
 }
 
@@ -255,29 +271,8 @@ static void (^reachabilityChangeBlock)(int);
 - (void) configureCacheReachibility {
     [self.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         reachabilityStatus = status;
-        switch (status) {
-            case AFNetworkReachabilityStatusUnknown:
-                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusUnknown");
-                [SWGApiClient setOfflineState:true];
-                break;
-
-            case AFNetworkReachabilityStatusNotReachable:
-                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusNotReachable");
-                [SWGApiClient setOfflineState:true];
-                break;
-
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWWAN");
-                [SWGApiClient setOfflineState:false];
-                break;
-
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-                SWGDebugLog(@"reachability changed to AFNetworkReachabilityStatusReachableViaWiFi");
-                [SWGApiClient setOfflineState:false];
-                break;
-            default:
-                break;
-        }
+        SWGDebugLog(@"reachability changed to %@",AFStringFromNetworkReachabilityStatus(status));
+        [SWGApiClient setOfflineState:status == AFNetworkReachabilityStatusUnknown || status == AFNetworkReachabilityStatusNotReachable];
 
         // call the reachability block, if configured
         if (reachabilityChangeBlock != nil) {
@@ -293,92 +288,60 @@ static void (^reachabilityChangeBlock)(int);
 - (void) operationWithCompletionBlock: (NSURLRequest *)request
                             requestId: (NSNumber *) requestId
                       completionBlock: (void (^)(id, NSError *))completionBlock {
-    AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
-                                                               success:^(AFHTTPRequestOperation *operation, id response) {
-                                                                   if ([self executeRequestWithId:requestId]) {
-                                                                       [self logResponse:operation forRequest:request error:nil];
-                                                                       NSDictionary *responseHeaders = [[operation response] allHeaderFields];
-                                                                       self.HTTPResponseHeaders = responseHeaders;
-                                                                       completionBlock(response, nil);
-                                                                   }
-                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                                   if ([self executeRequestWithId:requestId]) {
-                                                                       NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
-                                                                       if (operation.responseObject) {
-                                                                           // Add in the (parsed) response body.
-                                                                           userInfo[SWGResponseObjectErrorKey] = operation.responseObject;
-                                                                       }
-                                                                       NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
-                                                                        [self logResponse:nil forRequest:request error:augmentedError];
-
-                                                                       NSDictionary *responseHeaders = [[operation response] allHeaderFields];
-                                                                       self.HTTPResponseHeaders = responseHeaders;
-
-                                                                       completionBlock(nil, augmentedError);
-                                                                   }
-                                                               }];
-
-    [self.operationQueue addOperation:op];
+    __weak __typeof(self)weakSelf = self;
+    NSURLSessionDataTask* op = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if (![strongSelf executeRequestWithId:requestId]) {
+            return;
+        }
+        [strongSelf logResponse:response responseObject:responseObject request:request error:error];
+        strongSelf.HTTPResponseHeaders = SWG__headerFieldsForResponse(response);
+        if(!error) {
+            completionBlock(responseObject, nil);
+            return;
+        }
+        NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
+        if (responseObject) {
+            // Add in the (parsed) response body.
+            userInfo[SWGResponseObjectErrorKey] = responseObject;
+        }
+        NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
+        completionBlock(nil, augmentedError);
+    }];
+    [op resume];
 }
 
 - (void) downloadOperationWithCompletionBlock: (NSURLRequest *)request
                                     requestId: (NSNumber *) requestId
                               completionBlock: (void (^)(id, NSError *))completionBlock {
-    AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request
-                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                                   SWGConfiguration *config = [SWGConfiguration sharedConfig];
-                                                                   NSString *directory = nil;
-                                                                   if (config.tempFolderPath) {
-                                                                       directory = config.tempFolderPath;
-                                                                   }
-                                                                   else {
-                                                                       directory = NSTemporaryDirectory();
-                                                                   }
+    __weak __typeof(self)weakSelf = self;
+    NSURLSessionDataTask* op = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if (![strongSelf executeRequestWithId:requestId]) {
+            return;
+        }
+        strongSelf.HTTPResponseHeaders = SWG__headerFieldsForResponse(response);
+        [strongSelf logResponse:response responseObject:responseObject request:request error:error];
+        if(error) {
+            NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
+            if (responseObject) {
+                userInfo[SWGResponseObjectErrorKey] = responseObject;
+            }
+            NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
+            completionBlock(nil, augmentedError);
+        }
+        SWGConfiguration *config = [SWGConfiguration sharedConfig];
+        NSString *directory = config.tempFolderPath ?: NSTemporaryDirectory();
+        NSString * filename = SWG__fileNameForResponse(response);
 
-                                                                   NSDictionary *headers = operation.response.allHeaderFields;
-                                                                   NSString *filename = nil;
-                                                                   if ([headers objectForKey:@"Content-Disposition"]) {
+        NSString *filepath = [directory stringByAppendingPathComponent:filename];
+        NSURL *file = [NSURL fileURLWithPath:filepath];
 
-                                                                       NSString *pattern = @"filename=['\"]?([^'\"\\s]+)['\"]?";
-                                                                       NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern
-                                                                                                                                               options:NSRegularExpressionCaseInsensitive
-                                                                                                                                                 error:nil];
-                                                                       NSString *contentDispositionHeader = [headers objectForKey:@"Content-Disposition"];
-                                                                       NSTextCheckingResult *match = [regexp firstMatchInString:contentDispositionHeader
-                                                                                                                        options:0
-                                                                                                                          range:NSMakeRange(0, [contentDispositionHeader length])];
-                                                                       filename = [contentDispositionHeader substringWithRange:[match rangeAtIndex:1]];
-                                                                   }
-                                                                   else {
-                                                                       filename = [NSString stringWithFormat:@"%@", [[NSProcessInfo processInfo] globallyUniqueString]];
-                                                                   }
+        [responseObject writeToURL:file atomically:YES];
 
-                                                                   NSString *filepath = [directory stringByAppendingPathComponent:filename];
-                                                                   NSURL *file = [NSURL fileURLWithPath:filepath];
-
-                                                                   [operation.responseData writeToURL:file atomically:YES];
-                                                                   self.HTTPResponseHeaders = headers;
-                                                                   completionBlock(file, nil);
-                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-                                                                   if ([self executeRequestWithId:requestId]) {
-                                                                       NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
-                                                                       if (operation.responseObject) {
-                                                                           userInfo[SWGResponseObjectErrorKey] = operation.responseObject;
-                                                                       }
-
-                                                                       NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
-
-
-                                                                        [self logResponse:nil forRequest:request error:augmentedError];
-
-                                                                       NSDictionary *responseHeaders = [[operation response] allHeaderFields];
-                                                                       self.HTTPResponseHeaders = responseHeaders;
-                                                                       completionBlock(nil, augmentedError);
-                                                                   }
-                                                               }];
-
-    [self.operationQueue addOperation:op];
+        completionBlock(file, nil);
+    }];
+    [op resume];
 }
 
 #pragma mark - Perform Request Methods
@@ -504,7 +467,7 @@ static void (^reachabilityChangeBlock)(int);
     [request setHTTPShouldHandleCookies:NO];
 
     NSNumber* requestId = [SWGApiClient queueRequest];
-    if ([responseType isEqualToString:@"NSURL*"]) {
+    if ([responseType isEqualToString:@"NSURL*"] || [responseType isEqualToString:@"NSURL"]) {
         [self downloadOperationWithCompletionBlock:request requestId:requestId completionBlock:^(id data, NSError *error) {
             completionBlock(data, error);
         }];
