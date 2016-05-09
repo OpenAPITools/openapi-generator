@@ -138,7 +138,13 @@
     
     XCTAssertTrue([result isKindOfClass:[NSArray class]]);
     XCTAssertTrue([[result firstObject] isKindOfClass:[SWGPet class]]);
-    XCTAssertEqualObjects([[result firstObject] _id], @119);
+    SWGPet*pet = [result firstObject];
+    XCTAssertEqualObjects([pet.photoUrls firstObject],@"string");
+    XCTAssertTrue([[pet.tags firstObject] isKindOfClass:[SWGTag class]]);
+    SWGTag* tag = [pet.tags firstObject];
+    XCTAssertEqualObjects(tag._id, @0);
+    XCTAssertEqualObjects(tag.name, @"string");
+    XCTAssertEqualObjects(pet._id, @119);
 }
 
 - (void)testDeserializeMapOfModels {
