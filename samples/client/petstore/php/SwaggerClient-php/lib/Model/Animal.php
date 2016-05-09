@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Animal Class Doc Comment
  *
@@ -57,9 +58,10 @@ class Animal implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'class_name' => 'string'
+        'class_name' => 'string',
+        'color' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -69,9 +71,10 @@ class Animal implements ArrayAccess
      * @var string[]
      */
     static $attributeMap = array(
-        'class_name' => 'className'
+        'class_name' => 'className',
+        'color' => 'color'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -81,9 +84,10 @@ class Animal implements ArrayAccess
      * @var string[]
      */
     static $setters = array(
-        'class_name' => 'setClassName'
+        'class_name' => 'setClassName',
+        'color' => 'setColor'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -93,7 +97,8 @@ class Animal implements ArrayAccess
      * @var string[]
      */
     static $getters = array(
-        'class_name' => 'getClassName'
+        'class_name' => 'getClassName',
+        'color' => 'getColor'
     );
  
     static function getters() {
@@ -108,13 +113,7 @@ class Animal implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['class_name']
-         * @var string
-         */
-        'class_name' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -122,16 +121,12 @@ class Animal implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
+        $this->container['class_name'] = isset($data['class_name']) ? $data['class_name'] : null;
+        $this->container['color'] = isset($data['color']) ? $data['color'] : 'red';
+
         // Initialize discriminator property with the model name.
         $discrimintor = array_search('className', self::$attributeMap);
         $this->container[$discrimintor] = static::$swaggerModelName;
-
-        if ($data != null) {
-            if (isset($data["class_name"])) {
-                $this->container['class_name'] = $data["class_name"];
-            }
-        }
     }
 
     /**
@@ -162,6 +157,7 @@ class Animal implements ArrayAccess
         return true;
     }
 
+
     /**
      * Gets class_name
      * @return string
@@ -179,6 +175,27 @@ class Animal implements ArrayAccess
     public function setClassName($class_name)
     {
         $this->container['class_name'] = $class_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets color
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->container['color'];
+    }
+
+    /**
+     * Sets color
+     * @param string $color 
+     * @return $this
+     */
+    public function setColor($color)
+    {
+        $this->container['color'] = $color;
 
         return $this;
     }

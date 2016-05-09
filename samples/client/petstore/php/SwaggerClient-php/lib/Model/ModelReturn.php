@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * ModelReturn Class Doc Comment
  *
@@ -59,7 +60,7 @@ class ModelReturn implements ArrayAccess
     static $swaggerTypes = array(
         'return' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -71,7 +72,7 @@ class ModelReturn implements ArrayAccess
     static $attributeMap = array(
         'return' => 'return'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class ModelReturn implements ArrayAccess
     static $setters = array(
         'return' => 'setReturn'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -108,13 +109,7 @@ class ModelReturn implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['return']
-         * @var int
-         */
-        'return' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -122,13 +117,7 @@ class ModelReturn implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["return"])) {
-                $this->container['return'] = $data["return"];
-            }
-        }
+        $this->container['return'] = isset($data['return']) ? $data['return'] : null;
     }
 
     /**
@@ -152,6 +141,7 @@ class ModelReturn implements ArrayAccess
     {
         return true;
     }
+
 
     /**
      * Gets return

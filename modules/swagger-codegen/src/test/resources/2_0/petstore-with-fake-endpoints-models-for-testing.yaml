@@ -850,6 +850,9 @@ definitions:
     properties:
       className:
         type: string
+      color:
+        type: string
+        default: 'red'
   AnimalFarm:
     type: array
     items:
