@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Model200Response Class Doc Comment
  *
@@ -59,7 +60,7 @@ class Model200Response implements ArrayAccess
     static $swaggerTypes = array(
         'name' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -71,7 +72,7 @@ class Model200Response implements ArrayAccess
     static $attributeMap = array(
         'name' => 'name'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class Model200Response implements ArrayAccess
     static $setters = array(
         'name' => 'setName'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -108,13 +109,7 @@ class Model200Response implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['name']
-         * @var int
-         */
-        'name' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -122,13 +117,7 @@ class Model200Response implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["name"])) {
-                $this->container['name'] = $data["name"];
-            }
-        }
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
     }
 
     /**
@@ -152,6 +141,7 @@ class Model200Response implements ArrayAccess
     {
         return true;
     }
+
 
     /**
      * Gets name

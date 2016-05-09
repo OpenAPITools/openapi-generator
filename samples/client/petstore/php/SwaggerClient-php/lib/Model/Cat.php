@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Cat Class Doc Comment
  *
@@ -59,7 +60,7 @@ class Cat extends Animal implements ArrayAccess
     static $swaggerTypes = array(
         'declawed' => 'bool'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes + parent::swaggerTypes();
     }
@@ -71,7 +72,7 @@ class Cat extends Animal implements ArrayAccess
     static $attributeMap = array(
         'declawed' => 'declawed'
     );
- 
+
     static function attributeMap() {
         return parent::attributeMap() + self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class Cat extends Animal implements ArrayAccess
     static $setters = array(
         'declawed' => 'setDeclawed'
     );
- 
+
     static function setters() {
         return parent::setters() + self::$setters;
     }
@@ -108,13 +109,7 @@ class Cat extends Animal implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['declawed']
-         * @var bool
-         */
-        'declawed' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -123,12 +118,8 @@ class Cat extends Animal implements ArrayAccess
     public function __construct(array $data = null)
     {
         parent::__construct($data);
-        
-        if ($data != null) {
-            if (isset($data["declawed"])) {
-                $this->container['declawed'] = $data["declawed"];
-            }
-        }
+
+        $this->container['declawed'] = isset($data['declawed']) ? $data['declawed'] : null;
     }
 
     /**
@@ -152,6 +143,7 @@ class Cat extends Animal implements ArrayAccess
     {
         return true;
     }
+
 
     /**
      * Gets declawed

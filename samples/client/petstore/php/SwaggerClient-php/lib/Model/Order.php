@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Order Class Doc Comment
  *
@@ -64,7 +65,7 @@ class Order implements ArrayAccess
         'status' => 'string',
         'complete' => 'bool'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -81,7 +82,7 @@ class Order implements ArrayAccess
         'status' => 'status',
         'complete' => 'complete'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -98,7 +99,7 @@ class Order implements ArrayAccess
         'status' => 'setStatus',
         'complete' => 'setComplete'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -143,43 +144,7 @@ class Order implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['id']
-         * @var int
-         */
-        'id' => null,
-    
-        /**
-         * $container['pet_id']
-         * @var int
-         */
-        'pet_id' => null,
-    
-        /**
-         * $container['quantity']
-         * @var int
-         */
-        'quantity' => null,
-    
-        /**
-         * $container['ship_date']
-         * @var \DateTime
-         */
-        'ship_date' => null,
-    
-        /**
-         * $container['status'] Order Status
-         * @var string
-         */
-        'status' => null,
-    
-        /**
-         * $container['complete']
-         * @var bool
-         */
-        'complete' => false,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -187,28 +152,12 @@ class Order implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["id"])) {
-                $this->container['id'] = $data["id"];
-            }
-            if (isset($data["pet_id"])) {
-                $this->container['pet_id'] = $data["pet_id"];
-            }
-            if (isset($data["quantity"])) {
-                $this->container['quantity'] = $data["quantity"];
-            }
-            if (isset($data["ship_date"])) {
-                $this->container['ship_date'] = $data["ship_date"];
-            }
-            if (isset($data["status"])) {
-                $this->container['status'] = $data["status"];
-            }
-            if (isset($data["complete"])) {
-                $this->container['complete'] = $data["complete"];
-            }
-        }
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['pet_id'] = isset($data['pet_id']) ? $data['pet_id'] : null;
+        $this->container['quantity'] = isset($data['quantity']) ? $data['quantity'] : null;
+        $this->container['ship_date'] = isset($data['ship_date']) ? $data['ship_date'] : null;
+        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
+        $this->container['complete'] = isset($data['complete']) ? $data['complete'] : false;
     }
 
     /**
@@ -241,6 +190,7 @@ class Order implements ArrayAccess
         return true;
     }
 
+
     /**
      * Gets id
      * @return int
@@ -261,6 +211,7 @@ class Order implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets pet_id
      * @return int
@@ -281,6 +232,7 @@ class Order implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets quantity
      * @return int
@@ -301,6 +253,7 @@ class Order implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets ship_date
      * @return \DateTime
@@ -321,6 +274,7 @@ class Order implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets status
      * @return string
@@ -345,6 +299,7 @@ class Order implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets complete
      * @return bool
