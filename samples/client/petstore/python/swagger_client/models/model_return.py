@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class ModelReturn(object):
@@ -66,6 +67,7 @@ class ModelReturn(object):
         :param _return: The _return of this ModelReturn.
         :type: int
         """
+        
         self.__return = _return
 
     def to_dict(self):
