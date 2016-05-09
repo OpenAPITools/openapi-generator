@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Category Class Doc Comment
  *
@@ -60,7 +61,7 @@ class Category implements ArrayAccess
         'id' => 'int',
         'name' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -73,7 +74,7 @@ class Category implements ArrayAccess
         'id' => 'id',
         'name' => 'name'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -86,7 +87,7 @@ class Category implements ArrayAccess
         'id' => 'setId',
         'name' => 'setName'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -112,19 +113,7 @@ class Category implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['id']
-         * @var int
-         */
-        'id' => null,
-    
-        /**
-         * $container['name']
-         * @var string
-         */
-        'name' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -132,16 +121,8 @@ class Category implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["id"])) {
-                $this->container['id'] = $data["id"];
-            }
-            if (isset($data["name"])) {
-                $this->container['name'] = $data["name"];
-            }
-        }
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
     }
 
     /**
@@ -166,6 +147,7 @@ class Category implements ArrayAccess
         return true;
     }
 
+
     /**
      * Gets id
      * @return int
@@ -186,6 +168,7 @@ class Category implements ArrayAccess
 
         return $this;
     }
+
     /**
      * Gets name
      * @return string

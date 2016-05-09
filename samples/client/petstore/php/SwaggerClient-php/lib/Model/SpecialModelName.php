@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * SpecialModelName Class Doc Comment
  *
@@ -59,7 +60,7 @@ class SpecialModelName implements ArrayAccess
     static $swaggerTypes = array(
         'special_property_name' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -71,7 +72,7 @@ class SpecialModelName implements ArrayAccess
     static $attributeMap = array(
         'special_property_name' => '$special[property.name]'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class SpecialModelName implements ArrayAccess
     static $setters = array(
         'special_property_name' => 'setSpecialPropertyName'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -108,13 +109,7 @@ class SpecialModelName implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array(
-        /**
-         * $container['special_property_name']
-         * @var int
-         */
-        'special_property_name' => null,
-    );
+    protected $container = array();
 
     /**
      * Constructor
@@ -122,13 +117,7 @@ class SpecialModelName implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            if (isset($data["special_property_name"])) {
-                $this->container['special_property_name'] = $data["special_property_name"];
-            }
-        }
+        $this->container['special_property_name'] = isset($data['special_property_name']) ? $data['special_property_name'] : null;
     }
 
     /**
@@ -152,6 +141,7 @@ class SpecialModelName implements ArrayAccess
     {
         return true;
     }
+
 
     /**
      * Gets special_property_name
