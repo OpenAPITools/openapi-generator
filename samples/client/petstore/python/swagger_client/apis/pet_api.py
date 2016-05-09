@@ -21,6 +21,7 @@ from __future__ import absolute_import
 
 import sys
 import os
+import re
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -82,6 +83,7 @@ class PetApi(object):
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `add_pet`")
+
 
         resource_path = '/pet'.replace('{format}', 'json')
         path_params = {}
@@ -160,6 +162,7 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
+
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         path_params = {}
@@ -240,6 +243,7 @@ class PetApi(object):
         if ('status' not in params) or (params['status'] is None):
             raise ValueError("Missing the required parameter `status` when calling `find_pets_by_status`")
 
+
         resource_path = '/pet/findByStatus'.replace('{format}', 'json')
         path_params = {}
 
@@ -316,6 +320,7 @@ class PetApi(object):
         # verify the required parameter 'tags' is set
         if ('tags' not in params) or (params['tags'] is None):
             raise ValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")
+
 
         resource_path = '/pet/findByTags'.replace('{format}', 'json')
         path_params = {}
@@ -394,6 +399,7 @@ class PetApi(object):
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
 
+
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         path_params = {}
         if 'pet_id' in params:
@@ -470,6 +476,7 @@ class PetApi(object):
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `update_pet`")
+
 
         resource_path = '/pet'.replace('{format}', 'json')
         path_params = {}
@@ -549,6 +556,7 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
+
 
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         path_params = {}
@@ -632,6 +640,7 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
+
 
         resource_path = '/pet/{petId}/uploadImage'.replace('{format}', 'json')
         path_params = {}
