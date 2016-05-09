@@ -125,9 +125,37 @@ class ModelReturn implements ArrayAccess
         
         
         if ($data != null) {
-            $this->container['return'] = $data['return'];
+            if (isset($data["return"])) {
+                $this->container['return'] = $data["return"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+
+
+        return true;
+    }
+
+
     /**
      * Gets return
      * @return int
@@ -144,8 +172,8 @@ class ModelReturn implements ArrayAccess
      */
     public function setReturn($return)
     {
-        
         $this->container['return'] = $return;
+
         return $this;
     }
     /**

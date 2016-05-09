@@ -206,7 +206,7 @@ class FakeApi
         if (strlen($password) > 64) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
         }
-        if (strlen($password) > 10) {
+        if (strlen($password) < 10) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
 
