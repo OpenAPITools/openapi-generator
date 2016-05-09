@@ -21,6 +21,7 @@ from __future__ import absolute_import
 
 import sys
 import os
+import re
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -82,6 +83,7 @@ class UserApi(object):
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `create_user`")
+
 
         resource_path = '/user'.replace('{format}', 'json')
         path_params = {}
@@ -160,6 +162,7 @@ class UserApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `create_users_with_array_input`")
 
+
         resource_path = '/user/createWithArray'.replace('{format}', 'json')
         path_params = {}
 
@@ -236,6 +239,7 @@ class UserApi(object):
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `create_users_with_list_input`")
+
 
         resource_path = '/user/createWithList'.replace('{format}', 'json')
         path_params = {}
@@ -314,6 +318,7 @@ class UserApi(object):
         if ('username' not in params) or (params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `delete_user`")
 
+
         resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
         if 'username' in params:
@@ -390,6 +395,7 @@ class UserApi(object):
         # verify the required parameter 'username' is set
         if ('username' not in params) or (params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")
+
 
         resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
@@ -472,6 +478,7 @@ class UserApi(object):
         if ('password' not in params) or (params['password'] is None):
             raise ValueError("Missing the required parameter `password` when calling `login_user`")
 
+
         resource_path = '/user/login'.replace('{format}', 'json')
         path_params = {}
 
@@ -545,6 +552,7 @@ class UserApi(object):
                 )
             params[key] = val
         del params['kwargs']
+
 
 
         resource_path = '/user/logout'.replace('{format}', 'json')
@@ -625,6 +633,7 @@ class UserApi(object):
         # verify the required parameter 'body' is set
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `update_user`")
+
 
         resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
