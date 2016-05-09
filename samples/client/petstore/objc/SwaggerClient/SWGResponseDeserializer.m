@@ -33,7 +33,7 @@ NSInteger const SWGUnknownResponseObjectErrorCode = 143528;
         formatter.numberStyle = NSNumberFormatterDecimalStyle;
         _numberFormatter = formatter;
         _primitiveTypes = @[@"NSString", @"NSDate", @"NSNumber"];
-        _basicReturnTypes = @[@"NSObject", @"id"];
+        _basicReturnTypes = @[@"NSObject", @"id", @"NSData"];
         _arrayOfModelsPatExpression = [NSRegularExpression regularExpressionWithPattern:@"NSArray<(.+)>"
                                                                                 options:NSRegularExpressionCaseInsensitive
                                                                                   error:nil];
