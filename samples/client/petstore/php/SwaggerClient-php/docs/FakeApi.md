@@ -4,27 +4,15 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트
-
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 
 # **testEndpointParameters**
 > testEndpointParameters($number, $double, $string, $byte, $integer, $int32, $int64, $float, $binary, $date, $date_time, $password)
 
-Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-
-Fake endpoint for testing various parameters
-假端點
-偽のエンドポイント
-가짜 엔드 포인트
-
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example 
 ```php

@@ -145,11 +145,46 @@ class Name implements ArrayAccess
         
         
         if ($data != null) {
-            $this->container['name'] = $data['name'];
-            $this->container['snake_case'] = $data['snake_case'];
-            $this->container['property'] = $data['property'];
+            if (isset($data["name"])) {
+                $this->container['name'] = $data["name"];
+            }
+            if (isset($data["snake_case"])) {
+                $this->container['snake_case'] = $data["snake_case"];
+            }
+            if (isset($data["property"])) {
+                $this->container['property'] = $data["property"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        if ($this->container['name'] === null) {
+            $invalid_properties[] = "'$name' can't be null";
+        }
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        if ($this->container['name'] === null) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Gets name
      * @return int
@@ -166,8 +201,8 @@ class Name implements ArrayAccess
      */
     public function setName($name)
     {
-        
         $this->container['name'] = $name;
+
         return $this;
     }
     /**
@@ -186,8 +221,8 @@ class Name implements ArrayAccess
      */
     public function setSnakeCase($snake_case)
     {
-        
         $this->container['snake_case'] = $snake_case;
+
         return $this;
     }
     /**
@@ -206,8 +241,8 @@ class Name implements ArrayAccess
      */
     public function setProperty($property)
     {
-        
         $this->container['property'] = $property;
+
         return $this;
     }
     /**

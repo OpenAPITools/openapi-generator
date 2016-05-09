@@ -190,14 +190,57 @@ class Order implements ArrayAccess
         
         
         if ($data != null) {
-            $this->container['id'] = $data['id'];
-            $this->container['pet_id'] = $data['pet_id'];
-            $this->container['quantity'] = $data['quantity'];
-            $this->container['ship_date'] = $data['ship_date'];
-            $this->container['status'] = $data['status'];
-            $this->container['complete'] = $data['complete'];
+            if (isset($data["id"])) {
+                $this->container['id'] = $data["id"];
+            }
+            if (isset($data["pet_id"])) {
+                $this->container['pet_id'] = $data["pet_id"];
+            }
+            if (isset($data["quantity"])) {
+                $this->container['quantity'] = $data["quantity"];
+            }
+            if (isset($data["ship_date"])) {
+                $this->container['ship_date'] = $data["ship_date"];
+            }
+            if (isset($data["status"])) {
+                $this->container['status'] = $data["status"];
+            }
+            if (isset($data["complete"])) {
+                $this->container['complete'] = $data["complete"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        $allowed_values = array("placed", "approved", "delivered");
+        if (!in_array($this->container['status'], $allowed_values)) {
+            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+        }
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        $allowed_values = array("placed", "approved", "delivered");
+        if (!in_array($this->container['status'], $allowed_values)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Gets id
      * @return int
@@ -214,8 +257,8 @@ class Order implements ArrayAccess
      */
     public function setId($id)
     {
-        
         $this->container['id'] = $id;
+
         return $this;
     }
     /**
@@ -234,8 +277,8 @@ class Order implements ArrayAccess
      */
     public function setPetId($pet_id)
     {
-        
         $this->container['pet_id'] = $pet_id;
+
         return $this;
     }
     /**
@@ -254,8 +297,8 @@ class Order implements ArrayAccess
      */
     public function setQuantity($quantity)
     {
-        
         $this->container['quantity'] = $quantity;
+
         return $this;
     }
     /**
@@ -274,8 +317,8 @@ class Order implements ArrayAccess
      */
     public function setShipDate($ship_date)
     {
-        
         $this->container['ship_date'] = $ship_date;
+
         return $this;
     }
     /**
@@ -299,6 +342,7 @@ class Order implements ArrayAccess
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'placed', 'approved', 'delivered'");
         }
         $this->container['status'] = $status;
+
         return $this;
     }
     /**
@@ -317,8 +361,8 @@ class Order implements ArrayAccess
      */
     public function setComplete($complete)
     {
-        
         $this->container['complete'] = $complete;
+
         return $this;
     }
     /**

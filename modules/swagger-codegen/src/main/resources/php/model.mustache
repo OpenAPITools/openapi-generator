@@ -147,10 +147,116 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/discriminator}}
 
         if ($data != null) {
-            {{#vars}}$this->container['{{name}}'] = $data['{{name}}'];{{#hasMore}}
-            {{/hasMore}}{{/vars}}
+            {{#vars}}
+            if (isset($data["{{name}}"])) {
+                $this->container['{{name}}'] = $data["{{name}}"];
+            }{{#hasMore}}{{/hasMore}}
+            {{/vars}}
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        {{#vars}}
+        {{#required}}
+        if ($this->container['{{name}}'] === null) {
+            $invalid_properties[] = "'${{name}}' can't be null";
+        }
+        {{/required}}
+        {{#isEnum}}
+        $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        if (!in_array($this->container['{{name}}'], $allowed_values)) {
+            $invalid_properties[] = "invalid value for '${{name}}', must be one of #{allowed_values}.";
+        }
+        {{/isEnum}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen($this->container['{{name}}']) > {{maxLength}}) {
+            $invalid_properties[] = "invalid value for '${{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
+        }
+        {{/maxLength}}
+        {{#minLength}}
+        if (strlen($this->container['{{name}}']) < {{minLength}}) {
+            $invalid_properties[] = "invalid value for '${{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if ($this->container['{{name}}'] > {{maximum}}) {
+            $invalid_properties[] = "invalid value for '${{name}}', must be smaller than or equal to {{maximum}}.";
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if ($this->container['{{name}}'] < {{minimum}}) {
+            $invalid_properties[] = "invalid value for '${{name}}', must be bigger than or equal to {{minimum}}.";
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
+            $invalid_properties[] = "invalid value for '${{name}}', must be conform to the pattern {{pattern}}.";
+        }
+        {{/pattern}}
+        {{/hasValidation}}
+        {{/vars}}
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        {{#vars}}
+        {{#required}}
+        if ($this->container['{{name}}'] === null) {
+            return false;
+        }
+        {{/required}}
+        {{#isEnum}}
+        $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        if (!in_array($this->container['{{name}}'], $allowed_values)) {
+            return false;
+        }
+        {{/isEnum}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen($this->container['{{name}}']) > {{maxLength}}) {
+            return false;
+        }
+        {{/maxLength}}
+        {{#minLength}}
+        if (strlen($this->container['{{name}}']) < {{minLength}}) {
+            return false;
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if ($this->container['{{name}}'] > {{maximum}}) {
+            return false;
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if ($this->container['{{name}}'] < {{minimum}}) {
+            return false;
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
+            return false;
+        }
+        {{/pattern}}
+        {{/hasValidation}}
+        {{/vars}}
+        return true;
+    }
+
     {{#vars}}
     /**
      * Gets {{name}}
@@ -168,11 +274,40 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function {{setter}}(${{name}})
     {
-        {{#isEnum}}$allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        {{#isEnum}}
+        $allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array(${{{name}}}, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
-        }{{/isEnum}}
+        }
+        {{/isEnum}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen(${{name}}) > {{maxLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
+        }{{/maxLength}}
+        {{#minLength}}
+        if (strlen(${{name}}) < {{minLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if (${{name}} > {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if (${{name}} < {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", ${{name}})) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be conform to the pattern {{pattern}}.');
+        }
+        {{/pattern}}
+        {{/hasValidation}}
         $this->container['{{name}}'] = ${{name}};
+
         return $this;
     }
     {{/vars}}
