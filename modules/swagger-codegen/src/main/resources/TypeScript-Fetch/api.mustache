@@ -23,14 +23,14 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 }
 
 {{#hasEnums}}
+export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
 
-export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
-    {{.}} = <any> '{{.}}'{{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
-}
+export type {{datatypeWithEnum}} = {{#allowableValues}}{{#values}}'{{.}}'{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
 {{/isEnum}}
 {{/vars}}
+}
 {{/hasEnums}}
 {{/model}}
 {{/models}}
@@ -119,8 +119,8 @@ export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 } else {
-                    var error = new Error(response.statusText);
-                    error['response'] = response;
+                    let error = new Error(response.statusText);
+                    (error as any).response = response;
                     throw error;
                 }
             });
