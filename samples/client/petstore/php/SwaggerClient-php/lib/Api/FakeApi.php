@@ -94,6 +94,10 @@ class FakeApi
      * testEndpointParameters
      *
      * Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
      *
      * @param float $number None (required)
      * @param double $double None (required)
@@ -121,6 +125,10 @@ class FakeApi
      * testEndpointParametersWithHttpInfo
      *
      * Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
      *
      * @param float $number None (required)
      * @param double $double None (required)

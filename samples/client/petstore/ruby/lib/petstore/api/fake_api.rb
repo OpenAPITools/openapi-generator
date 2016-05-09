@@ -24,8 +24,8 @@ module Petstore
       @api_client = api_client
     end
 
-    # Fake endpoint for testing various parameters
-    # Fake endpoint for testing various parameters
+    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # @param number None
     # @param double None
     # @param string None
@@ -45,8 +45,8 @@ module Petstore
       return nil
     end
 
-    # Fake endpoint for testing various parameters
-    # Fake endpoint for testing various parameters
+    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # @param number None
     # @param double None
     # @param string None
