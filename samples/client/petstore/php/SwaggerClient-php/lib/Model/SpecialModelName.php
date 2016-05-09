@@ -125,9 +125,37 @@ class SpecialModelName implements ArrayAccess
         
         
         if ($data != null) {
-            $this->container['special_property_name'] = $data['special_property_name'];
+            if (isset($data["special_property_name"])) {
+                $this->container['special_property_name'] = $data["special_property_name"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+
+
+        return true;
+    }
+
+
     /**
      * Gets special_property_name
      * @return int
@@ -144,8 +172,8 @@ class SpecialModelName implements ArrayAccess
      */
     public function setSpecialPropertyName($special_property_name)
     {
-        
         $this->container['special_property_name'] = $special_property_name;
+
         return $this;
     }
     /**

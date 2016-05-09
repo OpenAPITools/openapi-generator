@@ -125,9 +125,37 @@ class Dog extends Animal implements ArrayAccess
         parent::__construct($data);
         
         if ($data != null) {
-            $this->container['breed'] = $data['breed'];
+            if (isset($data["breed"])) {
+                $this->container['breed'] = $data["breed"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+
+
+        return true;
+    }
+
+
     /**
      * Gets breed
      * @return string
@@ -144,8 +172,8 @@ class Dog extends Animal implements ArrayAccess
      */
     public function setBreed($breed)
     {
-        
         $this->container['breed'] = $breed;
+
         return $this;
     }
     /**

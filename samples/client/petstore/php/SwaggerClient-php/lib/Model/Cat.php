@@ -125,9 +125,37 @@ class Cat extends Animal implements ArrayAccess
         parent::__construct($data);
         
         if ($data != null) {
-            $this->container['declawed'] = $data['declawed'];
+            if (isset($data["declawed"])) {
+                $this->container['declawed'] = $data["declawed"];
+            }
         }
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the parameters in the model
+     * return true if all passed
+     * 
+     * @return bool [description]
+     */
+    public function valid()
+    {
+
+
+        return true;
+    }
+
+
     /**
      * Gets declawed
      * @return bool
@@ -144,8 +172,8 @@ class Cat extends Animal implements ArrayAccess
      */
     public function setDeclawed($declawed)
     {
-        
         $this->container['declawed'] = $declawed;
+
         return $this;
     }
     /**
