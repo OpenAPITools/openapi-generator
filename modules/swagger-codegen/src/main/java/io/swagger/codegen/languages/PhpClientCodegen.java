@@ -41,7 +41,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String modelDirName = "Model";
     protected String variableNamingConvention= "snake_case";
     protected String apiDocPath = docsBasePath + "/" + apiDirName;
-    protected String modelDocPath = docsBasePath + "docs/" + modelDirName;
+    protected String modelDocPath = docsBasePath + "/" + modelDirName;
 
     public PhpClientCodegen() {
         super();
@@ -232,6 +232,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        // make test path available in mustache template
+        additionalProperties.put("testBasePath", testBasePath);
 
         supportingFiles.add(new SupportingFile("configuration.mustache", toPackagePath(invokerPackage, srcBasePath), "Configuration.php"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiClient.php"));
