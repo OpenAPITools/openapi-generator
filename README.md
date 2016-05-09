@@ -51,6 +51,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Java JAX-RS (Apache CXF 2 / 3)](#java-jax-rs-apache-cxf-2--3)
       - [Java JAX-RS (Resteasy)](#java-jax-rs-resteasy)      
       - [Java Spring MVC](#java-spring-mvc)
+      - [Java SpringBoot](#java-springboot)
       - [Haskell Servant](#haskell-servant)
       - [ASP.NET 5 Web API](#aspnet-5-web-api)
     - [To build the codegen library](#to-build-the-codegen-library)
@@ -687,6 +688,31 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -l spring-mvc \
   -o samples/server/petstore/spring-mvc
 ```
+
+### Java SpringBoot
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l springboot \
+  -o samples/server/petstore/springboot
+```
+
+You can also set a Json file with basePackage & configPackage properties :  
+Example : 
+```
+{
+"basePackage":"io.swagger",
+"configPackage":"io.swagger.config"
+}
+```
+For use it  add option ```-c myOptions.json```  to the generation command    
+
+To Use-it :
+in the generated folder try ``` mvn package ``` for build jar.  
+Start your server  ``` java -jar target/swagger-springboot-server-1.0.0.jar ```  
+SpringBoot listening on default port 8080
+
 
 ### Haskell Servant
 
