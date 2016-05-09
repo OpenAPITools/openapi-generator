@@ -837,7 +837,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
 | Java      | @cbornet (2016/05/01) @xhh (2016/05/01) |
 | NodeJS/Javascript | @xhh (2016/05/01) | 
-| ObjC      |   |
+| ObjC      | @mateuszmackowiak (2016/05/09) |
 | Perl      | @wing328 (2016/05/01) |
 | PHP      | @arnested (2016/05/01) |
 | Python   | @scottrw93 (2016/05/01) |
