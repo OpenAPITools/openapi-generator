@@ -807,6 +807,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [OSDN](https://osdn.jp)
+- [PagerDuty](https://www.pagerduty.com)
 - [Pepipost](https://www.pepipost.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
