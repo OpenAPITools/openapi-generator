@@ -86,11 +86,11 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 			queryParams.Add("{{paramName}}", value)
 		}
 	} else {
-		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}))
+		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
 	}
 	{{/isListContainer}}
 	{{^isListContainer}}
-		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}))
+		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
 	{{/isListContainer}}
 	{{/queryParams}}{{/hasQueryParams}}
 

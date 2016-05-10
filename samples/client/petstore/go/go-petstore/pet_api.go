@@ -207,7 +207,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 			queryParams.Add("status", value)
 		}
 	} else {
-		queryParams.Add("status", a.Configuration.APIClient.ParameterToString(status))
+		queryParams.Add("status", a.Configuration.APIClient.ParameterToString(status, collectionFormat))
 	}
 	
 
@@ -279,7 +279,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 			queryParams.Add("tags", value)
 		}
 	} else {
-		queryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags))
+		queryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags, collectionFormat))
 	}
 	
 

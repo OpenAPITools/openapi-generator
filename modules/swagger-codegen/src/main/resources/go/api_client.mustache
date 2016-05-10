@@ -79,12 +79,21 @@ func (c *APIClient) CallAPI(path string, method string,
 	return nil, fmt.Errorf("invalid method %v", method)
 }
 
-func (c *APIClient) ParameterToString(obj interface{}) string {
+func (c *APIClient) ParameterToString(obj interface{},collectionFormat string) string {
 	if reflect.TypeOf(obj).String() == "[]string" {
-		return strings.Join(obj.([]string), ",")
-	} else {
-		return obj.(string)
+		switch	collectionFormat {
+		case "pipes":
+			return strings.Join(obj.([]string), "|")
+		case "ssv":
+			return strings.Join(obj.([]string), " ")
+		case "tsv":
+			return strings.Join(obj.([]string), "\t")	
+		case "csv" :
+			return strings.Join(obj.([]string), ",")
+		}
 	}
+
+	return obj.(string)
 }
 
 func prepareRequest(postBody interface{},
