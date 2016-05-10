@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
     s.summary          = "Swagger Petstore"
     s.description      = <<-DESC
-                         This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href&#x3D;\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters
+                         This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href&#x3D;&quot;http://swagger.io&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key &quot;special-key&quot; to test the authorization filters
                          DESC
 
     s.platform     = :ios, '7.0'
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
     s.public_header_files = 'SwaggerClient/**/*.h'
 
     s.dependency 'AFNetworking', '~> 2.3'
-    s.dependency 'JSONModel', '~> 1.1'
-    s.dependency 'ISO8601', '~> 0.3'
+    s.dependency 'JSONModel', '~> 1.2'
+    s.dependency 'ISO8601', '~> 0.5'
 end
 
