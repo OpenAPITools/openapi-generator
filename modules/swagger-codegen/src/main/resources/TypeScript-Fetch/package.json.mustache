@@ -1,15 +1,15 @@
 {
   "name": "{{#npmName}}{{{npmName}}}{{/npmName}}{{^npmName}}typescript-fetch-api{{/npmName}}",
   "version": "{{#npmVersion}}{{{npmVersion}}}{{/npmVersion}}{{^npmVersion}}0.0.0{{/npmVersion}}",
-  "private": true,
   "main": "./dist/api.js",
   "browser": "./dist/api.js",
   "typings": "./dist/api.d.ts",
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1"
+    {{^supportsES6}}"core-js": "^2.4.0",
+    {{/supportsES6}}"isomorphic-fetch": "^2.2.1"
   },
   "scripts" : {
-    "install" : "typings install && tsc"
+    "prepublish" : "typings install && tsc"
   },
   "devDependencies": {
     "typescript": "^1.8.10",
