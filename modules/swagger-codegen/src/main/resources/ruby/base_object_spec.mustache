@@ -61,7 +61,7 @@ describe 'BaseObject' do
       expect(obj.int_arr).to match_array([123, 456])
 
       expect(obj.pet_arr).to be_instance_of(Array)
-      expect(obj.pet_arr.size).to eq(1)
+      expect(obj.pet_arr).to be_instance_of(1)
 
       pet = obj.pet_arr.first
       expect(pet).to be_instance_of(Petstore::Pet)
