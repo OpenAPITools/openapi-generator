@@ -1,6 +1,6 @@
 {
-  "name": "{{#npmName}}{{{npmName}}}{{/npmName}}{{^npmName}}typescript-fetch-api{{/npmName}}",
-  "version": "{{#npmVersion}}{{{npmVersion}}}{{/npmVersion}}{{^npmVersion}}0.0.0{{/npmVersion}}",
+  "name": "typescript-fetch-api",
+  "version": "0.0.0",
   "private": true,
   "main": "./dist/api.js",
   "browser": "./dist/api.js",
