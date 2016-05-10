@@ -55,6 +55,11 @@ namespace IO.Swagger.Model
         [DataMember(Name="property", EmitDefaultValue=false)]
         public string Property { get; set; }
         /// <summary>
+        /// Gets or Sets _123Number
+        /// </summary>
+        [DataMember(Name="123Number", EmitDefaultValue=false)]
+        public int? _123Number { get; private set; }
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -65,6 +70,7 @@ namespace IO.Swagger.Model
             sb.Append("  _Name: ").Append(_Name).Append("\n");
 sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
 sb.Append("  Property: ").Append(Property).Append("\n");
+sb.Append("  _123Number: ").Append(_123Number).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -115,6 +121,11 @@ sb.Append("  Property: ").Append(Property).Append("\n");
                     this.Property == other.Property ||
                     this.Property != null &&
                     this.Property.Equals(other.Property)
+                ) && 
+                (
+                    this._123Number == other._123Number ||
+                    this._123Number != null &&
+                    this._123Number.Equals(other._123Number)
                 );
         }
 
@@ -135,6 +146,8 @@ sb.Append("  Property: ").Append(Property).Append("\n");
                     hash = hash * 59 + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
                     hash = hash * 59 + this.Property.GetHashCode();
+                if (this._123Number != null)
+                    hash = hash * 59 + this._123Number.GetHashCode();
                 return hash;
             }
         }

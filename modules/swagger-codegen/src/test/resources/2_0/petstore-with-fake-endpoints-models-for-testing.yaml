@@ -818,6 +818,9 @@ definitions:
         format: int32
       property:
         type: string
+      123Number:
+        type: integer
+        readOnly: true
     xml:
       name: Name
   200_response:
