@@ -368,8 +368,8 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
 	}
-		queryParams.Add("username", a.Configuration.APIClient.ParameterToString(username))
-			queryParams.Add("password", a.Configuration.APIClient.ParameterToString(password))
+		queryParams.Add("username", a.Configuration.APIClient.ParameterToString(username, ""))
+			queryParams.Add("password", a.Configuration.APIClient.ParameterToString(password, ""))
 	
 
 	// to determine the Content-Type header
