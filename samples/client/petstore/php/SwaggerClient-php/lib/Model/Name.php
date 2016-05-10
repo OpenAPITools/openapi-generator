@@ -60,7 +60,8 @@ class Name implements ArrayAccess
     static $swaggerTypes = array(
         'name' => 'int',
         'snake_case' => 'int',
-        'property' => 'string'
+        'property' => 'string',
+        '_123_number' => 'int'
     );
 
     static function swaggerTypes() {
@@ -74,7 +75,8 @@ class Name implements ArrayAccess
     static $attributeMap = array(
         'name' => 'name',
         'snake_case' => 'snake_case',
-        'property' => 'property'
+        'property' => 'property',
+        '_123_number' => '123Number'
     );
 
     static function attributeMap() {
@@ -88,7 +90,8 @@ class Name implements ArrayAccess
     static $setters = array(
         'name' => 'setName',
         'snake_case' => 'setSnakeCase',
-        'property' => 'setProperty'
+        'property' => 'setProperty',
+        '_123_number' => 'set123Number'
     );
 
     static function setters() {
@@ -102,7 +105,8 @@ class Name implements ArrayAccess
     static $getters = array(
         'name' => 'getName',
         'snake_case' => 'getSnakeCase',
-        'property' => 'getProperty'
+        'property' => 'getProperty',
+        '_123_number' => 'get123Number'
     );
  
     static function getters() {
@@ -128,6 +132,7 @@ class Name implements ArrayAccess
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['snake_case'] = isset($data['snake_case']) ? $data['snake_case'] : null;
         $this->container['property'] = isset($data['property']) ? $data['property'] : null;
+        $this->container['_123_number'] = isset($data['_123_number']) ? $data['_123_number'] : null;
     }
 
     /**
@@ -218,6 +223,27 @@ class Name implements ArrayAccess
     public function setProperty($property)
     {
         $this->container['property'] = $property;
+
+        return $this;
+    }
+
+    /**
+     * Gets _123_number
+     * @return int
+     */
+    public function get123Number()
+    {
+        return $this->container['_123_number'];
+    }
+
+    /**
+     * Sets _123_number
+     * @param int $_123_number 
+     * @return $this
+     */
+    public function set123Number($_123_number)
+    {
+        $this->container['_123_number'] = $_123_number;
 
         return $this;
     }
