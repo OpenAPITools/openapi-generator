@@ -29,5 +29,8 @@
     },
     "autoload": {
         "psr-4": { "Swagger\\Client\\" : "lib/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Swagger\\Client\\" : "test/" }
     }
 }
