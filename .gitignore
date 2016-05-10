@@ -116,3 +116,13 @@ samples/client/petstore/python/.venv/
 
 # ts
 samples/client/petstore/typescript-node/npm/node_modules
+samples/client/petstore/typescript-fetch/with-package-metadata/node_modules
+samples/client/petstore/typescript-fetch/with-package-metadata/dist
+samples/client/petstore/typescript-fetch/with-package-metadata/typings
+samples/client/petstore/typescript-fetch/default/node_modules
+samples/client/petstore/typescript-fetch/default/dist
+samples/client/petstore/typescript-fetch/default/typings
+samples/client/petstore/typescript-fetch/default-es6/node_modules
+samples/client/petstore/typescript-fetch/default-es6/dist
+samples/client/petstore/typescript-fetch/default-es6/typings
+
