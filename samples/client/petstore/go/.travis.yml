@@ -1,0 +1,9 @@
+language: go
+
+install:
+  - go get -d -v .
+
+script:
+  - go build -v ./go-petstore/
+  - go test -v .
+
