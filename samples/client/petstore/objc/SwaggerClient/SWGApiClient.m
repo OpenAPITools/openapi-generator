@@ -2,7 +2,7 @@
 
 NSString *const SWGResponseObjectErrorKey = @"SWGResponseObject";
 
-static long requestId = 0;
+static NSUInteger requestId = 0;
 static bool offlineState = false;
 static NSMutableSet * queuedRequests = nil;
 static bool cacheEnabled = false;
@@ -36,7 +36,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 @interface SWGApiClient ()
 
-@property (readwrite, nonatomic) NSDictionary *HTTPResponseHeaders;
+@property (nonatomic, strong) NSDictionary* HTTPResponseHeaders;
 
 @end
 
@@ -88,49 +88,6 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     [self.requestSerializer setValue:value forHTTPHeaderField:forKey];
 }
 
-#pragma mark - Log Methods
-
-+ (void)debugLog:(NSString *)method
-         message:(NSString *)format, ... {
-    SWGConfiguration *config = [SWGConfiguration sharedConfig];
-    if (!config.debug) {
-        return;
-    }
-
-    NSMutableString *message = [NSMutableString stringWithCapacity:1];
-
-    if (method) {
-        [message appendString:[NSString stringWithFormat:@"%@: ", method]];
-    }
-
-    va_list args;
-    va_start(args, format);
-
-    [message appendString:[[NSString alloc] initWithFormat:format arguments:args]];
-
-    // If set logging file handler, log into file,
-    // otherwise log into console.
-    if (config.loggingFileHanlder) {
-        [config.loggingFileHanlder seekToEndOfFile];
-        [config.loggingFileHanlder writeData:[message dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    else {
-        NSLog(@"%@", message);
-    }
-
-    va_end(args);
-}
-
-- (void)logResponse:(NSURLResponse *)response responseObject:(id)responseObject request:(NSURLRequest *)request error:(NSError *)error {
-
-    NSString *message = [NSString stringWithFormat:@"\n[DEBUG] HTTP request body \n~BEGIN~\n %@\n~END~\n"\
-                         "[DEBUG] HTTP response body \n~BEGIN~\n %@\n~END~\n",
-                        [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding],
-                         responseObject];
-
-    SWGDebugLog(message);
-}
-
 #pragma mark - Cache Methods
 
 +(void)clearCache {
@@ -151,70 +108,6 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     [NSURLCache setSharedURLCache:cache];
 }
 
-#pragma mark - Utility Methods
-
-/*
- * Detect `Accept` from accepts
- */
-+ (NSString *) selectHeaderAccept:(NSArray *)accepts {
-    if (accepts == nil || [accepts count] == 0) {
-        return @"";
-    }
-
-    NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
-    for (NSString *string in accepts) {
-        NSString * lowerAccept = [string lowercaseString];
-	// use rangeOfString instead of containsString for iOS 7 support
-	if ([lowerAccept rangeOfString:@"application/json"].location != NSNotFound) {
-            return @"application/json";
-        }
-        [lowerAccepts addObject:lowerAccept];
-    }
-
-    if (lowerAccepts.count == 1) {
-        return [lowerAccepts firstObject];
-    }
-
-    return [lowerAccepts componentsJoinedByString:@", "];
-}
-
-/*
- * Detect `Content-Type` from contentTypes
- */
-+ (NSString *) selectHeaderContentType:(NSArray *)contentTypes
-{
-    if (contentTypes == nil || [contentTypes count] == 0) {
-        return @"application/json";
-    }
-
-    NSMutableArray *lowerContentTypes = [[NSMutableArray alloc] initWithCapacity:[contentTypes count]];
-    [contentTypes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [lowerContentTypes addObject:[obj lowercaseString]];
-    }];
-
-    if ([lowerContentTypes containsObject:@"application/json"]) {
-        return @"application/json";
-    }
-    else {
-        return lowerContentTypes[0];
-    }
-}
-
-+ (NSString*)escape:(id)unescaped {
-    if ([unescaped isKindOfClass:[NSString class]]){
-        return (NSString *)CFBridgingRelease
-        (CFURLCreateStringByAddingPercentEscapes(
-                                                 NULL,
-                                                 (__bridge CFStringRef) unescaped,
-                                                 NULL,
-                                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                 kCFStringEncodingUTF8));
-    }
-    else {
-        return [NSString stringWithFormat:@"%@", unescaped];
-    }
-}
-
 #pragma mark - Request Methods
 
 +(unsigned long)requestQueueSize {
@@ -223,14 +116,12 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 +(NSNumber*) nextRequestId {
     @synchronized(self) {
-        long nextId = ++requestId;
-        SWGDebugLog(@"got id %ld", nextId);
-        return [NSNumber numberWithLong:nextId];
+        return @(++requestId);
     }
 }
 
 +(NSNumber*) queueRequest {
-    NSNumber* requestId = [SWGApiClient nextRequestId];
+    NSNumber* requestId = [[self class] nextRequestId];
     SWGDebugLog(@"added %@ to request queue", requestId);
     [queuedRequests addObject:requestId];
     return requestId;
@@ -294,7 +185,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
         if (![strongSelf executeRequestWithId:requestId]) {
             return;
         }
-        [strongSelf logResponse:response responseObject:responseObject request:request error:error];
+        SWGDebugLogResponse(response, responseObject,request,error);
         strongSelf.HTTPResponseHeaders = SWG__headerFieldsForResponse(response);
         if(!error) {
             completionBlock(responseObject, nil);
@@ -321,7 +212,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
             return;
         }
         strongSelf.HTTPResponseHeaders = SWG__headerFieldsForResponse(response);
-        [strongSelf logResponse:response responseObject:responseObject request:request error:error];
+        SWGDebugLogResponse(response, responseObject,request,error);
         if(error) {
             NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
             if (responseObject) {
@@ -370,14 +261,13 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
     }
     else {
-        NSAssert(false, @"unsupport request type %@", requestContentType);
+        NSAssert(NO, @"Unsupported request type %@", requestContentType);
     }
 
     // setting response serializer
     if ([responseContentType isEqualToString:@"application/json"]) {
         self.responseSerializer = [SWGJSONResponseSerializer serializer];
-    }
-    else {
+    } else {
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
 
@@ -393,8 +283,9 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
     NSMutableString *resourcePath = [NSMutableString stringWithString:path];
     [pathParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [resourcePath replaceCharactersInRange:[resourcePath rangeOfString:[NSString stringWithFormat:@"%@%@%@", @"{", key, @"}"]]
-                                    withString:[SWGApiClient escape:obj]];
+        NSString * safeString = ([obj isKindOfClass:[NSString class]]) ? obj : [NSString stringWithFormat:@"%@", obj];
+        safeString = SWGPercentEscapedStringFromString(safeString);
+        [resourcePath replaceCharactersInRange:[resourcePath rangeOfString:[NSString stringWithFormat:@"{%@}", key]] withString:safeString];
     }];
 
     NSMutableURLRequest * request = nil;
@@ -489,55 +380,56 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 - (NSString*) pathWithQueryParamsToString:(NSString*) path
                               queryParams:(NSDictionary*) queryParams {
+    if(queryParams.count == 0) {
+        return path;
+    }
     NSString * separator = nil;
-    int counter = 0;
+    NSUInteger counter = 0;
 
     NSMutableString * requestUrl = [NSMutableString stringWithFormat:@"%@", path];
-    if (queryParams != nil){
-        for(NSString * key in [queryParams keyEnumerator]){
-            if (counter == 0) separator = @"?";
-            else separator = @"&";
-            id queryParam = [queryParams valueForKey:key];
-            if ([queryParam isKindOfClass:[NSString class]]){
-                [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                                          [SWGApiClient escape:key], [SWGApiClient escape:[queryParams valueForKey:key]]]];
-            }
-            else if ([queryParam isKindOfClass:[SWGQueryParamCollection class]]){
-                SWGQueryParamCollection * coll = (SWGQueryParamCollection*) queryParam;
-                NSArray* values = [coll values];
-                NSString* format = [coll format];
 
-                if ([format isEqualToString:@"csv"]) {
-                    [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                        [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@","]]]];
-
-                }
-                else if ([format isEqualToString:@"tsv"]) {
-                    [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                        [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"\t"]]]];
-
-                }
-                else if ([format isEqualToString:@"pipes"]) {
-                    [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                        [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [values componentsJoinedByString:@"|"]]]];
-
-                }
-                else if ([format isEqualToString:@"multi"]) {
-                    for(id obj in values) {
-                        [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                            [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", obj]]];
-                        counter += 1;
-                    }
-
-                }
-            }
-            else {
-                [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator,
-                                          [SWGApiClient escape:key], [NSString stringWithFormat:@"%@", [queryParams valueForKey:key]]]];
-            }
-
-            counter += 1;
+    NSDictionary *separatorStyles = @{@"csv" : @",",
+            @"tsv" : @"\t",
+            @"pipes": @"|"
+    };
+    for(NSString * key in [queryParams keyEnumerator]){
+        if (counter == 0) {
+            separator = @"?";
+        } else {
+            separator = @"&";
         }
+        id queryParam = [queryParams valueForKey:key];
+        if(!queryParam) {
+            continue;
+        }
+        NSString *safeKey = SWGPercentEscapedStringFromString(key);
+        if ([queryParam isKindOfClass:[NSString class]]){
+            [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator, safeKey, SWGPercentEscapedStringFromString(queryParam)]];
+
+        } else if ([queryParam isKindOfClass:[SWGQueryParamCollection class]]){
+            SWGQueryParamCollection * coll = (SWGQueryParamCollection*) queryParam;
+            NSArray* values = [coll values];
+            NSString* format = [coll format];
+
+            if([format isEqualToString:@"multi"]) {
+                for(id obj in values) {
+                    if (counter > 0) {
+                        separator = @"&";
+                    }
+                    NSString * safeValue = SWGPercentEscapedStringFromString([NSString stringWithFormat:@"%@",obj]);
+                    [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator, safeKey, safeValue]];
+                    counter += 1;
+                }
+                continue;
+            }
+            NSString * separatorStyle = separatorStyles[format];
+            NSString * safeValue = SWGPercentEscapedStringFromString([values componentsJoinedByString:separatorStyle]);
+            [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator, safeKey, safeValue]];
+        } else {
+            NSString * safeValue = SWGPercentEscapedStringFromString([NSString stringWithFormat:@"%@",queryParam]);
+            [requestUrl appendString:[NSString stringWithFormat:@"%@%@=%@", separator, safeKey, safeValue]];
+        }
+        counter += 1;
     }
     return requestUrl;
 }
@@ -558,15 +450,17 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
     SWGConfiguration *config = [SWGConfiguration sharedConfig];
     for (NSString *auth in authSettings) {
-        NSDictionary *authSetting = [[config authSettings] objectForKey:auth];
-
-        if (authSetting) { // auth setting is set only if the key is non-empty
-            if ([authSetting[@"in"] isEqualToString:@"header"] && [authSetting[@"key"] length] != 0) {
-                [headersWithAuth setObject:authSetting[@"value"] forKey:authSetting[@"key"]];
-            }
-            else if ([authSetting[@"in"] isEqualToString:@"query"] && [authSetting[@"key"] length] != 0) {
-                [querysWithAuth setObject:authSetting[@"value"] forKey:authSetting[@"key"]];
-            }
+        NSDictionary *authSetting = [config authSettings][auth];
+        if(!authSetting) { // auth setting is set only if the key is non-empty
+            continue;
+        }
+        NSString *type = authSetting[@"in"];
+        NSString *key = authSetting[@"key"];
+        NSString *value = authSetting[@"value"];
+        if ([type isEqualToString:@"header"] && [key length] > 0 ) {
+            headersWithAuth[key] = value;
+        } else if ([type isEqualToString:@"query"] && [key length] != 0) {
+            querysWithAuth[key] = value;
         }
     }
 

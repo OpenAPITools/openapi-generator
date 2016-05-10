@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "SWGApiClient.h"
+#import "SWGLogger.h"
 
 /** The `SWGConfiguration` class manages the configurations for the sdk.
  *
@@ -11,6 +12,11 @@
 @class SWGApiClient;
 
 @interface SWGConfiguration : NSObject
+
+/**
+ * Default api logger
+ */
+@property (nonatomic, strong) SWGLogger * logger;
 
 /**
  * Default api client
@@ -37,7 +43,7 @@
 @property (readonly, nonatomic, strong) NSDictionary *apiKeyPrefix;
 
 /**
- * Usename for HTTP Basic Authentication
+ * Username for HTTP Basic Authentication
  */
  @property (nonatomic) NSString *username;
 
@@ -57,23 +63,9 @@
 @property (nonatomic) NSString *tempFolderPath;
 
 /**
- * Logging Settings
- */
-
-/**
  * Debug switch, default false
  */
 @property (nonatomic) BOOL debug;
-
-/**
- * Debug file location, default log in console
- */
-@property (nonatomic) NSString *loggingFile;
-
-/**
- * Log file handler, this property is used by sdk internally.
- */
-@property (nonatomic, readonly) NSFileHandle *loggingFileHanlder;
 
 /**
  * Gets configuration singleton instance
@@ -143,7 +135,7 @@
 - (NSString *) getAccessToken;
 
 /**
- * Gets Authentication Setings
+ * Gets Authentication Settings
  */
 - (NSDictionary *) authSettings;
 
