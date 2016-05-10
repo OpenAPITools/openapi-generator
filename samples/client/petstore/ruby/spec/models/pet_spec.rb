@@ -25,10 +25,20 @@ describe 'Pet' do
   before do
     # run before each test
     @instance = Petstore::Pet.new
+
+    @pet_api = Petstore::PetApi.new(API_CLIENT)
+    @pet_id = prepare_pet(@pet_api)
   end
 
   after do
     # run after each test
+     # remove the testing pet
+    begin
+      @pet_api.delete_pet(@pet_id)
+    rescue Petstore::ApiError => e
+      # ignore ApiError 404 (Not Found)
+      raise e if e.code != 404
+    end 
   end
 
   describe 'test an instance of Pet' do

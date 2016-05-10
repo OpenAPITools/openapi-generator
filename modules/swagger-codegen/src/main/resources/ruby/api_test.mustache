@@ -20,7 +20,7 @@ require 'json'
 
   describe 'test an instance of {{classname}}' do
     it 'should create an instact of {{classname}}' do
-      @instance.should be_a({{moduleName}}::{{classname}})
+      expect(@instance).to be_instance_of({{moduleName}}::{{classname}})
     end
   end
 
@@ -34,11 +34,7 @@ require 'json'
 {{/required}}{{/allParams}}  # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
   describe '{{operationId}} test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
