@@ -32,13 +32,13 @@ describe 'FakeApi' do
 
   describe 'test an instance of FakeApi' do
     it 'should create an instact of FakeApi' do
-      @instance.should be_a(Petstore::FakeApi)
+      expect(@instance).to be_instance_of(Petstore::FakeApi)
     end
   end
 
   # unit tests for test_endpoint_parameters
-  # Fake endpoint for testing various parameters
-  # Fake endpoint for testing various parameters
+  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
   # @param number None
   # @param double None
   # @param string None
@@ -55,11 +55,7 @@ describe 'FakeApi' do
   # @return [nil]
   describe 'test_endpoint_parameters test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 

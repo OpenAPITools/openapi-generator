@@ -228,6 +228,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         writeOptional(outputFolder, new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb"));
         writeOptional(outputFolder, new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb"));
         writeOptional(outputFolder, new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb"));
+        // not including base object test as the moment as not all API has model
+        //writeOptional(outputFolder, new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb"));
     }
 
     @Override

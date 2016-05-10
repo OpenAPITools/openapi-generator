@@ -1,16 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-def serialize_json(o)
-  API_CLIENT.object_to_http_body(o)
-end
-
-def deserialize_json(s, type)
-  headers = {'Content-Type' => 'application/json'}
-  response = double('response', headers: headers, body: s)
-  API_CLIENT.deserialize(response, type)
-end
-
 describe "Pet" do
   before do
     @pet_api = Petstore::PetApi.new(API_CLIENT)

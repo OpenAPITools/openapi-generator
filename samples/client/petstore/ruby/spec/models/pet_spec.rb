@@ -25,84 +25,50 @@ describe 'Pet' do
   before do
     # run before each test
     @instance = Petstore::Pet.new
-
-    @pet_api = Petstore::PetApi.new(API_CLIENT)
-    @pet_id = prepare_pet(@pet_api)
   end
 
   after do
     # run after each test
-     # remove the testing pet
-    begin
-      @pet_api.delete_pet(@pet_id)
-    rescue Petstore::ApiError => e
-      # ignore ApiError 404 (Not Found)
-      raise e if e.code != 404
-    end 
   end
 
   describe 'test an instance of Pet' do
     it 'should create an instact of Pet' do
-      @instance.should be_a(Petstore::Pet) 
+      expect(@instance).to be_instance_of(Petstore::Pet)
     end
   end
   describe 'test attribute "id"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "category"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "name"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "photo_urls"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "tags"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "status"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
