@@ -3,6 +3,38 @@
 #import "{{classPrefix}}QueryParamCollection.h"
 #import <ISO8601/ISO8601.h>
 
+NSString * {{classPrefix}}PercentEscapedStringFromString(NSString *string) {
+    static NSString * const k{{classPrefix}}CharactersGeneralDelimitersToEncode = @":#[]@";
+    static NSString * const k{{classPrefix}}CharactersSubDelimitersToEncode = @"!$&'()*+,;=";
+
+    NSMutableCharacterSet * allowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [allowedCharacterSet removeCharactersInString:[k{{classPrefix}}CharactersGeneralDelimitersToEncode stringByAppendingString:k{{classPrefix}}CharactersSubDelimitersToEncode]];
+
+    static NSUInteger const batchSize = 50;
+
+    NSUInteger index = 0;
+    NSMutableString *escaped = @"".mutableCopy;
+
+    while (index < string.length) {
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wgnu"
+    NSUInteger length = MIN(string.length - index, batchSize);
+    #pragma GCC diagnostic pop
+    NSRange range = NSMakeRange(index, length);
+
+    // To avoid breaking up character sequences such as 👴🏻👮🏽
+    range = [string rangeOfComposedCharacterSequencesForRange:range];
+
+    NSString *substring = [string substringWithRange:range];
+    NSString *encoded = [substring stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
+    [escaped appendString:encoded];
+
+    index += range.length;
+    }
+
+    return escaped;
+}
+
 @interface {{classPrefix}}Sanitizer ()
 
 @end
@@ -76,6 +108,54 @@
                            reason:[NSString stringWithFormat:@"*** The argument object: %@ is invalid", param]
                          userInfo:nil];
         @throw e;
+    }
+}
+
+#pragma mark - Utility Methods
+
+/*
+ * Detect `Accept` from accepts
+ */
+- (NSString *) selectHeaderAccept:(NSArray *)accepts {
+    if (accepts == nil || [accepts count] == 0) {
+        return @"";
+    }
+
+    NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
+    for (NSString *string in accepts) {
+        NSString * lowerAccept = [string lowercaseString];
+        // use rangeOfString instead of containsString for iOS 7 support
+        if ([lowerAccept rangeOfString:@"application/json"].location != NSNotFound) {
+            return @"application/json";
+        }
+        [lowerAccepts addObject:lowerAccept];
+    }
+
+    if (lowerAccepts.count == 1) {
+        return [lowerAccepts firstObject];
+    }
+
+    return [lowerAccepts componentsJoinedByString:@", "];
+}
+
+/*
+ * Detect `Content-Type` from contentTypes
+ */
+- (NSString *) selectHeaderContentType:(NSArray *)contentTypes {
+    if (contentTypes == nil || [contentTypes count] == 0) {
+        return @"application/json";
+    }
+
+    NSMutableArray *lowerContentTypes = [[NSMutableArray alloc] initWithCapacity:[contentTypes count]];
+    [contentTypes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [lowerContentTypes addObject:[obj lowercaseString]];
+    }];
+
+    if ([lowerContentTypes containsObject:@"application/json"]) {
+        return @"application/json";
+    }
+    else {
+        return lowerContentTypes[0];
     }
 }
 
