@@ -21,8 +21,9 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
+        /// <param name="Color">Color (default to &quot;red&quot;).</param>
         /// <param name="Declawed">Declawed.</param>
-        public Cat(string ClassName = null, bool? Declawed = null)
+        public Cat(string ClassName = null, string Color = null, bool? Declawed = null)
         {
             // to ensure "ClassName" is required (not null)
             if (ClassName == null)
@@ -35,6 +36,16 @@ namespace IO.Swagger.Model
             }
             
             
+            // use default value if no "Color" provided
+            if (Color == null)
+            {
+                this.Color = "red";
+            }
+            else
+            {
+                this.Color = Color;
+            }
+            
                         this.Declawed = Declawed;
             
         }
@@ -44,6 +55,11 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="className", EmitDefaultValue=false)]
         public string ClassName { get; set; }
+        /// <summary>
+        /// Gets or Sets Color
+        /// </summary>
+        [DataMember(Name="color", EmitDefaultValue=false)]
+        public string Color { get; set; }
         /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
@@ -58,6 +74,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+sb.Append("  Color: ").Append(Color).Append("\n");
 sb.Append("  Declawed: ").Append(Declawed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -101,6 +118,11 @@ sb.Append("  Declawed: ").Append(Declawed).Append("\n");
                     this.ClassName.Equals(other.ClassName)
                 ) && 
                 (
+                    this.Color == other.Color ||
+                    this.Color != null &&
+                    this.Color.Equals(other.Color)
+                ) && 
+                (
                     this.Declawed == other.Declawed ||
                     this.Declawed != null &&
                     this.Declawed.Equals(other.Declawed)
@@ -120,6 +142,8 @@ sb.Append("  Declawed: ").Append(Declawed).Append("\n");
                 // Suitable nullity checks etc, of course :)
                 if (this.ClassName != null)
                     hash = hash * 59 + this.ClassName.GetHashCode();
+                if (this.Color != null)
+                    hash = hash * 59 + this.Color.GetHashCode();
                 if (this.Declawed != null)
                     hash = hash * 59 + this.Declawed.GetHashCode();
                 return hash;

@@ -21,7 +21,8 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
-        public Animal(string ClassName = null)
+        /// <param name="Color">Color (default to &quot;red&quot;).</param>
+        public Animal(string ClassName = null, string Color = null)
         {
             // to ensure "ClassName" is required (not null)
             if (ClassName == null)
@@ -34,6 +35,16 @@ namespace IO.Swagger.Model
             }
             
             
+            // use default value if no "Color" provided
+            if (Color == null)
+            {
+                this.Color = "red";
+            }
+            else
+            {
+                this.Color = Color;
+            }
+            
         }
         
         /// <summary>
@@ -41,6 +52,11 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="className", EmitDefaultValue=false)]
         public string ClassName { get; set; }
+        /// <summary>
+        /// Gets or Sets Color
+        /// </summary>
+        [DataMember(Name="color", EmitDefaultValue=false)]
+        public string Color { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -50,6 +66,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Animal {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+sb.Append("  Color: ").Append(Color).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,6 +107,11 @@ namespace IO.Swagger.Model
                     this.ClassName == other.ClassName ||
                     this.ClassName != null &&
                     this.ClassName.Equals(other.ClassName)
+                ) && 
+                (
+                    this.Color == other.Color ||
+                    this.Color != null &&
+                    this.Color.Equals(other.Color)
                 );
         }
 
@@ -106,6 +128,8 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 if (this.ClassName != null)
                     hash = hash * 59 + this.ClassName.GetHashCode();
+                if (this.Color != null)
+                    hash = hash * 59 + this.Color.GetHashCode();
                 return hash;
             }
         }
