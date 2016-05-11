@@ -751,7 +751,7 @@ public class DefaultCodegen {
         specialCharReplacements.put('|', "Pipe");
         specialCharReplacements.put('=', "Equal");
         specialCharReplacements.put('*', "Star");
-        specialCharReplacements.put('-', "Dash");
+        specialCharReplacements.put('-', "Minus");
         specialCharReplacements.put('&', "Ampersand");
         specialCharReplacements.put('%', "Percent");
         specialCharReplacements.put('#', "Hash");

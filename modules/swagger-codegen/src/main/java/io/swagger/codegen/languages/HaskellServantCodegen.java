@@ -51,6 +51,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public HaskellServantCodegen() {
         super();
 
+        // override the mapping for "-" (Minus) to keep the original mapping in Haskell
+        specialCharReplacements.put('-', "Dash");
+
         // set the output folder here
         outputFolder = "generated-code/haskell-servant";
 
