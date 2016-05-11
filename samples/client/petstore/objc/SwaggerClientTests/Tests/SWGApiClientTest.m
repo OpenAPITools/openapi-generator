@@ -33,6 +33,18 @@
     
     accepts = @[@"APPLICATION/xml", @"APPLICATION/json"];
     XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/vnd.github+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/json;charset=utf-8", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/vnd.github.v3.html+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/vnd.github.v3.html+json"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
     
     accepts = @[@"text/plain", @"application/xml"];
     XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"text/plain, application/xml");
@@ -53,7 +65,16 @@
     
     contentTypes = @[@"APPLICATION/xml", @"APPLICATION/json"];
     XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
-    
+
+    contentTypes = @[@"application/vnd.github+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
+    contentTypes = @[@"application/json;charset=utf-8", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
+    contentTypes = @[@"application/vnd.github.v3.html+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
     contentTypes = @[@"text/plain", @"application/xml"];
     XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"text/plain");
     

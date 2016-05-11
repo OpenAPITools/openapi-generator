@@ -16,20 +16,20 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
     NSMutableString *escaped = @"".mutableCopy;
 
     while (index < string.length) {
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wgnu"
-    NSUInteger length = MIN(string.length - index, batchSize);
-    #pragma GCC diagnostic pop
-    NSRange range = NSMakeRange(index, length);
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wgnu"
+        NSUInteger length = MIN(string.length - index, batchSize);
+        #pragma GCC diagnostic pop
+        NSRange range = NSMakeRange(index, length);
 
-    // To avoid breaking up character sequences such as 👴🏻👮🏽
-    range = [string rangeOfComposedCharacterSequencesForRange:range];
+        // To avoid breaking up character sequences such as 👴🏻👮🏽
+        range = [string rangeOfComposedCharacterSequencesForRange:range];
 
-    NSString *substring = [string substringWithRange:range];
-    NSString *encoded = [substring stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
-    [escaped appendString:encoded];
+        NSString *substring = [string substringWithRange:range];
+        NSString *encoded = [substring stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
+        [escaped appendString:encoded];
 
-    index += range.length;
+        index += range.length;
     }
 
     return escaped;
@@ -37,9 +37,23 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
 
 @interface SWGSanitizer ()
 
+@property (nonatomic, strong) NSRegularExpression* jsonHeaderTypeExpression;
+
 @end
 
 @implementation SWGSanitizer
+
+static NSString * kApplicationJSONType = @"application/json";
+
+-(instancetype)init {
+    self = [super init];
+    if ( !self ) {
+        return nil;
+    }
+    _jsonHeaderTypeExpression = [NSRegularExpression regularExpressionWithPattern:@"(.*)application(.*)json(.*)" options:NSRegularExpressionCaseInsensitive error:nil];
+    return self;
+}
+
 
 - (id) sanitizeForSerialization:(id) object {
     if (object == nil) {
@@ -49,7 +63,7 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
         return object;
     }
     else if ([object isKindOfClass:[NSDate class]]) {
-        return [object ISO8601String];
+        return [self dateParameterToString:object];
     }
     else if ([object isKindOfClass:[NSArray class]]) {
         NSArray *objectArray = object;
@@ -93,7 +107,7 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
         return [param stringValue];
     }
     else if ([param isKindOfClass:[NSDate class]]) {
-        return [param ISO8601String];
+        return [self dateParameterToString:param];
     }
     else if ([param isKindOfClass:[NSArray class]]) {
         NSMutableArray *mutableParam = [NSMutableArray array];
@@ -111,30 +125,26 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
     }
 }
 
+- (NSString *)dateParameterToString:(id)param {
+    return [param ISO8601String];
+}
+
 #pragma mark - Utility Methods
 
 /*
  * Detect `Accept` from accepts
  */
 - (NSString *) selectHeaderAccept:(NSArray *)accepts {
-    if (accepts == nil || [accepts count] == 0) {
+    if (accepts.count == 0) {
         return @"";
     }
-
     NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
     for (NSString *string in accepts) {
-        NSString * lowerAccept = [string lowercaseString];
-        // use rangeOfString instead of containsString for iOS 7 support
-        if ([lowerAccept rangeOfString:@"application/json"].location != NSNotFound) {
-            return @"application/json";
+        if ([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0) {
+            return kApplicationJSONType;
         }
-        [lowerAccepts addObject:lowerAccept];
+        [lowerAccepts addObject:[string lowercaseString]];
     }
-
-    if (lowerAccepts.count == 1) {
-        return [lowerAccepts firstObject];
-    }
-
     return [lowerAccepts componentsJoinedByString:@", "];
 }
 
@@ -142,21 +152,17 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
  * Detect `Content-Type` from contentTypes
  */
 - (NSString *) selectHeaderContentType:(NSArray *)contentTypes {
-    if (contentTypes == nil || [contentTypes count] == 0) {
-        return @"application/json";
+    if (contentTypes.count == 0) {
+        return kApplicationJSONType;
     }
-
     NSMutableArray *lowerContentTypes = [[NSMutableArray alloc] initWithCapacity:[contentTypes count]];
-    [contentTypes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [lowerContentTypes addObject:[obj lowercaseString]];
-    }];
-
-    if ([lowerContentTypes containsObject:@"application/json"]) {
-        return @"application/json";
+    for (NSString *string in contentTypes) {
+        if([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0){
+            return kApplicationJSONType;
+        }
+        [lowerContentTypes addObject:[string lowercaseString]];
     }
-    else {
-        return lowerContentTypes[0];
-    }
+    return [lowerContentTypes firstObject];
 }
 
 @end
