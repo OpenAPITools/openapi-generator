@@ -3,7 +3,7 @@
   "version": "{{{projectVersion}}}",
   "description": "{{{projectDescription}}}",{{#projectLicenseName}}
   "license": "{{{projectLicenseName}}}",{{/projectLicenseName}}
-  "main": "{{sourceFolder}}/index.js",
+  "main": "{{sourceFolder}}{{#invokerPackage}}/{{invokerPackage}}{{/invokerPackage}}/index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive"
   },

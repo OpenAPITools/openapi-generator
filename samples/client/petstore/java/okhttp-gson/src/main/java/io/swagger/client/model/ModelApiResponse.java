@@ -7,9 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
-
+/**
+ * ModelApiResponse
+ */
 public class ModelApiResponse   {
   
   @SerializedName("code")
@@ -94,3 +94,4 @@ public class ModelApiResponse   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

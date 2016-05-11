@@ -5,11 +5,13 @@ import com.sun.jersey.api.client.GenericType;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
+import io.swagger.client.model.*;
 import io.swagger.client.Pair;
 
 import io.swagger.client.model.Pet;
 import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;

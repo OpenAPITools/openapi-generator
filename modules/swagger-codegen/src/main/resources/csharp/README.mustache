@@ -37,8 +37,8 @@ NOTE: RestSharp versions greater than 105.1.0 have a bug which causes file uploa
 
 ## Installation
 Run the following command to generate the DLL
-- [Mac/Linux] `/bin/sh compile-mono.sh`
-- [Windows] `compile.bat`
+- [Mac/Linux] `/bin/sh build.sh`
+- [Windows] `build.bat`
 
 Then include the DLL (under the `bin` folder) in the C# project, and use the namespaces:
 ```csharp
@@ -72,8 +72,8 @@ namespace Example
             Configuration.Default.Password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
             // Configure API key authorization: {{{name}}}
             Configuration.Default.ApiKey.Add('{{{keyParamName}}}', 'YOUR_API_KEY');
-            // Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add('{{{keyParamName}}}', 'BEARER');{{/isApiKey}}{{#isOAuth}}
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add('{{{keyParamName}}}', 'Bearer');{{/isApiKey}}{{#isOAuth}}
             // Configure OAuth2 access token for authorization: {{{name}}}
             Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
             {{/hasAuthMethods}}

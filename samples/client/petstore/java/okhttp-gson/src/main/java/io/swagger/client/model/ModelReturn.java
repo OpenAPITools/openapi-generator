@@ -7,11 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-
-
 /**
  * Model for testing reserved words
- **/
+ */
 @ApiModel(description = "Model for testing reserved words")
 public class ModelReturn   {
   
@@ -67,3 +65,4 @@ public class ModelReturn   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -12,7 +12,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.rules.TemporaryFolder;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

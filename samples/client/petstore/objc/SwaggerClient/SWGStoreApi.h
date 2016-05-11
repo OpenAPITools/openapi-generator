@@ -39,9 +39,9 @@
 ///
 /// 
 ///
-/// @return NSDictionary* /* NSString, NSNumber */
+/// @return NSDictionary<NSString*, NSNumber*>*
 -(NSNumber*) getInventoryWithCompletionHandler: 
-    (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error)) handler;
+    (void (^)(NSDictionary<NSString*, NSNumber*>* output, NSError* error)) handler;
 
 
 ///

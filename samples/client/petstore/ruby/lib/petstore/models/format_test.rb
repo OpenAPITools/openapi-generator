@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -40,6 +40,8 @@ module Petstore
 
     attr_accessor :date_time
 
+    attr_accessor :uuid
+
     attr_accessor :password
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -56,6 +58,7 @@ module Petstore
         :'binary' => :'binary',
         :'date' => :'date',
         :'date_time' => :'dateTime',
+        :'uuid' => :'uuid',
         :'password' => :'password'
       }
     end
@@ -74,6 +77,7 @@ module Petstore
         :'binary' => :'String',
         :'date' => :'Date',
         :'date_time' => :'DateTime',
+        :'uuid' => :'String',
         :'password' => :'String'
       }
     end
@@ -128,6 +132,10 @@ module Petstore
 
       if attributes.has_key?(:'dateTime')
         self.date_time = attributes[:'dateTime']
+      end
+
+      if attributes.has_key?(:'uuid')
+        self.uuid = attributes[:'uuid']
       end
 
       if attributes.has_key?(:'password')
@@ -354,6 +362,7 @@ module Petstore
           binary == o.binary &&
           date == o.date &&
           date_time == o.date_time &&
+          uuid == o.uuid &&
           password == o.password
     end
 
@@ -366,7 +375,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, password].hash
+      [integer, int32, int64, number, float, double, string, byte, binary, date, date_time, uuid, password].hash
     end
 
     # Builds the object from hash

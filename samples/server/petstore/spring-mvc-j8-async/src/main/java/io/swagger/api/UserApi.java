@@ -34,19 +34,19 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:50:52.711+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:42:56.594+02:00")
 public interface UserApi {
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   default Callable<ResponseEntity<Void>> createUser(
 
-@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body
+@ApiParam(value = "Created user object"  ) @RequestBody User body
 )
       throws NotFoundException {
       // do some magic!
@@ -58,12 +58,12 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/createWithArray", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   default Callable<ResponseEntity<Void>> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
+@ApiParam(value = "List of user object"  ) @RequestBody List<User> body
 )
       throws NotFoundException {
       // do some magic!
@@ -75,12 +75,12 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/createWithList", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   default Callable<ResponseEntity<Void>> createUsersWithListInput(
 
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
+@ApiParam(value = "List of user object"  ) @RequestBody List<User> body
 )
       throws NotFoundException {
       // do some magic!
@@ -93,7 +93,7 @@ public interface UserApi {
     @ApiResponse(code = 400, message = "Invalid username supplied"),
     @ApiResponse(code = 404, message = "User not found") })
   @RequestMapping(value = "/{username}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
   default Callable<ResponseEntity<Void>> deleteUser(
@@ -112,7 +112,7 @@ public interface UserApi {
     @ApiResponse(code = 400, message = "Invalid username supplied"),
     @ApiResponse(code = 404, message = "User not found") })
   @RequestMapping(value = "/{username}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   default Callable<ResponseEntity<User>> getUserByName(
@@ -130,14 +130,14 @@ public interface UserApi {
     @ApiResponse(code = 200, message = "successful operation"),
     @ApiResponse(code = 400, message = "Invalid username/password supplied") })
   @RequestMapping(value = "/login", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  default Callable<ResponseEntity<String>> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username
+  default Callable<ResponseEntity<String>> loginUser(@ApiParam(value = "The user name for login") @RequestParam(value = "username", required = false) String username
 
 
 ,
-    @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password
+    @ApiParam(value = "The password for login in clear text") @RequestParam(value = "password", required = false) String password
 
 
 )
@@ -151,7 +151,7 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/logout", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   default Callable<ResponseEntity<Void>> logoutUser()
@@ -166,7 +166,7 @@ public interface UserApi {
     @ApiResponse(code = 400, message = "Invalid user supplied"),
     @ApiResponse(code = 404, message = "User not found") })
   @RequestMapping(value = "/{username}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.PUT)
   default Callable<ResponseEntity<Void>> updateUser(
@@ -175,7 +175,7 @@ public interface UserApi {
 ,
     
 
-@ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body
+@ApiParam(value = "Updated user object"  ) @RequestBody User body
 )
       throws NotFoundException {
       // do some magic!

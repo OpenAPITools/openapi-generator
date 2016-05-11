@@ -2,7 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.properties.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,7 @@ import java.util.*;
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
-    protected boolean optionalProjectFileFlag = false;
+    protected boolean optionalProjectFileFlag = true;
     protected boolean optionalEmitDefaultValue = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
@@ -21,7 +21,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String packageVersion = "1.0.0";
     protected String packageName = "IO.Swagger";
-    protected String sourceFolder = "src" + File.separator + packageName;
+
+    protected String sourceFolder = "src";
+
+    // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
+    //       This would require updating relative paths (e.g. path to main project file in test project file)
+    protected String testFolder = sourceFolder;
 
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
@@ -88,7 +93,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "Int32",
                         "Int64",
                         "Float",
-                        "Guid",
+                        "Guid?",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
@@ -115,7 +120,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
-        typeMapping.put("uuid", "Guid");
+        typeMapping.put("uuid", "Guid?");
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -204,11 +209,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toEnumName(CodegenProperty property) {
-        return StringUtils.capitalize(property.name) + "Enum?";
-    }
-
-    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
@@ -223,7 +223,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 }
             }
         }
-        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -277,12 +278,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + apiPackage();
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + modelPackage();
     }
 
     @Override
@@ -532,7 +533,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return toModelName(name) + "Tests";
     }
 
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
@@ -543,5 +543,58 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        String enumName = sanitizeName(name);
+
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        enumName = camelize(enumName) + "Enum";
+
+        LOGGER.info("toEnumVarName = " + enumName);
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return sanitizeName(camelize(property.name)) + "Enum";
+    }
+
+    /*
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        String enumName = sanitizeName(property.name);
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            enumName = modelNamePrefix + "_" + enumName;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            enumName = enumName + "_" + modelNameSuffix;
+        }
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(enumName)) {
+            LOGGER.warn(enumName + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + enumName));
+            enumName = "model_" + enumName; // e.g. return => ModelReturn (after camelize)
+        }
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+    */
+
+    public String testPackageName() {
+        return this.packageName + ".Test";
     }
 }

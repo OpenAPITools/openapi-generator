@@ -9,7 +9,7 @@ import io.swagger.models.parameters.Parameter;
 import java.io.File;
 import java.util.*;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -374,6 +374,15 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             String _import = iterator.next().get("import");
             if (_import.startsWith(apiPackage()))
                 iterator.remove();
+        }
+        // if the return type is not primitive, import encoding/json
+        for (CodegenOperation operation : operations) {
+            if(operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
+                Map<String, String> customImport = new HashMap<String, String>();
+                customImport.put("import", "encoding/json");
+                imports.add(customImport);
+                break; //just need to import once
+            }
         }
 
         // recursivly add import for mapping one type to multipe imports

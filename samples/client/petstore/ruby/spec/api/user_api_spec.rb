@@ -32,7 +32,7 @@ describe 'UserApi' do
 
   describe 'test an instance of UserApi' do
     it 'should create an instact of UserApi' do
-      @instance.should be_a(Petstore::UserApi)
+      expect(@instance).to be_instance_of(Petstore::UserApi)
     end
   end
 
@@ -44,11 +44,7 @@ describe 'UserApi' do
   # @return [nil]
   describe 'create_user test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -60,11 +56,7 @@ describe 'UserApi' do
   # @return [nil]
   describe 'create_users_with_array_input test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -76,11 +68,7 @@ describe 'UserApi' do
   # @return [nil]
   describe 'create_users_with_list_input test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -92,11 +80,7 @@ describe 'UserApi' do
   # @return [nil]
   describe 'delete_user test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -108,11 +92,7 @@ describe 'UserApi' do
   # @return [User]
   describe 'get_user_by_name test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -125,11 +105,7 @@ describe 'UserApi' do
   # @return [String]
   describe 'login_user test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -140,11 +116,7 @@ describe 'UserApi' do
   # @return [nil]
   describe 'logout_user test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -157,11 +129,7 @@ describe 'UserApi' do
   # @return [nil]
   describe 'update_user test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 

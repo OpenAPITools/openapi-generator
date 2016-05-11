@@ -68,7 +68,7 @@ No authorization required
 # **getInventory**
 ```objc
 -(NSNumber*) getInventoryWithCompletionHandler: 
-        (void (^)(NSDictionary* /* NSString, NSNumber */ output, NSError* error)) handler;
+        (void (^)(NSDictionary<NSString*, NSNumber*>* output, NSError* error)) handler;
 ```
 
 Returns pet inventories by status
@@ -81,8 +81,8 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"BEARER" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 
 
@@ -92,7 +92,7 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
     // Returns pet inventories by status
     [apiInstance getInventoryWithCompletionHandler: 
-              ^(NSDictionary* /* NSString, NSNumber */ output, NSError* error) {
+              ^(NSDictionary<NSString*, NSNumber*>* output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -113,7 +113,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**NSDictionary* /* NSString, NSNumber */**](NSDictionary.md)
+[**NSDictionary<NSString*, NSNumber*>***](NSDictionary.md)
 
 ### Authorization
 

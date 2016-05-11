@@ -32,7 +32,7 @@ describe 'StoreApi' do
 
   describe 'test an instance of StoreApi' do
     it 'should create an instact of StoreApi' do
-      @instance.should be_a(Petstore::StoreApi)
+      expect(@instance).to be_instance_of(Petstore::StoreApi)
     end
   end
 
@@ -44,11 +44,7 @@ describe 'StoreApi' do
   # @return [nil]
   describe 'delete_order test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -59,11 +55,7 @@ describe 'StoreApi' do
   # @return [Hash<String, Integer>]
   describe 'get_inventory test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -75,11 +67,7 @@ describe 'StoreApi' do
   # @return [Order]
   describe 'get_order_by_id test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -91,11 +79,7 @@ describe 'StoreApi' do
   # @return [Order]
   describe 'place_order test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
