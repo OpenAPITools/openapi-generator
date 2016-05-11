@@ -329,10 +329,7 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
     }
 
     // request cache
-    BOOL hasHeaderParams = false;
-    if (headerParams != nil && [headerParams count] > 0) {
-        hasHeaderParams = true;
-    }
+    BOOL hasHeaderParams = [headerParams count] > 0;
     if (offlineState) {
         {{classPrefix}}DebugLog(@"%@ cache forced", resourcePath);
         [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
@@ -353,9 +350,7 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
     }
     [self.requestSerializer setValue:responseContentType forHTTPHeaderField:@"Accept"];
 
-
-    // Always disable cookies!
-    [request setHTTPShouldHandleCookies:NO];
+    [self postProcessRequest:request];
 
     NSNumber* requestId = [{{classPrefix}}ApiClient queueRequest];
     if ([responseType isEqualToString:@"NSURL*"] || [responseType isEqualToString:@"NSURL"]) {
@@ -374,6 +369,12 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
         }];
     }
     return requestId;
+}
+
+//Added for easier override to modify request
+-(void)postProcessRequest:(NSMutableURLRequest *)request {
+    // Always disable cookies!
+    [request setHTTPShouldHandleCookies:NO];
 }
 
 #pragma mark -
