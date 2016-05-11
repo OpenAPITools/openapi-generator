@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(opts)
+> createUser(body)
 
 Create user
 
@@ -26,12 +26,11 @@ This can only be done by the logged in user.
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var apiInstance = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi();
 
-var opts = { 
-  'body': new SwaggerPetstore.User() // {User} Created user object
-};
-apiInstance.createUser(opts).then(function() {
+var body = new SwaggerPetstore.User(); // User | Created user object
+
+apiInstance.createUser(body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -43,7 +42,7 @@ apiInstance.createUser(opts).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | [optional] 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -56,11 +55,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(opts)
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -70,12 +69,11 @@ Creates list of users with given input array
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var apiInstance = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi();
 
-var opts = { 
-  'body': [new SwaggerPetstore.User()] // {[User]} List of user object
-};
-apiInstance.createUsersWithArrayInput(opts).then(function() {
+var body = [new SwaggerPetstore.User()]; // [User] | List of user object
+
+apiInstance.createUsersWithArrayInput(body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -87,7 +85,7 @@ apiInstance.createUsersWithArrayInput(opts).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](User.md)| List of user object | [optional] 
+ **body** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -100,11 +98,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(opts)
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -114,12 +112,11 @@ Creates list of users with given input array
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var apiInstance = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi();
 
-var opts = { 
-  'body': [new SwaggerPetstore.User()] // {[User]} List of user object
-};
-apiInstance.createUsersWithListInput(opts).then(function() {
+var body = [new SwaggerPetstore.User()]; // [User] | List of user object
+
+apiInstance.createUsersWithListInput(body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -131,7 +128,7 @@ apiInstance.createUsersWithListInput(opts).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](User.md)| List of user object | [optional] 
+ **body** | [**[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -144,7 +141,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="deleteUser"></a>
 # **deleteUser**
@@ -157,16 +154,10 @@ This can only be done by the logged in user.
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
 
-// Configure HTTP basic authorization: test_http_basic
-var test_http_basic = defaultClient.authentications['test_http_basic'];
-test_http_basic.username = 'YOUR USERNAME'
-test_http_basic.password = 'YOUR PASSWORD'
+var apiInstance = new SwaggerPetstore.UserApi();
 
-var apiInstance = new SwaggerPetstore.UserApi()
-
-var username = "username_example"; // {String} The name that needs to be deleted
+var username = "username_example"; // String | The name that needs to be deleted
 
 apiInstance.deleteUser(username).then(function() {
   console.log('API called successfully.');
@@ -188,12 +179,12 @@ null (empty response body)
 
 ### Authorization
 
-[test_http_basic](../README.md#test_http_basic)
+No authorization required
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="getUserByName"></a>
 # **getUserByName**
@@ -207,9 +198,9 @@ Get user by user name
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var apiInstance = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi();
 
-var username = "username_example"; // {String} The name that needs to be fetched. Use user1 for testing. 
+var username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing. 
 
 apiInstance.getUserByName(username).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
@@ -236,11 +227,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="loginUser"></a>
 # **loginUser**
-> &#39;String&#39; loginUser(opts)
+> &#39;String&#39; loginUser(username, password)
 
 Logs user into the system
 
@@ -250,13 +241,13 @@ Logs user into the system
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var apiInstance = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi();
 
-var opts = { 
-  'username': "username_example", // {String} The user name for login
-  'password': "password_example" // {String} The password for login in clear text
-};
-apiInstance.loginUser(opts).then(function(data) {
+var username = "username_example"; // String | The user name for login
+
+var password = "password_example"; // String | The password for login in clear text
+
+apiInstance.loginUser(username, password).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -268,8 +259,8 @@ apiInstance.loginUser(opts).then(function(data) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | [optional] 
- **password** | **String**| The password for login in clear text | [optional] 
+ **username** | **String**| The user name for login | 
+ **password** | **String**| The password for login in clear text | 
 
 ### Return type
 
@@ -282,11 +273,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="logoutUser"></a>
 # **logoutUser**
-> logoutUser
+> logoutUser()
 
 Logs out current logged in user session
 
@@ -296,7 +287,7 @@ Logs out current logged in user session
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var apiInstance = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi();
 apiInstance.logoutUser().then(function() {
   console.log('API called successfully.');
 }, function(error) {
@@ -319,11 +310,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, opts)
+> updateUser(username, body)
 
 Updated user
 
@@ -333,14 +324,13 @@ This can only be done by the logged in user.
 ```javascript
 var SwaggerPetstore = require('swagger-petstore');
 
-var apiInstance = new SwaggerPetstore.UserApi()
+var apiInstance = new SwaggerPetstore.UserApi();
 
-var username = "username_example"; // {String} name that need to be deleted
+var username = "username_example"; // String | name that need to be deleted
 
-var opts = { 
-  'body': new SwaggerPetstore.User() // {User} Updated user object
-};
-apiInstance.updateUser(username, opts).then(function() {
+var body = new SwaggerPetstore.User(); // User | Updated user object
+
+apiInstance.updateUser(username, body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -353,7 +343,7 @@ apiInstance.updateUser(username, opts).then(function() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | [optional] 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -366,5 +356,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 

@@ -60,7 +60,7 @@ class StoreApi
      * Constructor
      * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
      */
-    function __construct($apiClient = null)
+    function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -84,7 +84,7 @@ class StoreApi
      * @param \Swagger\Client\ApiClient $apiClient set the API client
      * @return StoreApi
      */
-    public function setApiClient(ApiClient $apiClient)
+    public function setApiClient(\Swagger\Client\ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
         return $this;
@@ -122,6 +122,10 @@ class StoreApi
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
         }
+        if ($order_id < 1.0) {
+            throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
+        }
+
   
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
@@ -198,8 +202,7 @@ class StoreApi
      */
     public function getInventoryWithHttpInfo()
     {
-        
-  
+          
         // parse inputs
         $resourcePath = "/store/inventory";
         $httpBody = '';
@@ -289,6 +292,13 @@ class StoreApi
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling getOrderById');
         }
+        if ($order_id > 5.0) {
+            throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be smaller than or equal to 5.0.');
+        }
+        if ($order_id < 1.0) {
+            throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.0.');
+        }
+
   
         // parse inputs
         $resourcePath = "/store/order/{orderId}";

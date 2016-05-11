@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class SpecialModelName(object):
@@ -66,6 +67,7 @@ class SpecialModelName(object):
         :param special_property_name: The special_property_name of this SpecialModelName.
         :type: int
         """
+        
         self._special_property_name = special_property_name
 
     def to_dict(self):

@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters
+[**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 
 # **test_endpoint_parameters**
 > test_endpoint_parameters(number, double, string, byte, opts)
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
 ```ruby
@@ -21,7 +21,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 
-number = "number_example" # String | None
+number = 3.4 # Float | None
 
 double = 1.2 # Float | None
 
@@ -41,7 +41,7 @@ opts = {
 }
 
 begin
-  #Fake endpoint for testing various parameters
+  #Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
   api_instance.test_endpoint_parameters(number, double, string, byte, opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_endpoint_parameters: #{e}"
@@ -52,7 +52,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **String**| None | 
+ **number** | **Float**| None | 
  **double** | **Float**| None | 
  **string** | **String**| None | 
  **byte** | **String**| None | 

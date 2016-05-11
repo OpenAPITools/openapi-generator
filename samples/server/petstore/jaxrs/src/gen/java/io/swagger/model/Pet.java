@@ -23,12 +23,15 @@ public class Pet   {
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
 
-
+  /**
+   * pet status in the store
+   */
   public enum StatusEnum {
     AVAILABLE("available"),
-    PENDING("pending"),
-    SOLD("sold");
 
+        PENDING("pending"),
+
+        SOLD("sold");
     private String value;
 
     StatusEnum(String value) {
@@ -38,7 +41,7 @@ public class Pet   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 

@@ -41,7 +41,6 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         super.processOpts();
         supportingFiles.add(new SupportingFile("api.mustache", null, "api.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
         LOGGER.warn("check additionals: " + additionalProperties.get(NPM_NAME));
         if(additionalProperties.containsKey(NPM_NAME)) {

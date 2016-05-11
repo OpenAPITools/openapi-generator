@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  description: 'This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.'
+  description: 'This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: " \ '
   version: 1.0.0
   title: Swagger Petstore
   termsOfService: 'http://swagger.io/terms/'
@@ -564,8 +564,16 @@ paths:
     post:
       tags:
         - fake 
-      summary: Fake endpoint for testing various parameters
-      description: Fake endpoint for testing various parameters
+      summary: |
+        Fake endpoint for testing various parameters
+        假端點
+        偽のエンドポイント
+        가짜 엔드 포인트
+      description: |
+        Fake endpoint for testing various parameters
+        假端點
+        偽のエンドポイント
+        가짜 엔드 포인트
       operationId: testEndpointParameters
       produces:
         - application/xml
@@ -810,6 +818,9 @@ definitions:
         format: int32
       property:
         type: string
+      123Number:
+        type: integer
+        readOnly: true
     xml:
       name: Name
   200_response:
@@ -842,6 +853,13 @@ definitions:
     properties:
       className:
         type: string
+      color:
+        type: string
+        default: 'red'
+  AnimalFarm:
+    type: array
+    items:
+      $ref: '#/definitions/Animal'
   format_test:
     type: object
     required:
@@ -899,6 +917,33 @@ definitions:
         format: password
         maxLength: 64
         minLength: 10
+  EnumClass:
+    type: string
+    default: '-efg'
+    enum:
+      - _abc
+      - '-efg'
+      - (xyz)
+  Enum_Test:
+    type: object
+    properties:
+      enum_string:
+        type: string
+        enum:
+          - UPPER
+          - lower
+      enum_integer:
+        type: integer
+        format: int32
+        enum:
+          - 1
+          - -1
+      enum_number:
+        type: number
+        format: double
+        enum:
+          - 1.1
+          - -1.2
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

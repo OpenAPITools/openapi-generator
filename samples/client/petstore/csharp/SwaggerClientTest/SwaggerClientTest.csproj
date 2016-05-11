@@ -30,7 +30,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>Lib\SwaggerClient\bin\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
@@ -38,53 +41,31 @@
       <HintPath>packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="RestSharp">
-      <HintPath>Lib\SwaggerClient\bin\RestSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Api\PetApi.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Api\StoreApi.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Api\UserApi.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Client\ApiClient.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Client\ApiException.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Client\Configuration.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Category.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Order.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Pet.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Tag.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\User.cs" />
     <Compile Include="TestPet.cs" />
     <Compile Include="TestApiClient.cs" />
     <Compile Include="TestConfiguration.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Client\ApiResponse.cs" />
     <Compile Include="TestOrder.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\InlineResponse200.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ObjectReturn.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\SpecialModelName.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ModelReturn.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Name.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Task.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Model200Response.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Animal.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Cat.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\Dog.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\FormatTest.cs" />
-    <Compile Include="Lib\SwaggerClient\src\main\csharp\IO\Swagger\Model\ApiResponse.cs" />
+    <Compile Include="TestEnum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Lib\SwaggerClient\compile.bat" />
-    <None Include="Lib\SwaggerClient\bin\Newtonsoft.Json.dll" />
-    <None Include="Lib\SwaggerClient\bin\RestSharp.dll" />
+    <None Include="..\SwaggerClient\build.bat" />
+    <None Include="..\SwaggerClient\build.sh" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Lib\" />
-    <Folder Include="Lib\SwaggerClient\" />
+    <Folder Include="..\SwaggerClient\" />
     <EmbeddedResource Include="swagger-logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SwaggerClient\src\IO.Swagger\IO.Swagger.csproj">
+      <Project>{0862164F-97E9-4226-B458-E09905B21F2F}</Project>
+      <Name>IO.Swagger</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

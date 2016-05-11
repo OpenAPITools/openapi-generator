@@ -41,9 +41,7 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
+                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -68,9 +66,7 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
+                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -95,9 +91,7 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
+                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -126,9 +120,7 @@ namespace API.Client {
                 method: 'DELETE',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -141,7 +133,7 @@ namespace API.Client {
         /**
          * Get user by user name
          * 
-         * @param username The name that needs to be fetched. Use user1 for testing.
+         * @param username The name that needs to be fetched. Use user1 for testing. 
          */
         public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<User> {
             const localVarPath = this.basePath + '/user/{username}'
@@ -157,9 +149,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -192,9 +182,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -217,9 +205,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -250,9 +236,7 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
+                                params: queryParameters,
                 headers: headerParams
             };
 

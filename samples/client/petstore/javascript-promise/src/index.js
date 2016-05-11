@@ -1,21 +1,21 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './model/Animal', './model/Cat', './model/Category', './model/Dog', './model/FormatTest', './model/InlineResponse200', './model/Model200Response', './model/ModelReturn', './model/Name', './model/Order', './model/Pet', './model/SpecialModelName', './model/Tag', './model/User', './api/PetApi', './api/StoreApi', './api/UserApi'], factory);
+    define(['ApiClient', 'model/Animal', 'model/AnimalFarm', 'model/ApiResponse', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/FormatTest'), require('./model/InlineResponse200'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/AnimalFarm'), require('./model/ApiResponse'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, Animal, Cat, Category, Dog, FormatTest, InlineResponse200, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, Animal, AnimalFarm, ApiResponse, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
-   * This is a sample server Petstore server.  You can find out more about Swagger at &lt;a href&#x3D;\&quot;http://swagger.io\&quot;&gt;http://swagger.io&lt;/a&gt; or on irc.freenode.net, #swagger.  For this sample, you can use the api key \&quot;special-key\&quot; to test the authorization filters.<br>
+   * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose..<br>
    * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
    * <pre>
-   * var SwaggerPetstore = require('./index'); // See note below*.
+   * var SwaggerPetstore = require('index'); // See note below*.
    * var xxxSvc = new SwaggerPetstore.XxxApi(); // Allocate the API class we're going to use.
    * var yyyModel = new SwaggerPetstore.Yyy(); // Construct a model instance.
    * yyyModel.someProperty = 'someValue';
@@ -23,8 +23,8 @@
    * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
    * ...
    * </pre>
-   * <em>*NOTE: For a top-level AMD script, use require(['./index'], function(){...}) and put the application logic within the
-   * callback function.</em>
+   * <em>*NOTE: For a top-level AMD script, use require(['index'], function(){...})
+   * and put the application logic within the callback function.</em>
    * </p>
    * <p>
    * A non-AMD browser application (discouraged) might do something like this:
@@ -52,6 +52,16 @@
      */
     Animal: Animal,
     /**
+     * The AnimalFarm model constructor.
+     * @property {module:model/AnimalFarm}
+     */
+    AnimalFarm: AnimalFarm,
+    /**
+     * The ApiResponse model constructor.
+     * @property {module:model/ApiResponse}
+     */
+    ApiResponse: ApiResponse,
+    /**
      * The Cat model constructor.
      * @property {module:model/Cat}
      */
@@ -67,15 +77,20 @@
      */
     Dog: Dog,
     /**
+     * The EnumClass model constructor.
+     * @property {module:model/EnumClass}
+     */
+    EnumClass: EnumClass,
+    /**
+     * The EnumTest model constructor.
+     * @property {module:model/EnumTest}
+     */
+    EnumTest: EnumTest,
+    /**
      * The FormatTest model constructor.
      * @property {module:model/FormatTest}
      */
     FormatTest: FormatTest,
-    /**
-     * The InlineResponse200 model constructor.
-     * @property {module:model/InlineResponse200}
-     */
-    InlineResponse200: InlineResponse200,
     /**
      * The Model200Response model constructor.
      * @property {module:model/Model200Response}
@@ -116,6 +131,11 @@
      * @property {module:model/User}
      */
     User: User,
+    /**
+     * The FakeApi service constructor.
+     * @property {module:api/FakeApi}
+     */
+    FakeApi: FakeApi,
     /**
      * The PetApi service constructor.
      * @property {module:api/PetApi}

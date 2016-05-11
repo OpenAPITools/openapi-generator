@@ -40,13 +40,8 @@
      * @type {Array.<String>}
      */
     this.authentications = {
-      'test_api_key_header': {type: 'apiKey', 'in': 'header', name: 'test_api_key_header'},
-      'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
-      'test_http_basic': {type: 'basic'},
-      'test_api_client_secret': {type: 'apiKey', 'in': 'header', name: 'x-test_api_client_secret'},
-      'test_api_client_id': {type: 'apiKey', 'in': 'header', name: 'x-test_api_client_id'},
-      'test_api_key_query': {type: 'apiKey', 'in': 'query', name: 'test_api_key_query'},
-      'petstore_auth': {type: 'oauth2'}
+      'petstore_auth': {type: 'oauth2'},
+      'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'}
     };
     /**
      * The default HTTP headers to be included for all API calls.
@@ -453,6 +448,25 @@
           // for unknown type, return the data directly
           return data;
         }
+    }
+  };
+
+  /**
+   * Constructs a new map or array model from REST data.
+   * @param data {Object|Array} The REST data.
+   * @param obj {Object|Array} The target object or array.
+   */
+  exports.constructFromObject = function(data, obj, itemType) {
+    if (Array.isArray(data)) {
+      for (var i = 0; i < data.length; i++) {
+        if (data.hasOwnProperty(i))
+          obj[i] = exports.convertToType(data[i], itemType);
+      }
+    } else {
+      for (var k in data) {
+        if (data.hasOwnProperty(k))
+          result[k] = exports.convertToType(data[k], itemType);
+      }
     }
   };
 

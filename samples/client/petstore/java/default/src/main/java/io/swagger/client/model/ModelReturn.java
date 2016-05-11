@@ -1,16 +1,15 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-
 /**
  * Model for testing reserved words
- **/
-
+ */
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn   {

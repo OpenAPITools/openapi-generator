@@ -30,6 +30,8 @@ public class TypeScriptNodeClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setModelPropertyNaming(TypeScriptNodeClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
             times = 1;
+            clientCodegen.setSupportsES6(Boolean.valueOf(TypeScriptNodeClientOptionsProvider.SUPPORTS_ES6_VALUE));
+            times = 1;
         }};
     }
 }
