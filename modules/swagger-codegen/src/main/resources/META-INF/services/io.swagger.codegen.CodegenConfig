@@ -27,6 +27,7 @@ io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen
 io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SinatraServerCodegen
+io.swagger.codegen.languages.Rails5ServerCodegen
 io.swagger.codegen.languages.SlimFrameworkServerCodegen
 io.swagger.codegen.languages.SpringBootServerCodegen
 io.swagger.codegen.languages.SpringMVCServerCodegen
