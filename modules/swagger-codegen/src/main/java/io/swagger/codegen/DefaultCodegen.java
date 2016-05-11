@@ -55,6 +55,10 @@ public class DefaultCodegen {
     protected Boolean ensureUniqueParams = true;
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
+    // How to encode special characters like $
+    // They are translated to words like "Dollar" and prefixed with '
+    // Then translated back during JSON encoding and decoding
+    protected Map<Character, String> specialCharReplacements = new HashMap<Character, String>();
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -728,6 +732,31 @@ public class DefaultCodegen {
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
+
+        // initalize special character mapping
+        initalizeSpecialCharacterMapping();
+    }
+
+    /**
+     * Initalize special character mapping
+     */
+    protected void initalizeSpecialCharacterMapping() {
+        // Initialize special characters
+        specialCharReplacements.put('$', "Dollar");
+        specialCharReplacements.put('^', "Caret");
+        specialCharReplacements.put('|', "Pipe");
+        specialCharReplacements.put('=', "Equal");
+        specialCharReplacements.put('*', "Star");
+        specialCharReplacements.put('-', "Dash");
+        specialCharReplacements.put('&', "Ampersand");
+        specialCharReplacements.put('%', "Percent");
+        specialCharReplacements.put('#', "Hash");
+        specialCharReplacements.put('@', "At");
+        specialCharReplacements.put('!', "Exclamation");
+        specialCharReplacements.put('+', "Plus");
+        specialCharReplacements.put(':', "Colon");
+        specialCharReplacements.put('>', "GreaterThan");
+        specialCharReplacements.put('<', "LessThan");
     }
 
     /**
