@@ -2,6 +2,7 @@ import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@ang
 import {Injectable, Optional} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import * as models from '../model/models';
+import 'rxjs/Rx';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
