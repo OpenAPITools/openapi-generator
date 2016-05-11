@@ -329,7 +329,11 @@ public class DefaultCodegen {
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
         if (input != null) {
-            return StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ");
+            // remove \t, \n, \r
+            // repalce \ with \\
+            // repalce " with \"
+            // outter unescape to retain the original multi-byte characters
+            return StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\"");
         }
         return input;
     }
