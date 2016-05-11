@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -20,12 +20,15 @@ module Petstore
   class Dog
     attr_accessor :class_name
 
+    attr_accessor :color
+
     attr_accessor :breed
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'class_name' => :'className',
+        :'color' => :'color',
         :'breed' => :'breed'
       }
     end
@@ -34,6 +37,7 @@ module Petstore
     def self.swagger_types
       {
         :'class_name' => :'String',
+        :'color' => :'String',
         :'breed' => :'String'
       }
     end
@@ -48,6 +52,12 @@ module Petstore
 
       if attributes.has_key?(:'className')
         self.class_name = attributes[:'className']
+      end
+
+      if attributes.has_key?(:'color')
+        self.color = attributes[:'color']
+      else
+        self.color = "red"
       end
 
       if attributes.has_key?(:'breed')
@@ -78,6 +88,7 @@ module Petstore
       return true if self.equal?(o)
       self.class == o.class &&
           class_name == o.class_name &&
+          color == o.color &&
           breed == o.breed
     end
 
@@ -90,7 +101,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [class_name, breed].hash
+      [class_name, color, breed].hash
     end
 
     # Builds the object from hash

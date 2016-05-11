@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["apiteam@swagger.io"]
   s.homepage    = "https://github.com/swagger-api/swagger-codegen"
   s.summary     = "Swagger Petstore Ruby Gem"
-  s.description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose."
+  s.description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ "
   s.license     = "Apache 2.0"
 
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'

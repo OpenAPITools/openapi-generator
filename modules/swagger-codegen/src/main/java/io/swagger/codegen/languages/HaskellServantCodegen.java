@@ -18,12 +18,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     protected String sourceFolder = "src";
     protected String apiVersion = "0.0.1";
 
-
-    // How to encode special characters like $
-    // They are translated to words like "Dollar" and prefixed with '
-    // Then translated back during JSON encoding and decoding
-    private Map<Character, String> specialCharReplacements = new HashMap<Character, String>();
-
     /**
      * Configures the type of generator.
      *
@@ -57,20 +51,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public HaskellServantCodegen() {
         super();
 
-        // Initialize special characters
-        specialCharReplacements.put('$', "Dollar");
-        specialCharReplacements.put('^', "Caret");
-        specialCharReplacements.put('|', "Pipe");
-        specialCharReplacements.put('=', "Equal");
-        specialCharReplacements.put('*', "Star");
+        // override the mapping for "-" (Minus) to keep the original mapping in Haskell
         specialCharReplacements.put('-', "Dash");
-        specialCharReplacements.put('&', "Ampersand");
-        specialCharReplacements.put('%', "Percent");
-        specialCharReplacements.put('#', "Hash");
-        specialCharReplacements.put('@', "At");
-        specialCharReplacements.put('!', "Exclamation");
-        specialCharReplacements.put('+', "Plus");
-
 
         // set the output folder here
         outputFolder = "generated-code/haskell-servant";
