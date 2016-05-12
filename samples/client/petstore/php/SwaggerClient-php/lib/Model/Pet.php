@@ -186,7 +186,7 @@ class Pet implements ArrayAccess
      * 
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         

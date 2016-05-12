@@ -140,7 +140,7 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      * 
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         {{#vars}}{{#required}}
