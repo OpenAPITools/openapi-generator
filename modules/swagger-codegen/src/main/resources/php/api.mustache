@@ -52,12 +52,14 @@ use \{{invokerPackage}}\ObjectSerializer;
 
     /**
      * API Client
+     *
      * @var \{{invokerPackage}}\ApiClient instance of the ApiClient
      */
     protected $apiClient;
 
     /**
      * Constructor
+     *
      * @param \{{invokerPackage}}\ApiClient|null $apiClient The api client to use
      */
     function __construct(\{{invokerPackage}}\ApiClient $apiClient = null)
@@ -72,6 +74,7 @@ use \{{invokerPackage}}\ObjectSerializer;
 
     /**
      * Get API client
+     *
      * @return \{{invokerPackage}}\ApiClient get the API client
      */
     public function getApiClient()
@@ -81,7 +84,9 @@ use \{{invokerPackage}}\ObjectSerializer;
 
     /**
      * Set the API client
+     *
      * @param \{{invokerPackage}}\ApiClient $apiClient set the API client
+     *
      * @return {{classname}}
      */
     public function setApiClient(\{{invokerPackage}}\ApiClient $apiClient)
@@ -92,28 +97,30 @@ use \{{invokerPackage}}\ObjectSerializer;
 
     {{#operation}}
     /**
-     * {{{operationId}}}
+     * Operation {{{operationId}}}
      *
      * {{{summary}}}
      *
   {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-  {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+  {{/allParams}}   *
+     * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
     public function {{operationId}}({{#allParams}}${{paramName}}{{^required}} = null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
-        list($response) = $this->{{operationId}}WithHttpInfo ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        list($response) = $this->{{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         return $response;
     }
 
 
     /**
-     * {{{operationId}}}WithHttpInfo
+     * Operation {{{operationId}}}WithHttpInfo
      *
      * {{{summary}}}
      *
   {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-  {{/allParams}}   * @return Array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+  {{/allParams}}   *
+     * @return Array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})

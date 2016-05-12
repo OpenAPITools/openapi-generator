@@ -103,7 +103,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/hasMore}}{{/vars}}
     );
 
-    static function getters() {
+    static function getters()
+    {
         return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
     }
 
@@ -115,7 +116,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function {{getter}}AllowableValues() {
+    public function {{getter}}AllowableValues()
+    {
         return [
             {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}

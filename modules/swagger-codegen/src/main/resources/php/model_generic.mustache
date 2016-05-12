@@ -9,7 +9,8 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         {{/hasMore}}{{/vars}}
     );
 
-    static function swaggerTypes() {
+    static function swaggerTypes()
+    {
         return self::$swaggerTypes{{#parent}} + parent::swaggerTypes(){{/parent}};
     }
 
@@ -22,7 +23,8 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         {{/hasMore}}{{/vars}}
     );
 
-    static function attributeMap() {
+    static function attributeMap()
+    {
         return {{#parent}}parent::attributeMap() + {{/parent}}self::$attributeMap;
     }
 
@@ -35,7 +37,8 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         {{/hasMore}}{{/vars}}
     );
 
-    static function setters() {
+    static function setters()
+    {
         return {{#parent}}parent::setters() + {{/parent}}self::$setters;
     }
 
@@ -48,7 +51,8 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
         {{/hasMore}}{{/vars}}
     );
 
-    static function getters() {
+    static function getters()
+    {
         return {{#parent}}parent::getters() + {{/parent}}self::$getters;
     }
 
@@ -60,7 +64,8 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function {{getter}}AllowableValues() {
+    public function {{getter}}AllowableValues()
+    {
         return [
             {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
