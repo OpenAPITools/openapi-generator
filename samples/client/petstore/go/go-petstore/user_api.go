@@ -34,7 +34,7 @@ func NewUserApiWithBasePath(basePath string) *UserApi {
  * @param body Created user object
  * @return void
  */
-func (a UserApi) CreateUser(body User) (APIResponse, error) {
+func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 
 	var httpMethod = "Post"
 	// create path and map variables
@@ -42,7 +42,7 @@ func (a UserApi) CreateUser(body User) (APIResponse, error) {
 
 	// verify the required parameter 'body' is set
 	if &body == nil {
-		return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
+		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
 	}
 
 	headerParams := make(map[string]string)
@@ -82,10 +82,10 @@ func (a UserApi) CreateUser(body User) (APIResponse, error) {
 
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(httpResponse.RawResponse), err
 	}
 
-	return *NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -95,7 +95,7 @@ func (a UserApi) CreateUser(body User) (APIResponse, error) {
  * @param body List of user object
  * @return void
  */
-func (a UserApi) CreateUsersWithArrayInput(body []User) (APIResponse, error) {
+func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 
 	var httpMethod = "Post"
 	// create path and map variables
@@ -103,7 +103,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (APIResponse, error) {
 
 	// verify the required parameter 'body' is set
 	if &body == nil {
-		return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
+		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
 	}
 
 	headerParams := make(map[string]string)
@@ -143,10 +143,10 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (APIResponse, error) {
 
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(httpResponse.RawResponse), err
 	}
 
-	return *NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -156,7 +156,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (APIResponse, error) {
  * @param body List of user object
  * @return void
  */
-func (a UserApi) CreateUsersWithListInput(body []User) (APIResponse, error) {
+func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 
 	var httpMethod = "Post"
 	// create path and map variables
@@ -164,7 +164,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (APIResponse, error) {
 
 	// verify the required parameter 'body' is set
 	if &body == nil {
-		return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
+		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
 	}
 
 	headerParams := make(map[string]string)
@@ -204,10 +204,10 @@ func (a UserApi) CreateUsersWithListInput(body []User) (APIResponse, error) {
 
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(httpResponse.RawResponse), err
 	}
 
-	return *NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -217,7 +217,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (APIResponse, error) {
  * @param username The name that needs to be deleted
  * @return void
  */
-func (a UserApi) DeleteUser(username string) (APIResponse, error) {
+func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 
 	var httpMethod = "Delete"
 	// create path and map variables
@@ -226,7 +226,7 @@ func (a UserApi) DeleteUser(username string) (APIResponse, error) {
 
 	// verify the required parameter 'username' is set
 	if &username == nil {
-		return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
+		return nil, errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
 	}
 
 	headerParams := make(map[string]string)
@@ -263,10 +263,10 @@ func (a UserApi) DeleteUser(username string) (APIResponse, error) {
 
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(httpResponse.RawResponse), err
 	}
 
-	return *NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -274,9 +274,9 @@ func (a UserApi) DeleteUser(username string) (APIResponse, error) {
  * 
  *
  * @param username The name that needs to be fetched. Use user1 for testing. 
- * @return User
+ * @return *User
  */
-func (a UserApi) GetUserByName(username string) (User, APIResponse, error) {
+func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -285,7 +285,7 @@ func (a UserApi) GetUserByName(username string) (User, APIResponse, error) {
 
 	// verify the required parameter 'username' is set
 	if &username == nil {
-		return *new(User), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
+		return new(User), nil, errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
 	}
 
 	headerParams := make(map[string]string)
@@ -322,10 +322,10 @@ func (a UserApi) GetUserByName(username string) (User, APIResponse, error) {
 	var successPayload = new(User)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
+	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -334,9 +334,9 @@ func (a UserApi) GetUserByName(username string) (User, APIResponse, error) {
  *
  * @param username The user name for login
  * @param password The password for login in clear text
- * @return string
+ * @return *string
  */
-func (a UserApi) LoginUser(username string, password string) (string, APIResponse, error) {
+func (a UserApi) LoginUser(username string, password string) (*string, *APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -344,11 +344,11 @@ func (a UserApi) LoginUser(username string, password string) (string, APIRespons
 
 	// verify the required parameter 'username' is set
 	if &username == nil {
-		return *new(string), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
+		return new(string), nil, errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
 	}
 	// verify the required parameter 'password' is set
 	if &password == nil {
-		return *new(string), *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
+		return new(string), nil, errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
 	}
 
 	headerParams := make(map[string]string)
@@ -391,10 +391,10 @@ func (a UserApi) LoginUser(username string, password string) (string, APIRespons
 	var successPayload = new(string)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, *NewAPIResponse(httpResponse.RawResponse), err
+	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -403,7 +403,7 @@ func (a UserApi) LoginUser(username string, password string) (string, APIRespons
  *
  * @return void
  */
-func (a UserApi) LogoutUser() (APIResponse, error) {
+func (a UserApi) LogoutUser() (*APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -444,10 +444,10 @@ func (a UserApi) LogoutUser() (APIResponse, error) {
 
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(httpResponse.RawResponse), err
 	}
 
-	return *NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -458,7 +458,7 @@ func (a UserApi) LogoutUser() (APIResponse, error) {
  * @param body Updated user object
  * @return void
  */
-func (a UserApi) UpdateUser(username string, body User) (APIResponse, error) {
+func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 
 	var httpMethod = "Put"
 	// create path and map variables
@@ -467,11 +467,11 @@ func (a UserApi) UpdateUser(username string, body User) (APIResponse, error) {
 
 	// verify the required parameter 'username' is set
 	if &username == nil {
-		return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
+		return nil, errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
 	}
 	// verify the required parameter 'body' is set
 	if &body == nil {
-		return *NewAPIResponseWithError("400 - Bad Request"), errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
+		return nil, errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
 	}
 
 	headerParams := make(map[string]string)
@@ -511,9 +511,9 @@ func (a UserApi) UpdateUser(username string, body User) (APIResponse, error) {
 
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(httpResponse.RawResponse), err
 	}
 
-	return *NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(httpResponse.RawResponse), err
 }
 

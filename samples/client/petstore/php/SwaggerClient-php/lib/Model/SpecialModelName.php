@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * SpecialModelName Class Doc Comment
  *
@@ -59,7 +60,7 @@ class SpecialModelName implements ArrayAccess
     static $swaggerTypes = array(
         'special_property_name' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -71,7 +72,7 @@ class SpecialModelName implements ArrayAccess
     static $attributeMap = array(
         'special_property_name' => '$special[property.name]'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class SpecialModelName implements ArrayAccess
     static $setters = array(
         'special_property_name' => 'setSpecialPropertyName'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -105,10 +106,10 @@ class SpecialModelName implements ArrayAccess
     
 
     /**
-     * $special_property_name 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $special_property_name;
+    protected $container = array();
 
     /**
      * Constructor
@@ -116,19 +117,39 @@ class SpecialModelName implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->special_property_name = $data["special_property_name"];
-        }
+        $this->container['special_property_name'] = isset($data['special_property_name']) ? $data['special_property_name'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
+
     /**
      * Gets special_property_name
      * @return int
      */
     public function getSpecialPropertyName()
     {
-        return $this->special_property_name;
+        return $this->container['special_property_name'];
     }
 
     /**
@@ -138,8 +159,8 @@ class SpecialModelName implements ArrayAccess
      */
     public function setSpecialPropertyName($special_property_name)
     {
-        
-        $this->special_property_name = $special_property_name;
+        $this->container['special_property_name'] = $special_property_name;
+
         return $this;
     }
     /**
@@ -149,7 +170,7 @@ class SpecialModelName implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -159,7 +180,7 @@ class SpecialModelName implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -170,7 +191,11 @@ class SpecialModelName implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -180,7 +205,7 @@ class SpecialModelName implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

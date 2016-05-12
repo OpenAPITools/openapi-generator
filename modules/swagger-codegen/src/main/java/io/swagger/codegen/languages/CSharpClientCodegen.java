@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,9 +67,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-
-        // C# client default
-        setSourceFolder("src" + File.separator + "main" + File.separator + "csharp");
 
         cliOptions.clear();
 
@@ -141,9 +138,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void processOpts() {
         super.processOpts();
 
-        apiPackage = packageName + ".Api";
-        modelPackage = packageName + ".Model";
-        clientPackage = packageName + ".Client";
+        apiPackage = "Api";
+        modelPackage = "Model";
+        clientPackage = "Client";
 
         additionalProperties.put("clientPackage", clientPackage);
 
@@ -157,6 +154,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.DOTNET_FRAMEWORK)) {
             setTargetFramework((String) additionalProperties.get(CodegenConstants.DOTNET_FRAMEWORK));
+        } else {
+            // Ensure default is set.
+            setTargetFramework(NET45);
+            additionalProperties.put("targetFramework", this.targetFramework);
         }
 
         if (NET35.equals(this.targetFramework)) {
@@ -201,8 +202,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     .get(CodegenConstants.OPTIONAL_ASSEMBLY_INFO).toString()));
         }
 
-        String packageFolder = sourceFolder + File.separator + packageName.replace(".", java.io.File.separator);
-        String clientPackageDir = sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator);
+        final String testPackageName = testPackageName();
+        String packageFolder = sourceFolder + File.separator + packageName;
+        String clientPackageDir = packageFolder + File.separator + clientPackage;
+        String testPackageFolder = testFolder + File.separator + testPackageName;
+
+        additionalProperties.put("testPackageName", testPackageName);
 
         //Compute the relative path to the bin directory where the external assemblies live
         //This is necessary to properly generate the project file
@@ -210,7 +215,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         String binRelativePath = "..\\";
         for (int i = 0; i < packageDepth; i = i + 1)
             binRelativePath += "..\\";
-        binRelativePath += "vendor\\";
+        binRelativePath += "vendor";
         additionalProperties.put("binRelativePath", binRelativePath);
 
         supportingFiles.add(new SupportingFile("Configuration.mustache",
@@ -222,9 +227,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponse.mustache",
                 clientPackageDir, "ApiResponse.cs"));
 
-        supportingFiles.add(new SupportingFile("compile.mustache", "", "compile.bat"));
-        supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
-        supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor" + java.io.File.separator, "packages.config"));
+        supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
+        supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "build.sh"));
+
+        // copy package.config to nuget's standard location for project-level installs
+        supportingFiles.add(new SupportingFile("packages.config.mustache", packageFolder + File.separator, "packages.config"));
+        supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -233,7 +242,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
         }
         if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, clientPackage + ".csproj"));
+            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+            supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
+
+            // TODO: Check if test project output is enabled, partially related to #2506. Should have options for:
+            //       1) No test project
+            //       2) No model tests
+            //       3) No api tests
+            supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
         }
 
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -439,4 +455,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + apiPackage();
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + modelPackage();
+    }
 }

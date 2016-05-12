@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class Model200Response(object):
@@ -66,6 +67,7 @@ class Model200Response(object):
         :param name: The name of this Model200Response.
         :type: int
         """
+        
         self._name = name
 
     def to_dict(self):

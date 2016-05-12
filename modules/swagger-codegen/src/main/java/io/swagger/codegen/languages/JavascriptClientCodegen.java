@@ -33,7 +33,7 @@ import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -839,6 +839,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -853,8 +854,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             cm.vendorExtensions.put("x-all-required", allRequired);
 
             for (CodegenProperty var : cm.vars) {
-                Map<String, Object> allowableValues = var.allowableValues;
-
                 // Add JSDoc @type value for this property.
                 String jsDocType = getJSDocTypeWithBraces(cm, var);
                 var.vendorExtensions.put("x-jsdoc-type", jsDocType);
@@ -862,40 +861,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 if (Boolean.TRUE.equals(var.required)) {
                     required.add(var.name);
                 }
-
-                // handle ArrayProperty
-                if (var.items != null) {
-                    allowableValues = var.items.allowableValues;
-                }
-
-                if (allowableValues == null) {
-                    continue;
-                }
-                List<Object> values = (List<Object>) allowableValues.get("values");
-                if (values == null) {
-                    continue;
-                }
-
-                // put "enumVars" map into `allowableValues", including `name` and `value`
-                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
-                String commonPrefix = findCommonPrefixOfVars(values);
-                int truncateIdx = commonPrefix.length();
-                for (Object value : values) {
-                    Map<String, String> enumVar = new HashMap<String, String>();
-                    String enumName;
-                    if (truncateIdx == 0) {
-                        enumName = value.toString();
-                    } else {
-                        enumName = value.toString().substring(truncateIdx);
-                        if ("".equals(enumName)) {
-                            enumName = value.toString();
-                        }
-                    }
-                    enumVar.put("name", toEnumVarName(enumName, var.datatype));
-                    enumVar.put("value",toEnumValue(value.toString(), var.datatype));
-                    enumVars.add(enumVar);
-                }
-                allowableValues.put("enumVars", enumVars);
             }
 
             if (supportsInheritance) {

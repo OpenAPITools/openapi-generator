@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * ModelReturn Class Doc Comment
  *
@@ -59,7 +60,7 @@ class ModelReturn implements ArrayAccess
     static $swaggerTypes = array(
         'return' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -71,7 +72,7 @@ class ModelReturn implements ArrayAccess
     static $attributeMap = array(
         'return' => 'return'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class ModelReturn implements ArrayAccess
     static $setters = array(
         'return' => 'setReturn'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -105,10 +106,10 @@ class ModelReturn implements ArrayAccess
     
 
     /**
-     * $return 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $return;
+    protected $container = array();
 
     /**
      * Constructor
@@ -116,19 +117,39 @@ class ModelReturn implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->return = $data["return"];
-        }
+        $this->container['return'] = isset($data['return']) ? $data['return'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
+
     /**
      * Gets return
      * @return int
      */
     public function getReturn()
     {
-        return $this->return;
+        return $this->container['return'];
     }
 
     /**
@@ -138,8 +159,8 @@ class ModelReturn implements ArrayAccess
      */
     public function setReturn($return)
     {
-        
-        $this->return = $return;
+        $this->container['return'] = $return;
+
         return $this;
     }
     /**
@@ -149,7 +170,7 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -159,7 +180,7 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -170,7 +191,11 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -180,7 +205,7 @@ class ModelReturn implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

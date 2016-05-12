@@ -2,7 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.properties.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +10,8 @@ import java.io.File;
 import java.util.*;
 
 public class AspNet5ServerCodegen extends AbstractCSharpCodegen {
+
+    protected String sourceFolder = "src" + File.separator + packageName;
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNet5ServerCodegen.class);
