@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class Order(object):
@@ -81,6 +82,7 @@ class Order(object):
         :param id: The id of this Order.
         :type: int
         """
+        
         self._id = id
 
     @property
@@ -103,6 +105,7 @@ class Order(object):
         :param pet_id: The pet_id of this Order.
         :type: int
         """
+        
         self._pet_id = pet_id
 
     @property
@@ -125,6 +128,7 @@ class Order(object):
         :param quantity: The quantity of this Order.
         :type: int
         """
+        
         self._quantity = quantity
 
     @property
@@ -147,6 +151,7 @@ class Order(object):
         :param ship_date: The ship_date of this Order.
         :type: datetime
         """
+        
         self._ship_date = ship_date
 
     @property
@@ -175,6 +180,7 @@ class Order(object):
                 "Invalid value for `status`, must be one of {0}"
                 .format(allowed_values)
             )
+
         self._status = status
 
     @property
@@ -197,6 +203,7 @@ class Order(object):
         :param complete: The complete of this Order.
         :type: bool
         """
+        
         self._complete = complete
 
     def to_dict(self):

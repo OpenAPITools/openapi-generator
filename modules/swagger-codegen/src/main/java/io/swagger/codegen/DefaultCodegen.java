@@ -9,8 +9,8 @@ import io.swagger.models.parameters.*;
 import io.swagger.models.properties.*;
 import io.swagger.models.properties.PropertyBuilder.PropertyId;
 import io.swagger.util.Json;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +55,10 @@ public class DefaultCodegen {
     protected Boolean ensureUniqueParams = true;
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
+    // How to encode special characters like $
+    // They are translated to words like "Dollar" and prefixed with '
+    // Then translated back during JSON encoding and decoding
+    protected Map<Character, String> specialCharReplacements = new HashMap<Character, String>();
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -97,10 +101,10 @@ public class DefaultCodegen {
     @SuppressWarnings({ "static-method", "unchecked" })
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         if (supportsInheritance) {
-            // Index all CodegenModels by name.
+            // Index all CodegenModels by model name.
             Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
             for (Entry<String, Object> entry : objs.entrySet()) {
-                String modelName = entry.getKey();
+                String modelName = toModelName(entry.getKey());
                 Map<String, Object> inner = (Map<String, Object>) entry.getValue();
                 List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
                 for (Map<String, Object> mo : models) {
@@ -133,6 +137,161 @@ public class DefaultCodegen {
         return objs;
     }
 
+    /**
+     * post process enum defined in model's properties
+     * 
+     * @param objs Map of models
+     * @return maps of models with better enum support
+     */
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                Map<String, Object> allowableValues = cm.allowableValues;
+
+                List<Object> values = (List<Object>) allowableValues.get("values");
+                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                String commonPrefix = findCommonPrefixOfVars(values);
+                int truncateIdx = commonPrefix.length();
+                for (Object value : values) {
+                    Map<String, String> enumVar = new HashMap<String, String>();
+                    String enumName;
+                    if (truncateIdx == 0) {
+                        enumName = value.toString();
+                    } else {
+                        enumName = value.toString().substring(truncateIdx);
+                        if ("".equals(enumName)) {
+                            enumName = value.toString();
+                        }
+                    }
+                    enumVar.put("name", toEnumVarName(enumName, cm.dataType));
+                    enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
+                    enumVars.add(enumVar);
+                }
+                cm.allowableValues.put("enumVars", enumVars);
+            }
+
+            // for enum model's properties
+            for (CodegenProperty var : cm.vars) {
+                Map<String, Object> allowableValues = var.allowableValues;
+
+                // handle ArrayProperty
+                if (var.items != null) {
+                    allowableValues = var.items.allowableValues;
+                }
+
+                if (allowableValues == null) {
+                    continue;
+                }
+                //List<String> values = (List<String>) allowableValues.get("values");
+                List<Object> values = (List<Object>) allowableValues.get("values");
+                if (values == null) {
+                    continue;
+                }
+
+                // put "enumVars" map into `allowableValues", including `name` and `value`
+                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                String commonPrefix = findCommonPrefixOfVars(values);
+                int truncateIdx = commonPrefix.length();
+                for (Object value : values) {
+                    Map<String, String> enumVar = new HashMap<String, String>();
+                    String enumName;
+                    if (truncateIdx == 0) {
+                        enumName = value.toString();
+                    } else {
+                        enumName = value.toString().substring(truncateIdx);
+                        if ("".equals(enumName)) {
+                            enumName = value.toString();
+                        }
+                    }
+                    enumVar.put("name", toEnumVarName(enumName, var.datatype));
+                    enumVar.put("value", toEnumValue(value.toString(), var.datatype));
+                    enumVars.add(enumVar);
+                }
+                allowableValues.put("enumVars", enumVars);
+                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
+                if (var.defaultValue != null) {
+                    String enumName = null;
+                    for (Map<String, String> enumVar : enumVars) {
+                        if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
+                            enumName = enumVar.get("name");
+                            break;
+                        }
+                    }
+                    if (enumName != null) {
+                        var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    /**
+     * Returns the common prefix of variables for enum naming
+     * 
+     * @param vars List of variable names
+     * @return the common prefix for naming
+     */
+    public String findCommonPrefixOfVars(List<Object> vars) {
+        try {
+            String[] listStr = vars.toArray(new String[vars.size()]);
+
+            String prefix = StringUtils.getCommonPrefix(listStr);
+            // exclude trailing characters that should be part of a valid variable
+            // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
+            return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
+        } catch (ArrayStoreException e) {
+            return "";
+        }
+    }
+    
+    /**
+     * Return the enum default value in the language specifed format
+     * 
+     * @param value enum variable name
+     * @param datatype data type
+     * @return the default value for the enum
+     */
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "." + value;
+    }
+
+    /**
+     * Return the enum value in the language specifed format
+     * e.g. status becomes "status"
+     * 
+     * @param value enum variable name
+     * @param datatype data type
+     * @return the sanitized value for enum
+     */
+    public String toEnumValue(String value, String datatype) {
+        if ("number".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+    
+    /**
+     * Return the sanitized variable name for enum
+     * 
+     * @param value enum variable name
+     * @param datatype data type
+     * @return the sanitized variable name for enum
+     */
+    public String toEnumVarName(String value, String datatype) {
+        String var = value.replaceAll("\\W+", "_").toUpperCase();
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
+        }
+    }
 
     // override with any special post-processing
     @SuppressWarnings("static-method")
@@ -170,7 +329,11 @@ public class DefaultCodegen {
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
         if (input != null) {
-            return StringEscapeUtils.escapeJava(input).replace("\\/", "/");
+            // remove \t, \n, \r
+            // repalce \ with \\
+            // repalce " with \"
+            // outter unescape to retain the original multi-byte characters
+            return StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\"");
         }
         return input;
     }
@@ -456,7 +619,7 @@ public class DefaultCodegen {
     /**
      * Return the Enum name (e.g. StatusEnum given 'status')
      *
-     * @param property Codegen property object
+     * @param property Codegen property
      * @return the Enum name
      */
     @SuppressWarnings("static-method")
@@ -573,6 +736,31 @@ public class DefaultCodegen {
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
+
+        // initalize special character mapping
+        initalizeSpecialCharacterMapping();
+    }
+
+    /**
+     * Initalize special character mapping
+     */
+    protected void initalizeSpecialCharacterMapping() {
+        // Initialize special characters
+        specialCharReplacements.put('$', "Dollar");
+        specialCharReplacements.put('^', "Caret");
+        specialCharReplacements.put('|', "Pipe");
+        specialCharReplacements.put('=', "Equal");
+        specialCharReplacements.put('*', "Star");
+        specialCharReplacements.put('-', "Minus");
+        specialCharReplacements.put('&', "Ampersand");
+        specialCharReplacements.put('%', "Percent");
+        specialCharReplacements.put('#', "Hash");
+        specialCharReplacements.put('@', "At");
+        specialCharReplacements.put('!', "Exclamation");
+        specialCharReplacements.put('+', "Plus");
+        specialCharReplacements.put(':', "Colon");
+        specialCharReplacements.put('>', "GreaterThan");
+        specialCharReplacements.put('<', "LessThan");
     }
 
     /**
@@ -986,7 +1174,7 @@ public class DefaultCodegen {
                     m.interfaces.add(interfaceRef);
                     addImport(m, interfaceRef);
                     if (allDefinitions != null) {
-                        final Model interfaceModel = allDefinitions.get(interfaceRef);
+                        final Model interfaceModel = allDefinitions.get(_interface.getSimpleRef());
                         if (supportsInheritance) {
                             addProperties(allProperties, allRequired, interfaceModel, allDefinitions);
                         } else {
@@ -1012,7 +1200,9 @@ public class DefaultCodegen {
             ModelImpl impl = (ModelImpl) model;
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
                 m.isEnum = true;
-                m.allowableValues = impl.getEnum();
+                // comment out below as allowableValues is not set in post processing model enum
+                m.allowableValues = new HashMap<String, Object>();
+                m.allowableValues.put("values", impl.getEnum());
                 Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
                 m.dataType = getSwaggerType(p);
             }
@@ -1043,7 +1233,7 @@ public class DefaultCodegen {
                 required.addAll(mi.getRequired());
             }
         } else if (model instanceof RefModel) {
-            String interfaceRef = toModelName(((RefModel) model).getSimpleRef());
+            String interfaceRef = ((RefModel) model).getSimpleRef();
             Model interfaceModel = allDefinitions.get(interfaceRef);
             addProperties(properties, required, interfaceModel, allDefinitions);
         } else if (model instanceof ComposedModel) {
@@ -1144,7 +1334,8 @@ public class DefaultCodegen {
             }
         }
 
-        if (p instanceof BaseIntegerProperty) {
+        // type is integer and without format
+        if (p instanceof BaseIntegerProperty && !(p instanceof IntegerProperty) && !(p instanceof LongProperty)) {
             BaseIntegerProperty sp = (BaseIntegerProperty) p;
             property.isInteger = true;
             /*if (sp.getEnum() != null) {
@@ -1210,7 +1401,8 @@ public class DefaultCodegen {
             property.isByteArray = true;
         }
 
-        if (p instanceof DecimalProperty) {
+        // type is number and without format
+        if (p instanceof DecimalProperty && !(p instanceof DoubleProperty) && !(p instanceof FloatProperty)) {
             DecimalProperty sp = (DecimalProperty) p;
             property.isFloat = true;
             /*if (sp.getEnum() != null) {

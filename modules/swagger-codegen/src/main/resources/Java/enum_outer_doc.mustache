@@ -2,6 +2,6 @@
 
 ## Enum
 
-{{#allowableValues}}
-* `{{.}}`
-{{/allowableValues}}
+{{#allowableValues}}{{#enumVars}}
+* `{{name}}` (value: `{{{value}}}`)
+{{/enumVars}}{{/allowableValues}}

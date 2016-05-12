@@ -264,6 +264,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             String suffix = config.modelTemplateFiles().get(templateName);
                             String filename = config.modelFileFolder() + File.separator + config.toModelFilename(name) + suffix;
                             if (!config.shouldOverwrite(filename)) {
+                                LOGGER.info("Skipped overwriting " + filename);
                                 continue;
                             }
                             String templateFile = getFullTemplateFile(config, templateName);
@@ -285,7 +286,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         for (String templateName : config.modelTestTemplateFiles().keySet()) {
                             String suffix = config.modelTestTemplateFiles().get(templateName);
                             String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(name) + suffix;
-                            if (!config.shouldOverwrite(filename)) {
+                            // do not overwrite test file that already exists
+                            if (new File(filename).exists()) {
+                                LOGGER.info("File exists. Skipped overwriting " + filename);
                                 continue;
                             }
                             String templateFile = getFullTemplateFile(config, templateName);
@@ -308,6 +311,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                             String suffix = config.modelDocTemplateFiles().get(templateName);
                             String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(name) + suffix;
                             if (!config.shouldOverwrite(filename)) {
+                                LOGGER.info("Skipped overwriting " + filename);
                                 continue;
                             }
                             String templateFile = getFullTemplateFile(config, templateName);
@@ -393,6 +397,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     for (String templateName : config.apiTemplateFiles().keySet()) {
                         String filename = config.apiFilename(templateName, tag);
                         if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
+                            LOGGER.info("Skipped overwriting " + filename);
                             continue;
                         }
 
@@ -415,10 +420,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     // to generate api test files
                     for (String templateName : config.apiTestTemplateFiles().keySet()) {
                         String filename = config.apiTestFilename(templateName, tag);
-                        if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
+                        // do not overwrite test file that already exists
+                        if (new File(filename).exists()) {
+                            LOGGER.info("File exists. Skipped overwriting " + filename);
                             continue;
                         }
-
                         String templateFile = getFullTemplateFile(config, templateName);
                         String template = readTemplate(templateFile);
                         Template tmpl = Mustache.compiler()
@@ -439,6 +445,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     for (String templateName : config.apiDocTemplateFiles().keySet()) {
                         String filename = config.apiDocFilename(templateName, tag);
                         if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
+                            LOGGER.info("Skipped overwriting " + filename);
                             continue;
                         }
 
@@ -521,6 +528,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                     String outputFilename = outputFolder + File.separator + support.destinationFilename;
                     if (!config.shouldOverwrite(outputFilename)) {
+                        LOGGER.info("Skipped overwriting " + outputFilename);
                         continue;
                     }
 

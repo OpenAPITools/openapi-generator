@@ -31,19 +31,19 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-22T17:54:58.453+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:43:02.966+02:00")
 public class UserApi {
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
   @io.swagger.annotations.ApiResponses(value = { 
     @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUser(
 
-@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body
+@ApiParam(value = "Created user object"  ) @RequestBody User body
 )
       throws NotFoundException {
       // do some magic!
@@ -55,12 +55,12 @@ public class UserApi {
   @io.swagger.annotations.ApiResponses(value = { 
     @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "/createWithArray",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
+@ApiParam(value = "List of user object"  ) @RequestBody List<User> body
 )
       throws NotFoundException {
       // do some magic!
@@ -72,12 +72,12 @@ public class UserApi {
   @io.swagger.annotations.ApiResponses(value = { 
     @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "/createWithList",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   public ResponseEntity<Void> createUsersWithListInput(
 
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
+@ApiParam(value = "List of user object"  ) @RequestBody List<User> body
 )
       throws NotFoundException {
       // do some magic!
@@ -90,7 +90,7 @@ public class UserApi {
     @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
     @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
   @RequestMapping(value = "/{username}",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
   public ResponseEntity<Void> deleteUser(
@@ -109,7 +109,7 @@ public class UserApi {
     @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
     @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = User.class) })
   @RequestMapping(value = "/{username}",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   public ResponseEntity<User> getUserByName(
@@ -127,14 +127,14 @@ public class UserApi {
     @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
     @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
   @RequestMapping(value = "/login",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
-  public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username
+  public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login") @RequestParam(value = "username", required = false) String username
 
 
 ,
-    @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password
+    @ApiParam(value = "The password for login in clear text") @RequestParam(value = "password", required = false) String password
 
 
 )
@@ -148,7 +148,7 @@ public class UserApi {
   @io.swagger.annotations.ApiResponses(value = { 
     @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "/logout",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   public ResponseEntity<Void> logoutUser()
@@ -163,7 +163,7 @@ public class UserApi {
     @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
     @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
   @RequestMapping(value = "/{username}",
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.PUT)
   public ResponseEntity<Void> updateUser(
@@ -172,7 +172,7 @@ public class UserApi {
 ,
     
 
-@ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body
+@ApiParam(value = "Updated user object"  ) @RequestBody User body
 )
       throws NotFoundException {
       // do some magic!

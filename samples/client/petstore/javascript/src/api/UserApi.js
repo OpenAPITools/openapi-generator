@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', '../model/User'], factory);
+    define(['ApiClient', 'model/User'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('../model/User'));
@@ -25,8 +25,8 @@
    * Constructs a new UserApi. 
    * @alias module:api/UserApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use, default to {@link module:ApiClient#instance}
-   * if unspecified.
+   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
    */
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
@@ -43,13 +43,16 @@
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {Object} opts Optional parameters
-     * @param {module:model/User} opts.body Created user object
+     * @param {module:model/User} body Created user object
      * @param {module:api/UserApi~createUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.createUser = function(opts, callback) {
-      opts = opts || {};
-      var postBody = opts['body'];
+    this.createUser = function(body, callback) {
+      var postBody = body;
+
+      // verify the required parameter 'body' is set
+      if (body == undefined || body == null) {
+        throw "Missing the required parameter 'body' when calling createUser";
+      }
 
 
       var pathParams = {
@@ -63,7 +66,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(
@@ -84,13 +87,16 @@
     /**
      * Creates list of users with given input array
      * 
-     * @param {Object} opts Optional parameters
-     * @param {Array.<module:model/User>} opts.body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.createUsersWithArrayInput = function(opts, callback) {
-      opts = opts || {};
-      var postBody = opts['body'];
+    this.createUsersWithArrayInput = function(body, callback) {
+      var postBody = body;
+
+      // verify the required parameter 'body' is set
+      if (body == undefined || body == null) {
+        throw "Missing the required parameter 'body' when calling createUsersWithArrayInput";
+      }
 
 
       var pathParams = {
@@ -104,7 +110,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(
@@ -125,13 +131,16 @@
     /**
      * Creates list of users with given input array
      * 
-     * @param {Object} opts Optional parameters
-     * @param {Array.<module:model/User>} opts.body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.createUsersWithListInput = function(opts, callback) {
-      opts = opts || {};
-      var postBody = opts['body'];
+    this.createUsersWithListInput = function(body, callback) {
+      var postBody = body;
+
+      // verify the required parameter 'body' is set
+      if (body == undefined || body == null) {
+        throw "Missing the required parameter 'body' when calling createUsersWithListInput";
+      }
 
 
       var pathParams = {
@@ -145,7 +154,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(
@@ -188,9 +197,9 @@
       var formParams = {
       };
 
-      var authNames = ['test_http_basic'];
+      var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(
@@ -236,7 +245,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = User;
 
       return this.apiClient.callApi(
@@ -257,22 +266,30 @@
     /**
      * Logs user into the system
      * 
-     * @param {Object} opts Optional parameters
-     * @param {String} opts.username The user name for login
-     * @param {String} opts.password The password for login in clear text
+     * @param {String} username The user name for login
+     * @param {String} password The password for login in clear text
      * @param {module:api/UserApi~loginUserCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {'String'}
      */
-    this.loginUser = function(opts, callback) {
-      opts = opts || {};
+    this.loginUser = function(username, password, callback) {
       var postBody = null;
+
+      // verify the required parameter 'username' is set
+      if (username == undefined || username == null) {
+        throw "Missing the required parameter 'username' when calling loginUser";
+      }
+
+      // verify the required parameter 'password' is set
+      if (password == undefined || password == null) {
+        throw "Missing the required parameter 'password' when calling loginUser";
+      }
 
 
       var pathParams = {
       };
       var queryParams = {
-        'username': opts['username'],
-        'password': opts['password']
+        'username': username,
+        'password': password
       };
       var headerParams = {
       };
@@ -281,7 +298,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = 'String';
 
       return this.apiClient.callApi(
@@ -319,7 +336,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(
@@ -341,17 +358,20 @@
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {Object} opts Optional parameters
-     * @param {module:model/User} opts.body Updated user object
+     * @param {module:model/User} body Updated user object
      * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.updateUser = function(username, opts, callback) {
-      opts = opts || {};
-      var postBody = opts['body'];
+    this.updateUser = function(username, body, callback) {
+      var postBody = body;
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
         throw "Missing the required parameter 'username' when calling updateUser";
+      }
+
+      // verify the required parameter 'body' is set
+      if (body == undefined || body == null) {
+        throw "Missing the required parameter 'body' when calling updateUser";
       }
 
 
@@ -367,7 +387,7 @@
 
       var authNames = [];
       var contentTypes = [];
-      var accepts = ['application/json', 'application/xml'];
+      var accepts = ['application/xml', 'application/json'];
       var returnType = null;
 
       return this.apiClient.callApi(

@@ -217,7 +217,7 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns NSArray<SWGPet>*
 ///
--(NSNumber*) findPetsByStatusWithStatus: (NSArray* /* NSString */) status
+-(NSNumber*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByStatus"];
 
@@ -284,7 +284,7 @@ static SWGPetApi* singletonAPI = nil;
 ///
 ///  @returns NSArray<SWGPet>*
 ///
--(NSNumber*) findPetsByTagsWithTags: (NSArray* /* NSString */) tags
+-(NSNumber*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByTags"];
 

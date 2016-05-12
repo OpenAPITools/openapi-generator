@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class ApiResponse(object):
@@ -72,6 +73,7 @@ class ApiResponse(object):
         :param code: The code of this ApiResponse.
         :type: int
         """
+        
         self._code = code
 
     @property
@@ -94,6 +96,7 @@ class ApiResponse(object):
         :param type: The type of this ApiResponse.
         :type: str
         """
+        
         self._type = type
 
     @property
@@ -116,6 +119,7 @@ class ApiResponse(object):
         :param message: The message of this ApiResponse.
         :type: str
         """
+        
         self._message = message
 
     def to_dict(self):

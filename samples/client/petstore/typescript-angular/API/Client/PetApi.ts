@@ -41,36 +41,7 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * Fake endpoint to test byte array in body parameter for adding a new pet to the store
-         * 
-         * @param body Pet object in the form of byte array
-         */
-        public addPetUsingByteArray (body?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
-            const localVarPath = this.basePath + '/pet?testing_byte_array=true';
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
-                method: 'POST',
-                url: localVarPath,
-                json: true,
-                data: body,
-                
-                
-                params: queryParameters,
+                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -102,9 +73,7 @@ namespace API.Client {
                 method: 'DELETE',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -116,8 +85,8 @@ namespace API.Client {
         }
         /**
          * Finds Pets by status
-         * Multiple status values can be provided with comma separated strings
-         * @param status Status values that need to be considered for query
+         * Multiple status values can be provided with comma seperated strings
+         * @param status Status values that need to be considered for filter
          */
         public findPetsByStatus (status?: Array<string>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<Pet>> {
             const localVarPath = this.basePath + '/pet/findByStatus';
@@ -132,9 +101,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -162,9 +129,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -193,71 +158,7 @@ namespace API.Client {
                 method: 'GET',
                 url: localVarPath,
                 json: true,
-                
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
-         * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-         * @param petId ID of pet that needs to be fetched
-         */
-        public getPetByIdInObject (petId: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<InlineResponse200> {
-            const localVarPath = this.basePath + '/pet/{petId}?response=inline_arbitrary_object'
-                .replace('{' + 'petId' + '}', String(petId));
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling getPetByIdInObject');
-            }
-            let httpRequestParams: any = {
-                method: 'GET',
-                url: localVarPath,
-                json: true,
-                
-                
-                params: queryParameters,
-                headers: headerParams
-            };
-
-            if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
-            }
-
-            return this.$http(httpRequestParams);
-        }
-        /**
-         * Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-         * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-         * @param petId ID of pet that needs to be fetched
-         */
-        public petPetIdtestingByteArraytrueGet (petId: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<string> {
-            const localVarPath = this.basePath + '/pet/{petId}?testing_byte_array=true'
-                .replace('{' + 'petId' + '}', String(petId));
-
-            let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling petPetIdtestingByteArraytrueGet');
-            }
-            let httpRequestParams: any = {
-                method: 'GET',
-                url: localVarPath,
-                json: true,
-                
-                
-                params: queryParameters,
+                                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -282,9 +183,7 @@ namespace API.Client {
                 url: localVarPath,
                 json: true,
                 data: body,
-                
-                
-                params: queryParameters,
+                                params: queryParameters,
                 headers: headerParams
             };
 
@@ -323,9 +222,7 @@ namespace API.Client {
                 method: 'POST',
                 url: localVarPath,
                 json: false,
-                
-                data: this.$httpParamSerializer(formParams),
-                
+                                data: this.$httpParamSerializer(formParams),
                 params: queryParameters,
                 headers: headerParams
             };
@@ -365,9 +262,7 @@ namespace API.Client {
                 method: 'POST',
                 url: localVarPath,
                 json: false,
-                
-                data: this.$httpParamSerializer(formParams),
-                
+                                data: this.$httpParamSerializer(formParams),
                 params: queryParameters,
                 headers: headerParams
             };

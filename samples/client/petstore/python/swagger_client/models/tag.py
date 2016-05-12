@@ -20,6 +20,7 @@ Copyright 2016 SmartBear Software
 
 from pprint import pformat
 from six import iteritems
+import re
 
 
 class Tag(object):
@@ -69,6 +70,7 @@ class Tag(object):
         :param id: The id of this Tag.
         :type: int
         """
+        
         self._id = id
 
     @property
@@ -91,6 +93,7 @@ class Tag(object):
         :param name: The name of this Tag.
         :type: str
         """
+        
         self._name = name
 
     def to_dict(self):

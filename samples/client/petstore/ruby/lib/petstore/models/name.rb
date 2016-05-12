@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -25,12 +25,15 @@ module Petstore
 
     attr_accessor :property
 
+    attr_accessor :_123_number
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'name' => :'name',
         :'snake_case' => :'snake_case',
-        :'property' => :'property'
+        :'property' => :'property',
+        :'_123_number' => :'123Number'
       }
     end
 
@@ -39,7 +42,8 @@ module Petstore
       {
         :'name' => :'Integer',
         :'snake_case' => :'Integer',
-        :'property' => :'String'
+        :'property' => :'String',
+        :'_123_number' => :'Integer'
       }
     end
 
@@ -61,6 +65,10 @@ module Petstore
 
       if attributes.has_key?(:'property')
         self.property = attributes[:'property']
+      end
+
+      if attributes.has_key?(:'123Number')
+        self._123_number = attributes[:'123Number']
       end
 
     end
@@ -88,7 +96,8 @@ module Petstore
       self.class == o.class &&
           name == o.name &&
           snake_case == o.snake_case &&
-          property == o.property
+          property == o.property &&
+          _123_number == o._123_number
     end
 
     # @see the `==` method
@@ -100,7 +109,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name, snake_case, property].hash
+      [name, snake_case, property, _123_number].hash
     end
 
     # Builds the object from hash

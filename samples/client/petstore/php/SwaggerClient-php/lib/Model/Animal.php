@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Animal Class Doc Comment
  *
@@ -57,54 +58,62 @@ class Animal implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'class_name' => 'string'
+        'class_name' => 'string',
+        'color' => 'string'
     );
-  
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
 
     /** 
-      * Array of attributes where the key is the local name, and the value is the original name
-      * @var string[] 
-      */
+     * Array of attributes where the key is the local name, and the value is the original name
+     * @var string[]
+     */
     static $attributeMap = array(
-        'class_name' => 'className'
+        'class_name' => 'className',
+        'color' => 'color'
     );
-  
+
     static function attributeMap() {
         return self::$attributeMap;
     }
 
     /**
-      * Array of attributes to setter functions (for deserialization of responses)
-      * @var string[]
-      */
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
     static $setters = array(
-        'class_name' => 'setClassName'
+        'class_name' => 'setClassName',
+        'color' => 'setColor'
     );
-  
+
     static function setters() {
         return self::$setters;
     }
 
     /**
-      * Array of attributes to getter functions (for serialization of requests)
-      * @var string[]
-      */
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
     static $getters = array(
-        'class_name' => 'getClassName'
+        'class_name' => 'getClassName',
+        'color' => 'getColor'
     );
-  
+ 
     static function getters() {
         return self::$getters;
     }
 
+    
+
+    
+
     /**
-      * $class_name 
-      * @var string
-      */
-    protected $class_name;
+     * Associative array for storing property values
+     * @var mixed[]
+     */
+    protected $container = array();
 
     /**
      * Constructor
@@ -112,24 +121,52 @@ class Animal implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
+        $this->container['class_name'] = isset($data['class_name']) ? $data['class_name'] : null;
+        $this->container['color'] = isset($data['color']) ? $data['color'] : 'red';
+
         // Initialize discriminator property with the model name.
         $discrimintor = array_search('className', self::$attributeMap);
-        $this->{$discrimintor} = static::$swaggerModelName;
-
-        if ($data != null) {
-            $this->class_name = $data["class_name"];
-        }
+        $this->container[$discrimintor] = static::$swaggerModelName;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        if ($this->container['class_name'] === null) {
+            $invalid_properties[] = "'$class_name' can't be null";
+        }
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        if ($this->container['class_name'] === null) {
+            return false;
+        }
+        return true;
+    }
+
+
     /**
      * Gets class_name
      * @return string
      */
     public function getClassName()
     {
-        return $this->class_name;
+        return $this->container['class_name'];
     }
-  
+
     /**
      * Sets class_name
      * @param string $class_name 
@@ -137,8 +174,29 @@ class Animal implements ArrayAccess
      */
     public function setClassName($class_name)
     {
-        
-        $this->class_name = $class_name;
+        $this->container['class_name'] = $class_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets color
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->container['color'];
+    }
+
+    /**
+     * Sets color
+     * @param string $color 
+     * @return $this
+     */
+    public function setColor($color)
+    {
+        $this->container['color'] = $color;
+
         return $this;
     }
     /**
@@ -148,9 +206,9 @@ class Animal implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
-  
+
     /**
      * Gets offset.
      * @param  integer $offset Offset 
@@ -158,9 +216,9 @@ class Animal implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
-  
+ 
     /**
      * Sets value based on offset.
      * @param  integer $offset Offset 
@@ -169,9 +227,13 @@ class Animal implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
-  
+ 
     /**
      * Unsets offset.
      * @param  integer $offset Offset 
@@ -179,9 +241,9 @@ class Animal implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
-  
+ 
     /**
      * Gets the string presentation of the object
      * @return string

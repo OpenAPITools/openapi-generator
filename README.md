@@ -51,6 +51,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [Java JAX-RS (Apache CXF 2 / 3)](#java-jax-rs-apache-cxf-2--3)
       - [Java JAX-RS (Resteasy)](#java-jax-rs-resteasy)      
       - [Java Spring MVC](#java-spring-mvc)
+      - [Java SpringBoot](#java-springboot)
       - [Haskell Servant](#haskell-servant)
       - [ASP.NET 5 Web API](#aspnet-5-web-api)
     - [To build the codegen library](#to-build-the-codegen-library)
@@ -59,6 +60,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
+  - [Swagger Codegen Core Team](#swagger-codegen-core-team)
   - [License](#license)
 
 
@@ -688,6 +690,31 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/spring-mvc
 ```
 
+### Java SpringBoot
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l springboot \
+  -o samples/server/petstore/springboot
+```
+
+You can also set a Json file with basePackage & configPackage properties :  
+Example : 
+```
+{
+"basePackage":"io.swagger",
+"configPackage":"io.swagger.config"
+}
+```
+For use it  add option ```-c myOptions.json```  to the generation command    
+
+To Use-it :
+in the generated folder try ``` mvn package ``` for build jar.  
+Start your server  ``` java -jar target/swagger-springboot-server-1.0.0.jar ```  
+SpringBoot listening on default port 8080
+
+
 ### Haskell Servant
 
 ```
@@ -763,6 +790,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Acunetix](https://www.acunetix.com/)
 - [Atlassian](https://www.atlassian.com/)
 - [beemo](http://www.beemo.eu)
+- [bitly](https://bitly.com)
 - [Cachet Financial](http://www.cachetfinancial.com/)
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Cupix](http://www.cupix.com)
@@ -779,9 +807,12 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [OSDN](https://osdn.jp)
+- [PagerDuty](https://www.pagerduty.com)
+- [Pepipost](https://www.pepipost.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
 - [Reload! A/S](https://reload.dk/) 
+- [REstore](https://www.restore.eu)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
@@ -790,6 +821,92 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [uShip](https://www.uship.com/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
+
+# Swagger Codegen Core Team
+
+Swaagger Codegen core team members are contributors who have been making signficiant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
+
+## API Clients
+| Langauges     | Core Team (join date) | 
+|:-------------|:-------------| 
+| ActionScript | |
+| C++      |  |  
+| C#      | @jimschubert (2016/05/01) |  |
+| Clojure | @xhh (2016/05/01) |
+| Dart      |  |  
+| Groovy     |  |  
+| Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
+| Java      | @cbornet (2016/05/01) @xhh (2016/05/01) |
+| NodeJS/Javascript | @xhh (2016/05/01) | 
+| ObjC      | @mateuszmackowiak (2016/05/09) |
+| Perl      | @wing328 (2016/05/01) |
+| PHP      | @arnested (2016/05/01) |
+| Python   | @scottrw93 (2016/05/01) |
+| Ruby      | @wing328 (2016/05/01) |
+| Scala     |  |
+| Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
+| TypeScript (Node) | @Vrolijkx (2016/05/01) | 
+| TypeScript (Angular1) | @Vrolijkx (2016/05/01) | 
+| TypeScript (Angular2) | @Vrolijkx (2016/05/01) |
+| TypeScript (Fetch) |  |
+## Server Stubs
+| Langauges     | Core Team (date joined) | 
+|:------------- |:-------------| 
+| C# ASP.NET5 |  @jimschubert (2016/05/01) |
+| Haskell Servant |  |
+| Java Spring Boot |  |
+| Java SpringMVC | @kolyjjj (2016/05/01) |
+| Java JAX-RS |  |
+| NodeJS | @kolyjjj (2016/05/01) |  
+| PHP Lumen | @abcsum (2016/05/01) |
+| PHP Silex |  |
+| PHP Slim  |  |
+| Python Flask  |  |
+| Ruby Sinatra     | @wing328 (2016/05/01) |  |
+| Scala Scalatra |  |  |
+
+## Template Creator
+Here is a list of template creators:
+ * API Clients:
+   * Akka-Scala: @cchafer 
+   * C# (.NET 2.0): @who
+   * Clojure: @xhh
+   * Dart: @yissachar  
+   * Groovy: @victorgit  
+   * Go: @wing328  
+   * Java (Retrofit): @0legg
+   * Java (Retrofi2): @emilianobonassi
+   * Java (Jersey2): @xhh 
+   * Java (okhttp-gson): @xhh
+   * Javascript/NodeJS: @jfiala  
+   * Javascript (Closure-annotated Angular) @achew22
+   * Perl: @wing328
+   * Swift: @tkqubo
+   * TypeScript (Node):  @mhardorf 
+   * TypeScript (Angular1):  @mhardorf 
+   * TypeScript (Fetch): @leonyu
+   * TypeScript (Angular2): @roni-frantchi
+ * Server Stubs
+   * C# ASP.NET5: @jimschubert
+   * Haskell Servant: @algas
+   * Java Spring Boot: @diyfr
+   * JAX-RS RestEasy: @chameleon82
+   * JAX-RS CXF: @hiveship 
+   * PHP Lumen: @abcsum
+   * PHP Slim: @jfastnacht
+
+## How to join the core team
+
+Here are the requirements to become a core team member:
+- rank within top 50 in https://github.com/swagger-api/swagger-codegen/graphs/contributors
+  - to contribute, here are some good [starting points](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22) 
+- regular contributions to the project
+  - about 3 hours per week
+  - for contribution, it can be addressing issues, reviewing PRs submitted by others, submitting PR to fix bugs or make enhancements, etc
+
+ To join the core team, please reach out to wing328hk@gmail.com (@wing328) for more information.
+ 
+ To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
 License
 -------

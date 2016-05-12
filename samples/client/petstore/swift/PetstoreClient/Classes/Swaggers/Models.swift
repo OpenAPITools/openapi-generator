@@ -156,7 +156,7 @@ class Decoders {
                 instance.petId = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["petId"])
                 instance.quantity = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"])
                 instance.shipDate = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["shipDate"])
-                instance.status = Order.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
+                instance.status = Order.ST(rawValue: (sourceDictionary["status"] as? String) ?? "") 
                 instance.complete = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["complete"])
                 return instance
             }
@@ -175,7 +175,7 @@ class Decoders {
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
                 instance.photoUrls = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["photoUrls"])
                 instance.tags = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["tags"])
-                instance.status = Pet.Status(rawValue: (sourceDictionary["status"] as? String) ?? "") 
+                instance.status = Pet.ST(rawValue: (sourceDictionary["status"] as? String) ?? "") 
                 return instance
             }
 

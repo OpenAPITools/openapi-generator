@@ -60,7 +60,7 @@ class UserApi
      * Constructor
      * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
      */
-    function __construct($apiClient = null)
+    function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -84,7 +84,7 @@ class UserApi
      * @param \Swagger\Client\ApiClient $apiClient set the API client
      * @return UserApi
      */
-    public function setApiClient(ApiClient $apiClient)
+    public function setApiClient(\Swagger\Client\ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
         return $this;
@@ -537,6 +537,7 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling loginUser');
         }
+
         // verify the required parameter 'password' is set
         if ($password === null) {
             throw new \InvalidArgumentException('Missing the required parameter $password when calling loginUser');
@@ -623,8 +624,7 @@ class UserApi
      */
     public function logoutUserWithHttpInfo()
     {
-        
-  
+          
         // parse inputs
         $resourcePath = "/user/logout";
         $httpBody = '';
@@ -702,6 +702,7 @@ class UserApi
         if ($username === null) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling updateUser');
         }
+
         // verify the required parameter 'body' is set
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling updateUser');
