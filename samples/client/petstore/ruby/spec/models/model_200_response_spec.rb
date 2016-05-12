@@ -33,16 +33,12 @@ describe 'Model200Response' do
 
   describe 'test an instance of Model200Response' do
     it 'should create an instact of Model200Response' do
-      @instance.should be_a(Petstore::Model200Response) 
+      expect(@instance).to be_instance_of(Petstore::Model200Response)
     end
   end
   describe 'test attribute "name"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 

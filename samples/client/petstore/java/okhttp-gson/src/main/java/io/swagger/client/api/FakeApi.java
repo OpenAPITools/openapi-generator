@@ -17,6 +17,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import java.lang.reflect.Type;
@@ -45,7 +46,7 @@ public class FakeApi {
   }
 
   /* Build call for testEndpointParameters */
-  private Call testEndpointParametersCall(String number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+  private Call testEndpointParametersCall(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
@@ -147,7 +148,7 @@ public class FakeApi {
    * @param password None (optional)
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public void testEndpointParameters(String number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
     testEndpointParametersWithHttpInfo(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
   }
 
@@ -169,7 +170,7 @@ public class FakeApi {
    * @return ApiResponse<Void>
    * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
    */
-  public ApiResponse<Void> testEndpointParametersWithHttpInfo(String number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
+  public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
     Call call = testEndpointParametersCall(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password, null, null);
     return apiClient.execute(call);
   }
@@ -193,7 +194,7 @@ public class FakeApi {
    * @return The request call
    * @throws ApiException If fail to process the API call, e.g. serializing the request body object
    */
-  public Call testEndpointParametersAsync(String number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ApiCallback<Void> callback) throws ApiException {
+  public Call testEndpointParametersAsync(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ApiCallback<Void> callback) throws ApiException {
 
     ProgressResponseBody.ProgressListener progressListener = null;
     ProgressRequestBody.ProgressRequestListener progressRequestListener = null;

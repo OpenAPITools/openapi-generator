@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Model200Response Class Doc Comment
  *
@@ -59,7 +60,7 @@ class Model200Response implements ArrayAccess
     static $swaggerTypes = array(
         'name' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -71,7 +72,7 @@ class Model200Response implements ArrayAccess
     static $attributeMap = array(
         'name' => 'name'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class Model200Response implements ArrayAccess
     static $setters = array(
         'name' => 'setName'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -105,10 +106,10 @@ class Model200Response implements ArrayAccess
     
 
     /**
-     * $name 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $name;
+    protected $container = array();
 
     /**
      * Constructor
@@ -116,19 +117,39 @@ class Model200Response implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->name = $data["name"];
-        }
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
+
     /**
      * Gets name
      * @return int
      */
     public function getName()
     {
-        return $this->name;
+        return $this->container['name'];
     }
 
     /**
@@ -138,8 +159,8 @@ class Model200Response implements ArrayAccess
      */
     public function setName($name)
     {
-        
-        $this->name = $name;
+        $this->container['name'] = $name;
+
         return $this;
     }
     /**
@@ -149,7 +170,7 @@ class Model200Response implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -159,7 +180,7 @@ class Model200Response implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -170,7 +191,11 @@ class Model200Response implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -180,7 +205,7 @@ class Model200Response implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

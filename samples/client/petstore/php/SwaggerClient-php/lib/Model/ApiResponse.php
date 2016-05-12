@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * ApiResponse Class Doc Comment
  *
@@ -61,7 +62,7 @@ class ApiResponse implements ArrayAccess
         'type' => 'string',
         'message' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -75,7 +76,7 @@ class ApiResponse implements ArrayAccess
         'type' => 'type',
         'message' => 'message'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -89,7 +90,7 @@ class ApiResponse implements ArrayAccess
         'type' => 'setType',
         'message' => 'setMessage'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -113,20 +114,10 @@ class ApiResponse implements ArrayAccess
     
 
     /**
-     * $code 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $code;
-    /**
-     * $type 
-     * @var string
-     */
-    protected $type;
-    /**
-     * $message 
-     * @var string
-     */
-    protected $message;
+    protected $container = array();
 
     /**
      * Constructor
@@ -134,21 +125,41 @@ class ApiResponse implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->code = $data["code"];
-            $this->type = $data["type"];
-            $this->message = $data["message"];
-        }
+        $this->container['code'] = isset($data['code']) ? $data['code'] : null;
+        $this->container['type'] = isset($data['type']) ? $data['type'] : null;
+        $this->container['message'] = isset($data['message']) ? $data['message'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
+
     /**
      * Gets code
      * @return int
      */
     public function getCode()
     {
-        return $this->code;
+        return $this->container['code'];
     }
 
     /**
@@ -158,17 +169,18 @@ class ApiResponse implements ArrayAccess
      */
     public function setCode($code)
     {
-        
-        $this->code = $code;
+        $this->container['code'] = $code;
+
         return $this;
     }
+
     /**
      * Gets type
      * @return string
      */
     public function getType()
     {
-        return $this->type;
+        return $this->container['type'];
     }
 
     /**
@@ -178,17 +190,18 @@ class ApiResponse implements ArrayAccess
      */
     public function setType($type)
     {
-        
-        $this->type = $type;
+        $this->container['type'] = $type;
+
         return $this;
     }
+
     /**
      * Gets message
      * @return string
      */
     public function getMessage()
     {
-        return $this->message;
+        return $this->container['message'];
     }
 
     /**
@@ -198,8 +211,8 @@ class ApiResponse implements ArrayAccess
      */
     public function setMessage($message)
     {
-        
-        $this->message = $message;
+        $this->container['message'] = $message;
+
         return $this;
     }
     /**
@@ -209,7 +222,7 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -219,7 +232,7 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -230,7 +243,11 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -240,7 +257,7 @@ class ApiResponse implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Dog Class Doc Comment
  *
@@ -59,7 +60,7 @@ class Dog extends Animal implements ArrayAccess
     static $swaggerTypes = array(
         'breed' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes + parent::swaggerTypes();
     }
@@ -71,7 +72,7 @@ class Dog extends Animal implements ArrayAccess
     static $attributeMap = array(
         'breed' => 'breed'
     );
- 
+
     static function attributeMap() {
         return parent::attributeMap() + self::$attributeMap;
     }
@@ -83,7 +84,7 @@ class Dog extends Animal implements ArrayAccess
     static $setters = array(
         'breed' => 'setBreed'
     );
- 
+
     static function setters() {
         return parent::setters() + self::$setters;
     }
@@ -105,10 +106,10 @@ class Dog extends Animal implements ArrayAccess
     
 
     /**
-     * $breed 
-     * @var string
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $breed;
+    protected $container = array();
 
     /**
      * Constructor
@@ -117,18 +118,40 @@ class Dog extends Animal implements ArrayAccess
     public function __construct(array $data = null)
     {
         parent::__construct($data);
-        
-        if ($data != null) {
-            $this->breed = $data["breed"];
-        }
+
+        $this->container['breed'] = isset($data['breed']) ? $data['breed'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
+
     /**
      * Gets breed
      * @return string
      */
     public function getBreed()
     {
-        return $this->breed;
+        return $this->container['breed'];
     }
 
     /**
@@ -138,8 +161,8 @@ class Dog extends Animal implements ArrayAccess
      */
     public function setBreed($breed)
     {
-        
-        $this->breed = $breed;
+        $this->container['breed'] = $breed;
+
         return $this;
     }
     /**
@@ -149,7 +172,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -159,7 +182,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -170,7 +193,11 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -180,7 +207,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

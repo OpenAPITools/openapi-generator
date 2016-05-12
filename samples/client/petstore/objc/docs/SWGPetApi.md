@@ -140,7 +140,7 @@ void (empty response body)
 
 # **findPetsByStatus**
 ```objc
--(NSNumber*) findPetsByStatusWithStatus: (NSArray* /* NSString */) status
+-(NSNumber*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 ```
 
@@ -156,7 +156,7 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSArray* /* NSString */ status = @[@"available"]; // Status values that need to be considered for filter (optional) (default to available)
+NSArray<NSString*>* status = @[@"available"]; // Status values that need to be considered for filter (optional) (default to available)
 
 @try
 { 
@@ -184,7 +184,7 @@ NSArray* /* NSString */ status = @[@"available"]; // Status values that need to 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**NSArray* /* NSString */**](NSString*.md)| Status values that need to be considered for filter | [optional] [default to available]
+ **status** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Status values that need to be considered for filter | [optional] [default to available]
 
 ### Return type
 
@@ -203,7 +203,7 @@ Name | Type | Description  | Notes
 
 # **findPetsByTags**
 ```objc
--(NSNumber*) findPetsByTagsWithTags: (NSArray* /* NSString */) tags
+-(NSNumber*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 ```
 
@@ -219,7 +219,7 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSArray* /* NSString */ tags = @[@"tags_example"]; // Tags to filter by (optional)
+NSArray<NSString*>* tags = @[@"tags_example"]; // Tags to filter by (optional)
 
 @try
 { 
@@ -247,7 +247,7 @@ NSArray* /* NSString */ tags = @[@"tags_example"]; // Tags to filter by (optiona
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**NSArray* /* NSString */**](NSString*.md)| Tags to filter by | [optional] 
+ **tags** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Tags to filter by | [optional] 
 
 ### Return type
 
@@ -283,8 +283,8 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"BEARER" forApiKeyIdentifier:@"api_key"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
 
 NSNumber* petId = @789; // ID of pet that needs to be fetched

@@ -2,6 +2,7 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-27T23:17:22.230+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-06T18:35:05.435+08:00")
 public interface FakeApi extends ApiClient.Api {
 
 
@@ -36,5 +37,5 @@ public interface FakeApi extends ApiClient.Api {
     "Content-type: application/x-www-form-urlencoded",
     "Accepts: application/json",
   })
-  void testEndpointParameters(@Param("number") String number, @Param("_double") Double _double, @Param("string") String string, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("binary") byte[] binary, @Param("date") Date date, @Param("dateTime") Date dateTime, @Param("password") String password);
+  void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("string") String string, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("binary") byte[] binary, @Param("date") Date date, @Param("dateTime") Date dateTime, @Param("password") String password);
 }

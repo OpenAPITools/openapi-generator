@@ -5,9 +5,12 @@ import com.sun.jersey.api.client.GenericType;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
+import io.swagger.client.model.*;
 import io.swagger.client.Pair;
 
 import java.util.Date;
+import java.math.BigDecimal;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +38,8 @@ public class FakeApi {
   }
 
   /**
-   * Fake endpoint for testing various parameters
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param string None (required)
@@ -51,7 +54,7 @@ public class FakeApi {
    * @param password None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(String number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set

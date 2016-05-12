@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CLASS_PREFIX = "classPrefix";
@@ -28,6 +28,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String AUTHOR_EMAIL = "authorEmail";
     public static final String GIT_REPO_URL = "gitRepoURL";
     public static final String LICENSE = "license";
+    
+    public static final String BinaryDataType = "ObjcClientCodegenBinaryData";
+    
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String podName = "SwaggerClient";
     protected String podVersion = "1.0.0";
@@ -39,6 +42,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String[] specialWords = {"new", "copy"};
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    
+    protected Set<String> advancedMapingTypes = new HashSet<String>();
 
     public ObjcClientCodegen() {
         super();
@@ -66,6 +71,18 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("NSMutableArray");
         defaultIncludes.add("NSMutableDictionary");
 
+        defaultIncludes.add(BinaryDataType);
+
+        advancedMapingTypes.add("NSDictionary");
+        advancedMapingTypes.add("NSArray");
+        advancedMapingTypes.add("NSMutableArray");
+        advancedMapingTypes.add("NSMutableDictionary");
+        advancedMapingTypes.add("NSObject");
+        advancedMapingTypes.add("NSNumber");
+        advancedMapingTypes.add("NSURL");
+        advancedMapingTypes.add("NSString");
+        advancedMapingTypes.add("NSDate");
+
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("NSNumber");
         languageSpecificPrimitives.add("NSString");
@@ -92,10 +109,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
         typeMapping.put("file", "NSURL");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "NSString");
-        typeMapping.put("ByteArray", "NSString");
+        typeMapping.put("binary", BinaryDataType);
+        typeMapping.put("ByteArray", BinaryDataType);
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         setReservedWordsLowerCase(
@@ -223,6 +238,10 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.h"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache", swaggerFolder, classPrefix + "ResponseDeserializer.m"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache", swaggerFolder, classPrefix + "ResponseDeserializer.h"));
+        supportingFiles.add(new SupportingFile("Sanitizer-body.mustache", swaggerFolder, classPrefix + "Sanitizer.m"));
+        supportingFiles.add(new SupportingFile("Sanitizer-header.mustache", swaggerFolder, classPrefix + "Sanitizer.h"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", swaggerFolder, "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", swaggerFolder, "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));
@@ -278,19 +297,26 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             String innerType = getSwaggerType(inner);
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
-
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
-
+            
+            if(innerTypeDeclaration.equalsIgnoreCase(BinaryDataType)) {
+                return "NSData*";
+            }
             // In this codition, type of property p is array of primitive,
-            // return container type with pointer, e.g. `NSArray* /* NSString */'
-            if (languageSpecificPrimitives.contains(innerType)) {
-                return getSwaggerType(p) + "*" + " /* " + innerTypeDeclaration + " */";
+            // return container type with pointer, e.g. `NSArray*<NSString*>*'
+            if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
+                return getSwaggerType(p) +  "<" + innerTypeDeclaration + "*>*";
             }
             // In this codition, type of property p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
+                for (String sd : advancedMapingTypes) {
+                    if(innerTypeDeclaration.startsWith(sd)) {
+                        return getSwaggerType(p) + "<" + innerTypeDeclaration + "*>*";
+                    }
+                }
                 return getSwaggerType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else if (p instanceof MapProperty) {
@@ -298,11 +324,20 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             Property inner = mp.getAdditionalProperties();
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
-
+            
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
             }
-            return getSwaggerType(p) + "* /* NSString, " + innerTypeDeclaration + " */";
+            if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
+                return getSwaggerType(p) +  "<NSString*, " + innerTypeDeclaration + "*>*";
+            } else {
+                for (String s : advancedMapingTypes) {
+                    if(innerTypeDeclaration.startsWith(s)) {
+                        return getSwaggerType(p) + "<NSString*, " + innerTypeDeclaration + "*>*";
+                    }
+                }
+                return getSwaggerType(p) + "<NSString*, " + innerTypeDeclaration + ">*";
+            }
         } else {
             String swaggerType = getSwaggerType(p);
 

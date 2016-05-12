@@ -1,12 +1,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Animal', 'model/ApiResponse', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
+    define(['ApiClient', 'model/Animal', 'model/AnimalFarm', 'model/ApiResponse', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/ApiResponse'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/AnimalFarm'), require('./model/ApiResponse'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, Animal, ApiResponse, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, Animal, AnimalFarm, ApiResponse, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
@@ -51,6 +51,11 @@
      * @property {module:model/Animal}
      */
     Animal: Animal,
+    /**
+     * The AnimalFarm model constructor.
+     * @property {module:model/AnimalFarm}
+     */
+    AnimalFarm: AnimalFarm,
     /**
      * The ApiResponse model constructor.
      * @property {module:model/ApiResponse}

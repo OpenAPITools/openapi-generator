@@ -11,11 +11,12 @@ Name | Type | Description | Notes
 **_float** | **Float** |  |  [optional]
 **_double** | **Double** |  |  [optional]
 **string** | **String** |  |  [optional]
-**_byte** | **byte[]** |  |  [optional]
+**_byte** | **byte[]** |  | 
 **binary** | **byte[]** |  |  [optional]
-**date** | [**Date**](Date.md) |  |  [optional]
+**date** | [**Date**](Date.md) |  | 
 **dateTime** | [**Date**](Date.md) |  |  [optional]
-**password** | **String** |  |  [optional]
+**uuid** | **String** |  |  [optional]
+**password** | **String** |  | 
 
 
 

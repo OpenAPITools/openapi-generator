@@ -11,3 +11,16 @@ Name | Type | Description | Notes
 **status** | **String** | pet status in the store | [optional] 
 
 
+<a name="StatusEnum"></a>
+## Enum: StatusEnum
+
+
+* `available` (value: `"available"`)
+
+* `pending` (value: `"pending"`)
+
+* `sold` (value: `"sold"`)
+
+
+
+

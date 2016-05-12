@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Category Class Doc Comment
  *
@@ -60,7 +61,7 @@ class Category implements ArrayAccess
         'id' => 'int',
         'name' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -73,7 +74,7 @@ class Category implements ArrayAccess
         'id' => 'id',
         'name' => 'name'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -86,7 +87,7 @@ class Category implements ArrayAccess
         'id' => 'setId',
         'name' => 'setName'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -109,15 +110,10 @@ class Category implements ArrayAccess
     
 
     /**
-     * $id 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $id;
-    /**
-     * $name 
-     * @var string
-     */
-    protected $name;
+    protected $container = array();
 
     /**
      * Constructor
@@ -125,20 +121,40 @@ class Category implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->id = $data["id"];
-            $this->name = $data["name"];
-        }
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
+
     /**
      * Gets id
      * @return int
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
 
     /**
@@ -148,17 +164,18 @@ class Category implements ArrayAccess
      */
     public function setId($id)
     {
-        
-        $this->id = $id;
+        $this->container['id'] = $id;
+
         return $this;
     }
+
     /**
      * Gets name
      * @return string
      */
     public function getName()
     {
-        return $this->name;
+        return $this->container['name'];
     }
 
     /**
@@ -168,8 +185,8 @@ class Category implements ArrayAccess
      */
     public function setName($name)
     {
-        
-        $this->name = $name;
+        $this->container['name'] = $name;
+
         return $this;
     }
     /**
@@ -179,7 +196,7 @@ class Category implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -189,7 +206,7 @@ class Category implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -200,7 +217,11 @@ class Category implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -210,7 +231,7 @@ class Category implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

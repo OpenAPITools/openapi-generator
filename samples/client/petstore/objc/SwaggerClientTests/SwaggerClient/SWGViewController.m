@@ -27,14 +27,9 @@
     
     SWGPetApi *api = [[SWGPetApi alloc] init];
     NSURL *file = [NSURL fileURLWithPath:@"/Users/geekerzp/tmp/test.jpg"];
-    [api uploadFileWithPetId:@2 additionalMetadata:@2 file:file completionHandler:^(NSError *error) {
+    [api uploadFileWithPetId:@2 additionalMetadata:@"2" file:file completionHandler:^(NSError *error) {
         NSLog(@"*** error: %@", error);
     }];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 - (SWGPet*) createPet {

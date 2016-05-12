@@ -60,7 +60,7 @@ class FakeApi
      * Constructor
      * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
      */
-    function __construct($apiClient = null)
+    function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -84,7 +84,7 @@ class FakeApi
      * @param \Swagger\Client\ApiClient $apiClient set the API client
      * @return FakeApi
      */
-    public function setApiClient(ApiClient $apiClient)
+    public function setApiClient(\Swagger\Client\ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
         return $this;
@@ -93,7 +93,7 @@ class FakeApi
     /**
      * testEndpointParameters
      *
-     * Fake endpoint for testing various parameters
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * @param float $number None (required)
      * @param double $double None (required)
@@ -120,7 +120,7 @@ class FakeApi
     /**
      * testEndpointParametersWithHttpInfo
      *
-     * Fake endpoint for testing various parameters
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * @param float $number None (required)
      * @param double $double None (required)
@@ -198,7 +198,7 @@ class FakeApi
         if (strlen($password) > 64) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
         }
-        if (strlen($password) > 10) {
+        if (strlen($password) < 10) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
 

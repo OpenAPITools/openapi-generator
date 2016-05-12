@@ -286,8 +286,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         for (String templateName : config.modelTestTemplateFiles().keySet()) {
                             String suffix = config.modelTestTemplateFiles().get(templateName);
                             String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(name) + suffix;
-                            if (!config.shouldOverwrite(filename)) {
-                                LOGGER.info("Skipped overwriting " + filename);
+                            // do not overwrite test file that already exists
+                            if (new File(filename).exists()) {
+                                LOGGER.info("File exists. Skipped overwriting " + filename);
                                 continue;
                             }
                             String templateFile = getFullTemplateFile(config, templateName);
@@ -419,11 +420,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     // to generate api test files
                     for (String templateName : config.apiTestTemplateFiles().keySet()) {
                         String filename = config.apiTestFilename(templateName, tag);
-                        if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
-                            LOGGER.info("Skipped overwriting " + filename);
+                        // do not overwrite test file that already exists
+                        if (new File(filename).exists()) {
+                            LOGGER.info("File exists. Skipped overwriting " + filename);
                             continue;
                         }
-
                         String templateFile = getFullTemplateFile(config, templateName);
                         String template = readTemplate(templateFile);
                         Template tmpl = Mustache.compiler()

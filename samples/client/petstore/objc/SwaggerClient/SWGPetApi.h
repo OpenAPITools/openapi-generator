@@ -56,7 +56,7 @@
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByStatusWithStatus: (NSArray* /* NSString */) status
+-(NSNumber*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
@@ -69,7 +69,7 @@
 /// 
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByTagsWithTags: (NSArray* /* NSString */) tags
+-(NSNumber*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 

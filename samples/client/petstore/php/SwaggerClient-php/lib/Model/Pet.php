@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * Pet Class Doc Comment
  *
@@ -64,7 +65,7 @@ class Pet implements ArrayAccess
         'tags' => '\Swagger\Client\Model\Tag[]',
         'status' => 'string'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -81,7 +82,7 @@ class Pet implements ArrayAccess
         'tags' => 'tags',
         'status' => 'status'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -98,7 +99,7 @@ class Pet implements ArrayAccess
         'tags' => 'setTags',
         'status' => 'setStatus'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -140,35 +141,10 @@ class Pet implements ArrayAccess
     
 
     /**
-     * $id 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $id;
-    /**
-     * $category 
-     * @var \Swagger\Client\Model\Category
-     */
-    protected $category;
-    /**
-     * $name 
-     * @var string
-     */
-    protected $name;
-    /**
-     * $photo_urls 
-     * @var string[]
-     */
-    protected $photo_urls;
-    /**
-     * $tags 
-     * @var \Swagger\Client\Model\Tag[]
-     */
-    protected $tags;
-    /**
-     * $status pet status in the store
-     * @var string
-     */
-    protected $status;
+    protected $container = array();
 
     /**
      * Constructor
@@ -176,24 +152,64 @@ class Pet implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->id = $data["id"];
-            $this->category = $data["category"];
-            $this->name = $data["name"];
-            $this->photo_urls = $data["photo_urls"];
-            $this->tags = $data["tags"];
-            $this->status = $data["status"];
-        }
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['category'] = isset($data['category']) ? $data['category'] : null;
+        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['photo_urls'] = isset($data['photo_urls']) ? $data['photo_urls'] : null;
+        $this->container['tags'] = isset($data['tags']) ? $data['tags'] : null;
+        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        if ($this->container['name'] === null) {
+            $invalid_properties[] = "'$name' can't be null";
+        }
+        if ($this->container['photo_urls'] === null) {
+            $invalid_properties[] = "'$photo_urls' can't be null";
+        }
+        $allowed_values = array("available", "pending", "sold");
+        if (!in_array($this->container['status'], $allowed_values)) {
+            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+        }
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        if ($this->container['name'] === null) {
+            return false;
+        }
+        if ($this->container['photo_urls'] === null) {
+            return false;
+        }
+        $allowed_values = array("available", "pending", "sold");
+        if (!in_array($this->container['status'], $allowed_values)) {
+            return false;
+        }
+        return true;
+    }
+
+
     /**
      * Gets id
      * @return int
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
 
     /**
@@ -203,17 +219,18 @@ class Pet implements ArrayAccess
      */
     public function setId($id)
     {
-        
-        $this->id = $id;
+        $this->container['id'] = $id;
+
         return $this;
     }
+
     /**
      * Gets category
      * @return \Swagger\Client\Model\Category
      */
     public function getCategory()
     {
-        return $this->category;
+        return $this->container['category'];
     }
 
     /**
@@ -223,17 +240,18 @@ class Pet implements ArrayAccess
      */
     public function setCategory($category)
     {
-        
-        $this->category = $category;
+        $this->container['category'] = $category;
+
         return $this;
     }
+
     /**
      * Gets name
      * @return string
      */
     public function getName()
     {
-        return $this->name;
+        return $this->container['name'];
     }
 
     /**
@@ -243,17 +261,18 @@ class Pet implements ArrayAccess
      */
     public function setName($name)
     {
-        
-        $this->name = $name;
+        $this->container['name'] = $name;
+
         return $this;
     }
+
     /**
      * Gets photo_urls
      * @return string[]
      */
     public function getPhotoUrls()
     {
-        return $this->photo_urls;
+        return $this->container['photo_urls'];
     }
 
     /**
@@ -263,17 +282,18 @@ class Pet implements ArrayAccess
      */
     public function setPhotoUrls($photo_urls)
     {
-        
-        $this->photo_urls = $photo_urls;
+        $this->container['photo_urls'] = $photo_urls;
+
         return $this;
     }
+
     /**
      * Gets tags
      * @return \Swagger\Client\Model\Tag[]
      */
     public function getTags()
     {
-        return $this->tags;
+        return $this->container['tags'];
     }
 
     /**
@@ -283,17 +303,18 @@ class Pet implements ArrayAccess
      */
     public function setTags($tags)
     {
-        
-        $this->tags = $tags;
+        $this->container['tags'] = $tags;
+
         return $this;
     }
+
     /**
      * Gets status
      * @return string
      */
     public function getStatus()
     {
-        return $this->status;
+        return $this->container['status'];
     }
 
     /**
@@ -303,11 +324,12 @@ class Pet implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array("available", "pending", "sold");
+        $allowed_values = array('available', 'pending', 'sold');
         if (!in_array($status, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
         }
-        $this->status = $status;
+        $this->container['status'] = $status;
+
         return $this;
     }
     /**
@@ -317,7 +339,7 @@ class Pet implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -327,7 +349,7 @@ class Pet implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -338,7 +360,11 @@ class Pet implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -348,7 +374,7 @@ class Pet implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

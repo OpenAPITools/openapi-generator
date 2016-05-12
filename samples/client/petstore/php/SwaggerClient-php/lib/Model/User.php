@@ -34,6 +34,7 @@
 namespace Swagger\Client\Model;
 
 use \ArrayAccess;
+
 /**
  * User Class Doc Comment
  *
@@ -66,7 +67,7 @@ class User implements ArrayAccess
         'phone' => 'string',
         'user_status' => 'int'
     );
- 
+
     static function swaggerTypes() {
         return self::$swaggerTypes;
     }
@@ -85,7 +86,7 @@ class User implements ArrayAccess
         'phone' => 'phone',
         'user_status' => 'userStatus'
     );
- 
+
     static function attributeMap() {
         return self::$attributeMap;
     }
@@ -104,7 +105,7 @@ class User implements ArrayAccess
         'phone' => 'setPhone',
         'user_status' => 'setUserStatus'
     );
- 
+
     static function setters() {
         return self::$setters;
     }
@@ -133,45 +134,10 @@ class User implements ArrayAccess
     
 
     /**
-     * $id 
-     * @var int
+     * Associative array for storing property values
+     * @var mixed[]
      */
-    protected $id;
-    /**
-     * $username 
-     * @var string
-     */
-    protected $username;
-    /**
-     * $first_name 
-     * @var string
-     */
-    protected $first_name;
-    /**
-     * $last_name 
-     * @var string
-     */
-    protected $last_name;
-    /**
-     * $email 
-     * @var string
-     */
-    protected $email;
-    /**
-     * $password 
-     * @var string
-     */
-    protected $password;
-    /**
-     * $phone 
-     * @var string
-     */
-    protected $phone;
-    /**
-     * $user_status User Status
-     * @var int
-     */
-    protected $user_status;
+    protected $container = array();
 
     /**
      * Constructor
@@ -179,26 +145,46 @@ class User implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        
-        
-        if ($data != null) {
-            $this->id = $data["id"];
-            $this->username = $data["username"];
-            $this->first_name = $data["first_name"];
-            $this->last_name = $data["last_name"];
-            $this->email = $data["email"];
-            $this->password = $data["password"];
-            $this->phone = $data["phone"];
-            $this->user_status = $data["user_status"];
-        }
+        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
+        $this->container['username'] = isset($data['username']) ? $data['username'] : null;
+        $this->container['first_name'] = isset($data['first_name']) ? $data['first_name'] : null;
+        $this->container['last_name'] = isset($data['last_name']) ? $data['last_name'] : null;
+        $this->container['email'] = isset($data['email']) ? $data['email'] : null;
+        $this->container['password'] = isset($data['password']) ? $data['password'] : null;
+        $this->container['phone'] = isset($data['phone']) ? $data['phone'] : null;
+        $this->container['user_status'] = isset($data['user_status']) ? $data['user_status'] : null;
     }
+
+    /**
+     * show all the invalid properties with reasons.
+     * 
+     * @return array invalid properties with reasons
+     */
+    public function list_invalid_properties()
+    {
+        $invalid_properties = array();
+        return $invalid_properties;
+    }
+
+    /**
+     * validate all the properties in the model
+     * return true if all passed
+     * 
+     * @return bool True if all properteis are valid 
+     */
+    public function valid()
+    {
+        return true;
+    }
+
+
     /**
      * Gets id
      * @return int
      */
     public function getId()
     {
-        return $this->id;
+        return $this->container['id'];
     }
 
     /**
@@ -208,17 +194,18 @@ class User implements ArrayAccess
      */
     public function setId($id)
     {
-        
-        $this->id = $id;
+        $this->container['id'] = $id;
+
         return $this;
     }
+
     /**
      * Gets username
      * @return string
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->container['username'];
     }
 
     /**
@@ -228,17 +215,18 @@ class User implements ArrayAccess
      */
     public function setUsername($username)
     {
-        
-        $this->username = $username;
+        $this->container['username'] = $username;
+
         return $this;
     }
+
     /**
      * Gets first_name
      * @return string
      */
     public function getFirstName()
     {
-        return $this->first_name;
+        return $this->container['first_name'];
     }
 
     /**
@@ -248,17 +236,18 @@ class User implements ArrayAccess
      */
     public function setFirstName($first_name)
     {
-        
-        $this->first_name = $first_name;
+        $this->container['first_name'] = $first_name;
+
         return $this;
     }
+
     /**
      * Gets last_name
      * @return string
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->container['last_name'];
     }
 
     /**
@@ -268,17 +257,18 @@ class User implements ArrayAccess
      */
     public function setLastName($last_name)
     {
-        
-        $this->last_name = $last_name;
+        $this->container['last_name'] = $last_name;
+
         return $this;
     }
+
     /**
      * Gets email
      * @return string
      */
     public function getEmail()
     {
-        return $this->email;
+        return $this->container['email'];
     }
 
     /**
@@ -288,17 +278,18 @@ class User implements ArrayAccess
      */
     public function setEmail($email)
     {
-        
-        $this->email = $email;
+        $this->container['email'] = $email;
+
         return $this;
     }
+
     /**
      * Gets password
      * @return string
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->container['password'];
     }
 
     /**
@@ -308,17 +299,18 @@ class User implements ArrayAccess
      */
     public function setPassword($password)
     {
-        
-        $this->password = $password;
+        $this->container['password'] = $password;
+
         return $this;
     }
+
     /**
      * Gets phone
      * @return string
      */
     public function getPhone()
     {
-        return $this->phone;
+        return $this->container['phone'];
     }
 
     /**
@@ -328,17 +320,18 @@ class User implements ArrayAccess
      */
     public function setPhone($phone)
     {
-        
-        $this->phone = $phone;
+        $this->container['phone'] = $phone;
+
         return $this;
     }
+
     /**
      * Gets user_status
      * @return int
      */
     public function getUserStatus()
     {
-        return $this->user_status;
+        return $this->container['user_status'];
     }
 
     /**
@@ -348,8 +341,8 @@ class User implements ArrayAccess
      */
     public function setUserStatus($user_status)
     {
-        
-        $this->user_status = $user_status;
+        $this->container['user_status'] = $user_status;
+
         return $this;
     }
     /**
@@ -359,7 +352,7 @@ class User implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return isset($this->container[$offset]);
     }
 
     /**
@@ -369,7 +362,7 @@ class User implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->$offset;
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
  
     /**
@@ -380,7 +373,11 @@ class User implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
     }
  
     /**
@@ -390,7 +387,7 @@ class User implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->container[$offset]);
     }
  
     /**

@@ -4,16 +4,16 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
 > testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password)
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
 ```java
@@ -23,7 +23,7 @@ Fake endpoint for testing various parameters
 
 
 FakeApi apiInstance = new FakeApi();
-String number = "number_example"; // String | None
+BigDecimal number = new BigDecimal(); // BigDecimal | None
 Double _double = 3.4D; // Double | None
 String string = "string_example"; // String | None
 byte[] _byte = B; // byte[] | None
@@ -47,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **String**| None |
+ **number** | **BigDecimal**| None |
  **_double** | **Double**| None |
  **string** | **String**| None |
  **_byte** | **byte[]**| None |

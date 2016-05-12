@@ -32,7 +32,7 @@ describe 'PetApi' do
 
   describe 'test an instance of PetApi' do
     it 'should create an instact of PetApi' do
-      @instance.should be_a(Petstore::PetApi)
+      expect(@instance).to be_instance_of(Petstore::PetApi)
     end
   end
 
@@ -44,11 +44,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'add_pet test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -61,11 +57,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'delete_pet test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -77,11 +69,7 @@ describe 'PetApi' do
   # @return [Array<Pet>]
   describe 'find_pets_by_status test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -93,11 +81,7 @@ describe 'PetApi' do
   # @return [Array<Pet>]
   describe 'find_pets_by_tags test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -109,11 +93,7 @@ describe 'PetApi' do
   # @return [Pet]
   describe 'get_pet_by_id test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -125,11 +105,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'update_pet test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -143,11 +119,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'update_pet_with_form test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -161,11 +133,7 @@ describe 'PetApi' do
   # @return [ApiResponse]
   describe 'upload_file test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
