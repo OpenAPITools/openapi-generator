@@ -242,6 +242,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache", swaggerFolder, classPrefix + "ResponseDeserializer.h"));
         supportingFiles.add(new SupportingFile("Sanitizer-body.mustache", swaggerFolder, classPrefix + "Sanitizer.m"));
         supportingFiles.add(new SupportingFile("Sanitizer-header.mustache", swaggerFolder, classPrefix + "Sanitizer.h"));
+        supportingFiles.add(new SupportingFile("Logger-body.mustache", swaggerFolder, classPrefix + "Logger.m"));
+        supportingFiles.add(new SupportingFile("Logger-header.mustache", swaggerFolder, classPrefix + "Logger.h"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", swaggerFolder, "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", swaggerFolder, "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));

@@ -6,6 +6,8 @@
  * Do not edit the class manually.
  */
 
+extern NSString * SWGPercentEscapedStringFromString(NSString *string);
+
 @protocol SWGSanitizer <NSObject>
 
 /**
@@ -19,6 +21,24 @@
  * Convert parameter to NSString
  */
 - (NSString *) parameterToString: (id) param;
+
+/**
+ * Detects Accept header from accepts NSArray
+ *
+ * @param accepts NSArray of header
+ *
+ * @return The Accept header
+ */
+-(NSString *) selectHeaderAccept:(NSArray *)accepts;
+
+/**
+ * Detects Content-Type header from contentTypes NSArray
+ *
+ * @param contentTypes NSArray of header
+ *
+ * @return The Content-Type header
+ */
+-(NSString *) selectHeaderContentType:(NSArray *)contentTypes;
 
 @end
 

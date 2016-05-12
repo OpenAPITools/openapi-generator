@@ -1,7 +1,6 @@
 #import <XCTest/XCTest.h>
 #import <SwaggerClient/SWGApiClient.h>
 #import <SwaggerClient/SWGPetApi.h>
-#import <SwaggerClient/SWGPet.h>
 
 @interface PetApiTest : XCTestCase {
 @private
@@ -165,13 +164,13 @@ which causes an exception when deserializing the data
     SWGTag* tag = [[SWGTag alloc] init];
     tag.name = @"tony";
     NSLog(@"%@", pet._id);
-    pet.tags = (id)[[NSArray alloc] initWithObjects:tag, nil];
+    pet.tags = (id) @[tag];
 
     [api addPetWithBody:pet completionHandler:^(NSError *error) {
         if(error) {
             XCTFail(@"got error %@", error);
         }
-        NSArray* tags = [[NSArray alloc] initWithObjects:@"tony", nil];
+        NSArray* tags = @[@"tony",@"tony2"];
 
         [api findPetsByTagsWithTags:tags completionHandler:^(NSArray *output, NSError *error) {
             if(error){
@@ -275,7 +274,7 @@ which causes an exception when deserializing the data
 
 - (SWGPet*) createPet {
     SWGPet * pet = [[SWGPet alloc] init];
-    pet._id = [[NSNumber alloc] initWithLong:[[NSDate date] timeIntervalSince1970]];
+    pet._id = @((long) [[NSDate date] timeIntervalSince1970]);
     pet.name = @"monkey";
     
     SWGCategory * category = [[SWGCategory alloc] init];
@@ -289,11 +288,11 @@ which causes an exception when deserializing the data
     SWGTag *tag2 = [[SWGTag alloc] init];
     tag2._id = [[NSNumber alloc] initWithInteger:arc4random_uniform(100000)];
     tag2.name = @"test tag 2";
-    pet.tags = (NSArray<SWGTag> *)[[NSArray alloc] initWithObjects:tag1, tag2, nil];
+    pet.tags = (NSArray<SWGTag> *) @[tag1, tag2];
 
     pet.status = @"available";
 
-    NSArray * photos = [[NSArray alloc] initWithObjects:@"http://foo.bar.com/3", @"http://foo.bar.com/4", nil];
+    NSArray * photos = @[@"http://foo.bar.com/3", @"http://foo.bar.com/4"];
     pet.photoUrls = photos;
     return pet;
 }

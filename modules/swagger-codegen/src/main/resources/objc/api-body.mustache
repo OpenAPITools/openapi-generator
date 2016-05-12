@@ -15,7 +15,7 @@ static {{classname}}* singletonAPI = nil;
 
 #pragma mark - Initialize methods
 
-- (id) init {
+- (instancetype) init {
     self = [super init];
     if (self) {
         {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
@@ -28,7 +28,7 @@ static {{classname}}* singletonAPI = nil;
     return self;
 }
 
-- (id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
+- (instancetype) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
     self = [super init];
     if (self) {
         self.apiClient = apiClient;
@@ -92,9 +92,7 @@ static {{classname}}* singletonAPI = nil;
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"{{path}}"];
 
     // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     {{#pathParams}}
@@ -121,22 +119,16 @@ static {{classname}}* singletonAPI = nil;
 
     {{/headerParams}}
     // HTTP header `Accept`
-    headerParams[@"Accept"] = [{{classPrefix}}ApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
     }
 
     // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [{{classPrefix}}ApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     // Authentication setting
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
