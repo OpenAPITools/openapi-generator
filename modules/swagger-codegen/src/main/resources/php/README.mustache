@@ -27,11 +27,11 @@ To install the bindings via [Composer](http://getcomposer.org/), add the followi
   "repositories": [
     {
       "type": "git",
-      "url": "https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}{{composerVendorName}}{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{composerProjectName}}{{/gitRepoId}}.git"
+      "url": "https://github.com/{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}.git"
     }
   ],
   "require": {
-    "{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}{{composerVendorName}}{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{composerProjectName}}{{/gitRepoId}}": "*@dev"
+    "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}": "*@dev"
   }
 }
 ```
