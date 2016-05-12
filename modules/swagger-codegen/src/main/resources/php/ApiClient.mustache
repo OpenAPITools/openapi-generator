@@ -55,18 +55,21 @@ class ApiClient
 
     /**
      * Configuration
+     *
      * @var Configuration
      */
     protected $config;
 
     /**
      * Object Serializer
+     *
      * @var ObjectSerializer
      */
     protected $serializer;
 
     /**
      * Constructor of the class
+     *
      * @param Configuration $config config for this ApiClient
      */
     public function __construct(\{{invokerPackage}}\Configuration $config = null)
@@ -81,6 +84,7 @@ class ApiClient
 
     /**
      * Get the config
+     *
      * @return Configuration
      */
     public function getConfig()
@@ -90,6 +94,7 @@ class ApiClient
 
     /**
      * Get the serializer
+     *
      * @return ObjectSerializer
      */
     public function getSerializer()
@@ -99,7 +104,9 @@ class ApiClient
 
     /**
      * Get API key (with prefix if set)
+     *
      * @param  string $apiKeyIdentifier name of apikey
+     *
      * @return string API key with the prefix
      */
     public function getApiKeyWithPrefix($apiKeyIdentifier)
@@ -122,12 +129,14 @@ class ApiClient
 
     /**
      * Make the HTTP call (Sync)
+     *
      * @param string $resourcePath path to method endpoint
      * @param string $method       method to call
      * @param array  $queryParams  parameters to be place in query URL
      * @param array  $postData     parameters to be placed in POST body
      * @param array  $headerParams parameters to be place in request header
      * @param string $responseType expected response type of the endpoint
+     *
      * @throws \{{invokerPackage}}\ApiException on a non 2xx response
      * @return mixed
      */
@@ -171,7 +180,7 @@ class ApiClient
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         }
 
-        if (! empty($queryParams)) {
+        if (!empty($queryParams)) {
             $url = ($url . '?' . http_build_query($queryParams));
         }
 
@@ -216,7 +225,7 @@ class ApiClient
         // Make the request
         $response = curl_exec($curl);
         $http_header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $http_header = $this->http_parse_headers(substr($response, 0, $http_header_size));
+        $http_header = $this->httpParseHeaders(substr($response, 0, $http_header_size));
         $http_body = substr($response, $http_header_size);
         $response_info = curl_getinfo($curl);
 
@@ -295,7 +304,7 @@ class ApiClient
     *
     * @return string[] Array of HTTP response heaers
     */
-    protected function http_parse_headers($raw_headers)
+    protected function httpParseHeaders($raw_headers)
     {
         // ref/credit: http://php.net/manual/en/function.http-parse-headers.php#112986
         $headers = array();
