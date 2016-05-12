@@ -10,9 +10,11 @@ Name | Type | Description | Notes
 **_float** | **Number** |  | [optional] 
 **_double** | **Number** |  | [optional] 
 **_string** | **String** |  | [optional] 
-**_byte** | **String** |  | [optional] 
+**_byte** | **String** |  | 
 **binary** | **String** |  | [optional] 
-**_date** | **Date** |  | [optional] 
-**dateTime** | **String** |  | [optional] 
+**_date** | **Date** |  | 
+**dateTime** | **Date** |  | [optional] 
+**uuid** | **String** |  | [optional] 
+**password** | **String** |  | 
 
 

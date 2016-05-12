@@ -1,0 +1,21 @@
+{{#emitJSDoc}}
+  /**
+   * Allowed values for the <code>{{baseName}}</code> property.
+   * @enum {{=<% %>=}}{<%datatype%>}<%={{ }}=%>
+   * @readonly
+   */
+{{/emitJSDoc}}
+  exports.{{datatypeWithEnum}} = {
+  {{#allowableValues}}
+  {{#enumVars}}
+{{#emitJSDoc}}
+    /**
+     * value: {{{value}}}
+     * @const
+     */
+{{/emitJSDoc}}
+    "{{name}}": {{{value}}}{{^-last}},
+    {{/-last}}
+  {{/enumVars}}
+  {{/allowableValues}}
+  };

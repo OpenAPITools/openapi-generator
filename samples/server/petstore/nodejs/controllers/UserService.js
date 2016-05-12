@@ -43,14 +43,14 @@ exports.getUserByName = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = {
-  "id" : 123456789,
-  "lastName" : "aeiou",
-  "phone" : "aeiou",
-  "username" : "aeiou",
-  "email" : "aeiou",
-  "userStatus" : 123,
   "firstName" : "aeiou",
-  "password" : "aeiou"
+  "lastName" : "aeiou",
+  "password" : "aeiou",
+  "userStatus" : 123,
+  "phone" : "aeiou",
+  "id" : 123456789,
+  "email" : "aeiou",
+  "username" : "aeiou"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');

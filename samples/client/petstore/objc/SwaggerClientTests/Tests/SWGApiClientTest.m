@@ -2,11 +2,6 @@
 #import <XCTest/XCTest.h>
 #import <ISO8601/ISO8601.h>
 #import <SwaggerClient/SWGApiClient.h>
-#import <SwaggerClient/SWGConfiguration.h>
-#import <SwaggerClient/SWGQueryParamCollection.h>
-#import <SwaggerClient/SWGPet.h>
-#import <SwaggerClient/SWGTag.h>
-#import <SwaggerClient/SWGCategory.h>
 
 @interface SWGApiClientTest : XCTestCase
 
@@ -109,31 +104,31 @@
     
     // nil
     data = nil;
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
     
     // NSString
     data = @"test string";
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
     
     // NSNumber
     data = @1;
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
     
     // SWGQueryParamCollection
     data = [[SWGQueryParamCollection alloc] init];
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
     
     // NSDate
     data = [NSDate dateWithISO8601String:@"1997-07-16T19:20:30.45+01:00"];
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, [data ISO8601String]);
     
     data = [NSDate dateWithISO8601String:@"1997-07-16"];
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, [data ISO8601String]);
     
     // model
@@ -144,23 +139,23 @@
                               @"status": @"available",
                               @"photoUrls": @[@"http://foo.bar.com/3", @"http://foo.bar.com/4"]};
     data = [[SWGPet alloc] initWithDictionary:petDict error:nil];
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, petDict);
     
     // NSArray
     data = @[@1];
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
     
     // NSArray of models
     NSArray *arrayOfPetDict = @[petDict];
-    data = [NSArray arrayWithObject:[[SWGPet alloc] initWithDictionary:petDict error:nil]];
-    result = [self.apiClient sanitizeForSerialization:data];
+    data = @[[[SWGPet alloc] initWithDictionary:petDict error:nil]];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, arrayOfPetDict);
     
     // NSDictionary
     data = @{@"test key": @"test value"};
-    result = [self.apiClient sanitizeForSerialization:data];
+    result = [self.apiClient.sanitizer sanitizeForSerialization:data];
     XCTAssertEqualObjects(result, data);
 }
 

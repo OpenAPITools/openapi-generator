@@ -34,12 +34,12 @@ exports.getOrderById = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = {
-  "id" : 123456789,
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -58,12 +58,12 @@ exports.placeOrder = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = {
-  "id" : 123456789,
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');

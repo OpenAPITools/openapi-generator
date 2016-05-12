@@ -60,7 +60,7 @@ use \{{invokerPackage}}\ObjectSerializer;
      * Constructor
      * @param \{{invokerPackage}}\ApiClient|null $apiClient The api client to use
      */
-    function __construct($apiClient = null)
+    function __construct(\{{invokerPackage}}\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -84,7 +84,7 @@ use \{{invokerPackage}}\ObjectSerializer;
      * @param \{{invokerPackage}}\ApiClient $apiClient set the API client
      * @return {{classname}}
      */
-    public function setApiClient(ApiClient $apiClient)
+    public function setApiClient(\{{invokerPackage}}\ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
         return $this;
@@ -122,7 +122,37 @@ use \{{invokerPackage}}\ObjectSerializer;
         // verify the required parameter '{{paramName}}' is set
         if (${{paramName}} === null) {
             throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{operationId}}');
-        }{{/required}}{{/allParams}}
+        }
+        {{/required}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen(${{paramName}}) > {{maxLength}}) {
+            throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
+        }
+        {{/maxLength}}
+        {{#minLength}}
+        if (strlen(${{paramName}}) < {{minLength}}) {
+            throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if (${{paramName}} > {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if (${{paramName}} < {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", ${{paramName}})) {
+            throw new \InvalidArgumentException('invalid value for "{{paramName}}" when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        }
+        {{/pattern}}
+
+        {{/hasValidation}}
+        {{/allParams}}
   
         // parse inputs
         $resourcePath = "{{path}}";

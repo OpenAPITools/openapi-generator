@@ -29,8 +29,8 @@ from pprint import pprint
 {{{packageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}
 {{{packageName}}}.configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-# {{{packageName}}}.configuration.api_key_prefix['{{{keyParamName}}}'] = 'BEARER'{{/isApiKey}}{{#isOAuth}}
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# {{{packageName}}}.configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
 {{{packageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}

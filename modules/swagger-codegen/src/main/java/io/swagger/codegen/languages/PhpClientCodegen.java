@@ -4,6 +4,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -12,6 +13,7 @@ import io.swagger.models.properties.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 
@@ -35,9 +37,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packagePath = "SwaggerClient-php";
     protected String artifactVersion = "1.0.0";
     protected String srcBasePath = "lib";
+    protected String testBasePath = "test";
+    protected String docsBasePath = "docs";
+    protected String apiDirName = "Api";
+    protected String modelDirName = "Model";
     protected String variableNamingConvention= "snake_case";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = docsBasePath + "/" + apiDirName;
+    protected String modelDocPath = docsBasePath + "/" + modelDirName;
 
     public PhpClientCodegen() {
         super();
@@ -49,9 +55,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".php");
         apiTestTemplateFiles.put("api_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php";
-        apiPackage = invokerPackage + "\\Api";
-        modelPackage = invokerPackage + "\\Model";
-        testPackage = invokerPackage + "\\Tests";
+        apiPackage = invokerPackage + "\\" + apiDirName;
+        modelPackage = invokerPackage + "\\" + modelDirName;
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -111,6 +116,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "object");
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("UUID", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -230,6 +236,9 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
+        // make test path available in mustache template
+        additionalProperties.put("testBasePath", testBasePath);
+
         supportingFiles.add(new SupportingFile("configuration.mustache", toPackagePath(invokerPackage, srcBasePath), "Configuration.php"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiClient.php"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiException.php"));
@@ -259,23 +268,21 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+        return (outputFolder + "/" + getPackagePath() + "/" + testBasePath + "/" + apiDirName);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + "/" + toPackagePath(testPackage, srcBasePath));
+        return (outputFolder + "/" + getPackagePath() + "/" + testBasePath + "/" + modelDirName);
     }
 
     @Override
     public String apiDocFileFolder() {
-        //return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
         return (outputFolder + "/" + getPackagePath() + "/" + apiDocPath);
     }
 
     @Override
     public String modelDocFileFolder() {
-        //return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
         return (outputFolder + "/" + getPackagePath() + "/" + modelDocPath);
     }
 
@@ -566,4 +573,57 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         p.example = example;
     }
 
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "_" + value;
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        // number
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            String varName = new String(name);
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String enumName = sanitizeName(underscore(name).toUpperCase());
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        String enumName = underscore(toModelName(property.name)).toUpperCase();
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
 }

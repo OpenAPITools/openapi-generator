@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,6 +117,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
+        typeMapping.put("UUID", "String");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
@@ -223,6 +224,12 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
+        writeOptional(outputFolder, new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb"));
+        writeOptional(outputFolder, new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb"));
+        writeOptional(outputFolder, new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb"));
+        // not including base object test as the moment as not all API has model
+        //writeOptional(outputFolder, new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb"));
     }
 
     @Override
@@ -641,5 +648,13 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setGemAuthorEmail(String gemAuthorEmail) {
         this.gemAuthorEmail = gemAuthorEmail;
+    }
+
+    @Override
+    public boolean shouldOverwrite(String filename) {
+        // skip spec file as the file might have been updated with new test cases
+        return !(skipOverwrite && new File(filename).exists());
+        //
+        //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
 }

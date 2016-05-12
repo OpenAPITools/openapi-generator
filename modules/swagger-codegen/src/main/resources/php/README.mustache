@@ -68,8 +68,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');{{/isBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. BEARER) for API key, if needed
-// {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'BEARER');{{/isApiKey}}{{#isOAuth}}
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'Bearer');{{/isApiKey}}{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
 {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
@@ -94,12 +94,12 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}/{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation For Models
 
-{{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}/{{{classname}}}.md)
 {{/model}}{{/models}}
 
 ## Documentation For Authorization

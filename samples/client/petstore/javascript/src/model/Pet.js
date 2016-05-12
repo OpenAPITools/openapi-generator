@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', './Category', './Tag'], factory);
+    define(['ApiClient', 'model/Category', 'model/Tag'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('./Category'), require('./Tag'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient, Category, Tag) {
   'use strict';
+
+
+
 
   /**
    * The Pet model module.
@@ -29,11 +32,12 @@
    * @param photoUrls
    */
   var exports = function(name, photoUrls) {
+    var _this = this;
 
 
 
-    this['name'] = name;
-    this['photoUrls'] = photoUrls;
+    _this['name'] = name;
+    _this['photoUrls'] = photoUrls;
 
 
   };
@@ -46,7 +50,7 @@
    * @return {module:model/Pet} The populated <code>Pet</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('id')) {
@@ -71,32 +75,26 @@
     return obj;
   }
 
-
   /**
    * @member {Integer} id
    */
   exports.prototype['id'] = undefined;
-
   /**
    * @member {module:model/Category} category
    */
   exports.prototype['category'] = undefined;
-
   /**
    * @member {String} name
    */
   exports.prototype['name'] = undefined;
-
   /**
    * @member {Array.<String>} photoUrls
    */
   exports.prototype['photoUrls'] = undefined;
-
   /**
    * @member {Array.<module:model/Tag>} tags
    */
   exports.prototype['tags'] = undefined;
-
   /**
    * pet status in the store
    * @member {module:model/Pet.StatusEnum} status
@@ -109,25 +107,25 @@
    * @enum {String}
    * @readonly
    */
-  exports.StatusEnum = { 
+  exports.StatusEnum = {
     /**
-     * value: available
+     * value: "available"
      * @const
      */
-    AVAILABLE: "available",
-    
+    "available": "available",
     /**
-     * value: pending
+     * value: "pending"
      * @const
      */
-    PENDING: "pending",
-    
+    "pending": "pending",
     /**
-     * value: sold
+     * value: "sold"
      * @const
      */
-    SOLD: "sold"
-  };
+    "sold": "sold"  };
+
 
   return exports;
 }));
+
+

@@ -9,7 +9,7 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-22T19:32:21.945+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-04-29T00:20:47.240+08:00")
 public class Order   {
   
   private Long id = null;
@@ -17,12 +17,15 @@ public class Order   {
   private Integer quantity = null;
   private Date shipDate = null;
 
-
+  /**
+   * Order Status
+   */
   public enum StatusEnum {
     PLACED("placed"),
-    APPROVED("approved"),
-    DELIVERED("delivered");
 
+        APPROVED("approved"),
+
+        DELIVERED("delivered");
     private String value;
 
     StatusEnum(String value) {
@@ -32,7 +35,7 @@ public class Order   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 

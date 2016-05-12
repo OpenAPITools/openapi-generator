@@ -13,7 +13,7 @@ exports.deletePet = function(args, res, next) {
   /**
    * parameters expected in the args:
   * petId (Long)
-  * apiKey (String)
+  * api_key (String)
   **/
   // no response value expected for this operation
   res.end();
@@ -26,18 +26,18 @@ exports.findPetsByStatus = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = [ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
 } ];
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -56,18 +56,18 @@ exports.findPetsByTags = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = [ {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
 } ];
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -86,18 +86,18 @@ exports.getPetById = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = {
-  "tags" : [ {
-    "id" : 123456789,
-    "name" : "aeiou"
-  } ],
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
   "id" : 123456789,
   "category" : {
-    "id" : 123456789,
-    "name" : "aeiou"
+    "name" : "aeiou",
+    "id" : 123456789
   },
-  "status" : "aeiou",
-  "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -138,9 +138,9 @@ exports.uploadFile = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = {
-  "message" : "aeiou",
   "code" : 123,
-  "type" : "aeiou"
+  "type" : "aeiou",
+  "message" : "aeiou"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');

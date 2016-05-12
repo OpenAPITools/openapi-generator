@@ -17,7 +17,7 @@ use DateTime;
 
 $WWW::SwaggerClient::Configuration::http_user_agent = 'Perl-Swagger-Test';
 $WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'ZZZZZZZZZZZZZZ';
-$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = 'BEARER';
+$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = 'Bearer';
 
 $WWW::SwaggerClient::Configuration::username = 'username';
 $WWW::SwaggerClient::Configuration::password = 'password';

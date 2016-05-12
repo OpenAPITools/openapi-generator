@@ -34,7 +34,7 @@ import static org.springframework.http.MediaType.*;
 @Controller
 @RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-17T17:50:52.711+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:42:56.594+02:00")
 public interface StoreApi {
 
   @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class)
@@ -42,7 +42,7 @@ public interface StoreApi {
     @ApiResponse(code = 400, message = "Invalid ID supplied"),
     @ApiResponse(code = 404, message = "Order not found") })
   @RequestMapping(value = "/order/{orderId}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.DELETE)
   default Callable<ResponseEntity<Void>> deleteOrder(
@@ -61,7 +61,7 @@ public interface StoreApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation") })
   @RequestMapping(value = "/inventory", 
-    produces = { "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   default Callable<ResponseEntity<Map<String, Integer>>> getInventory()
@@ -77,11 +77,11 @@ public interface StoreApi {
     @ApiResponse(code = 400, message = "Invalid ID supplied"),
     @ApiResponse(code = 404, message = "Order not found") })
   @RequestMapping(value = "/order/{orderId}", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.GET)
   default Callable<ResponseEntity<Order>> getOrderById(
-@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId
+@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") String orderId
 
 )
       throws NotFoundException {
@@ -95,12 +95,12 @@ public interface StoreApi {
     @ApiResponse(code = 200, message = "successful operation"),
     @ApiResponse(code = 400, message = "Invalid Order") })
   @RequestMapping(value = "/order", 
-    produces = { "application/xml", "application/json" }, 
+    produces = { "application/json", "application/xml" }, 
     
     method = RequestMethod.POST)
   default Callable<ResponseEntity<Order>> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body
+@ApiParam(value = "order placed for purchasing the pet"  ) @RequestBody Order body
 )
       throws NotFoundException {
       // do some magic!

@@ -33,26 +33,18 @@ describe 'Cat' do
 
   describe 'test an instance of Cat' do
     it 'should create an instact of Cat' do
-      @instance.should be_a(Petstore::Cat) 
+      expect(@instance).to be_instance_of(Petstore::Cat)
     end
   end
   describe 'test attribute "class_name"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "declawed"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
