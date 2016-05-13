@@ -9,7 +9,7 @@ import Foundation
 
 
 public class Pet: JSONEncodable {
-    public enum ST: String { 
+    public enum Status: String { 
         case Available = "available"
         case Pending = "pending"
         case Sold = "sold"
@@ -20,7 +20,7 @@ public class Pet: JSONEncodable {
     public var photoUrls: [String]?
     public var tags: [Tag]?
     /** pet status in the store */
-    public var status: ST?
+    public var status: Status?
 
     public init() {}
 

@@ -9,7 +9,7 @@ import Foundation
 
 
 public class Order: JSONEncodable {
-    public enum ST: String { 
+    public enum Status: String { 
         case Placed = "placed"
         case Approved = "approved"
         case Delivered = "delivered"
@@ -19,7 +19,7 @@ public class Order: JSONEncodable {
     public var quantity: Int32?
     public var shipDate: NSDate?
     /** Order Status */
-    public var status: ST?
+    public var status: Status?
     public var complete: Bool?
 
     public init() {}
