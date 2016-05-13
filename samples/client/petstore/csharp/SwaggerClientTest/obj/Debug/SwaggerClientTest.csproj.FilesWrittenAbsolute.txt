@@ -9,14 +9,3 @@
 /Users/williamcheng/Code/swagger-api/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/nunit.framework.dll
 /Users/williamcheng/Code/swagger-api/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/Swagger Library.dll
 /Users/williamcheng/Code/swagger-api/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/Swagger Library.dll.mdb
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/SwaggerClientTest.swagger-logo.png
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/SwaggerClientTest.dll.mdb
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/SwaggerClientTest.dll
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/SwaggerClientTest.dll
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/SwaggerClientTest.dll.mdb
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/Newtonsoft.Json.dll
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/RestSharp.dll
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/nunit.framework.dll
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/Swagger Library.dll
-/Volumes/Extra/projects/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/Swagger Library.dll.mdb
