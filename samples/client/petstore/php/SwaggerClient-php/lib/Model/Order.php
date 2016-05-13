@@ -167,7 +167,7 @@ class Order implements ArrayAccess
         $invalid_properties = array();
         $allowed_values = array("placed", "approved", "delivered");
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'status', must be one of #{allowed_values}.";
         }
         return $invalid_properties;
     }
