@@ -35,7 +35,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String composerVendorName = "swagger";
     protected String composerProjectName = "swagger-client";
     protected String packagePath = "SwaggerClient-php";
-    protected String artifactVersion = "1.0.0";
+    protected String artifactVersion = null;
     protected String srcBasePath = "lib";
     protected String testBasePath = "test";
     protected String docsBasePath = "docs";
