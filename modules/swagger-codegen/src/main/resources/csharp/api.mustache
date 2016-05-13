@@ -13,7 +13,7 @@ namespace {{packageName}}.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface I{{classname}}
+    public interface I{{classname}} : IApiAccessor
     {
         #region Synchronous Operations
         {{#operation}}
