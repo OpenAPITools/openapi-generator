@@ -54,7 +54,7 @@ class Pet implements ArrayAccess
     static $swaggerModelName = 'Pet';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     static $swaggerTypes = array(
@@ -70,7 +70,7 @@ class Pet implements ArrayAccess
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
@@ -116,14 +116,12 @@ class Pet implements ArrayAccess
         'tags' => 'getTags',
         'status' => 'getStatus'
     );
- 
-    static function getters() {
+
+    static function getters()
+    {
         return self::$getters;
     }
 
-    const STATUS_AVAILABLE = 'available';
-    const STATUS_PENDING = 'pending';
-    const STATUS_SOLD = 'sold';
     
 
     
@@ -131,11 +129,10 @@ class Pet implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getStatusAllowableValues() {
+    public function getStatusAllowableValues()
+    {
         return [
-            self::STATUS_AVAILABLE,
-            self::STATUS_PENDING,
-            self::STATUS_SOLD,
+            
         ];
     }
     
@@ -162,7 +159,7 @@ class Pet implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
     public function listInvalidProperties()
@@ -184,8 +181,8 @@ class Pet implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -334,7 +331,7 @@ class Pet implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -344,17 +341,17 @@ class Pet implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -366,17 +363,17 @@ class Pet implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string
