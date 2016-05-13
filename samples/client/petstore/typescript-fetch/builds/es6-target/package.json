@@ -1,7 +1,6 @@
 {
-  "name": "@swagger/typescript-fetch-petstore",
-  "version": "0.0.1",
-  "private": true,
+  "name": "typescript-fetch-api",
+  "version": "0.0.0",
   "main": "./dist/api.js",
   "browser": "./dist/api.js",
   "typings": "./dist/api.d.ts",
@@ -9,7 +8,7 @@
     "isomorphic-fetch": "^2.2.1"
   },
   "scripts" : {
-    "install" : "typings install && tsc"
+    "prepublish" : "typings install && tsc"
   },
   "devDependencies": {
     "typescript": "^1.8.10",
