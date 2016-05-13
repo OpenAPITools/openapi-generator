@@ -20,6 +20,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Name() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Name" /> class.
+        /// </summary>
         /// <param name="_Name">_Name (required).</param>
         /// <param name="Property">Property.</param>
         public Name(int? _Name = null, string Property = null)

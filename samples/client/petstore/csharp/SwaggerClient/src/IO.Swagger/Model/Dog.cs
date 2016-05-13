@@ -20,6 +20,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Dog() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dog" /> class.
+        /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
         /// <param name="Color">Color (default to &quot;red&quot;).</param>
         /// <param name="Breed">Breed.</param>
