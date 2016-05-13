@@ -169,14 +169,14 @@ class Pet implements ArrayAccess
     {
         $invalid_properties = array();
         if ($this->container['name'] === null) {
-            $invalid_properties[] = "'$name' can't be null";
+            $invalid_properties[] = "'name' can't be null";
         }
         if ($this->container['photo_urls'] === null) {
-            $invalid_properties[] = "'$photo_urls' can't be null";
+            $invalid_properties[] = "'photo_urls' can't be null";
         }
         $allowed_values = array("available", "pending", "sold");
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'status', must be one of #{allowed_values}.";
         }
         return $invalid_properties;
     }
