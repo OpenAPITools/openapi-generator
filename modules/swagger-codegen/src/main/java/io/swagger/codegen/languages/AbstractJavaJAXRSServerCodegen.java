@@ -23,6 +23,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     public AbstractJavaJAXRSServerCodegen()
     {
         super();
+        apiTestTemplateFiles.clear(); // TODO: add test template
     }
 
     @Override
