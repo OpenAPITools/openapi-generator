@@ -4,9 +4,9 @@ VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "{{packageName}}", "src\{{packageName}}\{{packageName}}.csproj", "{{packageGuid}}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "{{testPackageName}}", "src\{{testPackageName}}\{{testPackageName}}.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
+{{^excludeTests}}Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "{{testPackageName}}", "src\{{testPackageName}}\{{testPackageName}}.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
 EndProject
-Global
+{{/excludeTests}}Global
 GlobalSection(SolutionConfigurationPlatforms) = preSolution
 Debug|Any CPU = Debug|Any CPU
 Release|Any CPU = Release|Any CPU
