@@ -56,7 +56,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     static $swaggerModelName = '{{name}}';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     static $swaggerTypes = array(
@@ -68,7 +68,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         return self::$swaggerTypes{{#parentSchema}} + parent::swaggerTypes(){{/parentSchema}};
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
@@ -102,8 +102,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#vars}}'{{name}}' => '{{getter}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     );
- 
-    static function getters() {
+
+    static function getters()
+    {
         return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
     }
 
@@ -115,7 +116,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function {{getter}}AllowableValues() {
+    public function {{getter}}AllowableValues()
+    {
         return [
             {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
@@ -152,48 +154,48 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         {{#vars}}
         {{#required}}
         if ($this->container['{{name}}'] === null) {
-            $invalid_properties[] = "'${{name}}' can't be null";
+            $invalid_properties[] = "'{{name}}' can't be null";
         }
         {{/required}}
         {{#isEnum}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be one of #{allowed_values}.";
         }
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
         if (strlen($this->container['{{name}}']) > {{maxLength}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
         {{/maxLength}}
         {{#minLength}}
         if (strlen($this->container['{{name}}']) < {{minLength}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
         {{/minLength}}
         {{#maximum}}
         if ($this->container['{{name}}'] > {{maximum}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be smaller than or equal to {{maximum}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be smaller than or equal to {{maximum}}.";
         }
         {{/maximum}}
         {{#minimum}}
         if ($this->container['{{name}}'] < {{minimum}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be bigger than or equal to {{minimum}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be bigger than or equal to {{minimum}}.";
         }
         {{/minimum}}
         {{#pattern}}
         if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be conform to the pattern {{pattern}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be conform to the pattern {{pattern}}.";
         }
         {{/pattern}}
         {{/hasValidation}}
@@ -204,8 +206,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -309,7 +311,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     {{/vars}}
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -319,17 +321,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -341,17 +343,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string
