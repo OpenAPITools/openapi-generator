@@ -27,7 +27,7 @@ public class CodegenModel {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum;
+    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired;
     public ExternalDocs externalDocs;
 
     public Map<String, Object> vendorExtensions;
