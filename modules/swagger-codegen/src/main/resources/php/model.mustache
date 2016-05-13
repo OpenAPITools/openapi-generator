@@ -161,39 +161,39 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#vars}}
         {{#required}}
         if ($this->container['{{name}}'] === null) {
-            $invalid_properties[] = "'${{name}}' can't be null";
+            $invalid_properties[] = "'{{name}}' can't be null";
         }
         {{/required}}
         {{#isEnum}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be one of #{allowed_values}.";
         }
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
         if (strlen($this->container['{{name}}']) > {{maxLength}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
         {{/maxLength}}
         {{#minLength}}
         if (strlen($this->container['{{name}}']) < {{minLength}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
         {{/minLength}}
         {{#maximum}}
         if ($this->container['{{name}}'] > {{maximum}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be smaller than or equal to {{maximum}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be smaller than or equal to {{maximum}}.";
         }
         {{/maximum}}
         {{#minimum}}
         if ($this->container['{{name}}'] < {{minimum}}) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be bigger than or equal to {{minimum}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be bigger than or equal to {{minimum}}.";
         }
         {{/minimum}}
         {{#pattern}}
         if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
-            $invalid_properties[] = "invalid value for '${{name}}', must be conform to the pattern {{pattern}}.";
+            $invalid_properties[] = "invalid value for '{{name}}', must be conform to the pattern {{pattern}}.";
         }
         {{/pattern}}
         {{/hasValidation}}
