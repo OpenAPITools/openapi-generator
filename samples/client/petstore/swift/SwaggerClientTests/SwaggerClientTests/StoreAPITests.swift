@@ -32,7 +32,8 @@ class StoreAPITests: XCTestCase {
         order.complete = false
         order.quantity = 10
         order.shipDate = NSDate()
-        order.status = .Placed
+        // use explicit naming to reference the enum so that we test we don't regress on enum naming
+        order.status = Order.Status.Placed
         let expectation = self.expectationWithDescription("testPlaceOrder")
         StoreAPI.placeOrder(body: order).then { order -> Void in
                 XCTAssert(order.id == 1000, "invalid id")
