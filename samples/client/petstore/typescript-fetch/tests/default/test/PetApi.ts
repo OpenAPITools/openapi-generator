@@ -1,13 +1,12 @@
 import {expect} from 'chai';
-import * as Swagger from 'typescript-fetch-api';
+import {PetApi, Pet, Category} from 'typescript-fetch-api';
 
 describe('PetApi', () => {
-  let api: Swagger.PetApi;
-
-  let fixture: Swagger.Pet = createTestFixture();
+  let api: PetApi;
+  let fixture: Pet = createTestFixture();
 
   beforeEach(() => {
-    api = new Swagger.PetApi();
+    api = new PetApi();
   });
 
   it('should add and delete Pet', () => {
@@ -40,19 +39,18 @@ describe('PetApi', () => {
       return api.getPetById({ petId: fixture.id }).then((result) => {
           return expect(result).to.not.exist;
       }, (err) => {
-        console.log(err)
         return expect(err).to.exist;
       });
   });
 });
 
 function createTestFixture(ts = Date.now()) {
-  const category: Swagger.Category = {
+  const category: Category = {
     'id': ts,
     'name': `category${ts}`,
   };
 
-  const pet: Swagger.Pet = {
+  const pet: Pet = {
     'id': ts,
     'name': `pet${ts}`,
     'category': category,
