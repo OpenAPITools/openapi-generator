@@ -127,7 +127,7 @@ class Cat extends Animal implements ArrayAccess
      * 
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         return $invalid_properties;
