@@ -1,7 +1,23 @@
-import * as querystring from 'querystring';
-import * as fetch from 'isomorphic-fetch';
-import {assign} from './assign';
+import * as querystring from "querystring";
+import * as url from "url";
 
+import * as isomorphicFetch from "isomorphic-fetch";
+{{^supportsES6}}
+import * as assign from "core-js/library/fn/object/assign";
+{{/supportsES6}}
+
+interface Dictionary<T> { [index: string]: T; }
+export interface FetchAPI { (url: string, init?: any): Promise<any>; }
+
+export class BaseAPI {
+    basePath: string;
+    fetch: FetchAPI;
+
+    constructor(basePath: string = "{{basePath}}", fetch: FetchAPI = isomorphicFetch) {
+        this.basePath = basePath;
+        this.fetch = fetch;
+    }
+}
 
 {{#models}}
 {{#model}}
@@ -13,24 +29,20 @@ import {assign} from './assign';
 export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#vars}}
 {{#description}}
-
     /**
      * {{{description}}}
      */
 {{/description}}
-    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{classname}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 }
 
 {{#hasEnums}}
-export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
-
-export type {{datatypeWithEnum}} = {{#allowableValues}}{{#values}}'{{.}}'{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
+export type {{classname}}{{datatypeWithEnum}} = {{#allowableValues}}{{#values}}"{{.}}"{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
 {{/isEnum}}
 {{/vars}}
-}
 {{/hasEnums}}
 {{/model}}
 {{/models}}
@@ -38,96 +50,72 @@ export type {{datatypeWithEnum}} = {{#allowableValues}}{{#values}}'{{.}}'{{^-las
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-//export namespace {{package}} {
-    'use strict';
 
 {{#description}}
-    /**
-    * {{&description}}
-    */
+/**
+* {{&description}}
+*/
 {{/description}}
-    export class {{classname}} {
-        protected basePath = '{{basePath}}';
-        public defaultHeaders : any = {};
-
-        constructor(basePath?: string) {
-            if (basePath) {
-                this.basePath = basePath;
-            }
-        }
-
+export class {{classname}} extends BaseAPI {
 {{#operation}}
-        /**
-         * {{summary}}
-         * {{notes}}
-         {{#allParams}}* @param {{paramName}} {{description}}
-         {{/allParams}}*/
-        public {{nickname}} (params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }, extraQueryParams?: any, extraFetchParams?: any ) : Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-            const localVarPath = this.basePath + '{{path}}'{{#pathParams}}
-                .replace('{' + '{{baseName}}' + '}', String(params.{{paramName}})){{/pathParams}};
-
-            let queryParameters: any = assign({}, extraQueryParams);
-            let headerParams: any = assign({}, this.defaultHeaders);
-{{#hasFormParams}}
-            let formParams: any = {};
-            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
-
-{{/hasFormParams}}
-{{#hasBodyParam}}
-            headerParams['Content-Type'] = 'application/json';
-
-{{/hasBodyParam}}
+    /** {{#summary}}
+     * {{summary}}{{/summary}}{{#notes}}
+     * {{notes}}{{/notes}}{{#allParams}}
+     * @param {{paramName}} {{description}}{{/allParams}}
+     */
+    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
 {{#allParams}}
 {{#required}}
-            // verify required parameter '{{paramName}}' is set
-            if (params.{{paramName}} == null) {
-                throw new Error('Missing required parameter {{paramName}} when calling {{nickname}}');
-            }
+        // verify required parameter "{{paramName}}" is set
+        if (params["{{paramName}}"] == null) {
+            throw new Error("Missing required parameter {{paramName}} when calling {{nickname}}");
+        }
 {{/required}}
 {{/allParams}}
-{{#queryParams}}
-            if (params.{{paramName}} !== undefined) {
-                queryParameters['{{baseName}}'] = params.{{paramName}};
-            }
+        const baseUrl = `${this.basePath}{{path}}`{{#pathParams}}
+            .replace(`{${"{{baseName}}"}}`, `${ params.{{paramName}} }`){{/pathParams}};
+        let urlObj = url.parse(baseUrl, true);
+{{#hasQueryParams}}
+        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, { {{#queryParams}}
+            "{{baseName}}": params.{{paramName}},{{/queryParams}}
+        });
+{{/hasQueryParams}}
+        let fetchOptions: RequestInit = { method: "{{httpMethod}}" };
 
-{{/queryParams}}
-{{#headerParams}}
-            headerParams['{{baseName}}'] = params.{{paramName}};
-
-{{/headerParams}}
-{{#formParams}}
-            formParams['{{baseName}}'] = params.{{paramName}};
-
-{{/formParams}}
-            let fetchParams = {
-                method: '{{httpMethod}}',
-                headers: headerParams,
-                {{#bodyParam}}body: JSON.stringify(params.{{paramName}}),
-                {{/bodyParam}}
-                {{#hasFormParams}}body: querystring.stringify(formParams),
-                {{/hasFormParams}}
-
-            };
-
-            if (extraFetchParams) {
-                fetchParams = assign(fetchParams, extraFetchParams);
-            }
-
-            let localVarPathWithQueryParameters = localVarPath + (localVarPath.indexOf('?') !== -1 ? '&' : '?') + querystring.stringify(queryParameters);
-
-            return fetch(localVarPathWithQueryParameters, fetchParams).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    let error = new Error(response.statusText);
-                    (error as any).response = response;
-                    throw error;
-                }
-            });
+        let contentTypeHeader: Dictionary<string>;
+{{#hasFormParams}}
+        contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
+        fetchOptions.body = querystring.stringify({ {{#formParams}}
+            "{{baseName}}": params.{{paramName}},{{/formParams}}
+        });
+{{/hasFormParams}}
+{{#hasBodyParam}}
+        contentTypeHeader = { "Content-Type": "application/json" };{{#bodyParam}}
+        if (params["{{paramName}}"]) {
+            fetchOptions.body = JSON.stringify(params["{{paramName}}"] || {});
+        }{{/bodyParam}}
+{{/hasBodyParam}}
+{{#hasHeaderParam}}
+        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({ {{#headerParams}}
+            "{{baseName}}": params.{{paramName}},{{/headerParams}}
+        }, contentTypeHeader);
+{{/hasHeaderParam}}
+{{^hasHeaderParam}}
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
         }
-{{/operation}}
+{{/hasHeaderParam}}
+        return this.fetch(url.format(urlObj), fetchOptions).then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+                return response{{#returnType}}.json(){{/returnType}};
+            } else {
+                throw response;
+            }
+        });
     }
-//}
+{{/operation}}
+}
+
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
