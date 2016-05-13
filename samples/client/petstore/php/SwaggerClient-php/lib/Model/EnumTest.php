@@ -54,7 +54,7 @@ class EnumTest implements ArrayAccess
     static $swaggerModelName = 'Enum_Test';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     static $swaggerTypes = array(
@@ -67,7 +67,7 @@ class EnumTest implements ArrayAccess
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
@@ -104,17 +104,12 @@ class EnumTest implements ArrayAccess
         'enum_integer' => 'getEnumInteger',
         'enum_number' => 'getEnumNumber'
     );
- 
-    static function getters() {
+
+    static function getters()
+    {
         return self::$getters;
     }
 
-    const ENUM_STRING_UPPER = 'UPPER';
-    const ENUM_STRING_LOWER = 'lower';
-    const ENUM_INTEGER_1 = 1;
-    const ENUM_INTEGER_MINUS_1 = -1;
-    const ENUM_NUMBER_1_DOT_1 = 1.1;
-    const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
     
 
     
@@ -122,10 +117,10 @@ class EnumTest implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getEnumStringAllowableValues() {
+    public function getEnumStringAllowableValues()
+    {
         return [
-            self::ENUM_STRING_UPPER,
-            self::ENUM_STRING_LOWER,
+            
         ];
     }
     
@@ -133,10 +128,10 @@ class EnumTest implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getEnumIntegerAllowableValues() {
+    public function getEnumIntegerAllowableValues()
+    {
         return [
-            self::ENUM_INTEGER_1,
-            self::ENUM_INTEGER_MINUS_1,
+            
         ];
     }
     
@@ -144,10 +139,10 @@ class EnumTest implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getEnumNumberAllowableValues() {
+    public function getEnumNumberAllowableValues()
+    {
         return [
-            self::ENUM_NUMBER_1_DOT_1,
-            self::ENUM_NUMBER_MINUS_1_DOT_2,
+            
         ];
     }
     
@@ -171,7 +166,7 @@ class EnumTest implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
     public function list_invalid_properties()
@@ -179,15 +174,15 @@ class EnumTest implements ArrayAccess
         $invalid_properties = array();
         $allowed_values = array("UPPER", "lower");
         if (!in_array($this->container['enum_string'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '$enum_string', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'enum_string', must be one of #{allowed_values}.";
         }
         $allowed_values = array("1", "-1");
         if (!in_array($this->container['enum_integer'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '$enum_integer', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'enum_integer', must be one of #{allowed_values}.";
         }
         $allowed_values = array("1.1", "-1.2");
         if (!in_array($this->container['enum_number'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '$enum_number', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'enum_number', must be one of #{allowed_values}.";
         }
         return $invalid_properties;
     }
@@ -195,8 +190,8 @@ class EnumTest implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -292,7 +287,7 @@ class EnumTest implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -302,17 +297,17 @@ class EnumTest implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -324,17 +319,17 @@ class EnumTest implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string

@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 {{{notes}}}{{/notes}}
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -37,7 +37,7 @@ $api_instance = new {{invokerPackage}}\Api\{{classname}}();
 {{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
-try { 
+try {
     {{#returnType}}$result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
     print_r($result);{{/returnType}}
 } catch (Exception $e) {

@@ -54,7 +54,7 @@ class FormatTest implements ArrayAccess
     static $swaggerModelName = 'format_test';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     static $swaggerTypes = array(
@@ -69,7 +69,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'string',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
-        'uuid' => 'string',
+        'uuid' => 'UUID',
         'password' => 'string'
     );
 
@@ -77,7 +77,7 @@ class FormatTest implements ArrayAccess
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
@@ -144,8 +144,9 @@ class FormatTest implements ArrayAccess
         'uuid' => 'getUuid',
         'password' => 'getPassword'
     );
- 
-    static function getters() {
+
+    static function getters()
+    {
         return self::$getters;
     }
 
@@ -182,62 +183,62 @@ class FormatTest implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         if ($this->container['integer'] > 100.0) {
-            $invalid_properties[] = "invalid value for '$integer', must be smaller than or equal to 100.0.";
+            $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.0.";
         }
         if ($this->container['integer'] < 10.0) {
-            $invalid_properties[] = "invalid value for '$integer', must be bigger than or equal to 10.0.";
+            $invalid_properties[] = "invalid value for 'integer', must be bigger than or equal to 10.0.";
         }
         if ($this->container['int32'] > 200.0) {
-            $invalid_properties[] = "invalid value for '$int32', must be smaller than or equal to 200.0.";
+            $invalid_properties[] = "invalid value for 'int32', must be smaller than or equal to 200.0.";
         }
         if ($this->container['int32'] < 20.0) {
-            $invalid_properties[] = "invalid value for '$int32', must be bigger than or equal to 20.0.";
+            $invalid_properties[] = "invalid value for 'int32', must be bigger than or equal to 20.0.";
         }
         if ($this->container['number'] === null) {
-            $invalid_properties[] = "'$number' can't be null";
+            $invalid_properties[] = "'number' can't be null";
         }
         if ($this->container['number'] > 543.2) {
-            $invalid_properties[] = "invalid value for '$number', must be smaller than or equal to 543.2.";
+            $invalid_properties[] = "invalid value for 'number', must be smaller than or equal to 543.2.";
         }
         if ($this->container['number'] < 32.1) {
-            $invalid_properties[] = "invalid value for '$number', must be bigger than or equal to 32.1.";
+            $invalid_properties[] = "invalid value for 'number', must be bigger than or equal to 32.1.";
         }
         if ($this->container['float'] > 987.6) {
-            $invalid_properties[] = "invalid value for '$float', must be smaller than or equal to 987.6.";
+            $invalid_properties[] = "invalid value for 'float', must be smaller than or equal to 987.6.";
         }
         if ($this->container['float'] < 54.3) {
-            $invalid_properties[] = "invalid value for '$float', must be bigger than or equal to 54.3.";
+            $invalid_properties[] = "invalid value for 'float', must be bigger than or equal to 54.3.";
         }
         if ($this->container['double'] > 123.4) {
-            $invalid_properties[] = "invalid value for '$double', must be smaller than or equal to 123.4.";
+            $invalid_properties[] = "invalid value for 'double', must be smaller than or equal to 123.4.";
         }
         if ($this->container['double'] < 67.8) {
-            $invalid_properties[] = "invalid value for '$double', must be bigger than or equal to 67.8.";
+            $invalid_properties[] = "invalid value for 'double', must be bigger than or equal to 67.8.";
         }
         if (!preg_match("/[a-z]/i", $this->container['string'])) {
-            $invalid_properties[] = "invalid value for '$string', must be conform to the pattern /[a-z]/i.";
+            $invalid_properties[] = "invalid value for 'string', must be conform to the pattern /[a-z]/i.";
         }
         if ($this->container['byte'] === null) {
-            $invalid_properties[] = "'$byte' can't be null";
+            $invalid_properties[] = "'byte' can't be null";
         }
         if ($this->container['date'] === null) {
-            $invalid_properties[] = "'$date' can't be null";
+            $invalid_properties[] = "'date' can't be null";
         }
         if ($this->container['password'] === null) {
-            $invalid_properties[] = "'$password' can't be null";
+            $invalid_properties[] = "'password' can't be null";
         }
         if (strlen($this->container['password']) > 64) {
-            $invalid_properties[] = "invalid value for '$password', the character length must be smaller than or equal to 64.";
+            $invalid_properties[] = "invalid value for 'password', the character length must be smaller than or equal to 64.";
         }
         if (strlen($this->container['password']) < 10) {
-            $invalid_properties[] = "invalid value for '$password', the character length must be bigger than or equal to 10.";
+            $invalid_properties[] = "invalid value for 'password', the character length must be bigger than or equal to 10.";
         }
         return $invalid_properties;
     }
@@ -245,8 +246,8 @@ class FormatTest implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -577,7 +578,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Gets uuid
-     * @return string
+     * @return UUID
      */
     public function getUuid()
     {
@@ -586,7 +587,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets uuid
-     * @param string $uuid 
+     * @param UUID $uuid 
      * @return $this
      */
     public function setUuid($uuid)
@@ -624,7 +625,7 @@ class FormatTest implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -634,17 +635,17 @@ class FormatTest implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -656,17 +657,17 @@ class FormatTest implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string
