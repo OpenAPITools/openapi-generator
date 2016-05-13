@@ -35,7 +35,7 @@ export class {{classname}} {
         const path = this.basePath + '{{path}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
 {{#hasFormParams}}
         let formParams = new URLSearchParams();
@@ -51,7 +51,7 @@ export class {{classname}} {
 {{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
-            queryParameters['{{baseName}}'] = {{paramName}};
+            queryParameters.set('{{baseName}}', {{paramName}});
         }
 
 {{/queryParams}}
