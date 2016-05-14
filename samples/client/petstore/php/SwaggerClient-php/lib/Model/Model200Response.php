@@ -51,17 +51,18 @@ class Model200Response implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = '200_response';
+    protected static $swaggerModelName = '200_response';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'name' => 'int'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
@@ -69,11 +70,12 @@ class Model200Response implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'name' => 'name'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -81,11 +83,12 @@ class Model200Response implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'name' => 'setName'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -93,11 +96,11 @@ class Model200Response implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'name' => 'getName'
     );
 
-    static function getters()
+    public static function getters()
     {
         return self::$getters;
     }
@@ -155,7 +158,7 @@ class Model200Response implements ArrayAccess
 
     /**
      * Sets name
-     * @param int $name 
+     * @param int $name
      * @return $this
      */
     public function setName($name)

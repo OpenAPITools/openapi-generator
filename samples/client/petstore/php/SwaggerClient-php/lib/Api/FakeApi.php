@@ -62,7 +62,7 @@ class FakeApi
      *
      * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
      */
-    function __construct(\Swagger\Client\ApiClient $apiClient = null)
+    public function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -98,7 +98,7 @@ class FakeApi
     /**
      * Operation testEndpointParameters
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 .
      *
      * @param float $number None (required)
      * @param double $double None (required)
@@ -126,7 +126,7 @@ class FakeApi
     /**
      * Operation testEndpointParametersWithHttpInfo
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 .
      *
      * @param float $number None (required)
      * @param double $double None (required)
@@ -276,14 +276,15 @@ class FakeApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'POST',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;

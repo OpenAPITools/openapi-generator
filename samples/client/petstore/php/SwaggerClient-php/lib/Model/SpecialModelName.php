@@ -39,7 +39,6 @@ use \ArrayAccess;
  * SpecialModelName Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,17 +50,18 @@ class SpecialModelName implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = '$special[model.name]';
+    protected static $swaggerModelName = '$special[model.name]';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'special_property_name' => 'int'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
@@ -69,11 +69,12 @@ class SpecialModelName implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'special_property_name' => '$special[property.name]'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -81,11 +82,12 @@ class SpecialModelName implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'special_property_name' => 'setSpecialPropertyName'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -93,11 +95,11 @@ class SpecialModelName implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'special_property_name' => 'getSpecialPropertyName'
     );
 
-    static function getters()
+    public static function getters()
     {
         return self::$getters;
     }
@@ -155,7 +157,7 @@ class SpecialModelName implements ArrayAccess
 
     /**
      * Sets special_property_name
-     * @param int $special_property_name 
+     * @param int $special_property_name
      * @return $this
      */
     public function setSpecialPropertyName($special_property_name)
