@@ -12,7 +12,7 @@ namespace API.Client {
         static $inject: string[] = ['$http', '$httpParamSerializer', 'basePath'];
 
         constructor(protected $http: ng.IHttpService, protected $httpParamSerializer?: (d: any) => any, basePath?: string) {
-            if (basePath) {
+            if (basePath !== undefined) {
                 this.basePath = basePath;
             }
         }
