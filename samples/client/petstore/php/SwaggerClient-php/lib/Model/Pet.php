@@ -122,6 +122,9 @@ class Pet implements ArrayAccess
         return self::$getters;
     }
 
+    const STATUS_AVAILABLE = 'available';
+    const STATUS_PENDING = 'pending';
+    const STATUS_SOLD = 'sold';
     
 
     
@@ -132,7 +135,9 @@ class Pet implements ArrayAccess
     public function getStatusAllowableValues()
     {
         return [
-            
+            self::STATUS_AVAILABLE,
+            self::STATUS_PENDING,
+            self::STATUS_SOLD,
         ];
     }
     

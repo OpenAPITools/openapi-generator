@@ -69,7 +69,7 @@ class FormatTest implements ArrayAccess
         'binary' => 'string',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
-        'uuid' => 'UUID',
+        'uuid' => 'string',
         'password' => 'string'
     );
 
@@ -578,7 +578,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Gets uuid
-     * @return UUID
+     * @return string
      */
     public function getUuid()
     {
@@ -587,7 +587,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets uuid
-     * @param UUID $uuid 
+     * @param string $uuid 
      * @return $this
      */
     public function setUuid($uuid)

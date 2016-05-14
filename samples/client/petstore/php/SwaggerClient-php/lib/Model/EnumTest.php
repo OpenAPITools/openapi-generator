@@ -110,6 +110,12 @@ class EnumTest implements ArrayAccess
         return self::$getters;
     }
 
+    const ENUM_STRING_UPPER = 'UPPER';
+    const ENUM_STRING_LOWER = 'lower';
+    const ENUM_INTEGER_1 = 1;
+    const ENUM_INTEGER_MINUS_1 = -1;
+    const ENUM_NUMBER_1_DOT_1 = 1.1;
+    const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
     
 
     
@@ -120,7 +126,8 @@ class EnumTest implements ArrayAccess
     public function getEnumStringAllowableValues()
     {
         return [
-            
+            self::ENUM_STRING_UPPER,
+            self::ENUM_STRING_LOWER,
         ];
     }
     
@@ -131,7 +138,8 @@ class EnumTest implements ArrayAccess
     public function getEnumIntegerAllowableValues()
     {
         return [
-            
+            self::ENUM_INTEGER_1,
+            self::ENUM_INTEGER_MINUS_1,
         ];
     }
     
@@ -142,7 +150,8 @@ class EnumTest implements ArrayAccess
     public function getEnumNumberAllowableValues()
     {
         return [
-            
+            self::ENUM_NUMBER_1_DOT_1,
+            self::ENUM_NUMBER_MINUS_1_DOT_2,
         ];
     }
     
@@ -169,7 +178,7 @@ class EnumTest implements ArrayAccess
      *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         $allowed_values = array("UPPER", "lower");
