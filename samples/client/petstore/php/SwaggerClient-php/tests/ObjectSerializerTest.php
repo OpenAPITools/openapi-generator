@@ -1,6 +1,6 @@
 <?php
 
-require_once('autoload.php');
+namespace Swagger\Client;
 
 // test object serializer
 class ObjectSerializerTest extends \PHPUnit_Framework_TestCase
@@ -9,7 +9,7 @@ class ObjectSerializerTest extends \PHPUnit_Framework_TestCase
     public function testSanitizeFilename()
     {
         // initialize the API client
-        $s = new Swagger\Client\ObjectSerializer();
+        $s = new ObjectSerializer();
 
         $this->assertSame("sun.gif", $s->sanitizeFilename("sun.gif"));
         $this->assertSame("sun.gif", $s->sanitizeFilename("../sun.gif"));
@@ -22,8 +22,4 @@ class ObjectSerializerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame("sun.gif", $s->sanitizeFilename("c:\var\tmp\sun.gif"));
         $this->assertSame("sun.gif", $s->sanitizeFilename(".\sun.gif"));
     }
-  
 }
-
-?>
-
