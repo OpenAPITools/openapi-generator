@@ -21,7 +21,7 @@ Add a new pet to the store
 
 
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -32,7 +32,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_AC
 $api_instance = new Swagger\Client\Api\PetApi();
 $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
-try { 
+try {
     $api_instance->addPet($body);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), "\n";
@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -52,14 +52,14 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **deletePet**
 > deletePet($pet_id, $api_key)
@@ -68,7 +68,7 @@ Deletes a pet
 
 
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -80,7 +80,7 @@ $api_instance = new Swagger\Client\Api\PetApi();
 $pet_id = 789; // int | Pet id to delete
 $api_key = "api_key_example"; // string | 
 
-try { 
+try {
     $api_instance->deletePet($pet_id, $api_key);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), "\n";
@@ -101,14 +101,14 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **findPetsByStatus**
 > \Swagger\Client\Model\Pet[] findPetsByStatus($status)
@@ -117,7 +117,7 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -128,7 +128,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_AC
 $api_instance = new Swagger\Client\Api\PetApi();
 $status = array("status_example"); // string[] | Status values that need to be considered for filter
 
-try { 
+try {
     $result = $api_instance->findPetsByStatus($status);
     print_r($result);
 } catch (Exception $e) {
@@ -141,22 +141,22 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string[]**](string.md)| Status values that need to be considered for filter | 
+ **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
-[**\Swagger\Client\Model\Pet[]**](Pet.md)
+[**\Swagger\Client\Model\Pet[]**](../Model/Pet.md)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **findPetsByTags**
 > \Swagger\Client\Model\Pet[] findPetsByTags($tags)
@@ -165,7 +165,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -176,7 +176,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_AC
 $api_instance = new Swagger\Client\Api\PetApi();
 $tags = array("tags_example"); // string[] | Tags to filter by
 
-try { 
+try {
     $result = $api_instance->findPetsByTags($tags);
     print_r($result);
 } catch (Exception $e) {
@@ -189,22 +189,22 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**string[]**](string.md)| Tags to filter by | 
+ **tags** | [**string[]**](../Model/string.md)| Tags to filter by | 
 
 ### Return type
 
-[**\Swagger\Client\Model\Pet[]**](Pet.md)
+[**\Swagger\Client\Model\Pet[]**](../Model/Pet.md)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getPetById**
 > \Swagger\Client\Model\Pet getPetById($pet_id)
@@ -213,7 +213,7 @@ Find pet by ID
 
 Returns a single pet
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -226,7 +226,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'Y
 $api_instance = new Swagger\Client\Api\PetApi();
 $pet_id = 789; // int | ID of pet to return
 
-try { 
+try {
     $result = $api_instance->getPetById($pet_id);
     print_r($result);
 } catch (Exception $e) {
@@ -243,18 +243,18 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\Pet**](Pet.md)
+[**\Swagger\Client\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updatePet**
 > updatePet($body)
@@ -263,7 +263,7 @@ Update an existing pet
 
 
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -274,7 +274,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_AC
 $api_instance = new Swagger\Client\Api\PetApi();
 $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
-try { 
+try {
     $api_instance->updatePet($body);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), "\n";
@@ -286,7 +286,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -294,14 +294,14 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updatePetWithForm**
 > updatePetWithForm($pet_id, $name, $status)
@@ -310,7 +310,7 @@ Updates a pet in the store with form data
 
 
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -323,7 +323,7 @@ $pet_id = 789; // int | ID of pet that needs to be updated
 $name = "name_example"; // string | Updated name of the pet
 $status = "status_example"; // string | Updated status of the pet
 
-try { 
+try {
     $api_instance->updatePetWithForm($pet_id, $name, $status);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), "\n";
@@ -345,14 +345,14 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **uploadFile**
 > \Swagger\Client\Model\ApiResponse uploadFile($pet_id, $additional_metadata, $file)
@@ -361,7 +361,7 @@ uploads an image
 
 
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -374,7 +374,7 @@ $pet_id = 789; // int | ID of pet to update
 $additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
 $file = "/path/to/file.txt"; // \SplFileObject | file to upload
 
-try { 
+try {
     $result = $api_instance->uploadFile($pet_id, $additional_metadata, $file);
     print_r($result);
 } catch (Exception $e) {
@@ -393,16 +393,16 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**\Swagger\Client\Model\ApiResponse**](ApiResponse.md)
+[**\Swagger\Client\Model\ApiResponse**](../Model/ApiResponse.md)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -122,6 +122,9 @@ class Order implements ArrayAccess
         return self::$getters;
     }
 
+    const STATUS_PLACED = 'placed';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_DELIVERED = 'delivered';
     
 
     
@@ -132,7 +135,9 @@ class Order implements ArrayAccess
     public function getStatusAllowableValues()
     {
         return [
-            
+            self::STATUS_PLACED,
+            self::STATUS_APPROVED,
+            self::STATUS_DELIVERED,
         ];
     }
     
