@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-27T23:17:22.230+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T16:29:08.210Z")
 public class EnumTest   {
   
 
