@@ -18,4 +18,22 @@ class APIHelper {
         }
         return destination
     }
+
+    static func convertBoolToString(source: [String: AnyObject]?) -> [String:AnyObject] {
+        var destination = [String:AnyObject]()
+        let theTrue = NSNumber(bool: true)
+        let theFalse = NSNumber(bool: false)
+        if (source != nil) {
+            for (key, value) in source! {
+                switch value {
+                    case let x where x === theTrue || x === theFalse:
+                        destination[key] = "\(value as! Bool)"
+                    default:
+                        destination[key] = value
+                }
+            }
+        }
+        return destination
+    }
+
 }
