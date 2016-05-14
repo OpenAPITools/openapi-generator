@@ -1,11 +1,11 @@
 import {expect} from 'chai';
-import * as Swagger from 'typescript-fetch-api';
+import {StoreApi} from 'typescript-fetch-api';
 
 describe('StoreApi', function() {
-  let api: Swagger.StoreApi;
+  let api: StoreApi;
   
   beforeEach(function() {
-    api = new Swagger.StoreApi();
+    api = new StoreApi();
   });
 
   it('should get inventory', function() {
