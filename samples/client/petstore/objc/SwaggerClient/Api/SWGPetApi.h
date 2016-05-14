@@ -19,27 +19,25 @@
 -(unsigned long) requestQueueSize;
 +(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key;
 +(SWGPetApi*) sharedAPI;
-///
-///
 /// Add a new pet to the store
 /// 
 ///
 /// @param body Pet object that needs to be added to the store (optional)
 /// 
+///  code:405 message:"Invalid input"
 ///
 /// @return 
 -(NSNumber*) addPetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
 
-///
-///
 /// Deletes a pet
 /// 
 ///
 /// @param petId Pet id to delete
 /// @param apiKey  (optional)
 /// 
+///  code:400 message:"Invalid pet value"
 ///
 /// @return 
 -(NSNumber*) deletePetWithPetId: (NSNumber*) petId
@@ -47,60 +45,60 @@
     completionHandler: (void (^)(NSError* error)) handler;
 
 
-///
-///
 /// Finds Pets by status
 /// Multiple status values can be provided with comma seperated strings
 ///
 /// @param status Status values that need to be considered for filter (optional) (default to available)
 /// 
+///  code:200 message:"successful operation",
+///  code:400 message:"Invalid status value"
 ///
 /// @return NSArray<SWGPet>*
 -(NSNumber*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
-///
-///
 /// Finds Pets by tags
 /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
 ///
 /// @param tags Tags to filter by (optional)
 /// 
+///  code:200 message:"successful operation",
+///  code:400 message:"Invalid tag value"
 ///
 /// @return NSArray<SWGPet>*
 -(NSNumber*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
-///
-///
 /// Find pet by ID
 /// Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 ///
 /// @param petId ID of pet that needs to be fetched
 /// 
+///  code:200 message:"successful operation",
+///  code:400 message:"Invalid ID supplied",
+///  code:404 message:"Pet not found"
 ///
 /// @return SWGPet*
 -(NSNumber*) getPetByIdWithPetId: (NSNumber*) petId
     completionHandler: (void (^)(SWGPet* output, NSError* error)) handler;
 
 
-///
-///
 /// Update an existing pet
 /// 
 ///
 /// @param body Pet object that needs to be added to the store (optional)
 /// 
+///  code:400 message:"Invalid ID supplied",
+///  code:404 message:"Pet not found",
+///  code:405 message:"Validation exception"
 ///
 /// @return 
 -(NSNumber*) updatePetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
 
-///
-///
 /// Updates a pet in the store with form data
 /// 
 ///
@@ -108,6 +106,7 @@
 /// @param name Updated name of the pet (optional)
 /// @param status Updated status of the pet (optional)
 /// 
+///  code:405 message:"Invalid input"
 ///
 /// @return 
 -(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
@@ -116,8 +115,6 @@
     completionHandler: (void (^)(NSError* error)) handler;
 
 
-///
-///
 /// uploads an image
 /// 
 ///
@@ -125,6 +122,7 @@
 /// @param additionalMetadata Additional data to pass to server (optional)
 /// @param file file to upload (optional)
 /// 
+///  code:0 message:"successful operation"
 ///
 /// @return 
 -(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
