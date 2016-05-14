@@ -1,3 +1,31 @@
 Rails.application.routes.draw do
-  resources :product
+
+  def add_swagger_route http_method, path, opts = {}
+    full_path = path.gsub(/{(.*?)}/, ':\1')
+    action =
+      (opts[:isRestfulIndex] && :index) ||
+      (opts[:isRestfulShow] && :show) ||
+      (opts[:isRestfulCreate] && :create) ||
+      (opts[:isRestfulUpdate] && :update) ||
+      (opts[:isRestfulDestroy] && :destroy) ||
+      opts[:nickname]
+
+    match full_path, to: "#{opts.fetch(:classVarName)}##{action}", via: http_method
+  end
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+  add_swagger_route '{{httpMethod}}', '{{basePathWithoutHost}}{{path}}',
+                    classVarName: '{{classVarName}}', nickname: '{{nickname}}',
+                    isRestfulIndex: {{#isRestfulIndex}}true{{/isRestfulIndex}}{{^isRestfulIndex}}false{{/isRestfulIndex}},
+                    isRestfulCreate: {{#isRestfulCreate}}true{{/isRestfulCreate}}{{^isRestfulCreate}}false{{/isRestfulCreate}},
+                    isRestfulUpdate: {{#isRestfulUpdate}}true{{/isRestfulUpdate}}{{^isRestfulUpdate}}false{{/isRestfulUpdate}},
+                    isRestfulShow: {{#isRestfulShow}}true{{/isRestfulShow}}{{^isRestfulShow}}false{{/isRestfulShow}},
+                    isRestfulDestroy: {{#isRestfulDestroy}}true{{/isRestfulDestroy}}{{^isRestfulDestroy}}false{{/isRestfulDestroy}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
 end
