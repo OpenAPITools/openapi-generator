@@ -237,7 +237,7 @@ class ApiClient
         // Handle the response
         if ($response_info['http_code'] == 0) {
             throw new ApiException("API call to $url timed out: ".serialize($response_info), 0, null, null);
-        } elseif ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299 ) {
+        } elseif ($response_info['http_code'] >= 200 && $response_info['http_code'] <= 299) {
             // return raw body if response is a file
             if ($responseType == '\SplFileObject' || $responseType == 'string') {
                 return array($http_body, $response_info['http_code'], $http_header);
@@ -255,7 +255,9 @@ class ApiClient
 
             throw new ApiException(
                 "[".$response_info['http_code']."] Error connecting to the API ($url)",
-                $response_info['http_code'], $http_header, $data
+                $response_info['http_code'],
+                $http_header,
+                $data
             );
         }
         return array($data, $response_info['http_code'], $http_header);
@@ -310,31 +312,26 @@ class ApiClient
         $headers = array();
         $key = '';
 
-        foreach(explode("\n", $raw_headers) as $h)
-        {
+        foreach (explode("\n", $raw_headers) as $h) {
             $h = explode(':', $h, 2);
 
-            if (isset($h[1]))
-            {
-                if (!isset($headers[$h[0]]))
+            if (isset($h[1])) {
+                if (!isset($headers[$h[0]])) {
                     $headers[$h[0]] = trim($h[1]);
-                elseif (is_array($headers[$h[0]]))
-                {
+                } elseif (is_array($headers[$h[0]])) {
                     $headers[$h[0]] = array_merge($headers[$h[0]], array(trim($h[1])));
-                }
-                else
-                {
+                } else {
                     $headers[$h[0]] = array_merge(array($headers[$h[0]]), array(trim($h[1])));
                 }
 
                 $key = $h[0];
-            }
-            else
-            {
-                if (substr($h[0], 0, 1) == "\t")
+            } else {
+                if (substr($h[0], 0, 1) == "\t") {
                     $headers[$key] .= "\r\n\t".trim($h[0]);
-                elseif (!$key)
-                    $headers[0] = trim($h[0]);trim($h[0]);
+                } elseif (!$key) {
+                    $headers[0] = trim($h[0]);
+                }
+                trim($h[0]);
             }
         }
 
