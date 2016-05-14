@@ -39,7 +39,6 @@ use \ArrayAccess;
  * FormatTest Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,13 +50,13 @@ class FormatTest implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'format_test';
+    protected static $swaggerModelName = 'format_test';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'integer' => 'int',
         'int32' => 'int',
         'int64' => 'int',
@@ -73,7 +72,8 @@ class FormatTest implements ArrayAccess
         'password' => 'string'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
@@ -81,7 +81,7 @@ class FormatTest implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'integer' => 'integer',
         'int32' => 'int32',
         'int64' => 'int64',
@@ -97,7 +97,8 @@ class FormatTest implements ArrayAccess
         'password' => 'password'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -105,7 +106,7 @@ class FormatTest implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'integer' => 'setInteger',
         'int32' => 'setInt32',
         'int64' => 'setInt64',
@@ -121,7 +122,8 @@ class FormatTest implements ArrayAccess
         'password' => 'setPassword'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -129,7 +131,7 @@ class FormatTest implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'integer' => 'getInteger',
         'int32' => 'getInt32',
         'int64' => 'getInt64',
@@ -145,7 +147,7 @@ class FormatTest implements ArrayAccess
         'password' => 'getPassword'
     );
 
-    static function getters()
+    public static function getters()
     {
         return self::$getters;
     }
@@ -317,7 +319,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets integer
-     * @param int $integer 
+     * @param int $integer
      * @return $this
      */
     public function setInteger($integer)
@@ -345,7 +347,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets int32
-     * @param int $int32 
+     * @param int $int32
      * @return $this
      */
     public function setInt32($int32)
@@ -373,7 +375,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets int64
-     * @param int $int64 
+     * @param int $int64
      * @return $this
      */
     public function setInt64($int64)
@@ -394,7 +396,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets number
-     * @param float $number 
+     * @param float $number
      * @return $this
      */
     public function setNumber($number)
@@ -422,7 +424,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets float
-     * @param float $float 
+     * @param float $float
      * @return $this
      */
     public function setFloat($float)
@@ -450,7 +452,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets double
-     * @param double $double 
+     * @param double $double
      * @return $this
      */
     public function setDouble($double)
@@ -478,7 +480,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets string
-     * @param string $string 
+     * @param string $string
      * @return $this
      */
     public function setString($string)
@@ -503,7 +505,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets byte
-     * @param string $byte 
+     * @param string $byte
      * @return $this
      */
     public function setByte($byte)
@@ -524,7 +526,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets binary
-     * @param string $binary 
+     * @param string $binary
      * @return $this
      */
     public function setBinary($binary)
@@ -545,7 +547,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets date
-     * @param \DateTime $date 
+     * @param \DateTime $date
      * @return $this
      */
     public function setDate($date)
@@ -566,7 +568,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets date_time
-     * @param \DateTime $date_time 
+     * @param \DateTime $date_time
      * @return $this
      */
     public function setDateTime($date_time)
@@ -587,7 +589,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets uuid
-     * @param string $uuid 
+     * @param string $uuid
      * @return $this
      */
     public function setUuid($uuid)
@@ -608,7 +610,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets password
-     * @param string $password 
+     * @param string $password
      * @return $this
      */
     public function setPassword($password)
