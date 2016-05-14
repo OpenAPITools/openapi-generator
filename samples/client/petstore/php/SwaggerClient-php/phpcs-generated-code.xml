@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!-- See http://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php -->
+<ruleset name="PhpSwaggerCodegen">
+ <description>Arnes Drupal code checker</description>
+
+ <rule ref="PSR2" />
+ <rule ref="Generic.Files.LineLength">
+   <exclude-pattern>*</exclude-pattern>
+ </rule>
+</ruleset>
