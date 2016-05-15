@@ -51,20 +51,21 @@ class Name implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'Name';
+    protected static $swaggerModelName = 'Name';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'name' => 'int',
         'snake_case' => 'int',
         'property' => 'string',
         '_123_number' => 'int'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
@@ -72,14 +73,15 @@ class Name implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'name' => 'name',
         'snake_case' => 'snake_case',
         'property' => 'property',
         '_123_number' => '123Number'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -87,14 +89,15 @@ class Name implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'name' => 'setName',
         'snake_case' => 'setSnakeCase',
         'property' => 'setProperty',
         '_123_number' => 'set123Number'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -102,14 +105,14 @@ class Name implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'name' => 'getName',
         'snake_case' => 'getSnakeCase',
         'property' => 'getProperty',
         '_123_number' => 'get123Number'
     );
 
-    static function getters()
+    public static function getters()
     {
         return self::$getters;
     }
@@ -176,7 +179,7 @@ class Name implements ArrayAccess
 
     /**
      * Sets name
-     * @param int $name 
+     * @param int $name
      * @return $this
      */
     public function setName($name)
@@ -197,7 +200,7 @@ class Name implements ArrayAccess
 
     /**
      * Sets snake_case
-     * @param int $snake_case 
+     * @param int $snake_case
      * @return $this
      */
     public function setSnakeCase($snake_case)
@@ -218,7 +221,7 @@ class Name implements ArrayAccess
 
     /**
      * Sets property
-     * @param string $property 
+     * @param string $property
      * @return $this
      */
     public function setProperty($property)
@@ -239,7 +242,7 @@ class Name implements ArrayAccess
 
     /**
      * Sets _123_number
-     * @param int $_123_number 
+     * @param int $_123_number
      * @return $this
      */
     public function set123Number($_123_number)

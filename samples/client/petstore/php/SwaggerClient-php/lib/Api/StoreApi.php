@@ -62,7 +62,7 @@ class StoreApi
      *
      * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
      */
-    function __construct(\Swagger\Client\ApiClient $apiClient = null)
+    public function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -98,7 +98,7 @@ class StoreApi
     /**
      * Operation deleteOrder
      *
-     * Delete purchase order by ID
+     * Delete purchase order by ID.
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
      *
@@ -115,7 +115,7 @@ class StoreApi
     /**
      * Operation deleteOrderWithHttpInfo
      *
-     * Delete purchase order by ID
+     * Delete purchase order by ID.
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
      *
@@ -171,14 +171,15 @@ class StoreApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'DELETE',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'DELETE',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;
@@ -187,7 +188,7 @@ class StoreApi
     /**
      * Operation getInventory
      *
-     * Returns pet inventories by status
+     * Returns pet inventories by status.
      *
      *
      * @return map[string,int]
@@ -203,7 +204,7 @@ class StoreApi
     /**
      * Operation getInventoryWithHttpInfo
      *
-     * Returns pet inventories by status
+     * Returns pet inventories by status.
      *
      *
      * @return Array of map[string,int], HTTP status code, HTTP response headers (array of strings)
@@ -249,21 +250,24 @@ class StoreApi
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'GET',
-                $queryParams, $httpBody,
-                $headerParams, 'map[string,int]'
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                'map[string,int]'
             );
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader), $statusCode, $httpHeader);
-                    } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'map[string,int]', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'map[string,int]', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
             }
 
             throw $e;
@@ -272,7 +276,7 @@ class StoreApi
     /**
      * Operation getOrderById
      *
-     * Find purchase order by ID
+     * Find purchase order by ID.
      *
      * @param int $order_id ID of pet that needs to be fetched (required)
      *
@@ -289,7 +293,7 @@ class StoreApi
     /**
      * Operation getOrderByIdWithHttpInfo
      *
-     * Find purchase order by ID
+     * Find purchase order by ID.
      *
      * @param int $order_id ID of pet that needs to be fetched (required)
      *
@@ -348,21 +352,24 @@ class StoreApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'GET',
-                $queryParams, $httpBody,
-                $headerParams, '\Swagger\Client\Model\Order'
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\Swagger\Client\Model\Order'
             );
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
-                    } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
             }
 
             throw $e;
@@ -371,7 +378,7 @@ class StoreApi
     /**
      * Operation placeOrder
      *
-     * Place an order for a pet
+     * Place an order for a pet.
      *
      * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
      *
@@ -388,7 +395,7 @@ class StoreApi
     /**
      * Operation placeOrderWithHttpInfo
      *
-     * Place an order for a pet
+     * Place an order for a pet.
      *
      * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
      *
@@ -437,21 +444,24 @@ class StoreApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'POST',
-                $queryParams, $httpBody,
-                $headerParams, '\Swagger\Client\Model\Order'
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\Swagger\Client\Model\Order'
             );
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
-                    } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\Order', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
             }
 
             throw $e;

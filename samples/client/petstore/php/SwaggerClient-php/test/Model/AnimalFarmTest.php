@@ -37,7 +37,7 @@ namespace Swagger\Client\Model;
  * AnimalFarmTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description AnimalFarm
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -49,22 +49,24 @@ class AnimalFarmTest extends \PHPUnit_Framework_TestCase
     /**
      * Setup before running each test case
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
 
     }
 
     /**
      * Clean up after running each test case
      */
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass()
+    {
 
     }
 
     /**
-     * Test AnimalFarm
+     * Test "AnimalFarm"
      */
-    public function testAnimalFarm() {
+    public function testAnimalFarm()
+    {
 
     }
-
 }
