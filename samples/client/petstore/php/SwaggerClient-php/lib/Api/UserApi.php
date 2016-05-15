@@ -62,7 +62,7 @@ class UserApi
      *
      * @param \Swagger\Client\ApiClient|null $apiClient The api client to use
      */
-    function __construct(\Swagger\Client\ApiClient $apiClient = null)
+    public function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -98,7 +98,7 @@ class UserApi
     /**
      * Operation createUser
      *
-     * Create user
+     * Create user.
      *
      * @param \Swagger\Client\Model\User $body Created user object (required)
      *
@@ -115,7 +115,7 @@ class UserApi
     /**
      * Operation createUserWithHttpInfo
      *
-     * Create user
+     * Create user.
      *
      * @param \Swagger\Client\Model\User $body Created user object (required)
      *
@@ -164,14 +164,15 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'POST',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;
@@ -180,7 +181,7 @@ class UserApi
     /**
      * Operation createUsersWithArrayInput
      *
-     * Creates list of users with given input array
+     * Creates list of users with given input array.
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (required)
      *
@@ -197,7 +198,7 @@ class UserApi
     /**
      * Operation createUsersWithArrayInputWithHttpInfo
      *
-     * Creates list of users with given input array
+     * Creates list of users with given input array.
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (required)
      *
@@ -246,14 +247,15 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'POST',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;
@@ -262,7 +264,7 @@ class UserApi
     /**
      * Operation createUsersWithListInput
      *
-     * Creates list of users with given input array
+     * Creates list of users with given input array.
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (required)
      *
@@ -279,7 +281,7 @@ class UserApi
     /**
      * Operation createUsersWithListInputWithHttpInfo
      *
-     * Creates list of users with given input array
+     * Creates list of users with given input array.
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (required)
      *
@@ -328,14 +330,15 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'POST',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;
@@ -344,7 +347,7 @@ class UserApi
     /**
      * Operation deleteUser
      *
-     * Delete user
+     * Delete user.
      *
      * @param string $username The name that needs to be deleted (required)
      *
@@ -361,7 +364,7 @@ class UserApi
     /**
      * Operation deleteUserWithHttpInfo
      *
-     * Delete user
+     * Delete user.
      *
      * @param string $username The name that needs to be deleted (required)
      *
@@ -413,14 +416,15 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'DELETE',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'DELETE',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;
@@ -429,7 +433,7 @@ class UserApi
     /**
      * Operation getUserByName
      *
-     * Get user by user name
+     * Get user by user name.
      *
      * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
      *
@@ -446,7 +450,7 @@ class UserApi
     /**
      * Operation getUserByNameWithHttpInfo
      *
-     * Get user by user name
+     * Get user by user name.
      *
      * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
      *
@@ -498,21 +502,24 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'GET',
-                $queryParams, $httpBody,
-                $headerParams, '\Swagger\Client\Model\User'
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\Swagger\Client\Model\User'
             );
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
-                    } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\User', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\User', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
             }
 
             throw $e;
@@ -521,7 +528,7 @@ class UserApi
     /**
      * Operation loginUser
      *
-     * Logs user into the system
+     * Logs user into the system.
      *
      * @param string $username The user name for login (required)
      * @param string $password The password for login in clear text (required)
@@ -539,7 +546,7 @@ class UserApi
     /**
      * Operation loginUserWithHttpInfo
      *
-     * Logs user into the system
+     * Logs user into the system.
      *
      * @param string $username The user name for login (required)
      * @param string $password The password for login in clear text (required)
@@ -596,21 +603,24 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'GET',
-                $queryParams, $httpBody,
-                $headerParams, 'string'
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                'string'
             );
             if (!$response) {
                 return array(null, $statusCode, $httpHeader);
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
-                    } catch (ApiException $e) {
-            switch ($e->getCode()) { 
-            case 200:
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), 'string', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
             }
 
             throw $e;
@@ -619,7 +629,7 @@ class UserApi
     /**
      * Operation logoutUser
      *
-     * Logs out current logged in user session
+     * Logs out current logged in user session.
      *
      *
      * @return void
@@ -635,7 +645,7 @@ class UserApi
     /**
      * Operation logoutUserWithHttpInfo
      *
-     * Logs out current logged in user session
+     * Logs out current logged in user session.
      *
      *
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
@@ -674,14 +684,15 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'GET',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;
@@ -690,7 +701,7 @@ class UserApi
     /**
      * Operation updateUser
      *
-     * Updated user
+     * Updated user.
      *
      * @param string $username name that need to be deleted (required)
      * @param \Swagger\Client\Model\User $body Updated user object (required)
@@ -708,7 +719,7 @@ class UserApi
     /**
      * Operation updateUserWithHttpInfo
      *
-     * Updated user
+     * Updated user.
      *
      * @param string $username name that need to be deleted (required)
      * @param \Swagger\Client\Model\User $body Updated user object (required)
@@ -770,14 +781,15 @@ class UserApi
                 // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, 'PUT',
-                $queryParams, $httpBody,
+                $resourcePath,
+                'PUT',
+                $queryParams,
+                $httpBody,
                 $headerParams
             );
-
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
-            switch ($e->getCode()) { 
+            switch ($e->getCode()) {
             }
 
             throw $e;

@@ -39,7 +39,6 @@ use \ArrayAccess;
  * EnumTest Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,19 +50,20 @@ class EnumTest implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'Enum_Test';
+    protected static $swaggerModelName = 'Enum_Test';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'enum_string' => 'string',
         'enum_integer' => 'int',
         'enum_number' => 'double'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
@@ -71,13 +71,14 @@ class EnumTest implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'enum_string' => 'enum_string',
         'enum_integer' => 'enum_integer',
         'enum_number' => 'enum_number'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -85,13 +86,14 @@ class EnumTest implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'enum_string' => 'setEnumString',
         'enum_integer' => 'setEnumInteger',
         'enum_number' => 'setEnumNumber'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -99,13 +101,13 @@ class EnumTest implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'enum_string' => 'getEnumString',
         'enum_integer' => 'getEnumInteger',
         'enum_number' => 'getEnumNumber'
     );
 
-    static function getters()
+    public static function getters()
     {
         return self::$getters;
     }
@@ -231,7 +233,7 @@ class EnumTest implements ArrayAccess
 
     /**
      * Sets enum_string
-     * @param string $enum_string 
+     * @param string $enum_string
      * @return $this
      */
     public function setEnumString($enum_string)
@@ -256,7 +258,7 @@ class EnumTest implements ArrayAccess
 
     /**
      * Sets enum_integer
-     * @param int $enum_integer 
+     * @param int $enum_integer
      * @return $this
      */
     public function setEnumInteger($enum_integer)
@@ -281,7 +283,7 @@ class EnumTest implements ArrayAccess
 
     /**
      * Sets enum_number
-     * @param double $enum_number 
+     * @param double $enum_number
      * @return $this
      */
     public function setEnumNumber($enum_number)

@@ -39,7 +39,6 @@ use \ArrayAccess;
  * ApiResponse Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,19 +50,20 @@ class ApiResponse implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'ApiResponse';
+    protected static $swaggerModelName = 'ApiResponse';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'code' => 'int',
         'type' => 'string',
         'message' => 'string'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
@@ -71,13 +71,14 @@ class ApiResponse implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'code' => 'code',
         'type' => 'type',
         'message' => 'message'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -85,13 +86,14 @@ class ApiResponse implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'code' => 'setCode',
         'type' => 'setType',
         'message' => 'setMessage'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -99,13 +101,13 @@ class ApiResponse implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'code' => 'getCode',
         'type' => 'getType',
         'message' => 'getMessage'
     );
 
-    static function getters()
+    public static function getters()
     {
         return self::$getters;
     }
@@ -165,7 +167,7 @@ class ApiResponse implements ArrayAccess
 
     /**
      * Sets code
-     * @param int $code 
+     * @param int $code
      * @return $this
      */
     public function setCode($code)
@@ -186,7 +188,7 @@ class ApiResponse implements ArrayAccess
 
     /**
      * Sets type
-     * @param string $type 
+     * @param string $type
      * @return $this
      */
     public function setType($type)
@@ -207,7 +209,7 @@ class ApiResponse implements ArrayAccess
 
     /**
      * Sets message
-     * @param string $message 
+     * @param string $message
      * @return $this
      */
     public function setMessage($message)

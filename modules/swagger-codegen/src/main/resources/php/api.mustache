@@ -62,7 +62,7 @@ use \{{invokerPackage}}\ObjectSerializer;
      *
      * @param \{{invokerPackage}}\ApiClient|null $apiClient The api client to use
      */
-    function __construct(\{{invokerPackage}}\ApiClient $apiClient = null)
+    public function __construct(\{{invokerPackage}}\ApiClient $apiClient = null)
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
@@ -99,7 +99,7 @@ use \{{invokerPackage}}\ObjectSerializer;
     /**
      * Operation {{{operationId}}}
      *
-     * {{{summary}}}
+     * {{{summary}}}.
      *
   {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
   {{/allParams}}   *
@@ -116,7 +116,7 @@ use \{{invokerPackage}}\ObjectSerializer;
     /**
      * Operation {{{operationId}}}WithHttpInfo
      *
-     * {{{summary}}}
+     * {{{summary}}}.
      *
   {{#allParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
   {{/allParams}}   *
@@ -215,7 +215,7 @@ use \{{invokerPackage}}\ObjectSerializer;
             if (function_exists('curl_file_create')) {
                 $formParams['{{baseName}}'] = curl_file_create($this->apiClient->getSerializer()->toFormValue(${{paramName}}));
             } else {
-               $formParams['{{baseName}}'] = '@' . $this->apiClient->getSerializer()->toFormValue(${{paramName}});
+                $formParams['{{baseName}}'] = '@' . $this->apiClient->getSerializer()->toFormValue(${{paramName}});
             }
             {{/isFile}}
             {{^isFile}}
@@ -251,9 +251,12 @@ use \{{invokerPackage}}\ObjectSerializer;
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath, '{{httpMethod}}',
-                $queryParams, $httpBody,
-                $headerParams{{#returnType}}, '{{returnType}}'{{/returnType}}
+                $resourcePath,
+                '{{httpMethod}}',
+                $queryParams,
+                $httpBody,
+                $headerParams{{#returnType}},
+                '{{returnType}}'{{/returnType}}
             );
             {{#returnType}}
             if (!$response) {
@@ -261,15 +264,20 @@ use \{{invokerPackage}}\ObjectSerializer;
             }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader{{#discriminator}}, '{{discriminator}}'{{/discriminator}}), $statusCode, $httpHeader);
-            {{/returnType}}{{^returnType}}
+            {{/returnType}}
+            {{^returnType}}
             return array(null, $statusCode, $httpHeader);
             {{/returnType}}
         } catch (ApiException $e) {
-            switch ($e->getCode()) { {{#responses}}{{#dataType}}
-            {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
-                $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
-                $e->setResponseObject($data);
-                break;{{/dataType}}{{/responses}}
+            switch ($e->getCode()) {
+            {{#responses}}
+              {{#dataType}}
+                {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+              {{/dataType}}
+            {{/responses}}
             }
 
             throw $e;
