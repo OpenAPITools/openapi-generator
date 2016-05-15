@@ -89,8 +89,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(CliOption.newBoolean(USE_ANDROID_MAVEN_GRADLE_PLUGIN, "A flag to toggle android-maven gradle plugin.")
                 .defaultValue(Boolean.TRUE.toString()));
 
-        supportedLibraries.put("<default>", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1");
-        supportedLibraries.put("volley", "HTTP client: Volley 1.0.19");
+        supportedLibraries.put("volley", "HTTP client: Volley 1.0.19 (default)");
+        supportedLibraries.put("httpclient", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be depecreated in the next major release.");
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
@@ -382,23 +382,26 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         additionalProperties.put( "modelDocPath", modelDocPath );
 
         if (StringUtils.isEmpty(getLibrary())) {
-            modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
-            apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
-            //supportingFiles.add(new SupportingFile("api_doc.mustache", apiDocPath, "api.md"));
-            //supportingFiles.add(new SupportingFile("model_doc.mustache", modelDocPath, "model.md"));
-            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-            addSupportingFilesForDefault();
-        } else if ("volley".equals(getLibrary())) {
-            modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
-            apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
-            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-            //supportingFiles.add(new SupportingFile("api_doc.mustache", apiDocPath, "api.md"));
-            //supportingFiles.add(new SupportingFile("model_doc.mustache", modelDocPath, "model.md"));
-            addSupportingFilesForVolley();
+            setLibrary("volley"); // set volley as the default library
         }
+
+        // determine which file (mustache) to add based on library
+        if ("volley".equals(getLibrary())) {
+            addSupportingFilesForVolley();
+        } else if ("httpclient".equals(getLibrary())) {
+            addSupportingFilesForHttpClient();
+        } else {
+            throw new IllegalArgumentException("Invalid 'library' option specified: '" + getLibrary() + "'. Must be 'httpclient' or 'volley' (default)"); 
+        }
+
     }
 
-    private void addSupportingFilesForDefault() {
+    private void addSupportingFilesForHttpClient() {
+        // documentation files
+        modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
+        apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
@@ -418,6 +421,11 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     private void addSupportingFilesForVolley() {
+        // documentation files
+        modelDocTemplateFiles.put( "model_doc.mustache", ".md" );
+        apiDocTemplateFiles.put( "api_doc.mustache", ".md" );
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
