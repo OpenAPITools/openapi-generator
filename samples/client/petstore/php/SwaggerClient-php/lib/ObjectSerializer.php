@@ -185,7 +185,7 @@ class ObjectSerializer
      *
      * @return string
      */
-    public function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti=false)
+    public function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti = false)
     {
         if ($allowCollectionFormatMulti && ('multi' === $collectionFormat)) {
             // http_build_query() almost does the job for us. We just
@@ -219,7 +219,7 @@ class ObjectSerializer
      *
      * @return object an instance of $class
      */
-    public static function deserialize($data, $class, $httpHeaders=null, $discriminator=null)
+    public static function deserialize($data, $class, $httpHeaders = null, $discriminator = null)
     {
         if (null === $data) {
             return null;
@@ -256,12 +256,13 @@ class ObjectSerializer
             } else {
                 return null;
             }
-        } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
+        } elseif (in_array($class, array('void', 'bool', 'string', 'double', 'byte', 'mixed', 'integer', 'float', 'int', 'DateTime', 'number', 'boolean', 'object'))) {
             settype($data, $class);
             return $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
-            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
+            if (array_key_exists('Content-Disposition', $httpHeaders) &&
+                preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
                 $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . sanitizeFilename($match[1]);
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
@@ -274,7 +275,6 @@ class ObjectSerializer
             }
 
             return $deserialized;
-
         } else {
             // If a discriminator is defined and points to a valid subclass, use it.
             if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {

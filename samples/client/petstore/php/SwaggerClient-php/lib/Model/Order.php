@@ -39,7 +39,6 @@ use \ArrayAccess;
  * Order Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,13 +50,13 @@ class Order implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'Order';
+    protected static $swaggerModelName = 'Order';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'id' => 'int',
         'pet_id' => 'int',
         'quantity' => 'int',
@@ -66,7 +65,8 @@ class Order implements ArrayAccess
         'complete' => 'bool'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
@@ -74,7 +74,7 @@ class Order implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'id' => 'id',
         'pet_id' => 'petId',
         'quantity' => 'quantity',
@@ -83,7 +83,8 @@ class Order implements ArrayAccess
         'complete' => 'complete'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -91,7 +92,7 @@ class Order implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'id' => 'setId',
         'pet_id' => 'setPetId',
         'quantity' => 'setQuantity',
@@ -100,7 +101,8 @@ class Order implements ArrayAccess
         'complete' => 'setComplete'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -108,7 +110,7 @@ class Order implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'id' => 'getId',
         'pet_id' => 'getPetId',
         'quantity' => 'getQuantity',
@@ -117,7 +119,7 @@ class Order implements ArrayAccess
         'complete' => 'getComplete'
     );
 
-    static function getters()
+    public static function getters()
     {
         return self::$getters;
     }
@@ -204,7 +206,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets id
-     * @param int $id 
+     * @param int $id
      * @return $this
      */
     public function setId($id)
@@ -225,7 +227,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets pet_id
-     * @param int $pet_id 
+     * @param int $pet_id
      * @return $this
      */
     public function setPetId($pet_id)
@@ -246,7 +248,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets quantity
-     * @param int $quantity 
+     * @param int $quantity
      * @return $this
      */
     public function setQuantity($quantity)
@@ -267,7 +269,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets ship_date
-     * @param \DateTime $ship_date 
+     * @param \DateTime $ship_date
      * @return $this
      */
     public function setShipDate($ship_date)
@@ -313,7 +315,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets complete
-     * @param bool $complete 
+     * @param bool $complete
      * @return $this
      */
     public function setComplete($complete)
