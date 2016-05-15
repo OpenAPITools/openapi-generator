@@ -37,11 +37,24 @@
         <version>${android-platform-version}</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <properties>
-    <swagger-annotations-version>1.5.0</swagger-annotations-version>
+    <swagger-annotations-version>1.5.8</swagger-annotations-version>
     <httpcomponents-httpcore-version>4.4.4</httpcomponents-httpcore-version>
     <httpcomponents-httpmime-version>4.5.2</httpcomponents-httpmime-version>
-    <google-code-gson-version>2.3.1</google-code-gson-version>
+    <google-code-gson-version>2.6.2</google-code-gson-version>
     <volley-library-version>1.0.19</volley-library-version>
     <android-platform-version>4.1.1.4</android-platform-version>
   </properties>
