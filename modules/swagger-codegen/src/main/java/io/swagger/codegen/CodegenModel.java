@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import io.swagger.models.ExternalDocs;
 
+
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;
