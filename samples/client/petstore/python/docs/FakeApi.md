@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters
+[**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 
 # **test_endpoint_parameters**
 > test_endpoint_parameters(number, double, string, byte, integer=integer, int32=int32, int64=int64, float=float, binary=binary, date=date, date_time=date_time, password=password)
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example 
 ```python
@@ -37,7 +37,7 @@ date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
 password = 'password_example' # str | None (optional)
 
 try: 
-    # Fake endpoint for testing various parameters
+    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     api_instance.test_endpoint_parameters(number, double, string, byte, integer=integer, int32=int32, int64=int64, float=float, binary=binary, date=date, date_time=date_time, password=password)
 except ApiException as e:
     print "Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e
