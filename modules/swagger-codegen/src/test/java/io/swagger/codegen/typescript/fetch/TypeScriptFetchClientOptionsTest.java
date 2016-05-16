@@ -1,4 +1,4 @@
-package io.swagger.codegen.typescriptfetch;
+package io.swagger.codegen.typescript.fetch;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;

@@ -178,6 +178,7 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(cm.additionalPropertiesType, "models.Children");
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("models.Children")).size(), 1);
     }
 }

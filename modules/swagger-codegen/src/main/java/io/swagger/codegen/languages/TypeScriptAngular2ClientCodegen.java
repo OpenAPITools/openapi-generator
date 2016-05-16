@@ -48,6 +48,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
         codegenModel.additionalPropertiesType = getSwaggerType(swaggerModel.getAdditionalProperties());
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
     @Override
