@@ -6,7 +6,7 @@ import java.util.Map;
 import io.swagger.codegen.AbstractIntegrationTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen;
-import io.swagger.codegen.utils.IntegrationTestPathsConfig;
+import io.swagger.codegen.testutils.IntegrationTestPathsConfig;
 
 public class TypescriptAngular2AdditionalPropertiesIntegrationTest extends AbstractIntegrationTest {
 
