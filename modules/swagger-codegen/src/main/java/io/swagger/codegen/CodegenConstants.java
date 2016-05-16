@@ -105,4 +105,14 @@ public class CodegenConstants {
 
     public static final String SUPPORTS_ES6 = "supportsES6";
     public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
+
+    public static final String EXCLUDE_TESTS = "excludeTests";
+    public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
+
+    public static final String GENERATE_API_TESTS = "generateApiTests";
+    public static final String GENERATE_API_TESTS_DESC = "Specifies that api tests are to be generated.";
+
+    public static final String GENERATE_MODEL_TESTS = "generateModelTests";
+    public static final String GENERATE_MODEL_TESTS_DESC = "Specifies that model tests are to be generated.";
+
 }

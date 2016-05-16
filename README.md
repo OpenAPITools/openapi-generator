@@ -386,6 +386,26 @@ To control the specific files being generated, you can pass a CSV list of what y
 -Dmodels=User -DsupportingFiles=StringUtil.java
 ```
 
+To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `-DapiTest=false` and `-DapiDocs=false`. For models, `-DmodelTest=false` and `-DmodelDocs=false`.
+These options default to true and don't limit the generation of the feature options listed above (like `-Dapi`):
+
+```
+# generate only models (with tests and documentation)
+java -Dmodels {opts}
+
+# generate only models (with tests but no documentation)
+java -Dmodels -DmodelDocs=false {opts}
+
+# generate only User and Pet models (no tests and no documentation)
+java -Dmodels=User,Pet -DmodelTests=false {opts}
+
+# generate only apis (without tests)
+java -Dapis -DapiTests=false {opts}
+
+# generate only apis (modelTests option is ignored)
+java -Dapis -DmodelTests=false {opts}
+```
+
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
 ### Customizing the generator
