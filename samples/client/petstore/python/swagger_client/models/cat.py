@@ -39,15 +39,18 @@ class Cat(object):
         """
         self.swagger_types = {
             'class_name': 'str',
+            'color': 'str',
             'declawed': 'bool'
         }
 
         self.attribute_map = {
             'class_name': 'className',
+            'color': 'color',
             'declawed': 'declawed'
         }
 
         self._class_name = None
+        self._color = 'red'
         self._declawed = None
 
     @property
@@ -72,6 +75,29 @@ class Cat(object):
         """
         
         self._class_name = class_name
+
+    @property
+    def color(self):
+        """
+        Gets the color of this Cat.
+
+
+        :return: The color of this Cat.
+        :rtype: str
+        """
+        return self._color
+
+    @color.setter
+    def color(self, color):
+        """
+        Sets the color of this Cat.
+
+
+        :param color: The color of this Cat.
+        :type: str
+        """
+        
+        self._color = color
 
     @property
     def declawed(self):
