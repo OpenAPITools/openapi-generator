@@ -2514,7 +2514,7 @@ public class DefaultCodegen {
         }
     }
 
-    private void addImport(CodegenModel m, String type) {
+    protected void addImport(CodegenModel m, String type) {
         if (type != null && needToImport(type)) {
             m.imports.add(type);
         }
