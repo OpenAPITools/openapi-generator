@@ -61,18 +61,11 @@ namespace IO.Swagger.Model
         /// <param name="Complete">Complete (default to false).</param>
         public Order(long? Id = null, long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
         {
-            
-            
-                        this.Id = Id;
-            
-                        this.PetId = PetId;
-            
-                        this.Quantity = Quantity;
-            
-                        this.ShipDate = ShipDate;
-            
-                        this.Status = Status;
-            
+            this.Id = Id;
+            this.PetId = PetId;
+            this.Quantity = Quantity;
+            this.ShipDate = ShipDate;
+            this.Status = Status;
             // use default value if no "Complete" provided
             if (Complete == null)
             {
@@ -82,7 +75,6 @@ namespace IO.Swagger.Model
             {
                 this.Complete = Complete;
             }
-            
         }
         
         /// <summary>
@@ -119,11 +111,11 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Order {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-sb.Append("  PetId: ").Append(PetId).Append("\n");
-sb.Append("  Quantity: ").Append(Quantity).Append("\n");
-sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
-sb.Append("  Status: ").Append(Status).Append("\n");
-sb.Append("  Complete: ").Append(Complete).Append("\n");
+            sb.Append("  PetId: ").Append(PetId).Append("\n");
+            sb.Append("  Quantity: ").Append(Quantity).Append("\n");
+            sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

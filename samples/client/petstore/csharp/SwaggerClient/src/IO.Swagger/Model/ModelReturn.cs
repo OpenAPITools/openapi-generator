@@ -23,10 +23,7 @@ namespace IO.Swagger.Model
         /// <param name="_Return">_Return.</param>
         public ModelReturn(int? _Return = null)
         {
-            
-            
-                        this._Return = _Return;
-            
+            this._Return = _Return;
         }
         
         /// <summary>
