@@ -42,6 +42,7 @@ pod '{{podName}}', :path => 'Vendor/{{podName}}'
 ### Usage
 
 Import the following:
+
 ```objc
 #import <{{podName}}/{{{classPrefix}}}ApiClient.h>
 #import <{{podName}}/{{{classPrefix}}}Configuration.h>
@@ -81,12 +82,10 @@ Please follow the [installation procedure](#installation--usage) and then run th
 {{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
-@try
-{
-    {{classname}} *apiInstance = [[{{classname}} alloc] init];
+{{classname}} *apiInstance = [[{{classname}} alloc] init];
 
 {{#summary}}    // {{{.}}}
-{{/summary}}    [apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+{{/summary}}[apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
     {{paramName}}{{/secondaryParam}}:{{paramName}}{{/allParams}}
               {{#hasParams}}completionHandler: {{/hasParams}}^({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) {
 {{#returnType}}
@@ -98,12 +97,6 @@ Please follow the [installation procedure](#installation--usage) and then run th
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling {{classname}}->{{operationId}}: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
 ```
 
