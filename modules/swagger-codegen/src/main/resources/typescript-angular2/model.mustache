@@ -9,7 +9,7 @@ import * as models from './models';
  */
 {{/description}}
 export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}}{
-    {{#additionalPropertiesType}}[key: string]: {{{additionalPropertiesType}}}{{/additionalPropertiesType}}
+    {{#additionalPropertiesType}}[key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};{{/additionalPropertiesType}}
 {{#vars}}
 
 {{#description}}

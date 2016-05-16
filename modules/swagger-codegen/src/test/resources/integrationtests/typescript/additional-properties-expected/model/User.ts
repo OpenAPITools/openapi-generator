@@ -2,7 +2,7 @@
 import * as models from './models';
 
 export interface User {
-    [key: string]: string
+    [key: string]: string | any;
 
     id?: number;
 
