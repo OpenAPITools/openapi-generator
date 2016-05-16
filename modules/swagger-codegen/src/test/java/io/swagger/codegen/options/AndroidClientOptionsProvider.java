@@ -18,7 +18,7 @@ public class AndroidClientOptionsProvider implements OptionsProvider {
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SOURCE_FOLDER_VALUE = "src/main/java/test";
     public static final String ANDROID_MAVEN_GRADLE_PLUGIN_VALUE = "true";
-    public static final String LIBRARY_VALUE = "volley";
+    public static final String LIBRARY_VALUE = "httpclient";
 
     @Override
     public String getLanguage() {

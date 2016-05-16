@@ -20,6 +20,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected FormatTest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormatTest" /> class.
+        /// </summary>
         /// <param name="Integer">Integer.</param>
         /// <param name="Int32">Int32.</param>
         /// <param name="Int64">Int64.</param>

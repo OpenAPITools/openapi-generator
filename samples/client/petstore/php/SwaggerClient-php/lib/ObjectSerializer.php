@@ -1,6 +1,6 @@
 <?php
 /**
- * ObjectSerializer 
+ * ObjectSerializer
  *
  * PHP version 5
  *
@@ -37,7 +37,7 @@ namespace Swagger\Client;
  * ObjectSerializer Class Doc Comment
  *
  * @category Class
- * @package  Swagger\Client 
+ * @package  Swagger\Client
  * @author   http://github.com/swagger-api/swagger-codegen
  * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link     https://github.com/swagger-api/swagger-codegen
@@ -79,7 +79,7 @@ class ObjectSerializer
 
     /**
      * Sanitize filename by removing path.
-     * e.g. ../../sun.gif becomes sun.gif 
+     * e.g. ../../sun.gif becomes sun.gif
      *
      * @param string $filename filename to be sanitized
      *
@@ -185,7 +185,7 @@ class ObjectSerializer
      *
      * @return string
      */
-    public function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti=false)
+    public function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti = false)
     {
         if ($allowCollectionFormatMulti && ('multi' === $collectionFormat)) {
             // http_build_query() almost does the job for us. We just
@@ -219,7 +219,7 @@ class ObjectSerializer
      *
      * @return object an instance of $class
      */
-    public static function deserialize($data, $class, $httpHeaders=null, $discriminator=null)
+    public static function deserialize($data, $class, $httpHeaders = null, $discriminator = null)
     {
         if (null === $data) {
             return null;
@@ -256,21 +256,25 @@ class ObjectSerializer
             } else {
                 return null;
             }
-        } elseif (in_array($class, array('integer', 'int', 'void', 'number', 'object', 'double', 'float', 'byte', 'DateTime', 'string', 'mixed', 'boolean', 'bool'))) {
+        } elseif (in_array($class, array('void', 'bool', 'string', 'double', 'byte', 'mixed', 'integer', 'float', 'int', 'DateTime', 'number', 'boolean', 'object'))) {
             settype($data, $class);
             return $data;
         } elseif ($class === '\SplFileObject') {
             // determine file name
-            if (array_key_exists('Content-Disposition', $httpHeaders) && preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
+            if (array_key_exists('Content-Disposition', $httpHeaders) &&
+                preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
                 $filename = Configuration::getDefaultConfiguration()->getTempFolderPath() . sanitizeFilename($match[1]);
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }
             $deserialized = new \SplFileObject($filename, "w");
             $byte_written = $deserialized->fwrite($data);
-            error_log("[INFO] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.\n", 3, Configuration::getDefaultConfiguration()->getDebugFile());
-            return $deserialized;
  
+            if (Configuration::getDefaultConfiguration()->getDebug()) {
+                error_log("[DEBUG] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.\n", 3, Configuration::getDefaultConfiguration()->getDebugFile());
+            }
+
+            return $deserialized;
         } else {
             // If a discriminator is defined and points to a valid subclass, use it.
             if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
@@ -282,11 +286,11 @@ class ObjectSerializer
             $instance = new $class();
             foreach ($instance::swaggerTypes() as $property => $type) {
                 $propertySetter = $instance::setters()[$property];
-     
+
                 if (!isset($propertySetter) || !isset($data->{$instance::attributeMap()[$property]})) {
                     continue;
                 }
-     
+
                 $propertyValue = $data->{$instance::attributeMap()[$property]};
                 if (isset($propertyValue)) {
                     $instance->$propertySetter(self::deserialize($propertyValue, $type, null, $discriminator));

@@ -1,0 +1,17 @@
+{
+  "name": "typescript-fetch-api",
+  "version": "0.0.0",
+  "main": "./dist/api.js",
+  "browser": "./dist/api.js",
+  "typings": "./dist/api.d.ts",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "scripts" : {
+    "prepublish" : "typings install && tsc"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.10",
+    "typings": "^0.8.1"
+  }
+}

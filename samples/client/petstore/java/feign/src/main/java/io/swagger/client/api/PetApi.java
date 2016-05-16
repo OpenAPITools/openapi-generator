@@ -3,8 +3,8 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Pet;
-import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-27T23:17:22.230+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T16:29:08.210Z")
 public interface PetApi extends ApiClient.Api {
 
 

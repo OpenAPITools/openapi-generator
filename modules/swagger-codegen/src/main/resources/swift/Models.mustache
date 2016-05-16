@@ -46,9 +46,9 @@ class Decoders {
     }
     
     static func decode<T, Key: Hashable>(clazz clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
-        let sourceDictinoary = source as! [Key: AnyObject]
+        let sourceDictionary = source as! [Key: AnyObject]
         var dictionary = [Key:T]()
-        for (key, value) in sourceDictinoary {
+        for (key, value) in sourceDictionary {
             dictionary[key] = Decoders.decode(clazz: T.self, source: value)
         }
         return dictionary
