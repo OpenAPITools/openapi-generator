@@ -39,7 +39,6 @@ use \ArrayAccess;
  * FormatTest Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,13 +50,13 @@ class FormatTest implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'format_test';
+    protected static $swaggerModelName = 'format_test';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'integer' => 'int',
         'int32' => 'int',
         'int64' => 'int',
@@ -73,15 +72,16 @@ class FormatTest implements ArrayAccess
         'password' => 'string'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'integer' => 'integer',
         'int32' => 'int32',
         'int64' => 'int64',
@@ -97,7 +97,8 @@ class FormatTest implements ArrayAccess
         'password' => 'password'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -105,7 +106,7 @@ class FormatTest implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'integer' => 'setInteger',
         'int32' => 'setInt32',
         'int64' => 'setInt64',
@@ -121,7 +122,8 @@ class FormatTest implements ArrayAccess
         'password' => 'setPassword'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -129,7 +131,7 @@ class FormatTest implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'integer' => 'getInteger',
         'int32' => 'getInt32',
         'int64' => 'getInt64',
@@ -144,8 +146,9 @@ class FormatTest implements ArrayAccess
         'uuid' => 'getUuid',
         'password' => 'getPassword'
     );
- 
-    static function getters() {
+
+    public static function getters()
+    {
         return self::$getters;
     }
 
@@ -182,62 +185,62 @@ class FormatTest implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         if ($this->container['integer'] > 100.0) {
-            $invalid_properties[] = "invalid value for '$integer', must be smaller than or equal to 100.0.";
+            $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.0.";
         }
         if ($this->container['integer'] < 10.0) {
-            $invalid_properties[] = "invalid value for '$integer', must be bigger than or equal to 10.0.";
+            $invalid_properties[] = "invalid value for 'integer', must be bigger than or equal to 10.0.";
         }
         if ($this->container['int32'] > 200.0) {
-            $invalid_properties[] = "invalid value for '$int32', must be smaller than or equal to 200.0.";
+            $invalid_properties[] = "invalid value for 'int32', must be smaller than or equal to 200.0.";
         }
         if ($this->container['int32'] < 20.0) {
-            $invalid_properties[] = "invalid value for '$int32', must be bigger than or equal to 20.0.";
+            $invalid_properties[] = "invalid value for 'int32', must be bigger than or equal to 20.0.";
         }
         if ($this->container['number'] === null) {
-            $invalid_properties[] = "'$number' can't be null";
+            $invalid_properties[] = "'number' can't be null";
         }
         if ($this->container['number'] > 543.2) {
-            $invalid_properties[] = "invalid value for '$number', must be smaller than or equal to 543.2.";
+            $invalid_properties[] = "invalid value for 'number', must be smaller than or equal to 543.2.";
         }
         if ($this->container['number'] < 32.1) {
-            $invalid_properties[] = "invalid value for '$number', must be bigger than or equal to 32.1.";
+            $invalid_properties[] = "invalid value for 'number', must be bigger than or equal to 32.1.";
         }
         if ($this->container['float'] > 987.6) {
-            $invalid_properties[] = "invalid value for '$float', must be smaller than or equal to 987.6.";
+            $invalid_properties[] = "invalid value for 'float', must be smaller than or equal to 987.6.";
         }
         if ($this->container['float'] < 54.3) {
-            $invalid_properties[] = "invalid value for '$float', must be bigger than or equal to 54.3.";
+            $invalid_properties[] = "invalid value for 'float', must be bigger than or equal to 54.3.";
         }
         if ($this->container['double'] > 123.4) {
-            $invalid_properties[] = "invalid value for '$double', must be smaller than or equal to 123.4.";
+            $invalid_properties[] = "invalid value for 'double', must be smaller than or equal to 123.4.";
         }
         if ($this->container['double'] < 67.8) {
-            $invalid_properties[] = "invalid value for '$double', must be bigger than or equal to 67.8.";
+            $invalid_properties[] = "invalid value for 'double', must be bigger than or equal to 67.8.";
         }
         if (!preg_match("/[a-z]/i", $this->container['string'])) {
-            $invalid_properties[] = "invalid value for '$string', must be conform to the pattern /[a-z]/i.";
+            $invalid_properties[] = "invalid value for 'string', must be conform to the pattern /[a-z]/i.";
         }
         if ($this->container['byte'] === null) {
-            $invalid_properties[] = "'$byte' can't be null";
+            $invalid_properties[] = "'byte' can't be null";
         }
         if ($this->container['date'] === null) {
-            $invalid_properties[] = "'$date' can't be null";
+            $invalid_properties[] = "'date' can't be null";
         }
         if ($this->container['password'] === null) {
-            $invalid_properties[] = "'$password' can't be null";
+            $invalid_properties[] = "'password' can't be null";
         }
         if (strlen($this->container['password']) > 64) {
-            $invalid_properties[] = "invalid value for '$password', the character length must be smaller than or equal to 64.";
+            $invalid_properties[] = "invalid value for 'password', the character length must be smaller than or equal to 64.";
         }
         if (strlen($this->container['password']) < 10) {
-            $invalid_properties[] = "invalid value for '$password', the character length must be bigger than or equal to 10.";
+            $invalid_properties[] = "invalid value for 'password', the character length must be bigger than or equal to 10.";
         }
         return $invalid_properties;
     }
@@ -245,8 +248,8 @@ class FormatTest implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -316,7 +319,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets integer
-     * @param int $integer 
+     * @param int $integer
      * @return $this
      */
     public function setInteger($integer)
@@ -344,7 +347,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets int32
-     * @param int $int32 
+     * @param int $int32
      * @return $this
      */
     public function setInt32($int32)
@@ -372,7 +375,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets int64
-     * @param int $int64 
+     * @param int $int64
      * @return $this
      */
     public function setInt64($int64)
@@ -393,7 +396,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets number
-     * @param float $number 
+     * @param float $number
      * @return $this
      */
     public function setNumber($number)
@@ -421,7 +424,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets float
-     * @param float $float 
+     * @param float $float
      * @return $this
      */
     public function setFloat($float)
@@ -449,7 +452,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets double
-     * @param double $double 
+     * @param double $double
      * @return $this
      */
     public function setDouble($double)
@@ -477,7 +480,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets string
-     * @param string $string 
+     * @param string $string
      * @return $this
      */
     public function setString($string)
@@ -502,7 +505,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets byte
-     * @param string $byte 
+     * @param string $byte
      * @return $this
      */
     public function setByte($byte)
@@ -523,7 +526,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets binary
-     * @param string $binary 
+     * @param string $binary
      * @return $this
      */
     public function setBinary($binary)
@@ -544,7 +547,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets date
-     * @param \DateTime $date 
+     * @param \DateTime $date
      * @return $this
      */
     public function setDate($date)
@@ -565,7 +568,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets date_time
-     * @param \DateTime $date_time 
+     * @param \DateTime $date_time
      * @return $this
      */
     public function setDateTime($date_time)
@@ -586,7 +589,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets uuid
-     * @param string $uuid 
+     * @param string $uuid
      * @return $this
      */
     public function setUuid($uuid)
@@ -607,7 +610,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Sets password
-     * @param string $password 
+     * @param string $password
      * @return $this
      */
     public function setPassword($password)
@@ -624,7 +627,7 @@ class FormatTest implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -634,17 +637,17 @@ class FormatTest implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -656,17 +659,17 @@ class FormatTest implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string

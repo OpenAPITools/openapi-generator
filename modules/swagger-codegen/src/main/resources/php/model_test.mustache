@@ -39,7 +39,7 @@ namespace {{modelPackage}};
  * {{classname}}Test Class Doc Comment
  *
  * @category    Class
- * @description {{description}}
+ * @description {{#description}}{{description}}{{/description}}{{^description}}{{classname}}{{/description}}
  * @package     {{invokerPackage}}
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,24 +51,26 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
     /**
      * Setup before running each test case
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
 
     }
 
     /**
      * Clean up after running each test case
      */
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass()
+    {
 
     }
 
     /**
-     * Test {{classname}}
+     * Test "{{classname}}"
      */
-    public function test{{classname}}() {
+    public function test{{classname}}()
+    {
 
     }
-
 }
 {{/model}}
 {{/models}}

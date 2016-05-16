@@ -608,7 +608,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
-  -l silex \
+  -l silex-PHP \
   -o samples/server/petstore/silex
 ```
 
@@ -894,6 +894,7 @@ Here is a list of template creators:
    * JAX-RS CXF: @hiveship 
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
+   * Ruby on Rails 5: @zlx 
 
 ## How to join the core team
 

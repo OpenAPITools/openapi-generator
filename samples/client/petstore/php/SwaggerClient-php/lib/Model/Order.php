@@ -39,7 +39,6 @@ use \ArrayAccess;
  * Order Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,13 +50,13 @@ class Order implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'Order';
+    protected static $swaggerModelName = 'Order';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'id' => 'int',
         'pet_id' => 'int',
         'quantity' => 'int',
@@ -66,15 +65,16 @@ class Order implements ArrayAccess
         'complete' => 'bool'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'id' => 'id',
         'pet_id' => 'petId',
         'quantity' => 'quantity',
@@ -83,7 +83,8 @@ class Order implements ArrayAccess
         'complete' => 'complete'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -91,7 +92,7 @@ class Order implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'id' => 'setId',
         'pet_id' => 'setPetId',
         'quantity' => 'setQuantity',
@@ -100,7 +101,8 @@ class Order implements ArrayAccess
         'complete' => 'setComplete'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -108,7 +110,7 @@ class Order implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'id' => 'getId',
         'pet_id' => 'getPetId',
         'quantity' => 'getQuantity',
@@ -116,8 +118,9 @@ class Order implements ArrayAccess
         'status' => 'getStatus',
         'complete' => 'getComplete'
     );
- 
-    static function getters() {
+
+    public static function getters()
+    {
         return self::$getters;
     }
 
@@ -131,7 +134,8 @@ class Order implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getStatusAllowableValues() {
+    public function getStatusAllowableValues()
+    {
         return [
             self::STATUS_PLACED,
             self::STATUS_APPROVED,
@@ -162,15 +166,15 @@ class Order implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         $allowed_values = array("placed", "approved", "delivered");
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'status', must be one of #{allowed_values}.";
         }
         return $invalid_properties;
     }
@@ -178,8 +182,8 @@ class Order implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -202,7 +206,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets id
-     * @param int $id 
+     * @param int $id
      * @return $this
      */
     public function setId($id)
@@ -223,7 +227,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets pet_id
-     * @param int $pet_id 
+     * @param int $pet_id
      * @return $this
      */
     public function setPetId($pet_id)
@@ -244,7 +248,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets quantity
-     * @param int $quantity 
+     * @param int $quantity
      * @return $this
      */
     public function setQuantity($quantity)
@@ -265,7 +269,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets ship_date
-     * @param \DateTime $ship_date 
+     * @param \DateTime $ship_date
      * @return $this
      */
     public function setShipDate($ship_date)
@@ -311,7 +315,7 @@ class Order implements ArrayAccess
 
     /**
      * Sets complete
-     * @param bool $complete 
+     * @param bool $complete
      * @return $this
      */
     public function setComplete($complete)
@@ -322,7 +326,7 @@ class Order implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -332,17 +336,17 @@ class Order implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -354,17 +358,17 @@ class Order implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string

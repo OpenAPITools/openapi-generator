@@ -53,6 +53,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Pet() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pet" /> class.
+        /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Category">Category.</param>
         /// <param name="Name">Name (required).</param>
