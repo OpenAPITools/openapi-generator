@@ -1847,6 +1847,14 @@ public class DefaultCodegen {
         }
         op.externalDocs = operation.getExternalDocs();
 
+        // set Restful Flag
+        op.isRestfulShow = op.isRestfulShow();
+        op.isRestfulIndex = op.isRestfulIndex();
+        op.isRestfulCreate = op.isRestfulCreate();
+        op.isRestfulUpdate = op.isRestfulUpdate();
+        op.isRestfulDestroy = op.isRestfulDestroy();
+        op.isRestful = op.isRestful();
+
         return op;
     }
 
