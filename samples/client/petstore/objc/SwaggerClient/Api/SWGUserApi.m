@@ -4,12 +4,17 @@
 
 
 @interface SWGUserApi ()
-    @property (readwrite, nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
 @end
 
 @implementation SWGUserApi
 
-static SWGUserApi* singletonAPI = nil;
+NSString* kSWGUserApiErrorDomain = @"SWGUserApiErrorDomain";
+NSInteger kSWGUserApiMissingParamErrorCode = 234513;
+
+@synthesize apiClient = _apiClient;
 
 #pragma mark - Initialize methods
 
@@ -20,48 +25,45 @@ static SWGUserApi* singletonAPI = nil;
         if (config.apiClient == nil) {
             config.apiClient = [[SWGApiClient alloc] init];
         }
-        self.apiClient = config.apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (instancetype) initWithApiClient:(SWGApiClient *)apiClient {
+- (id) initWithApiClient:(SWGApiClient *)apiClient {
     self = [super init];
     if (self) {
-        self.apiClient = apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+(SWGUserApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    if (singletonAPI == nil) {
-        singletonAPI = [[SWGUserApi alloc] init];
-        [singletonAPI addHeader:headerValue forKey:key];
-    }
-    return singletonAPI;
++ (instancetype)sharedAPI {
+    static SWGUserApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
 }
 
-+(SWGUserApi*) sharedAPI {
-    if (singletonAPI == nil) {
-        singletonAPI = [[SWGUserApi alloc] init];
-    }
-    return singletonAPI;
+-(NSString*) defaultHeaderForKey:(NSString*)key {
+    return self.defaultHeaders[key];
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
+}
+
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(void) setHeaderValue:(NSString*) value
-           forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
-}
-
--(unsigned long) requestQueueSize {
+-(NSUInteger) requestQueueSize {
     return [SWGApiClient requestQueueSize];
 }
 
@@ -118,7 +120,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -174,7 +178,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -230,7 +236,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -246,7 +254,13 @@ static SWGUserApi* singletonAPI = nil;
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `deleteUser`"];
+        NSParameterAssert(username);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(username))] };
+            NSError* error = [NSError errorWithDomain:kSWGUserApiErrorDomain code:kSWGUserApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
@@ -293,7 +307,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -309,7 +325,13 @@ static SWGUserApi* singletonAPI = nil;
     completionHandler: (void (^)(SWGUser* output, NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `getUserByName`"];
+        NSParameterAssert(username);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(username))] };
+            NSError* error = [NSError errorWithDomain:kSWGUserApiErrorDomain code:kSWGUserApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
@@ -356,7 +378,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"SWGUser*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((SWGUser*)data, error);
+                                if(handler) {
+                                    handler((SWGUser*)data, error);
+                                }
                            }
           ];
 }
@@ -420,7 +444,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"NSString*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((NSString*)data, error);
+                                if(handler) {
+                                    handler((NSString*)data, error);
+                                }
                            }
           ];
 }
@@ -473,7 +499,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -492,7 +520,13 @@ static SWGUserApi* singletonAPI = nil;
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `username` when calling `updateUser`"];
+        NSParameterAssert(username);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(username))] };
+            NSError* error = [NSError errorWithDomain:kSWGUserApiErrorDomain code:kSWGUserApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
@@ -540,7 +574,9 @@ static SWGUserApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
