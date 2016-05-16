@@ -144,7 +144,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     if (petId == nil) {
         NSParameterAssert(petId);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(petId))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
             NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
             handler(error);
         }
@@ -343,7 +343,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     if (petId == nil) {
         NSParameterAssert(petId);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(petId))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
             NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
@@ -480,7 +480,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     if (petId == nil) {
         NSParameterAssert(petId);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(petId))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
             NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
             handler(error);
         }
@@ -564,7 +564,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     if (petId == nil) {
         NSParameterAssert(petId);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(petId))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
             NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
             handler(error);
         }

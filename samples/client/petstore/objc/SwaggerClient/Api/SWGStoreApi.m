@@ -82,7 +82,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
     if (orderId == nil) {
         NSParameterAssert(orderId);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(orderId))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"orderId"] };
             NSError* error = [NSError errorWithDomain:kSWGStoreApiErrorDomain code:kSWGStoreApiMissingParamErrorCode userInfo:userInfo];
             handler(error);
         }
@@ -210,7 +210,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
     if (orderId == nil) {
         NSParameterAssert(orderId);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(orderId))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"orderId"] };
             NSError* error = [NSError errorWithDomain:kSWGStoreApiErrorDomain code:kSWGStoreApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
