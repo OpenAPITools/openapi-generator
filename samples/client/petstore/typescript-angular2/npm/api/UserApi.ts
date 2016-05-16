@@ -1,7 +1,8 @@
-import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from 'angular2/http';
-import {Injectable} from 'angular2/core';
+import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
+import {Injectable, Optional} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import * as models from '../model/models';
+import 'rxjs/Rx';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
@@ -12,7 +13,7 @@ export class UserApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders : Headers = new Headers();
 
-    constructor(protected http: Http, basePath: string) {
+    constructor(protected http: Http, @Optional() basePath: string) {
         if (basePath) {
             this.basePath = basePath;
         }
