@@ -122,6 +122,6 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase();
+        operation.httpMethod = operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase();
     }
 }
