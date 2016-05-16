@@ -1,6 +1,10 @@
-package io.swagger.codegen.typescriptfetch;
+package io.swagger.codegen.typescript.fetch;
 
 import com.google.common.collect.Sets;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
@@ -8,9 +12,11 @@ import io.swagger.codegen.languages.TypeScriptFetchClientCodegen;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
