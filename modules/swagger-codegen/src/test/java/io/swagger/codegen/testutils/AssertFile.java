@@ -1,4 +1,4 @@
-package io.swagger.codegen.utils;
+package io.swagger.codegen.testutils;
 
 import org.testng.Assert;
 

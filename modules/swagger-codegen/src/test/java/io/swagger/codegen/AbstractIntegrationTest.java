@@ -6,11 +6,11 @@ import org.testng.reporters.Files;
 import java.io.IOException;
 import java.util.Map;
 
-import io.swagger.codegen.utils.IntegrationTestPathsConfig;
+import io.swagger.codegen.testutils.IntegrationTestPathsConfig;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 
-import static io.swagger.codegen.utils.AssertFile.assertPathEqualsRecursively;
+import static io.swagger.codegen.testutils.AssertFile.assertPathEqualsRecursively;
 
 public abstract class AbstractIntegrationTest {
 
