@@ -110,7 +110,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 #pragma mark - Request Methods
 
-+(unsigned long)requestQueueSize {
++(NSUInteger)requestQueueSize {
     return [queuedRequests count];
 }
 
