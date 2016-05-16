@@ -88,7 +88,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     if ({{paramName}} == nil) {
         NSParameterAssert({{paramName}});
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector({{paramName}}))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"{{paramName}}"] };
             NSError* error = [NSError errorWithDomain:k{{classname}}ErrorDomain code:k{{classname}}MissingParamErrorCode userInfo:userInfo];
             handler({{#returnType}}nil, {{/returnType}}error);
         }

@@ -259,7 +259,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     if (username == nil) {
         NSParameterAssert(username);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(username))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"username"] };
             NSError* error = [NSError errorWithDomain:kSWGUserApiErrorDomain code:kSWGUserApiMissingParamErrorCode userInfo:userInfo];
             handler(error);
         }
@@ -331,7 +331,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     if (username == nil) {
         NSParameterAssert(username);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(username))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"username"] };
             NSError* error = [NSError errorWithDomain:kSWGUserApiErrorDomain code:kSWGUserApiMissingParamErrorCode userInfo:userInfo];
             handler(nil, error);
         }
@@ -529,7 +529,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     if (username == nil) {
         NSParameterAssert(username);
         if(handler) {
-            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),NSStringFromSelector(@selector(username))] };
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"username"] };
             NSError* error = [NSError errorWithDomain:kSWGUserApiErrorDomain code:kSWGUserApiMissingParamErrorCode userInfo:userInfo];
             handler(error);
         }
