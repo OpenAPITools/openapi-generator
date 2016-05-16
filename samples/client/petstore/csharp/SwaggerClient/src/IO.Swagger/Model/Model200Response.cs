@@ -23,10 +23,7 @@ namespace IO.Swagger.Model
         /// <param name="Name">Name.</param>
         public Model200Response(int? Name = null)
         {
-            
-            
-                        this.Name = Name;
-            
+            this.Name = Name;
         }
         
         /// <summary>
