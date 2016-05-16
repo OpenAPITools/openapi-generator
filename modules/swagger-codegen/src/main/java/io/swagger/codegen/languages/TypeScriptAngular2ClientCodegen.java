@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.FileProperty;
@@ -41,6 +43,11 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
+        codegenModel.additionalPropertiesType = getSwaggerType(swaggerModel.getAdditionalProperties());
     }
 
     @Override
@@ -131,7 +138,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        parameter.dataType = addModelPrefix(parameter.dataType);
+         parameter.dataType = addModelPrefix(parameter.dataType);
     }
 
     public String getNpmName() {

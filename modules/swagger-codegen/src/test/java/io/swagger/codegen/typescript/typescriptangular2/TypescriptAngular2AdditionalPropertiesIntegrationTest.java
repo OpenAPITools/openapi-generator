@@ -3,11 +3,12 @@ package io.swagger.codegen.typescript.typescriptangular2;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.swagger.codegen.AbstractIntegrationTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen;
 import io.swagger.codegen.utils.IntegrationTestPathsConfig;
 
-public class TypescriptAngular2AdditionalPropertiesIntegrationTest extends io.swagger.codegen.AbstractIntegrationTest {
+public class TypescriptAngular2AdditionalPropertiesIntegrationTest extends AbstractIntegrationTest {
 
     @Override
     protected CodegenConfig getCodegenConfig() {

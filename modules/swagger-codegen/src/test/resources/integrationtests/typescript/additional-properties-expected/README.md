@@ -1,4 +1,4 @@
-## additionalPropertiesTest@1.0.0
+## additionalPropertiesTest@1.0.2
 
 ### Building
 
@@ -19,7 +19,7 @@ navigate to the folder of your consuming project and run one of next commando's.
 _published:_
 
 ```
-npm install additionalPropertiesTest@1.0.0 --save
+npm install additionalPropertiesTest@1.0.2 --save
 ```
 
 _unPublished (not recommended):_
