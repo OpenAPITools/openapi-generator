@@ -180,5 +180,12 @@ extern NSString *const SWGResponseObjectErrorKey;
  */
 - (AFSecurityPolicy *) customSecurityPolicy;
 
+/**
+ * SWGConfiguration return sharedConfig
+ *
+ * @return SWGConfiguration
+ */
+- (SWGConfiguration*) configuration;
+
 
 @end
