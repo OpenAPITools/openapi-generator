@@ -894,6 +894,7 @@ Here is a list of template creators:
    * JAX-RS CXF: @hiveship 
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
+   * Ruby on Rails 5: @zlx 
 
 ## How to join the core team
 
