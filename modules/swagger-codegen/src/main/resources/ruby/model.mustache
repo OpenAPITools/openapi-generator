@@ -216,7 +216,7 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     {{/isEnum}}
     {{/vars}}
     # Checks equality by comparing each attribute.
-    # @param [Object] Object to be compared 
+    # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class{{#vars}} &&
@@ -224,7 +224,7 @@ module {{moduleName}}{{#models}}{{#model}}{{#description}}
     end
 
     # @see the `==` method
-    # @param [Object] Object to be compared 
+    # @param [Object] Object to be compared
     def eql?(o)
       self == o
     end
