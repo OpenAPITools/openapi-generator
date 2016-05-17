@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using RestSharp;
 using NUnit.Framework;
+using Newtonsoft.Json;
 
 using IO.Swagger.Client;
 using IO.Swagger.Api;
@@ -60,8 +61,8 @@ namespace IO.Swagger.Test
         public void DeleteOrderTest()
         {
             // TODO: add unit test for the method 'DeleteOrder'
-            string orderId = null; // TODO: replace null with proper value
-            instance.DeleteOrder(orderId);
+            //string orderId = null; // TODO: replace null with proper value
+            //instance.DeleteOrder(orderId);
             
         }
         
@@ -72,8 +73,19 @@ namespace IO.Swagger.Test
         public void GetInventoryTest()
         {
             // TODO: add unit test for the method 'GetInventory'
-            var response = instance.GetInventory();
-            Assert.IsInstanceOf<Dictionary<string, int?>> (response, "response is Dictionary<string, int?>");
+            //var response = instance.GetInventory();
+            //Assert.IsInstanceOf<Dictionary<string, int?>> (response, "response is Dictionary<string, int?>");
+
+			// set timeout to 10 seconds
+			Configuration c1 = new Configuration (timeout: 10000);
+
+			StoreApi storeApi = new StoreApi (c1);
+			Dictionary<String, int?> response = storeApi.GetInventory ();
+
+			foreach(KeyValuePair<string, int?> entry in response)
+			{
+				Assert.IsInstanceOf (typeof(int?), entry.Value);
+			}
         }
         
         /// <summary>
@@ -83,9 +95,9 @@ namespace IO.Swagger.Test
         public void GetOrderByIdTest()
         {
             // TODO: add unit test for the method 'GetOrderById'
-            long? orderId = null; // TODO: replace null with proper value
-            var response = instance.GetOrderById(orderId);
-            Assert.IsInstanceOf<Order> (response, "response is Order");
+            //long? orderId = null; // TODO: replace null with proper value
+            //var response = instance.GetOrderById(orderId);
+            //Assert.IsInstanceOf<Order> (response, "response is Order");
         }
         
         /// <summary>
@@ -95,11 +107,41 @@ namespace IO.Swagger.Test
         public void PlaceOrderTest()
         {
             // TODO: add unit test for the method 'PlaceOrder'
-            Order body = null; // TODO: replace null with proper value
-            var response = instance.PlaceOrder(body);
-            Assert.IsInstanceOf<Order> (response, "response is Order");
+            //Order body = null; // TODO: replace null with proper value
+            //var response = instance.PlaceOrder(body);
+            //Assert.IsInstanceOf<Order> (response, "response is Order");
         }
         
+		/// <summary>
+		/// Test Enum
+		/// </summary>
+		[Test ()]
+		public void TestEnum ()
+		{
+			Assert.AreEqual (Order.StatusEnum.Approved.ToString(), "Approved");
+		}
+
+		/// <summary>
+		/// Test deserialization of JSON to Order and its readonly property
+		/// </summary>
+		[Test ()]
+		public void TesOrderDeserialization()
+		{
+			string json = @"{
+'id': 1982,
+'petId': 1020,
+'quantity': 1,
+'status': 'placed',
+'complete': true,
+}";
+			var o = JsonConvert.DeserializeObject<Order>(json);
+			Assert.AreEqual (1982, o.Id);
+			Assert.AreEqual (1020, o.PetId);
+			Assert.AreEqual (1, o.Quantity);
+			Assert.AreEqual (Order.StatusEnum.Placed, o.Status);
+			Assert.AreEqual (true, o.Complete);
+
+		}
     }
 
 }

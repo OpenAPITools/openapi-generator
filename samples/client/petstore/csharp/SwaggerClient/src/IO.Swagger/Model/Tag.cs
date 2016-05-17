@@ -24,12 +24,8 @@ namespace IO.Swagger.Model
         /// <param name="Name">Name.</param>
         public Tag(long? Id = null, string Name = null)
         {
-            
-            
-                        this.Id = Id;
-            
-                        this.Name = Name;
-            
+            this.Id = Id;
+            this.Name = Name;
         }
         
         /// <summary>
@@ -51,7 +47,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Tag {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

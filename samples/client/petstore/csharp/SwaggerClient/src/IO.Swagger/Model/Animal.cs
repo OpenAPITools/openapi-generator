@@ -38,8 +38,6 @@ namespace IO.Swagger.Model
             {
                 this.ClassName = ClassName;
             }
-            
-            
             // use default value if no "Color" provided
             if (Color == null)
             {
@@ -49,7 +47,6 @@ namespace IO.Swagger.Model
             {
                 this.Color = Color;
             }
-            
         }
         
         /// <summary>
@@ -71,7 +68,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Animal {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Color: ").Append(Color).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

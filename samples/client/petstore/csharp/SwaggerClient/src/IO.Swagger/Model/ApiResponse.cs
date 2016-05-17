@@ -25,14 +25,9 @@ namespace IO.Swagger.Model
         /// <param name="Message">Message.</param>
         public ApiResponse(int? Code = null, string Type = null, string Message = null)
         {
-            
-            
-                        this.Code = Code;
-            
-                        this.Type = Type;
-            
-                        this.Message = Message;
-            
+            this.Code = Code;
+            this.Type = Type;
+            this.Message = Message;
         }
         
         /// <summary>
@@ -59,8 +54,8 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class ApiResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-sb.Append("  Type: ").Append(Type).Append("\n");
-sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -29,7 +29,7 @@ namespace IO.Swagger.Test
         [SetUp]
         public void Init()
         {
-            instance = new FormatTest();
+			instance = new FormatTest(Number: 123, _Byte: new byte[] { 0x20 }, Date: new DateTime(2015, 1, 18), Password: "xyz");
         }
 
         /// <summary>

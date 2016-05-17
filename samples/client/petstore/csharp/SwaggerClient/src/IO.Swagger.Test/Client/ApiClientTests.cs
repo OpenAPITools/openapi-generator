@@ -3,17 +3,22 @@ using System;
 using System.Collections.Generic;
 using IO.Swagger.Client;
 using IO.Swagger.Api;
+using IO.Swagger.Model;
 
-namespace SwaggerClientTest.TestApiClient
+namespace IO.Swagger.Test
 {
-	public class TestApiClient
+	public class ApiClientTests
 	{
-        [TearDown()]
-        public void TearDown()
-        {
-            // Reset to default, just in case
-            Configuration.Default.DateTimeFormat = "o";
-        }
+		public ApiClientTests ()
+		{
+		}
+
+		[TearDown()]
+		public void TearDown()
+		{
+			// Reset to default, just in case
+			Configuration.Default.DateTimeFormat = "o";
+		}
 
 		/// <summary>
 		/// Test SelectHeaderContentType
@@ -35,7 +40,7 @@ namespace SwaggerClientTest.TestApiClient
 		/// <summary>
 		/// Test ParameterToString
 		/// </summary>
-        [Test ()]
+		[Test ()]
 		public void TestParameterToString ()
 		{	
 			ApiClient api = new ApiClient ();
@@ -49,8 +54,8 @@ namespace SwaggerClientTest.TestApiClient
 			Assert.AreEqual("1,37", api.ParameterToString (numList));
 		}
 
-        [Test ()]
-	    public void TestParameterToStringForDateTime ()
+		[Test ()]
+		public void TestParameterToStringForDateTime ()
 		{
 			ApiClient api = new ApiClient ();
 
@@ -68,34 +73,34 @@ namespace SwaggerClientTest.TestApiClient
 		public void TestParameterToStringWithTimeZoneForDateTime ()
 		{
 			ApiClient api = new ApiClient ();
-            // test datetime with a time zone
-            DateTimeOffset dateWithTz = DateTimeOffset.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
-            Assert.AreEqual("2008-04-10T13:30:00.0000000-04:00", api.ParameterToString(dateWithTz));
-        }
+			// test datetime with a time zone
+			DateTimeOffset dateWithTz = DateTimeOffset.Parse("2008-04-10T13:30:00.0000000-04:00", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			Assert.AreEqual("2008-04-10T13:30:00.0000000-04:00", api.ParameterToString(dateWithTz));
+		}
 
-        [Test ()]
-        public void TestParameterToStringForDateTimeWithUFormat ()
-        {
-            // Setup the DateTimeFormat across all of the calls
-            Configuration.Default.DateTimeFormat = "u";
-            ApiClient api = new ApiClient();
-            
-            // test datetime
-            DateTime dateUtc = DateTime.Parse("2009-06-15 20:45:30Z", null, System.Globalization.DateTimeStyles.RoundtripKind);
-            Assert.AreEqual("2009-06-15 20:45:30Z", api.ParameterToString(dateUtc));
-        }
+		[Test ()]
+		public void TestParameterToStringForDateTimeWithUFormat ()
+		{
+			// Setup the DateTimeFormat across all of the calls
+			Configuration.Default.DateTimeFormat = "u";
+			ApiClient api = new ApiClient();
 
-        [Test ()]
-        public void TestParameterToStringForDateTimeWithCustomFormat ()
-        {
-            // Setup the DateTimeFormat across all of the calls
-            Configuration.Default.DateTimeFormat = "dd/MM/yy HH:mm:ss";
-            ApiClient api = new ApiClient();
+			// test datetime
+			DateTime dateUtc = DateTime.Parse("2009-06-15 20:45:30Z", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			Assert.AreEqual("2009-06-15 20:45:30Z", api.ParameterToString(dateUtc));
+		}
 
-            // test datetime
-            DateTime dateUtc = DateTime.Parse("2009-06-15 20:45:30Z", null, System.Globalization.DateTimeStyles.RoundtripKind);
-            Assert.AreEqual("15/06/09 20:45:30", api.ParameterToString(dateUtc));
-        }
+		[Test ()]
+		public void TestParameterToStringForDateTimeWithCustomFormat ()
+		{
+			// Setup the DateTimeFormat across all of the calls
+			Configuration.Default.DateTimeFormat = "dd/MM/yy HH:mm:ss";
+			ApiClient api = new ApiClient();
+
+			// test datetime
+			DateTime dateUtc = DateTime.Parse("2009-06-15 20:45:30Z", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			Assert.AreEqual("15/06/09 20:45:30", api.ParameterToString(dateUtc));
+		}
 
 		[Test ()]
 		public void TestSanitizeFilename ()
@@ -104,7 +109,7 @@ namespace SwaggerClientTest.TestApiClient
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("../sun.gif"));
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("/var/tmp/sun.gif"));
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("./sun.gif"));
-			        
+
 			Assert.AreEqual("sun", ApiClient.SanitizeFilename("sun"));
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("..\\sun.gif"));
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("\\var\\tmp\\sun.gif"));
@@ -140,6 +145,5 @@ namespace SwaggerClientTest.TestApiClient
 			Assert.AreNotSame(p4.Configuration.ApiClient, Configuration.Default.ApiClient);
 
 		}
-    }
+	}
 }
-
