@@ -25,7 +25,7 @@ Add a new pet to the store
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -76,7 +76,7 @@ Deletes a pet
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -131,7 +131,7 @@ Multiple status values can be provided with comma separated strings
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -183,7 +183,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -235,7 +235,7 @@ Returns a single pet
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure API key authorization: api_key
   config.api_key['api_key'] = 'YOUR API KEY'
@@ -289,7 +289,7 @@ Update an existing pet
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -340,7 +340,7 @@ Updates a pet in the store with form data
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -397,7 +397,7 @@ uploads an image
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
