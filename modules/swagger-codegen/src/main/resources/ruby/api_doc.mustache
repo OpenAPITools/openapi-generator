@@ -22,7 +22,7 @@ Method | HTTP request | Description
 # load the gem
 require '{{{gemName}}}'
 {{#hasAuthMethods}}
-# setup authorization 
+# setup authorization
 {{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
