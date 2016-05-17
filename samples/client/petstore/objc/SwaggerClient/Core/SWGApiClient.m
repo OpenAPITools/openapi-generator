@@ -83,8 +83,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     reachabilityStatus = status;
 }
 
-- (void)setHeaderValue:(NSString*) value
-                forKey:(NSString*) forKey {
+- (void)setHeaderValue:(NSString*) value forKey:(NSString*) forKey {
     [self.requestSerializer setValue:value forHTTPHeaderField:forKey];
 }
 
@@ -110,7 +109,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 #pragma mark - Request Methods
 
-+(unsigned long)requestQueueSize {
++(NSUInteger)requestQueueSize {
     return [queuedRequests count];
 }
 
@@ -221,8 +220,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
             NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
             completionBlock(nil, augmentedError);
         }
-        SWGConfiguration *config = [SWGConfiguration sharedConfig];
-        NSString *directory = config.tempFolderPath ?: NSTemporaryDirectory();
+        NSString *directory = [self configuration].tempFolderPath ?: NSTemporaryDirectory();
         NSString * filename = SWG__fileNameForResponse(response);
 
         NSString *filepath = [directory stringByAppendingPathComponent:filename];
@@ -442,16 +440,16 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
                 queryParams:(NSDictionary *__autoreleasing *)querys
            WithAuthSettings:(NSArray *)authSettings {
 
-    if (!authSettings || [authSettings count] == 0) {
+    if ([authSettings count] == 0) {
         return;
     }
 
     NSMutableDictionary *headersWithAuth = [NSMutableDictionary dictionaryWithDictionary:*headers];
     NSMutableDictionary *querysWithAuth = [NSMutableDictionary dictionaryWithDictionary:*querys];
 
-    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    NSDictionary* configurationAuthSettings = [[self configuration] authSettings];
     for (NSString *auth in authSettings) {
-        NSDictionary *authSetting = [config authSettings][auth];
+        NSDictionary *authSetting = configurationAuthSettings[auth];
         if(!authSetting) { // auth setting is set only if the key is non-empty
             continue;
         }
@@ -472,7 +470,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 - (AFSecurityPolicy *) customSecurityPolicy {
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
 
-    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    SWGConfiguration *config = [self configuration];
 
     if (config.sslCaCert) {
         NSData *certData = [NSData dataWithContentsOfFile:config.sslCaCert];
@@ -488,6 +486,10 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     }
 
     return securityPolicy;
+}
+
+- (SWGConfiguration*) configuration {
+    return [SWGConfiguration sharedConfig];
 }
 
 @end
