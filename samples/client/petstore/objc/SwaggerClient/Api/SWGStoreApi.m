@@ -4,12 +4,17 @@
 
 
 @interface SWGStoreApi ()
-    @property (readwrite, nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
 @end
 
 @implementation SWGStoreApi
 
-static SWGStoreApi* singletonAPI = nil;
+NSString* kSWGStoreApiErrorDomain = @"SWGStoreApiErrorDomain";
+NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
+
+@synthesize apiClient = _apiClient;
 
 #pragma mark - Initialize methods
 
@@ -20,48 +25,45 @@ static SWGStoreApi* singletonAPI = nil;
         if (config.apiClient == nil) {
             config.apiClient = [[SWGApiClient alloc] init];
         }
-        self.apiClient = config.apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (instancetype) initWithApiClient:(SWGApiClient *)apiClient {
+- (id) initWithApiClient:(SWGApiClient *)apiClient {
     self = [super init];
     if (self) {
-        self.apiClient = apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+(SWGStoreApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    if (singletonAPI == nil) {
-        singletonAPI = [[SWGStoreApi alloc] init];
-        [singletonAPI addHeader:headerValue forKey:key];
-    }
-    return singletonAPI;
++ (instancetype)sharedAPI {
+    static SWGStoreApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
 }
 
-+(SWGStoreApi*) sharedAPI {
-    if (singletonAPI == nil) {
-        singletonAPI = [[SWGStoreApi alloc] init];
-    }
-    return singletonAPI;
+-(NSString*) defaultHeaderForKey:(NSString*)key {
+    return self.defaultHeaders[key];
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
+}
+
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(void) setHeaderValue:(NSString*) value
-           forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
-}
-
--(unsigned long) requestQueueSize {
+-(NSUInteger) requestQueueSize {
     return [SWGApiClient requestQueueSize];
 }
 
@@ -78,7 +80,13 @@ static SWGStoreApi* singletonAPI = nil;
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `orderId` when calling `deleteOrder`"];
+        NSParameterAssert(orderId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"orderId"] };
+            NSError* error = [NSError errorWithDomain:kSWGStoreApiErrorDomain code:kSWGStoreApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order/{orderId}"];
@@ -92,7 +100,8 @@ static SWGStoreApi* singletonAPI = nil;
     }
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -125,7 +134,9 @@ static SWGStoreApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -145,7 +156,8 @@ static SWGStoreApi* singletonAPI = nil;
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -178,7 +190,9 @@ static SWGStoreApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"NSDictionary<NSString*, NSNumber*>*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((NSDictionary<NSString*, NSNumber*>*)data, error);
+                                if(handler) {
+                                    handler((NSDictionary<NSString*, NSNumber*>*)data, error);
+                                }
                            }
           ];
 }
@@ -194,7 +208,13 @@ static SWGStoreApi* singletonAPI = nil;
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `orderId` when calling `getOrderById`"];
+        NSParameterAssert(orderId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"orderId"] };
+            NSError* error = [NSError errorWithDomain:kSWGStoreApiErrorDomain code:kSWGStoreApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order/{orderId}"];
@@ -208,7 +228,8 @@ static SWGStoreApi* singletonAPI = nil;
     }
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -241,7 +262,9 @@ static SWGStoreApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"SWGOrder*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((SWGOrder*)data, error);
+                                if(handler) {
+                                    handler((SWGOrder*)data, error);
+                                }
                            }
           ];
 }
@@ -263,7 +286,8 @@ static SWGStoreApi* singletonAPI = nil;
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -297,7 +321,9 @@ static SWGStoreApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"SWGOrder*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((SWGOrder*)data, error);
+                                if(handler) {
+                                    handler((SWGOrder*)data, error);
+                                }
                            }
           ];
 }

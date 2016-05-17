@@ -105,8 +105,6 @@
 /**
  * Sets the prefix for API key
  *
- * To remove a apiKeyPrefix for an identifier, just set the apiKeyPrefix to nil.
- *
  * @param apiKeyPrefix API key prefix.
  * @param identifier   API key identifier.
  */
@@ -138,5 +136,30 @@
  * Gets Authentication Settings
  */
 - (NSDictionary *) authSettings;
+
+/**
+* Default headers for all services
+*/
+@property (readonly, nonatomic, strong) NSDictionary *defaultHeaders;
+
+/**
+* Removes header from defaultHeaders
+*
+* @param Header name.
+*/
+-(void) removeDefaultHeaderForKey:(NSString*)key;
+
+/**
+* Sets the header for key
+*
+* @param value         Value for header name
+* @param key           Header name
+*/
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key;
+
+/**
+* @param Header key name.
+*/
+-(NSString*) defaultHeaderForKey:(NSString*)key;
 
 @end
