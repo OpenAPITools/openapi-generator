@@ -25,12 +25,15 @@ module Petstore
 
     attr_accessor :property
 
+    attr_accessor :_123_number
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'name' => :'name',
         :'snake_case' => :'snake_case',
-        :'property' => :'property'
+        :'property' => :'property',
+        :'_123_number' => :'123Number'
       }
     end
 
@@ -39,7 +42,8 @@ module Petstore
       {
         :'name' => :'Integer',
         :'snake_case' => :'Integer',
-        :'property' => :'String'
+        :'property' => :'String',
+        :'_123_number' => :'Integer'
       }
     end
 
@@ -63,6 +67,10 @@ module Petstore
         self.property = attributes[:'property']
       end
 
+      if attributes.has_key?(:'123Number')
+        self._123_number = attributes[:'123Number']
+      end
+
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -82,17 +90,18 @@ module Petstore
     end
 
     # Checks equality by comparing each attribute.
-    # @param [Object] Object to be compared 
+    # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
           name == o.name &&
           snake_case == o.snake_case &&
-          property == o.property
+          property == o.property &&
+          _123_number == o._123_number
     end
 
     # @see the `==` method
-    # @param [Object] Object to be compared 
+    # @param [Object] Object to be compared
     def eql?(o)
       self == o
     end
@@ -100,7 +109,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name, snake_case, property].hash
+      [name, snake_case, property, _123_number].hash
     end
 
     # Builds the object from hash
@@ -191,7 +200,7 @@ module Petstore
 
     # Outputs non-array value in the form of hash
     # For object, use to_hash. Otherwise, just return the value
-    # @param [Object] value Any valid value 
+    # @param [Object] value Any valid value
     # @return [Hash] Returns the value in the form of hash
     def _to_hash(value)
       if value.is_a?(Array)
