@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
-    protected String sourceFolder = "src" + File.separator + packageName;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
 
     @SuppressWarnings("hiding")
@@ -88,24 +87,29 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         apiPackage = packageName + ".Api";
         modelPackage = packageName + ".Models";
 
-        supportingFiles.add(new SupportingFile("ApiException.mustache", sourceFolder, "ApiException.cs"));
-        supportingFiles.add(new SupportingFile("packages.config.mustache", sourceFolder, "packages.config"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache", sourceFolder(), "ApiException.cs"));
+        supportingFiles.add(new SupportingFile("RequestExtensions.mustache", sourceFolder(), "RequestExtensions.cs"));
+        supportingFiles.add(new SupportingFile("packages.config.mustache", sourceFolder(), "packages.config"));
 
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-            supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, packageName + ".csproj"));
+            supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder(), packageName + ".csproj"));
         }
         additionalProperties.put("packageGuid", packageGuid);
     }
 
+    private String sourceFolder() {
+        return "src" + File.separator + packageName;
+    }
+
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + "Api";
+        return outputFolder + File.separator + sourceFolder() + File.separator + "Api";
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + "Models";
+        return outputFolder + File.separator + sourceFolder() + File.separator + "Models";
     }
 
     @Override
