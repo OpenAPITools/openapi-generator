@@ -92,7 +92,7 @@ public class OAuth implements Interceptor {
 
             String requestAccessToken = new String(getAccessToken());
             try {
-                oAuthRequest = new OAuthBearerClientRequest(request.urlString())
+                oAuthRequest = new OAuthBearerClientRequest(request.url().toString())
                         .setAccessToken(requestAccessToken)
                         .buildHeaderMessage();
             } catch (OAuthSystemException e) {
