@@ -1,0 +1,153 @@
+
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using Nancy;
+using Sharpility.Base;
+using Sharpility.Extensions;
+using Sharpility.Util;
+
+namespace {{packageName}}
+{
+    internal static class RequestExtensions
+    {
+        private static readonly IDictionary<Type, Func<Parameter, object>> Parsers = CreateParsers();
+
+        internal static TParam QueryParam<TParam>(this Request source, string name)
+        {
+            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
+            return QueryParam(source, name, default(TParam), useDefault: false);
+        }
+
+        internal static TParam QueryParam<TParam>(this Request source, string name, TParam defaultValue)
+        {
+            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
+            return QueryParam(source, name, default(TParam), useDefault: true);
+        }
+
+        private static TParam QueryParam<TParam>(Request request, string name, TParam defaultValue, bool useDefault)
+        {
+            var parameterType = typeof (TParam);
+            var nullable = default(TParam) == null;
+            var parser = Parsers.GetIfPresent(parameterType);
+            if (parser == null)
+            {
+                return TryParseUsingDynamic(request, name, defaultValue);
+            }
+            string value = request.Query[name];
+            if (string.IsNullOrEmpty(value))
+            {
+                Preconditions.Evaluate(nullable || (defaultValue != null && useDefault), () =>
+                    new ArgumentException(Strings.Format("Query: '{0}' value was not specified", name)));
+                return defaultValue;
+            }
+            var result = parser(Parameter.Of(name, value));
+            try
+            {
+                return (TParam) result;
+            }
+            catch (InvalidCastException)
+            {
+                throw new InvalidOperationException(Strings.Format(
+                    "Unexpected result type: '{0}' for query: '{1}' expected: '{2}'",
+                    result.GetType(), name, parameterType));
+            }
+        }
+
+        private static TParam TryParseUsingDynamic<TParam>(Request request, string name, TParam defaultValue)
+        {
+            string value = request.Query[name];
+            try
+            {
+                TParam result = request.Query[name];
+                return result != null ? result : defaultValue;
+            }
+            catch (Exception)
+            {
+                throw new InvalidOperationException(Strings.Format("Query: '{0}' value: '{1}' could not be parsed. " +
+                                                                  "Expected type: '{2}' is not supported",
+                                                                  name, value, typeof(TParam)));
+            }
+        }
+
+        private static IDictionary<Type, Func<Parameter, object>> CreateParsers()
+        {
+            var parsers = ImmutableDictionary.CreateBuilder<Type, Func<Parameter, object>>();
+            parsers.Put(typeof(bool), SafeParse(bool.Parse));
+            parsers.Put(typeof(bool?), SafeParse(bool.Parse));
+            parsers.Put(typeof(byte), SafeParse(byte.Parse));
+            parsers.Put(typeof(sbyte?), SafeParse(sbyte.Parse));
+            parsers.Put(typeof(short), SafeParse(short.Parse));
+            parsers.Put(typeof(short?), SafeParse(short.Parse));
+            parsers.Put(typeof(ushort), SafeParse(ushort.Parse));
+            parsers.Put(typeof(ushort?), SafeParse(ushort.Parse));
+            parsers.Put(typeof(int), SafeParse(int.Parse));
+            parsers.Put(typeof(int?), SafeParse(int.Parse));
+            parsers.Put(typeof(uint), SafeParse(uint.Parse));
+            parsers.Put(typeof(uint?), SafeParse(uint.Parse));
+            parsers.Put(typeof(long), SafeParse(long.Parse));
+            parsers.Put(typeof(long?), SafeParse(long.Parse));
+            parsers.Put(typeof(ulong), SafeParse(ulong.Parse));
+            parsers.Put(typeof(ulong?), SafeParse(ulong.Parse));
+            parsers.Put(typeof(float), SafeParse(float.Parse));
+            parsers.Put(typeof(float?), SafeParse(float.Parse));
+            parsers.Put(typeof(double), SafeParse(double.Parse));
+            parsers.Put(typeof(double?), SafeParse(double.Parse));
+            parsers.Put(typeof(decimal), SafeParse(decimal.Parse));
+            parsers.Put(typeof(decimal?), SafeParse(decimal.Parse));
+            parsers.Put(typeof(DateTime), SafeParse(DateTime.Parse));
+            parsers.Put(typeof(DateTime?), SafeParse(DateTime.Parse));
+            parsers.Put(typeof(TimeSpan), SafeParse(TimeSpan.Parse));
+            parsers.Put(typeof(TimeSpan?), SafeParse(TimeSpan.Parse));
+            return parsers.ToImmutableDictionary();
+        }
+
+        private static Func<Parameter, object> SafeParse<T>(Func<string, T> parse)
+        {
+            return parameter =>
+            {
+                try
+                {
+                    return parse(parameter.Value);
+                }
+                catch (OverflowException)
+                {
+                    throw ParameterOutOfRange(parameter, typeof (short));
+                }
+                catch (FormatException)
+                {
+                    throw InvalidParameterFormat(parameter, typeof (short));
+                }
+            };
+        }
+
+        private static ArgumentException ParameterOutOfRange(Parameter parameter, Type type)
+        {
+            return new ArgumentException(Strings.Format("Query: '{0}' value: '{1}' is out of range for: '{2}'",
+                parameter.Name, parameter.Value, type));
+        }
+
+        private static ArgumentException InvalidParameterFormat(Parameter parameter, Type type)
+        {
+            return new ArgumentException(Strings.Format("Query '{0}' value: '{1}' format is invalid for: '{2}'",
+                parameter.Name, parameter.Value, type));
+        }
+
+        private class Parameter
+        {
+            internal string Name { get; private set; }
+            internal string Value { get; private set; }
+
+            private Parameter(string name, string value)
+            {
+                Name = name;
+                Value = value;
+            }
+
+            internal static Parameter Of(string name, string value)
+            {
+                return new Parameter(name, value);
+            }
+        }
+    }
+}

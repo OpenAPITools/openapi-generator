@@ -19,8 +19,6 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     protected Logger LOGGER = LoggerFactory.getLogger(NancyFXServerCodegen.class);
 
     public NancyFXServerCodegen() {
-        super();
-
         outputFolder = "generated-code" + File.separator + this.getName();
 
         modelTemplateFiles.put("model.mustache", ".cs");
@@ -87,7 +85,6 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     public void processOpts() {
         super.processOpts();
 
-        String packageFolder = sourceFolder + File.separator + packageName;
         apiPackage = packageName + ".Api";
         modelPackage = packageName + ".Models";
 
