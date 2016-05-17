@@ -1,4 +1,4 @@
-package io.swagger.codegen.Go;
+package io.swagger.codegen.go;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
@@ -29,7 +29,7 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setPackageVersion(GoClientOptionsProvider.PACKAGE_VERSION_VALUE);
             times = 1;
             clientCodegen.setPackageName(GoClientOptionsProvider.PACKAGE_NAME_VALUE);
-            times = 1;                        
+            times = 1;
         }};
     }
 }
