@@ -1,54 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{{packageGuid}}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>{{packageTitle}}</RootNamespace>
-    <AssemblyName>{{packageTitle}}</AssemblyName>
-    {{^supportsUWP}}
-    <TargetFrameworkVersion>{{targetFramework}}</TargetFrameworkVersion>
-    {{/supportsUWP}}
-    {{#supportsUWP}}
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    {{/supportsUWP}}
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="**\*.cs"/>
-  </ItemGroup>
-  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{{packageGuid}}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>{{packageTitle}}</RootNamespace>
+        <AssemblyName>{{packageTitle}}</AssemblyName>
+        {{^supportsUWP}}
+            <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+        {{/supportsUWP}}
+        {{#supportsUWP}}
+            <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+            <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+            <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+            <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+        {{/supportsUWP}}
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Nancy, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Nancy.1.3.0\lib\net40\Nancy.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Nancy.Authentication.Token, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Nancy.Authentication.Token.1.3.0\lib\net40\Nancy.Authentication.Token.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Nancy.Hosting.Aspnet, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Nancy.Hosting.Aspnet.1.3.0\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Nancy.Metadata.Modules, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Nancy.Metadata.Modules.1.3.0\lib\net40\Nancy.Metadata.Modules.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Nancy.Serialization.JsonNet, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Nancy.Serialization.JsonNet.1.3.0\lib\net40\Nancy.Serialization.JsonNet.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="NodaTime, Version=1.3.0.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\NodaTime.1.3.1\lib\net35-Client\NodaTime.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Sharpility, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Sharpility.1.2.1\lib\net45\Sharpility.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\System.Collections.Immutable.1.1.37\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Xml.Linq"/>
+        <Reference Include="System.Data.DataSetExtensions"/>
+        <Reference Include="Microsoft.CSharp"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Runtime.Serialization"/>
+        <Reference Include="System.Xml"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="**\*.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="packages.config"/>
+    </ItemGroup>
+    <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
 

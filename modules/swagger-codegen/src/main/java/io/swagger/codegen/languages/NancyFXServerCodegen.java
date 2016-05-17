@@ -91,6 +91,9 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         apiPackage = packageName + ".Api";
         modelPackage = packageName + ".Models";
 
+        supportingFiles.add(new SupportingFile("ApiException.mustache", sourceFolder, "ApiException.cs"));
+        supportingFiles.add(new SupportingFile("packages.config.mustache", sourceFolder, "packages.config"));
+
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, packageName + ".csproj"));

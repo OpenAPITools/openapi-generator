@@ -1,12 +1,8 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
+using Sharpility.Extensions;
 
 {{#models}}
 {{#model}}
@@ -15,7 +11,7 @@ namespace {{packageName}}.Models
     /// <summary>
     /// {{description}}
     /// </summary>
-    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
@@ -61,12 +57,7 @@ namespace {{packageName}}.Models
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            sb.Append("class {{classname}} {\n");
-            {{#vars}}sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
-            {{/vars}}
-            sb.Append("}\n");
-            return sb.ToString();
+            return this.PropertiesToString();
         }
 
         /// <summary>
@@ -76,10 +67,7 @@ namespace {{packageName}}.Models
         /// <returns>Boolean</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals(({{classname}})obj);
+            return this.EqualsByProperties(obj);
         }
 
         /// <summary>
@@ -89,21 +77,7 @@ namespace {{packageName}}.Models
         /// <returns>Boolean</returns>
         public bool Equals({{classname}} other)
         {
-
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return {{#vars}}{{#isNotContainer}}
-                (
-                    this.{{name}} == other.{{name}} ||
-                    this.{{name}} != null &&
-                    this.{{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
-                (
-                    this.{{name}} == other.{{name}} ||
-                    this.{{name}} != null &&
-                    this.{{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}false{{/vars}};
+            return this.Equals((object) other);
         }
 
         /// <summary>
@@ -112,21 +86,10 @@ namespace {{packageName}}.Models
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
-            unchecked // Overflow is fine, just wrap
-            {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
-                {{#vars}}
-                    if (this.{{name}} != null)
-                    hash = hash * 59 + this.{{name}}.GetHashCode();
-                {{/vars}}
-                return hash;
-            }
+            return this.PropertiesHash();
         }
 
         #region Operators
-
         public static bool operator ==({{classname}} left, {{classname}} right)
         {
             return Equals(left, right);
@@ -136,9 +99,7 @@ namespace {{packageName}}.Models
         {
             return !Equals(left, right);
         }
-
         #endregion Operators
-
     }
 {{/model}}
 {{/models}}
