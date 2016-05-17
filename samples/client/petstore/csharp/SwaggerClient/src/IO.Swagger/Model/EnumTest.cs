@@ -100,14 +100,9 @@ namespace IO.Swagger.Model
         /// <param name="EnumNumber">EnumNumber.</param>
         public EnumTest(EnumStringEnum? EnumString = null, EnumIntegerEnum? EnumInteger = null, EnumNumberEnum? EnumNumber = null)
         {
-            
-            
-                        this.EnumString = EnumString;
-            
-                        this.EnumInteger = EnumInteger;
-            
-                        this.EnumNumber = EnumNumber;
-            
+            this.EnumString = EnumString;
+            this.EnumInteger = EnumInteger;
+            this.EnumNumber = EnumNumber;
         }
         
         /// <summary>
@@ -119,8 +114,8 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
             sb.Append("  EnumString: ").Append(EnumString).Append("\n");
-sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
-sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
+            sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
+            sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -41,6 +41,16 @@ namespace IO.Swagger.Test
 
         }
 
+		/// <summary>
+		/// Test creating a new instance of Order
+		/// </summary>
+		[Test ()]
+		public void TestNewOrder()
+		{
+			Order o = new Order ();
+			Assert.IsNull (o.Id);
+		}
+
         /// <summary>
         /// Test an instance of Order
         /// </summary>

@@ -5,16 +5,20 @@ using IO.Swagger.Client;
 using IO.Swagger.Api;
 using IO.Swagger.Model;
 
-namespace SwaggerClientTest.TestConfiguration
+namespace IO.Swagger.Test
 {
-	public class TestConfiguration
+	public class ConfigurationTests
 	{
-	    [TearDown ()]
-	    public void TearDown ()
-	    {
-            // Reset to default, just in case
-            Configuration.Default.DateTimeFormat = "o";
-	    }
+		public ConfigurationTests ()
+		{
+		}
+
+		[TearDown ()]
+		public void TearDown ()
+		{
+			// Reset to default, just in case
+			Configuration.Default.DateTimeFormat = "o";
+		}
 
 		[Test ()]
 		public void TestAuthentication ()
@@ -39,21 +43,21 @@ namespace SwaggerClientTest.TestConfiguration
 			Assert.AreNotSame (p.Configuration, Configuration.Default);
 		}
 
-        [Test ()]
-	    public void TestDateTimeFormat_Default ()
-	    {
-            // Should default to the Round-trip Format Specifier - "o"
-            // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
-            Assert.AreEqual("o", Configuration.Default.DateTimeFormat);
-	    }
+		[Test ()]
+		public void TestDateTimeFormat_Default ()
+		{
+			// Should default to the Round-trip Format Specifier - "o"
+			// https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+			Assert.AreEqual("o", Configuration.Default.DateTimeFormat);
+		}
 
-        [Test ()]
-        public void TestDateTimeFormat_UType()
-        {
-            Configuration.Default.DateTimeFormat = "u";
+		[Test ()]
+		public void TestDateTimeFormat_UType()
+		{
+			Configuration.Default.DateTimeFormat = "u";
 
-            Assert.AreEqual("u", Configuration.Default.DateTimeFormat);
-        }
+			Assert.AreEqual("u", Configuration.Default.DateTimeFormat);
+		}
 
 		[Test ()]
 		public void TestConstructor()
@@ -64,7 +68,7 @@ namespace SwaggerClientTest.TestConfiguration
 
 		}
 
-        [Test ()]
+		[Test ()]
 		public void TestDefautlConfiguration ()
 		{	
 			PetApi p1 = new PetApi ();
@@ -110,14 +114,16 @@ namespace SwaggerClientTest.TestConfiguration
 		[Test ()]
 		public void TestTimeout ()
 		{
-			Configuration c1 = new Configuration();
-			Assert.AreEqual(100000, c1.Timeout); // default vaue
+			Configuration c1 = new Configuration ();
+			Assert.AreEqual (100000, c1.Timeout); // default vaue
 
 			c1.Timeout = 50000;
-			Assert.AreEqual(50000, c1.Timeout);
+			Assert.AreEqual (50000, c1.Timeout);
 
-			Configuration c2 = new Configuration(timeout: 20000);
-			Assert.AreEqual(20000, c2.Timeout);
+			Configuration c2 = new Configuration (timeout: 20000);
+			Assert.AreEqual (20000, c2.Timeout);
 		}
+
 	}
 }
+
