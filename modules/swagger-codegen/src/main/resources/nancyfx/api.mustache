@@ -1,6 +1,7 @@
-using System;
-using System.IO;
 using Nancy;
+using Nancy.ModelBinding;
+using System.Collections.Generic;
+using Sharpility.Net;
 using {{packageName}}.Models;
 
 namespace {{packageName}}.Api
@@ -11,32 +12,28 @@ namespace {{packageName}}.Api
         public {{classname}}Module({{classname}}Service service) : base("")
         { {{#operation}}
             {{httpMethod}}["{{path}}"] = parameters =>
-            {
-                // existence validation of obligatory parameters
-                {{#allParams}}{{#required}}
+            { {{#allParams}}{{#required}}
                 if (parameters.{{paramName}} == null) {
                     throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
                 }
-                {{/required}}{{/allParams}}
-                {{#allParams}}{{#isBodyParam}}
-                {{&dataType}} {{paramName}} = Bind<{{&dataType}}>();
-                {{/isBodyParam}}{{#isPathParam}}{{&dataType}} {{paramName}} = parameters.{{paramName}};
-                {{/isPathParam}}{{#isHeaderParam}}{{&dataType}} {{paramName}} = parameters.{{paramName}};
-                {{/isHeaderParam}}{{#isQueryParam}}{{&dataType}} {{paramName}} = parameters.{{paramName}};
-                {{/isQueryParam}}{{/allParams}}
-                return service.{{operationId}}(
+                {{/required}}{{/allParams}}{{#allParams}}{{#isBodyParam}}
+                var {{paramName}} = this.Bind<{{&dataType}}>();
+                {{/isBodyParam}}{{^isBodyParam}}{{&dataType}} {{paramName}} = parameters.{{paramName}};
+                {{/isBodyParam}}{{/allParams}}
+                {{#returnType}}return {{/returnType}}service.{{operationId}}(
                 {{#allParams}}
                     {{paramName}}{{#hasMore}},{{/hasMore}}
                 {{/allParams}}
-                );
+                );{{^returnType}}
+                return new Response { ContentType = "{{produces.0.mediaType}}"};{{/returnType}}
             };
 {{/operation}}
         }
     }
 
-    interface {{classname}}Service
+    public interface {{classname}}Service
     { {{#operation}}
-        public {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 {{/operation}}
     }
 
