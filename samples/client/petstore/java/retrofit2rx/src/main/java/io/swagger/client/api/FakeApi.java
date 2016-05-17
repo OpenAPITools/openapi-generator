@@ -8,8 +8,8 @@ import retrofit2.http.*;
 
 import okhttp3.RequestBody;
 
-import java.util.Date;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,8 +18,8 @@ import java.util.Map;
 
 public interface FakeApi {
   /**
-   * Fake endpoint for testing various parameters
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param string None (required)

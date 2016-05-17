@@ -89,7 +89,7 @@ public class OAuth implements Interceptor {
         if (getAccessToken() != null) {
             // Build the request
             Builder rb = request.newBuilder();
-    
+
             String requestAccessToken = new String(getAccessToken());
             try {
                 oAuthRequest = new OAuthBearerClientRequest(request.urlString())
@@ -98,15 +98,15 @@ public class OAuth implements Interceptor {
             } catch (OAuthSystemException e) {
                 throw new IOException(e);
             }
-    
+
             for ( Map.Entry<String, String> header : oAuthRequest.getHeaders().entrySet() ) {
                 rb.addHeader(header.getKey(), header.getValue());
             }
             rb.url( oAuthRequest.getLocationUri());
-    
+
             //Execute the request
             Response response = chain.proceed(rb.build());
-    
+
             // 401 most likely indicates that access token has expired.
             // Time to refresh and resend the request
             if ( response != null && (response.code() == HTTP_UNAUTHORIZED | response.code() == HTTP_FORBIDDEN) ) {
