@@ -1,4 +1,8 @@
-#import <dispatch/queue.h>
+#if defined(__cplusplus)
+  #import <dispatch/dispatch.h>
+#else
+  #import <dispatch/queue.h>
+#endif
 #import <Foundation/NSDate.h>
 #import <Foundation/NSObject.h>
 #import <PromiseKit/AnyPromise.h>

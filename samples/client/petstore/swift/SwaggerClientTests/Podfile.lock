@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (3.1.5)
+  - Alamofire (3.4.0)
   - OMGHTTPURLRQ (3.1.1):
     - OMGHTTPURLRQ/RQ (= 3.1.1)
   - OMGHTTPURLRQ/FormURLEncode (3.1.1)
@@ -8,19 +8,19 @@ PODS:
     - OMGHTTPURLRQ/UserAgent
   - OMGHTTPURLRQ/UserAgent (3.1.1)
   - PetstoreClient (0.0.1):
-    - Alamofire (~> 3.1.4)
-    - PromiseKit (~> 3.0.0)
-  - PromiseKit (3.0.3):
-    - PromiseKit/Foundation (= 3.0.3)
-    - PromiseKit/QuartzCore (= 3.0.3)
-    - PromiseKit/UIKit (= 3.0.3)
-  - PromiseKit/CorePromise (3.0.3)
-  - PromiseKit/Foundation (3.0.3):
+    - Alamofire (~> 3.4.0)
+    - PromiseKit (~> 3.1.1)
+  - PromiseKit (3.1.1):
+    - PromiseKit/Foundation (= 3.1.1)
+    - PromiseKit/QuartzCore (= 3.1.1)
+    - PromiseKit/UIKit (= 3.1.1)
+  - PromiseKit/CorePromise (3.1.1)
+  - PromiseKit/Foundation (3.1.1):
     - OMGHTTPURLRQ (~> 3.1.0)
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (3.0.3):
+  - PromiseKit/QuartzCore (3.1.1):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (3.0.3):
+  - PromiseKit/UIKit (3.1.1):
     - PromiseKit/CorePromise
 
 DEPENDENCIES:
@@ -31,9 +31,11 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
+  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
-  PetstoreClient: c9a3d06cf7954479a767135676406c4922cd3c4a
-  PromiseKit: 00ec2a219bf5ad2833f95977698e921932b8dfd3
+  PetstoreClient: a029f55d8c7aa4eb54fbd5eb296264c84b770e06
+  PromiseKit: 4e8127c22a9b29d1b44958ab2ec762ea6115cbfb
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 84472aca2a88b7f7ed9fcd63e9f5fdb5ad4aab94
+
+COCOAPODS: 1.0.0
