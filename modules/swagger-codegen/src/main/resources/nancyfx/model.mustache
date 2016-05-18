@@ -30,8 +30,8 @@ namespace {{packageName}}.Models
         {
             return Builder()
             {{#vars}}
-            .{{name}}({{name}})
-            {{/vars}};
+                .{{name}}({{name}})
+{{/vars}}           ;
         }
 
         public override string ToString()
