@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (3.4.0)
+  - Alamofire (3.1.5)
   - OMGHTTPURLRQ (3.1.1):
     - OMGHTTPURLRQ/RQ (= 3.1.1)
   - OMGHTTPURLRQ/FormURLEncode (3.1.1)
@@ -8,7 +8,7 @@ PODS:
     - OMGHTTPURLRQ/UserAgent
   - OMGHTTPURLRQ/UserAgent (3.1.1)
   - PetstoreClient (0.0.1):
-    - Alamofire (~> 3.4.0)
+    - Alamofire (~> 3.1.5)
     - PromiseKit (~> 3.1.1)
   - PromiseKit (3.1.1):
     - PromiseKit/Foundation (= 3.1.1)
@@ -31,9 +31,9 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
-  PetstoreClient: a029f55d8c7aa4eb54fbd5eb296264c84b770e06
+  PetstoreClient: efd495da2b7a6f3e798752702d59f96e306dbace
   PromiseKit: 4e8127c22a9b29d1b44958ab2ec762ea6115cbfb
 
 PODFILE CHECKSUM: 84472aca2a88b7f7ed9fcd63e9f5fdb5ad4aab94
