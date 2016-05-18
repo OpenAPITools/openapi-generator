@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using Nancy;
 using Sharpility.Base;
 using Sharpility.Extensions;
@@ -15,26 +16,77 @@ namespace {{packageName}}
 
         internal static TParam QueryParam<TParam>(this Request source, string name)
         {
-            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
             return QueryParam(source, name, default(TParam), useDefault: false);
         }
 
         internal static TParam QueryParam<TParam>(this Request source, string name, TParam defaultValue)
         {
-            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
-            return QueryParam(source, name, default(TParam), useDefault: true);
+            return QueryParam(source, name, defaultValue, useDefault: true);
         }
 
-        private static TParam QueryParam<TParam>(Request request, string name, TParam defaultValue, bool useDefault)
+        internal static THeader HeaderValue<THeader>(this Request source, string name)
         {
-            var parameterType = typeof (TParam);
-            var nullable = default(TParam) == null;
-            var parser = Parsers.GetIfPresent(parameterType);
+            return HeaderValue(source, name, default(THeader), useDefault: false);
+        }
+
+        internal static THeader HeaderValue<THeader>(this Request source, string name, THeader defaultValue)
+        {
+            return HeaderValue(source, name, defaultValue, useDefault: true);
+        }
+
+        internal static TPathParam PathParam<TPathParam>(dynamic parameters, string name)
+        {
+            return PathParam(parameters, name, default(TPathParam), useDefault: false);
+        }
+
+        internal static TPathParam PathParam<TPathParam>(dynamic parameters, string name, TPathParam defaultValue)
+        {
+            return PathParam(parameters, name, defaultValue, useDefault: true);
+        }
+
+        private static TParam QueryParam<TParam>(Request source, string name, TParam defaultValue, bool useDefault)
+        {
+            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
+            var valueType = typeof(TParam);
+            var parser = Parsers.GetIfPresent(valueType);
             if (parser == null)
             {
-                return TryParseUsingDynamic(request, name, defaultValue);
+                return TryParseUsingDynamic(source.Query, name, defaultValue);
             }
-            string value = request.Query[name];
+            string value = source.Query[name];
+            return ValueOf(name, value, defaultValue, useDefault, parser);
+        }
+
+        private static THeader HeaderValue<THeader>(Request source, string name, THeader defaultValue, bool useDefault)
+        {
+            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
+            var valueType = typeof(THeader);
+            var values = source.Headers[name];
+            var parser = Parsers.GetIfPresent(valueType);
+            var value = values != null ? string.Join(",", values) : null;
+            Preconditions.IsNotNull(parser, () => new InvalidOperationException(
+                Strings.Format("Header: '{0}' value: '{1}' could not be parsed. Expected type: '{2}' is not supported",
+                name, value, valueType)));
+            return ValueOf(name, value, defaultValue, useDefault, parser);
+
+        }
+
+        private static TPathParam PathParam<TPathParam>(dynamic parameters, string name, TPathParam defaultValue, bool useDefault)
+        {
+            var valueType = typeof(TPathParam);
+            var parser = Parsers.GetIfPresent(valueType);
+            if (parser == null)
+            {
+                return TryParseUsingDynamic(parameters, name, defaultValue);
+            }
+            string value = parameters[name];
+            return ValueOf(name, value, defaultValue, useDefault, parser);
+        }
+
+        private static TValue ValueOf<TValue>(string name, string value, TValue defaultValue, bool useDefault, Func<Parameter, object> parser)
+        {
+            var valueType = typeof(TValue);
+            var nullable = default(TValue) == null;
             if (string.IsNullOrEmpty(value))
             {
                 Preconditions.Evaluate(nullable || (defaultValue != null && useDefault), () =>
@@ -44,35 +96,36 @@ namespace {{packageName}}
             var result = parser(Parameter.Of(name, value));
             try
             {
-                return (TParam) result;
+                return (TValue)result;
             }
             catch (InvalidCastException)
             {
                 throw new InvalidOperationException(Strings.Format(
                     "Unexpected result type: '{0}' for query: '{1}' expected: '{2}'",
-                    result.GetType(), name, parameterType));
+                    result.GetType(), name, valueType));
             }
         }
 
-        private static TParam TryParseUsingDynamic<TParam>(Request request, string name, TParam defaultValue)
+        private static TValue TryParseUsingDynamic<TValue>(dynamic parameters, string name, TValue defaultValue)
         {
-            string value = request.Query[name];
+            string value = parameters[name];
             try
             {
-                TParam result = request.Query[name];
+                TValue result = parameters[name];
                 return result != null ? result : defaultValue;
             }
             catch (Exception)
             {
-                throw new InvalidOperationException(Strings.Format("Query: '{0}' value: '{1}' could not be parsed. " +
+                throw new InvalidOperationException(Strings.Format("Parameter: '{0}' value: '{1}' could not be parsed. " +
                                                                   "Expected type: '{2}' is not supported",
-                                                                  name, value, typeof(TParam)));
+                                                                  name, value, typeof(TValue)));
             }
         }
 
         private static IDictionary<Type, Func<Parameter, object>> CreateParsers()
         {
             var parsers = ImmutableDictionary.CreateBuilder<Type, Func<Parameter, object>>();
+            parsers.Put(typeof(string), value => value);
             parsers.Put(typeof(bool), SafeParse(bool.Parse));
             parsers.Put(typeof(bool?), SafeParse(bool.Parse));
             parsers.Put(typeof(byte), SafeParse(byte.Parse));
@@ -99,6 +152,109 @@ namespace {{packageName}}
             parsers.Put(typeof(DateTime?), SafeParse(DateTime.Parse));
             parsers.Put(typeof(TimeSpan), SafeParse(TimeSpan.Parse));
             parsers.Put(typeof(TimeSpan?), SafeParse(TimeSpan.Parse));
+
+            parsers.Put(typeof(IEnumerable<string>), value => value);
+            parsers.Put(typeof(ICollection<string>), value => value);
+            parsers.Put(typeof(IList<string>), value => value);
+            parsers.Put(typeof(List<string>), value => value);
+            parsers.Put(typeof(ISet<string>), value => value);
+            parsers.Put(typeof(HashSet<string>), value => value);
+
+            parsers.Put(typeof(IEnumerable<bool>), ImmutableListParse(bool.Parse));
+            parsers.Put(typeof(ICollection<bool>), ImmutableListParse(bool.Parse));
+            parsers.Put(typeof(IList<bool>), ImmutableListParse(bool.Parse));
+            parsers.Put(typeof(List<bool>), ListParse(bool.Parse));
+            parsers.Put(typeof(ISet<bool>), ImmutableSetParse(bool.Parse));
+            parsers.Put(typeof(HashSet<bool>), SetParse(bool.Parse));
+
+            parsers.Put(typeof(IEnumerable<byte>), ImmutableListParse(byte.Parse));
+            parsers.Put(typeof(ICollection<byte>), ImmutableListParse(byte.Parse));
+            parsers.Put(typeof(IList<byte>), ImmutableListParse(byte.Parse));
+            parsers.Put(typeof(List<byte>), ListParse(byte.Parse));
+            parsers.Put(typeof(ISet<byte>), ImmutableSetParse(byte.Parse));
+            parsers.Put(typeof(HashSet<byte>), SetParse(byte.Parse));
+            parsers.Put(typeof(IEnumerable<sbyte>), ImmutableListParse(sbyte.Parse));
+            parsers.Put(typeof(ICollection<sbyte>), ImmutableListParse(sbyte.Parse));
+            parsers.Put(typeof(IList<sbyte>), ImmutableListParse(sbyte.Parse));
+            parsers.Put(typeof(List<sbyte>), ListParse(sbyte.Parse));
+            parsers.Put(typeof(ISet<sbyte>), ImmutableSetParse(sbyte.Parse));
+            parsers.Put(typeof(HashSet<sbyte>), SetParse(sbyte.Parse));
+
+            parsers.Put(typeof(IEnumerable<short>), ImmutableListParse(short.Parse));
+            parsers.Put(typeof(ICollection<short>), ImmutableListParse(short.Parse));
+            parsers.Put(typeof(IList<short>), ImmutableListParse(short.Parse));
+            parsers.Put(typeof(List<short>), ListParse(short.Parse));
+            parsers.Put(typeof(ISet<short>), ImmutableSetParse(short.Parse));
+            parsers.Put(typeof(HashSet<short>), SetParse(short.Parse));
+            parsers.Put(typeof(IEnumerable<ushort>), ImmutableListParse(ushort.Parse));
+            parsers.Put(typeof(ICollection<ushort>), ImmutableListParse(ushort.Parse));
+            parsers.Put(typeof(IList<ushort>), ImmutableListParse(ushort.Parse));
+            parsers.Put(typeof(List<ushort>), ListParse(ushort.Parse));
+            parsers.Put(typeof(ISet<ushort>), ImmutableSetParse(ushort.Parse));
+            parsers.Put(typeof(HashSet<ushort>), SetParse(ushort.Parse));
+
+            parsers.Put(typeof(IEnumerable<int>), ImmutableListParse(int.Parse));
+            parsers.Put(typeof(ICollection<int>), ImmutableListParse(int.Parse));
+            parsers.Put(typeof(IList<int>), ImmutableListParse(int.Parse));
+            parsers.Put(typeof(List<int>), ListParse(int.Parse));
+            parsers.Put(typeof(ISet<int>), ImmutableSetParse(int.Parse));
+            parsers.Put(typeof(HashSet<int>), SetParse(int.Parse));
+            parsers.Put(typeof(IEnumerable<uint>), ImmutableListParse(uint.Parse));
+            parsers.Put(typeof(ICollection<uint>), ImmutableListParse(uint.Parse));
+            parsers.Put(typeof(IList<uint>), ImmutableListParse(uint.Parse));
+            parsers.Put(typeof(List<uint>), ListParse(uint.Parse));
+            parsers.Put(typeof(ISet<uint>), ImmutableSetParse(uint.Parse));
+            parsers.Put(typeof(HashSet<uint>), SetParse(uint.Parse));
+
+            parsers.Put(typeof(IEnumerable<long>), ImmutableListParse(long.Parse));
+            parsers.Put(typeof(ICollection<long>), ImmutableListParse(long.Parse));
+            parsers.Put(typeof(IList<long>), ImmutableListParse(long.Parse));
+            parsers.Put(typeof(List<long>), ListParse(long.Parse));
+            parsers.Put(typeof(ISet<long>), ImmutableSetParse(long.Parse));
+            parsers.Put(typeof(HashSet<long>), SetParse(long.Parse));
+            parsers.Put(typeof(IEnumerable<ulong>), ImmutableListParse(ulong.Parse));
+            parsers.Put(typeof(ICollection<ulong>), ImmutableListParse(ulong.Parse));
+            parsers.Put(typeof(IList<ulong>), ImmutableListParse(ulong.Parse));
+            parsers.Put(typeof(List<ulong>), ListParse(ulong.Parse));
+            parsers.Put(typeof(ISet<ulong>), ImmutableSetParse(ulong.Parse));
+            parsers.Put(typeof(HashSet<ulong>), SetParse(ulong.Parse));
+
+            parsers.Put(typeof(IEnumerable<float>), ImmutableListParse(float.Parse));
+            parsers.Put(typeof(ICollection<float>), ImmutableListParse(float.Parse));
+            parsers.Put(typeof(IList<float>), ImmutableListParse(float.Parse));
+            parsers.Put(typeof(List<float>), ListParse(float.Parse));
+            parsers.Put(typeof(ISet<float>), ImmutableSetParse(float.Parse));
+            parsers.Put(typeof(HashSet<float>), SetParse(float.Parse));
+
+            parsers.Put(typeof(IEnumerable<double>), ImmutableListParse(double.Parse));
+            parsers.Put(typeof(ICollection<double>), ImmutableListParse(double.Parse));
+            parsers.Put(typeof(IList<double>), ImmutableListParse(double.Parse));
+            parsers.Put(typeof(List<double>), ListParse(double.Parse));
+            parsers.Put(typeof(ISet<double>), ImmutableSetParse(double.Parse));
+            parsers.Put(typeof(HashSet<double>), SetParse(double.Parse));
+
+            parsers.Put(typeof(IEnumerable<decimal>), ImmutableListParse(decimal.Parse));
+            parsers.Put(typeof(ICollection<decimal>), ImmutableListParse(decimal.Parse));
+            parsers.Put(typeof(IList<decimal>), ImmutableListParse(decimal.Parse));
+            parsers.Put(typeof(List<decimal>), ListParse(decimal.Parse));
+            parsers.Put(typeof(ISet<decimal>), ImmutableSetParse(decimal.Parse));
+            parsers.Put(typeof(HashSet<decimal>), SetParse(decimal.Parse));
+
+
+            parsers.Put(typeof(IEnumerable<DateTime>), ImmutableListParse(DateTime.Parse));
+            parsers.Put(typeof(ICollection<DateTime>), ImmutableListParse(DateTime.Parse));
+            parsers.Put(typeof(IList<DateTime>), ImmutableListParse(DateTime.Parse));
+            parsers.Put(typeof(List<DateTime>), ListParse(DateTime.Parse));
+            parsers.Put(typeof(ISet<DateTime>), ImmutableSetParse(DateTime.Parse));
+            parsers.Put(typeof(HashSet<DateTime>), SetParse(DateTime.Parse));
+
+            parsers.Put(typeof(IEnumerable<TimeSpan>), ImmutableListParse(TimeSpan.Parse));
+            parsers.Put(typeof(ICollection<TimeSpan>), ImmutableListParse(TimeSpan.Parse));
+            parsers.Put(typeof(IList<TimeSpan>), ImmutableListParse(TimeSpan.Parse));
+            parsers.Put(typeof(List<TimeSpan>), ListParse(TimeSpan.Parse));
+            parsers.Put(typeof(ISet<TimeSpan>), ImmutableSetParse(TimeSpan.Parse));
+            parsers.Put(typeof(HashSet<TimeSpan>), SetParse(TimeSpan.Parse));
+
             return parsers.ToImmutableDictionary();
         }
 
@@ -118,6 +274,74 @@ namespace {{packageName}}
                 {
                     throw InvalidParameterFormat(parameter, typeof (short));
                 }
+            };
+        }
+
+        private static Func<Parameter, object> ListParse<T>(Func<string, T> itemParser)
+        {
+            return parameter =>
+            {
+                if (string.IsNullOrEmpty(parameter.Value))
+                {
+                    return new List<T>();
+                }
+                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                    .Where(it => it != null)
+                    .Select(it => it.Trim())
+                    .Select(itemParser)
+                    .ToList();
+                return results;
+            };
+        }
+
+        private static Func<Parameter, object> ImmutableListParse<T>(Func<string, T> itemParser)
+        {
+            return parameter =>
+            {
+                if (string.IsNullOrEmpty(parameter.Value))
+                {
+                    return Lists.EmptyList<T>();
+                }
+                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                    .Where(it => it != null)
+                    .Select(it => it.Trim())
+                    .Select(itemParser)
+                    .ToImmutableList();
+                return results;
+            };
+        }
+
+        private static Func<Parameter, object> SetParse<T>(Func<string, T> itemParser)
+        {
+            return parameter =>
+            {
+                if (string.IsNullOrEmpty(parameter.Value))
+                {
+                    return new HashSet<T>();
+                }
+                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                    .Where(it => it != null)
+                    .Select(it => it.Trim())
+                    .Select(itemParser)
+                    .ToSet();
+                return results;
+            };
+        }
+
+        private static Func<Parameter, object> ImmutableSetParse<T>(Func<string, T> itemParser)
+        {
+            return parameter =>
+            {
+                if (string.IsNullOrEmpty(parameter.Value))
+                {
+                    return Sets.EmptySet<T>();
+                }
+                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                    .Where(it => it != null)
+                    .Select(it => it.Trim())
+                    .Select(itemParser)
+                    .ToImmutableHashSet();
+                return results;
             };
         }
 
