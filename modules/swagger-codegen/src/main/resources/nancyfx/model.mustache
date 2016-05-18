@@ -8,88 +8,43 @@ using Sharpility.Extensions;
 {{#model}}
 namespace {{packageName}}.Models
 {
-    /// <summary>
-    /// {{description}}
-    /// </summary>
     public class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
-        /// </summary>
-{{#vars}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
-{{/vars}}
-        public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
-        {
-            {{#vars}}{{#required}}// to ensure "{{name}}" is required (not null)
-            if ({{name}} == null)
-            {
-                throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
-            }
-            else
-            {
-                this.{{name}} = {{name}};
-            }
-            {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
-            if ({{name}} == null)
-            {
-                this.{{name}} = {{{defaultValue}}};
-            }
-            else
-            {
-                this.{{name}} = {{name}};
-            }
-            {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
-            {{/defaultValue}}{{/required}}{{/vars}}
-        }
-
         {{#vars}}
-        /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
-        /// </summary>{{#description}}
-        /// <value>{{{description}}}</value>{{/description}}
-        public {{{datatype}}} {{name}} { get; set; }
-
+        public {{{datatype}}} {{name}} { get; private set; }
         {{/vars}}
 
-        /// <summary>
-        /// Returns the string presentation of the object
-        /// </summary>
-        /// <returns>String presentation of the object</returns>
+        public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
+        {
+            {{#vars}}
+            this.{{name}} = {{name}};
+            {{/vars}}
+        }
+
+        public static {{classname}}Builder Builder() {
+            return new {{classname}}Builder();
+        }
+
         public override string ToString()
         {
             return this.PropertiesToString();
         }
 
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="obj">Object to be compared</param>
-        /// <returns>Boolean</returns>
         public override bool Equals(object obj)
         {
             return this.EqualsByProperties(obj);
         }
 
-        /// <summary>
-        /// Returns true if {{classname}} instances are equal
-        /// </summary>
-        /// <param name="other">Instance of {{classname}} to be compared</param>
-        /// <returns>Boolean</returns>
         public bool Equals({{classname}} other)
         {
             return this.Equals((object) other);
         }
 
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
             return this.PropertiesHash();
         }
 
-        #region Operators
         public static bool operator ==({{classname}} left, {{classname}} right)
         {
             return Equals(left, right);
@@ -99,7 +54,58 @@ namespace {{packageName}}.Models
         {
             return !Equals(left, right);
         }
-        #endregion Operators
+
+        public sealed class {{classname}}Builder
+        {
+            {{#vars}}
+            private {{{datatype}}} _{{name}};
+            {{/vars}}
+
+            internal {{classname}}Builder()
+            {
+                SetupDefaults();
+            }
+
+            private void SetupDefaults()
+            {
+                {{#vars}}
+                {{^required}}
+                {{#defaultValue}}
+                _{{name}} = {{{defaultValue}}};
+                {{/defaultValue}}
+                {{/^required}}
+                {{/vars}}
+            }
+
+            {{#vars}}
+            public {{classname}}Builder {{name}}({{{datatype}}} value)
+            {
+                _{{name}} = value;
+                return this;
+            }
+
+            {{/vars}}
+
+            public {{classname}} Build()
+            {
+                Validate();
+                return new {{classname}}(
+                    {{#vars}}
+                    {{name}}: _{{name}}{{#hasMore}},{{/hasMore}}
+                    {{/vars}}
+                );
+            }
+
+            private void Validate()
+            {
+                {{#vars}}{{#required}}
+                if ({{name}} == null)
+                {
+                    throw new ArgumentException("{{name}} is a required property for {{classname}} and cannot be null");
+                }
+                {{/required}}{{/vars}}
+            }
+        }
     }
 {{/model}}
 {{/models}}
