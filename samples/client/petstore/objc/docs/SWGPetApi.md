@@ -34,23 +34,15 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
 SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // Add a new pet to the store
-    [apiInstance addPetWithBody:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->addPet: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Add a new pet to the store
+[apiInstance addPetWithBody:body
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->addPet: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -96,24 +88,16 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 NSNumber* petId = @789; // Pet id to delete
 NSString* apiKey = @"apiKey_example"; //  (optional)
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // Deletes a pet
-    [apiInstance deletePetWithPetId:petId
-                  apiKey:apiKey
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->deletePet: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Deletes a pet
+[apiInstance deletePetWithPetId:petId
+              apiKey:apiKey
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->deletePet: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -158,26 +142,18 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
 NSArray<NSString*>* status = @[@"available"]; // Status values that need to be considered for filter (optional) (default to available)
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // Finds Pets by status
-    [apiInstance findPetsByStatusWithStatus:status
-              completionHandler: ^(NSArray<SWGPet>* output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->findPetsByStatus: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Finds Pets by status
+[apiInstance findPetsByStatusWithStatus:status
+          completionHandler: ^(NSArray<SWGPet>* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->findPetsByStatus: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -221,26 +197,18 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
 NSArray<NSString*>* tags = @[@"tags_example"]; // Tags to filter by (optional)
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // Finds Pets by tags
-    [apiInstance findPetsByTagsWithTags:tags
-              completionHandler: ^(NSArray<SWGPet>* output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->findPetsByTags: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Finds Pets by tags
+[apiInstance findPetsByTagsWithTags:tags
+          completionHandler: ^(NSArray<SWGPet>* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->findPetsByTags: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -278,37 +246,29 @@ Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error cond
 ```objc
 SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
-// Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
-[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
+// Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
 
 NSNumber* petId = @789; // ID of pet that needs to be fetched
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // Find pet by ID
-    [apiInstance getPetByIdWithPetId:petId
-              completionHandler: ^(SWGPet* output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->getPetById: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Find pet by ID
+[apiInstance getPetByIdWithPetId:petId
+          completionHandler: ^(SWGPet* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->getPetById: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -323,7 +283,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -352,23 +312,15 @@ SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
 
 SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // Update an existing pet
-    [apiInstance updatePetWithBody:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->updatePet: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Update an existing pet
+[apiInstance updatePetWithBody:body
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->updatePet: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -416,25 +368,17 @@ NSString* petId = @"petId_example"; // ID of pet that needs to be updated
 NSString* name = @"name_example"; // Updated name of the pet (optional)
 NSString* status = @"status_example"; // Updated status of the pet (optional)
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // Updates a pet in the store with form data
-    [apiInstance updatePetWithFormWithPetId:petId
-                  name:name
-                  status:status
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->updatePetWithForm: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Updates a pet in the store with form data
+[apiInstance updatePetWithFormWithPetId:petId
+              name:name
+              status:status
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->updatePetWithForm: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -484,25 +428,17 @@ NSNumber* petId = @789; // ID of pet to update
 NSString* additionalMetadata = @"additionalMetadata_example"; // Additional data to pass to server (optional)
 NSURL* file = [NSURL fileURLWithPath:@"/path/to/file.txt"]; // file to upload (optional)
 
-@try
-{ 
-    SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
+SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
-    // uploads an image
-    [apiInstance uploadFileWithPetId:petId
-                  additionalMetadata:additionalMetadata
-                  file:file
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGPetApi->uploadFile: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// uploads an image
+[apiInstance uploadFileWithPetId:petId
+              additionalMetadata:additionalMetadata
+              file:file
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGPetApi->uploadFile: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
