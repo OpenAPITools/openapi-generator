@@ -48,8 +48,8 @@ class FakeApi(object):
 
     def test_endpoint_parameters(self, number, double, string, byte, **kwargs):
         """
-        Fake endpoint for testing various parameters
-        Fake endpoint for testing various parameters
+        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+        Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
