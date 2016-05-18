@@ -28,8 +28,9 @@ private func _when<T>(promises: [Promise<T>]) -> Promise<Void> {
                     }
                 case .Fulfilled:
                     guard rootPromise.pending else { return }
-                    progress.completedUnitCount++
-                    if --countdown == 0 {
+                    progress.completedUnitCount += 1
+                    countdown -= 1
+                    if countdown == 0 {
                         fulfill()
                     }
                 }
