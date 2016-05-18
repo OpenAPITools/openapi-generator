@@ -8,7 +8,7 @@ using Sharpility.Extensions;
 {{#model}}
 namespace {{packageName}}.Models
 {
-    public class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
         {{#vars}}
         public {{{datatype}}} {{name}} { get; private set; }
@@ -21,8 +21,17 @@ namespace {{packageName}}.Models
             {{/vars}}
         }
 
-        public static {{classname}}Builder Builder() {
+        public static {{classname}}Builder Builder()
+        {
             return new {{classname}}Builder();
+        }
+
+        public {{classname}}Builder With()
+        {
+            return Builder()
+            {{#vars}}
+            .{{name}}({{name}})
+            {{/vars}};
         }
 
         public override string ToString()
