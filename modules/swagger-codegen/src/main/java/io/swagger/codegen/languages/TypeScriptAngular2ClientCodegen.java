@@ -139,7 +139,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-         parameter.dataType = addModelPrefix(parameter.dataType);
+        parameter.dataType = addModelPrefix(parameter.dataType);
     }
 
     public String getNpmName() {
