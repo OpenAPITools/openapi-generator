@@ -29,23 +29,15 @@ This can only be done by the logged in user.
 
 SWGUser* body = [[SWGUser alloc] init]; // Created user object (optional)
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Create user
-    [apiInstance createUserWithBody:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->createUser: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Create user
+[apiInstance createUserWithBody:body
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->createUser: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -84,23 +76,15 @@ Creates list of users with given input array
 
 NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object (optional)
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Creates list of users with given input array
-    [apiInstance createUsersWithArrayInputWithBody:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->createUsersWithArrayInput: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Creates list of users with given input array
+[apiInstance createUsersWithArrayInputWithBody:body
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->createUsersWithArrayInput: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -139,23 +123,15 @@ Creates list of users with given input array
 
 NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object (optional)
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Creates list of users with given input array
-    [apiInstance createUsersWithListInputWithBody:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->createUsersWithListInput: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Creates list of users with given input array
+[apiInstance createUsersWithListInputWithBody:body
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->createUsersWithListInput: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -194,23 +170,15 @@ This can only be done by the logged in user.
 
 NSString* username = @"username_example"; // The name that needs to be deleted
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Delete user
-    [apiInstance deleteUserWithUsername:username
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->deleteUser: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Delete user
+[apiInstance deleteUserWithUsername:username
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->deleteUser: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -249,26 +217,18 @@ Get user by user name
 
 NSString* username = @"username_example"; // The name that needs to be fetched. Use user1 for testing. 
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Get user by user name
-    [apiInstance getUserByNameWithUsername:username
-              completionHandler: ^(SWGUser* output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->getUserByName: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Get user by user name
+[apiInstance getUserByNameWithUsername:username
+          completionHandler: ^(SWGUser* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->getUserByName: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -309,27 +269,19 @@ Logs user into the system
 NSString* username = @"username_example"; // The user name for login (optional)
 NSString* password = @"password_example"; // The password for login in clear text (optional)
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Logs user into the system
-    [apiInstance loginUserWithUsername:username
-                  password:password
-              completionHandler: ^(NSString* output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->loginUser: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Logs user into the system
+[apiInstance loginUserWithUsername:username
+              password:password
+          completionHandler: ^(NSString* output, NSError* error) {
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->loginUser: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -368,23 +320,15 @@ Logs out current logged in user session
 ```objc
 
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Logs out current logged in user session
-    [apiInstance logoutUserWithCompletionHandler: 
-              ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->logoutUser: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Logs out current logged in user session
+[apiInstance logoutUserWithCompletionHandler: 
+          ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->logoutUser: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -422,24 +366,16 @@ This can only be done by the logged in user.
 NSString* username = @"username_example"; // name that need to be deleted
 SWGUser* body = [[SWGUser alloc] init]; // Updated user object (optional)
 
-@try
-{ 
-    SWGUserApi *apiInstance = [[SWGUserApi alloc] init];
+SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
-    // Updated user
-    [apiInstance updateUserWithUsername:username
-                  body:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling SWGUserApi->updateUser: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+// Updated user
+[apiInstance updateUserWithUsername:username
+              body:body
+          completionHandler: ^(NSError* error) {
+                        if (error) {
+                            NSLog(@"Error calling SWGUserApi->updateUser: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
