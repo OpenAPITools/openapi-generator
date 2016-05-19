@@ -84,8 +84,8 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     public void processOpts() {
         super.processOpts();
 
-        apiPackage = packageName + ".Api";
-        modelPackage = packageName + ".Models";
+        apiPackage = packageName + ".Module";
+        modelPackage = packageName + ".Model";
 
         supportingFiles.add(new SupportingFile("ApiException.mustache", sourceFolder(), "ApiException.cs"));
         supportingFiles.add(new SupportingFile("RequestExtensions.mustache", sourceFolder(), "RequestExtensions.cs"));
@@ -104,12 +104,12 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder() + File.separator + "Api";
+        return outputFolder + File.separator + sourceFolder() + File.separator + "Module";
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder() + File.separator + "Models";
+        return outputFolder + File.separator + sourceFolder() + File.separator + "Model";
     }
 
     @Override
@@ -127,5 +127,23 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
         // Converts, for example, PUT to HttpPut for controller attributes
         operation.httpMethod = operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase();
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        String enumName = sanitizeName(name);
+
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        enumName = camelize(enumName);
+
+        LOGGER.info("toEnumVarName = " + enumName);
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
     }
 }

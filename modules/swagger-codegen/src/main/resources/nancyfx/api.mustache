@@ -2,10 +2,13 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Net;
-using {{packageName}}.Models;
+using {{packageName}}.Model;
 
-namespace {{packageName}}.Api
+namespace {{packageName}}.Module
 { {{#operations}}
+    {{#operation}}{{#allParams}}{{#isEnum}}
+    {{>innerEnum}}
+    {{/isEnum}}{{/allParams}}{{/operation}}
 
     public sealed class {{classname}}Module : NancyModule
     {
