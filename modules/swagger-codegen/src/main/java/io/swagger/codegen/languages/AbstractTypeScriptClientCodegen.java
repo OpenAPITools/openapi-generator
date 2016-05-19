@@ -48,7 +48,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Date",
                 "number",
                 "any"
-                                                                      ));
+        ));
         instantiationTypes.put("array", "Array");
 
         typeMapping = new HashMap<String, String>();
@@ -115,24 +115,24 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	}
 
 	@Override
-	public String toParamName(String name) {
-		// replace - with _ e.g. created-at => created_at
-		name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        public String toParamName(String name) {
+            // replace - with _ e.g. created-at => created_at
+            name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-		// if it's all uppper case, do nothing
-		if (name.matches("^[A-Z_]*$"))
-			return name;
+            // if it's all uppper case, do nothing
+            if (name.matches("^[A-Z_]*$"))
+                return name;
 
-		// camelize the variable name
-	        // pet_id => petId
-		name = camelize(name, true);
+            // camelize the variable name
+            // pet_id => petId
+            name = camelize(name, true);
 
-		// for reserved word or word starting with number, append _
-		if (isReservedWord(name) || name.matches("^\\d.*"))
-			name = escapeReservedWord(name);
+            // for reserved word or word starting with number, append _
+            if (isReservedWord(name) || name.matches("^\\d.*"))
+                name = escapeReservedWord(name);
 
-		return name;
-	}
+            return name;
+        }
 
 	@Override
 	public String toVarName(String name) {
@@ -141,70 +141,70 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	}
 
 	@Override
-	public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        public String toModelName(String name) {
+            name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+            if (!StringUtils.isEmpty(modelNamePrefix)) {
+                name = modelNamePrefix + "_" + name;
+            }
+
+            if (!StringUtils.isEmpty(modelNameSuffix)) {
+                name = name + "_" + modelNameSuffix;
+            }
+
+            // model name cannot use reserved keyword, e.g. return
+            if (isReservedWord(name)) {
+                String modelName = camelize("model_" + name);
+                LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+                return modelName;
+            }
+
+            // model name starts with number
+            if (name.matches("^\\d.*")) {
+                String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+                LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+                return modelName;
+            }
+
+            // camelize the model name
+            // phone_number => PhoneNumber
+            return camelize(name);
         }
 
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
+    @Override
+    public String toModelFilename(String name) {
+        // should be the same as the model name
+        return toModelName(name);
+    }
+
+    @Override
+    public String getTypeDeclaration(Property p) {
+        if (p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            Property inner = ap.getItems();
+            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (p instanceof MapProperty) {
+            MapProperty mp = (MapProperty) p;
+            Property inner = mp.getAdditionalProperties();
+            return "{ [key: string]: "+ getTypeDeclaration(inner) + "; }";
+        } else if (p instanceof FileProperty) {
+            return "any";
         }
+        return super.getTypeDeclaration(p);
+    }
 
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String modelName = camelize("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-		// camelize the model name
-		// phone_number => PhoneNumber
-		return camelize(name);
-	}
-
-	@Override
-	public String toModelFilename(String name) {
-		// should be the same as the model name
-		return toModelName(name);
-	}
-
-	@Override
-	public String getTypeDeclaration(Property p) {
-		if (p instanceof ArrayProperty) {
-			ArrayProperty ap = (ArrayProperty) p;
-			Property inner = ap.getItems();
-			return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-		} else if (p instanceof MapProperty) {
-			MapProperty mp = (MapProperty) p;
-			Property inner = mp.getAdditionalProperties();
-			return "{ [key: string]: "+ getTypeDeclaration(inner) + "; }";
-		} else if (p instanceof FileProperty) {
-			return "any";
-		}
-		return super.getTypeDeclaration(p);
-	}
-
-	@Override
-	public String getSwaggerType(Property p) {
-		String swaggerType = super.getSwaggerType(p);
-		String type = null;
-		if (typeMapping.containsKey(swaggerType)) {
-			type = typeMapping.get(swaggerType);
-			if (languageSpecificPrimitives.contains(type))
-				return type;
-		} else
-			type = swaggerType;
-		return toModelName(type);
-	}
+    @Override
+    public String getSwaggerType(Property p) {
+        String swaggerType = super.getSwaggerType(p);
+        String type = null;
+        if (typeMapping.containsKey(swaggerType)) {
+            type = typeMapping.get(swaggerType);
+            if (languageSpecificPrimitives.contains(type))
+                return type;
+        } else
+            type = swaggerType;
+        return toModelName(type);
+    }
 
     @Override
     public String toOperationId(String operationId) {
@@ -228,8 +228,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             this.modelPropertyNaming = naming;
         } else {
             throw new IllegalArgumentException("Invalid model property naming '" +
-              naming + "'. Must be 'original', 'camelCase', " +
-              "'PascalCase' or 'snake_case'");
+                                               naming + "'. Must be 'original', 'camelCase', " +
+                                               "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -244,8 +244,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case PascalCase:  return camelize(name);
             case snake_case:  return underscore(name);
             default:            throw new IllegalArgumentException("Invalid model property naming '" +
-                                    name + "'. Must be 'original', 'camelCase', " +
-                                    "'PascalCase' or 'snake_case'");
+                                                                   name + "'. Must be 'original', 'camelCase', " +
+                                                                   "'PascalCase' or 'snake_case'");
         }
 
     }
