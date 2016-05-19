@@ -1,7 +1,13 @@
 package io.swagger.codegen;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import io.swagger.models.ExternalDocs;
-import java.util.*;
+
 
 public class CodegenModel {
     public String parent, parentSchema;
@@ -31,6 +37,9 @@ public class CodegenModel {
     public ExternalDocs externalDocs;
 
     public Map<String, Object> vendorExtensions;
+
+    //The type of the value from additional properties. Used in map like objects.
+    public String additionalPropertiesType;
 
     {
         // By default these are the same collections. Where the code generator supports inheritance, composed models

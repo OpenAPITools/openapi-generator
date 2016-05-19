@@ -199,6 +199,9 @@
             </plugin>
         </plugins>
     </reporting>
+    <properties>
+        <diffutils-version>1.2.1</diffutils-version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.swagger</groupId>
@@ -279,6 +282,13 @@
 <!--             <version>${jmockit-version}</version> -->
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.java-diff-utils</groupId>
+            <artifactId>diffutils</artifactId>
+            <version>${diffutils-version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     <repositories>
         <repository>

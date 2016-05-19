@@ -1,7 +1,7 @@
 {
-  "name": "{{npmName}}",
-  "version": "{{npmVersion}}",
-  "description": "swagger client for {{npmName}}",
+  "name": "additionalPropertiesTest",
+  "version": "1.0.2",
+  "description": "swagger client for additionalPropertiesTest",
   "author": "Swagger Codegen Contributors",
   "keywords": [
     "swagger-client"
@@ -33,9 +33,4 @@
     "typings": "^0.8.1",
     "es6-shim": "^0.35.0",
     "es7-reflect-metadata": "^1.6.0"
-  }{{#npmRepository}},
-  "publishConfig":{
-    "registry":"{{npmRepository}}"
-  }
-{{/npmRepository}}
-}
+  }}

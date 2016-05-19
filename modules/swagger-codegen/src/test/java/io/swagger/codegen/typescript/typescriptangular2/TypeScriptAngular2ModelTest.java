@@ -1,4 +1,4 @@
-package io.swagger.codegen.typescriptangular2;
+package io.swagger.codegen.typescript.typescriptangular2;
 
 import com.google.common.collect.Sets;
 
@@ -178,6 +178,7 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(cm.additionalPropertiesType, "models.Children");
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("models.Children")).size(), 1);
     }
 }
