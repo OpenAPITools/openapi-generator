@@ -12,6 +12,7 @@
     },
     "files": [
         "api.ts",
+        "client.ts",
         "typings/main.d.ts"
     ]
 }

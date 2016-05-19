@@ -1,3 +1,4 @@
+"use strict";
 var request = require('request');
 var promise = require('bluebird');
 var defaultBasePath = 'http://petstore.swagger.io/v2';
@@ -5,13 +6,13 @@ var Category = (function () {
     function Category() {
     }
     return Category;
-})();
+}());
 exports.Category = Category;
 var Order = (function () {
     function Order() {
     }
     return Order;
-})();
+}());
 exports.Order = Order;
 var Order;
 (function (Order) {
@@ -26,7 +27,7 @@ var Pet = (function () {
     function Pet() {
     }
     return Pet;
-})();
+}());
 exports.Pet = Pet;
 var Pet;
 (function (Pet) {
@@ -41,13 +42,13 @@ var Tag = (function () {
     function Tag() {
     }
     return Tag;
-})();
+}());
 exports.Tag = Tag;
 var User = (function () {
     function User() {
     }
     return User;
-})();
+}());
 exports.User = User;
 var HttpBasicAuth = (function () {
     function HttpBasicAuth() {
@@ -58,7 +59,7 @@ var HttpBasicAuth = (function () {
         };
     };
     return HttpBasicAuth;
-})();
+}());
 exports.HttpBasicAuth = HttpBasicAuth;
 var ApiKeyAuth = (function () {
     function ApiKeyAuth(location, paramName) {
@@ -74,7 +75,7 @@ var ApiKeyAuth = (function () {
         }
     };
     return ApiKeyAuth;
-})();
+}());
 exports.ApiKeyAuth = ApiKeyAuth;
 var OAuth = (function () {
     function OAuth() {
@@ -83,7 +84,7 @@ var OAuth = (function () {
         requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
     };
     return OAuth;
-})();
+}());
 exports.OAuth = OAuth;
 var VoidAuth = (function () {
     function VoidAuth() {
@@ -91,7 +92,7 @@ var VoidAuth = (function () {
     VoidAuth.prototype.applyToRequest = function (requestOptions) {
     };
     return VoidAuth;
-})();
+}());
 exports.VoidAuth = VoidAuth;
 (function (PetApiApiKeys) {
     PetApiApiKeys[PetApiApiKeys["api_key"] = 0] = "api_key";
@@ -103,8 +104,8 @@ var PetApi = (function () {
         this.defaultHeaders = {};
         this.authentications = {
             'default': new VoidAuth(),
-            'api_key': new ApiKeyAuth('header', 'api_key'),
             'petstore_auth': new OAuth(),
+            'api_key': new ApiKeyAuth('header', 'api_key'),
         };
         if (password) {
             if (basePath) {
@@ -321,8 +322,8 @@ var PetApi = (function () {
             uri: localVarPath,
             json: true,
         };
-        this.authentications.api_key.applyToRequest(requestOptions);
         this.authentications.petstore_auth.applyToRequest(requestOptions);
+        this.authentications.api_key.applyToRequest(requestOptions);
         this.authentications.default.applyToRequest(requestOptions);
         if (Object.keys(formParams).length) {
             if (useFormData) {
@@ -487,7 +488,7 @@ var PetApi = (function () {
         return localVarDeferred.promise;
     };
     return PetApi;
-})();
+}());
 exports.PetApi = PetApi;
 (function (StoreApiApiKeys) {
     StoreApiApiKeys[StoreApiApiKeys["api_key"] = 0] = "api_key";
@@ -499,8 +500,8 @@ var StoreApi = (function () {
         this.defaultHeaders = {};
         this.authentications = {
             'default': new VoidAuth(),
-            'api_key': new ApiKeyAuth('header', 'api_key'),
             'petstore_auth': new OAuth(),
+            'api_key': new ApiKeyAuth('header', 'api_key'),
         };
         if (password) {
             if (basePath) {
@@ -694,7 +695,7 @@ var StoreApi = (function () {
         return localVarDeferred.promise;
     };
     return StoreApi;
-})();
+}());
 exports.StoreApi = StoreApi;
 (function (UserApiApiKeys) {
     UserApiApiKeys[UserApiApiKeys["api_key"] = 0] = "api_key";
@@ -706,8 +707,8 @@ var UserApi = (function () {
         this.defaultHeaders = {};
         this.authentications = {
             'default': new VoidAuth(),
-            'api_key': new ApiKeyAuth('header', 'api_key'),
             'petstore_auth': new OAuth(),
+            'api_key': new ApiKeyAuth('header', 'api_key'),
         };
         if (password) {
             if (basePath) {
@@ -1065,6 +1066,6 @@ var UserApi = (function () {
         return localVarDeferred.promise;
     };
     return UserApi;
-})();
+}());
 exports.UserApi = UserApi;
 //# sourceMappingURL=api.js.map
