@@ -6,11 +6,13 @@ using Sharpility.Extensions;
 
 {{#models}}
 {{#model}}
-namespace {{packageName}}.Models
+namespace {{packageName}}.Model
 {
     public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
-        {{#vars}}
+        {{#vars}}{{#isEnum}}
+        {{>innerEnum}}
+        {{/isEnum}}{{/vars}}{{#vars}}
         public {{{datatype}}} {{name}} { get; private set; }
         {{/vars}}
 
@@ -64,6 +66,9 @@ namespace {{packageName}}.Models
             return !Equals(left, right);
         }
 
+        /// <summary>
+        /// Builder of {{classname}} model
+        /// </summary>
         public sealed class {{classname}}Builder
         {
             {{#vars}}
