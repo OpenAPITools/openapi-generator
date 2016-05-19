@@ -94,6 +94,7 @@ public class DefaultCodegen {
     protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
+    protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
@@ -439,6 +440,14 @@ public class DefaultCodegen {
         } else {
             return templateDir;
         }
+    }
+
+    public String getCommonTemplateDir() {
+        return this.commonTemplateDir;
+    }
+
+    public void setCommonTemplateDir(String commonTemplateDir) {
+        this.commonTemplateDir = commonTemplateDir;
     }
 
     public Map<String, String> apiDocTemplateFiles() {
