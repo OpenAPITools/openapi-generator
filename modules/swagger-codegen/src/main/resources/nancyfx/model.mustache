@@ -13,10 +13,10 @@ namespace {{packageName}}.Model
         {{#vars}}{{#isEnum}}
         {{>innerEnum}}
         {{/isEnum}}{{/vars}}{{#vars}}
-        public {{{datatype}}} {{name}} { get; private set; }
+        public {{>nullableDataType}} {{name}} { get; private set; }
         {{/vars}}
 
-        public {{classname}}({{#vars}}{{{datatype}}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
+        public {{classname}}({{#vars}}{{>nullableDataType}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
             {{#vars}}
             this.{{name}} = {{name}};
@@ -72,7 +72,7 @@ namespace {{packageName}}.Model
         public sealed class {{classname}}Builder
         {
             {{#vars}}
-            private {{{datatype}}} _{{name}};
+            private {{>nullableDataType}} _{{name}};
             {{/vars}}
 
             internal {{classname}}Builder()
@@ -92,7 +92,7 @@ namespace {{packageName}}.Model
             }
 
             {{#vars}}
-            public {{classname}}Builder {{name}}({{{datatype}}} value)
+            public {{classname}}Builder {{name}}({{>nullableDataType}} value)
             {
                 _{{name}} = value;
                 return this;

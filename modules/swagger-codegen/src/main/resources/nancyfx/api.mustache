@@ -36,7 +36,7 @@ namespace {{packageName}}.Module
 
     public interface {{classname}}Service
     { {{#operation}}
-        {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{&dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 {{/operation}}
     }
 
