@@ -386,6 +386,26 @@ To control the specific files being generated, you can pass a CSV list of what y
 -Dmodels=User -DsupportingFiles=StringUtil.java
 ```
 
+To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `-DapiTest=false` and `-DapiDocs=false`. For models, `-DmodelTest=false` and `-DmodelDocs=false`.
+These options default to true and don't limit the generation of the feature options listed above (like `-Dapi`):
+
+```
+# generate only models (with tests and documentation)
+java -Dmodels {opts}
+
+# generate only models (with tests but no documentation)
+java -Dmodels -DmodelDocs=false {opts}
+
+# generate only User and Pet models (no tests and no documentation)
+java -Dmodels=User,Pet -DmodelTests=false {opts}
+
+# generate only apis (without tests)
+java -Dapis -DapiTests=false {opts}
+
+# generate only apis (modelTests option is ignored)
+java -Dapis -DmodelTests=false {opts}
+```
+
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
 ### Customizing the generator
@@ -800,6 +820,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
+- [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
@@ -819,6 +840,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Svenska Spel AB](https://www.svenskaspel.se/)
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [uShip](https://www.uship.com/)
+- [WEXO A/S](https://www.wexo.dk/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
 

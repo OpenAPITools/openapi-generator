@@ -5,6 +5,7 @@ import (
 	"strings"
 	"fmt"
 	"errors"
+	"net/url"
 	{{#imports}}"{{import}}"
 {{/imports}}
 )
@@ -50,7 +51,7 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 	}{{/required}}{{/allParams}}
 
 	headerParams := make(map[string]string)
-	queryParams := make(map[string]string)
+	queryParams := url.Values{}
 	formParams := make(map[string]string)
 	var postBody interface{}
 	var fileName string
@@ -75,9 +76,22 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
-	}{{#hasQueryParams}}{{#queryParams}}
-
-	queryParams["{{paramName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}})
+	}
+	{{#hasQueryParams}}
+	{{#queryParams}}
+	{{#isListContainer}}
+	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
+	if collectionFormat == "multi" {
+		for _, value := range {{paramName}} {
+			queryParams.Add("{{paramName}}", value)
+		}
+	} else {
+		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
+	}
+	{{/isListContainer}}
+	{{^isListContainer}}
+		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
+	{{/isListContainer}}
 	{{/queryParams}}{{/hasQueryParams}}
 
 	// to determine the Content-Type header

@@ -40,18 +40,21 @@ class Name(object):
         self.swagger_types = {
             'name': 'int',
             'snake_case': 'int',
-            '_property': 'str'
+            '_property': 'str',
+            '_123_number': 'int'
         }
 
         self.attribute_map = {
             'name': 'name',
             'snake_case': 'snake_case',
-            '_property': 'property'
+            '_property': 'property',
+            '_123_number': '123Number'
         }
 
         self._name = None
         self._snake_case = None
         self.__property = None
+        self.__123_number = None
 
     @property
     def name(self):
@@ -121,6 +124,29 @@ class Name(object):
         """
         
         self.__property = _property
+
+    @property
+    def _123_number(self):
+        """
+        Gets the _123_number of this Name.
+
+
+        :return: The _123_number of this Name.
+        :rtype: int
+        """
+        return self.__123_number
+
+    @_123_number.setter
+    def _123_number(self, _123_number):
+        """
+        Sets the _123_number of this Name.
+
+
+        :param _123_number: The _123_number of this Name.
+        :type: int
+        """
+        
+        self.__123_number = _123_number
 
     def to_dict(self):
         """

@@ -1,5 +1,5 @@
 {
-    "name": "{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}{{composerVendorName}}{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}{{composerProjectName}}{{/gitRepoId}}",{{#artifactVersion}}
+    "name": "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}",{{#artifactVersion}}
     "version": "{{artifactVersion}}",{{/artifactVersion}}
     "description": "{{description}}",
     "keywords": [
