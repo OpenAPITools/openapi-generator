@@ -4,7 +4,9 @@
     "description": "NodeJS client for @swagger/angular2-typescript-petstore",
     "main": "api.js",
     "scripts": {
-        "build": "typings install && tsc"
+        "build": "typings install && tsc",
+        "test": "tsc && node client.js",
+        "clean": "rm -Rf node_modules/ typings/ *.js"
     },
     "author": "Swagger Codegen Contributors",
     "license": "MIT",

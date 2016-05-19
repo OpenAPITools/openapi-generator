@@ -3,7 +3,7 @@ import fs = require('fs');
 
 var petApi = new api.PetApi();
 petApi.setApiKey(api.PetApiApiKeys.api_key, 'special-key');
-petApi.setApiKey(api.PetApiApiKeys.test_api_key_header, 'query-key');
+//petApi.setApiKey(api.PetApiApiKeys.test_api_key_header, 'query-key');
 
 var tag1 = new api.Tag();
 tag1.id = 18291;
@@ -25,7 +25,7 @@ petApi.addPet(pet)
         var newPet = <api.Pet>res.body;
         petId = newPet.id;
         console.log(`Created pet with ID ${petId}`);
-        newPet.status = api.Pet.StatusEnum.available;
+        newPet.status = api.Pet.StatusEnum.StatusEnum_available;
         return petApi.updatePet(newPet);
     })
     .then((res) => {
@@ -42,7 +42,7 @@ petApi.addPet(pet)
     })
     .then((res) => {
         console.log('Got pet by ID: ' + JSON.stringify(res.body));
-        if (res.body.status != api.Pet.StatusEnum.pending) {
+        if (res.body.status != api.Pet.StatusEnum.StatusEnum_pending) {
             throw new Error("Unexpected pet status");
         }
     })
