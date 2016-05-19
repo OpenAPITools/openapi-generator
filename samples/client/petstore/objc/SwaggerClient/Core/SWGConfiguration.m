@@ -2,8 +2,9 @@
 
 @interface SWGConfiguration ()
 
-@property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKey;
-@property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKeyPrefix;
+@property (nonatomic, strong) NSMutableDictionary *mutableDefaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *mutableApiKey;
+@property (nonatomic, strong) NSMutableDictionary *mutableApiKeyPrefix;
 
 @end
 
@@ -33,6 +34,7 @@
         self.verifySSL = YES;
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
         self.logger = [SWGLogger sharedLogger];
     }
     return self;
@@ -107,19 +109,19 @@
 
 - (NSDictionary *) authSettings {
     return @{
-               @"petstore_auth":
-                   @{
-                       @"type": @"oauth",
-                       @"in": @"header",
-                       @"key": @"Authorization",
-                       @"value": [self getAccessToken]
-                   },
                @"api_key":
                    @{
                        @"type": @"api_key",
                        @"in": @"header",
                        @"key": @"api_key",
                        @"value": [self getApiKeyWithPrefix:@"api_key"]
+                   },
+               @"petstore_auth":
+                   @{
+                       @"type": @"oauth",
+                       @"in": @"header",
+                       @"key": @"Authorization",
+                       @"value": [self getAccessToken]
                    },
                };
 }
@@ -130,6 +132,28 @@
 
 -(void)setDebug:(BOOL)debug {
     self.logger.enabled = debug;
+}
+
+
+
+- (void)setDefaultHeaderValue:(NSString *)value forKey:(NSString *)key {
+    if(!value) {
+        [self.mutableDefaultHeaders removeObjectForKey:key];
+        return;
+    }
+    self.mutableDefaultHeaders[key] = value;
+}
+
+-(void) removeDefaultHeaderForKey:(NSString*)key {
+    [self.mutableDefaultHeaders removeObjectForKey:key];
+}
+
+- (NSString *)defaultHeaderForKey:(NSString *)key {
+    return self.mutableDefaultHeaders[key];
+}
+
+- (NSDictionary *)defaultHeaders {
+    return [self.mutableDefaultHeaders copy];
 }
 
 @end

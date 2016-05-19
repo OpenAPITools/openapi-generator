@@ -184,4 +184,5 @@ public interface CodegenConfig {
 
     String getHttpUserAgent();
 
+    String getCommonTemplateDir();
 }

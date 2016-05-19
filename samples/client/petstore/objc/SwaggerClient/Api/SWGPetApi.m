@@ -4,12 +4,17 @@
 
 
 @interface SWGPetApi ()
-    @property (readwrite, nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
 @end
 
 @implementation SWGPetApi
 
-static SWGPetApi* singletonAPI = nil;
+NSString* kSWGPetApiErrorDomain = @"SWGPetApiErrorDomain";
+NSInteger kSWGPetApiMissingParamErrorCode = 234513;
+
+@synthesize apiClient = _apiClient;
 
 #pragma mark - Initialize methods
 
@@ -20,48 +25,45 @@ static SWGPetApi* singletonAPI = nil;
         if (config.apiClient == nil) {
             config.apiClient = [[SWGApiClient alloc] init];
         }
-        self.apiClient = config.apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (instancetype) initWithApiClient:(SWGApiClient *)apiClient {
+- (id) initWithApiClient:(SWGApiClient *)apiClient {
     self = [super init];
     if (self) {
-        self.apiClient = apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+(SWGPetApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-    if (singletonAPI == nil) {
-        singletonAPI = [[SWGPetApi alloc] init];
-        [singletonAPI addHeader:headerValue forKey:key];
-    }
-    return singletonAPI;
++ (instancetype)sharedAPI {
+    static SWGPetApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
 }
 
-+(SWGPetApi*) sharedAPI {
-    if (singletonAPI == nil) {
-        singletonAPI = [[SWGPetApi alloc] init];
-    }
-    return singletonAPI;
+-(NSString*) defaultHeaderForKey:(NSString*)key {
+    return self.defaultHeaders[key];
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
+}
+
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(void) setHeaderValue:(NSString*) value
-           forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
-}
-
--(unsigned long) requestQueueSize {
+-(NSUInteger) requestQueueSize {
     return [SWGApiClient requestQueueSize];
 }
 
@@ -84,7 +86,8 @@ static SWGPetApi* singletonAPI = nil;
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -118,7 +121,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -137,7 +142,13 @@ static SWGPetApi* singletonAPI = nil;
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'petId' is set
     if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `deletePet`"];
+        NSParameterAssert(petId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
+            NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
@@ -151,12 +162,11 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-    
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     if (apiKey != nil) {
         headerParams[@"api_key"] = apiKey;
     }
-
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -189,7 +199,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -215,7 +227,8 @@ static SWGPetApi* singletonAPI = nil;
         queryParams[@"status"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: status format: @"multi"];
         
     }
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -248,7 +261,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"NSArray<SWGPet>*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((NSArray<SWGPet>*)data, error);
+                                if(handler) {
+                                    handler((NSArray<SWGPet>*)data, error);
+                                }
                            }
           ];
 }
@@ -274,7 +289,8 @@ static SWGPetApi* singletonAPI = nil;
         queryParams[@"tags"] = [[SWGQueryParamCollection alloc] initWithValuesAndFormat: tags format: @"multi"];
         
     }
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -307,7 +323,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"NSArray<SWGPet>*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((NSArray<SWGPet>*)data, error);
+                                if(handler) {
+                                    handler((NSArray<SWGPet>*)data, error);
+                                }
                            }
           ];
 }
@@ -323,7 +341,13 @@ static SWGPetApi* singletonAPI = nil;
     completionHandler: (void (^)(SWGPet* output, NSError* error)) handler {
     // verify the required parameter 'petId' is set
     if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `getPetById`"];
+        NSParameterAssert(petId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
+            NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
@@ -337,7 +361,8 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -351,7 +376,7 @@ static SWGPetApi* singletonAPI = nil;
     NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"petstore_auth", @"api_key"];
+    NSArray *authSettings = @[@"api_key", @"petstore_auth"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
@@ -370,7 +395,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"SWGPet*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((SWGPet*)data, error);
+                                if(handler) {
+                                    handler((SWGPet*)data, error);
+                                }
                            }
           ];
 }
@@ -392,7 +419,8 @@ static SWGPetApi* singletonAPI = nil;
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -426,7 +454,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -448,7 +478,13 @@ static SWGPetApi* singletonAPI = nil;
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'petId' is set
     if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `updatePetWithForm`"];
+        NSParameterAssert(petId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
+            NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
@@ -462,7 +498,8 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -501,7 +538,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
@@ -523,7 +562,13 @@ static SWGPetApi* singletonAPI = nil;
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'petId' is set
     if (petId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `petId` when calling `uploadFile`"];
+        NSParameterAssert(petId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"petId"] };
+            NSError* error = [NSError errorWithDomain:kSWGPetApiErrorDomain code:kSWGPetApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}/uploadImage"];
@@ -537,7 +582,8 @@ static SWGPetApi* singletonAPI = nil;
     }
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
     NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json", @"application/xml"]];
     if(acceptHeader.length > 0) {
@@ -574,7 +620,9 @@ static SWGPetApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }

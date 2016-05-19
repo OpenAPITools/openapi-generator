@@ -29,7 +29,7 @@ namespace IO.Swagger.Test
         [SetUp]
         public void Init()
         {
-            instance = new Dog();
+			instance = new Dog(ClassName: "csharp test");
         }
 
         /// <summary>

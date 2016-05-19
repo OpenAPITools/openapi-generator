@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"strings"
-
+	"net/url"
 	"github.com/go-resty/resty"
 )
 
@@ -47,7 +47,7 @@ func contains(source []string, containvalue string) bool {
 func (c *APIClient) CallAPI(path string, method string,
 	postBody interface{},
 	headerParams map[string]string,
-	queryParams map[string]string,
+	queryParams url.Values,
 	formParams map[string]string,
 	fileName string,
 	fileBytes []byte) (*resty.Response, error) {
@@ -79,17 +79,26 @@ func (c *APIClient) CallAPI(path string, method string,
 	return nil, fmt.Errorf("invalid method %v", method)
 }
 
-func (c *APIClient) ParameterToString(obj interface{}) string {
+func (c *APIClient) ParameterToString(obj interface{},collectionFormat string) string {
 	if reflect.TypeOf(obj).String() == "[]string" {
-		return strings.Join(obj.([]string), ",")
-	} else {
-		return obj.(string)
+		switch	collectionFormat {
+		case "pipes":
+			return strings.Join(obj.([]string), "|")
+		case "ssv":
+			return strings.Join(obj.([]string), " ")
+		case "tsv":
+			return strings.Join(obj.([]string), "\t")	
+		case "csv" :
+			return strings.Join(obj.([]string), ",")
+		}
 	}
+
+	return obj.(string)
 }
 
 func prepareRequest(postBody interface{},
 	headerParams map[string]string,
-	queryParams map[string]string,
+	queryParams url.Values,
 	formParams map[string]string,
 	fileName string,
 	fileBytes []byte) *resty.Request {
@@ -104,7 +113,7 @@ func prepareRequest(postBody interface{},
 
 	// add query parameter, if any
 	if len(queryParams) > 0 {
-		request.SetQueryParams(queryParams)
+		request.SetMultiValueQueryParams(queryParams)
 	}
 
 	// add form parameter, if any

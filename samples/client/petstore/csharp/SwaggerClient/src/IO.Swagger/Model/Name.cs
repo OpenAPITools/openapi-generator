@@ -38,10 +38,7 @@ namespace IO.Swagger.Model
             {
                 this._Name = _Name;
             }
-            
-            
-                        this.Property = Property;
-            
+            this.Property = Property;
         }
         
         /// <summary>
@@ -73,9 +70,9 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  _Name: ").Append(_Name).Append("\n");
-sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
-sb.Append("  Property: ").Append(Property).Append("\n");
-sb.Append("  _123Number: ").Append(_123Number).Append("\n");
+            sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
+            sb.Append("  Property: ").Append(Property).Append("\n");
+            sb.Append("  _123Number: ").Append(_123Number).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

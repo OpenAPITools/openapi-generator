@@ -60,7 +60,7 @@ extern NSString *const SWGResponseObjectErrorKey;
  *
  * @return The size of `queuedRequests` static variable.
  */
-+(unsigned long)requestQueueSize;
++(NSUInteger)requestQueueSize;
 
 /**
  * Sets the client unreachable
@@ -179,6 +179,13 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @return AFSecurityPolicy
  */
 - (AFSecurityPolicy *) customSecurityPolicy;
+
+/**
+ * SWGConfiguration return sharedConfig
+ *
+ * @return SWGConfiguration
+ */
+- (SWGConfiguration*) configuration;
 
 
 @end

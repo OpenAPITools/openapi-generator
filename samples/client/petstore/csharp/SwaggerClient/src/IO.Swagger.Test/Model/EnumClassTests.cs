@@ -50,6 +50,22 @@ namespace IO.Swagger.Test
             Assert.IsInstanceOf<EnumClass> (instance, "instance is a EnumClass");
         }
 
+		/// <summary>
+		/// Test EnumClass
+		/// </summary>
+		[Test]
+		public void EnumClassValueTest ()
+		{
+			// test serialization for string
+			Assert.AreEqual (Newtonsoft.Json.JsonConvert.SerializeObject(EnumClass.Abc), "\"_abc\"");
+
+			// test serialization for number
+			Assert.AreEqual (Newtonsoft.Json.JsonConvert.SerializeObject(EnumTest.EnumIntegerEnum.NUMBER_MINUS_1), "\"-1\"");
+
+			// test cast to int
+			Assert.AreEqual ((int)EnumTest.EnumIntegerEnum.NUMBER_MINUS_1, -1);
+
+		}
 
     }
 

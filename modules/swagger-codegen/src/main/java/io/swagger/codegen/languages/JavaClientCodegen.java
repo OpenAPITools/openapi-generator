@@ -36,7 +36,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String artifactId = "swagger-java-client";
     protected String artifactVersion = "1.0.0";
     protected String projectFolder = "src" + File.separator + "main";
+    protected String projectTestFolder = "src" + File.separator + "test";
     protected String sourceFolder = projectFolder + File.separator + "java";
+    protected String testFolder = projectTestFolder + File.separator + "java";
     protected String localVariablePrefix = "";
     protected boolean fullJavaUtil;
     protected String javaUtilPrefix = "";
@@ -52,6 +54,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "java";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
+        apiTestTemplateFiles.put("api_test.mustache", ".java");
         embeddedTemplateDir = templateDir = "Java";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
@@ -367,6 +370,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiTestFileFolder() {
+        return outputFolder + "/" + testFolder + "/" + apiPackage().replace('.', '/');
+    }
+
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/');
     }
@@ -389,6 +397,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + "Test";
     }
 
     @Override

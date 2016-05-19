@@ -56,7 +56,7 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  *
  * @return The size of `queuedRequests` static variable.
  */
-+(unsigned long)requestQueueSize;
++(NSUInteger)requestQueueSize;
 
 /**
  * Sets the client unreachable
@@ -175,6 +175,13 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  * @return AFSecurityPolicy
  */
 - (AFSecurityPolicy *) customSecurityPolicy;
+
+/**
+ * {{classPrefix}}Configuration return sharedConfig
+ *
+ * @return {{classPrefix}}Configuration
+ */
+- ({{classPrefix}}Configuration*) configuration;
 
 
 @end
