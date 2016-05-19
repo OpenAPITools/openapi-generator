@@ -439,6 +439,18 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-angular-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-angular/npm</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-node-npm-client</id>
             <activation>
                 <property>
@@ -483,6 +495,7 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/android/volley</module>
                 <module>samples/client/petstore/clojure</module>
