@@ -108,7 +108,7 @@ namespace {{packageName}}.Models
             private void Validate()
             {
                 {{#vars}}{{#required}}
-                if ({{name}} == null)
+                if ({{_name}} == null)
                 {
                     throw new ArgumentException("{{name}} is a required property for {{classname}} and cannot be null");
                 }
