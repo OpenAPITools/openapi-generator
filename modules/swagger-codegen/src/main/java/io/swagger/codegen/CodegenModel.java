@@ -37,6 +37,8 @@ public class CodegenModel {
     public ExternalDocs externalDocs;
 
     public Map<String, Object> vendorExtensions;
+
+    //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
 
     {
