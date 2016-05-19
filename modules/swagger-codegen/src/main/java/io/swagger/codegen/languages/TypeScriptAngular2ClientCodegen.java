@@ -13,6 +13,7 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.FileProperty;
 import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 
 public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -114,14 +115,19 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             MapProperty mp = (MapProperty)p;
             inner = mp.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
+        } else if(p instanceof FileProperty || p instanceof ObjectProperty) {
+            return "any";
         } else {
-            return p instanceof FileProperty ? "any" : super.getTypeDeclaration(p);
+            return super.getTypeDeclaration(p);
         }
     }
 
     @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
+        if(languageSpecificPrimitives.contains(swaggerType)) {
+            return swaggerType;
+        }
         return addModelPrefix(swaggerType);
     }
 
@@ -129,10 +135,13 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type))
-                return type;
-        } else
+        } else {
+            type = swaggerType;
+        }
+
+        if (!languageSpecificPrimitives.contains(type)) {
             type = "models." + swaggerType;
+        }
         return type;
     }
 

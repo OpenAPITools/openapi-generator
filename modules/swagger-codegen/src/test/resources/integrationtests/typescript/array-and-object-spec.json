@@ -1,0 +1,570 @@
+{
+  "swagger": "2.0",
+  "info":
+  {
+    "version": "1.7.0",
+    "title": "Cupix API",
+    "contact":
+    {
+      "name": "inska.lee@cupix.com"
+    }
+  },
+  "basePath": "/v1",
+  "consumes":
+  [
+    "application/json"
+  ],
+  "produces":
+  [
+    "application/json"
+  ],
+  "schemes":
+  [
+    "https"
+  ],
+  "paths":
+  {
+    "/projects":
+    {
+      "post":
+      {
+        "tags":
+        [
+          "Project"
+        ],
+        "summary": "Create a Project",
+        "operationId": "create_project",
+        "description": "Creates an empty Project",
+        "consumes":
+        [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces":
+        [
+          "application/json"
+        ],
+        "parameters":
+        [
+
+          {
+            "name": "name",
+            "type": "string",
+            "in": "formData"
+          },
+
+          {
+            "name": "address",
+            "type": "string",
+            "in": "formData"
+          },
+
+          {
+            "name": "longitude",
+            "type": "number",
+            "format": "float",
+            "in": "formData"
+          },
+
+          {
+            "name": "latitude",
+            "type": "number",
+            "format": "float",
+            "in": "formData"
+          },
+
+          {
+            "name": "meta",
+            "type": "string",
+            "in": "formData"
+          }
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "Project information",
+            "schema":
+            {
+              "$ref": "#/definitions/ProjectEntity"
+            }
+          },
+          "400":
+          {
+            "description": "Bad Request",
+            "schema":
+            {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401":
+          {
+            "description": "Unauthorized request"
+          },
+          "403":
+          {
+            "description": "Forbidden"
+          },
+          "404":
+          {
+            "description": "Project not found"
+          }
+        }
+      },
+      "get":
+      {
+        "tags":
+        [
+          "Project"
+        ],
+        "summary": "Get project list",
+        "operationId": "get_project_list",
+        "description": "Returns a Project JSON object",
+        "produces":
+        [
+          "application/json"
+        ],
+        "security":
+        [
+
+          {
+            "key":
+            [
+
+            ]
+          },
+
+          {
+            "token":
+            [
+
+            ]
+          }
+        ],
+        "parameters":
+        [
+
+          {
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "in": "query"
+          },
+
+          {
+            "name": "per_page",
+            "type": "integer",
+            "format": "int32",
+            "in": "query"
+          },
+
+          {
+            "name": "kind",
+            "type": "string",
+            "in": "query",
+            "enum":
+            [
+              "my_models",
+              "published",
+              "location"
+            ]
+          },
+
+          {
+            "name": "q",
+            "type": "string",
+            "in": "query"
+          },
+
+          {
+            "name": "filter",
+            "type": "string",
+            "in": "query"
+          },
+
+          {
+            "name": "latitude",
+            "in": "query",
+            "type": "number",
+            "format": "float",
+            "description": "Valid with kind as location"
+          },
+
+          {
+            "name": "longitude",
+            "in": "query",
+            "type": "number",
+            "format": "float",
+            "description": "Valid with kind as location"
+          },
+
+          {
+            "name": "scope",
+            "in": "query",
+            "type": "integer",
+            "description": "Valid with kind as location, and between 1~9"
+          }
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "Project list",
+            "schema":
+            {
+              "$ref": "#/definitions/ProjectList"
+            }
+          },
+          "400":
+          {
+            "description": "Bad Request",
+            "schema":
+            {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401":
+          {
+            "description": "Unauthorized request"
+          },
+          "403":
+          {
+            "description": "Forbidden"
+          },
+          "404":
+          {
+            "description": "Project not found"
+          }
+        }
+      }
+    },
+    "/projects/{id}":
+    {
+      "get":
+      {
+        "tags":
+        [
+          "Project"
+        ],
+        "summary": "Get a Project",
+        "operationId": "get_project_by_id",
+        "description": "Returns a Project JSON object",
+        "produces":
+        [
+          "application/json"
+        ],
+        "parameters":
+        [
+
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "Project information",
+            "schema":
+            {
+              "$ref": "#/definitions/ProjectEntity"
+            }
+          },
+          "400":
+          {
+            "description": "Bad Request",
+            "schema":
+            {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401":
+          {
+            "description": "Unauthorized request"
+          },
+          "403":
+          {
+            "description": "Forbidden"
+          },
+          "404":
+          {
+            "description": "Project not found"
+          }
+        }
+      },
+      "put":
+      {
+        "tags":
+        [
+          "Project"
+        ],
+        "summary": "Update project",
+        "operationId": "update_project",
+        "consumes":
+        [
+          "multipart/form-data"
+        ],
+        "produces":
+        [
+          "application/json"
+        ],
+        "parameters":
+        [
+
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "User ID",
+            "type": "string"
+          },
+
+          {
+            "name": "address",
+            "in": "formData",
+            "description": "Address",
+            "type": "string"
+          },
+
+          {
+            "name": "longitude",
+            "type": "number",
+            "format": "float",
+            "in": "formData"
+          },
+
+          {
+            "name": "latitude",
+            "type": "number",
+            "format": "float",
+            "in": "formData"
+          },
+
+          {
+            "name": "meta",
+            "type": "string",
+            "in": "formData"
+          },
+
+          {
+            "name": "thumbnail",
+            "in": "formData",
+            "description": "Project thumbnail",
+            "type": "file"
+          }
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "Project information",
+            "schema":
+            {
+              "$ref": "#/definitions/ProjectEntity"
+            }
+          },
+          "400":
+          {
+            "description": "Bad Request",
+            "schema":
+            {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401":
+          {
+            "description": "Unauthorized request"
+          },
+          "403":
+          {
+            "description": "Forbidden"
+          },
+          "404":
+          {
+            "description": "Project not found"
+          }
+        }
+      },
+      "delete":
+      {
+        "tags":
+        [
+          "Project"
+        ],
+        "summary": "Delete a Project",
+        "operationId": "delete_project_by_id",
+        "description": "Returns a Project JSON object",
+        "produces":
+        [
+          "application/json"
+        ],
+        "parameters":
+        [
+
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "security":
+        [
+
+          {
+            "key":
+            [
+
+            ]
+          },
+
+          {
+            "token":
+            [
+
+            ]
+          }
+        ],
+        "responses":
+        {
+          "200":
+          {
+            "description": "Empty"
+          },
+          "204":
+          {
+            "description": "Deleted"
+          },
+          "400":
+          {
+            "description": "Bad Request",
+            "schema":
+            {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401":
+          {
+            "description": "Unauthorized request"
+          },
+          "403":
+          {
+            "description": "Forbidden"
+          },
+          "404":
+          {
+            "description": "Project not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions":
+  {
+    "ProjectList":
+    {
+      "type": "object",
+      "required":
+      [
+        "contents"
+      ],
+      "properties":
+      {
+        "contents":
+        {
+          "type": "array",
+          "items":
+          {
+            "$ref": "#/definitions/ProjectEntity"
+          }
+        }
+      }
+    },
+    "ProjectEntity":
+    {
+      "type": "object",
+      "required":
+      [
+        "id"
+      ],
+      "properties":
+      {
+        "id":
+        {
+          "type": "integer",
+          "format": "int32"
+        },
+        "kind":
+        {
+          "type": "string",
+          "enum":
+          [
+            "project"
+          ]
+        },
+        "thumbnail_url":
+        {
+          "type": "string"
+        },
+        "name":
+        {
+          "type": "string"
+        },
+        "state":
+        {
+          "type": "string"
+        },
+        "meta":
+        {
+          "type": "object"
+        },
+        "location":
+        {
+          "type": "object",
+          "properties":
+          {
+            "lat":
+            {
+              "type": "number",
+              "format": "float"
+            },
+            "lon":
+            {
+              "type": "number",
+              "format": "float"
+            }
+          }
+        },
+        "created_at":
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at":
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        "published_at":
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
