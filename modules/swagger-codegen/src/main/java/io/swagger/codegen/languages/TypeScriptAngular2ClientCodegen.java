@@ -139,10 +139,19 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             type = swaggerType;
         }
 
-        if (!languageSpecificPrimitives.contains(type)) {
+        if (!startsWithLanguageSpecificPrimitiv(type)) {
             type = "models." + swaggerType;
         }
         return type;
+    }
+
+    private boolean startsWithLanguageSpecificPrimitiv(String type) {
+        for (String langPrimitive:languageSpecificPrimitives) {
+            if (type.startsWith(langPrimitive))  {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
