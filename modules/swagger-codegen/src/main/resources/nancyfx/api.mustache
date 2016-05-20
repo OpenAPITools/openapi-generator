@@ -6,9 +6,9 @@ using {{packageName}}.Model;
 
 namespace {{packageName}}.Module
 { {{#operations}}
-    {{#operation}}{{#allParams}}{{#isEnum}}
-    {{>innerEnum}}
-    {{/isEnum}}{{/allParams}}{{/operation}}
+    {{#operation}}{{#allParams}}{{#isEnum}}{{>innerEnum}}
+    {{/isEnum}}{{#items.isEnum}}{{#items}}{{>innerEnum}}{{/items}}
+    {{/items.isEnum}}{{/allParams}}{{/operation}}
 
     public sealed class {{classname}}Module : NancyModule
     {

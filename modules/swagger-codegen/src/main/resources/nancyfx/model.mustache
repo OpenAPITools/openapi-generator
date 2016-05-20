@@ -11,8 +11,9 @@ namespace {{packageName}}.Model
     public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
         {{#vars}}{{#isEnum}}
-        {{>innerEnum}}
-        {{/isEnum}}{{/vars}}{{#vars}}
+        {{>innerEnum}}{{/isEnum}}{{#items.isEnum}}
+        {{#items}}{{>innerEnum}}{{/items}}
+        {{/items.isEnum}}{{/vars}}{{#vars}}
         public {{>nullableDataType}} {{name}} { get; private set; }
         {{/vars}}
 
@@ -33,7 +34,7 @@ namespace {{packageName}}.Model
             return Builder()
             {{#vars}}
                 .{{name}}({{name}})
-{{/vars}}           ;
+{{/vars}}            ;
         }
 
         public override string ToString()
@@ -56,12 +57,12 @@ namespace {{packageName}}.Model
             return this.PropertiesHash();
         }
 
-        public static bool operator ==({{classname}} left, {{classname}} right)
+        public static bool operator == ({{classname}} left, {{classname}} right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=({{classname}} left, {{classname}} right)
+        public static bool operator != ({{classname}} left, {{classname}} right)
         {
             return !Equals(left, right);
         }
