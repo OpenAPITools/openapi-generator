@@ -547,6 +547,9 @@
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>-->
+                <!-- run ruby test first which has a random delay script to
+                     avoid issues with running 2 CI jobs in parallel.       -->
+                <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/android/volley</module>
@@ -561,7 +564,6 @@
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/client/petstore/ruby</module>
                 <module>samples/server/petstore/jaxrs</module>
                 <module>samples/server/petstore/jaxrs-resteasy</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
