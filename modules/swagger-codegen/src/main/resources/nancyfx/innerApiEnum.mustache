@@ -1,0 +1,1 @@
+public enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} { {{#allowableValues}}{{#values}}{{&.}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}} };

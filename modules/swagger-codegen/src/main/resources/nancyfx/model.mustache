@@ -10,7 +10,7 @@ namespace {{packageName}}.Model
 {
     public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {   {{#vars}}{{#isEnum}}
-        {{>innerEnum}}{{/isEnum}}{{#items.isEnum}}
+        {{>innerModelEnum}}{{/isEnum}}{{#items.isEnum}}
         {{#items}}{{>innerEnum}}{{/items}}{{/items.isEnum}}{{/vars}}{{#vars}}
         public {{>nullableDataType}} {{name}} { get; private set; }{{/vars}}
 
