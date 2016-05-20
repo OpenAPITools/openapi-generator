@@ -33,6 +33,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     // requestPackage and authPackage are used by the "volley" template/library
     protected String requestPackage = "io.swagger.client.request";
     protected String authPackage = "io.swagger.client.auth";
+    protected String gradleWrapperPackage = "gradle.wrapper";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -418,6 +419,15 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                 (sourceFolder + File.separator + invokerPackage).replace(".", File.separator), "Pair.java"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
+        // gradle wrapper files
+        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew" ));
+        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat" ));
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache", 
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties" ));
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.jar", 
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar" ));
+
     }
 
     private void addSupportingFilesForVolley() {
@@ -456,6 +466,14 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                 (sourceFolder + File.separator + authPackage).replace(".", File.separator), "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/authentication.mustache",
                 (sourceFolder + File.separator + authPackage).replace(".", File.separator), "Authentication.java"));
+
+        // gradle wrapper files
+        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew" ));
+        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat" ));
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache", 
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties" ));
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.jar", 
+                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar" ));
     }
 
     public Boolean getUseAndroidMavenGradlePlugin() {
