@@ -46,8 +46,8 @@ public class {{classname}} {
   @io.swagger.annotations.ApiResponses(value = { {{#responses}}
     @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class){{#hasMore}},{{/hasMore}}{{/responses}} })
   @RequestMapping(value = "{{{path}}}",
-    {{#hasProduces}}produces = { {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
-    {{#hasConsumes}}consumes = { {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
+    {{#hasProduces}}produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
+    {{#hasConsumes}}consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
     method = RequestMethod.{{httpMethod}})
   public ResponseEntity<{{>returnTypes}}> {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
     {{/hasMore}}{{/allParams}})

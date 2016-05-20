@@ -156,13 +156,13 @@ class {{classname}}(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept([{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
+            select_header_accept([{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
         if not header_params['Accept']:
             del header_params['Accept']
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
-            select_header_content_type([{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
+            select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
 
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]

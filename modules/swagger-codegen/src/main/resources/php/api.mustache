@@ -167,11 +167,11 @@ use \{{invokerPackage}}\ObjectSerializer;
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array({{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{mediaType}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array({{#consumes}}'{{{mediaType}}}'{{#hasMore}},{{/hasMore}}{{/consumes}}));
 
         {{#queryParams}}// query params
         {{#collectionFormat}}

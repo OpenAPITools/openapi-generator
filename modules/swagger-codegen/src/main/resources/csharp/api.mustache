@@ -196,7 +196,7 @@ namespace {{packageName}}.Api
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
                 {{#consumes}}
-                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
+                "{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}
                 {{/consumes}}
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -204,7 +204,7 @@ namespace {{packageName}}.Api
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
                 {{#produces}}
-                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
+                "{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}
                 {{/produces}}
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
@@ -329,7 +329,7 @@ namespace {{packageName}}.Api
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
                 {{#consumes}}
-                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
+                "{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}
                 {{/consumes}}
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
@@ -337,7 +337,7 @@ namespace {{packageName}}.Api
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
                 {{#produces}}
-                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
+                "{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}
                 {{/produces}}
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
