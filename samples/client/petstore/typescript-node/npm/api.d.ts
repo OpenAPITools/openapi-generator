@@ -80,8 +80,8 @@ export declare class PetApi {
     protected defaultHeaders: any;
     protected authentications: {
         'default': Authentication;
-        'api_key': ApiKeyAuth;
         'petstore_auth': OAuth;
+        'api_key': ApiKeyAuth;
     };
     constructor(basePath?: string);
     setApiKey(key: PetApiApiKeys, value: string): void;
@@ -128,8 +128,8 @@ export declare class StoreApi {
     protected defaultHeaders: any;
     protected authentications: {
         'default': Authentication;
-        'api_key': ApiKeyAuth;
         'petstore_auth': OAuth;
+        'api_key': ApiKeyAuth;
     };
     constructor(basePath?: string);
     setApiKey(key: StoreApiApiKeys, value: string): void;
@@ -162,8 +162,8 @@ export declare class UserApi {
     protected defaultHeaders: any;
     protected authentications: {
         'default': Authentication;
-        'api_key': ApiKeyAuth;
         'petstore_auth': OAuth;
+        'api_key': ApiKeyAuth;
     };
     constructor(basePath?: string);
     setApiKey(key: UserApiApiKeys, value: string): void;

@@ -1,11 +1,11 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wordnik</groupId>
-    <artifactId>Goswagger</artifactId>
+    <artifactId>TypeScriptAngularPestoreClientTests</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
-    <name>Goswagger</name>
- <build>
+    <version>1.0-SNAPSHOT</version>
+    <name>TS Angular Petstore Client</name>
+    <build>
         <plugins>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -27,44 +27,28 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>go-get-testify</id>
+                        <id>npm-install</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>go</executable>
+                            <executable>npm</executable>
                             <arguments>
-                                <argument>get</argument>
-                                <argument>github.com/stretchr/testify/assert</argument>
+                                <argument>install</argument>
                             </arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>go-get-resty</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>go</executable>
-                            <arguments>
-                                <argument>get</argument>
-                                <argument>github.com/go-resty/resty</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>go-test</id>
+                        <id>npm-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>go</executable>
+                            <executable>npm</executable>
                             <arguments>
                                 <argument>test</argument>
-                                <argument>-v</argument>
                             </arguments>
                         </configuration>
                     </execution>
