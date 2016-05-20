@@ -39,6 +39,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String projectTestFolder = "src" + File.separator + "test";
     protected String sourceFolder = projectFolder + File.separator + "java";
     protected String testFolder = projectTestFolder + File.separator + "java";
+    protected String gradleWrapperPackage = "gradle.wrapper";
     protected String localVariablePrefix = "";
     protected boolean fullJavaUtil;
     protected String javaUtilPrefix = "";
@@ -266,6 +267,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
         if ("feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FormAwareEncoder.mustache", invokerFolder, "FormAwareEncoder.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         }
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -284,6 +293,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
             apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         } else if ("okhttp-gson".equals(getLibrary())) {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
@@ -296,14 +313,38 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
             // "build.sbt" is for development with SBT
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         } else if (usesAnyRetrofitLibrary()) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         } else if("jersey2".equals(getLibrary())) {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
             apiDocTemplateFiles.put("api_doc.mustache", ".md");
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         }
 
         if(additionalProperties.containsKey(DATE_LIBRARY)) {
