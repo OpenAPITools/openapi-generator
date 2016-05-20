@@ -327,6 +327,15 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toParamName(String name) {
+        // don't do name =removeNonNameElementToCamelCase(name); // this breaks connexion, which does not modify param names before sending them
+        if (reservedWords.contains(name)) {
+            return escapeReservedWord(name);
+        }
+        return name;
+    }
+
+    @Override
     public String toOperationId(String operationId) {
         operationId = super.toOperationId(operationId); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // Use the part after the last dot, e.g.
