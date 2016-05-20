@@ -117,6 +117,8 @@ samples/client/petstore/python/.venv/
 
 # ts
 samples/client/petstore/typescript-node/npm/node_modules
+samples/client/petstore/typescript-node/**/typings
+samples/client/petstore/typescript-angular/**/typings
 samples/client/petstore/typescript-fetch/**/dist/
 samples/client/petstore/typescript-fetch/**/typings
 

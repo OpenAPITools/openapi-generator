@@ -216,11 +216,11 @@ class FakeApi
         $queryParams = array();
         $headerParams = array();
         $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml; charset=utf-8', 'application/json; charset=utf-8'));
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/xml; charset=utf-8','application/json; charset=utf-8'));
 
         
         

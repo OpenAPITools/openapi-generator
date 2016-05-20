@@ -575,9 +575,12 @@ paths:
         偽のエンドポイント
         가짜 엔드 포인트
       operationId: testEndpointParameters
+      consumes:
+        - application/xml; charset=utf-8
+        - application/json; charset=utf-8
       produces:
-        - application/xml
-        - application/json
+        - application/xml; charset=utf-8
+        - application/json; charset=utf-8
       parameters:
         - name: integer
           type: integer
