@@ -1,3 +1,4 @@
+using System;
 using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
@@ -7,8 +8,7 @@ using {{packageName}}.Model;
 namespace {{packageName}}.Module
 { {{#operations}}
     {{#operation}}{{#allParams}}{{#isEnum}}{{>innerEnum}}
-    {{/isEnum}}{{#items.isEnum}}{{#items}}{{>innerEnum}}{{/items}}
-    {{/items.isEnum}}{{/allParams}}{{/operation}}
+    {{/isEnum}}{{/allParams}}{{/operation}}
 
     public sealed class {{classname}}Module : NancyModule
     {
@@ -17,7 +17,7 @@ namespace {{packageName}}.Module
             {{httpMethod}}["{{path}}"] = parameters =>
             { {{#allParams}}{{#required}}
                 if (parameters.{{paramName}} == null) {
-                    throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+                    throw new ArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
                 }
                 {{/required}}{{/allParams}}{{#allParams}}{{#isBodyParam}}
                 var {{paramName}} = this.Bind<{{&dataType}}>();

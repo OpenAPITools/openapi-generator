@@ -9,13 +9,10 @@ using Sharpility.Extensions;
 namespace {{packageName}}.Model
 {
     public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
-    {
-        {{#vars}}{{#isEnum}}
+    {   {{#vars}}{{#isEnum}}
         {{>innerEnum}}{{/isEnum}}{{#items.isEnum}}
-        {{#items}}{{>innerEnum}}{{/items}}
-        {{/items.isEnum}}{{/vars}}{{#vars}}
-        public {{>nullableDataType}} {{name}} { get; private set; }
-        {{/vars}}
+        {{#items}}{{>innerEnum}}{{/items}}{{/items.isEnum}}{{/vars}}{{#vars}}
+        public {{>nullableDataType}} {{name}} { get; private set; }{{/vars}}
 
         public {{classname}}({{#vars}}{{>nullableDataType}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
