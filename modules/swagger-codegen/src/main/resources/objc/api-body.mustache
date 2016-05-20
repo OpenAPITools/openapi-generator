@@ -126,7 +126,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     }
     {{/headerParams}}
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[{{#produces}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -135,7 +135,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[{{#consumes}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     // Authentication setting
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
