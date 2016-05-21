@@ -5,7 +5,6 @@
 //
 
 import Alamofire
-import PromiseKit
 
 extension Bool: JSONEncodable {
     func encodeToJSON() -> AnyObject { return self }
@@ -72,16 +71,4 @@ extension NSDate: JSONEncodable {
     }
 }
 
-extension RequestBuilder {
-    public func execute() -> Promise<Response<T>>  {
-        let deferred = Promise<Response<T>>.pendingPromise()
-        self.execute { (response: Response<T>?, error: ErrorType?) in
-            if let response = response {
-                deferred.fulfill(response)
-            } else {
-                deferred.reject(error!)
-            }
-        }
-        return deferred.promise
-    }
-}
+

@@ -6,7 +6,6 @@
 //
 
 import Alamofire
-import PromiseKit
 
 
 
@@ -23,23 +22,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     Add a new pet to the store
-     
-     - parameter body: (body) Pet object that needs to be added to the store (optional)
-     - returns: Promise<Void>
-     */
-    public class func addPet(body body: Pet? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        addPet(body: body) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Add a new pet to the store
@@ -77,23 +59,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     Deletes a pet
-     
-     - parameter petId: (path) Pet id to delete 
-     - returns: Promise<Void>
-     */
-    public class func deletePet(petId petId: Int64) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        deletePet(petId: petId) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Deletes a pet
@@ -135,23 +100,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     Finds Pets by status
-     
-     - parameter status: (query) Status values that need to be considered for filter (optional, default to available)
-     - returns: Promise<[Pet]>
-     */
-    public class func findPetsByStatus(status status: [String]? = nil) -> Promise<[Pet]> {
-        let deferred = Promise<[Pet]>.pendingPromise()
-        findPetsByStatus(status: status) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Finds Pets by status
@@ -201,23 +149,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     Finds Pets by tags
-     
-     - parameter tags: (query) Tags to filter by (optional)
-     - returns: Promise<[Pet]>
-     */
-    public class func findPetsByTags(tags tags: [String]? = nil) -> Promise<[Pet]> {
-        let deferred = Promise<[Pet]>.pendingPromise()
-        findPetsByTags(tags: tags) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Finds Pets by tags
@@ -306,23 +237,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     Find pet by ID
-     
-     - parameter petId: (path) ID of pet that needs to be fetched 
-     - returns: Promise<Pet>
-     */
-    public class func getPetById(petId petId: Int64) -> Promise<Pet> {
-        let deferred = Promise<Pet>.pendingPromise()
-        getPetById(petId: petId) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Find pet by ID
@@ -413,23 +327,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     Update an existing pet
-     
-     - parameter body: (body) Pet object that needs to be added to the store (optional)
-     - returns: Promise<Void>
-     */
-    public class func updatePet(body body: Pet? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        updatePet(body: body) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Update an existing pet
@@ -469,25 +366,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     Updates a pet in the store with form data
-     
-     - parameter petId: (path) ID of pet that needs to be updated 
-     - parameter name: (form) Updated name of the pet (optional)
-     - parameter status: (form) Updated status of the pet (optional)
-     - returns: Promise<Void>
-     */
-    public class func updatePetWithForm(petId petId: String, name: String? = nil, status: String? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        updatePetWithForm(petId: petId, name: name, status: status) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Updates a pet in the store with form data
@@ -536,25 +414,6 @@ public class PetAPI: APIBase {
         }
     }
 
-    /**
-     uploads an image
-     
-     - parameter petId: (path) ID of pet to update 
-     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter file: (form) file to upload (optional)
-     - returns: Promise<Void>
-     */
-    public class func uploadFile(petId petId: Int64, additionalMetadata: String? = nil, file: NSURL? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      uploads an image

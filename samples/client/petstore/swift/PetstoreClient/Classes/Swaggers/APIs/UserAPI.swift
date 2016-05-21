@@ -6,7 +6,6 @@
 //
 
 import Alamofire
-import PromiseKit
 
 
 
@@ -23,23 +22,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Create user
-     
-     - parameter body: (body) Created user object (optional)
-     - returns: Promise<Void>
-     */
-    public class func createUser(body body: User? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        createUser(body: body) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Create user
@@ -74,23 +56,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Creates list of users with given input array
-     
-     - parameter body: (body) List of user object (optional)
-     - returns: Promise<Void>
-     */
-    public class func createUsersWithArrayInput(body body: [User]? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        createUsersWithArrayInput(body: body) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Creates list of users with given input array
@@ -125,23 +90,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Creates list of users with given input array
-     
-     - parameter body: (body) List of user object (optional)
-     - returns: Promise<Void>
-     */
-    public class func createUsersWithListInput(body body: [User]? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        createUsersWithListInput(body: body) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Creates list of users with given input array
@@ -176,23 +124,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Delete user
-     
-     - parameter username: (path) The name that needs to be deleted 
-     - returns: Promise<Void>
-     */
-    public class func deleteUser(username username: String) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        deleteUser(username: username) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Delete user
@@ -231,23 +162,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Get user by user name
-     
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
-     - returns: Promise<User>
-     */
-    public class func getUserByName(username username: String) -> Promise<User> {
-        let deferred = Promise<User>.pendingPromise()
-        getUserByName(username: username) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Get user by user name
@@ -325,24 +239,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Logs user into the system
-     
-     - parameter username: (query) The user name for login (optional)
-     - parameter password: (query) The password for login in clear text (optional)
-     - returns: Promise<String>
-     */
-    public class func loginUser(username username: String? = nil, password: String? = nil) -> Promise<String> {
-        let deferred = Promise<String>.pendingPromise()
-        loginUser(username: username, password: password) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Logs user into the system
@@ -385,22 +281,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Logs out current logged in user session
-     
-     - returns: Promise<Void>
-     */
-    public class func logoutUser() -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        logoutUser() { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Logs out current logged in user session
@@ -437,24 +317,6 @@ public class UserAPI: APIBase {
         }
     }
 
-    /**
-     Updated user
-     
-     - parameter username: (path) name that need to be deleted 
-     - parameter body: (body) Updated user object (optional)
-     - returns: Promise<Void>
-     */
-    public class func updateUser(username username: String, body: User? = nil) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        updateUser(username: username, body: body) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Updated user
