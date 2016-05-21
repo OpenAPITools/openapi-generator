@@ -15,9 +15,6 @@
   "summary": "PetstoreClient",
   "source_files": "PetstoreClient/Classes/Swaggers/**/*.swift",
   "dependencies": {
-    "PromiseKit": [
-      "~> 3.1.1"
-    ],
     "Alamofire": [
       "~> 3.1.5"
     ]
