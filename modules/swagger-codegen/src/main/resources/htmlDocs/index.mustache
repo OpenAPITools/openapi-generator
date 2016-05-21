@@ -18,12 +18,12 @@
     <div class="license-url">{{{licenseUrl}}}</div>
   <h2>Access</h2>
   {{#hasAuthMethods}}
-<ol>
-{{#authMethods}}
-<li>Type:{{type}} Name:{{name}} {{#isOAuth}}AuthorizationUrl:{{authorizationUrl}} TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}</li>
-{{/authMethods}}
-</ol>
-{{/hasAuthMethods}}
+    <ol>
+    {{#authMethods}}
+      <li>{{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}</li>
+    {{/authMethods}}
+    </ol>
+  {{/hasAuthMethods}}
 
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
