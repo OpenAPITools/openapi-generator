@@ -2,12 +2,11 @@
 //  PetAPITests.swift
 //  SwaggerClient
 //
-//  Created by Joseph Zuromski on 2/8/16.
+//  Created by Robin Eggenkamp on 5/21/16.
 //  Copyright © 2016 Swagger. All rights reserved.
 //
 
 import PetstoreClient
-import PromiseKit
 import XCTest
 @testable import SwaggerClient
 
@@ -27,6 +26,7 @@ class PetAPITests: XCTestCase {
     
     func test1CreatePet() {
         let expectation = self.expectationWithDescription("testCreatePet")
+        
         let newPet = Pet()
         let category = PetstoreClient.Category()
         category.id = 1234
@@ -35,49 +35,57 @@ class PetAPITests: XCTestCase {
         newPet.id = 1000
         newPet.name = "Fluffy"
         newPet.status = .Available
-        PetAPI.addPet(body: newPet).then {
-                expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.error { errorType -> Void in
+        
+        PetAPI.addPet(body: newPet) { (error) in
+            guard error == nil else {
                 XCTFail("error creating pet")
+                return
+            }
+            
+            expectation.fulfill()
         }
+        
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
     
     func test2GetPet() {
         let expectation = self.expectationWithDescription("testGetPet")
-        PetAPI.getPetById(petId: 1000).then { pet -> Void in
+        
+        PetAPI.getPetById(petId: 1000) { (pet, error) in
+            guard error == nil else {
+                XCTFail("error retrieving pet")
+                return
+            }
+            
+            if let pet = pet {
                 XCTAssert(pet.id == 1000, "invalid id")
                 XCTAssert(pet.name == "Fluffy", "invalid name")
+                
                 expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.error { errorType -> Void in
-                XCTFail("error creating pet")
+            }
         }
+        
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
     
     func test3DeletePet() {
         let expectation = self.expectationWithDescription("testDeletePet")
-        PetAPI.deletePet(petId: 1000).always {
-                // expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.error { errorType -> Void in
-                // The server gives us no data back so alamofire parsing fails - at least
-                // verify that is the error we get here
-                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-                // length.}
-                let error = errorType as NSError
-                if error.code == -6006 {
-                    expectation.fulfill()
-                } else {
-                    XCTFail("error logging out")
-                }
+        
+        PetAPI.deletePet(petId: 1000) { (error) in
+            // The server gives us no data back so Alamofire parsing fails - at least
+            // verify that is the error we get here
+            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
+            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
+            // length.}
+            guard let error = error where error._code == -6006 else {
+                XCTFail("error deleting pet")
+                return
+            }
+            
+            expectation.fulfill()
         }
+        
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
+
 }
