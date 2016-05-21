@@ -963,6 +963,14 @@ definitions:
     additionalProperties:
       type: string
       $ref: '#/definitions/Animal'
+  ReadOnlyFirst:
+    type: object
+    properties:
+      bar:
+        type: string
+        readOnly: true
+      baz:
+        type: string
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

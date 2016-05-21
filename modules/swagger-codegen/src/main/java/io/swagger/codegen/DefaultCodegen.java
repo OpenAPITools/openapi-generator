@@ -2598,10 +2598,18 @@ public class DefaultCodegen {
                 addImport(m, cp.complexType);
                 vars.add(cp);
 
-                if (Boolean.TRUE.equals(cp.required)) { // if required, add to the list "requiredVars"
+                // if required, add to the list "requiredVars"
+                if (Boolean.TRUE.equals(cp.required)) {
                     m.requiredVars.add(cp);
                 } else { // else add to the list "optionalVars" for optional property
                     m.optionalVars.add(cp);
+                }
+
+                // if readonly, add to readOnlyVars (list of properties)
+                if (Boolean.TRUE.equals(cp.isReadOnly)) {
+                    m.readOnlyVars.add(cp);
+                } else { // else add to readWriteVars (list of properties)
+                    m.readWriteVars.add(cp);
                 }
             }
         }
