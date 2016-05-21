@@ -1,7 +1,7 @@
 import request = require('request');
 import http = require('http');
 {{^supportsES6}}
-import promise = require('bluebird');
+import Promise = require('bluebird');
 {{/supportsES6}}
 
 let defaultBasePath = '{{basePath}}';
@@ -220,9 +220,6 @@ export class {{classname}} {
 {{/isFile}}
 
 {{/formParams}}
-        {{^supportsES6}}
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>();
-        {{/supportsES6}}
         let requestOptions: request.Options = {
             method: '{{httpMethod}}',
             qs: queryParameters,
@@ -247,22 +244,7 @@ export class {{classname}} {
                 requestOptions.form = formParams;
             }
         }
-        {{^supportsES6}}
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
-                } else {
-                    localVarDeferred.reject({ response: response, body: body });
-                }
-            }
-        });
-        return localVarDeferred.promise;
-        {{/supportsES6}}
-        {{#supportsES6}}
-        return new Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+        return new Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -275,7 +257,6 @@ export class {{classname}} {
                 }
             });
         });
-        {{/supportsES6}}
     }
 {{/operation}}
 }
