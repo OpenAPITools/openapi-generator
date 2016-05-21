@@ -11,7 +11,7 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IStoreApi
+    public interface IStoreApi : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
@@ -186,7 +186,7 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class StoreApi : IStoreApi
+    public partial class StoreApi : IStoreApi
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
@@ -236,7 +236,7 @@ namespace IO.Swagger.Api
         /// Sets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        [Obsolete("SetBasePath is deprecated, please do 'Configuraiton.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+        [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
         public void SetBasePath(String basePath)
         {
             // do nothing
