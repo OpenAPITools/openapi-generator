@@ -39,7 +39,7 @@
         /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
         {{/isReadOnly}}
         {{/vars}}
-        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{name}} = null{{/isReadOnly}}{{#hasMoreNonReadOnly}}, {{/hasMoreNonReadOnly}}{{/vars}})
+        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{name}} = null{{^-last}}, {{/-last}}{{/readWriteVars}})
         {
             {{#vars}}
             {{^isReadOnly}}
