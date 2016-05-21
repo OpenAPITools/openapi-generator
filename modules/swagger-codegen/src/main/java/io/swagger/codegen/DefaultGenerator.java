@@ -486,6 +486,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         bundle.put("swagger", this.swagger);
         bundle.put("basePath", basePath);
+        bundle.put("basePathWithoutHost",basePathWithoutHost);
         bundle.put("scheme", scheme);
         bundle.put("contextPath", contextPath);
         bundle.put("apiInfo", apis);
