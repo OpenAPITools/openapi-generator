@@ -6,7 +6,6 @@
 //
 
 import Alamofire
-import PromiseKit
 
 
 
@@ -23,23 +22,6 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Delete purchase order by ID
-     
-     - parameter orderId: (path) ID of the order that needs to be deleted 
-     - returns: Promise<Void>
-     */
-    public class func deleteOrder(orderId orderId: String) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        deleteOrder(orderId: orderId) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Delete purchase order by ID
@@ -77,22 +59,6 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Returns pet inventories by status
-     
-     - returns: Promise<[String:Int32]>
-     */
-    public class func getInventory() -> Promise<[String:Int32]> {
-        let deferred = Promise<[String:Int32]>.pendingPromise()
-        getInventory() { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Returns pet inventories by status
@@ -137,23 +103,6 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Find purchase order by ID
-     
-     - parameter orderId: (path) ID of pet that needs to be fetched 
-     - returns: Promise<Order>
-     */
-    public class func getOrderById(orderId orderId: String) -> Promise<Order> {
-        let deferred = Promise<Order>.pendingPromise()
-        getOrderById(orderId: orderId) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Find purchase order by ID
@@ -222,23 +171,6 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Place an order for a pet
-     
-     - parameter body: (body) order placed for purchasing the pet (optional)
-     - returns: Promise<Order>
-     */
-    public class func placeOrder(body body: Order? = nil) -> Promise<Order> {
-        let deferred = Promise<Order>.pendingPromise()
-        placeOrder(body: body) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Place an order for a pet
