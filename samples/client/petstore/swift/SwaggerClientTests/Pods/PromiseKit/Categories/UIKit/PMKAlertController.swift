@@ -58,8 +58,12 @@ public class PMKAlertController {
     private let (promise, fulfill, reject) = Promise<UIAlertAction>.pendingPromise()
     private var retainCycle: PMKAlertController?
 
-    public enum Error: ErrorType {
+    public enum Error: CancellableErrorType {
         case Cancelled
+      
+      public var cancelled: Bool {
+          return self == .Cancelled
+      }
     }
 }
 

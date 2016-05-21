@@ -35,7 +35,7 @@ extension UIViewController {
         if p.pending {
             presentViewController(vc, animated: animated, completion: completion)
             p.always {
-                self.dismissViewControllerAnimated(animated, completion: nil)
+                vc.presentingViewController!.dismissViewControllerAnimated(animated, completion: nil)
             }
         }
 
@@ -48,7 +48,7 @@ extension UIViewController {
             if p.pending {
                 presentViewController(nc, animated: animated, completion: completion)
                 p.always {
-                    self.dismissViewControllerAnimated(animated, completion: nil)
+                    vc.presentingViewController!.dismissViewControllerAnimated(animated, completion: nil)
                 }
             }
             return p
@@ -56,7 +56,7 @@ extension UIViewController {
             return Promise(error: Error.NavigationControllerEmpty)
         }
     }
-
+  
     public func promiseViewController(vc: UIImagePickerController, animated: Bool = true, completion: (() -> Void)? = nil) -> Promise<UIImage> {
         let proxy = UIImagePickerControllerProxy()
         vc.delegate = proxy
@@ -71,7 +71,16 @@ extension UIViewController {
             }
             throw Error.NoImageFound
         }.always {
-            self.dismissViewControllerAnimated(animated, completion: nil)
+            vc.presentingViewController!.dismissViewControllerAnimated(animated, completion: nil)
+        }
+    }
+
+    public func promiseViewController(vc: UIImagePickerController, animated: Bool = true, completion: (() -> Void)? = nil) -> Promise<[String: AnyObject]> {
+        let proxy = UIImagePickerControllerProxy()
+        vc.delegate = proxy
+        presentViewController(vc, animated: animated, completion: completion)
+        return proxy.promise.always {
+            vc.presentingViewController!.dismissViewControllerAnimated(animated, completion: nil)
         }
     }
 }
@@ -103,7 +112,7 @@ private func promise<T>(vc: UIViewController) -> Promise<T> {
 
 // internal scope because used by ALAssetsLibrary extension
 @objc class UIImagePickerControllerProxy: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    let (promise, fulfill, reject) = Promise<[NSObject : AnyObject]>.pendingPromise()
+    let (promise, fulfill, reject) = Promise<[String : AnyObject]>.pendingPromise()
     var retainCycle: AnyObject?
 
     required override init() {
