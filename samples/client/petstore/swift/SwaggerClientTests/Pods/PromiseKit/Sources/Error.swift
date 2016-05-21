@@ -202,7 +202,8 @@ extension NSError {
     }
 }
 
-func unconsume(error error: NSError, var reusingToken token: ErrorConsumptionToken? = nil) {
+func unconsume(error error: NSError, reusingToken t: ErrorConsumptionToken? = nil) {
+    var token = t
     if token != nil {
         objc_setAssociatedObject(error, &handle, token, .OBJC_ASSOCIATION_RETAIN)
     } else {
