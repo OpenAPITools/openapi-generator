@@ -864,7 +864,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Perl      | @wing328 (2016/05/01) |
 | PHP      | @arnested (2016/05/01) |
 | Python   | @scottrw93 (2016/05/01) |
-| Ruby      | @wing328 (2016/05/01) |
+| Ruby      | @wing328 (2016/05/01) @zlx (2016/05/22) |
 | Scala     |  |
 | Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
 | TypeScript (Node) | @Vrolijkx (2016/05/01) | 
