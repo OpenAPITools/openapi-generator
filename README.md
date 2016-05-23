@@ -834,6 +834,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
 - [Reload! A/S](https://reload.dk/) 
 - [REstore](https://www.restore.eu)
+- [Revault Sàrl](http://revault.ch)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
