@@ -307,12 +307,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if(innerTypeDeclaration.equalsIgnoreCase(BinaryDataType)) {
                 return "NSData*";
             }
-            // In this codition, type of property p is array of primitive,
+            // In this condition, type of property p is array of primitive,
             // return container type with pointer, e.g. `NSArray*<NSString*>*'
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
                 return getSwaggerType(p) +  "<" + innerTypeDeclaration + "*>*";
             }
-            // In this codition, type of property p is array of model,
+            // In this condition, type of property p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
                 for (String sd : advancedMapingTypes) {
@@ -344,18 +344,18 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             String swaggerType = getSwaggerType(p);
 
-            // In this codition, type of p is objective-c primitive type, e.g. `NSSNumber',
+            // In this condition, type of p is objective-c primitive type, e.g. `NSSNumber',
             // return type of p with pointer, e.g. `NSNumber*'
             if (languageSpecificPrimitives.contains(swaggerType) &&
                     foundationClasses.contains(swaggerType)) {
                 return swaggerType + "*";
             }
-            // In this codition, type of p is c primitive type, e.g. `bool',
+            // In this condition, type of p is c primitive type, e.g. `bool',
             // return type of p, e.g. `bool'
             else if (languageSpecificPrimitives.contains(swaggerType)) {
                 return swaggerType;
             }
-            // In this codition, type of p is objective-c object type, e.g. `SWGPet',
+            // In this condition, type of p is objective-c object type, e.g. `SWGPet',
             // return type of p with pointer, e.g. `SWGPet*'
             else {
                 return swaggerType + "*";
