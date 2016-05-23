@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -37,6 +37,12 @@ describe 'Animal' do
     end
   end
   describe 'test attribute "class_name"' do
+    it 'should work' do
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
+  describe 'test attribute "color"' do
     it 'should work' do
        # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
