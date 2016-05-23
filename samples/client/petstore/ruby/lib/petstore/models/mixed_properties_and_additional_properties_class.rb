@@ -18,29 +18,25 @@ require 'date'
 
 module Petstore
 
-  class ApiResponse
-    attr_accessor :code
+  class MixedPropertiesAndAdditionalPropertiesClass
+    attr_accessor :uuid
 
-    attr_accessor :type
-
-    attr_accessor :message
+    attr_accessor :date_time
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'code' => :'code',
-        :'type' => :'type',
-        :'message' => :'message'
+        :'uuid' => :'uuid',
+        :'date_time' => :'dateTime'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'code' => :'Integer',
-        :'type' => :'String',
-        :'message' => :'String'
+        :'uuid' => :'String',
+        :'date_time' => :'DateTime'
       }
     end
 
@@ -52,16 +48,12 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'code')
-        self.code = attributes[:'code']
+      if attributes.has_key?(:'uuid')
+        self.uuid = attributes[:'uuid']
       end
 
-      if attributes.has_key?(:'type')
-        self.type = attributes[:'type']
-      end
-
-      if attributes.has_key?(:'message')
-        self.message = attributes[:'message']
+      if attributes.has_key?(:'dateTime')
+        self.date_time = attributes[:'dateTime']
       end
 
     end
@@ -84,9 +76,8 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          code == o.code &&
-          type == o.type &&
-          message == o.message
+          uuid == o.uuid &&
+          date_time == o.date_time
     end
 
     # @see the `==` method
@@ -98,7 +89,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [code, type, message].hash
+      [uuid, date_time].hash
     end
 
     # Builds the object from hash

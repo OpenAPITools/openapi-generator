@@ -18,29 +18,17 @@ require 'date'
 
 module Petstore
 
-  class ApiResponse
-    attr_accessor :code
-
-    attr_accessor :type
-
-    attr_accessor :message
-
+  class AdditionalPropertiesClass
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'code' => :'code',
-        :'type' => :'type',
-        :'message' => :'message'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'code' => :'Integer',
-        :'type' => :'String',
-        :'message' => :'String'
       }
     end
 
@@ -51,18 +39,6 @@ module Petstore
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
-
-      if attributes.has_key?(:'code')
-        self.code = attributes[:'code']
-      end
-
-      if attributes.has_key?(:'type')
-        self.type = attributes[:'type']
-      end
-
-      if attributes.has_key?(:'message')
-        self.message = attributes[:'message']
-      end
 
     end
 
@@ -83,10 +59,7 @@ module Petstore
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class &&
-          code == o.code &&
-          type == o.type &&
-          message == o.message
+      self.class == o.class
     end
 
     # @see the `==` method
@@ -98,7 +71,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [code, type, message].hash
+      [].hash
     end
 
     # Builds the object from hash

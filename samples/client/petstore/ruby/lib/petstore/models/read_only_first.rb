@@ -18,29 +18,25 @@ require 'date'
 
 module Petstore
 
-  class ApiResponse
-    attr_accessor :code
+  class ReadOnlyFirst
+    attr_accessor :bar
 
-    attr_accessor :type
-
-    attr_accessor :message
+    attr_accessor :baz
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'code' => :'code',
-        :'type' => :'type',
-        :'message' => :'message'
+        :'bar' => :'bar',
+        :'baz' => :'baz'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'code' => :'Integer',
-        :'type' => :'String',
-        :'message' => :'String'
+        :'bar' => :'String',
+        :'baz' => :'String'
       }
     end
 
@@ -52,16 +48,12 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'code')
-        self.code = attributes[:'code']
+      if attributes.has_key?(:'bar')
+        self.bar = attributes[:'bar']
       end
 
-      if attributes.has_key?(:'type')
-        self.type = attributes[:'type']
-      end
-
-      if attributes.has_key?(:'message')
-        self.message = attributes[:'message']
+      if attributes.has_key?(:'baz')
+        self.baz = attributes[:'baz']
       end
 
     end
@@ -84,9 +76,8 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          code == o.code &&
-          type == o.type &&
-          message == o.message
+          bar == o.bar &&
+          baz == o.baz
     end
 
     # @see the `==` method
@@ -98,7 +89,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [code, type, message].hash
+      [bar, baz].hash
     end
 
     # Builds the object from hash

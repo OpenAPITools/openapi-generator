@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -18,9 +18,10 @@ require 'date'
 
 module Petstore
   class EnumClass
-
-    ABC = "_ab\"c".freeze
+    
+    ABC = "_abc".freeze
     EFG = "-efg".freeze
-    XYZ = "(xy'z)".freeze
+    XYZ = "(xyz)".freeze
   end
+
 end
