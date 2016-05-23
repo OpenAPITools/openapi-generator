@@ -6,7 +6,7 @@ using Sharpility.Extensions;
 
 {{#models}}
 {{#model}}
-namespace {{packageName}}.Model
+namespace {{packageName}}.Models
 {
     public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {   {{#vars}}{{#isEnum}}
@@ -14,7 +14,7 @@ namespace {{packageName}}.Model
         {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}{{#vars}}
         public {{>nullableDataType}} {{name}} { get; private set; }{{/vars}}
 
-        public {{classname}}({{#vars}}{{>nullableDataType}} {{name}} = null{{#hasMore}}, {{/hasMore}}{{/vars}})
+        public {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
             {{#vars}}
             this.{{name}} = {{name}};
@@ -30,8 +30,8 @@ namespace {{packageName}}.Model
         {
             return Builder()
             {{#vars}}
-                .{{name}}({{name}})
-{{/vars}}            ;
+                .{{name}}({{name}}){{#hasMore}}
+{{/hasMore}}{{/vars}};
         }
 
         public override string ToString()
