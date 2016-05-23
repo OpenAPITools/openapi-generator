@@ -29,7 +29,6 @@
 
   NSArray *optionalProperties = @[@"_id", @"category", @"tags", @"status"];
   return [optionalProperties containsObject:propertyName];
-
 }
 
 @end
