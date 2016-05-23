@@ -20,7 +20,7 @@ namespace {{packageName}}.Module
                 }
                 {{/required}}{{/allParams}}{{#allParams}}{{#isBodyParam}}
                 var {{paramName}} = this.Bind<{{&dataType}}>();
-                {{/isBodyParam}}{{^isBodyParam}}{{&dataType}} {{paramName}} = parameters.{{paramName}};
+                {{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}{{>innerApiEnumName}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}} {{paramName}} = parameters.{{paramName}};
                 {{/isBodyParam}}{{/allParams}}
                 {{#returnType}}return {{/returnType}}service.{{operationId}}(
                 {{#allParams}}

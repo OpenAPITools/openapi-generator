@@ -1,1 +1,1 @@
-public enum {{#datatypeWithEnum}}{{operationId}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} { {{#allowableValues}}{{#values}}{{&.}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}} };
+public enum {{>innerApiEnumName}} { {{#allowableValues}}{{#values}}{{&.}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}} };
