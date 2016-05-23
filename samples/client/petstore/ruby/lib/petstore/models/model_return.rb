@@ -21,6 +21,7 @@ module Petstore
   class ModelReturn
     attr_accessor :_return
 
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -59,6 +60,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return true
     end
 
     # Checks equality by comparing each attribute.
@@ -186,4 +188,5 @@ module Petstore
     end
 
   end
+
 end

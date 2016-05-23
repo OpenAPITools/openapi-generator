@@ -27,6 +27,7 @@ module Petstore
 
     attr_accessor :_123_number
 
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -83,10 +84,8 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      if @name.nil?
-        return false
-      end
-
+      return false if @name.nil?
+      return true
     end
 
     # Checks equality by comparing each attribute.
@@ -217,4 +216,5 @@ module Petstore
     end
 
   end
+
 end
