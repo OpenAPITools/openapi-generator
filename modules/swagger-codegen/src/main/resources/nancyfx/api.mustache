@@ -8,14 +8,15 @@ using {{packageName}}.Utils;
 
 namespace {{packageName}}.Modules
 {
-{{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}{{>innerApiEnum}}{{/isEnum}}{{/allParams}}{{/operation}}    public sealed class {{classname}}Module : NancyModule
+{{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}    {{>innerApiEnum}}{{/isEnum}}{{/allParams}}
+{{/operation}}    public sealed class {{classname}}Module : NancyModule
     {
         public {{classname}}Module({{classname}}Service service)
              :base("")
         { {{#operation}}
             {{httpMethod}}["{{path}}"] = parameters =>
             {
-                {{#allParams}}{{#isBodyParam}}var {{paramName}} = this.Bind<{{&dataType}}>();{{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}{{>innerApiEnumName}}{{/isEnum}}{{^isEnum}}var{{/isEnum}} {{paramName}} = Parameters.ValueOf<{{&dataType}}>(parameters, "{{paramName}}");{{#hasMore}}
+                {{#allParams}}{{#isBodyParam}}var {{paramName}} = this.Bind<{{&dataType}}>();{{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}var {{paramName}} = Parameters.ValueOf<{{>innerApiEnumName}}>(parameters, "{{paramName}}");{{/isEnum}}{{^isEnum}}var {{paramName}} = Parameters.ValueOf<{{&dataType}}>(parameters, "{{paramName}}");{{/isEnum}}{{#hasMore}}
                 {{/hasMore}}{{/isBodyParam}}{{/allParams}}{{#allParams}}{{#required}}
                 Preconditions.IsNotNull({{paramName}}, "Required parameter: '{{paramName}}' is missing at '{{operationId}}'");
                 {{/required}}{{/allParams}}
