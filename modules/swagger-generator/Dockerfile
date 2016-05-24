@@ -1,4 +1,4 @@
-FROM jimschubert/8-jdk-alpine-mvn:1.0
+FROM java:8-jre-alpine
 
 WORKDIR /generator
 
