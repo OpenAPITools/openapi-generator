@@ -1,13 +1,17 @@
 package io.swagger.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.properties.Property;
+import io.swagger.models.properties.StringProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Map;
 
 import static io.swagger.codegen.CodegenConstants.*;
 import static io.swagger.codegen.CodegenType.SERVER;
@@ -42,6 +46,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(USE_DATETIME_OFFSET, USE_DATETIME_OFFSET_DESC, useDateTimeOffsetFlag);
         addSwitch(USE_COLLECTION, USE_COLLECTION_DESC, useCollection);
         addSwitch(RETURN_ICOLLECTION, RETURN_ICOLLECTION_DESC, returnICollection);
+        typeMapping.putAll(nodaTimeTypesMappings());
     }
 
     @Override
@@ -137,5 +142,20 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String toEnumName(CodegenProperty property) {
         return sanitizeName(camelize(property.name)) ;
+    }
+
+    @Override
+    public String getSwaggerType(Property property) {
+        if (property instanceof StringProperty && "time".equalsIgnoreCase(property.getFormat())) {
+            return "time";
+        }
+        return super.getSwaggerType(property);
+    }
+
+    private static Map<String, String> nodaTimeTypesMappings() {
+        return ImmutableMap.of(
+                "time", "LocalTime?",
+                "date", "ZonedDateTime?",
+                "datetime", "ZonedDateTime?");
     }
 }
