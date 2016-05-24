@@ -42,6 +42,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String[] specialWords = {"new", "copy"};
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String modelFilesPath = "Model/";
+    protected String coreFilesPath = "Core/";
+    protected String apiFilesPath = "Api/";
     
     protected Set<String> advancedMapingTypes = new HashSet<String>();
 
@@ -223,34 +226,34 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        String swaggerFolder = podName;
+        modelPackage = podName;
+        apiPackage = podName;
 
-        modelPackage = swaggerFolder;
-        apiPackage = swaggerFolder;
-
-        supportingFiles.add(new SupportingFile("Object-header.mustache", swaggerFolder, classPrefix + "Object.h"));
-        supportingFiles.add(new SupportingFile("Object-body.mustache", swaggerFolder, classPrefix + "Object.m"));
-        supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache", swaggerFolder, classPrefix + "QueryParamCollection.h"));
-        supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache", swaggerFolder, classPrefix + "QueryParamCollection.m"));
-        supportingFiles.add(new SupportingFile("ApiClient-header.mustache", swaggerFolder, classPrefix + "ApiClient.h"));
-        supportingFiles.add(new SupportingFile("ApiClient-body.mustache", swaggerFolder, classPrefix + "ApiClient.m"));
-        supportingFiles.add(new SupportingFile("JSONResponseSerializer-header.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.h"));
-        supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache", swaggerFolder, classPrefix + "JSONResponseSerializer.m"));
-        supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.m"));
-        supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache", swaggerFolder, classPrefix + "JSONRequestSerializer.h"));
-        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache", swaggerFolder, classPrefix + "ResponseDeserializer.m"));
-        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache", swaggerFolder, classPrefix + "ResponseDeserializer.h"));
-        supportingFiles.add(new SupportingFile("Sanitizer-body.mustache", swaggerFolder, classPrefix + "Sanitizer.m"));
-        supportingFiles.add(new SupportingFile("Sanitizer-header.mustache", swaggerFolder, classPrefix + "Sanitizer.h"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m", swaggerFolder, "JSONValueTransformer+ISO8601.m"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h", swaggerFolder, "JSONValueTransformer+ISO8601.h"));
-        supportingFiles.add(new SupportingFile("Configuration-body.mustache", swaggerFolder, classPrefix + "Configuration.m"));
-        supportingFiles.add(new SupportingFile("Configuration-header.mustache", swaggerFolder, classPrefix + "Configuration.h"));
+        supportingFiles.add(new SupportingFile("Object-header.mustache", coreFileFolder(), classPrefix + "Object.h"));
+        supportingFiles.add(new SupportingFile("Object-body.mustache",  coreFileFolder(), classPrefix + "Object.m"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.h"));
+        supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.m"));
+        supportingFiles.add(new SupportingFile("ApiClient-header.mustache",  coreFileFolder(), classPrefix + "ApiClient.h"));
+        supportingFiles.add(new SupportingFile("ApiClient-body.mustache",  coreFileFolder(), classPrefix + "ApiClient.m"));
+        supportingFiles.add(new SupportingFile("JSONResponseSerializer-header.mustache",  coreFileFolder(), classPrefix + "JSONResponseSerializer.h"));
+        supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache",  coreFileFolder(), classPrefix + "JSONResponseSerializer.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.m"));
+        supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.h"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.m"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.h"));
+        supportingFiles.add(new SupportingFile("Sanitizer-body.mustache",  coreFileFolder(), classPrefix + "Sanitizer.m"));
+        supportingFiles.add(new SupportingFile("Sanitizer-header.mustache",  coreFileFolder(), classPrefix + "Sanitizer.h"));
+        supportingFiles.add(new SupportingFile("Logger-body.mustache",  coreFileFolder(), classPrefix + "Logger.m"));
+        supportingFiles.add(new SupportingFile("Logger-header.mustache",  coreFileFolder(), classPrefix + "Logger.h"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m",  coreFileFolder(), "JSONValueTransformer+ISO8601.m"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h",  coreFileFolder(), "JSONValueTransformer+ISO8601.h"));
+        supportingFiles.add(new SupportingFile("Configuration-body.mustache",  coreFileFolder(), classPrefix + "Configuration.m"));
+        supportingFiles.add(new SupportingFile("Configuration-header.mustache",  coreFileFolder(), classPrefix + "Configuration.h"));
+        supportingFiles.add(new SupportingFile("api-protocol.mustache", coreFileFolder(), classPrefix + "Api.h"));
         supportingFiles.add(new SupportingFile("podspec.mustache", "", podName + ".podspec"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
 
     }
 
@@ -304,12 +307,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             if(innerTypeDeclaration.equalsIgnoreCase(BinaryDataType)) {
                 return "NSData*";
             }
-            // In this codition, type of property p is array of primitive,
+            // In this condition, type of property p is array of primitive,
             // return container type with pointer, e.g. `NSArray*<NSString*>*'
             if (languageSpecificPrimitives.contains(innerTypeDeclaration)) {
                 return getSwaggerType(p) +  "<" + innerTypeDeclaration + "*>*";
             }
-            // In this codition, type of property p is array of model,
+            // In this condition, type of property p is array of model,
             // return container type combine inner type with pointer, e.g. `NSArray<SWGTag>*'
             else {
                 for (String sd : advancedMapingTypes) {
@@ -341,18 +344,18 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             String swaggerType = getSwaggerType(p);
 
-            // In this codition, type of p is objective-c primitive type, e.g. `NSSNumber',
+            // In this condition, type of p is objective-c primitive type, e.g. `NSSNumber',
             // return type of p with pointer, e.g. `NSNumber*'
             if (languageSpecificPrimitives.contains(swaggerType) &&
                     foundationClasses.contains(swaggerType)) {
                 return swaggerType + "*";
             }
-            // In this codition, type of p is c primitive type, e.g. `bool',
+            // In this condition, type of p is c primitive type, e.g. `bool',
             // return type of p, e.g. `bool'
             else if (languageSpecificPrimitives.contains(swaggerType)) {
                 return swaggerType;
             }
-            // In this codition, type of p is objective-c object type, e.g. `SWGPet',
+            // In this condition, type of p is objective-c object type, e.g. `SWGPet',
             // return type of p with pointer, e.g. `SWGPet*'
             else {
                 return swaggerType + "*";
@@ -454,12 +457,16 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separatorChar + apiPackage();
+        return (outputFolder + "/"+ apiPackage() + "/" + apiFilesPath).replace("/", File.separator);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separatorChar + modelPackage();
+        return (outputFolder + "/"+ modelPackage() + "/" + modelFilesPath).replace("/", File.separator);
+    }
+
+    public String coreFileFolder() {
+        return (apiPackage() + "/" + coreFilesPath).replace("/", File.separator);
     }
 
     @Override

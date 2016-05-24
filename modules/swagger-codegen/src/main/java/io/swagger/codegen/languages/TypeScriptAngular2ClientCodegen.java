@@ -5,12 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.FileProperty;
 import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 
 public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -41,6 +44,12 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
+        codegenModel.additionalPropertiesType = getSwaggerType(swaggerModel.getAdditionalProperties());
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
     @Override
@@ -106,14 +115,19 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             MapProperty mp = (MapProperty)p;
             inner = mp.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
+        } else if(p instanceof FileProperty || p instanceof ObjectProperty) {
+            return "any";
         } else {
-            return p instanceof FileProperty ? "any" : super.getTypeDeclaration(p);
+            return super.getTypeDeclaration(p);
         }
     }
 
     @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
+        if(languageSpecificPrimitives.contains(swaggerType)) {
+            return swaggerType;
+        }
         return addModelPrefix(swaggerType);
     }
 
@@ -121,11 +135,23 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type))
-                return type;
-        } else
+        } else {
+            type = swaggerType;
+        }
+
+        if (!startsWithLanguageSpecificPrimitiv(type)) {
             type = "models." + swaggerType;
+        }
         return type;
+    }
+
+    private boolean startsWithLanguageSpecificPrimitiv(String type) {
+        for (String langPrimitive:languageSpecificPrimitives) {
+            if (type.startsWith(langPrimitive))  {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

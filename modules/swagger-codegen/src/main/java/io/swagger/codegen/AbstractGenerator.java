@@ -99,6 +99,16 @@ public abstract class AbstractGenerator {
         }
     }
 
+    public String readResourceContents(String resourceFilePath) {
+        StringBuilder sb = new StringBuilder();
+        Scanner scanner = new Scanner(this.getClass().getResourceAsStream(getCPResourcePath(resourceFilePath)), "UTF-8");
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            sb.append(line).append('\n');
+        }
+        return sb.toString();
+    }
+
     public boolean embeddedTemplateExists(String name) {
         return this.getClass().getClassLoader().getResource(getCPResourcePath(name)) != null;
     }

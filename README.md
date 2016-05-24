@@ -386,6 +386,26 @@ To control the specific files being generated, you can pass a CSV list of what y
 -Dmodels=User -DsupportingFiles=StringUtil.java
 ```
 
+To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `-DapiTest=false` and `-DapiDocs=false`. For models, `-DmodelTest=false` and `-DmodelDocs=false`.
+These options default to true and don't limit the generation of the feature options listed above (like `-Dapi`):
+
+```
+# generate only models (with tests and documentation)
+java -Dmodels {opts}
+
+# generate only models (with tests but no documentation)
+java -Dmodels -DmodelDocs=false {opts}
+
+# generate only User and Pet models (no tests and no documentation)
+java -Dmodels=User,Pet -DmodelTests=false {opts}
+
+# generate only apis (without tests)
+java -Dapis -DapiTests=false {opts}
+
+# generate only apis (modelTests option is ignored)
+java -Dapis -DmodelTests=false {opts}
+```
+
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
 ### Customizing the generator
@@ -608,7 +628,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -i http://petstore.swagger.io/v2/swagger.json \
-  -l silex \
+  -l silex-PHP \
   -o samples/server/petstore/silex
 ```
 
@@ -800,6 +820,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
+- [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
@@ -813,12 +834,14 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
 - [Reload! A/S](https://reload.dk/) 
 - [REstore](https://www.restore.eu)
+- [Revault Sàrl](http://revault.ch)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [uShip](https://www.uship.com/)
+- [WEXO A/S](https://www.wexo.dk/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
 
@@ -842,7 +865,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Perl      | @wing328 (2016/05/01) |
 | PHP      | @arnested (2016/05/01) |
 | Python   | @scottrw93 (2016/05/01) |
-| Ruby      | @wing328 (2016/05/01) |
+| Ruby      | @wing328 (2016/05/01) @zlx (2016/05/22) |
 | Scala     |  |
 | Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
 | TypeScript (Node) | @Vrolijkx (2016/05/01) | 
@@ -894,6 +917,7 @@ Here is a list of template creators:
    * JAX-RS CXF: @hiveship 
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
+   * Ruby on Rails 5: @zlx 
 
 ## How to join the core team
 

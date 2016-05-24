@@ -20,6 +20,7 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
         outputFolder = "generated-code/javaSpringBoot";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put(templateFileName, ".java");
+        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpringBoot";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";

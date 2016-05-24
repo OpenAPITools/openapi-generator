@@ -20,6 +20,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected FormatTest() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormatTest" /> class.
+        /// </summary>
         /// <param name="Integer">Integer.</param>
         /// <param name="Int32">Int32.</param>
         /// <param name="Int64">Int64.</param>
@@ -71,26 +76,15 @@ namespace IO.Swagger.Model
             {
                 this.Password = Password;
             }
-            
-            
-                        this.Integer = Integer;
-            
-                        this.Int32 = Int32;
-            
-                        this.Int64 = Int64;
-            
-                        this._Float = _Float;
-            
-                        this._Double = _Double;
-            
-                        this._String = _String;
-            
-                        this.Binary = Binary;
-            
-                        this.DateTime = DateTime;
-            
-                        this.Uuid = Uuid;
-            
+            this.Integer = Integer;
+            this.Int32 = Int32;
+            this.Int64 = Int64;
+            this._Float = _Float;
+            this._Double = _Double;
+            this._String = _String;
+            this.Binary = Binary;
+            this.DateTime = DateTime;
+            this.Uuid = Uuid;
         }
         
         /// <summary>
@@ -167,18 +161,18 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
-sb.Append("  Int32: ").Append(Int32).Append("\n");
-sb.Append("  Int64: ").Append(Int64).Append("\n");
-sb.Append("  Number: ").Append(Number).Append("\n");
-sb.Append("  _Float: ").Append(_Float).Append("\n");
-sb.Append("  _Double: ").Append(_Double).Append("\n");
-sb.Append("  _String: ").Append(_String).Append("\n");
-sb.Append("  _Byte: ").Append(_Byte).Append("\n");
-sb.Append("  Binary: ").Append(Binary).Append("\n");
-sb.Append("  Date: ").Append(Date).Append("\n");
-sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-sb.Append("  Uuid: ").Append(Uuid).Append("\n");
-sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  Number: ").Append(Number).Append("\n");
+            sb.Append("  _Float: ").Append(_Float).Append("\n");
+            sb.Append("  _Double: ").Append(_Double).Append("\n");
+            sb.Append("  _String: ").Append(_String).Append("\n");
+            sb.Append("  _Byte: ").Append(_Byte).Append("\n");
+            sb.Append("  Binary: ").Append(Binary).Append("\n");
+            sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

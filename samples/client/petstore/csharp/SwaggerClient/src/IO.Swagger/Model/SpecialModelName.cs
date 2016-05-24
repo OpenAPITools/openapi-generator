@@ -23,10 +23,7 @@ namespace IO.Swagger.Model
         /// <param name="SpecialPropertyName">SpecialPropertyName.</param>
         public SpecialModelName(long? SpecialPropertyName = null)
         {
-            
-            
-                        this.SpecialPropertyName = SpecialPropertyName;
-            
+            this.SpecialPropertyName = SpecialPropertyName;
         }
         
         /// <summary>

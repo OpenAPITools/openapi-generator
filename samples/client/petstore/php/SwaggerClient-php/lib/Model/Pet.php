@@ -39,7 +39,6 @@ use \ArrayAccess;
  * Pet Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,13 +50,13 @@ class Pet implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'Pet';
+    protected static $swaggerModelName = 'Pet';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'id' => 'int',
         'category' => '\Swagger\Client\Model\Category',
         'name' => 'string',
@@ -66,15 +65,16 @@ class Pet implements ArrayAccess
         'status' => 'string'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'id' => 'id',
         'category' => 'category',
         'name' => 'name',
@@ -83,7 +83,8 @@ class Pet implements ArrayAccess
         'status' => 'status'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -91,7 +92,7 @@ class Pet implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'id' => 'setId',
         'category' => 'setCategory',
         'name' => 'setName',
@@ -100,7 +101,8 @@ class Pet implements ArrayAccess
         'status' => 'setStatus'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -108,7 +110,7 @@ class Pet implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'id' => 'getId',
         'category' => 'getCategory',
         'name' => 'getName',
@@ -116,8 +118,9 @@ class Pet implements ArrayAccess
         'tags' => 'getTags',
         'status' => 'getStatus'
     );
- 
-    static function getters() {
+
+    public static function getters()
+    {
         return self::$getters;
     }
 
@@ -131,7 +134,8 @@ class Pet implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getStatusAllowableValues() {
+    public function getStatusAllowableValues()
+    {
         return [
             self::STATUS_AVAILABLE,
             self::STATUS_PENDING,
@@ -162,21 +166,21 @@ class Pet implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         if ($this->container['name'] === null) {
-            $invalid_properties[] = "'$name' can't be null";
+            $invalid_properties[] = "'name' can't be null";
         }
         if ($this->container['photo_urls'] === null) {
-            $invalid_properties[] = "'$photo_urls' can't be null";
+            $invalid_properties[] = "'photo_urls' can't be null";
         }
         $allowed_values = array("available", "pending", "sold");
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '$status', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'status', must be one of #{allowed_values}.";
         }
         return $invalid_properties;
     }
@@ -184,8 +188,8 @@ class Pet implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -214,7 +218,7 @@ class Pet implements ArrayAccess
 
     /**
      * Sets id
-     * @param int $id 
+     * @param int $id
      * @return $this
      */
     public function setId($id)
@@ -235,7 +239,7 @@ class Pet implements ArrayAccess
 
     /**
      * Sets category
-     * @param \Swagger\Client\Model\Category $category 
+     * @param \Swagger\Client\Model\Category $category
      * @return $this
      */
     public function setCategory($category)
@@ -256,7 +260,7 @@ class Pet implements ArrayAccess
 
     /**
      * Sets name
-     * @param string $name 
+     * @param string $name
      * @return $this
      */
     public function setName($name)
@@ -277,7 +281,7 @@ class Pet implements ArrayAccess
 
     /**
      * Sets photo_urls
-     * @param string[] $photo_urls 
+     * @param string[] $photo_urls
      * @return $this
      */
     public function setPhotoUrls($photo_urls)
@@ -298,7 +302,7 @@ class Pet implements ArrayAccess
 
     /**
      * Sets tags
-     * @param \Swagger\Client\Model\Tag[] $tags 
+     * @param \Swagger\Client\Model\Tag[] $tags
      * @return $this
      */
     public function setTags($tags)
@@ -334,7 +338,7 @@ class Pet implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -344,17 +348,17 @@ class Pet implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -366,17 +370,17 @@ class Pet implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string

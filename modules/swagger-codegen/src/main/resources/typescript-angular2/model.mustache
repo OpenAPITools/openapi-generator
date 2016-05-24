@@ -9,6 +9,7 @@ import * as models from './models';
  */
 {{/description}}
 export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}}{
+    {{#additionalPropertiesType}}[key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};{{/additionalPropertiesType}}
 {{#vars}}
 
 {{#description}}
@@ -19,7 +20,6 @@ export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}
     {{name}}?: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 }
-
 {{#hasEnums}}
 export namespace {{classname}} {
 {{#vars}}

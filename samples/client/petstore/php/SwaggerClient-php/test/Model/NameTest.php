@@ -49,22 +49,24 @@ class NameTest extends \PHPUnit_Framework_TestCase
     /**
      * Setup before running each test case
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
 
     }
 
     /**
      * Clean up after running each test case
      */
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass()
+    {
 
     }
 
     /**
-     * Test Name
+     * Test "Name"
      */
-    public function testName() {
+    public function testName()
+    {
 
     }
-
 }

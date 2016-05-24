@@ -22,8 +22,6 @@ namespace IO.Swagger.Model
         /// </summary>
         public AnimalFarm()
         {
-            
-            
         }
         
         /// <summary>
@@ -34,7 +32,7 @@ namespace IO.Swagger.Model
         {
             var sb = new StringBuilder();
             sb.Append("class AnimalFarm {\n");
-                        sb.Append("}\n");
+            sb.Append("}\n");
             return sb.ToString();
         }
   

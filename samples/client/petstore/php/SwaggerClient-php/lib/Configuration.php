@@ -47,7 +47,7 @@ namespace Swagger\Client;
 class Configuration
 {
 
-    private static $_defaultConfiguration = null;
+    private static $defaultConfiguration = null;
 
     /**
      * Associate array to store API key(s)
@@ -110,7 +110,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "Swagger-Codegen/1.0.0/php";
+    protected $userAgent = "Swagger-Codegen//php";
 
     /**
      * Debug switch (default set to false)
@@ -487,11 +487,11 @@ class Configuration
      */
     public static function getDefaultConfiguration()
     {
-        if (self::$_defaultConfiguration == null) {
-            self::$_defaultConfiguration = new Configuration();
+        if (self::$defaultConfiguration == null) {
+            self::$defaultConfiguration = new Configuration();
         }
 
-        return self::$_defaultConfiguration;
+        return self::$defaultConfiguration;
     }
 
     /**
@@ -503,7 +503,7 @@ class Configuration
      */
     public static function setDefaultConfiguration(Configuration $config)
     {
-        self::$_defaultConfiguration = $config;
+        self::$defaultConfiguration = $config;
     }
 
     /**
@@ -517,10 +517,9 @@ class Configuration
         $report .= "    OS: ".php_uname()."\n";
         $report .= "    PHP Version: ".phpversion()."\n";
         $report .= "    OpenAPI Spec Version: 1.0.0\n";
-        $report .= "    SDK Package Version: 1.0.0\n";
+        $report .= "    SDK Package Version: \n";
         $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath()."\n";
 
         return $report;
     }
-
 }
