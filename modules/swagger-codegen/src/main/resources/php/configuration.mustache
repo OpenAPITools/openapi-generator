@@ -513,12 +513,12 @@ class Configuration
      */
     public static function toDebugReport()
     {
-        $report  = "PHP SDK ({{invokerPackage}}) Debug Report:\n";
-        $report .= "    OS: ".php_uname()."\n";
-        $report .= "    PHP Version: ".phpversion()."\n";
-        $report .= "    OpenAPI Spec Version: {{version}}\n";
-        $report .= "    SDK Package Version: {{artifactVersion}}\n";
-        $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath()."\n";
+        $report  = "PHP SDK ({{invokerPackage}}) Debug Report:".PHP_EOL;
+        $report .= "    OS: ".php_uname().PHP_EOL;
+        $report .= "    PHP Version: ".phpversion().PHP_EOL;
+        $report .= "    OpenAPI Spec Version: {{version}}".PHP_EOL;
+        $report .= "    SDK Package Version: {{artifactVersion}}".PHP_EOL;
+        $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath().PHP_EOL;
 
         return $report;
     }
