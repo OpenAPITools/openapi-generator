@@ -516,8 +516,8 @@ class Configuration
         $report  = "PHP SDK ({{invokerPackage}}) Debug Report:\n";
         $report .= "    OS: ".php_uname()."\n";
         $report .= "    PHP Version: ".phpversion()."\n";
-        $report .= "    OpenAPI Spec Version: {{version}}\n";
-        $report .= "    SDK Package Version: {{artifactVersion}}\n";
+        $report .= "    OpenAPI Spec Version: {{version}}\n";{{^artifactVersion}}
+        $report .= "    SDK Package Version: {{artifactVersion}}\n";{{/artifactVersion}}
         $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath()."\n";
 
         return $report;
