@@ -32,7 +32,7 @@ $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Create
 try {
     $api_instance->createUser($body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -76,7 +76,7 @@ $body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
 try {
     $api_instance->createUsersWithArrayInput($body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -120,7 +120,7 @@ $body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
 try {
     $api_instance->createUsersWithListInput($body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -164,7 +164,7 @@ $username = "username_example"; // string | The name that needs to be deleted
 try {
     $api_instance->deleteUser($username);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -209,7 +209,7 @@ try {
     $result = $api_instance->getUserByName($username);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -255,7 +255,7 @@ try {
     $result = $api_instance->loginUser($username, $password);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -299,7 +299,7 @@ $api_instance = new Swagger\Client\Api\UserApi();
 try {
     $api_instance->logoutUser();
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -341,7 +341,7 @@ $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Update
 try {
     $api_instance->updateUser($username, $body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
