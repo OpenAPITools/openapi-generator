@@ -1,13 +1,16 @@
-FROM maven:3.3-jdk-7
+FROM jimschubert/8-jdk-alpine-mvn
 
-WORKDIR /src
-VOLUME  /src
-VOLUME  /root/.m2/repository
+RUN mkdir /opt
 
 ADD . /opt/swagger-codegen
 
-RUN cd /opt/swagger-codegen && mvn package
+WORKDIR /opt/swagger-codegen
 
-ENTRYPOINT ["java", "-jar", "/opt/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"]
+RUN mvn -am -pl "modules/swagger-codegen-cli" package && \
+    mv /opt/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar /opt/swagger-codegen/swagger-codegen-cli.jar && \
+    mvn clean && \
+    rm -rf ${MAVEN_HOME}/.m2/repository
+
+ENTRYPOINT ["java", "-jar", "/opt/swagger-codegen/swagger-codegen-cli.jar"]
 
 CMD ["help"]
