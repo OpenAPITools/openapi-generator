@@ -4,8 +4,9 @@ using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Base;
 using {{packageName}}.Models;
+using {{packageName}}.Utils;
 
-namespace {{packageName}}.Api
+namespace {{packageName}}.Modules
 {
 {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}{{>innerApiEnum}}{{/isEnum}}{{/allParams}}{{/operation}}    public sealed class {{classname}}Module : NancyModule
     {
@@ -14,11 +15,9 @@ namespace {{packageName}}.Api
         { {{#operation}}
             {{httpMethod}}["{{path}}"] = parameters =>
             {
-                {{#allParams}}{{#isBodyParam}}
-                var {{paramName}} = this.Bind<{{&dataType}}>();
-                {{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}{{>innerApiEnumName}}{{/isEnum}}{{^isEnum}}{{&dataType}}{{/isEnum}} {{paramName}} = parameters.{{paramName}};{{#hasMore}}
+                {{#allParams}}{{#isBodyParam}}var {{paramName}} = this.Bind<{{&dataType}}>();{{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}{{>innerApiEnumName}}{{/isEnum}}{{^isEnum}}var{{/isEnum}} {{paramName}} = Parameters.ValueOf<{{&dataType}}>(parameters, "{{paramName}}");{{#hasMore}}
                 {{/hasMore}}{{/isBodyParam}}{{/allParams}}{{#allParams}}{{#required}}
-                Preconditions.IsNotNull({{paramName}}, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+                Preconditions.IsNotNull({{paramName}}, "Required parameter: '{{paramName}}' is missing at '{{operationId}}'");
                 {{/required}}{{/allParams}}
                 {{#returnType}}return {{/returnType}}service.{{operationId}}(Request{{#allParams.0}}, {{/allParams.0}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{^returnType}}
                 return new Response { ContentType = "{{produces.0.mediaType}}"};{{/returnType}}
@@ -36,7 +35,7 @@ namespace {{packageName}}.Api
 
     public abstract class Abstract{{classname}}Service: {{classname}}Service
     {
-        {{#operation}}public {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(Request request{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
+        {{#operation}}public virtual {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(Request request{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
         {
             {{#returnType}}return {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         }{{#hasMore}}

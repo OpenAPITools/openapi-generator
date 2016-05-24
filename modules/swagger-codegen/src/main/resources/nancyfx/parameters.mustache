@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -7,91 +8,52 @@ using Sharpility.Base;
 using Sharpility.Extensions;
 using Sharpility.Util;
 
-namespace {{packageName}}
+namespace {{packageName}}.Utils
 {
-    internal static class RequestExtensions
+    internal static class Parameters
     {
         private static readonly IDictionary<Type, Func<Parameter, object>> Parsers = CreateParsers();
 
-        internal static TParam QueryParam<TParam>(this Request source, string name)
+        internal static TValue ValueOf<TValue>(dynamic parameters, string name)
         {
-            return QueryParam(source, name, default(TParam), useDefault: false);
-        }
-
-        internal static TParam QueryParam<TParam>(this Request source, string name, TParam defaultValue)
-        {
-            return QueryParam(source, name, defaultValue, useDefault: true);
-        }
-
-        internal static THeader HeaderValue<THeader>(this Request source, string name)
-        {
-            return HeaderValue(source, name, default(THeader), useDefault: false);
-        }
-
-        internal static THeader HeaderValue<THeader>(this Request source, string name, THeader defaultValue)
-        {
-            return HeaderValue(source, name, defaultValue, useDefault: true);
-        }
-
-        internal static TPathParam PathParam<TPathParam>(dynamic parameters, string name)
-        {
-            return PathParam(parameters, name, default(TPathParam), useDefault: false);
-        }
-
-        internal static TPathParam PathParam<TPathParam>(dynamic parameters, string name, TPathParam defaultValue)
-        {
-            return PathParam(parameters, name, defaultValue, useDefault: true);
-        }
-
-        private static TParam QueryParam<TParam>(Request source, string name, TParam defaultValue, bool useDefault)
-        {
-            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
-            var valueType = typeof(TParam);
-            var parser = Parsers.GetIfPresent(valueType);
-            if (parser == null)
-            {
-                return TryParseUsingDynamic(source.Query, name, defaultValue);
-            }
-            string value = source.Query[name];
-            return ValueOf(name, value, defaultValue, useDefault, parser);
-        }
-
-        private static THeader HeaderValue<THeader>(Request source, string name, THeader defaultValue, bool useDefault)
-        {
-            Preconditions.IsNotNull(source, () => new NullReferenceException("source"));
-            var valueType = typeof(THeader);
-            var values = source.Headers[name];
-            var parser = Parsers.GetIfPresent(valueType);
-            var value = values != null ? string.Join(",", values) : null;
-            Preconditions.IsNotNull(parser, () => new InvalidOperationException(
-                Strings.Format("Header: '{0}' value: '{1}' could not be parsed. Expected type: '{2}' is not supported",
-                name, value, valueType)));
-            return ValueOf(name, value, defaultValue, useDefault, parser);
-
-        }
-
-        private static TPathParam PathParam<TPathParam>(dynamic parameters, string name, TPathParam defaultValue, bool useDefault)
-        {
-            var valueType = typeof(TPathParam);
-            var parser = Parsers.GetIfPresent(valueType);
-            if (parser == null)
-            {
-                return TryParseUsingDynamic(parameters, name, defaultValue);
-            }
+            var valueType = typeof (TValue);
+            var isNullable = default(TValue) == null;
             string value = parameters[name];
-            return ValueOf(name, value, defaultValue, useDefault, parser);
+            Preconditions.Evaluate(!string.IsNullOrEmpty(value) || isNullable, string.Format("Required parameter: '{0}' is missing", name));
+            if (valueType.IsEnum)
+            {
+                return EnumValueOf<TValue>(name, value);
+            }
+            return ValueOf<TValue>(parameters, name, value, valueType);
         }
 
-        private static TValue ValueOf<TValue>(string name, string value, TValue defaultValue, bool useDefault, Func<Parameter, object> parser)
+        private static TValue EnumValueOf<TValue>(string name, string value)
         {
-            var valueType = typeof(TValue);
-            var nullable = default(TValue) == null;
-            if (string.IsNullOrEmpty(value))
+            var values = Enum.GetValues(typeof(TValue));
+            foreach (var entry in values)
             {
-                Preconditions.Evaluate(nullable || (defaultValue != null && useDefault), () =>
-                    new ArgumentException(Strings.Format("Query: '{0}' value was not specified", name)));
-                return defaultValue;
+                if (entry.ToString().EqualsIgnoreCases(value) 
+                    || ((int) entry).ToString().EqualsIgnoreCases(value))
+                {
+                    return (TValue) entry;
+                }                
             }
+            throw new ArgumentException(string.Format("Parameter: '{0}' value: '{1}' is not supported. Expected one of: {2}",
+                    name, value, value.ToComparable()));
+        }
+
+        private static TValue ValueOf<TValue>(dynamic parameters, string name, string value, Type valueType)
+        {
+            var parser = Parsers.GetIfPresent(valueType);
+            if (parser != null)
+            {
+                return ParseValueUsing<TValue>(name, value, valueType, parser);
+            }
+            return DynamicValueOf<TValue>(parameters, name);
+        }
+
+        private static TValue ParseValueUsing<TValue>(string name, string value, Type valueType, Func<Parameter, object> parser)
+        {
             var result = parser(Parameter.Of(name, value));
             try
             {
@@ -99,21 +61,22 @@ namespace {{packageName}}
             }
             catch (InvalidCastException)
             {
-                throw new InvalidOperationException(Strings.Format(
-                    "Unexpected result type: '{0}' for query: '{1}' expected: '{2}'",
-                    result.GetType(), name, valueType));
+                throw new InvalidOperationException(
+                    string.Format("Could not parse parameter: '{0}' with value: '{1}'. " +
+                                  "Received: '{2}', expected: '{3}'.", 
+                                  name, value, result.GetType(), valueType));
             }
         }
 
-        private static TValue TryParseUsingDynamic<TValue>(dynamic parameters, string name, TValue defaultValue)
+        private static TValue DynamicValueOf<TValue>(dynamic parameters, string name)
         {
             string value = parameters[name];
             try
             {
                 TValue result = parameters[name];
-                return result != null ? result : defaultValue;
+                return result;
             }
-            catch (Exception)
+            catch (InvalidCastException)
             {
                 throw new InvalidOperationException(Strings.Format("Parameter: '{0}' value: '{1}' could not be parsed. " +
                                                                   "Expected type: '{2}' is not supported",
@@ -346,7 +309,7 @@ namespace {{packageName}}
 
         private static ArgumentException ParameterOutOfRange(Parameter parameter, Type type)
         {
-            return new ArgumentException(Strings.Format("Query: '{0}' value: '{1}' is out of range for: '{2}'",
+            return new ArgumentException(Strings.Format("Query: '{0}' value: '{1}' is out of range for: '{2}'", 
                 parameter.Name, parameter.Value, type));
         }
 
