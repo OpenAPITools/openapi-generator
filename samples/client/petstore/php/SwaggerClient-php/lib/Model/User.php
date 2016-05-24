@@ -39,7 +39,6 @@ use \ArrayAccess;
  * User Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,13 +50,13 @@ class User implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'User';
+    protected static $swaggerModelName = 'User';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'id' => 'int',
         'username' => 'string',
         'first_name' => 'string',
@@ -68,15 +67,16 @@ class User implements ArrayAccess
         'user_status' => 'int'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'id' => 'id',
         'username' => 'username',
         'first_name' => 'firstName',
@@ -87,7 +87,8 @@ class User implements ArrayAccess
         'user_status' => 'userStatus'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -95,7 +96,7 @@ class User implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'id' => 'setId',
         'username' => 'setUsername',
         'first_name' => 'setFirstName',
@@ -106,7 +107,8 @@ class User implements ArrayAccess
         'user_status' => 'setUserStatus'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -114,7 +116,7 @@ class User implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'id' => 'getId',
         'username' => 'getUsername',
         'first_name' => 'getFirstName',
@@ -124,8 +126,9 @@ class User implements ArrayAccess
         'phone' => 'getPhone',
         'user_status' => 'getUserStatus'
     );
- 
-    static function getters() {
+
+    public static function getters()
+    {
         return self::$getters;
     }
 
@@ -157,10 +160,10 @@ class User implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         return $invalid_properties;
@@ -169,8 +172,8 @@ class User implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -189,7 +192,7 @@ class User implements ArrayAccess
 
     /**
      * Sets id
-     * @param int $id 
+     * @param int $id
      * @return $this
      */
     public function setId($id)
@@ -210,7 +213,7 @@ class User implements ArrayAccess
 
     /**
      * Sets username
-     * @param string $username 
+     * @param string $username
      * @return $this
      */
     public function setUsername($username)
@@ -231,7 +234,7 @@ class User implements ArrayAccess
 
     /**
      * Sets first_name
-     * @param string $first_name 
+     * @param string $first_name
      * @return $this
      */
     public function setFirstName($first_name)
@@ -252,7 +255,7 @@ class User implements ArrayAccess
 
     /**
      * Sets last_name
-     * @param string $last_name 
+     * @param string $last_name
      * @return $this
      */
     public function setLastName($last_name)
@@ -273,7 +276,7 @@ class User implements ArrayAccess
 
     /**
      * Sets email
-     * @param string $email 
+     * @param string $email
      * @return $this
      */
     public function setEmail($email)
@@ -294,7 +297,7 @@ class User implements ArrayAccess
 
     /**
      * Sets password
-     * @param string $password 
+     * @param string $password
      * @return $this
      */
     public function setPassword($password)
@@ -315,7 +318,7 @@ class User implements ArrayAccess
 
     /**
      * Sets phone
-     * @param string $phone 
+     * @param string $phone
      * @return $this
      */
     public function setPhone($phone)
@@ -347,7 +350,7 @@ class User implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -357,17 +360,17 @@ class User implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -379,17 +382,17 @@ class User implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string

@@ -10,7 +10,7 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IFakeApi
+    public interface IFakeApi : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
@@ -107,7 +107,7 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class FakeApi : IFakeApi
+    public partial class FakeApi : IFakeApi
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
@@ -157,7 +157,7 @@ namespace IO.Swagger.Api
         /// Sets the base path of the API client.
         /// </summary>
         /// <value>The base path</value>
-        [Obsolete("SetBasePath is deprecated, please do 'Configuraiton.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
+        [Obsolete("SetBasePath is deprecated, please do 'Configuration.ApiClient = new ApiClient(\"http://new-path\")' instead.")]
         public void SetBasePath(String basePath)
         {
             // do nothing
@@ -255,13 +255,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
+                "application/xml; charset=utf-8", 
+                "application/json; charset=utf-8"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/xml", 
-                "application/json"
+                "application/xml; charset=utf-8", 
+                "application/json; charset=utf-8"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
@@ -367,13 +369,15 @@ namespace IO.Swagger.Api
 
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
+                "application/xml; charset=utf-8", 
+                "application/json; charset=utf-8"
             };
             String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/xml", 
-                "application/json"
+                "application/xml; charset=utf-8", 
+                "application/json; charset=utf-8"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)

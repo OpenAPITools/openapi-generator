@@ -6,7 +6,6 @@
 //
 
 import Alamofire
-import PromiseKit
 
 
 
@@ -23,23 +22,6 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Delete purchase order by ID
-     
-     - parameter orderId: (path) ID of the order that needs to be deleted 
-     - returns: Promise<Void>
-     */
-    public class func deleteOrder(orderId orderId: String) -> Promise<Void> {
-        let deferred = Promise<Void>.pendingPromise()
-        deleteOrder(orderId: orderId) { error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill()
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Delete purchase order by ID
@@ -56,11 +38,14 @@ public class StoreAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [:]
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -74,22 +59,6 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Returns pet inventories by status
-     
-     - returns: Promise<[String:Int32]>
-     */
-    public class func getInventory() -> Promise<[String:Int32]> {
-        let deferred = Promise<[String:Int32]>.pendingPromise()
-        getInventory() { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Returns pet inventories by status
@@ -98,12 +67,12 @@ public class StoreAPI: APIBase {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{example={
+     - examples: [{contentType=application/json, example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
-     - examples: [{example={
+}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@d1e580af}]
+     - examples: [{contentType=application/json, example={
   "key" : 123
-}, contentType=application/json}, {example=not implemented io.swagger.models.properties.MapProperty@d1e580af, contentType=application/xml}]
+}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@d1e580af}]
 
      - returns: RequestBuilder<[String:Int32]> 
      */
@@ -112,11 +81,14 @@ public class StoreAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [:]
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -131,58 +103,41 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Find purchase order by ID
-     
-     - parameter orderId: (path) ID of pet that needs to be fetched 
-     - returns: Promise<Order>
-     */
-    public class func getOrderById(orderId orderId: String) -> Promise<Order> {
-        let deferred = Promise<Order>.pendingPromise()
-        getOrderById(orderId: orderId) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Find purchase order by ID
      - GET /store/order/{orderId}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     - examples: [{example={
-  "id" : 123456789,
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
-     - examples: [{example={
-  "id" : 123456789,
+</Order>}]
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
+</Order>}]
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
 
@@ -194,11 +149,14 @@ public class StoreAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [:]
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -213,58 +171,41 @@ public class StoreAPI: APIBase {
         }
     }
 
-    /**
-     Place an order for a pet
-     
-     - parameter body: (body) order placed for purchasing the pet (optional)
-     - returns: Promise<Order>
-     */
-    public class func placeOrder(body body: Order? = nil) -> Promise<Order> {
-        let deferred = Promise<Order>.pendingPromise()
-        placeOrder(body: body) { data, error in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(data!)
-            }
-        }
-        return deferred.promise
-    }
 
     /**
      Place an order for a pet
      - POST /store/order
      - 
-     - examples: [{example={
-  "id" : 123456789,
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
-     - examples: [{example={
-  "id" : 123456789,
+</Order>}]
+     - examples: [{contentType=application/json, example={
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
-}, contentType=application/json}, {example=<Order>
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+0000",
+  "complete" : true,
+  "status" : "aeiou"
+}}, {contentType=application/xml, example=<Order>
   <id>123456</id>
   <petId>123456</petId>
   <quantity>0</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>string</status>
   <complete>true</complete>
-</Order>, contentType=application/xml}]
+</Order>}]
      
      - parameter body: (body) order placed for purchasing the pet (optional)
 
@@ -274,10 +215,12 @@ public class StoreAPI: APIBase {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body?.encodeToJSON() as? [String:AnyObject]
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

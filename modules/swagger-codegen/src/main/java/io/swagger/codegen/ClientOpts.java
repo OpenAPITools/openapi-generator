@@ -1,9 +1,9 @@
 package io.swagger.codegen;
 
-import io.swagger.codegen.auth.AuthMethod;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import io.swagger.codegen.auth.AuthMethod;
 
 public class ClientOpts {
     protected String uri;

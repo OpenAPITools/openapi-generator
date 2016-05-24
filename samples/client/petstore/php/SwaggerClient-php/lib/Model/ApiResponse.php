@@ -39,7 +39,6 @@ use \ArrayAccess;
  * ApiResponse Class Doc Comment
  *
  * @category    Class
- * @description 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,33 +50,35 @@ class ApiResponse implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    static $swaggerModelName = 'ApiResponse';
+    protected static $swaggerModelName = 'ApiResponse';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization 
+      * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    static $swaggerTypes = array(
+    protected static $swaggerTypes = array(
         'code' => 'int',
         'type' => 'string',
         'message' => 'string'
     );
 
-    static function swaggerTypes() {
+    public static function swaggerTypes()
+    {
         return self::$swaggerTypes;
     }
 
-    /** 
+    /**
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    static $attributeMap = array(
+    protected static $attributeMap = array(
         'code' => 'code',
         'type' => 'type',
         'message' => 'message'
     );
 
-    static function attributeMap() {
+    public static function attributeMap()
+    {
         return self::$attributeMap;
     }
 
@@ -85,13 +86,14 @@ class ApiResponse implements ArrayAccess
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    static $setters = array(
+    protected static $setters = array(
         'code' => 'setCode',
         'type' => 'setType',
         'message' => 'setMessage'
     );
 
-    static function setters() {
+    public static function setters()
+    {
         return self::$setters;
     }
 
@@ -99,13 +101,14 @@ class ApiResponse implements ArrayAccess
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    static $getters = array(
+    protected static $getters = array(
         'code' => 'getCode',
         'type' => 'getType',
         'message' => 'getMessage'
     );
- 
-    static function getters() {
+
+    public static function getters()
+    {
         return self::$getters;
     }
 
@@ -132,10 +135,10 @@ class ApiResponse implements ArrayAccess
 
     /**
      * show all the invalid properties with reasons.
-     * 
+     *
      * @return array invalid properties with reasons
      */
-    public function list_invalid_properties()
+    public function listInvalidProperties()
     {
         $invalid_properties = array();
         return $invalid_properties;
@@ -144,8 +147,8 @@ class ApiResponse implements ArrayAccess
     /**
      * validate all the properties in the model
      * return true if all passed
-     * 
-     * @return bool True if all properteis are valid 
+     *
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -164,7 +167,7 @@ class ApiResponse implements ArrayAccess
 
     /**
      * Sets code
-     * @param int $code 
+     * @param int $code
      * @return $this
      */
     public function setCode($code)
@@ -185,7 +188,7 @@ class ApiResponse implements ArrayAccess
 
     /**
      * Sets type
-     * @param string $type 
+     * @param string $type
      * @return $this
      */
     public function setType($type)
@@ -206,7 +209,7 @@ class ApiResponse implements ArrayAccess
 
     /**
      * Sets message
-     * @param string $message 
+     * @param string $message
      * @return $this
      */
     public function setMessage($message)
@@ -217,7 +220,7 @@ class ApiResponse implements ArrayAccess
     }
     /**
      * Returns true if offset exists. False otherwise.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -227,17 +230,17 @@ class ApiResponse implements ArrayAccess
 
     /**
      * Gets offset.
-     * @param  integer $offset Offset 
-     * @return mixed 
+     * @param  integer $offset Offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
- 
+
     /**
      * Sets value based on offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @param  mixed   $value  Value to be set
      * @return void
      */
@@ -249,17 +252,17 @@ class ApiResponse implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
- 
+
     /**
      * Unsets offset.
-     * @param  integer $offset Offset 
+     * @param  integer $offset Offset
      * @return void
      */
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
- 
+
     /**
      * Gets the string presentation of the object
      * @return string

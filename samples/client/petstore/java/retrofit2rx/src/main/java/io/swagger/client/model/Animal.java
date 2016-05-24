@@ -15,6 +15,9 @@ public class Animal   {
   @SerializedName("className")
   private String className = null;
 
+  @SerializedName("color")
+  private String color = "red";
+
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -23,6 +26,16 @@ public class Animal   {
   }
   public void setClassName(String className) {
     this.className = className;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getColor() {
+    return color;
+  }
+  public void setColor(String color) {
+    this.color = color;
   }
 
 
@@ -35,12 +48,13 @@ public class Animal   {
       return false;
     }
     Animal animal = (Animal) o;
-    return Objects.equals(className, animal.className);
+    return Objects.equals(className, animal.className) &&
+        Objects.equals(color, animal.color);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className);
+    return Objects.hash(className, color);
   }
 
   @Override
@@ -49,6 +63,7 @@ public class Animal   {
     sb.append("class Animal {\n");
     
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();
   }

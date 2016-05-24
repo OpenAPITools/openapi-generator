@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 {{{notes}}}{{/notes}}
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -37,7 +37,7 @@ $api_instance = new {{invokerPackage}}\Api\{{classname}}();
 {{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
-try { 
+try {
     {{#returnType}}$result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
     print_r($result);{{/returnType}}
 } catch (Exception $e) {
@@ -63,8 +63,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

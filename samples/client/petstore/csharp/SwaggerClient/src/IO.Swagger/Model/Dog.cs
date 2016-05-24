@@ -20,6 +20,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Dog() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dog" /> class.
+        /// </summary>
         /// <param name="ClassName">ClassName (required).</param>
         /// <param name="Color">Color (default to &quot;red&quot;).</param>
         /// <param name="Breed">Breed.</param>
@@ -34,8 +39,6 @@ namespace IO.Swagger.Model
             {
                 this.ClassName = ClassName;
             }
-            
-            
             // use default value if no "Color" provided
             if (Color == null)
             {
@@ -45,9 +48,7 @@ namespace IO.Swagger.Model
             {
                 this.Color = Color;
             }
-            
-                        this.Breed = Breed;
-            
+            this.Breed = Breed;
         }
         
         /// <summary>
@@ -74,8 +75,8 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Dog {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-sb.Append("  Color: ").Append(Color).Append("\n");
-sb.Append("  Breed: ").Append(Breed).Append("\n");
+            sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Breed: ").Append(Breed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

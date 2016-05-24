@@ -53,6 +53,11 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Pet() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pet" /> class.
+        /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Category">Category.</param>
         /// <param name="Name">Name (required).</param>
@@ -79,16 +84,10 @@ namespace IO.Swagger.Model
             {
                 this.PhotoUrls = PhotoUrls;
             }
-            
-            
-                        this.Id = Id;
-            
-                        this.Category = Category;
-            
-                        this.Tags = Tags;
-            
-                        this.Status = Status;
-            
+            this.Id = Id;
+            this.Category = Category;
+            this.Tags = Tags;
+            this.Status = Status;
         }
         
         /// <summary>
@@ -125,11 +124,11 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class Pet {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-sb.Append("  Category: ").Append(Category).Append("\n");
-sb.Append("  Name: ").Append(Name).Append("\n");
-sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-sb.Append("  Tags: ").Append(Tags).Append("\n");
-sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
+            sb.Append("  Tags: ").Append(Tags).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

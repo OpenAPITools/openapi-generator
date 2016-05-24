@@ -47,7 +47,7 @@ namespace {{invokerPackage}};
 class Configuration
 {
 
-    private static $_defaultConfiguration = null;
+    private static $defaultConfiguration = null;
 
     /**
      * Associate array to store API key(s)
@@ -487,11 +487,11 @@ class Configuration
      */
     public static function getDefaultConfiguration()
     {
-        if (self::$_defaultConfiguration == null) {
-            self::$_defaultConfiguration = new Configuration();
+        if (self::$defaultConfiguration == null) {
+            self::$defaultConfiguration = new Configuration();
         }
 
-        return self::$_defaultConfiguration;
+        return self::$defaultConfiguration;
     }
 
     /**
@@ -503,7 +503,7 @@ class Configuration
      */
     public static function setDefaultConfiguration(Configuration $config)
     {
-        self::$_defaultConfiguration = $config;
+        self::$defaultConfiguration = $config;
     }
 
     /**
@@ -522,5 +522,4 @@ class Configuration
 
         return $report;
     }
-
 }
