@@ -1,4 +1,4 @@
-FROM jimschubert/8-jdk-alpine-mvn
+FROM jimschubert/8-jdk-alpine-mvn:1.0
 
 RUN mkdir /opt
 
