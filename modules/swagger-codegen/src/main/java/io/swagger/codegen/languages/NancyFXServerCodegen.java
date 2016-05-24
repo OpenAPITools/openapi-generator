@@ -127,6 +127,14 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultModule";
+        }
+        return initialCaps(name) + "Module";
+    }
+
+    @Override
     public String toEnumName(CodegenProperty property) {
         return sanitizeName(camelize(property.name)) ;
     }
