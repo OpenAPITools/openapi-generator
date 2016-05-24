@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import org.slf4j.Logger;
@@ -123,5 +124,10 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         } else {
             return enumName;
         }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return sanitizeName(camelize(property.name)) ;
     }
 }
