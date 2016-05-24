@@ -24,21 +24,25 @@ limitations under the License.
 require 'date'
 
 module Petstore
-  # Model for testing model name starting with number
-  class Model200Response
-    attr_accessor :name
+
+  class ReadOnlyFirst
+    attr_accessor :bar
+
+    attr_accessor :baz
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name'
+        :'bar' => :'bar',
+        :'baz' => :'baz'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'name' => :'Integer'
+        :'bar' => :'String',
+        :'baz' => :'String'
       }
     end
 
@@ -50,8 +54,12 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.has_key?(:'bar')
+        self.bar = attributes[:'bar']
+      end
+
+      if attributes.has_key?(:'baz')
+        self.baz = attributes[:'baz']
       end
 
     end
@@ -73,7 +81,8 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name
+          bar == o.bar &&
+          baz == o.baz
     end
 
     # @see the `==` method
@@ -85,7 +94,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name].hash
+      [bar, baz].hash
     end
 
     # Builds the object from hash

@@ -75,8 +75,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
 
 
 
