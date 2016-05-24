@@ -50,7 +50,7 @@ petApi.addPet(pet)
         console.error(err);
         exitCode = 1;
     })
-    .finally(() => {
+    .then(() => {
         return petApi.deletePet(petId);
     })
     .then((res) => {
