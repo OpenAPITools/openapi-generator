@@ -1,20 +1,24 @@
 from __future__ import absolute_import
 
 # import models into sdk package
+from .models.additional_properties_class import AdditionalPropertiesClass
 from .models.animal import Animal
 from .models.animal_farm import AnimalFarm
 from .models.api_response import ApiResponse
+from .models.array_test import ArrayTest
 from .models.cat import Cat
 from .models.category import Category
 from .models.dog import Dog
 from .models.enum_class import EnumClass
 from .models.enum_test import EnumTest
 from .models.format_test import FormatTest
+from .models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from .models.model_200_response import Model200Response
 from .models.model_return import ModelReturn
 from .models.name import Name
 from .models.order import Order
 from .models.pet import Pet
+from .models.read_only_first import ReadOnlyFirst
 from .models.special_model_name import SpecialModelName
 from .models.tag import Tag
 from .models.user import User

@@ -167,13 +167,13 @@ class FakeApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/xml', 'application/json'])
+            select_header_accept(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
         if not header_params['Accept']:
             del header_params['Accept']
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
-            select_header_content_type([])
+            select_header_content_type(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
 
         # Authentication setting
         auth_settings = []
