@@ -168,6 +168,15 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String escapeText(String input) {
+        if (input != null) {
+            // Trim the string to avoid leading and trailing spaces.
+            return super.escapeText(input).trim();
+        }
+        return input;
+    }
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
