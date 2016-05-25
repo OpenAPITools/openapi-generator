@@ -1,16 +1,22 @@
 FROM jimschubert/8-jdk-alpine-mvn:1.0
 
+ENV GEN_DIR /opt/swagger-codegen
+
+RUN set -x && \
+    apk add --no-cache bash
+
 RUN mkdir /opt
 
-ADD . /opt/swagger-codegen
+ADD . ${GEN_DIR}
 
-WORKDIR /opt/swagger-codegen
+VOLUME  ${MAVEN_HOME}/.m2/repository
 
-RUN mvn -am -pl "modules/swagger-codegen-cli" package && \
-    mv /opt/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar /opt/swagger-codegen/swagger-codegen-cli.jar && \
-    mvn clean && \
-    rm -rf ${MAVEN_HOME}/.m2/repository
+WORKDIR ${GEN_DIR}
 
-ENTRYPOINT ["java", "-jar", "/opt/swagger-codegen/swagger-codegen-cli.jar"]
+RUN mvn -am -pl "modules/swagger-codegen-cli" package
 
-CMD ["help"]
+COPY docker-entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["build"]
