@@ -26,9 +26,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String POD_NAME = "podName";
     public static final String AUTHOR_NAME = "authorName";
     public static final String AUTHOR_EMAIL = "authorEmail";
-    public static final String GIT_REPO_URL = "gitRepoURL";
     public static final String LICENSE = "license";
-    
+    public static final String GIT_REPO_URL = "gitRepoURL";
+
+    public static final String DEFAULT_LICENSE = "Apache License, Version 2.0";
+
     public static final String BinaryDataType = "ObjcClientCodegenBinaryData";
     
     protected Set<String> foundationClasses = new HashSet<String>();
@@ -37,7 +39,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String classPrefix = "SWG";
     protected String authorName = "Swagger";
     protected String authorEmail = "apiteam@swagger.io";
-    protected String license = "MIT";
+    protected String license = DEFAULT_LICENSE;
     protected String gitRepoURL = "https://github.com/swagger-api/swagger-codegen";
     protected String[] specialWords = {"new", "copy"};
     protected String apiDocPath = "docs/";
@@ -254,7 +256,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
+        if (license == null || DEFAULT_LICENSE.equals(license)) {
+            supportingFiles.add(new SupportingFile("LICENSE.mustache", "", "LICENSE"));
+        }
     }
 
     @Override
