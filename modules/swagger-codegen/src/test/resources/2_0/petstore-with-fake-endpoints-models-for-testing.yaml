@@ -971,6 +971,25 @@ definitions:
         readOnly: true
       baz:
         type: string
+  ArrayTest:
+    type: object
+    array_of_string:
+      type: array
+      items:
+        type: string
+    array_array_of_integer:
+      type: array
+      items:
+        type: array
+        items:
+          type: integer
+          format: int64
+    array_array_of_model:
+      type: array
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/ReadOnlyFirst'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
