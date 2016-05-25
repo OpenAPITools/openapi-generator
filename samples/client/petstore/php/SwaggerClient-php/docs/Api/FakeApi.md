@@ -36,7 +36,7 @@ $password = "password_example"; // string | None
 try {
     $api_instance->testEndpointParameters($number, $double, $string, $byte, $integer, $int32, $int64, $float, $binary, $date, $date_time, $password);
 } catch (Exception $e) {
-    echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), "\n";
+    echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
