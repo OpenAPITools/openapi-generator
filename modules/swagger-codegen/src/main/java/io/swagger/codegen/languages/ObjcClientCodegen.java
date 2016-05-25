@@ -166,7 +166,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("apiteam@swagger.io"));
         cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to.")
                 .defaultValue("https://github.com/swagger-api/swagger-codegen"));
-        cliOptions.add(new CliOption(LICENSE, "License to use in the podspec file.").defaultValue("MIT"));
     }
 
     @Override
@@ -212,10 +211,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             setGitRepoURL((String) additionalProperties.get(GIT_REPO_URL));
         }
 
-        if (additionalProperties.containsKey(LICENSE)) {
-            setLicense((String) additionalProperties.get(LICENSE));
-        }
-
         additionalProperties.put(POD_NAME, podName);
         additionalProperties.put(CodegenConstants.POD_VERSION, podVersion);
         additionalProperties.put(CLASS_PREFIX, classPrefix);
@@ -256,9 +251,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        if (license == null || DEFAULT_LICENSE.equals(license)) {
-            supportingFiles.add(new SupportingFile("LICENSE.mustache", "", "LICENSE"));
-        }
+        supportingFiles.add(new SupportingFile("LICENSE.mustache", "", "LICENSE"));
     }
 
     @Override
