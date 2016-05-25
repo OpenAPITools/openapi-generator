@@ -7,7 +7,7 @@ using NodaTime;
 
 {{#models}}
 {{#model}}
-namespace {{packageName}}.Models
+namespace {{packageName}}.{{packageContext}}.Models
 {   {{#vars}}{{#isEnum}}
     {{>innerModelEnum}}{{/isEnum}}{{#items.isEnum}}
     {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}

@@ -3,17 +3,17 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Base;
-using {{packageName}}.Models;
-using {{packageName}}.Utils;
+using {{packageName}}.{{packageContext}}.Models;
+using {{packageName}}.{{packageContext}}.Utils;
 using NodaTime;
 
-namespace {{packageName}}.Modules
+namespace {{packageName}}.{{packageContext}}.Modules
 { {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}
     {{>innerApiEnum}}{{/isEnum}}{{/allParams}}{{/operation}}
 
     public partial class {{classname}}Module : NancyModule
     {
-        public {{classname}}Module({{classname}}Service service) : base("")
+        public {{classname}}Module({{classname}}Service service) : base("{{baseContext}}")
         { {{#operation}}
             {{httpMethod}}["{{path}}"] = parameters =>
             {

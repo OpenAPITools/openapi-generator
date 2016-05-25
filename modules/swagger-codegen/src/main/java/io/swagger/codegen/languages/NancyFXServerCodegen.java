@@ -5,6 +5,7 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.models.Swagger;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.StringProperty;
 import org.slf4j.Logger;
@@ -142,6 +143,12 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String toApiFilename(String name) {
         return super.toApiFilename(name) + "Module";
+    }
+
+    @Override
+    public void preprocessSwagger(Swagger swagger) {
+        additionalProperties.put("packageContext", sanitizeName(swagger.getBasePath()));
+        additionalProperties.put("baseContext", swagger.getBasePath());
     }
 
     @Override
