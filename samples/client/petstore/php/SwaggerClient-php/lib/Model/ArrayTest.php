@@ -1,6 +1,6 @@
 <?php
 /**
- * Dog
+ * ArrayTest
  *
  * PHP version 5
  *
@@ -44,7 +44,7 @@ namespace Swagger\Client\Model;
 use \ArrayAccess;
 
 /**
- * Dog Class Doc Comment
+ * ArrayTest Class Doc Comment
  *
  * @category    Class
  * @package     Swagger\Client
@@ -52,25 +52,25 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class Dog extends Animal implements ArrayAccess
+class ArrayTest implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'Dog';
+    protected static $swaggerModelName = 'ArrayTest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        'breed' => 'string'
+        
     );
 
     public static function swaggerTypes()
     {
-        return self::$swaggerTypes + parent::swaggerTypes();
+        return self::$swaggerTypes;
     }
 
     /**
@@ -78,12 +78,12 @@ class Dog extends Animal implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        'breed' => 'breed'
+        
     );
 
     public static function attributeMap()
     {
-        return parent::attributeMap() + self::$attributeMap;
+        return self::$attributeMap;
     }
 
     /**
@@ -91,12 +91,12 @@ class Dog extends Animal implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        'breed' => 'setBreed'
+        
     );
 
     public static function setters()
     {
-        return parent::setters() + self::$setters;
+        return self::$setters;
     }
 
     /**
@@ -104,12 +104,12 @@ class Dog extends Animal implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        'breed' => 'getBreed'
+        
     );
 
     public static function getters()
     {
-        return parent::getters() + self::$getters;
+        return self::$getters;
     }
 
     
@@ -128,9 +128,6 @@ class Dog extends Animal implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        parent::__construct($data);
-
-        $this->container['breed'] = isset($data['breed']) ? $data['breed'] : null;
     }
 
     /**
@@ -155,27 +152,6 @@ class Dog extends Animal implements ArrayAccess
         return true;
     }
 
-
-    /**
-     * Gets breed
-     * @return string
-     */
-    public function getBreed()
-    {
-        return $this->container['breed'];
-    }
-
-    /**
-     * Sets breed
-     * @param string $breed
-     * @return $this
-     */
-    public function setBreed($breed)
-    {
-        $this->container['breed'] = $breed;
-
-        return $this;
-    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset

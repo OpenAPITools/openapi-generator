@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **string**| ID of the order that needs to be deleted | 
+ **order_id** | **string**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -128,7 +128,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched | 
+ **order_id** | **int**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -173,7 +173,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Order**](../Model/\Swagger\Client\Model\Order.md)| order placed for purchasing the pet | 
+ **body** | [**\Swagger\Client\Model\Order**](../Model/\Swagger\Client\Model\Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
