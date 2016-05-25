@@ -9,6 +9,8 @@
 
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SWGTagManagedObject : NSManagedObject
 
 
@@ -16,5 +18,11 @@
 
 @property (nullable, nonatomic, retain) NSString* name;
 
+@end
+
+@interface SWGTagManagedObject (GeneratedAccessors)
+
 
 @end
+
+NS_ASSUME_NONNULL_END

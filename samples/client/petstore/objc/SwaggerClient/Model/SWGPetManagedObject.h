@@ -11,6 +11,8 @@
 #import "SWGTagManagedObject.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SWGPetManagedObject : NSManagedObject
 
 
@@ -27,9 +29,15 @@
  */
 @property (nullable, nonatomic, retain) NSString* status;
 
+@end
+
+@interface SWGPetManagedObject (GeneratedAccessors)
+
 - (void)addTagsObject:(SWGTagManagedObject *)value;
 - (void)removeTagsObject:(SWGTagManagedObject *)value;
 - (void)addTags:(NSSet<SWGTagManagedObject*> *)values;
 - (void)removeTags:(NSSet<SWGTagManagedObject*> *)values;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -9,6 +9,8 @@
 
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SWGUserManagedObject : NSManagedObject
 
 
@@ -29,5 +31,11 @@
  */
 @property (nullable, nonatomic, retain) NSNumber* userStatus;
 
+@end
+
+@interface SWGUserManagedObject (GeneratedAccessors)
+
 
 @end
+
+NS_ASSUME_NONNULL_END

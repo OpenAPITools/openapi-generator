@@ -9,6 +9,8 @@
 
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SWGCategoryManagedObject : NSManagedObject
 
 
@@ -16,5 +18,11 @@
 
 @property (nullable, nonatomic, retain) NSString* name;
 
+@end
+
+@interface SWGCategoryManagedObject (GeneratedAccessors)
+
 
 @end
+
+NS_ASSUME_NONNULL_END
