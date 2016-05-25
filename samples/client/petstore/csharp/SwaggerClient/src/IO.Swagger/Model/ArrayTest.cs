@@ -34,39 +34,18 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// ApiResponse
+    /// ArrayTest
     /// </summary>
     [DataContract]
-    public partial class ApiResponse :  IEquatable<ApiResponse>
+    public partial class ArrayTest :  IEquatable<ArrayTest>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApiResponse" /> class.
+        /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>
-        /// <param name="Code">Code.</param>
-        /// <param name="Type">Type.</param>
-        /// <param name="Message">Message.</param>
-        public ApiResponse(int? Code = null, string Type = null, string Message = null)
+        public ArrayTest()
         {
-            this.Code = Code;
-            this.Type = Type;
-            this.Message = Message;
         }
         
-        /// <summary>
-        /// Gets or Sets Code
-        /// </summary>
-        [DataMember(Name="code", EmitDefaultValue=false)]
-        public int? Code { get; set; }
-        /// <summary>
-        /// Gets or Sets Type
-        /// </summary>
-        [DataMember(Name="type", EmitDefaultValue=false)]
-        public string Type { get; set; }
-        /// <summary>
-        /// Gets or Sets Message
-        /// </summary>
-        [DataMember(Name="message", EmitDefaultValue=false)]
-        public string Message { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -74,10 +53,7 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class ApiResponse {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("class ArrayTest {\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,36 +75,21 @@ namespace IO.Swagger.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as ApiResponse);
+            return this.Equals(obj as ArrayTest);
         }
 
         /// <summary>
-        /// Returns true if ApiResponse instances are equal
+        /// Returns true if ArrayTest instances are equal
         /// </summary>
-        /// <param name="other">Instance of ApiResponse to be compared</param>
+        /// <param name="other">Instance of ArrayTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ApiResponse other)
+        public bool Equals(ArrayTest other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
                 return false;
 
-            return 
-                (
-                    this.Code == other.Code ||
-                    this.Code != null &&
-                    this.Code.Equals(other.Code)
-                ) && 
-                (
-                    this.Type == other.Type ||
-                    this.Type != null &&
-                    this.Type.Equals(other.Type)
-                ) && 
-                (
-                    this.Message == other.Message ||
-                    this.Message != null &&
-                    this.Message.Equals(other.Message)
-                );
+            return false;
         }
 
         /// <summary>
@@ -142,12 +103,6 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.Code != null)
-                    hash = hash * 59 + this.Code.GetHashCode();
-                if (this.Type != null)
-                    hash = hash * 59 + this.Type.GetHashCode();
-                if (this.Message != null)
-                    hash = hash * 59 + this.Message.GetHashCode();
                 return hash;
             }
         }
