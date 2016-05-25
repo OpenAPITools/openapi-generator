@@ -35,7 +35,7 @@ $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet obje
 try {
     $api_instance->addPet($body);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -83,7 +83,7 @@ $api_key = "api_key_example"; // string |
 try {
     $api_instance->deletePet($pet_id, $api_key);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -132,7 +132,7 @@ try {
     $result = $api_instance->findPetsByStatus($status);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->findPetsByStatus: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->findPetsByStatus: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -180,7 +180,7 @@ try {
     $result = $api_instance->findPetsByTags($tags);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->findPetsByTags: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->findPetsByTags: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -230,7 +230,7 @@ try {
     $result = $api_instance->getPetById($pet_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->getPetById: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->getPetById: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -277,7 +277,7 @@ $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet obje
 try {
     $api_instance->updatePet($body);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -326,7 +326,7 @@ $status = "status_example"; // string | Updated status of the pet
 try {
     $api_instance->updatePetWithForm($pet_id, $name, $status);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -378,7 +378,7 @@ try {
     $result = $api_instance->uploadFile($pet_id, $additional_metadata, $file);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
