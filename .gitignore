@@ -89,6 +89,7 @@ samples/client/petstore/swift/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddat
 
 # C#
 *.csproj.user
+samples/client/petstore/csharp/SwaggerClient/IO.Swagger.userprefs
 samples/client/petstore/csharp/SwaggerClientTest/.vs
 samples/client/petstore/csharp/SwaggerClientTest/obj
 samples/client/petstore/csharp/SwaggerClientTest/bin
