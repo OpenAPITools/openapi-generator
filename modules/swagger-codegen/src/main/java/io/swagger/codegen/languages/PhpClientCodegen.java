@@ -264,7 +264,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
         supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
-
+        // apache v2 license
+        supportingFiles.add(new SupportingFile("LICENSE", getPackagePath(), "LICENSE"));
     }
 
     @Override
