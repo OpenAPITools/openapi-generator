@@ -13,6 +13,8 @@
 {{#models}}
 {{#model}}
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface {{classname}}ManagedObject : {{#parent}}{{{parent}}}{{/parent}}{{^parent}}NSManagedObject{{/parent}}
 
 {{#vars}}
@@ -20,6 +22,10 @@
  */{{/description}}
 @property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isListContainer}}NSSet<{{{complexType}}}ManagedObject*>*{{/isListContainer}}{{^isListContainer}}{{{complexType}}}ManagedObject*{{/isListContainer}}{{/complexType}} {{name}};
 {{/vars}}
+
+@end
+
+@interface {{classname}}ManagedObject (GeneratedAccessors)
 
 {{#vars}}{{#isListContainer}}{{#complexType}}- (void)add{{vendorExtensions.x-uppercaseName}}Object:({{complexType}}ManagedObject *)value;
 - (void)remove{{vendorExtensions.x-uppercaseName}}Object:({{complexType}}ManagedObject *)value;
@@ -29,3 +35,5 @@
 @end
 {{/model}}
 {{/models}}
+
+NS_ASSUME_NONNULL_END
