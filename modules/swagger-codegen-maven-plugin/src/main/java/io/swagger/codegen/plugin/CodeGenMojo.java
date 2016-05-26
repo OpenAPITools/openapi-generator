@@ -163,8 +163,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
 
-        Swagger swagger = new SwaggerParser().read(inputSpec);
-
         //attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
 
