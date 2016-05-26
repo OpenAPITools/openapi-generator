@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -68,7 +68,10 @@ describe 'Pet' do
 
   describe 'test attribute "status"' do
     it 'should work' do
-       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+       validator = Petstore::EnumTest::EnumAttributeValidator.new('String', ["available", "pending", "sold"])
+       validator.allowable_values.each do |value|
+         expect { @instance.status = value }.not_to raise_error
+       end
     end
   end
 

@@ -4,6 +4,30 @@
     attr_accessor :{{{name}}}
   {{/vars}}
 
+{{#hasEnums}}
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+{{/hasEnums}}
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -53,13 +77,6 @@
     # @return Array for valid properies with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      {{#isEnum}}
-      allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-      if @{{{name}}} && !allowed_values.include?({{{name}}})
-        invalid_properties.push("invalid value for '{{{name}}}', must be one of #{allowed_values}.")
-      end
-
-      {{/isEnum}}
       {{#hasValidation}}
       if @{{{name}}}.nil?
         fail ArgumentError, "{{{name}}} cannot be nil"
@@ -104,50 +121,31 @@
     def valid?
       {{#vars}}
       {{#required}}
-      if @{{{name}}}.nil?
-        return false
-      end
-
+      return false if @{{{name}}}.nil?
       {{/required}}
       {{#isEnum}}
-      allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-      if @{{{name}}} && !allowed_values.include?(@{{{name}}})
-        return false
-      end
+      {{{name}}}_validator = EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+      return false unless {{{name}}}_validator.valid?(@{{{name}}})
       {{/isEnum}}
       {{#hasValidation}}
       {{#minLength}}
-      if @{{{name}}}.to_s.length > {{{maxLength}}}
-        return false
-      end
-
+      return false if @{{{name}}}.to_s.length > {{{maxLength}}}
       {{/minLength}}
       {{#maxLength}}
-      if @{{{name}}}.to_s.length < {{{minLength}}}
-        return false
-      end
-
+      return false if @{{{name}}}.to_s.length < {{{minLength}}}
       {{/maxLength}}
       {{#maximum}}
-      if @{{{name}}} > {{{maximum}}}
-        return false
-      end
-
+      return false if @{{{name}}} > {{{maximum}}}
       {{/maximum}}
       {{#minimum}}
-      if @{{{name}}} < {{{minimum}}}
-        return false
-      end
-
+      return false if @{{{name}}} < {{{minimum}}}
       {{/minimum}}
       {{#pattern}}
-      if @{{{name}}} !~ Regexp.new({{{pattern}}})
-        return false
-      end
-
+      return false if @{{{name}}} !~ Regexp.new({{{pattern}}})
       {{/pattern}}
       {{/hasValidation}}
       {{/vars}}
+      return true
     end
 
     {{#vars}}
@@ -155,9 +153,9 @@
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-      if {{{name}}} && !allowed_values.include?({{{name}}})
-        fail ArgumentError, "invalid value for '{{{name}}}', must be one of #{allowed_values}."
+      validator = EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+      unless validator.valid?({{{name}}})
+        fail ArgumentError, "invalid value for '{{{name}}}', must be one of #{validator.allowable_values}."
       end
       @{{{name}}} = {{{name}}}
     end
