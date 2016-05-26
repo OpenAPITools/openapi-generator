@@ -110,7 +110,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen{{#artifactVersion}}/{{{.}}}{{/artifactVersion}}/php{{/httpUserAgent}}";
+    protected $userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{#artifactVersion}}{{{.}}}{{/artifactVersion}}{{^artifactVersion}}1.0.0{{/artifactVersion}}/php{{/httpUserAgent}}";
 
     /**
      * Debug switch (default set to false)
