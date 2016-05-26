@@ -411,7 +411,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/swift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
             </modules>
         </profile>
         <profile>
