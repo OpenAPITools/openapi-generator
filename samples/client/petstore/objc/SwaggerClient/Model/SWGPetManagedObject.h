@@ -22,14 +22,14 @@
 
 @property (nullable, nonatomic, retain) NSArray<NSString*>* photoUrls;
 
-@property (nullable, nonatomic, retain) NSSet* tags;
+@property (nullable, nonatomic, retain) NSSet<SWGTagManagedObject*>* tags;
 /* pet status in the store [optional]
  */
 @property (nullable, nonatomic, retain) NSString* status;
 
 - (void)addTagsObject:(SWGTagManagedObject *)value;
 - (void)removeTagsObject:(SWGTagManagedObject *)value;
-- (void)addTags:(NSSet *)values;
-- (void)removeTags:(NSSet *)values;
+- (void)addTags:(NSSet<SWGTagManagedObject*> *)values;
+- (void)removeTags:(NSSet<SWGTagManagedObject*> *)values;
 
 @end
