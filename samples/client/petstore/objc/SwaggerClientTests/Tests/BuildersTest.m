@@ -11,10 +11,14 @@
 #import "SWGPetManagedObject.h"
 #import "SWGPetManagedObjectBuilder.h"
 #import "DatabaseHelper.h"
+#import "SWGUserManagedObject.h"
+#import "SWGUserManagedObjectBuilder.h"
+#import "SWGOrderManagedObjectBuilder.h"
 
 @interface BuildersTest : XCTestCase {
     SWGPet *pet;
-    SWGPetManagedObjectBuilder* builder;
+    SWGUser* user;
+    SWGOrder *order;
     NSManagedObjectContext *context;
 }
 
@@ -31,37 +35,82 @@
             @"category": @{ @"id": @1, @"name": @"test category" },
             @"tags": @[ @{ @"id": @1, @"name": @"test tag" }],
             };
-    pet = [[SWGPet alloc] initWithDictionary:petDict error:nil];
+    NSError * error;
+    pet = [[SWGPet alloc] initWithDictionary:petDict error:&error];
+    XCTAssertNil(error);
+
+    NSDictionary *userDict = @{
+            @"id": @1,
+            @"email": @"test@test.com",
+            @"firstName": @"firstName",
+            @"lastName": @"lastName",
+            @"password": @"password",
+            @"username": @"username",
+            @"phone": @"57676767",
+    };
+    error = nil;
+    user = [[SWGUser alloc] initWithDictionary:userDict error:&error];
+    XCTAssertNil(error);
+
+    NSDictionary *orderDict = @{
+            @"id": @324,
+            @"petId": @234,
+            @"quantity": @12,
+            @"shipDate": @"1997-07-16T19:20:30+00:00",
+            @"status": @"status",
+            @"complete": @1,
+    };
+    error = nil;
+    order = [[SWGOrder alloc]  initWithDictionary:orderDict error:&error];
+    XCTAssertNil(error);
 
     context = [DatabaseHelper createContextWithModelName:@"SWGModel"];
 
-    builder = [[SWGPetManagedObjectBuilder alloc] init];
+
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
+- (void)testSWGPetExample {
+    SWGPetManagedObjectBuilder* builder = [[SWGPetManagedObjectBuilder alloc] init];
 
-- (void)testExample {
     SWGPetManagedObject * managedObject = [builder SWGPetManagedObjectFromSWGPet:pet context:context];
     SWGPet *pet2 = [builder SWGPetFromSWGPetManagedObject:managedObject];
+    NSError * error;
+    XCTAssertTrue([context save:&error]);
+    XCTAssertNil(error);
     [context deleteObject:managedObject];
-    SWGTag * tag = [pet.tags firstObject];
-    SWGTag * tag2 = [pet2.tags firstObject];
-    XCTAssertEqualObjects(tag._id, tag2._id);
-    XCTAssertEqualObjects(tag.name, tag2.name);
+    XCTAssertTrue([context save:&error]);
+    XCTAssertNil(error);
+    XCTAssertEqualObjects(pet.description,pet2.description);
 
-    SWGCategory * category = pet.category;
-    SWGCategory * category2 = pet2.category;
+}
 
-    XCTAssertEqualObjects(category._id, category2._id);
-    XCTAssertEqualObjects(category.name, category2.name);
 
-    XCTAssertEqualObjects(pet.status,pet2.status);
-    XCTAssertEqualObjects(pet.photoUrls,pet2.photoUrls);
-    XCTAssertEqualObjects(pet.name,pet2.name);
-    XCTAssertEqualObjects(pet._id,pet2._id);
+- (void)testSWGUserExample {
+    SWGUserManagedObjectBuilder * builder = [[SWGUserManagedObjectBuilder alloc] init];
+    SWGUserManagedObject * managedObject = [builder SWGUserManagedObjectFromSWGUser:user context:context];
+    SWGUser *user2 = [builder SWGUserFromSWGUserManagedObject:managedObject];
+    NSError * error;
+    XCTAssertTrue([context save:&error]);
+    XCTAssertNil(error);
+    [context deleteObject:managedObject];
+    XCTAssertTrue([context save:&error]);
+    XCTAssertNil(error);
+    XCTAssertEqualObjects(user.description,user2.description);
+
+}
+
+- (void)testSWGOrderExample {
+    SWGOrderManagedObjectBuilder * builder = [[SWGOrderManagedObjectBuilder alloc] init];
+    SWGOrderManagedObject * managedObject = [builder SWGOrderManagedObjectFromSWGOrder:order context:context];
+    SWGOrder *order2 = [builder SWGOrderFromSWGOrderManagedObject:managedObject];
+    NSError * error;
+    XCTAssertTrue([context save:&error]);
+    XCTAssertNil(error);
+    [context deleteObject:managedObject];
+    XCTAssertTrue([context save:&error]);
+    XCTAssertNil(error);
+
+    XCTAssertEqualObjects(order.description,order2.description);
 
 }
 
