@@ -151,7 +151,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         instantiationTypes.put("map", "NSMutableDictionary");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CORE_DATA, "Should generate core data models").defaultValue("n"));
+        cliOptions.add(new CliOption(CORE_DATA, "Should generate core data models").defaultValue("false"));
         cliOptions.add(new CliOption(CLASS_PREFIX, "prefix for generated classes (convention: Abbreviation of pod name e.g. `HN` for `HackerNews`).`")
                 .defaultValue("SWG"));
         cliOptions.add(new CliOption(POD_NAME, "cocoapods package name (convention: CameCase).")
@@ -193,7 +193,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CORE_DATA)) {
             Object coreData = additionalProperties.get(CORE_DATA);
-            if(((String)coreData).equalsIgnoreCase("y")) {
+            if(((String)coreData).equalsIgnoreCase("true")) {
                 generateCoreData = true;
             }
         }
