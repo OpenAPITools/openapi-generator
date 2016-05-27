@@ -48,17 +48,6 @@ public class SupportingFile {
         result = 31 * result + (destinationFilename != null ? destinationFilename.hashCode() : 0);
         return result;
     }
-
-    static public class GlobalSupportingFile extends SupportingFile {
-
-        GlobalSupportingFile(String templateFile, String folder, String destinationFilename) {
-            super(templateFile, folder, destinationFilename);
-        }
-
-        GlobalSupportingFile(String templateFile, String destinationFilename) {
-            super(templateFile, destinationFilename);
-        }
-    }
 }
 
 
