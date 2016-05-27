@@ -8,29 +8,36 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * Model for testing reserved words
+ * ReadOnlyFirst
  */
-@ApiModel(description = "Model for testing reserved words")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-29T21:13:47.191+01:00")
-public class ModelReturn   {
+public class ReadOnlyFirst   {
   
-  private Integer _return = null;
+  private String bar = null;
+  private String baz = null;
 
   
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("bar")
+  public String getBar() {
+    return bar;
+  }
+
+
   /**
    **/
-  public ModelReturn _return(Integer _return) {
-    this._return = _return;
+  public ReadOnlyFirst baz(String baz) {
+    this.baz = baz;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("return")
-  public Integer getReturn() {
-    return _return;
+  @JsonProperty("baz")
+  public String getBaz() {
+    return baz;
   }
-  public void setReturn(Integer _return) {
-    this._return = _return;
+  public void setBaz(String baz) {
+    this.baz = baz;
   }
 
 
@@ -42,21 +49,23 @@ public class ModelReturn   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ModelReturn _return = (ModelReturn) o;
-    return Objects.equals(this._return, _return._return);
+    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
+    return Objects.equals(this.bar, readOnlyFirst.bar) &&
+        Objects.equals(this.baz, readOnlyFirst.baz);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_return);
+    return Objects.hash(bar, baz);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ModelReturn {\n");
+    sb.append("class ReadOnlyFirst {\n");
     
-    sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");
     return sb.toString();
   }
