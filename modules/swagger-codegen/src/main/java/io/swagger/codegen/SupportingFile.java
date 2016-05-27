@@ -5,6 +5,10 @@ public class SupportingFile {
     public String folder;
     public String destinationFilename;
 
+    public SupportingFile(String templateFile, String destinationFilename) {
+        this(templateFile, "", destinationFilename);
+    }
+
     public SupportingFile(String templateFile, String folder, String destinationFilename) {
         this.templateFile = templateFile;
         this.folder = folder;
@@ -44,4 +48,17 @@ public class SupportingFile {
         result = 31 * result + (destinationFilename != null ? destinationFilename.hashCode() : 0);
         return result;
     }
+
+    static public class GlobalSupportingFile extends SupportingFile {
+
+        GlobalSupportingFile(String templateFile, String folder, String destinationFilename) {
+            super(templateFile, folder, destinationFilename);
+        }
+
+        GlobalSupportingFile(String templateFile, String destinationFilename) {
+            super(templateFile, destinationFilename);
+        }
+    }
 }
+
+

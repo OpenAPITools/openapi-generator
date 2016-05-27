@@ -14,7 +14,6 @@ public class ObjcClientOptionsProvider implements OptionsProvider {
     public static final String AUTHOR_NAME_VALUE = "SwaggerObjc";
     public static final String AUTHOR_EMAIL_VALUE = "objc@swagger.io";
     public static final String GIT_REPO_URL_VALUE = "https://github.com/swagger-api/swagger-codegen";
-    public static final String LICENSE_VALUE = "MIT";
 
     @Override
     public String getLanguage() {
@@ -30,7 +29,6 @@ public class ObjcClientOptionsProvider implements OptionsProvider {
                 .put(ObjcClientCodegen.AUTHOR_NAME, AUTHOR_NAME_VALUE)
                 .put(ObjcClientCodegen.AUTHOR_EMAIL, AUTHOR_EMAIL_VALUE)
                 .put(ObjcClientCodegen.GIT_REPO_URL, GIT_REPO_URL_VALUE)
-                .put(ObjcClientCodegen.LICENSE, LICENSE_VALUE)
                 .build();
     }
 
