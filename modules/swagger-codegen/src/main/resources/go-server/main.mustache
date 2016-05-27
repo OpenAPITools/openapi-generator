@@ -1,0 +1,15 @@
+package main
+
+import (
+	sw "./{{apiPath}}"
+    "log"
+    "net/http"
+)
+
+func main() {
+	log.Printf("Server started")
+
+    router := sw.NewRouter()
+    
+    log.Fatal(http.ListenAndServe(":{{serverPort}}", router))
+}
