@@ -531,7 +531,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         continue;
                     }
                     String templateFile;
-                    if( support instanceof SupportingFile.GlobalSupportingFile) {
+                    if( support instanceof GlobalSupportingFile) {
                         templateFile = config.getCommonTemplateDir() + File.separator +  support.templateFile;
                     } else {
                         templateFile = getFullTemplateFile(config, support.templateFile);
