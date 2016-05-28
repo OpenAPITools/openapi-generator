@@ -32,6 +32,28 @@ module Petstore
 
     attr_accessor :enum_number
 
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -82,26 +104,21 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      allowed_values = ["UPPER", "lower"]
-      if @enum_string && !allowed_values.include?(@enum_string)
-        return false
-      end
-      allowed_values = ["1", "-1"]
-      if @enum_integer && !allowed_values.include?(@enum_integer)
-        return false
-      end
-      allowed_values = ["1.1", "-1.2"]
-      if @enum_number && !allowed_values.include?(@enum_number)
-        return false
-      end
+      enum_string_validator = EnumAttributeValidator.new('String', ["UPPER", "lower"])
+      return false unless enum_string_validator.valid?(@enum_string)
+      enum_integer_validator = EnumAttributeValidator.new('Integer', ["1", "-1"])
+      return false unless enum_integer_validator.valid?(@enum_integer)
+      enum_number_validator = EnumAttributeValidator.new('Float', ["1.1", "-1.2"])
+      return false unless enum_number_validator.valid?(@enum_number)
+      return true
     end
 
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] enum_string Object to be assigned
     def enum_string=(enum_string)
-      allowed_values = ["UPPER", "lower"]
-      if enum_string && !allowed_values.include?(enum_string)
-        fail ArgumentError, "invalid value for 'enum_string', must be one of #{allowed_values}."
+      validator = EnumAttributeValidator.new('String', ["UPPER", "lower"])
+      unless validator.valid?(enum_string)
+        fail ArgumentError, "invalid value for 'enum_string', must be one of #{validator.allowable_values}."
       end
       @enum_string = enum_string
     end
@@ -109,9 +126,9 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] enum_integer Object to be assigned
     def enum_integer=(enum_integer)
-      allowed_values = ["1", "-1"]
-      if enum_integer && !allowed_values.include?(enum_integer)
-        fail ArgumentError, "invalid value for 'enum_integer', must be one of #{allowed_values}."
+      validator = EnumAttributeValidator.new('Integer', ["1", "-1"])
+      unless validator.valid?(enum_integer)
+        fail ArgumentError, "invalid value for 'enum_integer', must be one of #{validator.allowable_values}."
       end
       @enum_integer = enum_integer
     end
@@ -119,9 +136,9 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] enum_number Object to be assigned
     def enum_number=(enum_number)
-      allowed_values = ["1.1", "-1.2"]
-      if enum_number && !allowed_values.include?(enum_number)
-        fail ArgumentError, "invalid value for 'enum_number', must be one of #{allowed_values}."
+      validator = EnumAttributeValidator.new('Float', ["1.1", "-1.2"])
+      unless validator.valid?(enum_number)
+        fail ArgumentError, "invalid value for 'enum_number', must be one of #{validator.allowable_values}."
       end
       @enum_number = enum_number
     end

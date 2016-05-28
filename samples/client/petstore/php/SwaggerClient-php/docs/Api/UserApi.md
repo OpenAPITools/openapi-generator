@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Created user object | 
+ **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Created user object |
 
 ### Return type
 
@@ -85,7 +85,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object | 
+ **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -129,7 +129,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object | 
+ **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -173,7 +173,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be deleted | 
+ **username** | **string**| The name that needs to be deleted |
 
 ### Return type
 
@@ -203,7 +203,7 @@ Get user by user name
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\UserApi();
-$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing. 
+$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing.
 
 try {
     $result = $api_instance->getUserByName($username);
@@ -218,7 +218,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -264,8 +264,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login | 
- **password** | **string**| The password for login in clear text | 
+ **username** | **string**| The user name for login |
+ **password** | **string**| The password for login in clear text |
 
 ### Return type
 
@@ -350,8 +350,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted | 
- **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Updated user object | 
+ **username** | **string**| name that need to be deleted |
+ **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Updated user object |
 
 ### Return type
 
