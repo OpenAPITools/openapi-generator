@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -92,8 +92,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| Pet id to delete | 
- **api_key** | **string**|  | [optional] 
+ **pet_id** | **int**| Pet id to delete |
+ **api_key** | **string**|  | [optional]
 
 ### Return type
 
@@ -141,7 +141,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter | 
+ **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter |
 
 ### Return type
 
@@ -189,7 +189,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**string[]**](../Model/string.md)| Tags to filter by | 
+ **tags** | [**string[]**](../Model/string.md)| Tags to filter by |
 
 ### Return type
 
@@ -239,7 +239,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to return | 
+ **pet_id** | **int**| ID of pet to return |
 
 ### Return type
 
@@ -286,7 +286,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -335,9 +335,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet that needs to be updated | 
- **name** | **string**| Updated name of the pet | [optional] 
- **status** | **string**| Updated status of the pet | [optional] 
+ **pet_id** | **int**| ID of pet that needs to be updated |
+ **name** | **string**| Updated name of the pet | [optional]
+ **status** | **string**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -387,9 +387,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update | 
- **additional_metadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **\SplFileObject**| file to upload | [optional] 
+ **pet_id** | **int**| ID of pet to update |
+ **additional_metadata** | **string**| Additional data to pass to server | [optional]
+ **file** | **\SplFileObject**| file to upload | [optional]
 
 ### Return type
 

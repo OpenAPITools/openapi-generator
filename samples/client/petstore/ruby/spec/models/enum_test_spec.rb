@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -38,19 +38,28 @@ describe 'EnumTest' do
   end
   describe 'test attribute "enum_string"' do
     it 'should work' do
-       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+       validator = Petstore::EnumTest::EnumAttributeValidator.new('String', ["UPPER", "lower"])
+       validator.allowable_values.each do |value|
+         expect { @instance.enum_string = value }.not_to raise_error
+       end
     end
   end
 
   describe 'test attribute "enum_integer"' do
     it 'should work' do
-       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+       validator = Petstore::EnumTest::EnumAttributeValidator.new('Integer', ["1", "-1"])
+       validator.allowable_values.each do |value|
+         expect { @instance.enum_integer = value }.not_to raise_error
+       end
     end
   end
 
   describe 'test attribute "enum_number"' do
     it 'should work' do
-       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+       validator = Petstore::EnumTest::EnumAttributeValidator.new('Float', ["1.1", "-1.2"])
+       validator.allowable_values.each do |value|
+         expect { @instance.enum_number = value }.not_to raise_error
+       end
     end
   end
 

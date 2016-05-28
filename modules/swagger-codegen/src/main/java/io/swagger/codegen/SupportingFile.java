@@ -5,6 +5,10 @@ public class SupportingFile {
     public String folder;
     public String destinationFilename;
 
+    public SupportingFile(String templateFile, String destinationFilename) {
+        this(templateFile, "", destinationFilename);
+    }
+
     public SupportingFile(String templateFile, String folder, String destinationFilename) {
         this.templateFile = templateFile;
         this.folder = folder;
@@ -45,3 +49,5 @@ public class SupportingFile {
         return result;
     }
 }
+
+

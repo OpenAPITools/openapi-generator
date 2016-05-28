@@ -33,7 +33,7 @@ public class {{classname}}: JSONEncodable {
     public init() {}
 {{/unwrapRequired}}
 {{#unwrapRequired}}
-    public init({{#requiredVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}!{{/isEnum}}{{^isEnum}}{{datatype}}!{{/isEnum}}{{/requiredVars}}) {
+    public init({{#requiredVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{/requiredVars}}) {
         {{#requiredVars}}
         self.{{name}} = {{name}}
         {{/requiredVars}}
