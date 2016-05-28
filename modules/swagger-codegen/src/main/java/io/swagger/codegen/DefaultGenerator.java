@@ -530,9 +530,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         LOGGER.info("Skipped overwriting " + outputFilename);
                         continue;
                     }
-
-                    String templateFile = getFullTemplateFile(config, support.templateFile);
-
+                    String templateFile;
+                    if( support instanceof GlobalSupportingFile) {
+                        templateFile = config.getCommonTemplateDir() + File.separator +  support.templateFile;
+                    } else {
+                        templateFile = getFullTemplateFile(config, support.templateFile);
+                    }
                     boolean shouldGenerate = true;
                     if(supportingFilesToGenerate != null && supportingFilesToGenerate.size() > 0) {
                         if(supportingFilesToGenerate.contains(support.destinationFilename)) {

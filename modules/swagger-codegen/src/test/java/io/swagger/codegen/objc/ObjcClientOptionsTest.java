@@ -38,8 +38,6 @@ public class ObjcClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setGitRepoURL(ObjcClientOptionsProvider.GIT_REPO_URL_VALUE);
             times = 1;
-            clientCodegen.setLicense(ObjcClientOptionsProvider.LICENSE_VALUE);
-            times = 1;
         }};
     }
 }
