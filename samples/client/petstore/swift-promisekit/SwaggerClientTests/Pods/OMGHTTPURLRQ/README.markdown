@@ -39,7 +39,7 @@ NSData *data2 = UIImagePNGRepresentation(image2);
 [multipartFormData addFile:data2 parameterName:@"file2" filename:@"myimage2.png" contentType:@"image/png"];
 
 // SUPER Ideally you would not want to re-encode the JPEG as the process
-// is lossy. If you image comes from the AssetLibrary you *CAN* get the
+// is lossy. If your image comes from the AssetLibrary you *CAN* get the
 // original `NSData`. See stackoverflow.com.
 UIImage *image3 = [UIImage imageNamed:@"image3"];
 NSData *data3 = UIImageJPEGRepresentation(image3);
@@ -97,7 +97,7 @@ your API keys that registering at https://dev.twitter.com will provide
 you.
 
 ```objc
-NSMutableURLRequest *rq = [TDOAuth URLRequestForPath:@"/oauth/request_token" POSTParameters:@{@"x_auth_mode" : @"reverse_auth"} host:@"api.twitter.com"consumerKey:APIKey consumerSecret:APISecret accessToken:nil tokenSecret:nil];
+NSMutableURLRequest *rq = [TDOAuth URLRequestForPath:@"/oauth/request_token" POSTParameters:@{@"x_auth_mode" : @"reverse_auth"} host:@"api.twitter.com" consumerKey:APIKey consumerSecret:APISecret accessToken:nil tokenSecret:nil];
 [rq addValue:OMGUserAgent() forHTTPHeaderField:@"User-Agent"];
 
 [NSURLConnection sendAsynchronousRequest:rq queue:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
