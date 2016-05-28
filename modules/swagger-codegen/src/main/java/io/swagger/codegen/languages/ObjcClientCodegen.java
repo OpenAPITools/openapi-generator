@@ -26,9 +26,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String POD_NAME = "podName";
     public static final String AUTHOR_NAME = "authorName";
     public static final String AUTHOR_EMAIL = "authorEmail";
-    public static final String GIT_REPO_URL = "gitRepoURL";
     public static final String LICENSE = "license";
-    
+    public static final String GIT_REPO_URL = "gitRepoURL";
+
+    public static final String DEFAULT_LICENSE = "Apache License, Version 2.0";
+
     public static final String BinaryDataType = "ObjcClientCodegenBinaryData";
     
     protected Set<String> foundationClasses = new HashSet<String>();
@@ -37,7 +39,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String classPrefix = "SWG";
     protected String authorName = "Swagger";
     protected String authorEmail = "apiteam@swagger.io";
-    protected String license = "MIT";
+    protected String license = DEFAULT_LICENSE;
     protected String gitRepoURL = "https://github.com/swagger-api/swagger-codegen";
     protected String[] specialWords = {"new", "copy"};
     protected String apiDocPath = "docs/";
@@ -164,7 +166,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(AUTHOR_EMAIL, "Email to use in the podspec file.").defaultValue("apiteam@swagger.io"));
         cliOptions.add(new CliOption(GIT_REPO_URL, "URL for the git repo where this podspec should point to.")
                 .defaultValue("https://github.com/swagger-api/swagger-codegen"));
-        cliOptions.add(new CliOption(LICENSE, "License to use in the podspec file.").defaultValue("MIT"));
     }
 
     @Override
@@ -210,10 +211,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             setGitRepoURL((String) additionalProperties.get(GIT_REPO_URL));
         }
 
-        if (additionalProperties.containsKey(LICENSE)) {
-            setLicense((String) additionalProperties.get(LICENSE));
-        }
-
         additionalProperties.put(POD_NAME, podName);
         additionalProperties.put(CodegenConstants.POD_VERSION, podVersion);
         additionalProperties.put(CLASS_PREFIX, classPrefix);
@@ -245,8 +242,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Sanitizer-header.mustache",  coreFileFolder(), classPrefix + "Sanitizer.h"));
         supportingFiles.add(new SupportingFile("Logger-body.mustache",  coreFileFolder(), classPrefix + "Logger.m"));
         supportingFiles.add(new SupportingFile("Logger-header.mustache",  coreFileFolder(), classPrefix + "Logger.h"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.m",  coreFileFolder(), "JSONValueTransformer+ISO8601.m"));
-        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601.h",  coreFileFolder(), "JSONValueTransformer+ISO8601.h"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-body.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.m"));
+        supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-header.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.h"));
         supportingFiles.add(new SupportingFile("Configuration-body.mustache",  coreFileFolder(), classPrefix + "Configuration.m"));
         supportingFiles.add(new SupportingFile("Configuration-header.mustache",  coreFileFolder(), classPrefix + "Configuration.h"));
         supportingFiles.add(new SupportingFile("api-protocol.mustache", coreFileFolder(), classPrefix + "Api.h"));
@@ -254,7 +251,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
     }
 
     @Override
