@@ -949,8 +949,17 @@ definitions:
           - -1.2
   AdditionalPropertiesClass:
     type: object
-    additionalProperties:
-      type: string
+    properties:
+      map_property:
+        type: object
+        additionalProperties:
+          type: string
+      map_of_map_property:
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: string
   MixedPropertiesAndAdditionalPropertiesClass:
     type: object
     properties:
@@ -960,9 +969,10 @@ definitions:
       dateTime:
         type: string
         format: date-time
-    additionalProperties:
-      type: string
-      $ref: '#/definitions/Animal'
+      map: 
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/Animal'
   ReadOnlyFirst:
     type: object
     properties:
@@ -973,23 +983,24 @@ definitions:
         type: string
   ArrayTest:
     type: object
-    array_of_string:
-      type: array
-      items:
-        type: string
-    array_array_of_integer:
-      type: array
-      items:
+    properties:
+      array_of_string:
         type: array
         items:
-          type: integer
-          format: int64
-    array_array_of_model:
-      type: array
-      items:
+          type: string
+      array_array_of_integer:
         type: array
         items:
-          $ref: '#/definitions/ReadOnlyFirst'
+          type: array
+          items:
+            type: integer
+            format: int64
+      array_array_of_model:
+        type: array
+        items:
+          type: array
+          items:
+            $ref: '#/definitions/ReadOnlyFirst'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

@@ -37,17 +37,19 @@ namespace IO.Swagger.Model
     /// MixedPropertiesAndAdditionalPropertiesClass
     /// </summary>
     [DataContract]
-    public partial class MixedPropertiesAndAdditionalPropertiesClass : Dictionary<String, Animal>,  IEquatable<MixedPropertiesAndAdditionalPropertiesClass>
+    public partial class MixedPropertiesAndAdditionalPropertiesClass :  IEquatable<MixedPropertiesAndAdditionalPropertiesClass>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
         /// </summary>
         /// <param name="Uuid">Uuid.</param>
         /// <param name="DateTime">DateTime.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid? Uuid = null, DateTime? DateTime = null)
+        /// <param name="Map">Map.</param>
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid? Uuid = null, DateTime? DateTime = null, Dictionary<string, Animal> Map = null)
         {
             this.Uuid = Uuid;
             this.DateTime = DateTime;
+            this.Map = Map;
         }
         
         /// <summary>
@@ -61,6 +63,11 @@ namespace IO.Swagger.Model
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
         public DateTime? DateTime { get; set; }
         /// <summary>
+        /// Gets or Sets Map
+        /// </summary>
+        [DataMember(Name="map", EmitDefaultValue=false)]
+        public Dictionary<string, Animal> Map { get; set; }
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -70,6 +77,7 @@ namespace IO.Swagger.Model
             sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Map: ").Append(Map).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,7 +86,7 @@ namespace IO.Swagger.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public  new string ToJson()
+        public string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -115,6 +123,11 @@ namespace IO.Swagger.Model
                     this.DateTime == other.DateTime ||
                     this.DateTime != null &&
                     this.DateTime.Equals(other.DateTime)
+                ) && 
+                (
+                    this.Map == other.Map ||
+                    this.Map != null &&
+                    this.Map.SequenceEqual(other.Map)
                 );
         }
 
@@ -133,6 +146,8 @@ namespace IO.Swagger.Model
                     hash = hash * 59 + this.Uuid.GetHashCode();
                 if (this.DateTime != null)
                     hash = hash * 59 + this.DateTime.GetHashCode();
+                if (this.Map != null)
+                    hash = hash * 59 + this.Map.GetHashCode();
                 return hash;
             }
         }
