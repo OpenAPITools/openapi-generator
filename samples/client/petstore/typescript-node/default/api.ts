@@ -128,11 +128,12 @@ export enum PetApiApiKeys {
 export class PetApi {
     protected basePath = defaultBasePath;
     protected defaultHeaders : any = {};
+    protected _useQuerystring : boolean = false;
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
@@ -146,6 +147,10 @@ export class PetApi {
                 this.basePath = basePathOrUsername
             }
         }
+    }
+
+    set useQuerystring(value: boolean) {
+        this._useQuerystring = value;
     }
 
     public setApiKey(key: PetApiApiKeys, value: string) {
@@ -183,6 +188,7 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
             body: body,
         };
@@ -240,6 +246,7 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -291,6 +298,7 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -342,6 +350,7 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -395,12 +404,13 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
-        this.authentications.api_key.applyToRequest(requestOptions);
-
         this.authentications.petstore_auth.applyToRequest(requestOptions);
+
+        this.authentications.api_key.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -444,6 +454,7 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
             body: body,
         };
@@ -508,6 +519,7 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -572,6 +584,7 @@ export class PetApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -607,11 +620,12 @@ export enum StoreApiApiKeys {
 export class StoreApi {
     protected basePath = defaultBasePath;
     protected defaultHeaders : any = {};
+    protected _useQuerystring : boolean = false;
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
@@ -625,6 +639,10 @@ export class StoreApi {
                 this.basePath = basePathOrUsername
             }
         }
+    }
+
+    set useQuerystring(value: boolean) {
+        this._useQuerystring = value;
     }
 
     public setApiKey(key: StoreApiApiKeys, value: string) {
@@ -668,6 +686,7 @@ export class StoreApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -712,6 +731,7 @@ export class StoreApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -765,6 +785,7 @@ export class StoreApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -810,6 +831,7 @@ export class StoreApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
             body: body,
         };
@@ -844,11 +866,12 @@ export enum UserApiApiKeys {
 export class UserApi {
     protected basePath = defaultBasePath;
     protected defaultHeaders : any = {};
+    protected _useQuerystring : boolean = false;
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
@@ -862,6 +885,10 @@ export class UserApi {
                 this.basePath = basePathOrUsername
             }
         }
+    }
+
+    set useQuerystring(value: boolean) {
+        this._useQuerystring = value;
     }
 
     public setApiKey(key: UserApiApiKeys, value: string) {
@@ -899,6 +926,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
             body: body,
         };
@@ -945,6 +973,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
             body: body,
         };
@@ -991,6 +1020,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
             body: body,
         };
@@ -1043,6 +1073,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -1094,6 +1125,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -1148,6 +1180,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -1192,6 +1225,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
         };
 
@@ -1244,6 +1278,7 @@ export class UserApi {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
             body: body,
         };

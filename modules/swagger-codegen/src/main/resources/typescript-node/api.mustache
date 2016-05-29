@@ -111,6 +111,7 @@ export enum {{classname}}ApiKeys {
 export class {{classname}} {
     protected basePath = defaultBasePath;
     protected defaultHeaders : any = {};
+    protected _useQuerystring : boolean = false;
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
@@ -151,12 +152,15 @@ export class {{classname}} {
         }
     }
 
+    set useQuerystring(value: boolean) {
+        this._useQuerystring = value;
+    }
+
     public setApiKey(key: {{classname}}ApiKeys, value: string) {
         this.authentications[{{classname}}ApiKeys[key]].apiKey = value;
     }
 {{#authMethods}}
 {{#isBasic}}
-
     set username(username: string) {
         this.authentications.{{name}}.username = username;
     }
@@ -225,6 +229,7 @@ export class {{classname}} {
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
 {{#bodyParam}}
             body: {{paramName}},
