@@ -77,6 +77,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "string",
                         "bool?",
                         "double?",
+                        "decimal?",
                         "int?",
                         "long?",
                         "float?",
@@ -112,7 +113,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("float", "float?");
         typeMapping.put("long", "long?");
         typeMapping.put("double", "double?");
-        typeMapping.put("number", "double?");
+        typeMapping.put("number", "decimal?");
         typeMapping.put("datetime", "DateTime?");
         typeMapping.put("date", "DateTime?");
         typeMapping.put("file", "System.IO.Stream");
