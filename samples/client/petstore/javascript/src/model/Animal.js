@@ -34,6 +34,7 @@
     var _this = this;
 
     _this['className'] = className;
+
   };
 
   /**
@@ -50,6 +51,9 @@
       if (data.hasOwnProperty('className')) {
         obj['className'] = ApiClient.convertToType(data['className'], 'String');
       }
+      if (data.hasOwnProperty('color')) {
+        obj['color'] = ApiClient.convertToType(data['color'], 'String');
+      }
     }
     return obj;
   }
@@ -58,6 +62,11 @@
    * @member {String} className
    */
   exports.prototype['className'] = undefined;
+  /**
+   * @member {String} color
+   * @default 'red'
+   */
+  exports.prototype['color'] = 'red';
 
 
 

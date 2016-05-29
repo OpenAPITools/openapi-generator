@@ -1,6 +1,6 @@
 import request = require('request');
 import http = require('http');
-import promise = require('bluebird');
+import Promise = require('bluebird');
 
 let defaultBasePath = 'http://petstore.swagger.io/v2';
 
@@ -132,8 +132,8 @@ export class PetApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(basePath?: string);
@@ -182,7 +182,6 @@ export class PetApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
@@ -204,18 +203,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Deletes a pet
@@ -240,7 +240,6 @@ export class PetApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
@@ -261,18 +260,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Finds Pets by status
@@ -292,7 +292,6 @@ export class PetApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: Array<Pet>;  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -313,18 +312,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: Array<Pet>;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Finds Pets by tags
@@ -344,7 +344,6 @@ export class PetApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: Array<Pet>;  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -365,18 +364,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: Array<Pet>;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Find pet by ID
@@ -398,7 +398,6 @@ export class PetApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: Pet;  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -408,9 +407,9 @@ export class PetApi {
             json: true,
         };
 
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
         this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -421,18 +420,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: Pet;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Update an existing pet
@@ -448,7 +448,6 @@ export class PetApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'PUT',
             qs: queryParameters,
@@ -470,18 +469,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Updates a pet in the store with form data
@@ -513,7 +513,6 @@ export class PetApi {
             formParams['status'] = status;
         }
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
@@ -534,18 +533,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * uploads an image
@@ -578,7 +578,6 @@ export class PetApi {
         }
         useFormData = true;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
@@ -599,18 +598,19 @@ export class PetApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
 }
 export enum StoreApiApiKeys {
@@ -624,8 +624,8 @@ export class StoreApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(basePath?: string);
@@ -680,7 +680,6 @@ export class StoreApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
@@ -699,18 +698,19 @@ export class StoreApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Returns pet inventories by status
@@ -725,7 +725,6 @@ export class StoreApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: { [key: string]: number; };  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -746,18 +745,19 @@ export class StoreApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Find purchase order by ID
@@ -779,7 +779,6 @@ export class StoreApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: Order;  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -798,18 +797,19 @@ export class StoreApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: Order;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Place an order for a pet
@@ -825,7 +825,6 @@ export class StoreApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: Order;  }>();
         let requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
@@ -845,18 +844,19 @@ export class StoreApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: Order;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
 }
 export enum UserApiApiKeys {
@@ -870,8 +870,8 @@ export class UserApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     constructor(basePath?: string);
@@ -920,7 +920,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
@@ -940,18 +939,19 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Creates list of users with given input array
@@ -967,7 +967,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
@@ -987,18 +986,19 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Creates list of users with given input array
@@ -1014,7 +1014,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'POST',
             qs: queryParameters,
@@ -1034,18 +1033,19 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Delete user
@@ -1067,7 +1067,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'DELETE',
             qs: queryParameters,
@@ -1086,18 +1085,19 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Get user by user name
@@ -1119,7 +1119,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: User;  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -1138,18 +1137,19 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: User;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Logs user into the system
@@ -1174,7 +1174,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body: string;  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -1193,18 +1192,19 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body: string;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Logs out current logged in user session
@@ -1219,7 +1219,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'GET',
             qs: queryParameters,
@@ -1238,18 +1237,19 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
     /**
      * Updated user
@@ -1272,7 +1272,6 @@ export class UserApi {
 
         let useFormData = false;
 
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; body?: any;  }>();
         let requestOptions: request.Options = {
             method: 'PUT',
             qs: queryParameters,
@@ -1292,17 +1291,18 @@ export class UserApi {
                 requestOptions.form = formParams;
             }
         }
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
+        return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            request(requestOptions, (error, response, body) => {
+                if (error) {
+                    reject(error);
                 } else {
-                    localVarDeferred.reject({ response: response, body: body });
+                    if (response.statusCode >= 200 && response.statusCode <= 299) {
+                        resolve({ response: response, body: body });
+                    } else {
+                        reject({ response: response, body: body });
+                    }
                 }
-            }
+            });
         });
-        return localVarDeferred.promise;
     }
 }
