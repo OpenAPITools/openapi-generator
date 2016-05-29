@@ -408,6 +408,44 @@ java -Dapis -DmodelTests=false {opts}
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
+### Ignore file format
+
+Swagger codegen supports a `.swagger-codegen-ignore` file, similar to `.gitignore` or `.dockerignore` you're probably already familiar with.
+
+The ignore file allows for better control over overwriting existing files than the `--skip-overwrite` flag. With the ignore file, you can specify individual files or directories can be ignored. This can be useful, for example if you only want a subset of the generated code.
+
+Examples:
+
+```
+# Swagger Codegen Ignore
+# Lines beginning with a # are comments
+
+# This should match build.sh located anywhere.
+build.sh
+
+# Matches build.sh in the root
+/build.sh
+
+# Exclude all recursively
+docs/**
+
+# Explicitly allow files excluded by other rules
+!docs/UserApi.md
+
+# Recursively exclude directories named Api
+# You can't negate files below this directory.
+src/**/Api/
+
+# When this file is nested under /Api (excluded above),
+# this rule is ignored because parent directory is excluded by previous rule.
+!src/**/PetApiTests.cs
+
+# Exclude a single, nested file explicitly
+src/IO.Swagger.Test/Model/AnimalFarmTests.cs
+```
+
+The `.swagger-codegen-ignore` file must exist in the root of the output directory.
+
 ### Customizing the generator
 
 There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:
