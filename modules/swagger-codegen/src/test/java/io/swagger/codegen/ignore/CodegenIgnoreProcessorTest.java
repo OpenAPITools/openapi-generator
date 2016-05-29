@@ -1,6 +1,8 @@
 package io.swagger.codegen.ignore;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 import static org.testng.Assert.*;
 
@@ -12,35 +14,20 @@ import java.nio.file.Path;
 
 public class CodegenIgnoreProcessorTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CodegenIgnoreProcessorTest.class);
+
     private Boolean allowed;
+    private final String filename;
+    private final String ignoreDefinition;
     private final String description;
     private String outputDir;
     private File target;
     private Path temp;
 
     private CodegenIgnoreProcessorTest(String filename, String ignoreDefinition, String description) throws IOException {
+        this.filename = filename;
+        this.ignoreDefinition = ignoreDefinition;
         this.description = description;
-
-        temp = Files.createTempDirectory(null);
-        this.outputDir = temp.toFile().getAbsolutePath();
-
-        target = new File(this.outputDir, filename);
-
-        boolean mkdirs = target.getParentFile().mkdirs();
-        if(!mkdirs) {
-            throw new IOException("Failed to create parent directories for CodegenIgnoreProcessorTest test file.");
-        }
-
-        Path created = Files.createFile(target.toPath());
-        if(!created.toFile().exists()) {
-            throw new IOException("Failed to write CodegenIgnoreProcessorTest test file.");
-        }
-
-        // System.out.print(String.format("Created codegen ignore processor test file: %s\n", created.toAbsolutePath()));
-        File ignoreFile = new File(this.outputDir, ".swagger-codegen-ignore");
-        try (FileOutputStream stream = new FileOutputStream(ignoreFile)) {
-            stream.write(ignoreDefinition.getBytes());
-        }
     }
 
     CodegenIgnoreProcessorTest allowed() {
@@ -53,14 +40,47 @@ public class CodegenIgnoreProcessorTest {
         return this;
     }
 
-    @AfterClass
-    public void afterClass() throws IOException {
-        FileUtils.deleteDirectory(temp.toFile());
+    private void prepareTestFiles() throws IOException {
+        // NOTE: Each test needs its own directory because .swagger-codegen-ignore needs to exist at the root.
+        temp = Files.createTempDirectory(getClass().getSimpleName());
+        this.outputDir = temp.toFile().getAbsolutePath();
+
+        target = new File(this.outputDir, this.filename);
+
+        boolean mkdirs = target.getParentFile().mkdirs();
+        if(!mkdirs) {
+            LOGGER.warn("Failed to create directories for CodegenIgnoreProcessorTest test file. Directory may already exist.");
+        }
+
+        Path created = Files.createFile(target.toPath());
+        if(!created.toFile().exists()) {
+            throw new IOException("Failed to write CodegenIgnoreProcessorTest test file.");
+        }
+
+        // System.out.print(String.format("Created codegen ignore processor test file: %s\n", created.toAbsolutePath()));
+        File ignoreFile = new File(this.outputDir, ".swagger-codegen-ignore");
+        try (FileOutputStream stream = new FileOutputStream(ignoreFile)) {
+            stream.write(this.ignoreDefinition.getBytes());
+        }
+    }
+
+    @AfterTest
+    public void afterTest() throws IOException {
+        if(temp != null && temp.toFile().exists() && temp.toFile().isDirectory()) {
+            FileUtils.deleteDirectory(temp.toFile());
+        }
     }
 
     @Test
     public void evaluate() {
         // Arrange
+        try {
+            // Lazily setup files to avoid conflicts and creation when these tests may not even run.
+            prepareTestFiles();
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("Failed to prepare test files. " + e.getMessage());
+        }
         CodegenIgnoreProcessor processor = new CodegenIgnoreProcessor(outputDir);
         Boolean actual = null;
 
