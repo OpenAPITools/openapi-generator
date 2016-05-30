@@ -1,13 +1,14 @@
 {
     "name": "@swagger/angular2-typescript-petstore",
-    "version": "0.0.1-SNAPSHOT.201605191812",
+    "version": "0.0.1-SNAPSHOT.201605241654",
     "description": "NodeJS client for @swagger/angular2-typescript-petstore",
     "repository": "GIT_USER_ID/GIT_REPO_ID",
     "main": "api.js",
     "scripts": {
+        "postinstall": "typings install",
         "clean": "rm -Rf node_modules/ typings/ *.js",
-        "build": "typings install && tsc",
-        "test": "tsc && node client.js"
+        "build": "tsc",
+        "test": "npm run build && node client.js"
     },
     "author": "Swagger Codegen Contributors",
     "license": "Apache-2.0",

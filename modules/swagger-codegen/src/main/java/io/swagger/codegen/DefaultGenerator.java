@@ -530,9 +530,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         LOGGER.info("Skipped overwriting " + outputFilename);
                         continue;
                     }
-
-                    String templateFile = getFullTemplateFile(config, support.templateFile);
-
+                    String templateFile;
+                    if( support instanceof GlobalSupportingFile) {
+                        templateFile = config.getCommonTemplateDir() + File.separator +  support.templateFile;
+                    } else {
+                        templateFile = getFullTemplateFile(config, support.templateFile);
+                    }
                     boolean shouldGenerate = true;
                     if(supportingFilesToGenerate != null && supportingFilesToGenerate.size() > 0) {
                         if(supportingFilesToGenerate.contains(support.destinationFilename)) {
@@ -605,6 +608,19 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
                 files.add(ignoreFile);
             }
+
+            // Add default LICENSE (Apache-2.0) for all generators
+            final String apache2License = "LICENSE";
+            String licenseFileNameTarget = config.outputFolder() + File.separator + apache2License;
+            File licenseFile = new File(licenseFileNameTarget);
+            String licenseFileNameSource = File.separator + config.getCommonTemplateDir() + File.separator + apache2License;
+            String licenseFileContents = readResourceContents(licenseFileNameSource);
+            try {
+                writeToFile(licenseFileNameTarget, licenseFileContents);
+            } catch (IOException e) {
+                throw new RuntimeException("Could not generate LICENSE file '" + apache2License + "'", e);
+            }
+            files.add(licenseFile);
         }
         config.processSwagger(swagger);
         return files;

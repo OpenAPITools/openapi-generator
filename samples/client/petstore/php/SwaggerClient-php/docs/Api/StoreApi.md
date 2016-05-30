@@ -28,7 +28,7 @@ $order_id = "order_id_example"; // string | ID of the order that needs to be del
 try {
     $api_instance->deleteOrder($order_id);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->deleteOrder: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->deleteOrder: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **string**| ID of the order that needs to be deleted | 
+ **order_id** | **string**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -77,7 +77,7 @@ try {
     $result = $api_instance->getInventory();
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->getInventory: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->getInventory: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -119,7 +119,7 @@ try {
     $result = $api_instance->getOrderById($order_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->getOrderById: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->getOrderById: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -128,7 +128,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched | 
+ **order_id** | **int**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -164,7 +164,7 @@ try {
     $result = $api_instance->placeOrder($body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -173,7 +173,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Order**](../Model/\Swagger\Client\Model\Order.md)| order placed for purchasing the pet | 
+ **body** | [**\Swagger\Client\Model\Order**](../Model/\Swagger\Client\Model\Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

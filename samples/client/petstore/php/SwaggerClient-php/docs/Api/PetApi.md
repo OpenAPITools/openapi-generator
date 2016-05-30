@@ -35,7 +35,7 @@ $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet obje
 try {
     $api_instance->addPet($body);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -83,7 +83,7 @@ $api_key = "api_key_example"; // string |
 try {
     $api_instance->deletePet($pet_id, $api_key);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -92,8 +92,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| Pet id to delete | 
- **api_key** | **string**|  | [optional] 
+ **pet_id** | **int**| Pet id to delete |
+ **api_key** | **string**|  | [optional]
 
 ### Return type
 
@@ -132,7 +132,7 @@ try {
     $result = $api_instance->findPetsByStatus($status);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->findPetsByStatus: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->findPetsByStatus: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -141,7 +141,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter | 
+ **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter |
 
 ### Return type
 
@@ -180,7 +180,7 @@ try {
     $result = $api_instance->findPetsByTags($tags);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->findPetsByTags: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->findPetsByTags: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -189,7 +189,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**string[]**](../Model/string.md)| Tags to filter by | 
+ **tags** | [**string[]**](../Model/string.md)| Tags to filter by |
 
 ### Return type
 
@@ -230,7 +230,7 @@ try {
     $result = $api_instance->getPetById($pet_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->getPetById: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->getPetById: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -239,7 +239,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to return | 
+ **pet_id** | **int**| ID of pet to return |
 
 ### Return type
 
@@ -277,7 +277,7 @@ $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet obje
 try {
     $api_instance->updatePet($body);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -286,7 +286,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -326,7 +326,7 @@ $status = "status_example"; // string | Updated status of the pet
 try {
     $api_instance->updatePetWithForm($pet_id, $name, $status);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -335,9 +335,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet that needs to be updated | 
- **name** | **string**| Updated name of the pet | [optional] 
- **status** | **string**| Updated status of the pet | [optional] 
+ **pet_id** | **int**| ID of pet that needs to be updated |
+ **name** | **string**| Updated name of the pet | [optional]
+ **status** | **string**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -378,7 +378,7 @@ try {
     $result = $api_instance->uploadFile($pet_id, $additional_metadata, $file);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), "\n";
+    echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -387,9 +387,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update | 
- **additional_metadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **\SplFileObject**| file to upload | [optional] 
+ **pet_id** | **int**| ID of pet to update |
+ **additional_metadata** | **string**| Additional data to pass to server | [optional]
+ **file** | **\SplFileObject**| file to upload | [optional]
 
 ### Return type
 

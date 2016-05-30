@@ -69,7 +69,7 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
-2.1.7-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
+2.2.0-SNAPSHOT             |              | 1.0, 1.1, 1.2, 2.0   | [master](https://github.com/swagger-api/swagger-codegen)
 2.1.6 (**current stable**) | 2016-04-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.6](https://github.com/swagger-api/swagger-codegen/tree/v2.1.6)
 2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
@@ -407,6 +407,44 @@ java -Dapis -DmodelTests=false {opts}
 ```
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
+
+### Ignore file format
+
+Swagger codegen supports a `.swagger-codegen-ignore` file, similar to `.gitignore` or `.dockerignore` you're probably already familiar with.
+
+The ignore file allows for better control over overwriting existing files than the `--skip-overwrite` flag. With the ignore file, you can specify individual files or directories can be ignored. This can be useful, for example if you only want a subset of the generated code.
+
+Examples:
+
+```
+# Swagger Codegen Ignore
+# Lines beginning with a # are comments
+
+# This should match build.sh located anywhere.
+build.sh
+
+# Matches build.sh in the root
+/build.sh
+
+# Exclude all recursively
+docs/**
+
+# Explicitly allow files excluded by other rules
+!docs/UserApi.md
+
+# Recursively exclude directories named Api
+# You can't negate files below this directory.
+src/**/Api/
+
+# When this file is nested under /Api (excluded above),
+# this rule is ignored because parent directory is excluded by previous rule.
+!src/**/PetApiTests.cs
+
+# Exclude a single, nested file explicitly
+src/IO.Swagger.Test/Model/AnimalFarmTests.cs
+```
+
+The `.swagger-codegen-ignore` file must exist in the root of the output directory.
 
 ### Customizing the generator
 
@@ -814,6 +852,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Cachet Financial](http://www.cachetfinancial.com/)
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Cupix](http://www.cupix.com)
+- [DBBest Technologies](https://www.dbbest.com) 
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
 - [eureka](http://eure.jp/)
@@ -824,6 +863,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
+- [Kabuku](http://www.kabuku.co.jp/en)
 - [Kuary](https://kuary.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
@@ -836,6 +876,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [REstore](https://www.restore.eu)
 - [Revault Sàrl](http://revault.ch)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
+- [SCOOP Software GmbH](http://www.scoop-software.de)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)

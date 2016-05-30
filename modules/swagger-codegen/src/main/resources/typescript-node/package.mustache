@@ -5,8 +5,10 @@
     "repository": "{{gitUserId}}/{{gitRepoId}}",
     "main": "api.js",
     "scripts": {
+        "postinstall": "typings install",
         "clean": "rm -Rf node_modules/ typings/ *.js",
-        "build": "typings install && tsc"
+        "build": "tsc",
+        "test": "npm run build && node client.js"
     },
     "author": "Swagger Codegen Contributors",
     "license": "Apache-2.0",

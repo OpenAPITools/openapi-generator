@@ -78,6 +78,13 @@ public class IgnoreLineParser {
                     i++;
                     continue;
                 } else {
+
+                    if (sb.length() > 0) {
+                        // A MATCH_ANY may commonly follow a filename or some other character. Dump that to results before the MATCH_ANY.
+                        parts.add(new Part(Token.TEXT, sb.toString()));
+                        sb.delete(0, sb.length());
+                    }
+
                     parts.add(new Part(Token.MATCH_ANY));
                     continue;
                 }
