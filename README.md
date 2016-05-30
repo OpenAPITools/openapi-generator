@@ -825,6 +825,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
+- [Kabuku](http://www.kabuku.co.jp/en)
 - [Kuary](https://kuary.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
