@@ -6,6 +6,8 @@ using Sharpility.Base;
 using {{packageName}}.{{packageContext}}.Models;
 using {{packageName}}.{{packageContext}}.Utils;
 using NodaTime;
+{{#imports}}using {{import}};
+{{/imports}}
 
 namespace {{packageName}}.{{packageContext}}.Modules
 { {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}
