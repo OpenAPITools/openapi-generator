@@ -10,7 +10,7 @@
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    root.SwaggerPetstore.Animal = factory(root.SwaggerPetstore.ApiClient);
+    root.SwaggerPetstore.ReadOnlyFirst = factory(root.SwaggerPetstore.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -19,54 +19,52 @@
 
 
   /**
-   * The Animal model module.
-   * @module model/Animal
+   * The ReadOnlyFirst model module.
+   * @module model/ReadOnlyFirst
    * @version 1.0.0
    */
 
   /**
-   * Constructs a new <code>Animal</code>.
-   * @alias module:model/Animal
+   * Constructs a new <code>ReadOnlyFirst</code>.
+   * @alias module:model/ReadOnlyFirst
    * @class
-   * @param className
    */
-  var exports = function(className) {
+  var exports = function() {
     var _this = this;
 
-    _this['className'] = className;
+
 
   };
 
   /**
-   * Constructs a <code>Animal</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>ReadOnlyFirst</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Animal} obj Optional instance to populate.
-   * @return {module:model/Animal} The populated <code>Animal</code> instance.
+   * @param {module:model/ReadOnlyFirst} obj Optional instance to populate.
+   * @return {module:model/ReadOnlyFirst} The populated <code>ReadOnlyFirst</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('className')) {
-        obj['className'] = ApiClient.convertToType(data['className'], 'String');
+      if (data.hasOwnProperty('bar')) {
+        obj['bar'] = ApiClient.convertToType(data['bar'], 'String');
       }
-      if (data.hasOwnProperty('color')) {
-        obj['color'] = ApiClient.convertToType(data['color'], 'String');
+      if (data.hasOwnProperty('baz')) {
+        obj['baz'] = ApiClient.convertToType(data['baz'], 'String');
       }
     }
     return obj;
   }
 
   /**
-   * @member {String} className
+   * @member {String} bar
    */
-  exports.prototype['className'] = undefined;
+  exports.prototype['bar'] = undefined;
   /**
-   * @member {String} color
-   * @default 'red'
+   * @member {String} baz
    */
-  exports.prototype['color'] = 'red';
+  exports.prototype['baz'] = undefined;
 
 
 
