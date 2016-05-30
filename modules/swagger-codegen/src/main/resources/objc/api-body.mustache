@@ -113,7 +113,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     {{#queryParams}}
     if ({{paramName}} != nil) {
         {{#collectionFormat}}
-        queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
+        queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{paramName}} format: @"{{collectionFormat}}"];
         {{/collectionFormat}}
         {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
     }

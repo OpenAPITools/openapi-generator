@@ -332,6 +332,13 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
             supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+
+            //generate markdown docs for retrofit2
+            if ( usesRetrofit2Library() ){
+                modelDocTemplateFiles.put("model_doc.mustache", ".md");
+                apiDocTemplateFiles.put("api_doc.mustache", ".md");
+            }
+
         } else if("jersey2".equals(getLibrary())) {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
