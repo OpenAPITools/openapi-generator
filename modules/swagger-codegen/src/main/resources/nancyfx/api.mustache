@@ -11,8 +11,15 @@ namespace {{packageName}}.{{packageContext}}.Modules
 { {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}
     {{>innerApiEnum}}{{/isEnum}}{{/allParams}}{{/operation}}
 
+    /// <summary>
+    /// Module processing requests of {{classname}} domain.
+    /// </summary>
     public sealed class {{classname}}Module : NancyModule
     {
+        /// <summary>
+        /// Sets up HTTP methods mappings.
+        /// </summary>
+        /// <param name="service">Service handling requests</param>
         public {{classname}}Module({{classname}}Service service) : base("{{baseContext}}")
         { {{#operation}}
             {{httpMethod}}["{{path}}"] = parameters =>
@@ -28,13 +35,25 @@ namespace {{packageName}}.{{packageContext}}.Modules
         }
     }
 
+    /// <summary>
+    /// Service handling {{classname}} requests.
+    /// </summary>
     public interface {{classname}}Service
     {
-        {{#operation}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}});{{#hasMore}}
+        {{#operation}}/// <summary>
+        /// {{notes}}
+        /// </summary>
+        /// <param name="context">Context of request</param>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
+        {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}});{{#hasMore}}
 
         {{/hasMore}}{{/operation}}
     }
 
+    /// <summary>
+    /// Abstraction of {{classname}}Service.
+    /// </summary>
     public abstract class Abstract{{classname}}Service: {{classname}}Service
     {
         {{#operation}}public virtual {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
