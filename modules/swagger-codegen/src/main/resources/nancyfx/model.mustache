@@ -16,6 +16,12 @@ namespace {{packageName}}.{{packageContext}}.Models
     { {{#vars}}
         public {{>nullableDataType}} {{name}} { get; private set; }{{/vars}}
 
+        /// <summary>
+        /// Required by some serializers.
+        /// </summary>
+        [Obsolete]
+        public {{classname}}(){}
+
         public {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}})
         {
             {{#vars}}

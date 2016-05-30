@@ -11,7 +11,7 @@ namespace {{packageName}}.{{packageContext}}.Modules
 { {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}
     {{>innerApiEnum}}{{/isEnum}}{{/allParams}}{{/operation}}
 
-    public partial class {{classname}}Module : NancyModule
+    public sealed class {{classname}}Module : NancyModule
     {
         public {{classname}}Module({{classname}}Service service) : base("{{baseContext}}")
         { {{#operation}}
