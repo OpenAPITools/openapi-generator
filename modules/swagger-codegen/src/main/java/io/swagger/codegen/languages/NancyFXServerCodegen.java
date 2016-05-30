@@ -28,6 +28,9 @@ import io.swagger.models.properties.Property;
 import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -36,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final Logger log = LoggerFactory.getLogger(NancyFXServerCodegen.class);
@@ -47,6 +51,8 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
             createPropertyToSwaggerTypeMapping();
 
     private final String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
+
+    private final Map<String, DependencyInfo> dependencies = new HashMap<>();
 
     public NancyFXServerCodegen() {
         outputFolder = "generated-code" + File.separator + getName();
@@ -72,6 +78,8 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(USE_COLLECTION, USE_COLLECTION_DESC, useCollection);
         addSwitch(RETURN_ICOLLECTION, RETURN_ICOLLECTION_DESC, returnICollection);
         typeMapping.putAll(nodaTimeTypesMappings());
+
+        importMapping.clear();
     }
 
     @Override
@@ -105,6 +113,43 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder(), packageName + ".csproj"));
         }
         additionalProperties.put("packageGuid", packageGuid);
+        processImportMapping();
+        setupDependencies();
+    }
+
+    private void processImportMapping() {
+        for (final Entry<String, String> entry : ImmutableSet.copyOf(importMapping.entrySet())) {
+            final String model = entry.getKey();
+            final String[] namespaceInfo = entry.getValue().split("\\s");
+            final String namespace = namespaceInfo.length > 0 ? namespaceInfo[0].trim() : null;
+            final String assembly = namespaceInfo.length > 1 ? namespaceInfo[1].trim() : null;
+            final String assemblyVersion = namespaceInfo.length > 2 ? namespaceInfo[2].trim() : null;
+            final String assemblyFramework = namespaceInfo.length > 3 ? namespaceInfo[3].trim() : "net45";
+            if (namespace == null) {
+                log.warn(String.format("Could not import: '%s' - invalid namespace: '%s'", model, entry.getValue()));
+                importMapping.remove(model);
+            } else {
+                log.info(String.format("Importing: '%s' from '%s' namespace.", model, namespace));
+                importMapping.put(model, namespace);
+            }
+            if (assembly != null && assemblyVersion != null) {
+                log.info("Adding dependency: '%s', version: '%s', framework: '%s'",
+                        assembly, assemblyVersion, assemblyVersion);
+                dependencies.put(assembly, new DependencyInfo(assemblyVersion, assemblyFramework));
+            }
+        }
+    }
+
+    private void setupDependencies() {
+        final List<Map<String, String>> listOfDependencies = new ArrayList<>();
+        for (final Entry<String, DependencyInfo> dependency : dependencies.entrySet()) {
+            final Map<String, String> dependencyInfo = new HashMap<>();
+            dependencyInfo.put("dependency", dependency.getKey());
+            dependencyInfo.put("dependencyVersion", dependency.getValue().version);
+            dependencyInfo.put("dependencyFramework", dependency.getValue().framework);
+            listOfDependencies.add(dependencyInfo);
+        }
+        additionalProperties.put("dependencies", listOfDependencies);
     }
 
     private String sourceFolder() {
@@ -210,5 +255,15 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
                 "time", "LocalTime?",
                 "date", "ZonedDateTime?",
                 "datetime", "ZonedDateTime?");
+    }
+
+    private class DependencyInfo {
+        private final String version;
+        private final String framework;
+
+        private DependencyInfo(final String version, final String framework) {
+            this.version =  version;
+            this.framework = framework;
+        }
     }
 }
