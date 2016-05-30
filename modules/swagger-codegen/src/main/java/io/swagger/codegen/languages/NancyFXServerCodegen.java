@@ -98,6 +98,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("parameters.mustache", sourceFile("Utils"), "Parameters.cs"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", sourceFolder(), "packages.config"));
+        supportingFiles.add(new SupportingFile("nuspec.mustache", sourceFolder(), packageName + ".nuspec"));
 
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
