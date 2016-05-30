@@ -48,6 +48,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
     private static final String API_NAMESPACE = "Modules";
     private static final String MODEL_NAMESPACE = "Models";
+    private static final String IMMUTABLE_OPTION = "immutable";
 
     private static final Map<String, Predicate<Property>> propertyToSwaggerTypeMapping =
             createPropertyToSwaggerTypeMapping();
@@ -59,7 +60,6 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
     public NancyFXServerCodegen() {
         outputFolder = "generated-code" + File.separator + getName();
-        modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
 
         // contextually reserved words
@@ -80,6 +80,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(USE_DATETIME_OFFSET, USE_DATETIME_OFFSET_DESC, useDateTimeOffsetFlag);
         addSwitch(USE_COLLECTION, USE_COLLECTION_DESC, useCollection);
         addSwitch(RETURN_ICOLLECTION, RETURN_ICOLLECTION_DESC, returnICollection);
+        addSwitch(IMMUTABLE_OPTION, "Enabled by default. If disabled generates model classes with setters", true);
         typeMapping.putAll(nodaTimeTypesMappings());
 
         importMapping.clear();
@@ -116,11 +117,24 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder(), packageName + ".csproj"));
         }
         additionalProperties.put("packageGuid", packageGuid);
-        processImportMapping();
-        setupDependencies();
+
+        setupModelTemplate();
+        processImportedMappings();
+        appendDependencies();
     }
 
-    private void processImportMapping() {
+    private void setupModelTemplate() {
+        final Object immutableOption = additionalProperties.get(IMMUTABLE_OPTION);
+        if (immutableOption != null && "false".equalsIgnoreCase(immutableOption.toString())) {
+            log.info("Using mutable model template");
+            modelTemplateFiles.put("modelMutable.mustache", ".cs");
+        } else {
+            log.info("Using immutable model template");
+            modelTemplateFiles.put("model.mustache", ".cs");
+        }
+    }
+
+    private void processImportedMappings() {
         for (final Entry<String, String> entry : ImmutableSet.copyOf(importMapping.entrySet())) {
             final String model = entry.getKey();
             final String[] namespaceInfo = entry.getValue().split("\\s");
@@ -150,7 +164,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    private void setupDependencies() {
+    private void appendDependencies() {
         final List<Map<String, String>> listOfDependencies = new ArrayList<>();
         for (final Entry<String, DependencyInfo> dependency : dependencies.entrySet()) {
             final Map<String, String> dependencyInfo = new HashMap<>();
