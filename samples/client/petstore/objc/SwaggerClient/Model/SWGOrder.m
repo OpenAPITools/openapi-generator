@@ -29,7 +29,6 @@
 
   NSArray *optionalProperties = @[@"_id", @"petId", @"quantity", @"shipDate", @"status", @"complete"];
   return [optionalProperties containsObject:propertyName];
-
 }
 
 @end
