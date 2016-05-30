@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T16:29:08.210Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-29T21:13:47.191+01:00")
 public interface FakeApi extends ApiClient.Api {
 
 
@@ -34,8 +34,8 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake")
   @Headers({
-    "Content-type: application/x-www-form-urlencoded",
-    "Accepts: application/json",
+    "Content-type: application/xml; charset&#x3D;utf-8",
+    "Accept: application/xml; charset&#x3D;utf-8,application/json; charset&#x3D;utf-8",
   })
   void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("string") String string, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("binary") byte[] binary, @Param("date") Date date, @Param("dateTime") Date dateTime, @Param("password") String password);
 }
