@@ -21,8 +21,10 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		94BE6BE84795B5034A811E61 /* libPods-SwaggerClient_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */; };
+		B2ADC0B1C8A60A05C48B4DF7 /* DatabaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B2ADC55130D5E329ED945E8F /* DatabaseHelper.m */; };
 		B2ADC17C287DCABF329BA8AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2ADC7027D4B025ABCA7999F /* Main.storyboard */; };
 		B2ADC2D632658A5F73C6CE66 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2ADC65E342ADA697322D68C /* Images.xcassets */; };
+		B2ADC3C7634D15595DD14814 /* BuildersTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2ADC838FCC22F4BC6C41106 /* BuildersTest.m */; };
 		B2ADC56977372855A63F4E4D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2ADC084A2C0BDF217832B03 /* Launch Screen.storyboard */; };
 		CF0ADB481B5F95D6008A2729 /* PetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF0ADB471B5F95D6008A2729 /* PetTest.m */; };
 		CF8F71391B5F73AC00162980 /* DeserializationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8F71381B5F73AC00162980 /* DeserializationTest.m */; };
@@ -66,8 +68,11 @@
 		73CCD82196AABD64F2807C7B /* Pods-SwaggerClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		8D46325ECAD48245C07F6733 /* libPods-SwaggerClient_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwaggerClient_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2ADC084A2C0BDF217832B03 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "SwaggerClient/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		B2ADC2F3483B3117A00FA91C /* DatabaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseHelper.h; sourceTree = "<group>"; };
+		B2ADC55130D5E329ED945E8F /* DatabaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseHelper.m; sourceTree = "<group>"; };
 		B2ADC65E342ADA697322D68C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SwaggerClient/Images.xcassets; sourceTree = "<group>"; };
 		B2ADC7027D4B025ABCA7999F /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Main.storyboard; path = SwaggerClient/Main.storyboard; sourceTree = "<group>"; };
+		B2ADC838FCC22F4BC6C41106 /* BuildersTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildersTest.m; sourceTree = "<group>"; };
 		BFB4BE760737508B3CFC23B2 /* Pods-SwaggerClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CF0ADB471B5F95D6008A2729 /* PetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PetTest.m; sourceTree = "<group>"; };
 		CF8F71381B5F73AC00162980 /* DeserializationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeserializationTest.m; sourceTree = "<group>"; };
@@ -176,6 +181,8 @@
 				CFDFB40D1B3CFEC3009739C5 /* UserApiTest.m */,
 				6003F5BB195388D20070C39A /* Tests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
+				B2ADC838FCC22F4BC6C41106 /* BuildersTest.m */,
+				B2ADCA62DE4AC0F5BAB42208 /* Helpers */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -199,6 +206,15 @@
 				B2ADC65E342ADA697322D68C /* Images.xcassets */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		B2ADCA62DE4AC0F5BAB42208 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B2ADC2F3483B3117A00FA91C /* DatabaseHelper.h */,
+				B2ADC55130D5E329ED945E8F /* DatabaseHelper.m */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		CCE77F10C6D41F74B075ECD0 /* Pods */ = {
@@ -422,6 +438,8 @@
 				CFDFB4151B3D000B009739C5 /* SWGApiClientTest.m in Sources */,
 				CFDFB4121B3CFFA8009739C5 /* UserApiTest.m in Sources */,
 				CF8F71391B5F73AC00162980 /* DeserializationTest.m in Sources */,
+				B2ADC3C7634D15595DD14814 /* BuildersTest.m in Sources */,
+				B2ADC0B1C8A60A05C48B4DF7 /* DatabaseHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,6 @@
 
   NSArray *optionalProperties = @[@"_id", @"username", @"firstName", @"lastName", @"email", @"password", @"phone", @"userStatus"];
   return [optionalProperties containsObject:propertyName];
-
 }
 
 @end
