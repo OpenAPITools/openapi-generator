@@ -38,6 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
@@ -53,6 +55,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private final String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
 
     private final Map<String, DependencyInfo> dependencies = new HashMap<>();
+    private final BiMap<String, String> modelNameMapping = HashBiMap.create();
 
     public NancyFXServerCodegen() {
         outputFolder = "generated-code" + File.separator + getName();
@@ -121,20 +124,27 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         for (final Entry<String, String> entry : ImmutableSet.copyOf(importMapping.entrySet())) {
             final String model = entry.getKey();
             final String[] namespaceInfo = entry.getValue().split("\\s");
-            final String namespace = namespaceInfo.length > 0 ? namespaceInfo[0].trim() : null;
+            final String[] namespace = (namespaceInfo.length > 0 ? namespaceInfo[0].trim() : "").split(":");
+            final String namespaceName = namespace.length > 0 ? namespace[0].trim() : null;
+            final String modelClass = namespace.length > 1 ? namespace[1].trim() : null;
             final String assembly = namespaceInfo.length > 1 ? namespaceInfo[1].trim() : null;
             final String assemblyVersion = namespaceInfo.length > 2 ? namespaceInfo[2].trim() : null;
             final String assemblyFramework = namespaceInfo.length > 3 ? namespaceInfo[3].trim() : "net45";
-            if (namespace == null) {
+
+            if (isNullOrEmpty(model) || isNullOrEmpty(namespaceName)) {
                 log.warn(String.format("Could not import: '%s' - invalid namespace: '%s'", model, entry.getValue()));
                 importMapping.remove(model);
             } else {
-                log.info(String.format("Importing: '%s' from '%s' namespace.", model, namespace));
-                importMapping.put(model, namespace);
+                log.info(String.format("Importing: '%s' from '%s' namespace.", model, namespaceName));
+                importMapping.put(model, namespaceName);
+            }
+            if (!isNullOrEmpty(modelClass)) {
+                log.info(String.format("Mapping: '%s' class to '%s'", model, modelClass));
+                modelNameMapping.put(model, modelClass);
             }
             if (assembly != null && assemblyVersion != null) {
-                log.info("Adding dependency: '%s', version: '%s', framework: '%s'",
-                        assembly, assemblyVersion, assemblyVersion);
+                log.info(String.format("Adding dependency: '%s', version: '%s', framework: '%s'",
+                        assembly, assemblyVersion, assemblyVersion));
                 dependencies.put(assembly, new DependencyInfo(assemblyVersion, assemblyFramework));
             }
         }
@@ -212,6 +222,29 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String toApiFilename(final String name) {
         return super.toApiFilename(name) + "Module";
+    }
+
+    @Override
+    public String toModelImport(final String name) {
+        final String result;
+        if (modelNameMapping.containsValue(name)) {
+            final String modelName = modelNameMapping.inverse().get(name);
+            result = importMapping.containsKey(modelName) ?
+                importMapping.get(modelName) : super.toModelImport(name);
+        } else if (importMapping.containsKey(name)) {
+            result = importMapping.get(name);
+        } else {
+            result = null;
+        }
+        log.info(String.format("toModelImport('%s') = '%s'", name, result));
+        return result;
+    }
+
+    @Override
+    public String toModelName(final String name) {
+        final String modelName = super.toModelName(name);
+        final String mappedModelName = modelNameMapping.get(modelName);
+        return isNullOrEmpty(mappedModelName) ? modelName: mappedModelName;
     }
 
     @Override
