@@ -1,6 +1,8 @@
 {
-    "name": "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}",{{#artifactVersion}}
-    "version": "{{artifactVersion}}",{{/artifactVersion}}
+    "name": "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}",
+    {{#artifactVersion}}
+    "version": "{{artifactVersion}}",
+    {{/artifactVersion}}
     "description": "{{description}}",
     "keywords": [
         "swagger",
