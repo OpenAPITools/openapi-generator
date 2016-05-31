@@ -156,13 +156,11 @@ namespace {{packageName}}.{{packageContext}}.Models
             }
 
             private void Validate()
-            {
-                {{#vars}}{{#required}}
+            { {{#vars}}{{#required}}
                 if (_{{name}} == null)
                 {
                     throw new ArgumentException("{{name}} is a required property for {{classname}} and cannot be null");
-                }
-                {{/required}}{{/vars}}
+                } {{/required}}{{/vars}}
             }
         }
     }
