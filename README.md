@@ -847,6 +847,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Activehours](https://www.activehours.com/)
 - [Acunetix](https://www.acunetix.com/)
 - [Atlassian](https://www.atlassian.com/)
+- [Avenida Compras S.A.](https://www.avenida.com.ar)
 - [beemo](http://www.beemo.eu)
 - [bitly](https://bitly.com)
 - [Cachet Financial](http://www.cachetfinancial.com/)
