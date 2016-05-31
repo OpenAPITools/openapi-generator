@@ -17,8 +17,8 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import java.math.BigDecimal;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -104,13 +104,13 @@ public class FakeApi {
       localVarFormParams.put("password", password);
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/xml; charset=utf-8", "application/json; charset=utf-8"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
     if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
     final String[] localVarContentTypes = {
-      
+      "application/xml; charset=utf-8", "application/json; charset=utf-8"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
     localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -132,8 +132,8 @@ public class FakeApi {
   }
 
   /**
-   * Fake endpoint for testing various parameters
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param string None (required)
@@ -153,8 +153,8 @@ public class FakeApi {
   }
 
   /**
-   * Fake endpoint for testing various parameters
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param string None (required)
@@ -176,8 +176,8 @@ public class FakeApi {
   }
 
   /**
-   * Fake endpoint for testing various parameters (asynchronously)
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  (asynchronously)
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param string None (required)
