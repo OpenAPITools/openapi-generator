@@ -375,9 +375,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("java8", "true");
             additionalProperties.put("javaVersion", "1.8");
             typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "LocalDateTime");
+            typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
-            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+            importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         }
 
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
