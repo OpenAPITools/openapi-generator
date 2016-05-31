@@ -139,12 +139,12 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
             additionalProperties.put("java8", "true");
             additionalProperties.put("javaVersion", "1.8");
             typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "LocalDateTime");
+            typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
-            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+            importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
 
-            supportingFiles.add(new SupportingFile("LocalDateTimeProvider.mustache",
-                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("OffsetDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "OffsetDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("LocalDateProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
         }

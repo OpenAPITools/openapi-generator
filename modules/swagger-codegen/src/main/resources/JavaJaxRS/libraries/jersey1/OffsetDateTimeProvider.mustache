@@ -11,23 +11,23 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Provider
-public class LocalDateTimeProvider extends PerRequestTypeInjectableProvider<QueryParam, LocalDateTime> {
+public class OffsetDateTimeProvider extends PerRequestTypeInjectableProvider<QueryParam, OffsetDateTime> {
     private final UriInfo uriInfo;
 
-    public LocalDateTimeProvider(@Context UriInfo uriInfo) {
-        super(LocalDateTime.class);
+    public OffsetDateTimeProvider(@Context UriInfo uriInfo) {
+        super(OffsetDateTime.class);
         this.uriInfo = uriInfo;
     }
 
     @Override
-    public Injectable<LocalDateTime> getInjectable(final ComponentContext cc, final QueryParam a) {
-        return new Injectable<LocalDateTime>() {
+    public Injectable<OffsetDateTime> getInjectable(final ComponentContext cc, final QueryParam a) {
+        return new Injectable<OffsetDateTime>() {
             @Override
-            public LocalDateTime getValue() {
+            public OffsetDateTime getValue() {
                 final List<String> values = uriInfo.getQueryParameters().get(a.value());
 
                 if (values == null || values.isEmpty())
@@ -37,7 +37,7 @@ public class LocalDateTimeProvider extends PerRequestTypeInjectableProvider<Quer
                             entity(a.value() + " cannot contain multiple values").build());
                 }
 
-                return LocalDateTime.parse(values.get(0));
+                return OffsetDateTime.parse(values.get(0));
             }
         };
     }
