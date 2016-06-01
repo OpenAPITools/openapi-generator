@@ -95,7 +95,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{artifactVersion}}}/php{{/httpUserAgent}}";
+    protected $userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{#artifactVersion}}{{{.}}}{{/artifactVersion}}{{^artifactVersion}}1.0.0{{/artifactVersion}}/php{{/httpUserAgent}}";
 
     /**
      * Debug switch (default set to false)
@@ -498,12 +498,14 @@ class Configuration
      */
     public static function toDebugReport()
     {
-        $report  = "PHP SDK ({{invokerPackage}}) Debug Report:".PHP_EOL;
-        $report .= "    OS: ".php_uname().PHP_EOL;
-        $report .= "    PHP Version: ".phpversion().PHP_EOL;
-        $report .= "    OpenAPI Spec Version: {{version}}".PHP_EOL;
-        $report .= "    SDK Package Version: {{artifactVersion}}".PHP_EOL;
-        $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath().PHP_EOL;
+        $report  = 'PHP SDK ({{invokerPackage}}) Debug Report:' . PHP_EOL;
+        $report .= '    OS: ' . php_uname() . PHP_EOL;
+        $report .= '    PHP Version: ' . phpversion() . PHP_EOL;
+        $report .= '    OpenAPI Spec Version: {{version}}' . PHP_EOL;
+	    {{#artifactVersion}}
+        $report .= '    SDK Package Version: {{artifactVersion}}' . PHP_EOL;
+    	{{/artifactVersion}}
+        $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;
     }
