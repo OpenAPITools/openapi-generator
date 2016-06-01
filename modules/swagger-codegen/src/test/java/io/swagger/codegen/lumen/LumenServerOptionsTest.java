@@ -1,4 +1,4 @@
-package io.swagger.codegen.slim;
+package io.swagger.codegen.lumen;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
