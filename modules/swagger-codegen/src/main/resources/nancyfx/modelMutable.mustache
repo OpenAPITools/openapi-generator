@@ -10,14 +10,14 @@ using NodaTime;
 {{#models}}
 {{#model}}
 namespace {{packageName}}.{{packageContext}}.Models
-{   {{#vars}}{{#isEnum}}
-    {{>innerModelEnum}}{{/isEnum}}{{#items.isEnum}}
+{    {{#vars}}{{#isEnum}}{{^parent}}
+    {{>innerModelEnum}}{{/parent}}{{/isEnum}}{{#items.isEnum}}
     {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}
 
-    /// <summary>
+/// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public {{^hasChildrens}}sealed {{/hasChildrens}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}
         /// <summary>
         /// {{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
