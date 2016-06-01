@@ -20,6 +20,7 @@ public class CodegenModel {
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> allVars;
+    public List<CodegenProperty> parentVars = new ArrayList<>();
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
@@ -27,7 +28,7 @@ public class CodegenModel {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired;
+    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired,hasChildrens;
     public ExternalDocs externalDocs;
 
     public Map<String, Object> vendorExtensions;
@@ -109,6 +110,10 @@ public class CodegenModel {
             return false;
         if (externalDocs != null ? !externalDocs.equals(that.externalDocs) : that.externalDocs != null)
             return false;
+        if (!Objects.equals(hasChildrens, that.hasChildrens))
+            return false;
+        if (!Objects.equals(parentVars, that.parentVars))
+            return false;
         return vendorExtensions != null ? vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions == null;
 
     }
@@ -145,6 +150,8 @@ public class CodegenModel {
         result = 31 * result + (isEnum != null ? isEnum.hashCode() : 0);
         result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
+        result = 31 * result + Objects.hash(hasChildrens);
+        result = 31 * result + Objects.hash(parentVars);
         return result;
     }
 }

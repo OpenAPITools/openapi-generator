@@ -2,8 +2,9 @@ package io.swagger.codegen;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public class CodegenProperty {
+public class CodegenProperty implements Cloneable {
     public String baseName, complexType, getter, setter, description, datatype, datatypeWithEnum,
             name, min, max, defaultValue, defaultValueWithParam, baseType, containerType;
 
@@ -43,6 +44,8 @@ public class CodegenProperty {
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions;
     public Boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
+    public String parent;
+    public String parentClass;
 
     @Override
     public String toString() {
@@ -105,6 +108,8 @@ public class CodegenProperty {
         result = prime * result + ((isDateTime == null) ? 0 : isDateTime.hashCode());
         result = prime * result + ((isMapContainer == null) ? 0 : isMapContainer.hashCode());
         result = prime * result + ((isListContainer == null) ? 0 : isListContainer.hashCode());
+        result = prime * result + Objects.hashCode(parent);
+        result = prime * result + Objects.hashCode(parentClass);
         return result;
     }
 
@@ -256,6 +261,21 @@ public class CodegenProperty {
         if (this.isMapContainer != other.isMapContainer && (this.isMapContainer == null || !this.isMapContainer.equals(other.isMapContainer))) {
             return false;
         }
+        if (!Objects.equals(this.parent, other.parent)) {
+            return false;
+        }
+        if (!Objects.equals(this.parentClass, other.parentClass)) {
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public CodegenProperty clone() {
+        try {
+            return (CodegenProperty) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

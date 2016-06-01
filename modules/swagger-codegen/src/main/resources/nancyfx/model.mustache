@@ -10,40 +10,42 @@ using NodaTime;
 {{#models}}
 {{#model}}
 namespace {{packageName}}.{{packageContext}}.Models
-{   {{#vars}}{{#isEnum}}
-    {{>innerModelEnum}}{{/isEnum}}{{#items.isEnum}}
+{   {{#vars}}{{#isEnum}}{{^parent}}
+    {{>innerModelEnum}}{{/parent}}{{/isEnum}}{{#items.isEnum}}
     {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}
 
     /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    public sealed class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
-    { {{#vars}}
+    public {{^hasChildrens}}sealed {{/hasChildrens}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    { {{#vars}}{{^parent}}
         /// <summary>
         /// {{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>
         public {{>nullableDataType}} {{name}} { get; private set; }
-{{/vars}}
+{{/parent}}{{/vars}}
 
         /// <summary>
         /// Empty constructor required by some serializers.
         /// Use {{classname}}.Builder() for instance creation instead.
         /// </summary>
         [Obsolete]
-        public {{classname}}() {}
-
-        private {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}})
+        public {{classname}}(){{#parent}} : base({{/parent}}{{#parentVars}}null{{#hasMore}}, {{/hasMore}}{{/parentVars}}{{#parent}}){{/parent}}
         {
-            {{#vars}}
+        }
+
+        {{#hasChildrens}}protected{{/hasChildrens}}{{^hasChildrens}}private{{/hasChildrens}} {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}){{#parent}} : base({{#parentVars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
+        {
+            {{#vars}}{{^parent}}
             this.{{name}} = {{name}};
-            {{/vars}}
+            {{/parent}}{{/vars}}
         }
 
         /// <summary>
         /// Returns builder of {{classname}}.
         /// </summary>
         /// <returns>{{classname}}Builder</returns>
-        public static {{classname}}Builder Builder()
+        public static {{#parent}}new {{/parent}}{{classname}}Builder Builder()
         {
             return new {{classname}}Builder();
         }
@@ -53,7 +55,7 @@ namespace {{packageName}}.{{packageContext}}.Models
         /// Use it to change properties.
         /// </summary>
         /// <returns>{{classname}}Builder</returns>
-        public {{classname}}Builder With()
+        public {{#parent}}new {{/parent}}{{classname}}Builder With()
         {
             return Builder()
             {{#vars}}

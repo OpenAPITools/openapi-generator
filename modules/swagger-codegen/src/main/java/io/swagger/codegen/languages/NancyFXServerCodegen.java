@@ -19,6 +19,7 @@ import static io.swagger.codegen.CodegenType.SERVER;
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
@@ -29,19 +30,24 @@ import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
 
 public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final Logger log = LoggerFactory.getLogger(NancyFXServerCodegen.class);
@@ -56,6 +62,8 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private final String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
 
     private final Map<String, DependencyInfo> dependencies = new HashMap<>();
+    private final Set<String> parentModels = new HashSet<>();
+    private final Multimap<String, CodegenModel> parentChildrens = ArrayListMultimap.create();
     private final BiMap<String, String> modelNameMapping = HashBiMap.create();
 
     public NancyFXServerCodegen() {
@@ -206,11 +214,88 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
+        final Map<String, Object> processed =  super.postProcessAllModels(models);
+        postProcessParentModels(models);
+        return processed;
+    }
+
+    private void postProcessParentModels(final Map<String, Object> models) {
+        log.info("Processing parents:  " + parentModels);
+        for (final String parent : parentModels) {
+            final CodegenModel parentModel = modelByName(parent, models);
+            parentModel.hasChildrens = true;
+            final Collection<CodegenModel> childrens = parentChildrens.get(parent);
+            for (final CodegenModel child : childrens) {
+                processParentPropertiesInChildModel(parentModel, child);
+            }
+        }
+    }
+
+    private CodegenModel modelByName(final String name, final Map<String, Object> models) {
+        final Object data = models.get(name);
+        if (data instanceof Map) {
+            final Map<?, ?> dataMap = (Map<?, ?>) data;
+            final Object dataModels = dataMap.get("models");
+            if (dataModels instanceof List) {
+                final List<?> dataModelsList = (List<?>) dataModels;
+                for (final Object entry : dataModelsList) {
+                    if (entry instanceof Map) {
+                        final Map<?, ?> entryMap = (Map<?, ?>) entry;
+                        final Object model = entryMap.get("model");
+                        if (model instanceof CodegenModel) {
+                            return (CodegenModel) model;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private void processParentPropertiesInChildModel(final CodegenModel parent, final CodegenModel child) {
+        final Map<String, CodegenProperty> childPropertiesByName = new HashMap<>(child.vars.size());
+        for (final CodegenProperty property : child.vars) {
+            childPropertiesByName.put(property.name, property);
+        }
+        CodegenProperty previousParentVar = null;
+        for (final CodegenProperty property : parent.vars) {
+            final CodegenProperty duplicatedByParent = childPropertiesByName.get(property.name);
+            if (duplicatedByParent != null) {
+                log.info(String.format("Property: '%s' in '%s' model is inherited from '%s'" ,
+                        property.name, child.classname, parent.classname));
+                duplicatedByParent.parent = parent.name;
+                duplicatedByParent.parentClass = parent.classname;
+
+                final CodegenProperty parentVar = duplicatedByParent.clone();
+                parentVar.hasMore = false;
+                child.parentVars.add(parentVar);
+                if (previousParentVar != null) {
+                    previousParentVar.hasMore = true;
+                }
+                previousParentVar = parentVar;
+            }
+        }
+    }
+
+    @Override
+    public void postProcessModelProperty(final CodegenModel model, final CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if (!isNullOrEmpty(model.parent)) {
+            parentModels.add(model.parent);
+            if (!parentChildrens.containsEntry(model.parent, model)) {
+                parentChildrens.put(model.parent, model);
+            }
+        }
+    }
+
+    @Override
     public String toEnumVarName(final String name, final String datatype) {
         final String enumName = camelize(
                 sanitizeName(name)
                 .replaceFirst("^_", "")
-                .replaceFirst("_$", ""));
+                .replaceFirst("_$", "")
+                .replaceAll("-", "_"));
         final String result;
         if (enumName.matches("\\d.*")) {
             result = "_" + enumName;
@@ -269,7 +354,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumName(final CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) ;
+        return sanitizeName(camelize(property.name));
     }
 
     @Override
