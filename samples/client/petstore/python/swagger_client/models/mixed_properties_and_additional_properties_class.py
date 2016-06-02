@@ -43,16 +43,19 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """
         self.swagger_types = {
             'uuid': 'str',
-            'date_time': 'datetime'
+            'date_time': 'datetime',
+            'map': 'dict(str, Animal)'
         }
 
         self.attribute_map = {
             'uuid': 'uuid',
-            'date_time': 'dateTime'
+            'date_time': 'dateTime',
+            'map': 'map'
         }
 
         self._uuid = None
         self._date_time = None
+        self._map = None
 
     @property
     def uuid(self):
@@ -99,6 +102,29 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """
         
         self._date_time = date_time
+
+    @property
+    def map(self):
+        """
+        Gets the map of this MixedPropertiesAndAdditionalPropertiesClass.
+
+
+        :return: The map of this MixedPropertiesAndAdditionalPropertiesClass.
+        :rtype: dict(str, Animal)
+        """
+        return self._map
+
+    @map.setter
+    def map(self, map):
+        """
+        Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
+
+
+        :param map: The map of this MixedPropertiesAndAdditionalPropertiesClass.
+        :type: dict(str, Animal)
+        """
+        
+        self._map = map
 
     def to_dict(self):
         """

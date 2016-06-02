@@ -122,8 +122,11 @@ class RESTClientObject(object):
                 if query_params:
                     url += '?' + urlencode(query_params)
                 if headers['Content-Type'] == 'application/json':
+                    request_body = None
+                    if body:
+                        request_body = json.dumps(body)
                     r = self.pool_manager.request(method, url,
-                                                  body=json.dumps(body),
+                                                  body=request_body,
                                                   headers=headers)
                 if headers['Content-Type'] == 'application/x-www-form-urlencoded':
                     r = self.pool_manager.request(method, url,
