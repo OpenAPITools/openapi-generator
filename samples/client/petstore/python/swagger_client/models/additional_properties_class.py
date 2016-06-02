@@ -42,13 +42,63 @@ class AdditionalPropertiesClass(object):
                                   and the value is json key in definition.
         """
         self.swagger_types = {
-            
+            'map_property': 'dict(str, str)',
+            'map_of_map_property': 'dict(str, dict(str, str))'
         }
 
         self.attribute_map = {
-            
+            'map_property': 'map_property',
+            'map_of_map_property': 'map_of_map_property'
         }
 
+        self._map_property = None
+        self._map_of_map_property = None
+
+    @property
+    def map_property(self):
+        """
+        Gets the map_property of this AdditionalPropertiesClass.
+
+
+        :return: The map_property of this AdditionalPropertiesClass.
+        :rtype: dict(str, str)
+        """
+        return self._map_property
+
+    @map_property.setter
+    def map_property(self, map_property):
+        """
+        Sets the map_property of this AdditionalPropertiesClass.
+
+
+        :param map_property: The map_property of this AdditionalPropertiesClass.
+        :type: dict(str, str)
+        """
+        
+        self._map_property = map_property
+
+    @property
+    def map_of_map_property(self):
+        """
+        Gets the map_of_map_property of this AdditionalPropertiesClass.
+
+
+        :return: The map_of_map_property of this AdditionalPropertiesClass.
+        :rtype: dict(str, dict(str, str))
+        """
+        return self._map_of_map_property
+
+    @map_of_map_property.setter
+    def map_of_map_property(self, map_of_map_property):
+        """
+        Sets the map_of_map_property of this AdditionalPropertiesClass.
+
+
+        :param map_of_map_property: The map_of_map_property of this AdditionalPropertiesClass.
+        :type: dict(str, dict(str, str))
+        """
+        
+        self._map_of_map_property = map_of_map_property
 
     def to_dict(self):
         """

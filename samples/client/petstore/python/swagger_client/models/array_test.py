@@ -42,13 +42,89 @@ class ArrayTest(object):
                                   and the value is json key in definition.
         """
         self.swagger_types = {
-            
+            'array_of_string': 'list[str]',
+            'array_array_of_integer': 'list[list[int]]',
+            'array_array_of_model': 'list[list[ReadOnlyFirst]]'
         }
 
         self.attribute_map = {
-            
+            'array_of_string': 'array_of_string',
+            'array_array_of_integer': 'array_array_of_integer',
+            'array_array_of_model': 'array_array_of_model'
         }
 
+        self._array_of_string = None
+        self._array_array_of_integer = None
+        self._array_array_of_model = None
+
+    @property
+    def array_of_string(self):
+        """
+        Gets the array_of_string of this ArrayTest.
+
+
+        :return: The array_of_string of this ArrayTest.
+        :rtype: list[str]
+        """
+        return self._array_of_string
+
+    @array_of_string.setter
+    def array_of_string(self, array_of_string):
+        """
+        Sets the array_of_string of this ArrayTest.
+
+
+        :param array_of_string: The array_of_string of this ArrayTest.
+        :type: list[str]
+        """
+        
+        self._array_of_string = array_of_string
+
+    @property
+    def array_array_of_integer(self):
+        """
+        Gets the array_array_of_integer of this ArrayTest.
+
+
+        :return: The array_array_of_integer of this ArrayTest.
+        :rtype: list[list[int]]
+        """
+        return self._array_array_of_integer
+
+    @array_array_of_integer.setter
+    def array_array_of_integer(self, array_array_of_integer):
+        """
+        Sets the array_array_of_integer of this ArrayTest.
+
+
+        :param array_array_of_integer: The array_array_of_integer of this ArrayTest.
+        :type: list[list[int]]
+        """
+        
+        self._array_array_of_integer = array_array_of_integer
+
+    @property
+    def array_array_of_model(self):
+        """
+        Gets the array_array_of_model of this ArrayTest.
+
+
+        :return: The array_array_of_model of this ArrayTest.
+        :rtype: list[list[ReadOnlyFirst]]
+        """
+        return self._array_array_of_model
+
+    @array_array_of_model.setter
+    def array_array_of_model(self, array_array_of_model):
+        """
+        Sets the array_array_of_model of this ArrayTest.
+
+
+        :param array_array_of_model: The array_array_of_model of this ArrayTest.
+        :type: list[list[ReadOnlyFirst]]
+        """
+        
+        self._array_array_of_model = array_array_of_model
 
     def to_dict(self):
         """
