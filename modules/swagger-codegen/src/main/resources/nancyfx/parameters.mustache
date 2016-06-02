@@ -16,10 +16,11 @@ namespace {{packageName}}.{{packageContext}}.Utils
         internal static TValue ValueOf<TValue>(dynamic parameters, string name)
         {
             var valueType = typeof (TValue);
+            var valueUnderlyingType = Nullable.GetUnderlyingType(valueType);
             var isNullable = default(TValue) == null;
             string value = RawValue(parameters, name);
             Preconditions.Evaluate(!string.IsNullOrEmpty(value) || isNullable, string.Format("Required parameter: '{0}' is missing", name));
-            if (valueType.IsEnum)
+            if (valueType.IsEnum || (valueUnderlyingType != null && valueUnderlyingType.IsEnum))
             {
                 return EnumValueOf<TValue>(name, value);
             }
