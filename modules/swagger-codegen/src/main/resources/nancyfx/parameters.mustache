@@ -93,6 +93,11 @@ namespace {{packageName}}.{{packageContext}}.Utils
                                                                   "Expected type: '{2}' is not supported",
                                                                   name, value, typeof(TValue)));
             }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException(string.Format("Could not get '{0}' value of '{1}' type dynamicly",
+                    name, typeof(TValue)), e);
+            }
         }
 
         private static IDictionary<Type, Func<Parameter, object>> CreateParsers()
