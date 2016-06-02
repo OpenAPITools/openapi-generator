@@ -41,7 +41,9 @@ namespace {{packageName}}.{{packageContext}}.Utils
 
         private static TValue EnumValueOf<TValue>(string name, string value)
         {
-            var values = Enum.GetValues(typeof(TValue));
+            var valueType = typeof(TValue);
+            var enumType = valueType.IsEnum ? valueType : Nullable.GetUnderlyingType(valueType);
+            var values = Enum.GetValues(enumType);
             foreach (var entry in values)
             {
                 if (entry.ToString().EqualsIgnoreCases(value) 
