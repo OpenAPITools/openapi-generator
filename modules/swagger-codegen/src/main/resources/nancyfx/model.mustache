@@ -10,10 +10,7 @@ using NodaTime;
 {{#models}}
 {{#model}}
 namespace {{packageName}}.{{packageContext}}.Models
-{   {{#vars}}{{#isEnum}}{{^parent}}
-    {{>innerModelEnum}}{{/parent}}{{/isEnum}}{{#items.isEnum}}
-    {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}
-
+{
     /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
@@ -165,6 +162,10 @@ namespace {{packageName}}.{{packageContext}}.Models
                 } {{/required}}{{/vars}}
             }
         }
+
+        {{#vars}}{{#isEnum}}{{^parent}}
+        {{>innerModelEnum}}{{/parent}}{{/isEnum}}{{#items.isEnum}}
+        {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}
     }
 {{/model}}
 {{/models}}
