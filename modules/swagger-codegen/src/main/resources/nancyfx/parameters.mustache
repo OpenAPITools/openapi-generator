@@ -255,6 +255,11 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 {
                     throw InvalidParameterFormat(parameter, typeof (short));
                 }
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException(Strings.Format("Unable to parse parameter: '{0}' with value: '{1}' to {2}", 
+                        parameter.Name, parameter.Value, typeof(T)), e);
+                }
             };
         }
 
