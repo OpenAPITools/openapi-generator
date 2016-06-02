@@ -13,12 +13,12 @@ namespace {{packageName}}.{{packageContext}}.Utils
     {
         private static readonly IDictionary<Type, Func<Parameter, object>> Parsers = CreateParsers();
 
-        internal static TValue ValueOf<TValue>(dynamic parameters, string name)
+        internal static TValue ValueOf<TValue>(dynamic parameters, Request request, string name, ParameterType parameterType)
         {
             var valueType = typeof (TValue);
             var valueUnderlyingType = Nullable.GetUnderlyingType(valueType);
             var isNullable = default(TValue) == null;
-            string value = RawValue(parameters, name);
+            string value = RawValueOf(parameters, request, name, parameterType);
             Preconditions.Evaluate(!string.IsNullOrEmpty(value) || isNullable, string.Format("Required parameter: '{0}' is missing", name));
             if (value == null && isNullable)
             {
@@ -28,19 +28,31 @@ namespace {{packageName}}.{{packageContext}}.Utils
             {
                 return EnumValueOf<TValue>(name, value);
             }
-            return ValueOf<TValue>(parameters, name, value, valueType);
+            return ValueOf<TValue>(parameters, name, value, valueType, request, parameterType);
         }
 
-        private static string RawValue(dynamic parameters, string name)
+        private static string RawValueOf(dynamic parameters, Request request, string name, ParameterType parameterType)
         {
             try
             {
-                return parameters[name];
+                switch (parameterType)
+                {
+                    case ParameterType.Query:
+                        string querValue =  request.Query[name];
+                        return querValue;
+                    case ParameterType.Path:
+                        string pathValue = parameters[name];
+                        return pathValue;
+                    case ParameterType.Header:
+                        var headerValue = request.Headers[name];
+                        return headerValue != null ? string.Join(",", headerValue) : null;
+                }
             }
             catch (Exception e)
             {
                 throw new InvalidOperationException(string.Format("Could not obtain value of '{0}' parameter", name), e);
             }
+            throw new InvalidOperationException(string.Format("Parameter with type: {0} is not supported", parameterType));
         }
 
         private static TValue EnumValueOf<TValue>(string name, string value)
@@ -60,14 +72,22 @@ namespace {{packageName}}.{{packageContext}}.Utils
                     name, value, value.ToComparable()));
         }
 
-        private static TValue ValueOf<TValue>(dynamic parameters, string name, string value, Type valueType)
+        private static TValue ValueOf<TValue>(dynamic parameters, string name, string value, Type valueType, Request request, ParameterType parameterType)
         {
             var parser = Parsers.GetIfPresent(valueType);
             if (parser != null)
             {
                 return ParseValueUsing<TValue>(name, value, valueType, parser);
             }
-            return DynamicValueOf<TValue>(parameters, name);
+            if (parameterType == ParameterType.Path)
+            {
+                return DynamicValueOf<TValue>(parameters, name);
+            }
+            if (parameterType == ParameterType.Query)
+            {
+                return DynamicValueOf<TValue>(request.Query, name);
+            }
+            throw new InvalidOperationException(string.Format("Could not get value for {0} with type {1}", name, valueType));
         }
 
         private static TValue ParseValueUsing<TValue>(string name, string value, Type valueType, Func<Parameter, object> parser)
@@ -88,7 +108,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
 
         private static TValue DynamicValueOf<TValue>(dynamic parameters, string name)
         {
-            string value = RawValue(parameters, name);
+            string value = parameters[name];
             try
             {
                 TValue result = parameters[name];
@@ -102,7 +122,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException(string.Format("Could not get '{0}' value of '{1}' type dynamicly",
+                throw new InvalidOperationException(string.Format("Could not get '{0}' value of '{1}' type dynamicly", 
                     name, typeof(TValue)), e);
             }
         }
@@ -363,5 +383,13 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 return new Parameter(name, value);
             }
         }
+    }
+
+    internal enum ParameterType
+    {
+        Undefined,
+        Query,
+        Path,
+        Header
     }
 }
