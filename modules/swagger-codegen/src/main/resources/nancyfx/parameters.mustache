@@ -17,13 +17,25 @@ namespace {{packageName}}.{{packageContext}}.Utils
         {
             var valueType = typeof (TValue);
             var isNullable = default(TValue) == null;
-            string value = parameters[name];
+            string value = RawValue(parameters, name);
             Preconditions.Evaluate(!string.IsNullOrEmpty(value) || isNullable, string.Format("Required parameter: '{0}' is missing", name));
             if (valueType.IsEnum)
             {
                 return EnumValueOf<TValue>(name, value);
             }
             return ValueOf<TValue>(parameters, name, value, valueType);
+        }
+
+        private static string RawValue(dynamic parameters, string name)
+        {
+            try
+            {
+                return parameters[name];
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException(string.Format("Could not obtain value of '{0}' parameter", name), e);
+            }
         }
 
         private static TValue EnumValueOf<TValue>(string name, string value)
@@ -69,7 +81,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
 
         private static TValue DynamicValueOf<TValue>(dynamic parameters, string name)
         {
-            string value = parameters[name];
+            string value = RawValue(parameters, name);
             try
             {
                 TValue result = parameters[name];
