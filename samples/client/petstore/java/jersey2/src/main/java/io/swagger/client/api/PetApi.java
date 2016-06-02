@@ -8,15 +8,15 @@ import io.swagger.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import io.swagger.client.model.Pet;
-import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-23T12:58:40.273+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-03T00:31:44.370+08:00")
 public class PetApi {
   private ApiClient apiClient;
 
