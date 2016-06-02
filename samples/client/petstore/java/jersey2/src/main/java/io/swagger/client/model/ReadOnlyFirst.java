@@ -8,28 +8,36 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * SpecialModelName
+ * ReadOnlyFirst
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-03T00:31:44.370+08:00")
-public class SpecialModelName   {
+public class ReadOnlyFirst   {
   
-  private Long specialPropertyName = null;
+  private String bar = null;
+  private String baz = null;
 
   
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("bar")
+  public String getBar() {
+    return bar;
+  }
+
+
   /**
    **/
-  public SpecialModelName specialPropertyName(Long specialPropertyName) {
-    this.specialPropertyName = specialPropertyName;
+  public ReadOnlyFirst baz(String baz) {
+    this.baz = baz;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("$special[property.name]")
-  public Long getSpecialPropertyName() {
-    return specialPropertyName;
+  @JsonProperty("baz")
+  public String getBaz() {
+    return baz;
   }
-  public void setSpecialPropertyName(Long specialPropertyName) {
-    this.specialPropertyName = specialPropertyName;
+  public void setBaz(String baz) {
+    this.baz = baz;
   }
 
 
@@ -41,21 +49,23 @@ public class SpecialModelName   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.specialPropertyName, specialModelName.specialPropertyName);
+    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
+    return Objects.equals(this.bar, readOnlyFirst.bar) &&
+        Objects.equals(this.baz, readOnlyFirst.baz);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(specialPropertyName);
+    return Objects.hash(bar, baz);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SpecialModelName {\n");
+    sb.append("class ReadOnlyFirst {\n");
     
-    sb.append("    specialPropertyName: ").append(toIndentedString(specialPropertyName)).append("\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");
     return sb.toString();
   }
