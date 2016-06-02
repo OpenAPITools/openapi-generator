@@ -10,7 +10,7 @@
 
 @implementation {{classPrefix}}Configuration
 
-#pragma mark - Singletion Methods
+#pragma mark - Singleton Methods
 
 + (instancetype) sharedConfig {
     static {{classPrefix}}Configuration *shardConfig = nil;
@@ -35,6 +35,7 @@
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
         self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders[@"User-Agent"] = {{#httpUserAgent}}@"{{httpUserAgent}}"{{/httpUserAgent}}{{^httpUserAgent}}[NSString stringWithFormat:@"Swagger-Codegen/{{version}}/objc (%@; iOS %@; Scale/%0.2f)",[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]]{{/httpUserAgent}};
         self.logger = [{{classPrefix}}Logger sharedLogger];
     }
     return self;
