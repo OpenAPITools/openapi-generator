@@ -18,12 +18,12 @@ namespace {{packageName}}.{{packageContext}}.Models
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
     public {{^hasChildrens}}sealed {{/hasChildrens}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
-    { {{#vars}}{{^parent}}
+    { {{#vars}}{{^isInherited}}
         /// <summary>
         /// {{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>
         public {{>nullableDataType}} {{name}} { get; private set; }
-{{/parent}}{{/vars}}
+{{/isInherited}}{{/vars}}
 
         /// <summary>
         /// Empty constructor required by some serializers.
