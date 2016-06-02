@@ -20,6 +20,10 @@ namespace {{packageName}}.{{packageContext}}.Utils
             var isNullable = default(TValue) == null;
             string value = RawValue(parameters, name);
             Preconditions.Evaluate(!string.IsNullOrEmpty(value) || isNullable, string.Format("Required parameter: '{0}' is missing", name));
+            if (value == null && isNullable)
+            {
+                return default(TValue);
+            }
             if (valueType.IsEnum || (valueUnderlyingType != null && valueUnderlyingType.IsEnum))
             {
                 return EnumValueOf<TValue>(name, value);
