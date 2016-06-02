@@ -36,9 +36,9 @@ namespace {{packageName}}.{{packageContext}}.Models
 
         {{#hasChildrens}}protected{{/hasChildrens}}{{^hasChildrens}}private{{/hasChildrens}} {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}){{#parent}} : base({{#parentVars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
         {
-            {{#vars}}{{^parent}}
+            {{#vars}}{{^isInherited}}
             this.{{name}} = {{name}};
-            {{/parent}}{{/vars}}
+            {{/isInherited}}{{/vars}}
         }
 
         /// <summary>
