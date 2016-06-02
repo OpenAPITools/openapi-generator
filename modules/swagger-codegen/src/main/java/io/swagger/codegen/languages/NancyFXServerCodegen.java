@@ -264,9 +264,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
             if (duplicatedByParent != null) {
                 log.info(String.format("Property: '%s' in '%s' model is inherited from '%s'" ,
                         property.name, child.classname, parent.classname));
-                duplicatedByParent.parent = parent.name;
-                duplicatedByParent.parentClass = parent.classname;
-
+                duplicatedByParent.isInherited = true;
                 final CodegenProperty parentVar = duplicatedByParent.clone();
                 parentVar.hasMore = false;
                 child.parentVars.add(parentVar);
@@ -354,7 +352,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumName(final CodegenProperty property) {
-        return sanitizeName(camelize(property.name));
+        return sanitizeName(camelize(property.name)) + "Enum";
     }
 
     @Override

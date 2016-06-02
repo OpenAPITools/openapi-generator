@@ -44,8 +44,7 @@ public class CodegenProperty implements Cloneable {
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions;
     public Boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
-    public String parent;
-    public String parentClass;
+    public Boolean isInherited;
 
     @Override
     public String toString() {
@@ -108,8 +107,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isDateTime == null) ? 0 : isDateTime.hashCode());
         result = prime * result + ((isMapContainer == null) ? 0 : isMapContainer.hashCode());
         result = prime * result + ((isListContainer == null) ? 0 : isListContainer.hashCode());
-        result = prime * result + Objects.hashCode(parent);
-        result = prime * result + Objects.hashCode(parentClass);
+        result = prime * result + Objects.hashCode(isInherited);
         return result;
     }
 
@@ -261,10 +259,7 @@ public class CodegenProperty implements Cloneable {
         if (this.isMapContainer != other.isMapContainer && (this.isMapContainer == null || !this.isMapContainer.equals(other.isMapContainer))) {
             return false;
         }
-        if (!Objects.equals(this.parent, other.parent)) {
-            return false;
-        }
-        if (!Objects.equals(this.parentClass, other.parentClass)) {
+        if (!Objects.equals(this.isInherited, other.isInherited)) {
             return false;
         }
         return true;
