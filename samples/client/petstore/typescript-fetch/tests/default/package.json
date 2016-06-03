@@ -8,7 +8,7 @@
     "ts-loader": "^0.8.2",
     "tsify": "^0.16.0",
     "typescript": "^1.8.10",
-    "typings": "^0.8.1",
+    "typings": "^1.0.4",
     "webpack": "^1.13.0"
   },
   "scripts": {
