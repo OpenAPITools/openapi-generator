@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-06T18:35:03.551+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-03T00:41:43.242+08:00")
 public class FakeApi {
   private ApiClient apiClient;
 
@@ -36,8 +36,8 @@ public class FakeApi {
   }
 
   /**
-   * Fake endpoint for testing various parameters
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param string None (required)
@@ -111,12 +111,12 @@ if (password != null)
       localVarFormParams.put("password", password);
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/xml; charset=utf-8", "application/json; charset=utf-8"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/xml; charset=utf-8", "application/json; charset=utf-8"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 

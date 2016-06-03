@@ -17,8 +17,8 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-import java.util.Date;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
