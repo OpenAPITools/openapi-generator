@@ -10,15 +10,16 @@ import java.util.*;
 public class SpringBootServerCodegen extends JavaClientCodegen implements CodegenConfig{
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
+    public static final String INTERFACE_ONLY = "interfaceOnly";
     protected String title = "Petstore Server";
     protected String configPackage = "";
     protected String basePackage = "";
+    protected boolean interfaceOnly = false;
     protected String templateFileName = "api.mustache";
 
     public SpringBootServerCodegen() {
         super();
         outputFolder = "generated-code/javaSpringBoot";
-        modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put(templateFileName, ".java");
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpringBoot";
@@ -40,6 +41,7 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
 
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
         
         supportedLibraries.clear();
         supportedLibraries.put(DEFAULT_LIBRARY, "Default Spring Boot server stub.");
@@ -79,30 +81,33 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
         }
 
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+        }
+
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("apiException.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("apiOriginFilter.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
-        supportingFiles.add(new SupportingFile("apiResponseMessage.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
-        supportingFiles.add(new SupportingFile("notFoundException.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
 
-        supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
-                (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));
-        supportingFiles.add(new SupportingFile("homeController.mustache",
-                (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
-
-        supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
-                (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
-        
-        
-        supportingFiles.add(new SupportingFile("application.properties",
-                ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
-
+        if(!this.interfaceOnly) {
+            apiTemplateFiles.put("apiController.mustache", "Controller.java");
+            supportingFiles.add(new SupportingFile("apiException.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
+            supportingFiles.add(new SupportingFile("apiOriginFilter.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
+            supportingFiles.add(new SupportingFile("apiResponseMessage.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
+            supportingFiles.add(new SupportingFile("notFoundException.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
+            supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));
+            supportingFiles.add(new SupportingFile("homeController.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
+            supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
+                    (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
+            supportingFiles.add(new SupportingFile("application.properties",
+                    ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
+        }
     }
 
     @Override
@@ -255,6 +260,10 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
 
     public void setBasePackage(String configPackage) {
         this.basePackage = configPackage;
+    }
+
+    public void setInterfaceOnly(boolean interfaceOnly) {
+        this.interfaceOnly = interfaceOnly;
     }
     
     @Override
