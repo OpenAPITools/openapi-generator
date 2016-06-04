@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-04T21:21:36.995+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-04T22:20:02.809+08:00")
 public class ArrayTest   {
   
   private List<String> arrayOfString = new ArrayList<String>();
