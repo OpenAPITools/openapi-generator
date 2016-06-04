@@ -46,6 +46,7 @@ class StoreApi(object):
             self.api_client = config.api_client
 
     def delete_order(self, order_id, **kwargs):
+        _return_http_data_only = True
         """
         Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -65,10 +66,11 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.delete_order_with_http_info(order_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.delete_order_with_http_info(order_id, **kwargs)
+            (data) = self.delete_order_with_http_info(order_id, **kwargs)
             return data
 
     def delete_order_with_http_info(self, order_id, **kwargs):
@@ -94,6 +96,7 @@ class StoreApi(object):
 
         all_params = ['order_id']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -145,9 +148,11 @@ class StoreApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def find_orders_by_status(self, **kwargs):
+        _return_http_data_only = True
         """
         Finds orders by status
         A single status value can be provided as a string
@@ -167,10 +172,11 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.find_orders_by_status_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.find_orders_by_status_with_http_info(**kwargs)
+            (data) = self.find_orders_by_status_with_http_info(**kwargs)
             return data
 
     def find_orders_by_status_with_http_info(self, **kwargs):
@@ -196,6 +202,7 @@ class StoreApi(object):
 
         all_params = ['status']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -244,9 +251,11 @@ class StoreApi(object):
                                             files=local_var_files,
                                             response_type='list[Order]',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def get_inventory(self, **kwargs):
+        _return_http_data_only = True
         """
         Returns pet inventories by status
         Returns a map of status codes to quantities
@@ -265,10 +274,11 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.get_inventory_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.get_inventory_with_http_info(**kwargs)
+            (data) = self.get_inventory_with_http_info(**kwargs)
             return data
 
     def get_inventory_with_http_info(self, **kwargs):
@@ -293,6 +303,7 @@ class StoreApi(object):
 
         all_params = []
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -339,9 +350,11 @@ class StoreApi(object):
                                             files=local_var_files,
                                             response_type='dict(str, int)',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def get_inventory_in_object(self, **kwargs):
+        _return_http_data_only = True
         """
         Fake endpoint to test arbitrary object return by 'Get inventory'
         Returns an arbitrary object which is actually a map of status codes to quantities
@@ -360,10 +373,11 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.get_inventory_in_object_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.get_inventory_in_object_with_http_info(**kwargs)
+            (data) = self.get_inventory_in_object_with_http_info(**kwargs)
             return data
 
     def get_inventory_in_object_with_http_info(self, **kwargs):
@@ -388,6 +402,7 @@ class StoreApi(object):
 
         all_params = []
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -434,9 +449,11 @@ class StoreApi(object):
                                             files=local_var_files,
                                             response_type='object',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def get_order_by_id(self, order_id, **kwargs):
+        _return_http_data_only = True
         """
         Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -456,10 +473,11 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.get_order_by_id_with_http_info(order_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.get_order_by_id_with_http_info(order_id, **kwargs)
+            (data) = self.get_order_by_id_with_http_info(order_id, **kwargs)
             return data
 
     def get_order_by_id_with_http_info(self, order_id, **kwargs):
@@ -485,6 +503,7 @@ class StoreApi(object):
 
         all_params = ['order_id']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -536,9 +555,11 @@ class StoreApi(object):
                                             files=local_var_files,
                                             response_type='Order',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def place_order(self, **kwargs):
+        _return_http_data_only = True
         """
         Place an order for a pet
         
@@ -558,10 +579,11 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.place_order_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.place_order_with_http_info(**kwargs)
+            (data) = self.place_order_with_http_info(**kwargs)
             return data
 
     def place_order_with_http_info(self, **kwargs):
@@ -587,6 +609,7 @@ class StoreApi(object):
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -635,4 +658,5 @@ class StoreApi(object):
                                             files=local_var_files,
                                             response_type='Order',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))

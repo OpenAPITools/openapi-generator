@@ -97,6 +97,15 @@ class PetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
+    def test_add_pet_and_get_pet_by_id_with_http_info(self):
+        self.pet_api.add_pet(body=self.pet)
+
+        fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+        self.assertIsNotNone(fetched)
+        self.assertEqual(self.pet.id, fetched[0].id)
+        self.assertIsNotNone(fetched[0].category)
+        self.assertEqual(self.pet.category.name, fetched[0].category.name)
+
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"
         self.pet_api.update_pet(body=self.pet)
