@@ -46,6 +46,7 @@ class UserApi(object):
             self.api_client = config.api_client
 
     def create_user(self, **kwargs):
+        _return_http_data_only = True
         """
         Create user
         This can only be done by the logged in user.
@@ -65,10 +66,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.create_user_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.create_user_with_http_info(**kwargs)
+            (data) = self.create_user_with_http_info(**kwargs)
             return data
 
     def create_user_with_http_info(self, **kwargs):
@@ -94,6 +96,7 @@ class UserApi(object):
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -142,9 +145,11 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def create_users_with_array_input(self, **kwargs):
+        _return_http_data_only = True
         """
         Creates list of users with given input array
         
@@ -164,10 +169,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.create_users_with_array_input_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.create_users_with_array_input_with_http_info(**kwargs)
+            (data) = self.create_users_with_array_input_with_http_info(**kwargs)
             return data
 
     def create_users_with_array_input_with_http_info(self, **kwargs):
@@ -193,6 +199,7 @@ class UserApi(object):
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -241,9 +248,11 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def create_users_with_list_input(self, **kwargs):
+        _return_http_data_only = True
         """
         Creates list of users with given input array
         
@@ -263,10 +272,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.create_users_with_list_input_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.create_users_with_list_input_with_http_info(**kwargs)
+            (data) = self.create_users_with_list_input_with_http_info(**kwargs)
             return data
 
     def create_users_with_list_input_with_http_info(self, **kwargs):
@@ -292,6 +302,7 @@ class UserApi(object):
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -340,9 +351,11 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def delete_user(self, username, **kwargs):
+        _return_http_data_only = True
         """
         Delete user
         This can only be done by the logged in user.
@@ -362,10 +375,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.delete_user_with_http_info(username, **kwargs)
         else:
-            (data, status_code, response_headers) = self.delete_user_with_http_info(username, **kwargs)
+            (data) = self.delete_user_with_http_info(username, **kwargs)
             return data
 
     def delete_user_with_http_info(self, username, **kwargs):
@@ -391,6 +405,7 @@ class UserApi(object):
 
         all_params = ['username']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -442,9 +457,11 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def get_user_by_name(self, username, **kwargs):
+        _return_http_data_only = True
         """
         Get user by user name
         
@@ -464,10 +481,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.get_user_by_name_with_http_info(username, **kwargs)
         else:
-            (data, status_code, response_headers) = self.get_user_by_name_with_http_info(username, **kwargs)
+            (data) = self.get_user_by_name_with_http_info(username, **kwargs)
             return data
 
     def get_user_by_name_with_http_info(self, username, **kwargs):
@@ -493,6 +511,7 @@ class UserApi(object):
 
         all_params = ['username']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -544,9 +563,11 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type='User',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def login_user(self, **kwargs):
+        _return_http_data_only = True
         """
         Logs user into the system
         
@@ -567,10 +588,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.login_user_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.login_user_with_http_info(**kwargs)
+            (data) = self.login_user_with_http_info(**kwargs)
             return data
 
     def login_user_with_http_info(self, **kwargs):
@@ -597,6 +619,7 @@ class UserApi(object):
 
         all_params = ['username', 'password']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -647,9 +670,11 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type='str',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def logout_user(self, **kwargs):
+        _return_http_data_only = True
         """
         Logs out current logged in user session
         
@@ -668,10 +693,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.logout_user_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.logout_user_with_http_info(**kwargs)
+            (data) = self.logout_user_with_http_info(**kwargs)
             return data
 
     def logout_user_with_http_info(self, **kwargs):
@@ -696,6 +722,7 @@ class UserApi(object):
 
         all_params = []
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -742,9 +769,11 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def update_user(self, username, **kwargs):
+        _return_http_data_only = True
         """
         Updated user
         This can only be done by the logged in user.
@@ -765,10 +794,11 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.update_user_with_http_info(username, **kwargs)
         else:
-            (data, status_code, response_headers) = self.update_user_with_http_info(username, **kwargs)
+            (data) = self.update_user_with_http_info(username, **kwargs)
             return data
 
     def update_user_with_http_info(self, username, **kwargs):
@@ -795,6 +825,7 @@ class UserApi(object):
 
         all_params = ['username', 'body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -848,4 +879,5 @@ class UserApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))

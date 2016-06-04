@@ -46,6 +46,7 @@ class PetApi(object):
             self.api_client = config.api_client
 
     def add_pet(self, **kwargs):
+        _return_http_data_only = True
         """
         Add a new pet to the store
         
@@ -65,10 +66,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.add_pet_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.add_pet_with_http_info(**kwargs)
+            (data) = self.add_pet_with_http_info(**kwargs)
             return data
 
     def add_pet_with_http_info(self, **kwargs):
@@ -94,6 +96,7 @@ class PetApi(object):
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -142,9 +145,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def add_pet_using_byte_array(self, **kwargs):
+        _return_http_data_only = True
         """
         Fake endpoint to test byte array in body parameter for adding a new pet to the store
         
@@ -164,10 +169,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.add_pet_using_byte_array_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.add_pet_using_byte_array_with_http_info(**kwargs)
+            (data) = self.add_pet_using_byte_array_with_http_info(**kwargs)
             return data
 
     def add_pet_using_byte_array_with_http_info(self, **kwargs):
@@ -193,6 +199,7 @@ class PetApi(object):
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -241,9 +248,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def delete_pet(self, pet_id, **kwargs):
+        _return_http_data_only = True
         """
         Deletes a pet
         
@@ -264,10 +273,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.delete_pet_with_http_info(pet_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.delete_pet_with_http_info(pet_id, **kwargs)
+            (data) = self.delete_pet_with_http_info(pet_id, **kwargs)
             return data
 
     def delete_pet_with_http_info(self, pet_id, **kwargs):
@@ -294,6 +304,7 @@ class PetApi(object):
 
         all_params = ['pet_id', 'api_key']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -347,9 +358,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def find_pets_by_status(self, **kwargs):
+        _return_http_data_only = True
         """
         Finds Pets by status
         Multiple status values can be provided with comma separated strings
@@ -369,10 +382,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.find_pets_by_status_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.find_pets_by_status_with_http_info(**kwargs)
+            (data) = self.find_pets_by_status_with_http_info(**kwargs)
             return data
 
     def find_pets_by_status_with_http_info(self, **kwargs):
@@ -398,6 +412,7 @@ class PetApi(object):
 
         all_params = ['status']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -446,9 +461,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def find_pets_by_tags(self, **kwargs):
+        _return_http_data_only = True
         """
         Finds Pets by tags
         Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
@@ -468,10 +485,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.find_pets_by_tags_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.find_pets_by_tags_with_http_info(**kwargs)
+            (data) = self.find_pets_by_tags_with_http_info(**kwargs)
             return data
 
     def find_pets_by_tags_with_http_info(self, **kwargs):
@@ -497,6 +515,7 @@ class PetApi(object):
 
         all_params = ['tags']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -545,9 +564,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def get_pet_by_id(self, pet_id, **kwargs):
+        _return_http_data_only = True
         """
         Find pet by ID
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
@@ -567,10 +588,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.get_pet_by_id_with_http_info(pet_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.get_pet_by_id_with_http_info(pet_id, **kwargs)
+            (data) = self.get_pet_by_id_with_http_info(pet_id, **kwargs)
             return data
 
     def get_pet_by_id_with_http_info(self, pet_id, **kwargs):
@@ -596,6 +618,7 @@ class PetApi(object):
 
         all_params = ['pet_id']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -647,9 +670,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='Pet',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def get_pet_by_id_in_object(self, pet_id, **kwargs):
+        _return_http_data_only = True
         """
         Fake endpoint to test inline arbitrary object return by 'Find pet by ID'
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
@@ -669,10 +694,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.get_pet_by_id_in_object_with_http_info(pet_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.get_pet_by_id_in_object_with_http_info(pet_id, **kwargs)
+            (data) = self.get_pet_by_id_in_object_with_http_info(pet_id, **kwargs)
             return data
 
     def get_pet_by_id_in_object_with_http_info(self, pet_id, **kwargs):
@@ -698,6 +724,7 @@ class PetApi(object):
 
         all_params = ['pet_id']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -749,9 +776,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='InlineResponse200',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def pet_pet_idtesting_byte_arraytrue_get(self, pet_id, **kwargs):
+        _return_http_data_only = True
         """
         Fake endpoint to test byte array return by 'Find pet by ID'
         Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
@@ -771,10 +800,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, **kwargs)
+            (data) = self.pet_pet_idtesting_byte_arraytrue_get_with_http_info(pet_id, **kwargs)
             return data
 
     def pet_pet_idtesting_byte_arraytrue_get_with_http_info(self, pet_id, **kwargs):
@@ -800,6 +830,7 @@ class PetApi(object):
 
         all_params = ['pet_id']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -851,9 +882,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='str',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def update_pet(self, **kwargs):
+        _return_http_data_only = True
         """
         Update an existing pet
         
@@ -873,10 +906,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.update_pet_with_http_info(**kwargs)
         else:
-            (data, status_code, response_headers) = self.update_pet_with_http_info(**kwargs)
+            (data) = self.update_pet_with_http_info(**kwargs)
             return data
 
     def update_pet_with_http_info(self, **kwargs):
@@ -902,6 +936,7 @@ class PetApi(object):
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -950,9 +985,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def update_pet_with_form(self, pet_id, **kwargs):
+        _return_http_data_only = True
         """
         Updates a pet in the store with form data
         
@@ -974,10 +1011,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.update_pet_with_form_with_http_info(pet_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.update_pet_with_form_with_http_info(pet_id, **kwargs)
+            (data) = self.update_pet_with_form_with_http_info(pet_id, **kwargs)
             return data
 
     def update_pet_with_form_with_http_info(self, pet_id, **kwargs):
@@ -1005,6 +1043,7 @@ class PetApi(object):
 
         all_params = ['pet_id', 'name', 'status']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1060,9 +1099,11 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def upload_file(self, pet_id, **kwargs):
+        _return_http_data_only = True
         """
         uploads an image
         
@@ -1084,10 +1125,11 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = _return_http_data_only
         if kwargs.get('callback'):
             return self.upload_file_with_http_info(pet_id, **kwargs)
         else:
-            (data, status_code, response_headers) = self.upload_file_with_http_info(pet_id, **kwargs)
+            (data) = self.upload_file_with_http_info(pet_id, **kwargs)
             return data
 
     def upload_file_with_http_info(self, pet_id, **kwargs):
@@ -1115,6 +1157,7 @@ class PetApi(object):
 
         all_params = ['pet_id', 'additional_metadata', 'file']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1170,4 +1213,5 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
