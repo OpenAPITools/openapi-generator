@@ -10,32 +10,29 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public class Animal   {
+public class ReadOnlyFirst   {
   
-  @SerializedName("className")
-  private String className = null;
+  @SerializedName("bar")
+  private String bar = null;
 
-  @SerializedName("color")
-  private String color = "red";
+  @SerializedName("baz")
+  private String baz = null;
 
   /**
    **/
-  @ApiModelProperty(required = true, value = "")
-  public String getClassName() {
-    return className;
-  }
-  public void setClassName(String className) {
-    this.className = className;
+  @ApiModelProperty(value = "")
+  public String getBar() {
+    return bar;
   }
 
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getColor() {
-    return color;
+  public String getBaz() {
+    return baz;
   }
-  public void setColor(String color) {
-    this.color = color;
+  public void setBaz(String baz) {
+    this.baz = baz;
   }
 
 
@@ -47,23 +44,23 @@ public class Animal   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Animal animal = (Animal) o;
-    return Objects.equals(className, animal.className) &&
-        Objects.equals(color, animal.color);
+    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
+    return Objects.equals(bar, readOnlyFirst.bar) &&
+        Objects.equals(baz, readOnlyFirst.baz);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, color);
+    return Objects.hash(bar, baz);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Animal {\n");
+    sb.append("class ReadOnlyFirst {\n");
     
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");
     return sb.toString();
   }
