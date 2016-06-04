@@ -275,6 +275,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
             supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         }
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
