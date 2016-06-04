@@ -1,13 +1,22 @@
-FROM maven:3.3-jdk-7
+FROM jimschubert/8-jdk-alpine-mvn:1.0
 
-WORKDIR /src
-VOLUME  /src
-VOLUME  /root/.m2/repository
+ENV GEN_DIR /opt/swagger-codegen
 
-ADD . /opt/swagger-codegen
+RUN set -x && \
+    apk add --no-cache bash
 
-RUN cd /opt/swagger-codegen && mvn package
+RUN mkdir /opt
 
-ENTRYPOINT ["java", "-jar", "/opt/swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar"]
+ADD . ${GEN_DIR}
 
-CMD ["help"]
+VOLUME  ${MAVEN_HOME}/.m2/repository
+
+WORKDIR ${GEN_DIR}
+
+RUN mvn -am -pl "modules/swagger-codegen-cli" package
+
+COPY docker-entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["build"]
