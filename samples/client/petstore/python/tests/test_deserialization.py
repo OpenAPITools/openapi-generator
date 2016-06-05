@@ -78,23 +78,23 @@ class DeserializationTests(unittest.TestCase):
     def test_deserialize_pet(self):
         """ deserialize pet """
         data = {
+            "id": 0,
+            "category": {
                 "id": 0,
-                "category": {
+                "name": "string"
+            },
+            "name": "doggie",
+            "photoUrls": [
+                "string"
+            ],
+            "tags": [
+                {
                     "id": 0,
                     "name": "string"
-                },
-                "name": "doggie",
-                "photoUrls": [
-                    "string"
-                ],
-                "tags": [
-                    {
-                        "id": 0,
-                        "name": "string"
-                    }
-                ],
-                "status": "available"
-            }
+                }
+            ],
+            "status": "available"
+        }
         deserialized = self.deserialize(data, "Pet")
         self.assertTrue(isinstance(deserialized, swagger_client.Pet))
         self.assertEqual(deserialized.id, 0)
@@ -106,42 +106,43 @@ class DeserializationTests(unittest.TestCase):
 
     def test_deserialize_list_of_pet(self):
         """ deserialize list[Pet] """
-        data = [{
-            "id": 0,
-            "category": {
+        data = [
+            {
                 "id": 0,
-                "name": "string"
-            },
-            "name": "doggie0",
-            "photoUrls": [
-                "string"
-            ],
-            "tags": [
-                {
+                "category": {
                     "id": 0,
                     "name": "string"
-                }
-            ],
-            "status": "available"
-        },
-        {
-            "id": 1,
-            "category": {
-                "id": 0,
-                "name": "string"
+                },
+                "name": "doggie0",
+                "photoUrls": [
+                    "string"
+                ],
+                "tags": [
+                    {
+                        "id": 0,
+                        "name": "string"
+                    }
+                ],
+                "status": "available"
             },
-            "name": "doggie1",
-            "photoUrls": [
-                "string"
-            ],
-            "tags": [
-                {
+            {
+                "id": 1,
+                "category": {
                     "id": 0,
                     "name": "string"
-                }
-            ],
-            "status": "available"
-        }]
+                },
+                "name": "doggie1",
+                "photoUrls": [
+                    "string"
+                ],
+                "tags": [
+                    {
+                        "id": 0,
+                        "name": "string"
+                    }
+                ],
+                "status": "available"
+            }]
         deserialized = self.deserialize(data, "list[Pet]")
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], swagger_client.Pet))
