@@ -44,7 +44,7 @@ class ApiExceptionTests(unittest.TestCase):
     def test_404_error(self):
         self.pet_api.add_pet(body=self.pet)
         self.pet_api.delete_pet(pet_id=self.pet.id)
-        
+
         with self.checkRaiseRegex(ApiException, "Pet not found"):
             self.pet_api.get_pet_by_id(pet_id=self.pet.id)
 
@@ -87,4 +87,3 @@ class ApiExceptionTests(unittest.TestCase):
             return self.assertRegexpMatches(text, expected_regex)
 
         return self.assertRegex(text, expected_regex)
-
