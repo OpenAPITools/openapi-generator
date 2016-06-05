@@ -34,17 +34,17 @@ public class Response<T> {
 private var once = dispatch_once_t()
 class Decoders {
     static private var decoders = Dictionary<String, ((AnyObject) -> AnyObject)>()
-    
+
     static func addDecoder<T>(clazz clazz: T.Type, decoder: ((AnyObject) -> T)) {
         let key = "\(T.self)"
         decoders[key] = { decoder($0) as! AnyObject }
     }
-    
+
     static func decode<T>(clazz clazz: [T].Type, source: AnyObject) -> [T] {
         let array = source as! [AnyObject]
         return array.map { Decoders.decode(clazz: T.self, source: $0) }
     }
-    
+
     static func decode<T, Key: Hashable>(clazz clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
         let sourceDictionary = source as! [Key: AnyObject]
         var dictionary = [Key:T]()
@@ -53,7 +53,7 @@ class Decoders {
         }
         return dictionary
     }
-    
+
     static func decode<T>(clazz clazz: T.Type, source: AnyObject) -> T {
         initialize()
         if T.self is Int32.Type && source is NSNumber {
@@ -65,7 +65,7 @@ class Decoders {
         if source is T {
             return source as! T
         }
-        
+
         let key = "\(T.self)"
         if let decoder = decoders[key] {
            return decoder(source) as! T
@@ -100,14 +100,15 @@ class Decoders {
             Decoders.decode(clazz: clazz, source: someSource)
         }
     }
-	
+
     static private func initialize() {
         dispatch_once(&once) {
             let formatters = [
                 "yyyy-MM-dd",
                 "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
                 "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
-                "yyyy-MM-dd'T'HH:mm:ss'Z'"
+                "yyyy-MM-dd'T'HH:mm:ss'Z'",
+                "yyyy-MM-dd'T'HH:mm:ss.SSS"
             ].map { (format: String) -> NSDateFormatter in
                 let formatter = NSDateFormatter()
                 formatter.dateFormat = format
@@ -121,7 +122,7 @@ class Decoders {
                             return date
                         }
                     }
-                
+
                 }
                 if let sourceInt = source as? Int {
                     // treat as a java date
