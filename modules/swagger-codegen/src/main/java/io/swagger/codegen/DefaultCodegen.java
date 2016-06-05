@@ -1960,7 +1960,7 @@ public class DefaultCodegen {
                 }
             }
             r.dataType = cm.datatype;
-            r.isBinary = cm.datatype.toLowerCase().startsWith("byte");
+            r.isBinary = isDataTypeBinary(cm.datatype);
             if (cm.isContainer != null) {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
@@ -2129,7 +2129,7 @@ public class DefaultCodegen {
                         p.baseType = cp.baseType;
                         p.dataType = cp.datatype;
                         p.isPrimitiveType = cp.isPrimitiveType;
-                        p.isBinary = cp.datatype.toLowerCase().startsWith("byte");
+                        p.isBinary = isDataTypeBinary(cp.datatype);
                     }
 
                     // set boolean flag (e.g. isString)
@@ -2226,7 +2226,7 @@ public class DefaultCodegen {
             p.isCookieParam = true;
         } else if (param instanceof BodyParameter) {
             p.isBodyParam = true;
-            p.isBinary = p.dataType.toLowerCase().startsWith("byte");
+            p.isBinary = isDataTypeBinary(p.dataType);
         } else if (param instanceof FormParameter) {
             if ("file".equalsIgnoreCase(((FormParameter) param).getType())) {
                 p.isFile = true;
@@ -2240,6 +2240,10 @@ public class DefaultCodegen {
 
         postProcessParameter(p);
         return p;
+    }
+
+    public boolean isDataTypeBinary(String dataType) {
+        return dataType.toLowerCase().startsWith("byte");
     }
 
     /**
