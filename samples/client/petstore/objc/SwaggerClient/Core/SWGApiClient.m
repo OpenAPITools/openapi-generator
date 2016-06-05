@@ -259,6 +259,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
     }
     else {
+        self.requestSerializer = [AFHTTPRequestSerializer serializer];
         NSAssert(NO, @"Unsupported request type %@", requestContentType);
     }
 
@@ -274,7 +275,9 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     queryParams = [self.sanitizer sanitizeForSerialization:queryParams];
     headerParams = [self.sanitizer sanitizeForSerialization:headerParams];
     formParams = [self.sanitizer sanitizeForSerialization:formParams];
-    body = [self.sanitizer sanitizeForSerialization:body];
+    if(![body isKindOfClass:[NSData class]]) {
+        body = [self.sanitizer sanitizeForSerialization:body];
+    }
 
     // auth setting
     [self updateHeaderParams:&headerParams queryParams:&queryParams WithAuthSettings:authSettings];
