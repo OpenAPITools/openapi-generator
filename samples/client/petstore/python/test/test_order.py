@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.order import Order
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.order import Order
 
 
 class TestOrder(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestOrder(unittest.TestCase):
         """
         Test Order
         """
-        model = swagger_client.models.order.Order()
+        model = petstore_api.models.order.Order()
 
 
 if __name__ == '__main__':
