@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="StoreApiTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-06-06T13:56:46" hostname="clasnake-MacBook-Pro.local" time="3.614">
-  <properties/>
-  <testcase name="StoreApi should place and fetch an order" classname="StoreApiTest" time="1.256"/>
-  <testcase name="StoreApi should delete an order" classname="StoreApiTest" time="2.357"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
