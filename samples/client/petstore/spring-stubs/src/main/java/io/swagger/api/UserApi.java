@@ -23,15 +23,15 @@ import static org.springframework.http.MediaType.*;
 
 @RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-03T12:22:53.698+02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T10:53:41.429+02:00")
 public interface UserApi {
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.POST)
   ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body);
 
@@ -40,8 +40,8 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "/createWithArray",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.POST)
   ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body);
 
@@ -50,8 +50,8 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "/createWithList",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.POST)
   ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body);
 
@@ -61,8 +61,8 @@ public interface UserApi {
     @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
     @ApiResponse(code = 404, message = "User not found", response = Void.class) })
   @RequestMapping(value = "/{username}",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.DELETE)
   ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username);
 
@@ -73,8 +73,8 @@ public interface UserApi {
     @ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
     @ApiResponse(code = 404, message = "User not found", response = User.class) })
   @RequestMapping(value = "/{username}",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.GET)
   ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username);
 
@@ -84,8 +84,8 @@ public interface UserApi {
     @ApiResponse(code = 200, message = "successful operation", response = String.class),
     @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
   @RequestMapping(value = "/login",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.GET)
   ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
     @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password);
@@ -95,8 +95,8 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
   @RequestMapping(value = "/logout",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.GET)
   ResponseEntity<Void> logoutUser();
 
@@ -106,8 +106,8 @@ public interface UserApi {
     @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
     @ApiResponse(code = 404, message = "User not found", response = Void.class) })
   @RequestMapping(value = "/{username}",
-    produces = { "application/xml", "application/json" }, 
-    
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.PUT)
   ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,
     @ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body);
