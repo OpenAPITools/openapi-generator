@@ -21,15 +21,14 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.*;
 
-@RequestMapping(value = "/user", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T10:53:41.429+02:00")
+@Api(value = "user", description = "the user API")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:44.961+02:00")
 public interface UserApi {
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-  @RequestMapping(value = "",
+  @RequestMapping(value = "/user",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.POST)
@@ -39,7 +38,7 @@ public interface UserApi {
   @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-  @RequestMapping(value = "/createWithArray",
+  @RequestMapping(value = "/user/createWithArray",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.POST)
@@ -49,7 +48,7 @@ public interface UserApi {
   @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-  @RequestMapping(value = "/createWithList",
+  @RequestMapping(value = "/user/createWithList",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.POST)
@@ -60,7 +59,7 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
     @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-  @RequestMapping(value = "/{username}",
+  @RequestMapping(value = "/user/{username}",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.DELETE)
@@ -72,7 +71,7 @@ public interface UserApi {
     @ApiResponse(code = 200, message = "successful operation", response = User.class),
     @ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
     @ApiResponse(code = 404, message = "User not found", response = User.class) })
-  @RequestMapping(value = "/{username}",
+  @RequestMapping(value = "/user/{username}",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -83,7 +82,7 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = String.class),
     @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
-  @RequestMapping(value = "/login",
+  @RequestMapping(value = "/user/login",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -94,7 +93,7 @@ public interface UserApi {
   @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class)
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-  @RequestMapping(value = "/logout",
+  @RequestMapping(value = "/user/logout",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -105,7 +104,7 @@ public interface UserApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
     @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-  @RequestMapping(value = "/{username}",
+  @RequestMapping(value = "/user/{username}",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.PUT)

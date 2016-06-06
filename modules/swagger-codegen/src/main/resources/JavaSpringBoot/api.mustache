@@ -21,8 +21,7 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.*;
 
-@RequestMapping(value = "/{{{baseName}}}", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/{{{baseName}}}", description = "the {{{baseName}}} API")
+@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
 {{>generatedAnnotation}}
 {{#operations}}
 public interface {{classname}} {

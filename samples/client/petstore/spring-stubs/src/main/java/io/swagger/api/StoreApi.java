@@ -21,16 +21,15 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.*;
 
-@RequestMapping(value = "/store", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/store", description = "the store API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T10:53:41.429+02:00")
+@Api(value = "store", description = "the store API")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:44.961+02:00")
 public interface StoreApi {
 
   @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class)
   @ApiResponses(value = { 
     @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
     @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-  @RequestMapping(value = "/order/{orderId}",
+  @RequestMapping(value = "/store/order/{orderId}",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.DELETE)
@@ -42,7 +41,7 @@ public interface StoreApi {
   })
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Integer.class) })
-  @RequestMapping(value = "/inventory",
+  @RequestMapping(value = "/store/inventory",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -54,7 +53,7 @@ public interface StoreApi {
     @ApiResponse(code = 200, message = "successful operation", response = Order.class),
     @ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
     @ApiResponse(code = 404, message = "Order not found", response = Order.class) })
-  @RequestMapping(value = "/order/{orderId}",
+  @RequestMapping(value = "/store/order/{orderId}",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -65,7 +64,7 @@ public interface StoreApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Order.class),
     @ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
-  @RequestMapping(value = "/order",
+  @RequestMapping(value = "/store/order",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.POST)
