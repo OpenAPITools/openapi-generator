@@ -11,10 +11,12 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     protected String title = "Petstore Server";
     protected String configPackage = "";
     protected String basePackage = "";
     protected boolean interfaceOnly = false;
+    protected boolean singleContentTypes = false;
     protected String templateFileName = "api.mustache";
 
     public SpringBootServerCodegen() {
@@ -42,7 +44,8 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
-        
+        cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
+
         supportedLibraries.clear();
         supportedLibraries.put(DEFAULT_LIBRARY, "Default Spring Boot server stub.");
         supportedLibraries.put("j8-async", "Use async servlet feature and Java 8's default interface. Generating interface with service " +
@@ -83,6 +86,10 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+        }
+
+        if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
+            this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
         }
 
         supportingFiles.clear();
@@ -137,10 +144,10 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
         opList.add(co);
         co.baseName = basePath;
     }
-    
+
     @Override
     public void preprocessSwagger(Swagger swagger) {
-    	System.out.println("preprocessSwagger");
+        super.preprocessSwagger(swagger);
         if ("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");
         }
@@ -153,7 +160,7 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
                 port = parts[1];
             }
         }
-        
+
         this.additionalProperties.put("serverPort", port);
         if (swagger != null && swagger.getPaths() != null) {
             for (String pathname : swagger.getPaths().keySet()) {
@@ -264,6 +271,10 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
 
     public void setInterfaceOnly(boolean interfaceOnly) {
         this.interfaceOnly = interfaceOnly;
+    }
+
+    public void setSingleContentTypes(boolean singleContentTypes) {
+        this.singleContentTypes = singleContentTypes;
     }
     
     @Override
