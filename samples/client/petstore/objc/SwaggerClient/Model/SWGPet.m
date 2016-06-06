@@ -11,6 +11,10 @@
   return self;
 }
 
+-(NSString*)indexPropertyName {
+    return @"_id";
+}
+
 
 /**
  * Maps json key to property name.

@@ -880,7 +880,8 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "x-unique-id-key"  : true
         },
         "category": {
           "$ref": "#/definitions/Category"
