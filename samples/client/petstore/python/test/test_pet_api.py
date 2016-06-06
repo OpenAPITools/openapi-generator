@@ -28,16 +28,16 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.apis.pet_api import PetApi
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.apis.pet_api import PetApi
 
 
 class TestPetApi(unittest.TestCase):
     """ PetApi unit test stubs """
 
     def setUp(self):
-        self.api = swagger_client.apis.pet_api.PetApi()
+        self.api = petstore_api.apis.pet_api.PetApi()
 
     def tearDown(self):
         pass

@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.cat import Cat
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.cat import Cat
 
 
 class TestCat(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestCat(unittest.TestCase):
         """
         Test Cat
         """
-        model = swagger_client.models.cat.Cat()
+        model = petstore_api.models.cat.Cat()
 
 
 if __name__ == '__main__':

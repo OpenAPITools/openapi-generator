@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.animal_farm import AnimalFarm
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.animal_farm import AnimalFarm
 
 
 class TestAnimalFarm(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestAnimalFarm(unittest.TestCase):
         """
         Test AnimalFarm
         """
-        model = swagger_client.models.animal_farm.AnimalFarm()
+        model = petstore_api.models.animal_farm.AnimalFarm()
 
 
 if __name__ == '__main__':

@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 
 
 class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
         """
         Test MixedPropertiesAndAdditionalPropertiesClass
         """
-        model = swagger_client.models.mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass()
+        model = petstore_api.models.mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass()
 
 
 if __name__ == '__main__':

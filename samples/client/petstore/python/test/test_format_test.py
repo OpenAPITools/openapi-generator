@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.format_test import FormatTest
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.format_test import FormatTest
 
 
 class TestFormatTest(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestFormatTest(unittest.TestCase):
         """
         Test FormatTest
         """
-        model = swagger_client.models.format_test.FormatTest()
+        model = petstore_api.models.format_test.FormatTest()
 
 
 if __name__ == '__main__':

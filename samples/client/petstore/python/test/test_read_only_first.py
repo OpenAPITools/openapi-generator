@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.read_only_first import ReadOnlyFirst
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.read_only_first import ReadOnlyFirst
 
 
 class TestReadOnlyFirst(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestReadOnlyFirst(unittest.TestCase):
         """
         Test ReadOnlyFirst
         """
-        model = swagger_client.models.read_only_first.ReadOnlyFirst()
+        model = petstore_api.models.read_only_first.ReadOnlyFirst()
 
 
 if __name__ == '__main__':
