@@ -739,6 +739,15 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/server/petstore/jaxrs-resteasy
 ```
 
+### Java JAX-RS (2.0 Spec)
+
+```
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l jaxrs-spec \
+  -o samples/server/petstore/jaxrs-spec
+```
+
 ### Java Spring MVC
 
 ```
