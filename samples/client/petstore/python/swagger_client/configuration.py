@@ -221,6 +221,14 @@ class Configuration(object):
         :return: The Auth Settings information dict.
         """
         return {
+
+            'petstore_auth': 
+                {
+                    'type': 'oauth2',
+                    'in': 'header',
+                    'key': 'Authorization',
+                    'value': 'Bearer ' + self.access_token
+                },
             'api_key':
                 {
                     'type': 'api_key',
