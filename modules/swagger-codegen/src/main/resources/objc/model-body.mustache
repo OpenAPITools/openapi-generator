@@ -13,7 +13,11 @@
   }
   return self;
 }
-
+{{#vars}}{{^vendorExtensions.x-unique-id-key}}{{/vendorExtensions.x-unique-id-key}}{{#vendorExtensions.x-unique-id-key}}
+-(NSString*)indexPropertyName {
+    return @"{{name}}";
+}
+{{/vendorExtensions.x-unique-id-key}}{{/vars}}
 {{#discriminator}}
 /**
  * Maps "discriminator" value to the sub-class name, so that inheritance is supported.
