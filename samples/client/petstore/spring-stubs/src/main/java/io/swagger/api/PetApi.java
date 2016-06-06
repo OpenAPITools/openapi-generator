@@ -22,9 +22,8 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.*;
 
-@RequestMapping(value = "/pet", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T10:53:41.429+02:00")
+@Api(value = "pet", description = "the pet API")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:44.961+02:00")
 public interface PetApi {
 
   @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
@@ -35,7 +34,7 @@ public interface PetApi {
   })
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-  @RequestMapping(value = "",
+  @RequestMapping(value = "/pet",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.POST)
@@ -50,7 +49,7 @@ public interface PetApi {
   })
   @ApiResponses(value = { 
     @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-  @RequestMapping(value = "/{petId}",
+  @RequestMapping(value = "/pet/{petId}",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.DELETE)
@@ -67,7 +66,7 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
     @ApiResponse(code = 400, message = "Invalid status value", response = Pet.class) })
-  @RequestMapping(value = "/findByStatus",
+  @RequestMapping(value = "/pet/findByStatus",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -83,7 +82,7 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
     @ApiResponse(code = 400, message = "Invalid tag value", response = Pet.class) })
-  @RequestMapping(value = "/findByTags",
+  @RequestMapping(value = "/pet/findByTags",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -97,7 +96,7 @@ public interface PetApi {
     @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
     @ApiResponse(code = 400, message = "Invalid ID supplied", response = Pet.class),
     @ApiResponse(code = 404, message = "Pet not found", response = Pet.class) })
-  @RequestMapping(value = "/{petId}",
+  @RequestMapping(value = "/pet/{petId}",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.GET)
@@ -114,7 +113,7 @@ public interface PetApi {
     @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
     @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
     @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-  @RequestMapping(value = "",
+  @RequestMapping(value = "/pet",
     produces = "application/json",
     consumes = "application/json",
     method = RequestMethod.PUT)
@@ -129,7 +128,7 @@ public interface PetApi {
   })
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-  @RequestMapping(value = "/{petId}",
+  @RequestMapping(value = "/pet/{petId}",
     produces = "application/json",
     consumes = "application/x-www-form-urlencoded",
     method = RequestMethod.POST)
@@ -146,7 +145,7 @@ public interface PetApi {
   })
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-  @RequestMapping(value = "/{petId}/uploadImage",
+  @RequestMapping(value = "/pet/{petId}/uploadImage",
     produces = "application/json",
     consumes = "multipart/form-data",
     method = RequestMethod.POST)

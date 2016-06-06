@@ -131,9 +131,6 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
         if (basePath == "") {
             basePath = "default";
         } else {
-            if (co.path.startsWith("/" + basePath)) {
-                co.path = co.path.substring(("/" + basePath).length());
-            }
             co.subresourceOperation = !co.path.isEmpty();
         }
         List<CodegenOperation> opList = operations.get(basePath);
