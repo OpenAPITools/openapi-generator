@@ -792,7 +792,11 @@ public class DefaultCodegen {
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
 
-        supportingFiles.add(new GlobalSupportingFile("LICENSE", "LICENSE"));
+        // we've used the .swagger-codegen-ignore approach as 
+        // suppportingFiles can be cleared by code generator that extends
+        // the default codegen, leaving the commented code below for 
+        // future reference
+        //supportingFiles.add(new GlobalSupportingFile("LICENSE", "LICENSE"));
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
