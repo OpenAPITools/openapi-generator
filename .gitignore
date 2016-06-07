@@ -68,6 +68,7 @@ samples/client/petstore/java/retrofit/build/
 samples/client/petstore/java/retrofit2/build/
 samples/client/petstore/java/retrofit2rx/build/
 samples/client/petstore/java/default/build/
+samples/client/petstore/scala/build/
 
 #PHP
 samples/client/petstore/php/SwaggerClient-php/composer.lock
