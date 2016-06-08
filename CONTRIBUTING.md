@@ -2,6 +2,7 @@
 
 ## Before submitting an issue
 
+ - If you're not using the latest master to generate API clients or server stubs, please give it another try by pulling the latest master as the issue may have already been addressed. Ref: [Getting Started](https://github.com/swagger-api/swagger-codegen#getting-started)
  - Search the [open issue](https://github.com/swagger-api/swagger-codegen/issues) and [closed issue](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aissue+is%3Aclosed) to ensure no one else has reported something similar before.
  - The issue should contain details on how to repeat the issue, e.g. 
    - the OpenAPI Spec for reproducing the issue (:bulb: use [Gist](https://gist.github.com) to share). If the OpenAPI Spec cannot be shared publicly, it will be hard for the community to help
