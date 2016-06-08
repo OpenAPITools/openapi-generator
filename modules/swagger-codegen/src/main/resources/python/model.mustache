@@ -52,6 +52,7 @@ class {{classname}}(object):
         """
         return self._{{name}}
 
+{{^isReadOnly}}
     @{{name}}.setter
     def {{name}}(self, {{name}}):
         """
@@ -99,6 +100,7 @@ class {{classname}}(object):
 
         self._{{name}} = {{name}}
 
+{{/isReadOnly}}
 {{/vars}}
     def to_dict(self):
         """
