@@ -23,7 +23,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.*;
 
 @Api(value = "pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:50.468+02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:44.961+02:00")
 public interface PetApi {
 
   @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {
@@ -35,8 +35,8 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
   @RequestMapping(value = "/pet",
-    produces = { "application/xml", "application/json" }, 
-    consumes = { "application/json", "application/xml" },
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.POST)
   ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body);
 
@@ -50,7 +50,8 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
   @RequestMapping(value = "/pet/{petId}",
-    produces = { "application/xml", "application/json" }, 
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.DELETE)
   ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,
     @ApiParam(value = ""  ) @RequestHeader(value="api_key", required=false) String apiKey);
@@ -66,7 +67,8 @@ public interface PetApi {
     @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
     @ApiResponse(code = 400, message = "Invalid status value", response = Pet.class) })
   @RequestMapping(value = "/pet/findByStatus",
-    produces = { "application/xml", "application/json" }, 
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.GET)
   ResponseEntity<List<Pet>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true) @RequestParam(value = "status", required = true) List<String> status);
 
@@ -81,7 +83,8 @@ public interface PetApi {
     @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
     @ApiResponse(code = 400, message = "Invalid tag value", response = Pet.class) })
   @RequestMapping(value = "/pet/findByTags",
-    produces = { "application/xml", "application/json" }, 
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.GET)
   ResponseEntity<List<Pet>> findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags);
 
@@ -94,7 +97,8 @@ public interface PetApi {
     @ApiResponse(code = 400, message = "Invalid ID supplied", response = Pet.class),
     @ApiResponse(code = 404, message = "Pet not found", response = Pet.class) })
   @RequestMapping(value = "/pet/{petId}",
-    produces = { "application/xml", "application/json" }, 
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.GET)
   ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId);
 
@@ -110,8 +114,8 @@ public interface PetApi {
     @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
     @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
   @RequestMapping(value = "/pet",
-    produces = { "application/xml", "application/json" }, 
-    consumes = { "application/json", "application/xml" },
+    produces = "application/json",
+    consumes = "application/json",
     method = RequestMethod.PUT)
   ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body);
 
@@ -125,8 +129,8 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
   @RequestMapping(value = "/pet/{petId}",
-    produces = { "application/xml", "application/json" }, 
-    consumes = { "application/x-www-form-urlencoded" },
+    produces = "application/json",
+    consumes = "application/x-www-form-urlencoded",
     method = RequestMethod.POST)
   ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId,
     @ApiParam(value = "Updated name of the pet" ) @RequestPart(value="name", required=false)  String name,
@@ -142,8 +146,8 @@ public interface PetApi {
   @ApiResponses(value = { 
     @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
   @RequestMapping(value = "/pet/{petId}/uploadImage",
-    produces = { "application/json" }, 
-    consumes = { "multipart/form-data" },
+    produces = "application/json",
+    consumes = "multipart/form-data",
     method = RequestMethod.POST)
   ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,
     @ApiParam(value = "Additional data to pass to server" ) @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,
