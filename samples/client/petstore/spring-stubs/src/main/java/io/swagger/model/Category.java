@@ -11,8 +11,8 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:50.468+02:00")
-public class Tag  {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:44.961+02:00")
+public class Category  {
   
   private Long id = null;
   private String name = null;
@@ -48,9 +48,9 @@ public class Tag  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(id, tag.id) &&
-        Objects.equals(name, tag.name);
+    Category category = (Category) o;
+    return Objects.equals(id, category.id) &&
+        Objects.equals(name, category.name);
   }
 
   @Override
@@ -61,7 +61,7 @@ public class Tag  {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class Category {\n");
     
     sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");

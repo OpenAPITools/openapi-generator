@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>{{groupId}}</groupId>
-	<artifactId>{{artifactId}}</artifactId>
+	<groupId>io.swagger</groupId>
+	<artifactId>swagger-springboot-server</artifactId>
 	<packaging>jar</packaging>
-	<name>{{artifactId}}</name>
-	<version>{{artifactVersion}}</version>
+	<name>swagger-springboot-server</name>
+	<version>1.0.0</version>
 	<properties>
 		<springfox-version>2.4.0</springfox-version>
 	</properties>
@@ -14,20 +14,7 @@
 		<version>1.3.3.RELEASE</version>
 	</parent>
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>{{^interfaceOnly}}
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>{{/interfaceOnly}}
+		<sourceDirectory>src/main/java</sourceDirectory>
 	</build>
 	<dependencies>
 		<dependency>
