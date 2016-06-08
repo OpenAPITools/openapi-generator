@@ -261,7 +261,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        writeOptional(outputFolder, new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");

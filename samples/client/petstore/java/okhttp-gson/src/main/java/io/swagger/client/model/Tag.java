@@ -11,72 +11,88 @@ import com.google.gson.annotations.SerializedName;
  * Tag
  */
 public class Tag   {
-  
-  @SerializedName("id")
-  private Long id = null;
+    @SerializedName("id")
+    private Long id = null;
+    @SerializedName("name")
+    private String name = null;
 
-  @SerializedName("name")
-  private String name = null;
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    /**
+     * Get id
+     * @return id
+     **/
+    @ApiModelProperty(value = "")
+    public Long getId() {
+        return id;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    /**
+     * Set id
+     *
+     * @param id id
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(this.id, tag.id) &&
+
+    /**
+     * Get name
+     * @return name
+     **/
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set name
+     *
+     * @param name name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Tag tag = (Tag) o;
+        return Objects.equals(this.id, tag.id) &&
         Objects.equals(this.name, tag.name);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Tag {\n");
+        
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
+        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     *
+     * @param o Object to be converted to indented string
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 }
 
