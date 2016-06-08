@@ -4,10 +4,10 @@ import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.DateTime;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -21,7 +21,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   private String uuid = null;
 
   @SerializedName("dateTime")
-  private Date dateTime = null;
+  private DateTime dateTime = null;
 
   @SerializedName("map")
   private Map<String, Animal> map = new HashMap<String, Animal>();
@@ -39,10 +39,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public Date getDateTime() {
+  public DateTime getDateTime() {
     return dateTime;
   }
-  public void setDateTime(Date dateTime) {
+  public void setDateTime(DateTime dateTime) {
     this.dateTime = dateTime;
   }
 
