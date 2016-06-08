@@ -140,6 +140,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     @Override
     public String getHelp()
     {
-        return "Generates a Java JAXRS Server according to JAXRS specification.";
+        return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
 }
