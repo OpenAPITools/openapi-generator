@@ -10,9 +10,9 @@ import unittest
 
 {{#models}}
 {{#model}}
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.{{classFilename}} import {{classname}}
+import {{packageName}}
+from {{packageName}}.rest import ApiException
+from {{packageName}}.models.{{classFilename}} import {{classname}}
 
 
 class Test{{classname}}(unittest.TestCase):
@@ -28,7 +28,7 @@ class Test{{classname}}(unittest.TestCase):
         """
         Test {{classname}}
         """
-        model = swagger_client.models.{{classFilename}}.{{classname}}()
+        model = {{packageName}}.models.{{classFilename}}.{{classname}}()
 
 {{/model}}
 {{/models}}

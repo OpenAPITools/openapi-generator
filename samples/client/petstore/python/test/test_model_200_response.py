@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.model_200_response import Model200Response
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.model_200_response import Model200Response
 
 
 class TestModel200Response(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestModel200Response(unittest.TestCase):
         """
         Test Model200Response
         """
-        model = swagger_client.models.model_200_response.Model200Response()
+        model = petstore_api.models.model_200_response.Model200Response()
 
 
 if __name__ == '__main__':
