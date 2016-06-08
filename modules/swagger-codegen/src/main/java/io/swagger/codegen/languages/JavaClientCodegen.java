@@ -127,6 +127,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<String, String>();
         dateOptions.put("java8", "Java 8 native");
+        dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
         dateOptions.put("joda", "Joda");
         dateLibrary.setEnum(dateOptions);
 
@@ -371,13 +372,17 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             importMapping.put("LocalDate", "org.joda.time.LocalDate");
             importMapping.put("DateTime", "org.joda.time.DateTime");
         }
-        else if ("java8".equals(dateLibrary)) {
+        else if (dateLibrary.startsWith("java8")) {
             additionalProperties.put("java8", "true");
-            additionalProperties.put("javaVersion", "1.8");
             typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
-            importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+            if ("java8-localdatetime".equals(dateLibrary)) {
+                typeMapping.put("DateTime", "LocalDateTime");
+                importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+            } else {
+                typeMapping.put("DateTime", "OffsetDateTime");
+                importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+            }
         }
 
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
