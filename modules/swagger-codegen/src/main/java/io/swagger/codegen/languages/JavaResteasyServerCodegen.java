@@ -46,14 +46,6 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
             }
         }
 
-        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
-        Map<String, String> dateOptions = new HashMap<String, String>();
-        dateOptions.put("java8", "Java 8 native");
-        dateOptions.put("joda", "Joda");
-        dateLibrary.setEnum(dateOptions);
-
-        cliOptions.add(dateLibrary);
-
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
 
@@ -116,33 +108,14 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
 
-        if (additionalProperties.containsKey("dateLibrary")) {
-            setDateLibrary(additionalProperties.get("dateLibrary").toString());
-            additionalProperties.put(dateLibrary, "true");
-        }
-
         if ("joda".equals(dateLibrary)) {
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "DateTime");
-
-            importMapping.put("LocalDate", "org.joda.time.LocalDate");
-            importMapping.put("DateTime", "org.joda.time.DateTime");
-
             supportingFiles.add(new SupportingFile("JacksonConfig.mustache",
                     (sourceFolder + '/' + invokerPackage).replace(".", "/"), "JacksonConfig.java"));
-
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
-        } else if ("java8".equals(dateLibrary)) {
-            additionalProperties.put("java8", "true");
-            additionalProperties.put("javaVersion", "1.8");
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "OffsetDateTime");
-            importMapping.put("LocalDate", "java.time.LocalDate");
-            importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
-
+        } else if (dateLibrary.startsWith("java8")) {
             supportingFiles.add(new SupportingFile("OffsetDateTimeProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "OffsetDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("LocalDateProvider.mustache",
