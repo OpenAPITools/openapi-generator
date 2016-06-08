@@ -362,7 +362,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if(additionalProperties.containsKey(DATE_LIBRARY)) {
-            this.dateLibrary = additionalProperties.get(DATE_LIBRARY).toString();
+            setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+            additionalProperties.put(dateLibrary, "true");
         }
 
         if("joda".equals(dateLibrary)) {
@@ -1035,7 +1036,5 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.useRxJava = useRxJava;
     }
 
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
+    public void setDateLibrary(String library) { this.dateLibrary = library; }
 }
