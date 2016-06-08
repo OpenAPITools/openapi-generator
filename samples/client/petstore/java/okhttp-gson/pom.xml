@@ -105,7 +105,7 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <!-- For testing build.gradle, build.sbt -->
+      <!-- For testing build.gradle, build.sbt, mvn javadoc:javadoc -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -134,6 +134,19 @@
               <executable>sbt</executable>
               <arguments>
                 <argument>publishLocal</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>mvn-javadoc-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>mvn</executable>
+              <arguments>
+                <argument>javadoc:javadoc</argument>
               </arguments>
             </configuration>
           </execution>
@@ -172,7 +185,7 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-core-version>1.5.8</swagger-core-version>
+    <swagger-core-version>1.5.9</swagger-core-version>
     <okhttp-version>2.7.5</okhttp-version>
     <gson-version>2.6.2</gson-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
