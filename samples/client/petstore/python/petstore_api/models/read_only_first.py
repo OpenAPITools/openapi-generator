@@ -65,18 +65,6 @@ class ReadOnlyFirst(object):
         """
         return self._bar
 
-    @bar.setter
-    def bar(self, bar):
-        """
-        Sets the bar of this ReadOnlyFirst.
-
-
-        :param bar: The bar of this ReadOnlyFirst.
-        :type: str
-        """
-
-        self._bar = bar
-
     @property
     def baz(self):
         """

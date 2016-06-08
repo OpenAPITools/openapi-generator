@@ -94,18 +94,6 @@ class Name(object):
         """
         return self._snake_case
 
-    @snake_case.setter
-    def snake_case(self, snake_case):
-        """
-        Sets the snake_case of this Name.
-
-
-        :param snake_case: The snake_case of this Name.
-        :type: int
-        """
-
-        self._snake_case = snake_case
-
     @property
     def _property(self):
         """
@@ -139,18 +127,6 @@ class Name(object):
         :rtype: int
         """
         return self.__123_number
-
-    @_123_number.setter
-    def _123_number(self, _123_number):
-        """
-        Sets the _123_number of this Name.
-
-
-        :param _123_number: The _123_number of this Name.
-        :type: int
-        """
-
-        self.__123_number = _123_number
 
     def to_dict(self):
         """
