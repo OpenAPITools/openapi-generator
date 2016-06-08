@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.array_test import ArrayTest
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.array_test import ArrayTest
 
 
 class TestArrayTest(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestArrayTest(unittest.TestCase):
         """
         Test ArrayTest
         """
-        model = swagger_client.models.array_test.ArrayTest()
+        model = petstore_api.models.array_test.ArrayTest()
 
 
 if __name__ == '__main__':

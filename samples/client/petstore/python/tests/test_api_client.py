@@ -12,8 +12,8 @@ import time
 import unittest
 from dateutil.parser import parse
 
-import swagger_client
-import swagger_client.configuration
+import petstore_api
+import petstore_api.configuration
 
 HOST = 'http://petstore.swagger.io/v2'
 
@@ -21,20 +21,20 @@ HOST = 'http://petstore.swagger.io/v2'
 class ApiClientTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = swagger_client.ApiClient(HOST)
+        self.api_client = petstore_api.ApiClient(HOST)
 
     def test_configuration(self):
-        swagger_client.configuration.api_key['api_key'] = '123456'
-        swagger_client.configuration.api_key_prefix['api_key'] = 'PREFIX'
-        swagger_client.configuration.username = 'test_username'
-        swagger_client.configuration.password = 'test_password'
+        petstore_api.configuration.api_key['api_key'] = '123456'
+        petstore_api.configuration.api_key_prefix['api_key'] = 'PREFIX'
+        petstore_api.configuration.username = 'test_username'
+        petstore_api.configuration.password = 'test_password'
 
         header_params = {'test1': 'value1'}
         query_params = {'test2': 'value2'}
         auth_settings = ['api_key', 'unknown']
 
         # test prefix
-        self.assertEqual('PREFIX', swagger_client.configuration.api_key_prefix['api_key'])
+        self.assertEqual('PREFIX', petstore_api.configuration.api_key_prefix['api_key'])
 
         # update parameters based on auth setting
         self.api_client.update_params_for_auth(header_params, query_params, auth_settings)
@@ -45,8 +45,8 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual(query_params['test2'], 'value2')
 
         # test basic auth
-        self.assertEqual('test_username', swagger_client.configuration.username)
-        self.assertEqual('test_password', swagger_client.configuration.password)
+        self.assertEqual('test_username', petstore_api.configuration.username)
+        self.assertEqual('test_password', petstore_api.configuration.password)
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
@@ -139,17 +139,17 @@ class ApiClientTests(unittest.TestCase):
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
-        pet = swagger_client.Pet()
+        pet = petstore_api.Pet()
         pet.id = pet_dict["id"]
         pet.name = pet_dict["name"]
-        cate = swagger_client.Category()
+        cate = petstore_api.Category()
         cate.id = pet_dict["category"]["id"]
         cate.name = pet_dict["category"]["name"]
         pet.category = cate
-        tag1 = swagger_client.Tag()
+        tag1 = petstore_api.Tag()
         tag1.id = pet_dict["tags"][0]["id"]
         tag1.name = pet_dict["tags"][0]["name"]
-        tag2 = swagger_client.Tag()
+        tag2 = petstore_api.Tag()
         tag2.id = pet_dict["tags"][1]["id"]
         tag2.name = pet_dict["tags"][1]["name"]
         pet.tags = [tag1, tag2]

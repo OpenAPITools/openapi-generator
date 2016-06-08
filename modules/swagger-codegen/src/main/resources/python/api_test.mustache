@@ -8,16 +8,16 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.apis.{{classVarName}} import {{classname}}
+import {{packageName}}
+from {{packageName}}.rest import ApiException
+from {{packageName}}.apis.{{classVarName}} import {{classname}}
 
 
 class {{#operations}}Test{{classname}}(unittest.TestCase):
     """ {{classname}} unit test stubs """
 
     def setUp(self):
-        self.api = swagger_client.apis.{{classVarName}}.{{classname}}()
+        self.api = {{packageName}}.apis.{{classVarName}}.{{classname}}()
 
     def tearDown(self):
         pass

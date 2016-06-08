@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.additional_properties_class import AdditionalPropertiesClass
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 
 
 class TestAdditionalPropertiesClass(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestAdditionalPropertiesClass(unittest.TestCase):
         """
         Test AdditionalPropertiesClass
         """
-        model = swagger_client.models.additional_properties_class.AdditionalPropertiesClass()
+        model = petstore_api.models.additional_properties_class.AdditionalPropertiesClass()
 
 
 if __name__ == '__main__':

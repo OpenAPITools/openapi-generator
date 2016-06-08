@@ -28,9 +28,9 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.models.enum_class import EnumClass
+import petstore_api
+from petstore_api.rest import ApiException
+from petstore_api.models.enum_class import EnumClass
 
 
 class TestEnumClass(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestEnumClass(unittest.TestCase):
         """
         Test EnumClass
         """
-        model = swagger_client.models.enum_class.EnumClass()
+        model = petstore_api.models.enum_class.EnumClass()
 
 
 if __name__ == '__main__':
