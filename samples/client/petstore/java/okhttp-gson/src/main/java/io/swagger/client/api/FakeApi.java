@@ -36,9 +36,6 @@ import io.swagger.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Interceptor;
-
 import java.io.IOException;
 
 import java.util.Date;
@@ -70,7 +67,7 @@ public class FakeApi {
     }
 
     /* Build call for testEndpointParameters */
-    private Call testEndpointParametersCall(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call testEndpointParametersCall(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'number' is set
@@ -140,9 +137,9 @@ public class FakeApi {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
-                public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
                     com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
                     .body(new ProgressResponseBody(originalResponse.body(), progressListener))
@@ -195,7 +192,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
-        Call call = testEndpointParametersCall(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password, null, null);
+        com.squareup.okhttp.Call call = testEndpointParametersCall(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password, null, null);
         return apiClient.execute(call);
     }
 
@@ -218,7 +215,7 @@ public class FakeApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public Call testEndpointParametersAsync(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ApiCallback<Void> callback) throws ApiException {
+    public com.squareup.okhttp.Call testEndpointParametersAsync(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password, final ApiCallback<Void> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -239,7 +236,7 @@ public class FakeApi {
             };
         }
 
-        Call call = testEndpointParametersCall(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testEndpointParametersCall(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
