@@ -90,6 +90,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(RETURN_ICOLLECTION, RETURN_ICOLLECTION_DESC, returnICollection);
         addSwitch(IMMUTABLE_OPTION, "Enabled by default. If disabled generates model classes with setters", true);
         typeMapping.putAll(nodaTimeTypesMappings());
+        languageSpecificPrimitives.addAll(nodaTimePrimitiveTypes());
 
         importMapping.clear();
     }
@@ -385,6 +386,10 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
                 "time", "LocalTime?",
                 "date", "ZonedDateTime?",
                 "datetime", "ZonedDateTime?");
+    }
+
+    private static Set<String> nodaTimePrimitiveTypes() {
+        return ImmutableSet.of("LocalTime?", "ZonedDateTime?");
     }
 
     private class DependencyInfo {
