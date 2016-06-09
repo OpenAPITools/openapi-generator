@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-03T00:41:43.242+08:00")
+
 public class Name   {
   
   private Integer name = null;
