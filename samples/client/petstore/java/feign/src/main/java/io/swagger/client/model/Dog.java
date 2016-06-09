@@ -11,7 +11,7 @@ import io.swagger.client.model.Animal;
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-07T22:38:14.473+02:00")
+
 public class Dog extends Animal  {
   
   private String className = null;

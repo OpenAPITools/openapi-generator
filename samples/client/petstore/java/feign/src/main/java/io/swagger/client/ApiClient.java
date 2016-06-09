@@ -19,7 +19,7 @@ import feign.slf4j.Slf4jLogger;
 import io.swagger.client.auth.*;
 import io.swagger.client.auth.OAuth.AccessTokenListener;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-07T22:38:14.473+02:00")
+
 public class ApiClient {
   public interface Api {}
 
