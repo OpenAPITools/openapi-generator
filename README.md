@@ -860,6 +860,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
+- [GraphHopper](https://graphhopper.com/)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
