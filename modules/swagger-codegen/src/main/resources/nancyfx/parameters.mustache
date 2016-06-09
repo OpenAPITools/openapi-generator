@@ -15,7 +15,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
 
         internal static TValue ValueOf<TValue>(dynamic parameters, Request request, string name, ParameterType parameterType)
         {
-            var valueType = typeof (TValue);
+            var valueType = typeof(TValue);
             var valueUnderlyingType = Nullable.GetUnderlyingType(valueType);
             var isNullable = default(TValue) == null;
             string value = RawValueOf(parameters, request, name, parameterType);
@@ -38,7 +38,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 switch (parameterType)
                 {
                     case ParameterType.Query:
-                        string querValue =  request.Query[name];
+                        string querValue = request.Query[name];
                         return querValue;
                     case ParameterType.Path:
                         string pathValue = parameters[name];
@@ -59,17 +59,19 @@ namespace {{packageName}}.{{packageContext}}.Utils
         {
             var valueType = typeof(TValue);
             var enumType = valueType.IsEnum ? valueType : Nullable.GetUnderlyingType(valueType);
+            Preconditions.IsNotNull(enumType, () => new InvalidOperationException(
+                string.Format("Could not parse parameter: '{0}' to enum. Type {1} is not enum", name, valueType)));
             var values = Enum.GetValues(enumType);
             foreach (var entry in values)
             {
-                if (entry.ToString().EqualsIgnoreCases(value) 
-                    || ((int) entry).ToString().EqualsIgnoreCases(value))
+                if (entry.ToString().EqualsIgnoreCases(value)
+                    || ((int)entry).ToString().EqualsIgnoreCases(value))
                 {
-                    return (TValue) entry;
-                }                
+                    return (TValue)entry;
+                }
             }
             throw new ArgumentException(string.Format("Parameter: '{0}' value: '{1}' is not supported. Expected one of: {2}",
-                    name, value, value.ToComparable()));
+                    name, value, Strings.ToString(values)));
         }
 
         private static TValue ValueOf<TValue>(dynamic parameters, string name, string value, Type valueType, Request request, ParameterType parameterType)
@@ -101,7 +103,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
             {
                 throw new InvalidOperationException(
                     string.Format("Could not parse parameter: '{0}' with value: '{1}'. " +
-                                  "Received: '{2}', expected: '{3}'.", 
+                                  "Received: '{2}', expected: '{3}'.",
                                   name, value, result.GetType(), valueType));
             }
         }
@@ -122,7 +124,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException(string.Format("Could not get '{0}' value of '{1}' type dynamicly", 
+                throw new InvalidOperationException(string.Format("Could not get '{0}' value of '{1}' type dynamicly",
                     name, typeof(TValue)), e);
             }
         }
@@ -157,6 +159,10 @@ namespace {{packageName}}.{{packageContext}}.Utils
             parsers.Put(typeof(DateTime?), SafeParse(DateTime.Parse));
             parsers.Put(typeof(TimeSpan), SafeParse(TimeSpan.Parse));
             parsers.Put(typeof(TimeSpan?), SafeParse(TimeSpan.Parse));
+            parsers.Put(typeof(ZonedDateTime), SafeParse(ParseZonedDateTime));
+            parsers.Put(typeof(ZonedDateTime?), SafeParse(ParseZonedDateTime));
+            parsers.Put(typeof(LocalTime), SafeParse(ParseLocalTime));
+            parsers.Put(typeof(LocalTime?), SafeParse(ParseLocalTime));
 
             parsers.Put(typeof(IEnumerable<string>), value => value);
             parsers.Put(typeof(ICollection<string>), value => value);
@@ -273,15 +279,15 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 }
                 catch (OverflowException)
                 {
-                    throw ParameterOutOfRange(parameter, typeof (short));
+                    throw ParameterOutOfRange(parameter, typeof(T));
                 }
                 catch (FormatException)
                 {
-                    throw InvalidParameterFormat(parameter, typeof (short));
+                    throw InvalidParameterFormat(parameter, typeof(T));
                 }
                 catch (Exception e)
                 {
-                    throw new InvalidOperationException(Strings.Format("Unable to parse parameter: '{0}' with value: '{1}' to {2}", 
+                    throw new InvalidOperationException(Strings.Format("Unable to parse parameter: '{0}' with value: '{1}' to {2}",
                         parameter.Name, parameter.Value, typeof(T)), e);
                 }
             };
@@ -295,7 +301,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 {
                     return new List<T>();
                 }
-                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
                     .Where(it => it != null)
                     .Select(it => it.Trim())
                     .Select(itemParser)
@@ -312,7 +318,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 {
                     return Lists.EmptyList<T>();
                 }
-                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
                     .Where(it => it != null)
                     .Select(it => it.Trim())
                     .Select(itemParser)
@@ -329,7 +335,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 {
                     return new HashSet<T>();
                 }
-                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
                     .Where(it => it != null)
                     .Select(it => it.Trim())
                     .Select(itemParser)
@@ -346,7 +352,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
                 {
                     return Sets.EmptySet<T>();
                 }
-                var results = parameter.Value.Split(new[] {','}, StringSplitOptions.None)
+                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
                     .Where(it => it != null)
                     .Select(it => it.Trim())
                     .Select(itemParser)
@@ -355,9 +361,20 @@ namespace {{packageName}}.{{packageContext}}.Utils
             };
         }
 
+        private static ZonedDateTime ParseZonedDateTime(string value)
+        {
+            var dateTime = DateTime.Parse(value);
+            return new ZonedDateTime(Instant.FromDateTimeUtc(dateTime.ToUniversalTime()), DateTimeZone.Utc);
+        }
+
+        private static LocalTime ParseLocalTime(string value)
+        {
+            return LocalTimePattern.ExtendedIsoPattern.Parse(value).Value;
+        }
+
         private static ArgumentException ParameterOutOfRange(Parameter parameter, Type type)
         {
-            return new ArgumentException(Strings.Format("Query: '{0}' value: '{1}' is out of range for: '{2}'", 
+            return new ArgumentException(Strings.Format("Query: '{0}' value: '{1}' is out of range for: '{2}'",
                 parameter.Name, parameter.Value, type));
         }
 
