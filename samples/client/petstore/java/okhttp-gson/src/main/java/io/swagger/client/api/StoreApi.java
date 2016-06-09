@@ -13,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
@@ -79,8 +78,8 @@ public class StoreApi {
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
                 @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Response originalResponse = chain.proceed(chain.request());
+                public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
                     .body(new ProgressResponseBody(originalResponse.body(), progressListener))
                     .build();
@@ -176,8 +175,8 @@ public class StoreApi {
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
                 @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Response originalResponse = chain.proceed(chain.request());
+                public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
                     .body(new ProgressResponseBody(originalResponse.body(), progressListener))
                     .build();
@@ -280,8 +279,8 @@ public class StoreApi {
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
                 @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Response originalResponse = chain.proceed(chain.request());
+                public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
                     .body(new ProgressResponseBody(originalResponse.body(), progressListener))
                     .build();
@@ -386,8 +385,8 @@ public class StoreApi {
         if(progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new Interceptor() {
                 @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Response originalResponse = chain.proceed(chain.request());
+                public com.squareup.okhttp.Response intercept(Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
                     .body(new ProgressResponseBody(originalResponse.body(), progressListener))
                     .build();
