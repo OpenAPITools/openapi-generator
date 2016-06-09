@@ -111,6 +111,7 @@ public class ApiClientTest {
         }
     }
 
+    @Ignore("There is no more basic auth in petstore security definitions")
     @Test
     public void testSetUsernameAndPassword() {
         HttpBasicAuth auth = null;
