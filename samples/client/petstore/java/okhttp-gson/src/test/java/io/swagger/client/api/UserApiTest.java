@@ -1,149 +1,87 @@
 package io.swagger.client.api;
 
-import io.swagger.client.ApiException;
-import io.swagger.client.model.User;
-import org.junit.Test;
+import io.swagger.TestUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
 
-/**
- * API tests for UserApi
- */
+import java.util.Arrays;
+
+import org.junit.*;
+import static org.junit.Assert.*;
+
 public class UserApiTest {
+    UserApi api = null;
 
-    private final UserApi api = new UserApi();
-
-    
-    /**
-     * Create user
-     *
-     * This can only be done by the logged in user.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void createUserTest() throws ApiException {
-        User body = null;
-        // api.createUser(body);
-
-        // TODO: test validations
+    @Before
+    public void setup() {
+        api = new UserApi();
+        // setup authentication
+        ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
+        apiKeyAuth.setApiKey("special-key");
     }
-    
-    /**
-     * Creates list of users with given input array
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void createUsersWithArrayInputTest() throws ApiException {
-        List<User> body = null;
-        // api.createUsersWithArrayInput(body);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Creates list of users with given input array
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
     @Test
-    public void createUsersWithListInputTest() throws ApiException {
-        List<User> body = null;
-        // api.createUsersWithListInput(body);
+    public void testCreateUser() throws Exception {
+        User user = createUser();
 
-        // TODO: test validations
+        api.createUser(user);
+
+        User fetched = api.getUserByName(user.getUsername());
+        assertEquals(user.getId(), fetched.getId());
     }
-    
-    /**
-     * Delete user
-     *
-     * This can only be done by the logged in user.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
+
     @Test
-    public void deleteUserTest() throws ApiException {
-        String username = null;
-        // api.deleteUser(username);
+    public void testCreateUsersWithArray() throws Exception {
+        User user1 = createUser();
+        user1.setUsername("user" + user1.getId());
+        User user2 = createUser();
+        user2.setUsername("user" + user2.getId());
 
-        // TODO: test validations
+        api.createUsersWithArrayInput(Arrays.asList(new User[]{user1, user2}));
+
+        User fetched = api.getUserByName(user1.getUsername());
+        assertEquals(user1.getId(), fetched.getId());
     }
-    
-    /**
-     * Get user by user name
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
+
     @Test
-    public void getUserByNameTest() throws ApiException {
-        String username = null;
-        // User response = api.getUserByName(username);
+    public void testCreateUsersWithList() throws Exception {
+        User user1 = createUser();
+        user1.setUsername("user" + user1.getId());
+        User user2 = createUser();
+        user2.setUsername("user" + user2.getId());
 
-        // TODO: test validations
+        api.createUsersWithListInput(Arrays.asList(new User[]{user1, user2}));
+
+        User fetched = api.getUserByName(user1.getUsername());
+        assertEquals(user1.getId(), fetched.getId());
     }
-    
-    /**
-     * Logs user into the system
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
+
     @Test
-    public void loginUserTest() throws ApiException {
-        String username = null;
-        String password = null;
-        // String response = api.loginUser(username, password);
+    public void testLoginUser() throws Exception {
+        User user = createUser();
+        api.createUser(user);
 
-        // TODO: test validations
+        String token = api.loginUser(user.getUsername(), user.getPassword());
+        assertTrue(token.startsWith("logged in user session:"));
     }
-    
-    /**
-     * Logs out current logged in user session
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
+
     @Test
-    public void logoutUserTest() throws ApiException {
-        // api.logoutUser();
-
-        // TODO: test validations
+    public void logoutUser() throws Exception {
+        api.logoutUser();
     }
-    
-    /**
-     * Updated user
-     *
-     * This can only be done by the logged in user.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void updateUserTest() throws ApiException {
-        String username = null;
-        User body = null;
-        // api.updateUser(username, body);
 
-        // TODO: test validations
+    private User createUser() {
+        User user = new User();
+        user.setId(TestUtils.nextId());
+        user.setUsername("fred" + user.getId());
+        user.setFirstName("Fred");
+        user.setLastName("Meyer");
+        user.setEmail("fred@fredmeyer.com");
+        user.setPassword("xxXXxx");
+        user.setPhone("408-867-5309");
+        user.setUserStatus(123);
+
+        return user;
     }
-    
 }
