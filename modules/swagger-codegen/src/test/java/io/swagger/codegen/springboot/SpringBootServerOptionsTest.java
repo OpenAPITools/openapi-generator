@@ -58,6 +58,10 @@ public class SpringBootServerOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setSingleContentTypes(Boolean.valueOf(SpringBootServerOptionsProvider.SINGLE_CONTENT_TYPES));
             times = 1;
+            clientCodegen.setJava8(Boolean.valueOf(SpringBootServerOptionsProvider.JAVA_8));
+            times = 1;
+            clientCodegen.setAsync(Boolean.valueOf(SpringBootServerOptionsProvider.ASYNC));
+            times = 1;
 
         }};
     }
