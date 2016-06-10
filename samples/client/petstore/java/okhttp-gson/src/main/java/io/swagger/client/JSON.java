@@ -35,11 +35,19 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.util.Date;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 public class JSON {
     private ApiClient apiClient;
@@ -54,6 +62,8 @@ public class JSON {
         this.apiClient = apiClient;
         gson = new GsonBuilder()
             .registerTypeAdapter(Date.class, new DateAdapter(apiClient))
+            .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
     }
 
@@ -166,3 +176,62 @@ class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
         }
     }
 }
+
+/**
+ * Gson TypeAdapter for Joda DateTime type
+ */
+class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
+
+    private final DateTimeFormatter formatter = ISODateTimeFormat.dateTime();
+
+    @Override
+    public void write(JsonWriter out, DateTime date) throws IOException {
+        if (date == null) {
+            out.nullValue();
+        } else {
+            out.value(formatter.print(date));
+        }
+    }
+
+    @Override
+    public DateTime read(JsonReader in) throws IOException {
+        switch (in.peek()) {
+            case NULL:
+                in.nextNull();
+                return null;
+            default:
+                String date = in.nextString();
+                return formatter.parseDateTime(date);
+        }
+    }
+}
+
+/**
+ * Gson TypeAdapter for Joda LocalDate type
+ */
+class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+
+    private final DateTimeFormatter formatter = ISODateTimeFormat.date();
+
+    @Override
+    public void write(JsonWriter out, LocalDate date) throws IOException {
+        if (date == null) {
+            out.nullValue();
+        } else {
+            out.value(formatter.print(date));
+        }
+    }
+
+    @Override
+    public LocalDate read(JsonReader in) throws IOException {
+        switch (in.peek()) {
+            case NULL:
+                in.nextNull();
+                return null;
+            default:
+                String date = in.nextString();
+                return formatter.parseLocalDate(date);
+        }
+    }
+}
+            
