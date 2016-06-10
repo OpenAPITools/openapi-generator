@@ -99,6 +99,7 @@ ext {
     retrofit_version = "1.9.0"
     swagger_annotations_version = "1.5.8"
     junit_version = "4.12"
+    jodatime_version = "2.9.3"
 }
 
 dependencies {
@@ -106,5 +107,6 @@ dependencies {
     compile "com.squareup.retrofit:retrofit:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
+    compile "joda-time:joda-time:$jodatime_version"
     testCompile "junit:junit:$junit_version"
 }
