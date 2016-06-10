@@ -26,6 +26,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen {
     public AbstractJavaJAXRSServerCodegen()
     {
         super();
+        dateLibrary = "legacy";
         apiTestTemplateFiles.clear(); // TODO: add test template
     }
 
