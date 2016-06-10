@@ -34,6 +34,7 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         apiTestTemplateFiles.clear(); // TODO: add test template
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
+        dateLibrary = "legacy";
 
         additionalProperties.put("title", title);
 
