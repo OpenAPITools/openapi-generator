@@ -386,6 +386,8 @@ namespace IO.Swagger.Api
     /// </summary>
     public partial class UserApi : IUserApi
     {
+        private IO.Swagger.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
@@ -393,6 +395,8 @@ namespace IO.Swagger.Api
         public UserApi(String basePath)
         {
             this.Configuration = new Configuration(new ApiClient(basePath));
+
+            ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -413,6 +417,8 @@ namespace IO.Swagger.Api
                 this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
+
+            ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -445,6 +451,22 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
+
+        /// <summary>
+        /// Provides a factory method hook for the creation of exceptions.
+        /// </summary>
+        public IO.Swagger.Client.ExceptionFactory ExceptionFactory
+        {
+            get
+            {
+                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
+                {
+                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+                }
+                return _exceptionFactory;
+            }
+            set { _exceptionFactory = value; }
+        }
 
         /// <summary>
         /// Gets the default header.
@@ -533,10 +555,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("CreateUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -610,10 +633,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("CreateUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -686,10 +710,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("CreateUsersWithArrayInput", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -763,10 +788,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithArrayInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("CreateUsersWithArrayInput", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -839,10 +865,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("CreateUsersWithListInput", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -916,10 +943,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling CreateUsersWithListInput: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("CreateUsersWithListInput", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -985,10 +1013,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeleteUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1055,10 +1084,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeleteUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1125,10 +1155,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetUserByName", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<User>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1196,10 +1227,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetUserByName: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetUserByName", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<User>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1272,10 +1304,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("LoginUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1349,10 +1382,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling LoginUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("LoginUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1412,10 +1446,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("LogoutUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1476,10 +1511,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling LogoutUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("LogoutUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1558,10 +1594,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdateUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1641,10 +1678,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UpdateUser: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdateUser", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,

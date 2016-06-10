@@ -402,6 +402,8 @@ namespace IO.Swagger.Api
     /// </summary>
     public partial class PetApi : IPetApi
     {
+        private IO.Swagger.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
@@ -409,6 +411,8 @@ namespace IO.Swagger.Api
         public PetApi(String basePath)
         {
             this.Configuration = new Configuration(new ApiClient(basePath));
+
+            ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -429,6 +433,8 @@ namespace IO.Swagger.Api
                 this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
+
+            ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -461,6 +467,22 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
+
+        /// <summary>
+        /// Provides a factory method hook for the creation of exceptions.
+        /// </summary>
+        public IO.Swagger.Client.ExceptionFactory ExceptionFactory
+        {
+            get
+            {
+                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
+                {
+                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+                }
+                return _exceptionFactory;
+            }
+            set { _exceptionFactory = value; }
+        }
 
         /// <summary>
         /// Gets the default header.
@@ -557,10 +579,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling AddPet: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling AddPet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("AddPet", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -642,10 +665,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling AddPet: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling AddPet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("AddPet", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -720,10 +744,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling DeletePet: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling DeletePet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeletePet", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -799,10 +824,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling DeletePet: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling DeletePet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeletePet", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -875,10 +901,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByStatus: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByStatus: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FindPetsByStatus", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<List<Pet>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -952,10 +979,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByStatus: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByStatus: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FindPetsByStatus", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<List<Pet>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1028,10 +1056,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByTags: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByTags: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FindPetsByTags", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<List<Pet>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1105,10 +1134,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByTags: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling FindPetsByTags: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FindPetsByTags", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<List<Pet>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1181,10 +1211,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetPetById: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetPetById: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetPetById", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Pet>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1257,10 +1288,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetPetById: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetPetById: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetPetById", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Pet>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1341,10 +1373,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePet: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdatePet", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1426,10 +1459,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePet: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePet: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdatePet", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1508,10 +1542,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePetWithForm: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePetWithForm: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdatePetWithForm", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1591,10 +1626,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePetWithForm: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UpdatePetWithForm: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UpdatePetWithForm", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -1673,10 +1709,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UploadFile: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UploadFile: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UploadFile", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<ApiResponse>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -1756,10 +1793,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling UploadFile: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling UploadFile: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("UploadFile", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<ApiResponse>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),

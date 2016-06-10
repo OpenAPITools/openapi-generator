@@ -45,5 +45,10 @@ namespace IO.Swagger.Client
         /// </summary>
         /// <value>The base path</value>
         String GetBasePath();
+        
+        /// <summary>
+        /// Provides a factory method hook for the creation of exceptions.
+        /// </summary>
+        ExceptionFactory ExceptionFactory { get; set; }
     }
 }
