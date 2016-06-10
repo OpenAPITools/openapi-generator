@@ -1,0 +1,7 @@
+using System;
+using RestSharp;
+
+namespace {{packageName}}.Client
+{
+    public delegate Exception ExceptionFactory(string methodName, IRestResponse response);
+}
