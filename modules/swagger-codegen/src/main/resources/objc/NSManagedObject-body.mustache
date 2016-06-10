@@ -8,11 +8,13 @@
 * Do not edit the class manually.
 */
 @implementation {{classname}}ManagedObject
+{{#isArrayModel}}
 
-{{#vars}}
-@dynamic {{name}};
-{{/vars}}
+@dynamic entries;
 
+{{/isArrayModel}}{{^isArrayModel}}{{#vars}}
+@dynamic {{name}};{{/vars}}
+{{/isArrayModel}}
 {{/model}}
 @end
 {{/models}}

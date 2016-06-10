@@ -13,7 +13,7 @@
 -(instancetype)init {
     self = [super init];
     if (self != nil) {
-   }
+    }
     return self;
 }
 
@@ -22,9 +22,9 @@
     return managedObject;
 }
 
--(SWGOrderManagedObject*)SWGOrderManagedObjectFromSWGOrder:(SWGOrder*)Order context:(NSManagedObjectContext*)context {
+-(SWGOrderManagedObject*)SWGOrderManagedObjectFromSWGOrder:(SWGOrder*)object context:(NSManagedObjectContext*)context {
     SWGOrderManagedObject* newSWGOrder = [self createNewSWGOrderManagedObjectInContext:context];
-    [self updateSWGOrderManagedObject:newSWGOrder withSWGOrder:Order];
+    [self updateSWGOrderManagedObject:newSWGOrder withSWGOrder:object];
     return newSWGOrder;
 }
 
@@ -38,6 +38,7 @@
     managedObject.shipDate = [object.shipDate copy];
     managedObject.status = [object.status copy];
     managedObject.complete = [object.complete copy];
+
 }
 
 -(SWGOrder*)SWGOrderFromSWGOrderManagedObject:(SWGOrderManagedObject*)obj {
