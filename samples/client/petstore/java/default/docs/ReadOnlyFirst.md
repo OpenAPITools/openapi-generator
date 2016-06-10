@@ -1,11 +1,11 @@
 
-# Animal
+# ReadOnlyFirst
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**className** | **String** |  | 
-**color** | **String** |  |  [optional]
+**bar** | **String** |  |  [optional]
+**baz** | **String** |  |  [optional]
 
 
 
