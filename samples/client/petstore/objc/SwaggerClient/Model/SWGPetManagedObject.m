@@ -13,5 +13,4 @@
 @dynamic photoUrls;
 @dynamic tags;
 @dynamic status;
-
 @end

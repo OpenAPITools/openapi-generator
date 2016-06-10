@@ -35,12 +35,12 @@
 
 -(SWGUserManagedObject*)createNewSWGUserManagedObjectInContext:(NSManagedObjectContext*)context;
 
--(SWGUserManagedObject*)SWGUserManagedObjectFromSWGUser:(SWGUser*)User context:(NSManagedObjectContext*)context;
+-(SWGUserManagedObject*)SWGUserManagedObjectFromSWGUser:(SWGUser*)object context:(NSManagedObjectContext*)context;
 
--(void)updateSWGUserManagedObject:(SWGUserManagedObject*)User withSWGUser:(SWGUser*)User2;
+-(void)updateSWGUserManagedObject:(SWGUserManagedObject*)object withSWGUser:(SWGUser*)object2;
 
 -(SWGUser*)SWGUserFromSWGUserManagedObject:(SWGUserManagedObject*)obj;
 
--(void)updateSWGUser:(SWGUser*)User withSWGUserManagedObject:(SWGUserManagedObject*)User2;
+-(void)updateSWGUser:(SWGUser*)object withSWGUserManagedObject:(SWGUserManagedObject*)object2;
 
 @end

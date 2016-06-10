@@ -267,6 +267,43 @@ public class ObjcModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
     }
 
+    @Test(description = "test udid")
+    public void udidAndPasswordDataModelTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final Model definition = model.getDefinitions().get("format_test");
+
+        Property property =  definition.getProperties().get("uuid");
+        CodegenProperty prope = codegen.fromProperty("uuid", property);
+        Assert.assertEquals(prope.baseType, "NSString");
+
+        prope = codegen.fromProperty("password", property);
+        Assert.assertEquals(prope.baseType, "NSString");
+    }
+
+    @Test(description = "test mixedProperties")
+    public void mixedPropertiesDataModelTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final Model definition = model.getDefinitions().get("MixedPropertiesAndAdditionalPropertiesClass");
+
+        Property property =  definition.getProperties().get("map");
+        CodegenProperty prope = codegen.fromProperty("map", property);
+        Assert.assertEquals(prope.baseType, "NSDictionary");
+    }
+
+    @Test(description = "test isArrayModel")
+    public void isArrayModelModelTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final Model definition = model.getDefinitions().get("AnimalFarm");
+        final CodegenModel codegenModel = codegen.fromModel("AnimalFarm",definition);
+
+        Assert.assertEquals(codegenModel.isArrayModel,Boolean.TRUE);
+        Assert.assertEquals(codegenModel.arrayModelType,"SWGAnimal");
+    }
+
+
     @Test(description = "test binary data")
     public void binaryDataModelTest() {
         final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/binaryDataTest.json");
