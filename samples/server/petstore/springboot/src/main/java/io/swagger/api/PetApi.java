@@ -23,7 +23,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.*;
 
 @Api(value = "pet", description = "the pet API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:50.468+02:00")
+
 public interface PetApi {
 
   @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {

@@ -22,7 +22,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.*;
 
 @Api(value = "user", description = "the user API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:50.468+02:00")
+
 public interface UserApi {
 
   @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
