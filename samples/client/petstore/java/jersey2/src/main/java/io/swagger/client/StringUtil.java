@@ -1,6 +1,6 @@
 package io.swagger.client;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-03T00:41:43.242+08:00")
+
 public class StringUtil {
   /**
    * Check if the given array contains the given value (with case-insensitive comparison).
