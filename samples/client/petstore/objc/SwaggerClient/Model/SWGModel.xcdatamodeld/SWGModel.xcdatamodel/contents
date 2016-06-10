@@ -17,7 +17,6 @@
     </entity>
     <entity name="SWGPetManagedObject" representedClassName="SWGPetManagedObject" syncable="YES">
        <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
-    <uniquenessConstraints><uniquenessConstraint><constraint value="_id"/></uniquenessConstraint></uniquenessConstraints>
        <relationship name="category" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SWGCategoryManagedObject" syncable="YES"/>
        <attribute name="name"  attributeType="String" syncable="YES"/>
        <attribute name="photoUrls"  attributeType="Transformable" syncable="YES"/>
