@@ -23,6 +23,6 @@ cp packages/NUnit.2.6.4/lib/nunit.framework.dll src/{{{packageName}}}.Test/bin/D
 echo "[INFO] Install NUnit runners via NuGet"
 mono nuget.exe install NUnit.Runners -Version 2.6.4 -OutputDirectory packages 
 
-echo "[INFO] build the solution and run the unit test"
+echo "[INFO] Build the solution and run the unit test"
 xbuild {{{packageName}}}.sln && \
     mono ./packages/NUnit.Runners.2.6.4/tools/nunit-console.exe src/{{{packageName}}}.Test/bin/debug/{{{packageName}}}.Test.dll
