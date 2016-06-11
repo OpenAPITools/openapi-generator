@@ -523,6 +523,18 @@
             </modules>
         </profile>
         <profile>
+            <id>python-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/python</module>
+            </modules>
+        </profile>
+        <profile>
             <id>ruby-client</id>
             <activation>
                 <property>
@@ -557,6 +569,7 @@
             <modules>
                 <!-- run ruby test first which has a random delay script to
                      avoid issues with running 2 CI jobs in parallel.       -->
+                <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
