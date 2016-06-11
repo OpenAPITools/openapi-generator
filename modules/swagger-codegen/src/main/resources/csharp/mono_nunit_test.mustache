@@ -10,19 +10,9 @@ wget -nc https://nuget.org/nuget.exe
 mozroots --import --sync
 mono nuget.exe install src/{{{packageName}}}.Test/packages.config -o packages
 
-echo "[INFO] Copy DLLs to the 'bin' folder"
-# for project {{{packageName}}}
-cp packages/Newtonsoft.Json.8.0.3/lib/{{targetFrameworkNuget}}/Newtonsoft.Json.dll src/{{{packageName}}}/bin/Debug/Newtonsoft.Json.dll
-cp packages/RestSharp.105.1.0/lib/{{targetFrameworkNuget}}/RestSharp.dll src/{{{packageName}}}/bin/Debug/RestSharp.dll
-cp packages/NUnit.2.6.4/lib/nunit.framework.dll src/{{{packageName}}}/bin/Debug/nunit.framework.dll
-# for project {{{packageName}}}.Test
-cp packages/Newtonsoft.Json.8.0.3/lib/{{targetFrameworkNuget}}/Newtonsoft.Json.dll src/{{{packageName}}}.Test/bin/Debug/Newtonsoft.Json.dll
-cp packages/RestSharp.105.1.0/lib/{{targetFrameworkNuget}}/RestSharp.dll src/{{{packageName}}}.Test/bin/Debug/RestSharp.dll
-cp packages/NUnit.2.6.4/lib/nunit.framework.dll src/{{{packageName}}}.Test/bin/Debug/nunit.framework.dll
-
 echo "[INFO] Install NUnit runners via NuGet"
-mono nuget.exe install NUnit.Runners -Version 2.6.4 -OutputDirectory packages 
+mono nuget.exe install NUnit.Runners -Version 3.2.1 -OutputDirectory packages 
 
 echo "[INFO] Build the solution and run the unit test"
 xbuild {{{packageName}}}.sln && \
-    mono ./packages/NUnit.Runners.2.6.4/tools/nunit-console.exe src/{{{packageName}}}.Test/bin/debug/{{{packageName}}}.Test.dll
+    mono ./packages/NUnit.ConsoleRunner.3.2.1/tools/nunit3-console.exe src/{{{packageName}}}.Test/bin/debug/{{{packageName}}}.Test.dll

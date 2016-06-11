@@ -11,7 +11,7 @@ mono nuget.exe install src/IO.Swagger/packages.config -o packages;
 mkdir -p bin;
 
 echo "[INFO] Copy DLLs to the 'bin' folder"
-cp packages/Newtonsoft.Json.8.0.2/lib/net45/Newtonsoft.Json.dll bin/Newtonsoft.Json.dll;
+cp packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll bin/Newtonsoft.Json.dll;
 cp packages/RestSharp.105.1.0/lib/net45/RestSharp.dll bin/RestSharp.dll;
 
 echo "[INFO] Run 'mcs' to build bin/IO.Swagger.dll"

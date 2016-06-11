@@ -25,7 +25,8 @@ namespace {{packageName}}.Test
     [TestFixture]
     public class {{classname}}Tests
     {
-        private {{classname}} instance;
+        // TODO uncomment below to declare an instance variable for {{classname}}
+        //private {{classname}} instance;
 
         /// <summary>
         /// Setup before each test
@@ -52,8 +53,8 @@ namespace {{packageName}}.Test
         [Test]
         public void {{classname}}InstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOf" {{classname}}
-            //Assert.IsInstanceOf<{{classname}}> (instance, "variable 'instance' is a {{classname}}");
+            // TODO uncomment below to test "IsInstanceOfType" {{classname}}
+            //Assert.IsInstanceOfType<{{classname}}> (instance, "variable 'instance' is a {{classname}}");
         }
 
         {{#vars}}
