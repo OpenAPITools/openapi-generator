@@ -11,7 +11,7 @@ before_install:
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
   - npm install -g typescript
-  - pip install virtualenv
+  - sudo pip install virtualenv
 
 install:
 
