@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void ReadOnlyFirstInstanceTest()
         {
-            Assert.IsInstanceOf<ReadOnlyFirst> (instance, "instance is a ReadOnlyFirst");
+			Assert.IsInstanceOfType(typeof(ReadOnlyFirst), instance, "instance is a ReadOnlyFirst");
         }
 
         /// <summary>

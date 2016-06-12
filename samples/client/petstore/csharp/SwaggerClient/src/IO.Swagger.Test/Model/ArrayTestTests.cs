@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void ArrayTestInstanceTest()
         {
-            Assert.IsInstanceOf<ArrayTest> (instance, "instance is a ArrayTest");
+			Assert.IsInstanceOfType(typeof(ArrayTest), instance, "instance is a ArrayTest");
         }
 
 
