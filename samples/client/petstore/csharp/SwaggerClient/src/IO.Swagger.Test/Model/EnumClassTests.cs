@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void EnumClassInstanceTest()
         {
-            Assert.IsInstanceOf<EnumClass> (instance, "instance is a EnumClass");
+			Assert.IsInstanceOfType(typeof(EnumClass), instance, "instance is a EnumClass");
         }
 
 		/// <summary>
