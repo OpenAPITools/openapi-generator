@@ -44,6 +44,8 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+venv/
+.python-version
 
 # Translations
 *.mo

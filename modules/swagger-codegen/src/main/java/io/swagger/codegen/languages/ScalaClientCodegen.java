@@ -35,6 +35,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/scala";
     protected String authScheme = "";
+    protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean authPreemptive;
     protected boolean asyncHttpClient = !authScheme.isEmpty();
 
@@ -74,6 +75,17 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.scala"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        // gradle settings
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
+        // gradleWrapper files
+        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew") );
+        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") );
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") );
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.jar",
+                gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
 
         importMapping.remove("List");
         importMapping.remove("Set");

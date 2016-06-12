@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-04T22:20:02.809+08:00")
+
 public interface PetApi extends ApiClient.Api {
 
 

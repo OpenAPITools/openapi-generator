@@ -210,6 +210,8 @@ namespace IO.Swagger.Api
     /// </summary>
     public partial class StoreApi : IStoreApi
     {
+        private IO.Swagger.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
@@ -217,6 +219,8 @@ namespace IO.Swagger.Api
         public StoreApi(String basePath)
         {
             this.Configuration = new Configuration(new ApiClient(basePath));
+
+            ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -237,6 +241,8 @@ namespace IO.Swagger.Api
                 this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
+
+            ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -269,6 +275,22 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
+
+        /// <summary>
+        /// Provides a factory method hook for the creation of exceptions.
+        /// </summary>
+        public IO.Swagger.Client.ExceptionFactory ExceptionFactory
+        {
+            get
+            {
+                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
+                {
+                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+                }
+                return _exceptionFactory;
+            }
+            set { _exceptionFactory = value; }
+        }
 
         /// <summary>
         /// Gets the default header.
@@ -350,10 +372,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeleteOrder", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -420,10 +443,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling DeleteOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeleteOrder", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             
             return new ApiResponse<Object>(localVarStatusCode,
@@ -489,10 +513,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetInventory", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Dictionary<string, int?>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -558,10 +583,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetInventory: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetInventory", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Dictionary<string, int?>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -628,10 +654,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetOrderById", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Order>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -699,10 +726,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling GetOrderById: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetOrderById", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Order>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -776,10 +804,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("PlaceOrder", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Order>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -854,10 +883,11 @@ namespace IO.Swagger.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling PlaceOrder: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("PlaceOrder", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             return new ApiResponse<Order>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),

@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-04T22:20:02.809+08:00")
+
 public class ModelReturn   {
   
   private Integer _return = null;

@@ -30,7 +30,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
 
-    protected String dateLibrary = "default";
+    protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
@@ -128,6 +128,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, String> dateOptions = new HashMap<String, String>();
         dateOptions.put("java8", "Java 8 native");
         dateOptions.put("joda", "Joda");
+        dateOptions.put("legacy", "Legacy java.util.Date");
         dateLibrary.setEnum(dateOptions);
 
         cliOptions.add(dateLibrary);
@@ -261,7 +262,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        writeOptional(outputFolder, new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");

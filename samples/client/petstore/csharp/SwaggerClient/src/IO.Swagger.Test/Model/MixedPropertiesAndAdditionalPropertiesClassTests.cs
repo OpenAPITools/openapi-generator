@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void MixedPropertiesAndAdditionalPropertiesClassInstanceTest()
         {
-            Assert.IsInstanceOf<MixedPropertiesAndAdditionalPropertiesClass> (instance, "instance is a MixedPropertiesAndAdditionalPropertiesClass");
+			Assert.IsInstanceOfType(typeof(MixedPropertiesAndAdditionalPropertiesClass), instance, "instance is a MixedPropertiesAndAdditionalPropertiesClass");
         }
 
         /// <summary>
