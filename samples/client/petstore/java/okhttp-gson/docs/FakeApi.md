@@ -4,16 +4,16 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
 > testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password)
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
 ```java
@@ -32,8 +32,8 @@ Integer int32 = 56; // Integer | None
 Long int64 = 789L; // Long | None
 Float _float = 3.4F; // Float | None
 byte[] binary = B; // byte[] | None
-Date date = new Date(); // Date | None
-Date dateTime = new Date(); // Date | None
+LocalDate date = new LocalDate(); // LocalDate | None
+DateTime dateTime = new DateTime(); // DateTime | None
 String password = "password_example"; // String | None
 try {
     apiInstance.testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
@@ -56,8 +56,8 @@ Name | Type | Description  | Notes
  **int64** | **Long**| None | [optional]
  **_float** | **Float**| None | [optional]
  **binary** | **byte[]**| None | [optional]
- **date** | **Date**| None | [optional]
- **dateTime** | **Date**| None | [optional]
+ **date** | **LocalDate**| None | [optional]
+ **dateTime** | **DateTime**| None | [optional]
  **password** | **String**| None | [optional]
 
 ### Return type
@@ -70,6 +70,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
 

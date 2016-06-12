@@ -408,6 +408,44 @@ java -Dapis -DmodelTests=false {opts}
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
+### Ignore file format
+
+Swagger codegen supports a `.swagger-codegen-ignore` file, similar to `.gitignore` or `.dockerignore` you're probably already familiar with.
+
+The ignore file allows for better control over overwriting existing files than the `--skip-overwrite` flag. With the ignore file, you can specify individual files or directories can be ignored. This can be useful, for example if you only want a subset of the generated code.
+
+Examples:
+
+```
+# Swagger Codegen Ignore
+# Lines beginning with a # are comments
+
+# This should match build.sh located anywhere.
+build.sh
+
+# Matches build.sh in the root
+/build.sh
+
+# Exclude all recursively
+docs/**
+
+# Explicitly allow files excluded by other rules
+!docs/UserApi.md
+
+# Recursively exclude directories named Api
+# You can't negate files below this directory.
+src/**/Api/
+
+# When this file is nested under /Api (excluded above),
+# this rule is ignored because parent directory is excluded by previous rule.
+!src/**/PetApiTests.cs
+
+# Exclude a single, nested file explicitly
+src/IO.Swagger.Test/Model/AnimalFarmTests.cs
+```
+
+The `.swagger-codegen-ignore` file must exist in the root of the output directory.
+
 ### Customizing the generator
 
 There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:
@@ -809,21 +847,25 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Activehours](https://www.activehours.com/)
 - [Acunetix](https://www.acunetix.com/)
 - [Atlassian](https://www.atlassian.com/)
+- [Avenida Compras S.A.](https://www.avenida.com.ar)
 - [beemo](http://www.beemo.eu)
 - [bitly](https://bitly.com)
 - [Cachet Financial](http://www.cachetfinancial.com/)
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Cupix](http://www.cupix.com)
+- [DBBest Technologies](https://www.dbbest.com) 
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
 - [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
+- [GraphHopper](https://graphhopper.com/)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
 - [LiveAgent](https://www.ladesk.com/)
+- [Kabuku](http://www.kabuku.co.jp/en)
 - [Kuary](https://kuary.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
@@ -860,7 +902,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Dart      |  |  
 | Groovy     |  |  
 | Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
-| Java      | @cbornet (2016/05/01) @xhh (2016/05/01) |
+| Java      | @cbornet (2016/05/01) @xhh (2016/05/01) @epaul (2016/06/04) |
 | NodeJS/Javascript | @xhh (2016/05/01) | 
 | ObjC      | @mateuszmackowiak (2016/05/09) |
 | Perl      | @wing328 (2016/05/01) |

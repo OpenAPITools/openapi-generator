@@ -42,10 +42,31 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>
-        public ArrayTest()
+        /// <param name="ArrayOfString">ArrayOfString.</param>
+        /// <param name="ArrayArrayOfInteger">ArrayArrayOfInteger.</param>
+        /// <param name="ArrayArrayOfModel">ArrayArrayOfModel.</param>
+        public ArrayTest(List<string> ArrayOfString = null, List<List<long?>> ArrayArrayOfInteger = null, List<List<ReadOnlyFirst>> ArrayArrayOfModel = null)
         {
+            this.ArrayOfString = ArrayOfString;
+            this.ArrayArrayOfInteger = ArrayArrayOfInteger;
+            this.ArrayArrayOfModel = ArrayArrayOfModel;
         }
         
+        /// <summary>
+        /// Gets or Sets ArrayOfString
+        /// </summary>
+        [DataMember(Name="array_of_string", EmitDefaultValue=false)]
+        public List<string> ArrayOfString { get; set; }
+        /// <summary>
+        /// Gets or Sets ArrayArrayOfInteger
+        /// </summary>
+        [DataMember(Name="array_array_of_integer", EmitDefaultValue=false)]
+        public List<List<long?>> ArrayArrayOfInteger { get; set; }
+        /// <summary>
+        /// Gets or Sets ArrayArrayOfModel
+        /// </summary>
+        [DataMember(Name="array_array_of_model", EmitDefaultValue=false)]
+        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -54,6 +75,9 @@ namespace IO.Swagger.Model
         {
             var sb = new StringBuilder();
             sb.Append("class ArrayTest {\n");
+            sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
+            sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
+            sb.Append("  ArrayArrayOfModel: ").Append(ArrayArrayOfModel).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,7 +113,22 @@ namespace IO.Swagger.Model
             if (other == null)
                 return false;
 
-            return false;
+            return 
+                (
+                    this.ArrayOfString == other.ArrayOfString ||
+                    this.ArrayOfString != null &&
+                    this.ArrayOfString.SequenceEqual(other.ArrayOfString)
+                ) && 
+                (
+                    this.ArrayArrayOfInteger == other.ArrayArrayOfInteger ||
+                    this.ArrayArrayOfInteger != null &&
+                    this.ArrayArrayOfInteger.SequenceEqual(other.ArrayArrayOfInteger)
+                ) && 
+                (
+                    this.ArrayArrayOfModel == other.ArrayArrayOfModel ||
+                    this.ArrayArrayOfModel != null &&
+                    this.ArrayArrayOfModel.SequenceEqual(other.ArrayArrayOfModel)
+                );
         }
 
         /// <summary>
@@ -103,6 +142,12 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
+                if (this.ArrayOfString != null)
+                    hash = hash * 59 + this.ArrayOfString.GetHashCode();
+                if (this.ArrayArrayOfInteger != null)
+                    hash = hash * 59 + this.ArrayArrayOfInteger.GetHashCode();
+                if (this.ArrayArrayOfModel != null)
+                    hash = hash * 59 + this.ArrayArrayOfModel.GetHashCode();
                 return hash;
             }
         }

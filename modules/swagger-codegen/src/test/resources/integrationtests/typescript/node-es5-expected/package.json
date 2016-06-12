@@ -7,7 +7,7 @@
         "build": "typings install && tsc"
     },
     "author": "Swagger Codegen Contributors",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "dependencies": {
         "bluebird": "^3.3.5",
         "request": "^2.72.0"

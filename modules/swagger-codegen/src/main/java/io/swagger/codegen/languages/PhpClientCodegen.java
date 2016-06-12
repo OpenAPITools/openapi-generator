@@ -168,6 +168,15 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String escapeText(String input) {
+        if (input != null) {
+            // Trim the string to avoid leading and trailing spaces.
+            return super.escapeText(input).trim();
+        }
+        return input;
+    }
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -264,7 +273,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
         supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
-
+        // apache v2 license
+        supportingFiles.add(new SupportingFile("LICENSE", getPackagePath(), "LICENSE"));
     }
 
     @Override

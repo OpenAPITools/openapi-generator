@@ -1,0 +1,31 @@
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+{{#imports}}#import "{{import}}ManagedObjectBuilder.h"
+{{/imports}}
+{{#models}}
+{{#model}}
+
+#import "{{classPrefix}}{{name}}ManagedObject.h"
+#import "{{classPrefix}}{{name}}.h"
+
+{{>licenceInfo}}
+
+@interface {{classname}}ManagedObjectBuilder : NSObject
+
+{{#vars}}{{#complexType}}@property (nonatomic, strong) {{complexType}}ManagedObjectBuilder * {{name}}Builder;
+{{/complexType}}{{/vars}}
+
+-({{classname}}ManagedObject*)createNew{{classname}}ManagedObjectInContext:(NSManagedObjectContext*)context;
+
+-({{classname}}ManagedObject*){{classname}}ManagedObjectFrom{{classname}}:({{classname}}*){{name}} context:(NSManagedObjectContext*)context;
+
+-(void)update{{classname}}ManagedObject:({{classname}}ManagedObject*){{name}} with{{classname}}:({{classname}}*){{name}}2;
+
+-({{classname}}*){{classname}}From{{classname}}ManagedObject:({{classname}}ManagedObject*)obj;
+
+-(void)update{{classname}}:({{classname}}*){{name}} with{{classname}}ManagedObject:({{classname}}ManagedObject*){{name}}2;
+
+@end
+{{/model}}
+{{/models}}

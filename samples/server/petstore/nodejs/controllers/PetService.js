@@ -26,18 +26,18 @@ exports.findPetsByStatus = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = [ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 } ];
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -56,18 +56,18 @@ exports.findPetsByTags = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = [ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 } ];
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -86,18 +86,18 @@ exports.getPetById = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -138,9 +138,9 @@ exports.uploadFile = function(args, res, next) {
   **/
     var examples = {};
   examples['application/json'] = {
+  "message" : "aeiou",
   "code" : 123,
-  "type" : "aeiou",
-  "message" : "aeiou"
+  "type" : "aeiou"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');

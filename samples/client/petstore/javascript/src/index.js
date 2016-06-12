@@ -1,16 +1,16 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Animal', 'model/AnimalFarm', 'model/ApiResponse', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
+    define(['ApiClient', 'model/AdditionalPropertiesClass', 'model/Animal', 'model/AnimalFarm', 'model/ApiResponse', 'model/ArrayTest', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/MixedPropertiesAndAdditionalPropertiesClass', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/ReadOnlyFirst', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/Animal'), require('./model/AnimalFarm'), require('./model/ApiResponse'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/AdditionalPropertiesClass'), require('./model/Animal'), require('./model/AnimalFarm'), require('./model/ApiResponse'), require('./model/ArrayTest'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/MixedPropertiesAndAdditionalPropertiesClass'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/ReadOnlyFirst'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, Animal, AnimalFarm, ApiResponse, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, Model200Response, ModelReturn, Name, Order, Pet, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, AdditionalPropertiesClass, Animal, AnimalFarm, ApiResponse, ArrayTest, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, MixedPropertiesAndAdditionalPropertiesClass, Model200Response, ModelReturn, Name, Order, Pet, ReadOnlyFirst, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
-   * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose..<br>
+   * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\ .<br>
    * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -47,6 +47,11 @@
      */
     ApiClient: ApiClient,
     /**
+     * The AdditionalPropertiesClass model constructor.
+     * @property {module:model/AdditionalPropertiesClass}
+     */
+    AdditionalPropertiesClass: AdditionalPropertiesClass,
+    /**
      * The Animal model constructor.
      * @property {module:model/Animal}
      */
@@ -61,6 +66,11 @@
      * @property {module:model/ApiResponse}
      */
     ApiResponse: ApiResponse,
+    /**
+     * The ArrayTest model constructor.
+     * @property {module:model/ArrayTest}
+     */
+    ArrayTest: ArrayTest,
     /**
      * The Cat model constructor.
      * @property {module:model/Cat}
@@ -92,6 +102,11 @@
      */
     FormatTest: FormatTest,
     /**
+     * The MixedPropertiesAndAdditionalPropertiesClass model constructor.
+     * @property {module:model/MixedPropertiesAndAdditionalPropertiesClass}
+     */
+    MixedPropertiesAndAdditionalPropertiesClass: MixedPropertiesAndAdditionalPropertiesClass,
+    /**
      * The Model200Response model constructor.
      * @property {module:model/Model200Response}
      */
@@ -116,6 +131,11 @@
      * @property {module:model/Pet}
      */
     Pet: Pet,
+    /**
+     * The ReadOnlyFirst model constructor.
+     * @property {module:model/ReadOnlyFirst}
+     */
+    ReadOnlyFirst: ReadOnlyFirst,
     /**
      * The SpecialModelName model constructor.
      * @property {module:model/SpecialModelName}

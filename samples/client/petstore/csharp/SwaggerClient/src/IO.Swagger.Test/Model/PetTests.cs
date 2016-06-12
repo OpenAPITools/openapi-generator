@@ -49,7 +49,7 @@ namespace IO.Swagger.Test
         [Test]
         public void PetInstanceTest()
         {
-            Assert.IsInstanceOf<Pet> (instance, "instance is a Pet");
+			Assert.IsInstanceOfType(typeof(Pet), instance, "instance is a Pet");
         }
 
         /// <summary>

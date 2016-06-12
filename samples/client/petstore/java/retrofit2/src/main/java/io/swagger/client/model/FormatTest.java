@@ -4,7 +4,8 @@ import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -42,10 +43,10 @@ public class FormatTest   {
   private byte[] binary = null;
 
   @SerializedName("date")
-  private Date date = null;
+  private LocalDate date = null;
 
   @SerializedName("dateTime")
-  private Date dateTime = null;
+  private DateTime dateTime = null;
 
   @SerializedName("uuid")
   private String uuid = null;
@@ -156,20 +157,20 @@ public class FormatTest   {
   /**
    **/
   @ApiModelProperty(required = true, value = "")
-  public Date getDate() {
+  public LocalDate getDate() {
     return date;
   }
-  public void setDate(Date date) {
+  public void setDate(LocalDate date) {
     this.date = date;
   }
 
   /**
    **/
   @ApiModelProperty(value = "")
-  public Date getDateTime() {
+  public DateTime getDateTime() {
     return dateTime;
   }
-  public void setDateTime(Date dateTime) {
+  public void setDateTime(DateTime dateTime) {
     this.dateTime = dateTime;
   }
 

@@ -52,6 +52,7 @@ module Petstore
 
     attr_accessor :password
 
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -162,74 +163,24 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      if @integer > 100.0
-        return false
-      end
-
-      if @integer < 10.0
-        return false
-      end
-
-      if @int32 > 200.0
-        return false
-      end
-
-      if @int32 < 20.0
-        return false
-      end
-
-      if @number.nil?
-        return false
-      end
-
-      if @number > 543.2
-        return false
-      end
-
-      if @number < 32.1
-        return false
-      end
-
-      if @float > 987.6
-        return false
-      end
-
-      if @float < 54.3
-        return false
-      end
-
-      if @double > 123.4
-        return false
-      end
-
-      if @double < 67.8
-        return false
-      end
-
-      if @string !~ Regexp.new(/[a-z]/i)
-        return false
-      end
-
-      if @byte.nil?
-        return false
-      end
-
-      if @date.nil?
-        return false
-      end
-
-      if @password.nil?
-        return false
-      end
-
-      if @password.to_s.length > 64
-        return false
-      end
-
-      if @password.to_s.length < 10
-        return false
-      end
-
+      return false if @integer > 100.0
+      return false if @integer < 10.0
+      return false if @int32 > 200.0
+      return false if @int32 < 20.0
+      return false if @number.nil?
+      return false if @number > 543.2
+      return false if @number < 32.1
+      return false if @float > 987.6
+      return false if @float < 54.3
+      return false if @double > 123.4
+      return false if @double < 67.8
+      return false if @string !~ Regexp.new(/[a-z]/i)
+      return false if @byte.nil?
+      return false if @date.nil?
+      return false if @password.nil?
+      return false if @password.to_s.length > 64
+      return false if @password.to_s.length < 10
+      return true
     end
 
     # Custom attribute writer method with validation

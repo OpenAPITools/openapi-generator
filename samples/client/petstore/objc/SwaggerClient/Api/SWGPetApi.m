@@ -376,7 +376,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
-    NSArray *authSettings = @[@"api_key", @"petstore_auth"];
+    NSArray *authSettings = @[@"petstore_auth", @"api_key"];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];

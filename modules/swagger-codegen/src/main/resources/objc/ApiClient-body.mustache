@@ -50,6 +50,7 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
 - (instancetype)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
     if (self) {
+        self.timeoutInterval = 60;
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.securityPolicy = [self customSecurityPolicy];
@@ -85,6 +86,11 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
 
 - (void)setHeaderValue:(NSString*) value forKey:(NSString*) forKey {
     [self.requestSerializer setValue:value forHTTPHeaderField:forKey];
+}
+
+- (void)setRequestSerializer:(AFHTTPRequestSerializer<AFURLRequestSerialization> *)requestSerializer {
+    [super setRequestSerializer:requestSerializer];
+    requestSerializer.timeoutInterval = self.timeoutInterval;
 }
 
 #pragma mark - Cache Methods
@@ -259,6 +265,7 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
     }
     else {
+        self.requestSerializer = [AFHTTPRequestSerializer serializer];
         NSAssert(NO, @"Unsupported request type %@", requestContentType);
     }
 
@@ -274,7 +281,9 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
     queryParams = [self.sanitizer sanitizeForSerialization:queryParams];
     headerParams = [self.sanitizer sanitizeForSerialization:headerParams];
     formParams = [self.sanitizer sanitizeForSerialization:formParams];
-    body = [self.sanitizer sanitizeForSerialization:body];
+    if(![body isKindOfClass:[NSData class]]) {
+        body = [self.sanitizer sanitizeForSerialization:body];
+    }
 
     // auth setting
     [self updateHeaderParams:&headerParams queryParams:&queryParams WithAuthSettings:authSettings];

@@ -29,6 +29,7 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen {
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "io.swagger.handler";
         artifactId = "swagger-inflector-server";
+        dateLibrary = "legacy";
 
         apiPackage = System.getProperty("swagger.codegen.inflector.apipackage", "io.swagger.handler");
         modelPackage = System.getProperty("swagger.codegen.inflector.modelpackage", "io.swagger.model");

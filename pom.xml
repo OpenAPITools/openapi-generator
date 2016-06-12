@@ -411,7 +411,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/swift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
             </modules>
         </profile>
         <profile>
@@ -435,7 +435,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/jaxrs</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-server-jersey1</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs/jersey1</module>
             </modules>
         </profile>
         <profile>
@@ -511,6 +523,18 @@
             </modules>
         </profile>
         <profile>
+            <id>python-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/python</module>
+            </modules>
+        </profile>
+        <profile>
             <id>ruby-client</id>
             <activation>
                 <property>
@@ -543,13 +567,14 @@
                 </property>
             </activation>
             <modules>
-                <!--<module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-fetch/builds/default</module>
-                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
-                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>-->
                 <!-- run ruby test first which has a random delay script to
                      avoid issues with running 2 CI jobs in parallel.       -->
+                <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/typescript-fetch/tests/default</module>
+                <module>samples/client/petstore/typescript-fetch/builds/default</module>
+                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
+                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/android/volley</module>
@@ -564,7 +589,8 @@
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/server/petstore/jaxrs</module>
+                <module>samples/server/petstore/jaxrs/jersey1</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs-resteasy</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
