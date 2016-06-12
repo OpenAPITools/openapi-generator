@@ -50,7 +50,7 @@ namespace IO.Swagger.Test
         [Test]
         public void InstanceTest()
         {
-            Assert.IsInstanceOf<StoreApi> (instance, "instance is a StoreApi");
+			Assert.IsInstanceOfType(typeof(StoreApi), instance, "instance is a StoreApi");
         }
 
         
@@ -84,7 +84,7 @@ namespace IO.Swagger.Test
 
 			foreach(KeyValuePair<string, int?> entry in response)
 			{
-				Assert.IsInstanceOf (typeof(int?), entry.Value);
+				Assert.IsInstanceOfType(typeof(int?), entry.Value);
 			}
         }
         

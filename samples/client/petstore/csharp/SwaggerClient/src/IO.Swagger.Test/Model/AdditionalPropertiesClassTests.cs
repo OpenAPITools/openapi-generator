@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void AdditionalPropertiesClassInstanceTest()
         {
-            Assert.IsInstanceOf<AdditionalPropertiesClass> (instance, "instance is a AdditionalPropertiesClass");
+			Assert.IsInstanceOfType(typeof(AdditionalPropertiesClass), instance, "instance is a AdditionalPropertiesClass");
         }
 
 

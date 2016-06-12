@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void CatInstanceTest()
         {
-            Assert.IsInstanceOf<Cat> (instance, "instance is a Cat");
+			Assert.IsInstanceOfType(typeof(Cat), instance, "instance is a Cat");
         }
 
         /// <summary>
