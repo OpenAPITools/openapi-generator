@@ -96,9 +96,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
-        <configuration>
+        <configuration>{{#java8}}
+          <source>1.8</source>
+          <target>1.8</target>{{/java8}}{{^java8}}
           <source>1.7</source>
-          <target>1.7</target>
+          <target>1.7</target>{{/java8}}
         </configuration>
       </plugin>
     </plugins>
@@ -142,7 +144,12 @@
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${jackson-version}</version>
-    </dependency>
+    </dependency>{{#java8}}
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>{{/java8}}{{^java8}}
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-joda</artifactId>
@@ -152,7 +159,7 @@
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
-    </dependency>
+    </dependency>{{/java8}}
 
     <!-- Base64 encoding that works in both JVM and Android -->
     <dependency>
@@ -173,8 +180,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <swagger-annotations-version>1.5.8</swagger-annotations-version>
     <jersey-version>1.19.1</jersey-version>
-    <jackson-version>2.7.0</jackson-version>
-    <jodatime-version>2.9.3</jodatime-version>
+    <jackson-version>2.7.0</jackson-version>{{^java8}}
+    <jodatime-version>2.9.3</jodatime-version>{{/java8}}
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>
