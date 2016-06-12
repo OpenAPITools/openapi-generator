@@ -1,8 +1,9 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
+import org.joda.time.LocalDate;
 import java.math.BigDecimal;
-import java.util.Date;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,8 +41,8 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         byte[] binary = null;
-        Date date = null;
-        Date dateTime = null;
+        LocalDate date = null;
+        DateTime dateTime = null;
         String password = null;
         // api.testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
 

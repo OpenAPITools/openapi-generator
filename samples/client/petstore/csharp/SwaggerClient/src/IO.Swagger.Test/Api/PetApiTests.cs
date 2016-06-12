@@ -97,7 +97,7 @@ namespace IO.Swagger.Test
         [Test]
         public void InstanceTest()
         {
-            Assert.IsInstanceOf<PetApi> (instance, "instance is a PetApi");
+			Assert.IsInstanceOfType(typeof(PetApi), instance, "instance is a PetApi");
         }
 
         
@@ -134,7 +134,7 @@ namespace IO.Swagger.Test
 			List<Pet> listPet = petApi.FindPetsByTags (tagsList);
 			foreach (Pet pet in listPet) // Loop through List with foreach.
 			{
-				Assert.IsInstanceOf<Pet> (pet, "Response is a Pet");
+				Assert.IsInstanceOfType(typeof(Pet), pet, "Response is a Pet");
 				Assert.AreEqual ("csharp sample tag name1", pet.Tags[0]);
 			}
         }
@@ -147,7 +147,7 @@ namespace IO.Swagger.Test
         {
 			List<string> tags = new List<String>(new String[] {"pet"});
             var response = instance.FindPetsByTags(tags);
-            Assert.IsInstanceOf<List<Pet>> (response, "response is List<Pet>");
+			Assert.IsInstanceOfType(typeof(List<Pet>), response, "response is List<Pet>");
         }
         
         /// <summary>
@@ -161,19 +161,19 @@ namespace IO.Swagger.Test
 
 			PetApi petApi = new PetApi (c1);
 			Pet response = petApi.GetPetById (petId);
-			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
+			Assert.IsInstanceOfType(typeof(Pet), response, "Response is a Pet");
 
 			Assert.AreEqual ("Csharp test", response.Name);
 			Assert.AreEqual (Pet.StatusEnum.Available, response.Status);
 
-			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags, "Response.Tags is a Array");
 			Assert.AreEqual (petId, response.Tags [0].Id);
 			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
 
-			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
+			Assert.IsInstanceOfType(typeof(List<String>), response.PhotoUrls, "Response.PhotoUrls is a Array");
 			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
 
-			Assert.IsInstanceOf<Category> (response.Category, "Response.Category is a Category");
+			Assert.IsInstanceOfType(typeof(Category), response.Category, "Response.Category is a Category");
 			Assert.AreEqual (56, response.Category.Id);
 			Assert.AreEqual ("sample category name2", response.Category.Name);
         }
@@ -187,19 +187,19 @@ namespace IO.Swagger.Test
 			PetApi petApi = new PetApi ();
 			var task = petApi.GetPetByIdAsync (petId);
 			Pet response = task.Result;
-			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
+			Assert.IsInstanceOfType(typeof(Pet), response, "Response is a Pet");
 
 			Assert.AreEqual ("Csharp test", response.Name);
 			Assert.AreEqual (Pet.StatusEnum.Available, response.Status);
 
-			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags, "Response.Tags is a Array");
 			Assert.AreEqual (petId, response.Tags [0].Id);
 			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
 
-			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
+			Assert.IsInstanceOfType(typeof(List<String>), response.PhotoUrls, "Response.PhotoUrls is a Array");
 			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
 
-			Assert.IsInstanceOf<Category> (response.Category, "Response.Category is a Category");
+			Assert.IsInstanceOfType(typeof(Category), response.Category, "Response.Category is a Category");
 			Assert.AreEqual (56, response.Category.Id);
 			Assert.AreEqual ("sample category name2", response.Category.Name);
 
@@ -219,19 +219,19 @@ namespace IO.Swagger.Test
 			Assert.AreEqual (task.Result.Headers["Content-Type"], "application/json");
 
 			Pet response = task.Result.Data;
-			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
+			Assert.IsInstanceOfType(typeof(Pet), response, "Response is a Pet");
 
 			Assert.AreEqual ("Csharp test", response.Name);
 			Assert.AreEqual (Pet.StatusEnum.Available, response.Status);
 
-			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags, "Response.Tags is a Array");
 			Assert.AreEqual (petId, response.Tags [0].Id);
 			Assert.AreEqual ("csharp sample tag name1", response.Tags [0].Name);
 
-			Assert.IsInstanceOf<List<String>> (response.PhotoUrls, "Response.PhotoUrls is a Array");
+			Assert.IsInstanceOfType(typeof(List<String>), response.PhotoUrls, "Response.PhotoUrls is a Array");
 			Assert.AreEqual ("sample photoUrls", response.PhotoUrls [0]);
 
-			Assert.IsInstanceOf<Category> (response.Category, "Response.Category is a Category");
+			Assert.IsInstanceOfType(typeof(Category), response.Category, "Response.Category is a Category");
 			Assert.AreEqual (56, response.Category.Id);
 			Assert.AreEqual ("sample category name2", response.Category.Name);
 
@@ -258,9 +258,9 @@ namespace IO.Swagger.Test
 			petApi.UpdatePetWithForm (petId, "new form name", "pending");
 
 			Pet response = petApi.GetPetById (petId);
-			Assert.IsInstanceOf<Pet> (response, "Response is a Pet");
-			Assert.IsInstanceOf<Category> (response.Category, "Response.Category is a Category");
-			Assert.IsInstanceOf<List<Tag>> (response.Tags, "Response.Tags is a Array");
+			Assert.IsInstanceOfType(typeof(Pet), response, "Response is a Pet");
+			Assert.IsInstanceOfType(typeof(Category), response.Category, "Response.Category is a Category");
+			Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags, "Response.Tags is a Array");
 
 			Assert.AreEqual ("new form name", response.Name);
 			Assert.AreEqual (Pet.StatusEnum.Pending, response.Status);

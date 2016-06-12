@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 
 /**
@@ -18,7 +18,7 @@ public class Order   {
   private Long id = null;
   private Long petId = null;
   private Integer quantity = null;
-  private Date shipDate = null;
+  private DateTime shipDate = null;
 
   /**
    * Order Status
@@ -98,17 +98,17 @@ public class Order   {
 
   /**
    **/
-  public Order shipDate(Date shipDate) {
+  public Order shipDate(DateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("shipDate")
-  public Date getShipDate() {
+  public DateTime getShipDate() {
     return shipDate;
   }
-  public void setShipDate(Date shipDate) {
+  public void setShipDate(DateTime shipDate) {
     this.shipDate = shipDate;
   }
 

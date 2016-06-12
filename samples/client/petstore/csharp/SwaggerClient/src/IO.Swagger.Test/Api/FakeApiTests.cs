@@ -48,7 +48,7 @@ namespace IO.Swagger.Test
         [Test]
         public void InstanceTest()
         {
-            Assert.IsInstanceOf<FakeApi> (instance, "instance is a FakeApi");
+			Assert.IsInstanceOfType(typeof(FakeApi), instance, "instance is a FakeApi");
         }
 
         

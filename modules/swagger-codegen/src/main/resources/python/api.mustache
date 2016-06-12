@@ -73,7 +73,6 @@ class {{classname}}(object):
                 )
             params[key] = val
         del params['kwargs']
-
 {{#allParams}}
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
@@ -85,28 +84,27 @@ class {{classname}}(object):
 {{#allParams}}
 {{#hasValidation}}
     {{#maxLength}}
-        if '{{paramName}}' in params and len(params['{{paramName}}']) > {{maxLength}}: 
+        if '{{paramName}}' in params and len(params['{{paramName}}']) > {{maxLength}}:
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be less than or equal to `{{maxLength}}`")
     {{/maxLength}}
     {{#minLength}}
-        if '{{paramName}}' in params and len(params['{{paramName}}']) < {{minLength}}: 
+        if '{{paramName}}' in params and len(params['{{paramName}}']) < {{minLength}}:
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than or equal to `{{minLength}}`")
     {{/minLength}}
     {{#maximum}}
-        if '{{paramName}}' in params and params['{{paramName}}'] > {{maximum}}: 
+        if '{{paramName}}' in params and params['{{paramName}}'] > {{maximum}}:
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than or equal to  `{{maximum}}`")
     {{/maximum}}
     {{#minimum}}
-        if '{{paramName}}' in params and params['{{paramName}}'] < {{minimum}}: 
+        if '{{paramName}}' in params and params['{{paramName}}'] < {{minimum}}:
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than or equal to `{{minimum}}`")
     {{/minimum}}
     {{#pattern}}
-        if '{{paramName}}' in params and not re.search('{{vendorExtensions.x-regex}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}): 
+        if '{{paramName}}' in params and not re.search('{{vendorExtensions.x-regex}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{pattern}}`")
     {{/pattern}}
 {{/hasValidation}}
 {{/allParams}}
-
         resource_path = '{{path}}'.replace('{format}', 'json')
         path_params = {}
 {{#pathParams}}

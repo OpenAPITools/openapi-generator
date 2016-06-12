@@ -51,7 +51,8 @@ namespace {{packageName}}.Test
         [Test]
         public void {{operationId}}InstanceTest()
         {
-            Assert.IsInstanceOf<{{classname}}> (instance, "instance is a {{classname}}");
+            // test 'IsInstanceOfType' {{classname}}
+            Assert.IsInstanceOfType(typeof({{classname}}), instance, "instance is a {{classname}}");
         }
 
         {{#operations}}{{#operation}}
@@ -61,12 +62,12 @@ namespace {{packageName}}.Test
         [Test]
         public void {{operationId}}Test()
         {
-            // TODO: add unit test for the method '{{operationId}}'
+            // TODO uncomment below to test the method and replace null with proper value
             {{#allParams}}
-            {{{dataType}}} {{paramName}} = null; // TODO: replace null with proper value
+            //{{{dataType}}} {{paramName}} = null;
             {{/allParams}}
-            {{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-            {{#returnType}}Assert.IsInstanceOf<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}}
+            //{{#returnType}}var response = {{/returnType}}instance.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            {{#returnType}}//Assert.IsInstanceOf<{{{returnType}}}> (response, "response is {{{returnType}}}");{{/returnType}}
         }
         {{/operation}}{{/operations}}
     }

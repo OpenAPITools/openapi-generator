@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void SpecialModelNameInstanceTest()
         {
-            Assert.IsInstanceOf<SpecialModelName> (instance, "instance is a SpecialModelName");
+			Assert.IsInstanceOfType(typeof(SpecialModelName), instance, "instance is a SpecialModelName");
         }
 
         /// <summary>

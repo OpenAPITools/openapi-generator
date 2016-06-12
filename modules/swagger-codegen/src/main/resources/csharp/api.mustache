@@ -75,6 +75,8 @@ namespace {{packageName}}.Api
     /// </summary>
     public partial class {{classname}} : I{{classname}}
     {
+        private {{packageName}}.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
@@ -82,6 +84,8 @@ namespace {{packageName}}.Api
         public {{classname}}(String basePath)
         {
             this.Configuration = new Configuration(new ApiClient(basePath));
+
+            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -102,6 +106,8 @@ namespace {{packageName}}.Api
                 this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
+
+            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
 
             // ensure API client has configuration ready
             if (Configuration.ApiClient.Configuration == null)
@@ -134,6 +140,22 @@ namespace {{packageName}}.Api
         /// </summary>
         /// <value>An instance of the Configuration</value>
         public Configuration Configuration {get; set;}
+
+        /// <summary>
+        /// Provides a factory method hook for the creation of exceptions.
+        /// </summary>
+        public {{packageName}}.Client.ExceptionFactory ExceptionFactory
+        {
+            get
+            {
+                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
+                {
+                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+                }
+                return _exceptionFactory;
+            }
+            set { _exceptionFactory = value; }
+        }
 
         /// <summary>
         /// Gets the default header.
@@ -276,10 +298,11 @@ namespace {{packageName}}.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("{{operationId}}", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             {{#returnType}}return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
@@ -410,10 +433,11 @@ namespace {{packageName}}.Api
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (localVarStatusCode >= 400)
-                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.Content, localVarResponse.Content);
-            else if (localVarStatusCode == 0)
-                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("{{operationId}}", localVarResponse);
+                if (exception != null) throw exception;
+            }
 
             {{#returnType}}return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
