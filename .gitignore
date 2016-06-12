@@ -63,6 +63,12 @@ samples/client/petstore/java/jersey2/.gradle/
 samples/client/petstore/java/jersey2/build/
 samples/client/petstore/java/okhttp-gson/.gradle/
 samples/client/petstore/java/okhttp-gson/build/
+samples/client/petstore/java/feign/build/
+samples/client/petstore/java/retrofit/build/
+samples/client/petstore/java/retrofit2/build/
+samples/client/petstore/java/retrofit2rx/build/
+samples/client/petstore/java/default/build/
+samples/client/petstore/scala/build/
 
 #PHP
 samples/client/petstore/php/SwaggerClient-php/composer.lock
@@ -106,6 +112,7 @@ samples/client/petstore/csharp/SwaggerClient/bin
 samples/client/petstore/csharp/SwaggerClient/obj/Debug/
 samples/client/petstore/csharp/SwaggerClient/bin/Debug/
 samples/client/petstore/csharp/SwaggerClient/packages
+samples/client/petstore/csharp/SwaggerClient/TestResult.xml
 
 # Python
 *.pyc

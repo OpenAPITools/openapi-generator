@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Tag
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T16:29:08.210Z")
+
 public class Tag   {
   
   private Long id = null;

@@ -10,7 +10,7 @@
 
 @implementation SWGConfiguration
 
-#pragma mark - Singletion Methods
+#pragma mark - Singleton Methods
 
 + (instancetype) sharedConfig {
     static SWGConfiguration *shardConfig = nil;
@@ -35,6 +35,7 @@
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
         self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders[@"User-Agent"] = [NSString stringWithFormat:@"Swagger-Codegen/1.0.0/objc (%@; iOS %@; Scale/%0.2f)",[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
         self.logger = [SWGLogger sharedLogger];
     }
     return self;
@@ -109,19 +110,19 @@
 
 - (NSDictionary *) authSettings {
     return @{
-               @"api_key":
-                   @{
-                       @"type": @"api_key",
-                       @"in": @"header",
-                       @"key": @"api_key",
-                       @"value": [self getApiKeyWithPrefix:@"api_key"]
-                   },
                @"petstore_auth":
                    @{
                        @"type": @"oauth",
                        @"in": @"header",
                        @"key": @"Authorization",
                        @"value": [self getAccessToken]
+                   },
+               @"api_key":
+                   @{
+                       @"type": @"api_key",
+                       @"in": @"header",
+                       @"key": @"api_key",
+                       @"value": [self getApiKeyWithPrefix:@"api_key"]
                    },
                };
 }

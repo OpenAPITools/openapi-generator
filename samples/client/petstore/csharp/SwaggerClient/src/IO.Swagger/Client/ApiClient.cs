@@ -36,14 +36,27 @@ using RestSharp;
 namespace IO.Swagger.Client
 {
     /// <summary>
-    /// API client is mainly responible for making the HTTP call to the API backend.
+    /// API client is mainly responsible for making the HTTP call to the API backend.
     /// </summary>
-    public class ApiClient
+    public partial class ApiClient
     {
         private JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
         };
+
+        /// <summary>
+        /// Allows for extending request processing for <see cref="ApiClient"/> generated code.
+        /// </summary>
+        /// <param name="request">The RestSharp request object</param>
+        partial void InterceptRequest(IRestRequest request);
+
+        /// <summary>
+        /// Allows for extending response processing for <see cref="ApiClient"/> generated code.
+        /// </summary>
+        /// <param name="request">The RestSharp request object</param>
+        /// <param name="response">The RestSharp response object</param>
+        partial void InterceptResponse(IRestRequest request, IRestResponse response);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" /> class
@@ -177,7 +190,10 @@ namespace IO.Swagger.Client
             // set user agent
             RestClient.UserAgent = Configuration.UserAgent;
 
+            InterceptRequest(request);
             var response = RestClient.Execute(request);
+            InterceptResponse(request, response);
+
             return (Object) response;
         }
         /// <summary>
@@ -202,7 +218,9 @@ namespace IO.Swagger.Client
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams,
                 pathParams, contentType);
+            InterceptRequest(request);
             var response = await RestClient.ExecuteTaskAsync(request);
+            InterceptResponse(request, response);
             return (Object)response;
         }
 

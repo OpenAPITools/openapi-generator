@@ -1,4 +1,4 @@
-package io.swagger.codegen.Go;
+package io.swagger.codegen.go;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;

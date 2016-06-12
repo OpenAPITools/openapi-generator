@@ -132,6 +132,11 @@
       <artifactId>org.apache.oltu.oauth2.client</artifactId>
       <version>${oltu-version}</version>
     </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${jodatime-version}</version>
+    </dependency>
 
     <!-- test dependencies -->
     <dependency>
@@ -144,8 +149,7 @@
   <properties>
     <swagger-core-version>1.5.8</swagger-core-version>
     <retrofit-version>2.0.2</retrofit-version>
-    
-    <okhttp-version>3.2.0</okhttp-version>
+    <jodatime-version>2.9.3</jodatime-version>
     <oltu-version>1.0.1</oltu-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>

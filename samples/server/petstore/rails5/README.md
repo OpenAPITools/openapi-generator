@@ -14,7 +14,7 @@ bundle install
 This sample was generated with the [swagger-codegen](https://github.com/swagger-api/swagger-codegen) project.
 
 ```
-bin/rake db:create
+bin/rake db:create db:migrate
 bin/rails s
 ```
 

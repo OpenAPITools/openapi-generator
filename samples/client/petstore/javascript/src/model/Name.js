@@ -37,6 +37,7 @@
     _this['name'] = name;
 
 
+
   };
 
   /**
@@ -59,6 +60,9 @@
       if (data.hasOwnProperty('property')) {
         obj['property'] = ApiClient.convertToType(data['property'], 'String');
       }
+      if (data.hasOwnProperty('123Number')) {
+        obj['123Number'] = ApiClient.convertToType(data['123Number'], 'Integer');
+      }
     }
     return obj;
   }
@@ -75,6 +79,10 @@
    * @member {String} property
    */
   exports.prototype['property'] = undefined;
+  /**
+   * @member {Integer} 123Number
+   */
+  exports.prototype['123Number'] = undefined;
 
 
 

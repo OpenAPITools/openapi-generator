@@ -19,15 +19,16 @@ Pod::Spec.new do |s|
     s.platform     = :ios, '7.0'
     s.requires_arc = true
 
-    s.framework    = 'SystemConfiguration'
-    
+    s.frameworks = 'SystemConfiguration', 'CoreData'
+
     s.homepage     = "https://github.com/swagger-api/swagger-codegen"
-    s.license      = "MIT"
+    s.license      = "Apache License, Version 2.0"
     s.source       = { :git => "https://github.com/swagger-api/swagger-codegen.git", :tag => "#{s.version}" }
     s.author       = { "Swagger" => "apiteam@swagger.io" }
 
-    s.source_files = 'SwaggerClient/**/*'
+    s.source_files = 'SwaggerClient/**/*.{m,h}'
     s.public_header_files = 'SwaggerClient/**/*.h'
+    s.resources      = 'SwaggerClient/**/*.{xcdatamodeld,xcdatamodel}'
 
     s.dependency 'AFNetworking', '~> 3'
     s.dependency 'JSONModel', '~> 1.2'

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T16:29:08.210Z")
+
 public interface StoreApi extends ApiClient.Api {
 
 
@@ -23,7 +23,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("DELETE /store/order/{orderId}")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   void deleteOrder(@Param("orderId") String orderId);
 
@@ -35,7 +35,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("GET /store/inventory")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   Map<String, Integer> getInventory();
 
@@ -48,7 +48,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("GET /store/order/{orderId}")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   Order getOrderById(@Param("orderId") Long orderId);
 
@@ -61,7 +61,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("POST /store/order")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   Order placeOrder(Order body);
 }

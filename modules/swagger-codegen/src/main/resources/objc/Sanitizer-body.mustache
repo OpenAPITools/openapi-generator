@@ -35,13 +35,13 @@ NSString * {{classPrefix}}PercentEscapedStringFromString(NSString *string) {
     return escaped;
 }
 
-@interface SWGSanitizer ()
+@interface {{classPrefix}}Sanitizer ()
 
 @property (nonatomic, strong) NSRegularExpression* jsonHeaderTypeExpression;
 
 @end
 
-@implementation SWGSanitizer
+@implementation {{classPrefix}}Sanitizer
 
 static NSString * kApplicationJSONType = @"application/json";
 
