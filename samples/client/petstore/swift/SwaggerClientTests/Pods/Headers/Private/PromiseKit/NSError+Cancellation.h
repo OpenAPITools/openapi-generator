@@ -1,1 +1,0 @@
-../../../PromiseKit/Sources/NSError+Cancellation.h

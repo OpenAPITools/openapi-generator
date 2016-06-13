@@ -4,17 +4,17 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
 
 # **testEndpointParameters**
 > testEndpointParameters($number, $double, $string, $byte, $integer, $int32, $int64, $float, $binary, $date, $date_time, $password)
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -33,10 +33,10 @@ $date = new \DateTime(); // \DateTime | None
 $date_time = new \DateTime(); // \DateTime | None
 $password = "password_example"; // string | None
 
-try { 
+try {
     $api_instance->testEndpointParameters($number, $double, $string, $byte, $integer, $int32, $int64, $float, $binary, $date, $date_time, $password);
 } catch (Exception $e) {
-    echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), "\n";
+    echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -45,18 +45,18 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **float**| None | 
- **double** | **double**| None | 
- **string** | **string**| None | 
- **byte** | **string**| None | 
- **integer** | **int**| None | [optional] 
- **int32** | **int**| None | [optional] 
- **int64** | **int**| None | [optional] 
- **float** | **float**| None | [optional] 
- **binary** | **string**| None | [optional] 
- **date** | **\DateTime**| None | [optional] 
- **date_time** | **\DateTime**| None | [optional] 
- **password** | **string**| None | [optional] 
+ **number** | **float**| None |
+ **double** | **double**| None |
+ **string** | **string**| None |
+ **byte** | **string**| None |
+ **integer** | **int**| None | [optional]
+ **int32** | **int**| None | [optional]
+ **int64** | **int**| None | [optional]
+ **float** | **float**| None | [optional]
+ **binary** | **string**| None | [optional]
+ **date** | **\DateTime**| None | [optional]
+ **date_time** | **\DateTime**| None | [optional]
+ **password** | **string**| None | [optional]
 
 ### Return type
 
@@ -68,8 +68,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

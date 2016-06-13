@@ -67,7 +67,7 @@ Returns a map of status codes to quantities
 ```ruby
 # load the gem
 require 'petstore'
-# setup authorization 
+# setup authorization
 Petstore.configure do |config|
   # Configure API key authorization: api_key
   config.api_key['api_key'] = 'YOUR API KEY'

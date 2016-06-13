@@ -31,8 +31,10 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
+        apiTestTemplateFiles.clear(); // TODO: add test template
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
+        dateLibrary = "legacy";
 
         additionalProperties.put("title", title);
 

@@ -29,7 +29,7 @@ namespace IO.Swagger.Test
         [SetUp]
         public void Init()
         {
-            instance = new Name();
+			instance = new Name(_Name: 1, Property: "csharp");
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void NameInstanceTest()
         {
-            Assert.IsInstanceOf<Name> (instance, "instance is a Name");
+			Assert.IsInstanceOfType(typeof(Name), instance, "instance is a Name");
         }
 
         /// <summary>

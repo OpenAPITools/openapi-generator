@@ -127,6 +127,11 @@
       <artifactId>okhttp</artifactId>
       <version>${okhttp-version}</version>
     </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${jodatime-version}</version>
+  </dependency>
 
     <!-- test dependencies -->
     <dependency>
@@ -140,6 +145,7 @@
     <swagger-core-version>1.5.8</swagger-core-version>
     <retrofit-version>1.9.0</retrofit-version>
     <okhttp-version>2.7.5</okhttp-version>
+    <jodatime-version>2.9.3</jodatime-version>
     <oltu-version>1.0.1</oltu-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>

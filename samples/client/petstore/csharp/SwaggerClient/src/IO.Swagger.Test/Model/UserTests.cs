@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void UserInstanceTest()
         {
-            Assert.IsInstanceOf<User> (instance, "instance is a User");
+			Assert.IsInstanceOfType(typeof(User), instance, "instance is a User");
         }
 
         /// <summary>

@@ -23,14 +23,17 @@ import feign.Request.Options;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import feign.Response;
+import feign.RetryableException;
 import feign.Util;
 import io.swagger.client.StringUtil;
 
 
 public class OAuth implements RequestInterceptor {
 
+    static final int MILLIS_PER_SECOND = 1000;
+
     public interface AccessTokenListener {
-        public void notify(BasicOAuthToken token);
+        void notify(BasicOAuthToken token);
     }
 
     private volatile String accessToken;
@@ -41,21 +44,13 @@ public class OAuth implements RequestInterceptor {
     private AccessTokenListener accessTokenListener;
 
     public OAuth(Client client, TokenRequestBuilder requestBuilder) {
-        setOauthClient(client);
+        this.oauthClient = new OAuthClient(new OAuthFeignClient(client));
         this.tokenRequestBuilder = requestBuilder;
     }
 
     public OAuth(Client client, OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
         this(client, OAuthClientRequest.tokenLocation(tokenUrl).setScope(scopes));
-        setFlow(flow);
-        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl);
-    }
 
-    public OAuth(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
-        this(new Client.Default(null, null), flow, authorizationUrl, tokenUrl, scopes);
-    }
-
-    public void setFlow(OAuthFlow flow) {
         switch(flow) {
         case accessCode:
         case implicit:
@@ -70,6 +65,11 @@ public class OAuth implements RequestInterceptor {
         default:
             break;
         }
+        authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl);
+    }
+
+    public OAuth(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
+        this(new Client.Default(null, null), flow, authorizationUrl, tokenUrl, scopes);
     }
 
     @Override
@@ -80,34 +80,29 @@ public class OAuth implements RequestInterceptor {
         }
         // If first time, get the token
         if (expirationTimeMillis == null || System.currentTimeMillis() >= expirationTimeMillis) {
-            try {
-                updateAccessToken();
-            } catch (OAuthSystemException e) {
-                e.printStackTrace();
-                return;
-            } catch (OAuthProblemException e) {
-                e.printStackTrace();
-                return;
-            }
+            updateAccessToken();
         }
         if (getAccessToken() != null) {
             template.header("Authorization", "Bearer " + getAccessToken());
         }
     }
 
-    public synchronized void updateAccessToken() throws OAuthSystemException, OAuthProblemException {
-        if (getAccessToken() == null) {
-            OAuthJSONAccessTokenResponse accessTokenResponse = oauthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
-            if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
-                setAccessToken(accessTokenResponse.getAccessToken(), accessTokenResponse.getExpiresIn());
-                if (accessTokenListener != null) {
-                    accessTokenListener.notify((BasicOAuthToken) accessTokenResponse.getOAuthToken());
-                }
+    public synchronized void updateAccessToken() {
+        OAuthJSONAccessTokenResponse accessTokenResponse;
+        try {
+            accessTokenResponse = oauthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
+        } catch (Exception e) {
+            throw new RetryableException(e.getMessage(), e,null);
+        }
+        if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
+            setAccessToken(accessTokenResponse.getAccessToken(), accessTokenResponse.getExpiresIn());
+            if (accessTokenListener != null) {
+                accessTokenListener.notify((BasicOAuthToken) accessTokenResponse.getOAuthToken());
             }
         }
     }
 
-    public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
+    public synchronized void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
         this.accessTokenListener = accessTokenListener;
     }
 
@@ -117,7 +112,7 @@ public class OAuth implements RequestInterceptor {
 
     public synchronized void setAccessToken(String accessToken, Long expiresIn) {
         this.accessToken = accessToken;
-        this.expirationTimeMillis = System.currentTimeMillis() + expiresIn * 1000;
+        this.expirationTimeMillis = System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
     }
 
     public TokenRequestBuilder getTokenRequestBuilder() {
@@ -148,7 +143,7 @@ public class OAuth implements RequestInterceptor {
         this.oauthClient = new OAuthClient( new OAuthFeignClient(client));
     }
 
-    public class OAuthFeignClient implements HttpClient {
+    public static class OAuthFeignClient implements HttpClient {
 
         private Client client;
 
@@ -198,6 +193,5 @@ public class OAuth implements RequestInterceptor {
         public void shutdown() {
             // Nothing to do here
         }
-
     }
 }

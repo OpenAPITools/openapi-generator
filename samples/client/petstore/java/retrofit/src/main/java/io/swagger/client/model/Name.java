@@ -24,6 +24,9 @@ public class Name   {
   @SerializedName("property")
   private String property = null;
 
+  @SerializedName("123Number")
+  private Integer _123Number = null;
+
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -51,6 +54,13 @@ public class Name   {
     this.property = property;
   }
 
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Integer get123Number() {
+    return _123Number;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -63,12 +73,13 @@ public class Name   {
     Name name = (Name) o;
     return Objects.equals(name, name.name) &&
         Objects.equals(snakeCase, name.snakeCase) &&
-        Objects.equals(property, name.property);
+        Objects.equals(property, name.property) &&
+        Objects.equals(_123Number, name._123Number);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, snakeCase, property);
+    return Objects.hash(name, snakeCase, property, _123Number);
   }
 
   @Override
@@ -79,6 +90,7 @@ public class Name   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");
+    sb.append("    _123Number: ").append(toIndentedString(_123Number)).append("\n");
     sb.append("}");
     return sb.toString();
   }

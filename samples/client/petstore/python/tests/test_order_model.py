@@ -3,7 +3,7 @@
 """
 Run the tests.
 $ pip install nose (optional)
-$ cd swagger_client-python
+$ cd petstore_api-python
 $ nosetests -v
 """
 
@@ -11,13 +11,13 @@ import os
 import time
 import unittest
 
-import swagger_client
+import petstore_api
 
 
 class OrderModelTests(unittest.TestCase):
 
     def test_status(self):
-        order = swagger_client.Order()
+        order = petstore_api.Order()
         order.status = "placed"
         self.assertEqual("placed", order.status)
 

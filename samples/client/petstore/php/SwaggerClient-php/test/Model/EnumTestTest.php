@@ -37,7 +37,7 @@ namespace Swagger\Client\Model;
  * EnumTestTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description EnumTest
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -49,22 +49,29 @@ class EnumTestTest extends \PHPUnit_Framework_TestCase
     /**
      * Setup before running each test case
      */
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
 
     }
 
     /**
      * Clean up after running each test case
      */
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass()
+    {
 
     }
 
     /**
-     * Test EnumTest
+     * Test "EnumTest"
      */
-    public function testEnumTest() {
-
+    public function testEnumTest()
+    {
+        $this->assertSame(Swagger\Client\Model\EnumTest::ENUM_STRING_UPPER, "UPPER");
+        $this->assertSame(Swagger\Client\Model\EnumTest::ENUM_STRING_LOWER, "lower");
+        $this->assertSame(Swagger\Client\Model\EnumTest::ENUM_INTEGER_1, 1);
+        $this->assertSame(Swagger\Client\Model\EnumTest::ENUM_INTEGER_MINUS_1, -1);
+        $this->assertSame(Swagger\Client\Model\EnumTest::ENUM_NUMBER_1_DOT_1, 1.1);
+        $this->assertSame(Swagger\Client\Model\EnumTest::ENUM_NUMBER_MINUS_1_DOT_2, -1.2);
     }
-
 }

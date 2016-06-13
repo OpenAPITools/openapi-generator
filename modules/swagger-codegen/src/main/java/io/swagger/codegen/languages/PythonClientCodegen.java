@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -116,6 +115,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+        Boolean excludeTests = false;
+
+        if(additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
+            excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -144,14 +148,23 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         apiPackage = swaggerFolder + File.separatorChar + "apis";
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
+        
         supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+        supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
+        supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+        supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+        
         supportingFiles.add(new SupportingFile("api_client.mustache", swaggerFolder, "api_client.py"));
         supportingFiles.add(new SupportingFile("rest.mustache", swaggerFolder, "rest.py"));
         supportingFiles.add(new SupportingFile("configuration.mustache", swaggerFolder, "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", swaggerFolder, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", apiPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
+
+        if(Boolean.FALSE.equals(excludeTests)) {
+            supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
+        }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }

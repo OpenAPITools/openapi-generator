@@ -15,11 +15,12 @@ Name | Type | Description | Notes
 **float** | **double** |  | [optional] 
 **double** | **double** |  | [optional] 
 **string** | **string** |  | [optional] 
-**byte** | **string** |  | [optional] 
+**byte** | **string** |  | 
 **binary** | **string** |  | [optional] 
-**date** | **DateTime** |  | [optional] 
+**date** | **DateTime** |  | 
 **date_time** | **DateTime** |  | [optional] 
-**password** | **string** |  | [optional] 
+**uuid** | [**UUID**](UUID.md) |  | [optional] 
+**password** | **string** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

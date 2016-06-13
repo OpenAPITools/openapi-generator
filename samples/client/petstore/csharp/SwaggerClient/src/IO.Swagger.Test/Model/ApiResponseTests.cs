@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void ApiResponseInstanceTest()
         {
-            Assert.IsInstanceOf<ApiResponse> (instance, "instance is a ApiResponse");
+			Assert.IsInstanceOfType(typeof(ApiResponse), instance, "instance is a ApiResponse");
         }
 
         /// <summary>

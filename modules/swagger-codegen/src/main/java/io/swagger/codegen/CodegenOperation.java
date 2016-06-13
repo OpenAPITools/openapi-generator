@@ -7,13 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Arrays;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public Boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
             isListContainer, isMultipart, hasMore = Boolean.TRUE,
-            isResponseBinary = Boolean.FALSE, hasReference = Boolean.FALSE;
+            isResponseBinary = Boolean.FALSE, hasReference = Boolean.FALSE,
+            isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
+            isRestful;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
     public List<Map<String, String>> consumes, produces;
@@ -86,6 +89,81 @@ public class CodegenOperation {
      */
     public boolean getHasFormParams() {
         return nonempty(formParams);
+    }
+
+    /**
+     * Check if act as Restful index method
+     *
+     * @return true if act as Restful index method, false otherwise
+     */
+    public boolean isRestfulIndex() {
+        return "GET".equals(httpMethod) && "".equals(pathWithoutBaseName());
+    }
+
+    /**
+     * Check if act as Restful show method
+     *
+     * @return true if act as Restful show method, false otherwise
+     */
+    public boolean isRestfulShow() {
+        return "GET".equals(httpMethod) && isMemberPath();
+    }
+
+    /**
+     * Check if act as Restful create method
+     *
+     * @return true if act as Restful create method, false otherwise
+     */
+    public boolean isRestfulCreate() {
+        return "POST".equals(httpMethod) && "".equals(pathWithoutBaseName());
+    }
+
+    /**
+     * Check if act as Restful update method
+     *
+     * @return true if act as Restful update method, false otherwise
+     */
+    public boolean isRestfulUpdate() {
+        return Arrays.asList("PUT", "PATCH").contains(httpMethod) && isMemberPath();
+    }
+
+    /**
+     * Check if act as Restful destroy method
+     *
+     * @return true if act as Restful destroy method, false otherwise
+     */
+    public boolean isRestfulDestroy() {
+        return "DELETE".equals(httpMethod) && isMemberPath();
+    }
+
+    /**
+     * Check if Restful-style
+     *
+     * @return true if Restful-style, false otherwise
+     */
+    public boolean isRestful() {
+        return isRestfulIndex() || isRestfulShow() || isRestfulCreate() || isRestfulUpdate() || isRestfulDestroy();
+    }
+
+    /**
+     * Get the substring except baseName from path
+     *
+     * @return the substring
+     */
+    private String pathWithoutBaseName() {
+        return baseName != null ? path.replace("/" + baseName.toLowerCase(), "") : path;
+    }
+
+    /**
+     * Check if the path match format /xxx/:id
+     *
+     * @return true if path act as member
+     */
+    private boolean isMemberPath() {
+        if (pathParams.size() != 1) return false;
+
+        String id = pathParams.get(0).baseName;
+        return ("/{" + id + "}").equals(pathWithoutBaseName());
     }
 
     @Override

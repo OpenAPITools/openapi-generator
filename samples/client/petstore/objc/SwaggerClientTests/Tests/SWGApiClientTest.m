@@ -25,38 +25,64 @@
     NSArray *accepts = nil;
     
     accepts = @[@"APPLICATION/JSON", @"APPLICATION/XML"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderAccept:accepts], @"application/json");
+    SWGSanitizer * sanitizer = [[SWGSanitizer alloc] init];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
     
     accepts = @[@"application/json", @"application/xml"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderAccept:accepts], @"application/json");
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
     
     accepts = @[@"APPLICATION/xml", @"APPLICATION/json"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderAccept:accepts], @"application/json");
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/vnd.github+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/json;charset=utf-8", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/vnd.github.v3.html+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
+
+    accepts = @[@"application/vnd.github.v3.html+json"];
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"application/json");
     
     accepts = @[@"text/plain", @"application/xml"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderAccept:accepts], @"text/plain, application/xml");
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"text/plain, application/xml");
     
     accepts = @[];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderAccept:accepts], @"");
+    XCTAssertEqualObjects([sanitizer selectHeaderAccept:accepts], @"");
 }
 
 - (void)testSelectHeaderContentType {
     NSArray *contentTypes = nil;
-    
+    SWGSanitizer * sanitizer = [[SWGSanitizer alloc] init];
+
     contentTypes = @[@"APPLICATION/JSON", @"APPLICATION/XML"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderContentType:contentTypes], @"application/json");
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
     
     contentTypes = @[@"application/json", @"application/xml"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderContentType:contentTypes], @"application/json");
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
     
     contentTypes = @[@"APPLICATION/xml", @"APPLICATION/json"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderContentType:contentTypes], @"application/json");
-    
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
+    contentTypes = @[@"application/vnd.github+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
+    contentTypes = @[@"application/json;charset=utf-8", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
+    contentTypes = @[@"application/json;charset&#x3d;utf-8", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
+    contentTypes = @[@"application/vnd.github.v3.html+json", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
     contentTypes = @[@"text/plain", @"application/xml"];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderContentType:contentTypes], @"text/plain");
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"text/plain");
     
     contentTypes = @[];
-    XCTAssertEqualObjects([SWGApiClient selectHeaderContentType:contentTypes], @"application/json");
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
 }
 
 - (void)testConfiguration {

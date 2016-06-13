@@ -24,6 +24,13 @@
         public {{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{name}} { get; set; }
         {{/isEnum}}
         {{/vars}}
+    {{#hasRequired}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        protected {{classname}}() { }
+    {{/hasRequired}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -32,9 +39,12 @@
         /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
         {{/isReadOnly}}
         {{/vars}}
-        public {{classname}}({{#vars}}{{^isReadOnly}}{{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{name}} = null{{/isReadOnly}}{{#hasMoreNonReadOnly}}, {{/hasMoreNonReadOnly}}{{/vars}})
+        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{name}} = null{{^-last}}, {{/-last}}{{/readWriteVars}})
         {
-            {{#vars}}{{^isReadOnly}}{{#required}}// to ensure "{{name}}" is required (not null)
+            {{#vars}}
+            {{^isReadOnly}}
+            {{#required}}
+            // to ensure "{{name}}" is required (not null)
             if ({{name}} == null)
             {
                 throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
@@ -43,8 +53,12 @@
             {
                 this.{{name}} = {{name}};
             }
-            {{/required}}{{/isReadOnly}}{{/vars}}
-            {{#vars}}{{^isReadOnly}}{{^required}}
+            {{/required}}
+            {{/isReadOnly}}
+            {{/vars}}
+            {{#vars}}
+            {{^isReadOnly}}
+            {{^required}}
             {{#defaultValue}}// use default value if no "{{name}}" provided
             if ({{name}} == null)
             {
@@ -56,9 +70,11 @@
             }
             {{/defaultValue}}
             {{^defaultValue}}
-            this.{{name}} = {{name}};
+this.{{name}} = {{name}};
             {{/defaultValue}}
-            {{/required}}{{/isReadOnly}}{{/vars}}
+            {{/required}}
+            {{/isReadOnly}}
+            {{/vars}}
         }
         
         {{#vars}}
@@ -79,7 +95,8 @@
         {
             var sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
-            {{#vars}}sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
             {{/vars}}
             sb.Append("}\n");
             return sb.ToString();

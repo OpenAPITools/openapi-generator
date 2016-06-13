@@ -30,13 +30,16 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
 
-    protected String dateLibrary = "default";
+    protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
     protected String artifactVersion = "1.0.0";
     protected String projectFolder = "src" + File.separator + "main";
+    protected String projectTestFolder = "src" + File.separator + "test";
     protected String sourceFolder = projectFolder + File.separator + "java";
+    protected String testFolder = projectTestFolder + File.separator + "java";
+    protected String gradleWrapperPackage = "gradle.wrapper";
     protected String localVariablePrefix = "";
     protected boolean fullJavaUtil;
     protected String javaUtilPrefix = "";
@@ -52,6 +55,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "java";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
+        apiTestTemplateFiles.put("api_test.mustache", ".java");
         embeddedTemplateDir = templateDir = "Java";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
@@ -107,12 +111,12 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(new CliOption("hideGenerationTimestamp", "hides the timestamp when files were generated"));
 
-        supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2");
-        supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.1.1");
-        supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.6");
-        supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1");
-        supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
-        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.1). Enable the RxJava adapter using '-DuseRxJava=true'. (RxJava 1.1.2)");
+        supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0");
+        supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.16.0. JSON processing: Jackson 2.7.0");
+        supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.22.2. JSON processing: Jackson 2.7.0");
+        supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.6.2");
+        supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
+        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.2.0. JSON processing: Gson 2.6.1 (Retrofit 2.0.2). Enable the RxJava adapter using '-DuseRxJava=true'. (RxJava 1.1.3)");
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
@@ -124,6 +128,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, String> dateOptions = new HashMap<String, String>();
         dateOptions.put("java8", "Java 8 native");
         dateOptions.put("joda", "Joda");
+        dateOptions.put("legacy", "Legacy java.util.Date");
         dateLibrary.setEnum(dateOptions);
 
         cliOptions.add(dateLibrary);
@@ -257,12 +262,22 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        writeOptional(outputFolder, new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
         if ("feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FormAwareEncoder.mustache", invokerFolder, "FormAwareEncoder.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         }
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -281,6 +296,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
             apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         } else if ("okhttp-gson".equals(getLibrary())) {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
@@ -293,14 +316,49 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
             // "build.sbt" is for development with SBT
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         } else if (usesAnyRetrofitLibrary()) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+
+            //generate markdown docs for retrofit2
+            if ( usesRetrofit2Library() ){
+                modelDocTemplateFiles.put("model_doc.mustache", ".md");
+                apiDocTemplateFiles.put("api_doc.mustache", ".md");
+            }
+
         } else if("jersey2".equals(getLibrary())) {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
             apiDocTemplateFiles.put("api_doc.mustache", ".md");
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         }
 
         if(additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -367,6 +425,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiTestFileFolder() {
+        return outputFolder + "/" + testFolder + "/" + apiPackage().replace('.', '/');
+    }
+
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/');
     }
@@ -389,6 +452,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + "Test";
     }
 
     @Override
