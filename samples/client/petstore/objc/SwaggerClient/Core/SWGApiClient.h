@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <ISO8601/ISO8601.h>
-#import <AFNetworking.h>
+#import <AFNetworking/AFNetworking.h>
 #import "SWGJSONResponseSerializer.h"
 #import "SWGJSONRequestSerializer.h"
 #import "SWGQueryParamCollection.h"
