@@ -28,6 +28,7 @@ For a list of variables available in the template, please refer to this [page](h
 
 ### Style guide
 Code change should conform to the programming style guide of the respective langauages:
+- Android: https://source.android.com/source/code-style.html
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/tree/master/es5
