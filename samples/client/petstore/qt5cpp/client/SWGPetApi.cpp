@@ -438,7 +438,7 @@ SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestI
         input.add_var("additionalMetadata", *additionalMetadata);
     }
 if (file != NULL) {
-        input.add_file("file", *file.local_filename, *file.request_filename, *file.mime_type);
+        input.add_file("file", (*file).local_filename, (*file).request_filename, (*file).mime_type);
     }
 
 
