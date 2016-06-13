@@ -98,11 +98,11 @@ module {{moduleName}}
       header_params = {}
 
       # HTTP header 'Accept' (if needed)
-      local_header_accept = [{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
+      local_header_accept = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}]
       local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
 
       # HTTP header 'Content-Type'
-      local_header_content_type = [{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
+      local_header_content_type = [{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}]
       header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type){{#headerParams}}{{#required}}
       header_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}{{/required}}{{/headerParams}}{{#headerParams}}{{^required}}
       header_params[:'{{{baseName}}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if opts[:'{{{paramName}}}']{{/required}}{{/headerParams}}

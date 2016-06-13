@@ -3,7 +3,7 @@
 """
 Run the tests.
 $ pip install nose (optional)
-$ cd swagger_client-python
+$ cd petstore_api-python
 $ nosetests -v
 """
 
@@ -11,8 +11,8 @@ import os
 import time
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
+import petstore_api
+from petstore_api.rest import ApiException
 
 HOST = 'http://petstore.swagger.io/v2'
 
@@ -20,8 +20,8 @@ HOST = 'http://petstore.swagger.io/v2'
 class PetApiTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = swagger_client.ApiClient(HOST)
-        self.pet_api = swagger_client.PetApi(self.api_client)
+        self.api_client = petstore_api.ApiClient(HOST)
+        self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
 
@@ -30,13 +30,13 @@ class PetApiTests(unittest.TestCase):
         time.sleep(1)
 
     def setUpModels(self):
-        self.category = swagger_client.Category()
+        self.category = petstore_api.Category()
         self.category.id = int(time.time())
         self.category.name = "dog"
-        self.tag = swagger_client.Tag()
+        self.tag = petstore_api.Tag()
         self.tag.id = int(time.time())
         self.tag.name = "swagger-codegen-python-pet-tag"
-        self.pet = swagger_client.Pet()
+        self.pet = petstore_api.Pet()
         self.pet.id = int(time.time())
         self.pet.name = "hello kity"
         self.pet.photo_urls = ["http://foo.bar.com/1", "http://foo.bar.com/2"]
@@ -50,22 +50,22 @@ class PetApiTests(unittest.TestCase):
         self.foo = os.path.join(self.test_file_dir, "foo.png")
 
     def test_create_api_instance(self):
-        pet_api = swagger_client.PetApi()
-        pet_api2 = swagger_client.PetApi()
-        api_client3 = swagger_client.ApiClient()
+        pet_api = petstore_api.PetApi()
+        pet_api2 = petstore_api.PetApi()
+        api_client3 = petstore_api.ApiClient()
         api_client3.user_agent = 'api client 3'
-        api_client4 = swagger_client.ApiClient()
+        api_client4 = petstore_api.ApiClient()
         api_client4.user_agent = 'api client 4'
-        pet_api3 = swagger_client.PetApi(api_client3)
+        pet_api3 = petstore_api.PetApi(api_client3)
 
         # same default api client
         self.assertEqual(pet_api.api_client, pet_api2.api_client)
         # confirm using the default api client in the config module
-        self.assertEqual(pet_api.api_client, swagger_client.configuration.api_client)
+        self.assertEqual(pet_api.api_client, petstore_api.configuration.api_client)
         # 2 different api clients are not the same
         self.assertNotEqual(api_client3, api_client4)
         # customized pet api not using the default api client
-        self.assertNotEqual(pet_api3.api_client, swagger_client.configuration.api_client)
+        self.assertNotEqual(pet_api3.api_client, petstore_api.configuration.api_client)
         # customized pet api not using the old pet api's api client
         self.assertNotEqual(pet_api3.api_client, pet_api2.api_client)
 

@@ -137,6 +137,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        Boolean excludeTests = false;
+
+        if(additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
+            excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
+        }
 
         apiPackage = "Api";
         modelPackage = "Model";
@@ -218,6 +223,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         binRelativePath += "vendor";
         additionalProperties.put("binRelativePath", binRelativePath);
 
+        supportingFiles.add(new SupportingFile("IApiAccessor.mustache",
+                clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
@@ -226,17 +233,29 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 clientPackageDir, "ApiException.cs"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache",
                 clientPackageDir, "ApiResponse.cs"));
+        supportingFiles.add(new SupportingFile("ExceptionFactory.mustache",
+                clientPackageDir, "ExceptionFactory.cs"));
 
         supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "build.sh"));
+        // shell script to run the nunit test
+        supportingFiles.add(new SupportingFile("mono_nunit_test.mustache", "", "mono_nunit_test.sh"));
 
         // copy package.config to nuget's standard location for project-level installs
         supportingFiles.add(new SupportingFile("packages.config.mustache", packageFolder + File.separator, "packages.config"));
-        supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
+        // .travis.yml for travis-ci.org CI
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+
+        if(Boolean.FALSE.equals(excludeTests)) {
+            supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
+        }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        // apache v2 license
+        // UPDATE (20160612) no longer needed as the Apache v2 LICENSE is added globally
+        //supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
 
         if (optionalAssemblyInfoFlag) {
             supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
@@ -245,11 +264,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
             supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
 
-            // TODO: Check if test project output is enabled, partially related to #2506. Should have options for:
-            //       1) No test project
-            //       2) No model tests
-            //       3) No api tests
-            supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            if(Boolean.FALSE.equals(excludeTests)) {
+                supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            }
         }
 
         additionalProperties.put("apiDocPath", apiDocPath);

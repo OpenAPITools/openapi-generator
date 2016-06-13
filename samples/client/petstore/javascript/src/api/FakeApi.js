@@ -41,8 +41,8 @@
      */
 
     /**
-     * Fake endpoint for testing various parameters
-     * Fake endpoint for testing various parameters
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param {Number} _number None
      * @param {Number} _double None
      * @param {String} _string None
@@ -105,8 +105,8 @@
       };
 
       var authNames = [];
-      var contentTypes = [];
-      var accepts = ['application/xml', 'application/json'];
+      var contentTypes = ['application/xml; charset=utf-8', 'application/json; charset=utf-8'];
+      var accepts = ['application/xml; charset=utf-8', 'application/json; charset=utf-8'];
       var returnType = null;
 
       return this.apiClient.callApi(

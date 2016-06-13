@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **string** | **String** |  |  [optional]
 **_byte** | **byte[]** |  | 
 **binary** | **byte[]** |  |  [optional]
-**date** | [**Date**](Date.md) |  | 
-**dateTime** | [**Date**](Date.md) |  |  [optional]
+**date** | [**LocalDate**](LocalDate.md) |  | 
+**dateTime** | [**DateTime**](DateTime.md) |  |  [optional]
 **uuid** | **String** |  |  [optional]
 **password** | **String** |  | 
 

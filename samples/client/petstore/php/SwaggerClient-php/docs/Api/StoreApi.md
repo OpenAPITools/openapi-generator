@@ -17,7 +17,7 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -25,10 +25,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $api_instance = new Swagger\Client\Api\StoreApi();
 $order_id = "order_id_example"; // string | ID of the order that needs to be deleted
 
-try { 
+try {
     $api_instance->deleteOrder($order_id);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->deleteOrder: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->deleteOrder: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **string**| ID of the order that needs to be deleted | 
+ **order_id** | **string**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -52,7 +52,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getInventory**
 > map[string,int] getInventory()
@@ -61,7 +61,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -73,11 +73,11 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'Y
 
 $api_instance = new Swagger\Client\Api\StoreApi();
 
-try { 
+try {
     $result = $api_instance->getInventory();
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->getInventory: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->getInventory: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -87,18 +87,18 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**map[string,int]**](map.md)
+[**map[string,int]**](../Model/map.md)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getOrderById**
 > \Swagger\Client\Model\Order getOrderById($order_id)
@@ -107,7 +107,7 @@ Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -115,11 +115,11 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $api_instance = new Swagger\Client\Api\StoreApi();
 $order_id = 789; // int | ID of pet that needs to be fetched
 
-try { 
+try {
     $result = $api_instance->getOrderById($order_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->getOrderById: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->getOrderById: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -128,11 +128,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched | 
+ **order_id** | **int**| ID of pet that needs to be fetched |
 
 ### Return type
 
-[**\Swagger\Client\Model\Order**](Order.md)
+[**\Swagger\Client\Model\Order**](../Model/Order.md)
 
 ### Authorization
 
@@ -143,7 +143,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **placeOrder**
 > \Swagger\Client\Model\Order placeOrder($body)
@@ -152,7 +152,7 @@ Place an order for a pet
 
 
 
-### Example 
+### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -160,11 +160,11 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $api_instance = new Swagger\Client\Api\StoreApi();
 $body = new \Swagger\Client\Model\Order(); // \Swagger\Client\Model\Order | order placed for purchasing the pet
 
-try { 
+try {
     $result = $api_instance->placeOrder($body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), "\n";
+    echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -173,11 +173,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Order**](\Swagger\Client\Model\Order.md)| order placed for purchasing the pet | 
+ **body** | [**\Swagger\Client\Model\Order**](../Model/\Swagger\Client\Model\Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
-[**\Swagger\Client\Model\Order**](Order.md)
+[**\Swagger\Client\Model\Order**](../Model/Order.md)
 
 ### Authorization
 
@@ -188,5 +188,5 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -9,10 +9,10 @@ namespace API.Client {
         protected basePath = 'http://petstore.swagger.io/v2';
         public defaultHeaders : any = {};
 
-        static $inject: string[] = ['$http', '$httpParamSerializer'];
+        static $inject: string[] = ['$http', '$httpParamSerializer', 'basePath'];
 
         constructor(protected $http: ng.IHttpService, protected $httpParamSerializer?: (d: any) => any, basePath?: string) {
-            if (basePath) {
+            if (basePath !== undefined) {
                 this.basePath = basePath;
             }
         }

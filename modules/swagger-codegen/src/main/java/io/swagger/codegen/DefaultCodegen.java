@@ -2,24 +2,75 @@ package io.swagger.codegen;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import io.swagger.codegen.examples.ExampleGenerator;
-import io.swagger.models.*;
-import io.swagger.models.auth.*;
-import io.swagger.models.parameters.*;
-import io.swagger.models.properties.*;
-import io.swagger.models.properties.PropertyBuilder.PropertyId;
-import io.swagger.util.Json;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
+
+import io.swagger.codegen.examples.ExampleGenerator;
+import io.swagger.models.ArrayModel;
+import io.swagger.models.ComposedModel;
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.Operation;
+import io.swagger.models.RefModel;
+import io.swagger.models.Response;
+import io.swagger.models.Swagger;
+import io.swagger.models.auth.ApiKeyAuthDefinition;
+import io.swagger.models.auth.BasicAuthDefinition;
+import io.swagger.models.auth.In;
+import io.swagger.models.auth.OAuth2Definition;
+import io.swagger.models.auth.SecuritySchemeDefinition;
+import io.swagger.models.parameters.BodyParameter;
+import io.swagger.models.parameters.CookieParameter;
+import io.swagger.models.parameters.FormParameter;
+import io.swagger.models.parameters.HeaderParameter;
+import io.swagger.models.parameters.Parameter;
+import io.swagger.models.parameters.PathParameter;
+import io.swagger.models.parameters.QueryParameter;
+import io.swagger.models.parameters.SerializableParameter;
+import io.swagger.models.properties.AbstractNumericProperty;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BaseIntegerProperty;
+import io.swagger.models.properties.BinaryProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.ByteArrayProperty;
+import io.swagger.models.properties.DateProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DecimalProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.FloatProperty;
+import io.swagger.models.properties.IntegerProperty;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.Property;
+import io.swagger.models.properties.PropertyBuilder;
+import io.swagger.models.properties.PropertyBuilder.PropertyId;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.UUIDProperty;
+import io.swagger.util.Json;
 
 
 public class DefaultCodegen {
@@ -43,6 +94,7 @@ public class DefaultCodegen {
     protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
+    protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
@@ -390,6 +442,14 @@ public class DefaultCodegen {
         }
     }
 
+    public String getCommonTemplateDir() {
+        return this.commonTemplateDir;
+    }
+
+    public void setCommonTemplateDir(String commonTemplateDir) {
+        this.commonTemplateDir = commonTemplateDir;
+    }
+
     public Map<String, String> apiDocTemplateFiles() {
         return apiDocTemplateFiles;
     }
@@ -731,6 +791,12 @@ public class DefaultCodegen {
         importMapping.put("LocalDateTime", "org.joda.time.*");
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
+
+        // we've used the .swagger-codegen-ignore approach as 
+        // suppportingFiles can be cleared by code generator that extends
+        // the default codegen, leaving the commented code below for 
+        // future reference
+        //supportingFiles.add(new GlobalSupportingFile("LICENSE", "LICENSE"));
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
@@ -1207,8 +1273,7 @@ public class DefaultCodegen {
                 m.dataType = getSwaggerType(p);
             }
             if (impl.getAdditionalProperties() != null) {
-                MapProperty mapProperty = new MapProperty(impl.getAdditionalProperties());
-                addParentContainer(m, name, mapProperty);
+                addAdditionPropertiesToCodeGenModel(m, impl);
             }
             addVars(m, impl.getProperties(), impl.getRequired());
         }
@@ -1221,8 +1286,12 @@ public class DefaultCodegen {
         return m;
     }
 
-    protected void addProperties(Map<String, Property> properties, List<String> required, Model model,
-            Map<String, Model> allDefinitions) {
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, ModelImpl swaggerModel) {
+        MapProperty mapProperty = new MapProperty(swaggerModel.getAdditionalProperties());
+        addParentContainer(codegenModel, codegenModel.name, mapProperty);
+    }
+
+    protected void addProperties(Map<String, Property> properties, List<String> required, Model model, Map<String, Model> allDefinitions) {
 
         if (model instanceof ModelImpl) {
             ModelImpl mi = (ModelImpl) model;
@@ -1847,6 +1916,14 @@ public class DefaultCodegen {
         }
         op.externalDocs = operation.getExternalDocs();
 
+        // set Restful Flag
+        op.isRestfulShow = op.isRestfulShow();
+        op.isRestfulIndex = op.isRestfulIndex();
+        op.isRestfulCreate = op.isRestfulCreate();
+        op.isRestfulUpdate = op.isRestfulUpdate();
+        op.isRestfulDestroy = op.isRestfulDestroy();
+        op.isRestful = op.isRestful();
+
         return op;
     }
 
@@ -1887,7 +1964,7 @@ public class DefaultCodegen {
                 }
             }
             r.dataType = cm.datatype;
-            r.isBinary = cm.datatype.toLowerCase().startsWith("byte");
+            r.isBinary = isDataTypeBinary(cm.datatype);
             if (cm.isContainer != null) {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
@@ -2056,7 +2133,7 @@ public class DefaultCodegen {
                         p.baseType = cp.baseType;
                         p.dataType = cp.datatype;
                         p.isPrimitiveType = cp.isPrimitiveType;
-                        p.isBinary = cp.datatype.toLowerCase().startsWith("byte");
+                        p.isBinary = isDataTypeBinary(cp.datatype);
                     }
 
                     // set boolean flag (e.g. isString)
@@ -2153,7 +2230,7 @@ public class DefaultCodegen {
             p.isCookieParam = true;
         } else if (param instanceof BodyParameter) {
             p.isBodyParam = true;
-            p.isBinary = p.dataType.toLowerCase().startsWith("byte");
+            p.isBinary = isDataTypeBinary(p.dataType);
         } else if (param instanceof FormParameter) {
             if ("file".equalsIgnoreCase(((FormParameter) param).getType())) {
                 p.isFile = true;
@@ -2167,6 +2244,10 @@ public class DefaultCodegen {
 
         postProcessParameter(p);
         return p;
+    }
+
+    public boolean isDataTypeBinary(String dataType) {
+        return dataType.toLowerCase().startsWith("byte");
     }
 
     /**
@@ -2452,7 +2533,7 @@ public class DefaultCodegen {
         }
     }
 
-    private void addImport(CodegenModel m, String type) {
+    protected void addImport(CodegenModel m, String type) {
         if (type != null && needToImport(type)) {
             m.imports.add(type);
         }
@@ -2465,6 +2546,7 @@ public class DefaultCodegen {
     private void addVars(CodegenModel m, Map<String, Property> properties, List<String> required,
             Map<String, Property> allProperties, List<String> allRequired) {
 
+        m.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
             m.hasVars = true;
             m.hasEnums = false;
@@ -2503,6 +2585,7 @@ public class DefaultCodegen {
             } else {
                 final CodegenProperty cp = fromProperty(key, prop);
                 cp.required = mandatory.contains(key) ? true : null;
+                m.hasRequired = Boolean.TRUE.equals(m.hasRequired) || Boolean.TRUE.equals(cp.required);
                 if (cp.isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
@@ -2525,10 +2608,18 @@ public class DefaultCodegen {
                 addImport(m, cp.complexType);
                 vars.add(cp);
 
-                if (Boolean.TRUE.equals(cp.required)) { // if required, add to the list "requiredVars"
+                // if required, add to the list "requiredVars"
+                if (Boolean.TRUE.equals(cp.required)) {
                     m.requiredVars.add(cp);
                 } else { // else add to the list "optionalVars" for optional property
                     m.optionalVars.add(cp);
+                }
+
+                // if readonly, add to readOnlyVars (list of properties)
+                if (Boolean.TRUE.equals(cp.isReadOnly)) {
+                    m.readOnlyVars.add(cp);
+                } else { // else add to readWriteVars (list of properties)
+                    m.readWriteVars.add(cp);
                 }
             }
         }

@@ -3,11 +3,57 @@
 #import "{{classPrefix}}QueryParamCollection.h"
 #import <ISO8601/ISO8601.h>
 
+NSString * {{classPrefix}}PercentEscapedStringFromString(NSString *string) {
+    static NSString * const k{{classPrefix}}CharactersGeneralDelimitersToEncode = @":#[]@";
+    static NSString * const k{{classPrefix}}CharactersSubDelimitersToEncode = @"!$&'()*+,;=";
+
+    NSMutableCharacterSet * allowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [allowedCharacterSet removeCharactersInString:[k{{classPrefix}}CharactersGeneralDelimitersToEncode stringByAppendingString:k{{classPrefix}}CharactersSubDelimitersToEncode]];
+
+    static NSUInteger const batchSize = 50;
+
+    NSUInteger index = 0;
+    NSMutableString *escaped = @"".mutableCopy;
+
+    while (index < string.length) {
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wgnu"
+        NSUInteger length = MIN(string.length - index, batchSize);
+        #pragma GCC diagnostic pop
+        NSRange range = NSMakeRange(index, length);
+
+        // To avoid breaking up character sequences such as 👴🏻👮🏽
+        range = [string rangeOfComposedCharacterSequencesForRange:range];
+
+        NSString *substring = [string substringWithRange:range];
+        NSString *encoded = [substring stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
+        [escaped appendString:encoded];
+
+        index += range.length;
+    }
+
+    return escaped;
+}
+
 @interface {{classPrefix}}Sanitizer ()
+
+@property (nonatomic, strong) NSRegularExpression* jsonHeaderTypeExpression;
 
 @end
 
 @implementation {{classPrefix}}Sanitizer
+
+static NSString * kApplicationJSONType = @"application/json";
+
+-(instancetype)init {
+    self = [super init];
+    if ( !self ) {
+        return nil;
+    }
+    _jsonHeaderTypeExpression = [NSRegularExpression regularExpressionWithPattern:@"(.*)application(.*)json(.*)" options:NSRegularExpressionCaseInsensitive error:nil];
+    return self;
+}
+
 
 - (id) sanitizeForSerialization:(id) object {
     if (object == nil) {
@@ -17,7 +63,7 @@
         return object;
     }
     else if ([object isKindOfClass:[NSDate class]]) {
-        return [object ISO8601String];
+        return [self dateParameterToString:object];
     }
     else if ([object isKindOfClass:[NSArray class]]) {
         NSArray *objectArray = object;
@@ -61,7 +107,7 @@
         return [param stringValue];
     }
     else if ([param isKindOfClass:[NSDate class]]) {
-        return [param ISO8601String];
+        return [self dateParameterToString:param];
     }
     else if ([param isKindOfClass:[NSArray class]]) {
         NSMutableArray *mutableParam = [NSMutableArray array];
@@ -77,6 +123,46 @@
                          userInfo:nil];
         @throw e;
     }
+}
+
+- (NSString *)dateParameterToString:(id)param {
+    return [param ISO8601String];
+}
+
+#pragma mark - Utility Methods
+
+/*
+ * Detect `Accept` from accepts
+ */
+- (NSString *) selectHeaderAccept:(NSArray *)accepts {
+    if (accepts.count == 0) {
+        return @"";
+    }
+    NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
+    for (NSString *string in accepts) {
+        if ([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0) {
+            return kApplicationJSONType;
+        }
+        [lowerAccepts addObject:[string lowercaseString]];
+    }
+    return [lowerAccepts componentsJoinedByString:@", "];
+}
+
+/*
+ * Detect `Content-Type` from contentTypes
+ */
+- (NSString *) selectHeaderContentType:(NSArray *)contentTypes {
+    if (contentTypes.count == 0) {
+        return kApplicationJSONType;
+    }
+    NSMutableArray *lowerContentTypes = [[NSMutableArray alloc] initWithCapacity:[contentTypes count]];
+    for (NSString *string in contentTypes) {
+        if([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0){
+            return kApplicationJSONType;
+        }
+        [lowerContentTypes addObject:[string lowercaseString]];
+    }
+    return [lowerContentTypes firstObject];
 }
 
 @end

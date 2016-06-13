@@ -2,12 +2,16 @@
     "name": "{{npmName}}",
     "version": "{{npmVersion}}",
     "description": "NodeJS client for {{npmName}}",
+    "repository": "{{gitUserId}}/{{gitRepoId}}",
     "main": "api.js",
     "scripts": {
-        "build": "typings install && tsc"
+        "postinstall": "typings install",
+        "clean": "rm -Rf node_modules/ typings/ *.js",
+        "build": "tsc",
+        "test": "npm run build && node client.js"
     },
     "author": "Swagger Codegen Contributors",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "dependencies": {
         "bluebird": "^3.3.5",
         "request": "^2.72.0"

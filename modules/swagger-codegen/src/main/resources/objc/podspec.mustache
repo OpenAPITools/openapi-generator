@@ -13,24 +13,25 @@ Pod::Spec.new do |s|
 {{#apiInfo}}{{#apis}}{{^hasMore}}
     s.summary          = "{{appName}}"
     s.description      = <<-DESC
-                         {{appDescription}}
+                         {{{appDescription}}}
                          DESC
 {{/hasMore}}{{/apis}}{{/apiInfo}}
     s.platform     = :ios, '7.0'
     s.requires_arc = true
 
-    s.framework    = 'SystemConfiguration'
-    
+    {{^useCoreData}}s.framework    = 'SystemConfiguration'{{/useCoreData}}{{#useCoreData}}s.frameworks = 'SystemConfiguration', 'CoreData'{{/useCoreData}}
+
     s.homepage     = "{{gitRepoURL}}"
-    s.license      = "{{license}}"
+    s.license      = "{{#license}}{{license}}{{/license}}{{^license}}Apache License, Version 2.0{{/license}}"
     s.source       = { :git => "{{gitRepoURL}}.git", :tag => "#{s.version}" }
     s.author       = { "{{authorName}}" => "{{authorEmail}}" }
 
-    s.source_files = '{{podName}}/**/*'
+    s.source_files = '{{podName}}/**/*.{m,h}'
     s.public_header_files = '{{podName}}/**/*.h'
+{{#useCoreData}}    s.resources      = '{{podName}}/**/*.{xcdatamodeld,xcdatamodel}'{{/useCoreData}}
 
-    s.dependency 'AFNetworking', '~> 2.3'
-    s.dependency 'JSONModel', '~> 1.1'
-    s.dependency 'ISO8601', '~> 0.3'
+    s.dependency 'AFNetworking', '~> 3'
+    s.dependency 'JSONModel', '~> 1.2'
+    s.dependency 'ISO8601', '~> 0.5'
 end
 
