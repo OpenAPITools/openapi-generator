@@ -66,4 +66,30 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType("int", $get_response['available']);
     }
      */
+
+    /**
+     * test empty array response
+     *
+     * Make sure empty arrays from a producer is actually returned as
+     * an empty array and not some other value. At some point it was
+     * returned as null because the code stumbled on PHP loose type
+     * checking (not on empty array is true, same thing could happen
+     * with careless use of empty()).
+     */
+    public function testEmptyArrayResponse()
+    {
+        // initialize the API client
+        $config = (new Configuration())->setHost('http://petstore.swagger.io/v2');
+        $apiClient = new ApiClient($config);
+        $storeApi = new Api\PetApi($apiClient);
+        // this call returns and empty array
+        $response = $storeApi->findPetsByStatus(array());
+
+        // make sure this is an array as we want it to be
+        $this->assertInternalType("array", $response);
+
+        // make sure the array is empty just in case the petstore
+        // server changes its output
+        $this->assertEmpty($response);
+    }
 }
