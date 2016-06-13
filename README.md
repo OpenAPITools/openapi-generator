@@ -864,6 +864,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
+- [Lascaux](http://www.lascaux.it/)
 - [LiveAgent](https://www.ladesk.com/)
 - [Kabuku](http://www.kabuku.co.jp/en)
 - [Kuary](https://kuary.com/)
