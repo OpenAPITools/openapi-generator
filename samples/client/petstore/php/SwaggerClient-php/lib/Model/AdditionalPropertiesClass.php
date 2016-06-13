@@ -65,7 +65,8 @@ class AdditionalPropertiesClass implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        
+        'map_property' => 'map[string,string]',
+        'map_of_map_property' => 'map[string,map[string,string]]'
     );
 
     public static function swaggerTypes()
@@ -78,7 +79,8 @@ class AdditionalPropertiesClass implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        
+        'map_property' => 'map_property',
+        'map_of_map_property' => 'map_of_map_property'
     );
 
     public static function attributeMap()
@@ -91,7 +93,8 @@ class AdditionalPropertiesClass implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        
+        'map_property' => 'setMapProperty',
+        'map_of_map_property' => 'setMapOfMapProperty'
     );
 
     public static function setters()
@@ -104,7 +107,8 @@ class AdditionalPropertiesClass implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        
+        'map_property' => 'getMapProperty',
+        'map_of_map_property' => 'getMapOfMapProperty'
     );
 
     public static function getters()
@@ -128,6 +132,8 @@ class AdditionalPropertiesClass implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['map_property'] = isset($data['map_property']) ? $data['map_property'] : null;
+        $this->container['map_of_map_property'] = isset($data['map_of_map_property']) ? $data['map_of_map_property'] : null;
     }
 
     /**
@@ -152,6 +158,48 @@ class AdditionalPropertiesClass implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets map_property
+     * @return map[string,string]
+     */
+    public function getMapProperty()
+    {
+        return $this->container['map_property'];
+    }
+
+    /**
+     * Sets map_property
+     * @param map[string,string] $map_property
+     * @return $this
+     */
+    public function setMapProperty($map_property)
+    {
+        $this->container['map_property'] = $map_property;
+
+        return $this;
+    }
+
+    /**
+     * Gets map_of_map_property
+     * @return map[string,map[string,string]]
+     */
+    public function getMapOfMapProperty()
+    {
+        return $this->container['map_of_map_property'];
+    }
+
+    /**
+     * Sets map_of_map_property
+     * @param map[string,map[string,string]] $map_of_map_property
+     * @return $this
+     */
+    public function setMapOfMapProperty($map_of_map_property)
+    {
+        $this->container['map_of_map_property'] = $map_of_map_property;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset
