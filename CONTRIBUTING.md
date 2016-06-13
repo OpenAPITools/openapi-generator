@@ -33,12 +33,14 @@ Code change should conform to the programming style guide of the respective lang
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/tree/master/es5
+- Groovy: http://groovy-lang.org/style-guide.html
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - Perl: http://perldoc.perl.org/perlstyle.html
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
 - Python: https://www.python.org/dev/peps/pep-0008/
 - Ruby: https://github.com/bbatsov/ruby-style-guide
+- Scala: http://docs.scala-lang.org/style/
 - Swift: https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
 
