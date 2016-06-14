@@ -32,6 +32,9 @@
   var exports = function() {
     var _this = this;
 
+
+
+
   };
 
   /**
@@ -45,10 +48,31 @@
     if (data) {
       obj = obj || new exports();
 
+      if (data.hasOwnProperty('array_of_string')) {
+        obj['array_of_string'] = ApiClient.convertToType(data['array_of_string'], ['String']);
+      }
+      if (data.hasOwnProperty('array_array_of_integer')) {
+        obj['array_array_of_integer'] = ApiClient.convertToType(data['array_array_of_integer'], [['Integer']]);
+      }
+      if (data.hasOwnProperty('array_array_of_model')) {
+        obj['array_array_of_model'] = ApiClient.convertToType(data['array_array_of_model'], [[ReadOnlyFirst]]);
+      }
     }
     return obj;
   }
 
+  /**
+   * @member {Array.<String>} array_of_string
+   */
+  exports.prototype['array_of_string'] = undefined;
+  /**
+   * @member {Array.<Array.<Integer>>} array_array_of_integer
+   */
+  exports.prototype['array_array_of_integer'] = undefined;
+  /**
+   * @member {Array.<Array.<module:model/ReadOnlyFirst>>} array_array_of_model
+   */
+  exports.prototype['array_array_of_model'] = undefined;
 
 
 

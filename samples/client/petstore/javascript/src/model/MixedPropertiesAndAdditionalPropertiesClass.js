@@ -28,14 +28,13 @@
    * Constructs a new <code>MixedPropertiesAndAdditionalPropertiesClass</code>.
    * @alias module:model/MixedPropertiesAndAdditionalPropertiesClass
    * @class
-   * @extends Object
    */
   var exports = function() {
     var _this = this;
 
 
 
-    return _this;
+
   };
 
   /**
@@ -48,13 +47,15 @@
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
-      ApiClient.constructFromObject(data, obj, Animal);
 
       if (data.hasOwnProperty('uuid')) {
         obj['uuid'] = ApiClient.convertToType(data['uuid'], 'String');
       }
       if (data.hasOwnProperty('dateTime')) {
         obj['dateTime'] = ApiClient.convertToType(data['dateTime'], 'Date');
+      }
+      if (data.hasOwnProperty('map')) {
+        obj['map'] = ApiClient.convertToType(data['map'], {'String': Animal});
       }
     }
     return obj;
@@ -68,6 +69,10 @@
    * @member {Date} dateTime
    */
   exports.prototype['dateTime'] = undefined;
+  /**
+   * @member {Object.<String, module:model/Animal>} map
+   */
+  exports.prototype['map'] = undefined;
 
 
 

@@ -28,12 +28,12 @@
    * Constructs a new <code>AdditionalPropertiesClass</code>.
    * @alias module:model/AdditionalPropertiesClass
    * @class
-   * @extends Object
    */
   var exports = function() {
     var _this = this;
 
-    return _this;
+
+
   };
 
   /**
@@ -46,12 +46,25 @@
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
-      ApiClient.constructFromObject(data, obj, String);
 
+      if (data.hasOwnProperty('map_property')) {
+        obj['map_property'] = ApiClient.convertToType(data['map_property'], {'String': 'String'});
+      }
+      if (data.hasOwnProperty('map_of_map_property')) {
+        obj['map_of_map_property'] = ApiClient.convertToType(data['map_of_map_property'], {'String': {'String': 'String'}});
+      }
     }
     return obj;
   }
 
+  /**
+   * @member {Object.<String, String>} map_property
+   */
+  exports.prototype['map_property'] = undefined;
+  /**
+   * @member {Object.<String, Object.<String, String>>} map_of_map_property
+   */
+  exports.prototype['map_of_map_property'] = undefined;
 
 
 
