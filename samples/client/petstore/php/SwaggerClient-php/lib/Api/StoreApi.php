@@ -184,6 +184,7 @@ class StoreApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -264,9 +265,6 @@ class StoreApi
                 $headerParams,
                 'map[string,int]'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
@@ -366,9 +364,6 @@ class StoreApi
                 $headerParams,
                 '\Swagger\Client\Model\Order'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
@@ -458,9 +453,6 @@ class StoreApi
                 $headerParams,
                 '\Swagger\Client\Model\Order'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
