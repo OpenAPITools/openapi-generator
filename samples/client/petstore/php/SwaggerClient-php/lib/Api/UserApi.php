@@ -177,6 +177,7 @@ class UserApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -260,6 +261,7 @@ class UserApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -343,6 +345,7 @@ class UserApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -429,6 +432,7 @@ class UserApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -516,9 +520,6 @@ class UserApi
                 $headerParams,
                 '\Swagger\Client\Model\User'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
@@ -617,9 +618,6 @@ class UserApi
                 $headerParams,
                 'string'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
@@ -697,6 +695,7 @@ class UserApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -794,6 +793,7 @@ class UserApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
