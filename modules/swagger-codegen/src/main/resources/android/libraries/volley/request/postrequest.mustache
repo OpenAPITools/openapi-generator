@@ -34,7 +34,7 @@ public class PostRequest extends Request<String> {
 
     @Override
     public String getBodyContentType() {
-        if(entity == null ) {
+        if(entity == null) {
             return null;
         }
         return entity.getContentType().getValue();
