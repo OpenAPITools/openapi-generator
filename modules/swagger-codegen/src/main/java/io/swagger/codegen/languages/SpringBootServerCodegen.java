@@ -47,6 +47,7 @@ public class SpringBootServerCodegen extends AbstractJavaCodegen {
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put("spring-mvc", "Spring-MVC Server application using the SpringFox integration.");
+        setLibrary(DEFAULT_LIBRARY);
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
@@ -127,7 +128,7 @@ public class SpringBootServerCodegen extends AbstractJavaCodegen {
                 supportingFiles.add(new SupportingFile("application.properties",
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
             }
-            if (library.equals("mvc")) {
+            if (library.equals("spring-mvc")) {
                 supportingFiles.add(new SupportingFile("webApplication.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
                 supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
