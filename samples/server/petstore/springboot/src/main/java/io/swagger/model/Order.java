@@ -1,7 +1,5 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
@@ -12,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 
-@ApiModel(description = "")
 
+@ApiModel(description = "")
 public class Order  {
   
   private Long id = null;

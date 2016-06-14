@@ -2,7 +2,7 @@ package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,13 +11,13 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-11T18:25:35.092+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-14T14:20:46.451+02:00")
 public class Order  {
   
   private Long id = null;
   private Long petId = null;
   private Integer quantity = null;
-  private Date shipDate = null;
+  private OffsetDateTime shipDate = null;
   public enum StatusEnum {
      placed,  approved,  delivered, 
   };
@@ -62,10 +62,10 @@ public class Order  {
    **/
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
-  public Date getShipDate() {
+  public OffsetDateTime getShipDate() {
     return shipDate;
   }
-  public void setShipDate(Date shipDate) {
+  public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 

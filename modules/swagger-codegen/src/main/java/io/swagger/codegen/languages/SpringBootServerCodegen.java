@@ -26,13 +26,13 @@ public class SpringBootServerCodegen extends AbstractJavaCodegen {
 
     public SpringBootServerCodegen() {
         super();
-        outputFolder = "generated-code/javaSpringBoot";
+        outputFolder = "generated-code/javaSpring";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpringBoot";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         invokerPackage = "io.swagger.api";
-        artifactId = "swagger-springboot-server";
+        artifactId = "swagger-spring-server";
 
         additionalProperties.put("title", title);
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
@@ -45,17 +45,14 @@ public class SpringBootServerCodegen extends AbstractJavaCodegen {
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
 
-        supportedLibraries.put(DEFAULT_LIBRARY, "Default Spring Boot server stub.");
-        supportedLibraries.put("j8-async", "Use async servlet feature and Java 8's default interface. Generating interface with service " +
-                "declaration is useful when using Maven plugin. Just provide a implementation with @Controller to instantiate service." +
-                "(DEPRECATED: use -Djava8=true,async=true instead)");
+        supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
+        supportedLibraries.put("spring-mvc", "Spring-MVC Server application using the SpringFox integration.");
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
         library.setEnum(supportedLibraries);
         library.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(library);
-
     }
 
     @Override
@@ -65,7 +62,7 @@ public class SpringBootServerCodegen extends AbstractJavaCodegen {
 
     @Override
     public String getName() {
-        return "springboot";
+        return "spring";
     }
 
     @Override
@@ -122,17 +119,24 @@ public class SpringBootServerCodegen extends AbstractJavaCodegen {
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
             supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));
-            supportingFiles.add(new SupportingFile("homeController.mustache",
-                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
-            supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
-                    (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
-            supportingFiles.add(new SupportingFile("application.properties",
-                    ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
-        }
-
-        if ("j8-async".equals(getLibrary())) {
-            setJava8(true);
-            setAsync(true);
+            if (library.equals(DEFAULT_LIBRARY)) {
+                supportingFiles.add(new SupportingFile("homeController.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
+                supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
+                supportingFiles.add(new SupportingFile("application.properties",
+                        ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
+            }
+            if (library.equals("mvc")) {
+                supportingFiles.add(new SupportingFile("webApplication.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
+                supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebMvcConfiguration.java"));
+                supportingFiles.add(new SupportingFile("swaggerUiConfiguration.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerUiConfiguration.java"));
+                supportingFiles.add(new SupportingFile("application.properties",
+                        ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
+            }
         }
 
         if (this.java8) {

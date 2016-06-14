@@ -1,7 +1,5 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Category;
@@ -15,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 
-@ApiModel(description = "")
 
+@ApiModel(description = "")
 public class Pet  {
   
   private Long id = null;

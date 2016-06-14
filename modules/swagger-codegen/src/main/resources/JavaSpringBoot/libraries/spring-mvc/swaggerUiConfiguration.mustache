@@ -1,17 +1,13 @@
-package io.swagger.configuration;
+package {{configPackage}};
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:43:02.966+02:00")
+{{>generatedAnnotation}}
 @Configuration
-@ComponentScan(basePackages = "io.swagger.api")
+@ComponentScan(basePackages = "{{apiPackage}}")
 @EnableWebMvc
 @EnableSwagger2 //Loads the spring beans required by the framework
 @PropertySource("classpath:swagger.properties")
