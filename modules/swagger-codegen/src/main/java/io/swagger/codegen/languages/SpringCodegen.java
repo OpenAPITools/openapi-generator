@@ -9,7 +9,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import java.io.File;
 import java.util.*;
 
-public class SpringBootServerCodegen extends AbstractJavaCodegen {
+public class SpringCodegen extends AbstractJavaCodegen {
+    public static final String DEFAULT_LIBRARY = "spring-boot";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
@@ -24,11 +25,11 @@ public class SpringBootServerCodegen extends AbstractJavaCodegen {
     protected boolean java8 = false;
     protected boolean async = false;
 
-    public SpringBootServerCodegen() {
+    public SpringCodegen() {
         super();
         outputFolder = "generated-code/javaSpring";
         apiTestTemplateFiles.clear(); // TODO: add test template
-        embeddedTemplateDir = templateDir = "JavaSpringBoot";
+        embeddedTemplateDir = templateDir = "JavaSpring";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         invokerPackage = "io.swagger.api";
