@@ -40,7 +40,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.2.0. JSON processing: Gson 2.6.1 (Retrofit 2.0.2). Enable the RxJava adapter using '-DuseRxJava=true'. (RxJava 1.1.3)");
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
         library.setEnum(supportedLibraries);
         library.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(library);

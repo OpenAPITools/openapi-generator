@@ -1,6 +1,5 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 
-@ApiModel(description = "")
 
+@ApiModel(description = "")
 public class ModelApiResponse  {
   
   private Integer code = null;

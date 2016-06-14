@@ -10,7 +10,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-14T14:20:46.451+02:00")
 @Configuration
 public class SwaggerDocumentationConfig {
 
@@ -32,8 +32,8 @@ public class SwaggerDocumentationConfig {
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("io.swagger.api"))
                     .build()
-                .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
+                .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
+                .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)
                 .apiInfo(apiInfo());
     }
 
