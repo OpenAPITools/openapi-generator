@@ -27,7 +27,7 @@ export class PetApi {
     public addPet (body?: models.Pet, extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/pet';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -37,7 +37,13 @@ export class PetApi {
         requestOptions.body = JSON.stringify(body);
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -50,7 +56,7 @@ export class PetApi {
         const path = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         // verify required parameter 'petId' is set
         if (!petId) {
@@ -65,7 +71,13 @@ export class PetApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -73,13 +85,13 @@ export class PetApi {
      * Multiple status values can be provided with comma seperated strings
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus (status?: models.Array<string>, extraHttpRequestParams?: any ) : Observable<Array<models.Pet>> {
+    public findPetsByStatus (status?: Array<string>, extraHttpRequestParams?: any ) : Observable<Array<models.Pet>> {
         const path = this.basePath + '/pet/findByStatus';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         if (status !== undefined) {
-            queryParameters['status'] = status;
+            queryParameters.set('status', status);
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -89,7 +101,13 @@ export class PetApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -97,13 +115,13 @@ export class PetApi {
      * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    public findPetsByTags (tags?: models.Array<string>, extraHttpRequestParams?: any ) : Observable<Array<models.Pet>> {
+    public findPetsByTags (tags?: Array<string>, extraHttpRequestParams?: any ) : Observable<Array<models.Pet>> {
         const path = this.basePath + '/pet/findByTags';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         if (tags !== undefined) {
-            queryParameters['tags'] = tags;
+            queryParameters.set('tags', tags);
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -113,7 +131,13 @@ export class PetApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -125,7 +149,7 @@ export class PetApi {
         const path = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         // verify required parameter 'petId' is set
         if (!petId) {
@@ -138,7 +162,13 @@ export class PetApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -149,7 +179,7 @@ export class PetApi {
     public updatePet (body?: models.Pet, extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/pet';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'PUT',
@@ -159,7 +189,13 @@ export class PetApi {
         requestOptions.body = JSON.stringify(body);
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -173,7 +209,7 @@ export class PetApi {
         const path = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let formParams = new URLSearchParams();
 
@@ -195,7 +231,13 @@ export class PetApi {
         requestOptions.body = formParams.toString();
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -205,11 +247,11 @@ export class PetApi {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile (petId: number, additionalMetadata?: string, file?: models.any, extraHttpRequestParams?: any ) : Observable<{}> {
+    public uploadFile (petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', String(petId));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let formParams = new URLSearchParams();
 
@@ -231,7 +273,13 @@ export class PetApi {
         requestOptions.body = formParams.toString();
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
 }
