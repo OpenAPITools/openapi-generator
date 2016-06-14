@@ -297,6 +297,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("mocha.opts", "", "mocha.opts"));
+        supportingFiles.add(new SupportingFile("travis.yml", "", ".travis.yml"));
     }
 
     @Override
