@@ -1,5 +1,7 @@
 package io.swagger.codegen.languages;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.swagger.codegen.CodegenConfig;
@@ -24,6 +26,7 @@ import org.slf4j.LoggerFactory;
 public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Rails5ServerCodegen.class);
+    private static final SimpleDateFormat MIGRATE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
 
     protected String gemName;
     protected String moduleName;
@@ -57,12 +60,13 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
 
     public Rails5ServerCodegen() {
         super();
-        apiPackage = "app/controllers";
         outputFolder = "generated-code" + File.separator + "rails5";
-
-        // no model
-        modelTemplateFiles.clear();
+        apiPackage = "app/controllers";
         apiTemplateFiles.put("controller.mustache", ".rb");
+
+        modelPackage = "app/models";
+        modelTemplateFiles.put("model.mustache", ".rb");
+
         embeddedTemplateDir = templateDir = "rails5";
 
         typeMapping.clear();
@@ -77,21 +81,21 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
                         "if", "not", "return", "undef", "yield")
         );
 
-        languageSpecificPrimitives.add("int");
-        languageSpecificPrimitives.add("array");
-        languageSpecificPrimitives.add("map");
-        languageSpecificPrimitives.add("string");
-        languageSpecificPrimitives.add("DateTime");
-
-        typeMapping.put("long", "int");
-        typeMapping.put("integer", "int");
-        typeMapping.put("Array", "array");
-        typeMapping.put("String", "string");
-        typeMapping.put("List", "array");
-        typeMapping.put("map", "map");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
+        typeMapping.put("string", "string");
+        typeMapping.put("char", "string");
+        typeMapping.put("int", "integer");
+        typeMapping.put("integer", "integer");
+        typeMapping.put("long", "integer");
+        typeMapping.put("short", "integer");
+        typeMapping.put("float", "float");
+        typeMapping.put("double", "decimal");
+        typeMapping.put("number", "float");
+        typeMapping.put("date", "date");
+        typeMapping.put("DateTime", "datetime");
+        typeMapping.put("boolean", "boolean");
         typeMapping.put("binary", "string");
+        typeMapping.put("ByteArray", "string");
+        typeMapping.put("UUID", "string");
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
@@ -145,6 +149,7 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("secrets.yml", configFolder, "secrets.yml"));
         supportingFiles.add(new SupportingFile("spring.rb", configFolder, "spring.rb"));
         supportingFiles.add(new SupportingFile(".keep", migrateFolder, ".keep"));
+        supportingFiles.add(new SupportingFile("migrate.mustache", migrateFolder, "0_init_tables.rb"));
         supportingFiles.add(new SupportingFile("schema.rb", dbFolder, "schema.rb"));
         supportingFiles.add(new SupportingFile("seeds.rb", dbFolder, "seeds.rb"));
         supportingFiles.add(new SupportingFile(".keep", tasksFolder, ".keep"));
@@ -205,24 +210,6 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            }
-        } else {
-            type = swaggerType;
-        }
-        if (type == null) {
-            return null;
-        }
-        return type;
-    }
-
-    @Override
     public String toDefaultValue(Property p) {
         return "null";
     }
@@ -247,6 +234,16 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         return name;
+    }
+
+    @Override
+    public String getSwaggerType(Property p) {
+        String swaggerType = super.getSwaggerType(p);
+        String type = null;
+        if (typeMapping.containsKey(swaggerType)) {
+            return typeMapping.get(swaggerType);
+        }
+        return "string";
     }
 
     @Override

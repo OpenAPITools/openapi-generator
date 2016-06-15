@@ -6,20 +6,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.DateTime;
 
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-03T00:41:43.242+08:00")
+
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   
   private String uuid = null;
-  private Date dateTime = null;
+  private DateTime dateTime = null;
   private Map<String, Animal> map = new HashMap<String, Animal>();
 
   
@@ -42,17 +42,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   /**
    **/
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(DateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("dateTime")
-  public Date getDateTime() {
+  public DateTime getDateTime() {
     return dateTime;
   }
-  public void setDateTime(Date dateTime) {
+  public void setDateTime(DateTime dateTime) {
     this.dateTime = dateTime;
   }
 

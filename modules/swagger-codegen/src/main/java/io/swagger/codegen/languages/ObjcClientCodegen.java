@@ -23,7 +23,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String GIT_REPO_URL = "gitRepoURL";
     public static final String DEFAULT_LICENSE = "Apache License, Version 2.0";
     public static final String CORE_DATA = "coreData";
-    public static final String BinaryDataType = "ObjcClientCodegenBinaryData";
     
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String podName = "SwaggerClient";
@@ -70,8 +69,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         defaultIncludes.add("NSMutableArray");
         defaultIncludes.add("NSMutableDictionary");
         defaultIncludes.add("NSManagedObject");
-
-        defaultIncludes.add(BinaryDataType);
+        defaultIncludes.add("NSData");
 
         advancedMapingTypes.add("NSDictionary");
         advancedMapingTypes.add("NSArray");
@@ -88,6 +86,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("NSString");
         languageSpecificPrimitives.add("NSObject");
         languageSpecificPrimitives.add("NSDate");
+        languageSpecificPrimitives.add("NSData");
         languageSpecificPrimitives.add("NSURL");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("BOOL");
@@ -109,8 +108,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "NSArray");
         typeMapping.put("object", "NSObject");
         typeMapping.put("file", "NSURL");
-        typeMapping.put("binary", BinaryDataType);
-        typeMapping.put("ByteArray", BinaryDataType);
+        typeMapping.put("binary", "NSData");
+        typeMapping.put("ByteArray", "NSData");
+        typeMapping.put("byte", "NSData");
 
         // ref: http://www.tutorialspoint.com/objective_c/objective_c_basic_syntax.htm
         setReservedWordsLowerCase(
@@ -143,6 +143,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "NSObject",
                         "NSString",
                         "NSDate",
+                        "NSData",
                         "NSURL",
                         "NSDictionary")
         );
@@ -317,15 +318,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
-            String innerType = getSwaggerType(inner);
-
             String innerTypeDeclaration = getTypeDeclaration(inner);
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
-            }
-            
-            if(innerTypeDeclaration.equalsIgnoreCase(BinaryDataType)) {
-                return "NSData*";
             }
             // In this condition, type of property p is array of primitive,
             // return container type with pointer, e.g. `NSArray*<NSString*>*'
@@ -363,7 +358,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else {
             String swaggerType = getSwaggerType(p);
-
             // In this condition, type of p is objective-c primitive type, e.g. `NSSNumber',
             // return type of p with pointer, e.g. `NSNumber*'
             if (languageSpecificPrimitives.contains(swaggerType) &&
@@ -393,10 +387,6 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             String innerTypeDeclaration = getTypeDeclaration(inner);
             if (innerTypeDeclaration.endsWith("*")) {
                 innerTypeDeclaration = innerTypeDeclaration.substring(0, innerTypeDeclaration.length() - 1);
-            }
-
-            if(innerTypeDeclaration.equalsIgnoreCase(BinaryDataType)) {
-                return "NSData*";
             }
             // In this codition, type of property p is array of primitive,
             // return container type with pointer, e.g. `NSArray*<NSString*>*'
@@ -452,6 +442,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return swaggerType + "*";
             }
         }
+    }
+
+    @Override
+    public boolean isDataTypeBinary(String dataType) {
+        return dataType.toLowerCase().startsWith("nsdata");
     }
 
     @Override

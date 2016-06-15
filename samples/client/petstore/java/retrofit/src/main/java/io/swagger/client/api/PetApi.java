@@ -7,8 +7,8 @@ import retrofit.http.*;
 import retrofit.mime.*;
 
 import io.swagger.client.model.Pet;
-import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.HashMap;

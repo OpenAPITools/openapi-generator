@@ -191,7 +191,7 @@ class ApiClient(object):
         :return: The serialized form of data.
         """
         types = (str, int, float, bool, tuple)
-        if sys.version_info < (3,0):
+        if sys.version_info < (3, 0):
             types = types + (unicode,)
         if isinstance(obj, type(None)):
             return None

@@ -16,6 +16,9 @@ public class Cat extends Animal  {
   @SerializedName("className")
   private String className = null;
 
+  @SerializedName("color")
+  private String color = "red";
+
   @SerializedName("declawed")
   private Boolean declawed = null;
 
@@ -27,6 +30,16 @@ public class Cat extends Animal  {
   }
   public void setClassName(String className) {
     this.className = className;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getColor() {
+    return color;
+  }
+  public void setColor(String color) {
+    this.color = color;
   }
 
   /**
@@ -50,12 +63,13 @@ public class Cat extends Animal  {
     }
     Cat cat = (Cat) o;
     return Objects.equals(className, cat.className) &&
+        Objects.equals(color, cat.color) &&
         Objects.equals(declawed, cat.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, declawed);
+    return Objects.hash(className, color, declawed);
   }
 
   @Override
@@ -64,6 +78,7 @@ public class Cat extends Animal  {
     sb.append("class Cat {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();

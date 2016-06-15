@@ -57,7 +57,7 @@ namespace IO.Swagger.Test
         [Test]
         public void OrderInstanceTest()
         {
-            Assert.IsInstanceOf<Order> (instance, "instance is a Order");
+			Assert.IsInstanceOfType(typeof(Order), instance, "instance is a Order");
         }
 
         /// <summary>

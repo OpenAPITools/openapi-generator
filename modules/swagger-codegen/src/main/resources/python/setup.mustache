@@ -7,9 +7,7 @@ from setuptools import setup, find_packages
 
 NAME = "{{packageName}}"
 VERSION = "{{packageVersion}}"
-
 {{#apiInfo}}{{#apis}}{{^hasMore}}
-
 # To install the library, run the following
 #
 # python setup.py install
@@ -33,5 +31,4 @@ setup(
     {{appDescription}}
     """
 )
-
 {{/hasMore}}{{/apis}}{{/apiInfo}}

@@ -1,21 +1,9 @@
 package io.swagger.codegen.objc;
 
-import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.*;
 import io.swagger.codegen.languages.ObjcClientCodegen;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.*;
+import io.swagger.models.properties.*;
 import io.swagger.parser.SwaggerParser;
 
 import com.google.common.collect.Sets;
@@ -277,6 +265,20 @@ public class ObjcModelTest {
         Assert.assertEquals(cm.parent, "NSMutableDictionary");
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("SWGChildren")).size(), 1);
+    }
+
+    @Test(description = "test binary data")
+    public void binaryDataModelTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/binaryDataTest.json");
+        final DefaultCodegen codegen = new ObjcClientCodegen();
+        final String path = "/tests/binaryResponse";
+        final Operation p = model.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getDefinitions());
+
+        Assert.assertEquals(op.returnType, "NSData*");
+        Assert.assertEquals(op.bodyParam.dataType, "NSData*");
+        Assert.assertTrue(op.bodyParam.isBinary);
+        Assert.assertTrue(op.responses.get(0).isBinary);
     }
 
     @Test(description = "create proper imports per #316")

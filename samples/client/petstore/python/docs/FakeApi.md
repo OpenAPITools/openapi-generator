@@ -1,4 +1,4 @@
-# swagger_client.FakeApi
+# petstore_api.FakeApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -17,12 +17,12 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example 
 ```python
 import time
-import swagger_client
-from swagger_client.rest import ApiException
+import petstore_api
+from petstore_api.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.FakeApi()
+api_instance = petstore_api.FakeApi()
 number = 3.4 # float | None
 double = 1.2 # float | None
 string = 'string_example' # str | None

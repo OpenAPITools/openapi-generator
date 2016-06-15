@@ -25,7 +25,8 @@ namespace {{packageName}}.Test
     [TestFixture]
     public class {{classname}}Tests
     {
-        private {{classname}} instance;
+        // TODO uncomment below to declare an instance variable for {{classname}}
+        //private {{classname}} instance;
 
         /// <summary>
         /// Setup before each test
@@ -33,7 +34,8 @@ namespace {{packageName}}.Test
         [SetUp]
         public void Init()
         {
-            instance = new {{classname}}();
+            // TODO uncomment below to create an instance of {{classname}}
+            //instance = new {{classname}}();
         }
 
         /// <summary>
@@ -51,7 +53,8 @@ namespace {{packageName}}.Test
         [Test]
         public void {{classname}}InstanceTest()
         {
-            Assert.IsInstanceOf<{{classname}}> (instance, "instance is a {{classname}}");
+            // TODO uncomment below to test "IsInstanceOfType" {{classname}}
+            //Assert.IsInstanceOfType<{{classname}}> (instance, "variable 'instance' is a {{classname}}");
         }
 
         {{#vars}}
@@ -61,7 +64,7 @@ namespace {{packageName}}.Test
         [Test]
         public void {{name}}Test()
         {
-            // TODO: unit test for the property '{{name}}'
+            // TODO unit test for the property '{{name}}'
         }
         {{/vars}}
 

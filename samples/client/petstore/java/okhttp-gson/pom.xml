@@ -105,40 +105,6 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <!-- For testing build.gradle, build.sbt -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
-        <executions>
-          <execution>
-            <id>gradle-test</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>gradle</executable>
-              <arguments>
-                <argument>check</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>sbt-test</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>sbt</executable>
-              <arguments>
-                <argument>publishLocal</argument>
-              </arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -162,6 +128,11 @@
       <artifactId>gson</artifactId>
       <version>${gson-version}</version>
     </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${jodatime-version}</version>
+  </dependency>
 
     <!-- test dependencies -->
     <dependency>
@@ -172,9 +143,10 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-core-version>1.5.8</swagger-core-version>
+    <swagger-core-version>1.5.9</swagger-core-version>
     <okhttp-version>2.7.5</okhttp-version>
     <gson-version>2.6.2</gson-version>
+    <jodatime-version>2.9.3</jodatime-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * AnimalFarm
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-31T18:50:49.249+02:00")
+
 public class AnimalFarm extends ArrayList<Animal>  {
   
 

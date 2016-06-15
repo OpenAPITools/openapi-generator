@@ -71,8 +71,8 @@ static inline NSMutableURLRequest *OMGMutableURLRequest() {
 @implementation OMGHTTPURLRQ
 
 + (NSMutableURLRequest *)GET:(NSString *)urlString :(NSDictionary *)params error:(NSError **)error {
-    id queryString = OMGFormURLEncode(params);
-    if (queryString) urlString = [urlString stringByAppendingFormat:@"?%@", queryString];
+    NSString *queryString = OMGFormURLEncode(params);
+    if (queryString.length) urlString = [urlString stringByAppendingFormat:@"?%@", queryString];
 
     id url = [NSURL URLWithString:urlString];
     if (!url) {

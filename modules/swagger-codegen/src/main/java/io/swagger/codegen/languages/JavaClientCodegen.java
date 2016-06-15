@@ -30,7 +30,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
 
-    protected String dateLibrary = "default";
+    protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
@@ -128,6 +128,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, String> dateOptions = new HashMap<String, String>();
         dateOptions.put("java8", "Java 8 native");
         dateOptions.put("joda", "Joda");
+        dateOptions.put("legacy", "Legacy java.util.Date");
         dateLibrary.setEnum(dateOptions);
 
         cliOptions.add(dateLibrary);
@@ -261,7 +262,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        writeOptional(outputFolder, new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
@@ -275,6 +276,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
             supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         }
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -332,6 +335,8 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
             supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
                     gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
 
             //generate markdown docs for retrofit2
             if ( usesRetrofit2Library() ){
