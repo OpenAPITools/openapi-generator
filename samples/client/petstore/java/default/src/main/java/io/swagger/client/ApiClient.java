@@ -41,7 +41,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-17T15:55:38.841+08:00")
+
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io/v2";
@@ -75,13 +75,8 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
-    authentications.put("test_api_client_id", new ApiKeyAuth("header", "x-test_api_client_id"));
-    authentications.put("test_api_client_secret", new ApiKeyAuth("header", "x-test_api_client_secret"));
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    authentications.put("test_http_basic", new HttpBasicAuth());
-    authentications.put("test_api_key_query", new ApiKeyAuth("query", "test_api_key_query"));
-    authentications.put("test_api_key_header", new ApiKeyAuth("header", "test_api_key_header"));
+    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 

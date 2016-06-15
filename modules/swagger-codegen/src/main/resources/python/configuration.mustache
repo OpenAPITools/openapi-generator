@@ -17,6 +17,7 @@ import logging
 
 from six import iteritems
 
+
 def singleton(cls, *args, **kw):
     instances = {}
 
@@ -59,7 +60,6 @@ class Configuration(object):
         # access token for OAuth
         self.access_token = ""
 {{/isOAuth}}{{/authMethods}}
-
         # Logging Settings
         self.logger = {}
         self.logger["package_logger"] = logging.getLogger("{{packageName}}")
@@ -219,7 +219,7 @@ class Configuration(object):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-{{/isBasic}}{{#isOauth}}
+{{/isBasic}}{{#isOAuth}}
             '{{name}}': 
                 {
                     'type': 'oauth2',
@@ -227,7 +227,7 @@ class Configuration(object):
                     'key': 'Authorization',
                     'value': 'Bearer ' + self.access_token
                 },
-{{/isOauth}}{{/authMethods}}
+{{/isOAuth}}{{/authMethods}}
         }
 
     def to_debug_report(self):

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import io.swagger.annotations.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,13 +13,13 @@ import java.util.Objects;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-05-05T15:30:42.322+08:00")
+
 public class Order  {
   
   private Long id = null;
   private Long petId = null;
   private Integer quantity = null;
-  private Date shipDate = null;
+  private DateTime shipDate = null;
   public enum StatusEnum {
      placed,  approved,  delivered, 
   };
@@ -64,10 +64,10 @@ public class Order  {
    **/
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
-  public Date getShipDate() {
+  public DateTime getShipDate() {
     return shipDate;
   }
-  public void setShipDate(Date shipDate) {
+  public void setShipDate(DateTime shipDate) {
     this.shipDate = shipDate;
   }
 

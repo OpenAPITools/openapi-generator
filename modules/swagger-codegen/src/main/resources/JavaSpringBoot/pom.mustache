@@ -14,7 +14,7 @@
 		<version>1.3.3.RELEASE</version>
 	</parent>
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>{{^interfaceOnly}}
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -27,7 +27,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+		</plugins>{{/interfaceOnly}}
 	</build>
 	<dependencies>
 		<dependency>
@@ -49,6 +49,15 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
 		</dependency>
 	</dependencies>
 </project>

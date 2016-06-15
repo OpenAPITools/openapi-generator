@@ -25,6 +25,7 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         configPackage = "io.swagger.configuration";
         invokerPackage = "io.swagger.api";
         artifactId = "swagger-spring-mvc-server";
+        dateLibrary = "legacy";
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);

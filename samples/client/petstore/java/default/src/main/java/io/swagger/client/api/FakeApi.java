@@ -8,7 +8,8 @@ import io.swagger.client.Configuration;
 import io.swagger.client.model.*;
 import io.swagger.client.Pair;
 
-import java.util.Date;
+import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 import java.math.BigDecimal;
 
 
@@ -54,7 +55,7 @@ public class FakeApi {
    * @param password None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, LocalDate date, DateTime dateTime, String password) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
@@ -113,12 +114,12 @@ if (password != null)
       localVarFormParams.put("password", password);
 
     final String[] localVarAccepts = {
-      "application/xml", "application/json"
+      "application/xml; charset=utf-8", "application/json; charset=utf-8"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      
+      "application/xml; charset=utf-8", "application/json; charset=utf-8"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 

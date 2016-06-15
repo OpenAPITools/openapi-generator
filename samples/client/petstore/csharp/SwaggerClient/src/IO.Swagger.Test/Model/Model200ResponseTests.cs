@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void Model200ResponseInstanceTest()
         {
-            Assert.IsInstanceOf<Model200Response> (instance, "instance is a Model200Response");
+			Assert.IsInstanceOfType(typeof(Model200Response), instance, "instance is a Model200Response");
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 package io.swagger.codegen.ignore;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
@@ -17,6 +18,7 @@ public class CodegenIgnoreProcessorTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(CodegenIgnoreProcessorTest.class);
 
     private Boolean allowed;
+    private Boolean skip = false;
     private final String filename;
     private final String ignoreDefinition;
     private final String description;
@@ -32,6 +34,11 @@ public class CodegenIgnoreProcessorTest {
 
     CodegenIgnoreProcessorTest allowed() {
         this.allowed = true;
+        return this;
+    }
+
+    CodegenIgnoreProcessorTest skipOnCondition(Boolean condition) {
+        this.skip = Boolean.TRUE.equals(condition);
         return this;
     }
 
@@ -73,6 +80,10 @@ public class CodegenIgnoreProcessorTest {
 
     @Test
     public void evaluate() {
+        if(this.skip) {
+            return;
+        }
+
         // Arrange
         try {
             // Lazily setup files to avoid conflicts and creation when these tests may not even run.
@@ -97,7 +108,7 @@ public class CodegenIgnoreProcessorTest {
                 // Matching filenames
                 new CodegenIgnoreProcessorTest("build.sh", "build.sh", "A file when matching should ignore.").ignored(),
                 new CodegenIgnoreProcessorTest("src/build.sh", "**/build.sh", "A file when matching nested files should ignore.").ignored(),
-                new CodegenIgnoreProcessorTest("Build.sh", "build.sh", "A file when non-matching should allow.").allowed(),
+                new CodegenIgnoreProcessorTest("Build.sh", "build.sh", "A file when non-matching should allow.").allowed().skipOnCondition(SystemUtils.IS_OS_WINDOWS),
                 new CodegenIgnoreProcessorTest("build.sh", "/build.sh", "A rooted file when matching should ignore.").ignored(),
                 new CodegenIgnoreProcessorTest("nested/build.sh", "/build.sh", "A rooted file definition when non-matching should allow.").allowed(),
                 new CodegenIgnoreProcessorTest("src/IO.Swagger.Test/Model/AnimalFarmTests.cs", "src/IO.Swagger.Test/Model/AnimalFarmTests.cs", "A file when matching exactly should ignore.").ignored(),

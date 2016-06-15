@@ -60,7 +60,7 @@ namespace IO.Swagger.Model
         /// <param name="DateTime">DateTime.</param>
         /// <param name="Uuid">Uuid.</param>
         /// <param name="Password">Password (required).</param>
-        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, double? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, Guid? Uuid = null, string Password = null)
+        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, decimal? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, Guid? Uuid = null, string Password = null)
         {
             // to ensure "Number" is required (not null)
             if (Number == null)
@@ -128,7 +128,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name="number", EmitDefaultValue=false)]
-        public double? Number { get; set; }
+        public decimal? Number { get; set; }
         /// <summary>
         /// Gets or Sets _Float
         /// </summary>

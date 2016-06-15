@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void FormatTestInstanceTest()
         {
-            Assert.IsInstanceOf<FormatTest> (instance, "instance is a FormatTest");
+			Assert.IsInstanceOfType(typeof(FormatTest), instance, "instance is a FormatTest");
         }
 
         /// <summary>

@@ -7,15 +7,16 @@ import io.swagger.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 import java.math.BigDecimal;
-import java.util.Date;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-03T00:41:43.242+08:00")
+
 public class FakeApi {
   private ApiClient apiClient;
 
@@ -52,7 +53,7 @@ public class FakeApi {
    * @param password None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, LocalDate date, DateTime dateTime, String password) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set

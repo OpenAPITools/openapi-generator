@@ -1,137 +1,254 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
-import io.swagger.client.model.Pet;
-import io.swagger.client.model.ModelApiResponse;
+import io.swagger.client.CollectionFormats.*;
+import io.swagger.client.model.*;
+
+import java.io.BufferedWriter;
 import java.io.File;
-import org.junit.Before;
-import org.junit.Test;
-
+import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-/**
- * API tests for PetApi
- */
+import org.junit.*;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
+import static org.junit.Assert.*;
+
 public class PetApiTest {
-
-    private PetApi api;
+    PetApi api = null;
 
     @Before
     public void setup() {
         api = new ApiClient().createService(PetApi.class);
     }
 
-    
-    /**
-     * Add a new pet to the store
-     *
-     * 
-     */
     @Test
-    public void addPetTest() {
-        Pet body = null;
-        // Void response = api.addPet(body);
+    public void testCreateAndGetPet() throws Exception {
+        final Pet pet = createRandomPet();
+        api.addPet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                    @Override
+                    public void onNext(Pet fetched) {
+                        assertNotNull(fetched);
+                        assertEquals(pet.getId(), fetched.getId());
+                        assertNotNull(fetched.getCategory());
+                        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+                    }
+                });
 
-        // TODO: test validations
+            }
+        });
+
     }
-    
-    /**
-     * Deletes a pet
-     *
-     * 
-     */
+
     @Test
-    public void deletePetTest() {
-        Long petId = null;
-        String apiKey = null;
-        // Void response = api.deletePet(petId, apiKey);
+    public void testUpdatePet() throws Exception {
+        final Pet pet = createRandomPet();
+        pet.setName("programmer");
 
-        // TODO: test validations
+        api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                    @Override
+                    public void onNext(Pet fetched) {
+                        assertNotNull(fetched);
+                        assertEquals(pet.getId(), fetched.getId());
+                        assertNotNull(fetched.getCategory());
+                        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+                    }
+                });
+
+            }
+        });
+
     }
-    
-    /**
-     * Finds Pets by status
-     *
-     * Multiple status values can be provided with comma separated strings
-     */
+
     @Test
-    public void findPetsByStatusTest() {
-        List<String> status = null;
-        // List<Pet> response = api.findPetsByStatus(status);
+    public void testFindPetsByStatus() throws Exception {
+        final Pet pet = createRandomPet();
+        pet.setName("programmer");
+        pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        // TODO: test validations
+        api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.findPetsByStatus(new CSVParams("available")).subscribe(new SkeletonSubscriber<List<Pet>>() {
+                    @Override
+                    public void onNext(List<Pet> pets) {
+                        assertNotNull(pets);
+
+                        boolean found = false;
+                        for (Pet fetched : pets) {
+                            if (fetched.getId().equals(pet.getId())) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        assertTrue(found);
+                    }
+                });
+
+            }
+        });
+
     }
-    
-    /**
-     * Finds Pets by tags
-     *
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     */
+
     @Test
-    public void findPetsByTagsTest() {
-        List<String> tags = null;
-        // List<Pet> response = api.findPetsByTags(tags);
+    public void testFindPetsByTags() throws Exception {
+        final Pet pet = createRandomPet();
+        pet.setName("monster");
+        pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        // TODO: test validations
+        List<Tag> tags = new ArrayList<Tag>();
+        Tag tag1 = new Tag();
+        tag1.setName("friendly");
+        tags.add(tag1);
+        pet.setTags(tags);
+
+        api.updatePet(pet).subscribe(new SkeletonSubscriber<Void>() {
+            @Override
+            public void onCompleted() {
+                api.findPetsByTags(new CSVParams("friendly")).subscribe(new SkeletonSubscriber<List<Pet>>() {
+                    @Override
+                    public void onNext(List<Pet> pets) {
+                        assertNotNull(pets);
+
+                        boolean found = false;
+                        for (Pet fetched : pets) {
+                            if (fetched.getId().equals(pet.getId())) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        assertTrue(found);
+                    }
+                });
+
+            }
+        });
+
     }
-    
-    /**
-     * Find pet by ID
-     *
-     * Returns a single pet
-     */
+
     @Test
-    public void getPetByIdTest() {
-        Long petId = null;
-        // Pet response = api.getPetById(petId);
+    public void testUpdatePetWithForm() throws Exception {
+        final Pet pet = createRandomPet();
+        pet.setName("frank");
+        api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
+        api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+            @Override
+            public void onNext(final Pet fetched) {
+                api.updatePetWithForm(fetched.getId(), "furt", null)
+                        .subscribe(new SkeletonSubscriber<Void>() {
+                            @Override
+                            public void onCompleted() {
+                                api.getPetById(fetched.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                                    @Override
+                                    public void onNext(Pet updated) {
+                                        assertEquals(updated.getName(), "furt");
+                                    }
+                                });
 
-        // TODO: test validations
+                            }
+                        });
+            }
+        });
+
+
     }
-    
-    /**
-     * Update an existing pet
-     *
-     * 
-     */
+
     @Test
-    public void updatePetTest() {
-        Pet body = null;
-        // Void response = api.updatePet(body);
+    public void testDeletePet() throws Exception {
+        Pet pet = createRandomPet();
+        api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
 
-        // TODO: test validations
+        api.getPetById(pet.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+            @Override
+            public void onNext(Pet fetched) {
+
+                api.deletePet(fetched.getId(), null).subscribe(SkeletonSubscriber.failTestOnError());
+                api.getPetById(fetched.getId()).subscribe(new SkeletonSubscriber<Pet>() {
+                    @Override
+                    public void onNext(Pet deletedPet) {
+                        fail("Should not have found deleted pet.");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // expected, because the pet has been deleted.
+                    }
+                });
+            }
+        });
     }
-    
-    /**
-     * Updates a pet in the store with form data
-     *
-     * 
-     */
+
     @Test
-    public void updatePetWithFormTest() {
-        Long petId = null;
-        String name = null;
-        String status = null;
-        // Void response = api.updatePetWithForm(petId, name, status);
+    public void testUploadFile() throws Exception {
+        File file = File.createTempFile("test", "hello.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-        // TODO: test validations
+        writer.write("Hello world!");
+        writer.close();
+
+        Pet pet = createRandomPet();
+        api.addPet(pet).subscribe(SkeletonSubscriber.failTestOnError());
+
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), file);
+        api.uploadFile(pet.getId(), "a test file", body).subscribe(new SkeletonSubscriber<ModelApiResponse>() {
+            @Override
+            public void onError(Throwable e) {
+                // this also yields a 400 for other tests, so I guess it's okay...
+            }
+        });
     }
-    
-    /**
-     * uploads an image
-     *
-     * 
-     */
+
     @Test
-    public void uploadFileTest() {
-        Long petId = null;
-        String additionalMetadata = null;
-        File file = null;
-        // ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+    public void testEqualsAndHashCode() {
+        Pet pet1 = new Pet();
+        Pet pet2 = new Pet();
+        assertTrue(pet1.equals(pet2));
+        assertTrue(pet2.equals(pet1));
+        assertTrue(pet1.hashCode() == pet2.hashCode());
+        assertTrue(pet1.equals(pet1));
+        assertTrue(pet1.hashCode() == pet1.hashCode());
 
-        // TODO: test validations
+        pet2.setName("really-happy");
+        pet2.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        assertFalse(pet1.equals(pet2));
+        assertFalse(pet2.equals(pet1));
+        assertFalse(pet1.hashCode() == (pet2.hashCode()));
+        assertTrue(pet2.equals(pet2));
+        assertTrue(pet2.hashCode() == pet2.hashCode());
+
+        pet1.setName("really-happy");
+        pet1.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        assertTrue(pet1.equals(pet2));
+        assertTrue(pet2.equals(pet1));
+        assertTrue(pet1.hashCode() == pet2.hashCode());
+        assertTrue(pet1.equals(pet1));
+        assertTrue(pet1.hashCode() == pet1.hashCode());
     }
-    
+
+    private Pet createRandomPet() {
+        Pet pet = new Pet();
+        pet.setId(System.currentTimeMillis());
+        pet.setName("gorilla");
+
+        Category category = new Category();
+        category.setName("really-happy");
+
+        pet.setCategory(category);
+        pet.setStatus(Pet.StatusEnum.AVAILABLE);
+        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"});
+        pet.setPhotoUrls(photos);
+
+        return pet;
+    }
 }

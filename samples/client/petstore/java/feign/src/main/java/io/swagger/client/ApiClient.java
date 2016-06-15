@@ -9,6 +9,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 import feign.Feign;
 import feign.RequestInterceptor;
@@ -18,11 +19,11 @@ import feign.slf4j.Slf4jLogger;
 import io.swagger.client.auth.*;
 import io.swagger.client.auth.OAuth.AccessTokenListener;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-02-17T17:16:23.375+08:00")
+
 public class ApiClient {
   public interface Api {}
 
-  private ObjectMapper objectMapper;
+  protected ObjectMapper objectMapper;
   private String basePath = "http://petstore.swagger.io/v2";
   private Map<String, RequestInterceptor> apiAuthorizations;
   private Feign.Builder feignBuilder;
@@ -42,16 +43,8 @@ public class ApiClient {
       RequestInterceptor auth;
       if (authName == "petstore_auth") { 
         auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
-      } else if (authName == "test_api_client_id") { 
-        auth = new ApiKeyAuth("header", "x-test_api_client_id");
-      } else if (authName == "test_api_client_secret") { 
-        auth = new ApiKeyAuth("header", "x-test_api_client_secret");
       } else if (authName == "api_key") { 
         auth = new ApiKeyAuth("header", "api_key");
-      } else if (authName == "test_api_key_query") { 
-        auth = new ApiKeyAuth("query", "test_api_key_query");
-      } else if (authName == "test_api_key_header") { 
-        auth = new ApiKeyAuth("header", "test_api_key_header");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
@@ -135,6 +128,13 @@ public class ApiClient {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.registerModule(new JodaModule());
+    return objectMapper;
+  }
+
+  public ObjectMapper getObjectMapper(){
     return objectMapper;
   }
 

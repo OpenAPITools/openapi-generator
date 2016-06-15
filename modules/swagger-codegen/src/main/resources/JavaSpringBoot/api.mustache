@@ -7,9 +7,7 @@ import {{modelPackage}}.*;
 
 import io.swagger.annotations.*;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,12 +21,10 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.*;
 
-@Controller
-@RequestMapping(value = "/{{{baseName}}}", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/{{{baseName}}}", description = "the {{{baseName}}} API")
+@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
 {{>generatedAnnotation}}
 {{#operations}}
-public class {{classname}} {
+public interface {{classname}} {
   {{#operation}}
 
   @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
@@ -40,16 +36,14 @@ public class {{classname}} {
   }{{/hasAuthMethods}})
   @ApiResponses(value = { {{#responses}}
     @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class){{#hasMore}},{{/hasMore}}{{/responses}} })
-  @RequestMapping(value = "{{{path}}}",
-    {{#hasProduces}}produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}
-    {{#hasConsumes}}consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}
+  @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}
+    produces = "{{{vendorExtensions.x-accepts}}}",
+    consumes = "{{{vendorExtensions.x-contentType}}}",{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
+    produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}{{#hasConsumes}}
+    consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}{{/singleContentTypes}}
     method = RequestMethod.{{httpMethod}})
-  public ResponseEntity<{{>returnTypes}}> {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-    {{/hasMore}}{{/allParams}})
-      throws NotFoundException {
-      // do some magic!
-      return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
-  }
+  ResponseEntity<{{>returnTypes}}> {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+    {{/hasMore}}{{/allParams}});
 
   {{/operation}}
 }
