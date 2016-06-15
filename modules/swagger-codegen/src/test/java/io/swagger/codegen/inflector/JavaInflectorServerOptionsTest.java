@@ -1,5 +1,6 @@
 package io.swagger.codegen.inflector;
 
+import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.java.JavaClientOptionsTest;
 import io.swagger.codegen.languages.JavaInflectorServerCodegen;
@@ -7,7 +8,7 @@ import io.swagger.codegen.options.JavaInflectorServerOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
-public class JavaInflectorServerOptionsTest extends JavaClientOptionsTest {
+public class JavaInflectorServerOptionsTest extends AbstractOptionsTest {
 
     @Tested
     private JavaInflectorServerCodegen clientCodegen;
@@ -44,8 +45,6 @@ public class JavaInflectorServerOptionsTest extends JavaClientOptionsTest {
             clientCodegen.setLocalVariablePrefix(JavaInflectorServerOptionsProvider.LOCAL_PREFIX_VALUE);
             times = 1;
             clientCodegen.setSerializableModel(Boolean.valueOf(JavaInflectorServerOptionsProvider.SERIALIZABLE_MODEL_VALUE));
-            times = 1;
-            clientCodegen.setLibrary(JavaInflectorServerOptionsProvider.DEFAULT_LIBRARY_VALUE);
             times = 1;
             clientCodegen.setFullJavaUtil(Boolean.valueOf(JavaInflectorServerOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;
