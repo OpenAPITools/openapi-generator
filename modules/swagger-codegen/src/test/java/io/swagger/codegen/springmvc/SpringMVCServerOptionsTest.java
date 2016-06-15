@@ -1,5 +1,6 @@
 package io.swagger.codegen.springmvc;
 
+import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.java.JavaClientOptionsTest;
 import io.swagger.codegen.languages.SpringMVCServerCodegen;
@@ -8,7 +9,7 @@ import io.swagger.codegen.options.SpringMVCServerOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
-public class SpringMVCServerOptionsTest extends JavaClientOptionsTest {
+public class SpringMVCServerOptionsTest extends AbstractOptionsTest {
 
     @Tested
     private SpringMVCServerCodegen clientCodegen;
