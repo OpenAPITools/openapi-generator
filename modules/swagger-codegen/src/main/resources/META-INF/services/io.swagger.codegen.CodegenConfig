@@ -2,6 +2,7 @@ io.swagger.codegen.languages.AndroidClientCodegen
 io.swagger.codegen.languages.AspNet5ServerCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
 io.swagger.codegen.languages.CSharpClientCodegen
+io.swagger.codegen.languages.CppRestClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
 io.swagger.codegen.languages.FlashClientCodegen
 io.swagger.codegen.languages.FlaskConnexionCodegen
@@ -46,3 +47,4 @@ io.swagger.codegen.languages.CsharpDotNet2ClientCodegen
 io.swagger.codegen.languages.ClojureClientCodegen
 io.swagger.codegen.languages.HaskellServantCodegen
 io.swagger.codegen.languages.LumenServerCodegen
+io.swagger.codegen.languages.GoServerCodegen
