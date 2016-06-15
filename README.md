@@ -936,6 +936,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 Here is a list of template creators:
  * API Clients:
    * Akka-Scala: @cchafer 
+   * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * Clojure: @xhh
    * Dart: @yissachar  
