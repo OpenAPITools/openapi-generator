@@ -29,7 +29,7 @@ namespace IO.Swagger.Controllers
         [HttpDelete]
         [Route("/store/order/{orderId}")]
         [SwaggerOperation("DeleteOrder")]
-        public void DeleteOrder([FromRoute]string orderId)
+        public virtual void DeleteOrder([FromRoute]string orderId)
         { 
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace IO.Swagger.Controllers
         [Route("/store/inventory")]
         [SwaggerOperation("GetInventory")]
         [SwaggerResponse(200, type: typeof(Dictionary<string, int?>))]
-        public IActionResult GetInventory()
+        public virtual IActionResult GetInventory()
         { 
             string exampleJson = null;
             
@@ -67,7 +67,7 @@ namespace IO.Swagger.Controllers
         [Route("/store/order/{orderId}")]
         [SwaggerOperation("GetOrderById")]
         [SwaggerResponse(200, type: typeof(Order))]
-        public IActionResult GetOrderById([FromRoute]long? orderId)
+        public virtual IActionResult GetOrderById([FromRoute]string orderId)
         { 
             string exampleJson = null;
             
@@ -89,7 +89,7 @@ namespace IO.Swagger.Controllers
         [Route("/store/order")]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(200, type: typeof(Order))]
-        public IActionResult PlaceOrder([FromBody]Order body)
+        public virtual IActionResult PlaceOrder([FromBody]Order body)
         { 
             string exampleJson = null;
             
