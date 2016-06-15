@@ -2,66 +2,34 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.*;
 
-public class JavaResteasyServerCodegen extends JavaClientCodegen implements CodegenConfig {
-
-    protected String dateLibrary = "default";
-    protected String title = "Swagger Server";
-    protected String implFolder = "src/main/java";
-
-    public static final String DATE_LIBRARY = "dateLibrary";
+public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public JavaResteasyServerCodegen() {
 
         super();
 
-        sourceFolder = "src/gen/java";
-        invokerPackage = "io.swagger.api";
         artifactId = "swagger-jaxrs-resteasy-server";
 
         outputFolder = "generated-code/javaJaxRS";
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
         apiTestTemplateFiles.clear(); // TODO: add test template
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
-        dateLibrary = "legacy";
 
-        additionalProperties.put("title", title);
+        // clear model and api doc template as AbstractJavaJAXRSServerCodegen
+        // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
+
+        dateLibrary = "legacy";// TODO: change to joda
 
         embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy";
-
-        for (int i = 0; i < cliOptions.size(); i++) {
-            if (CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
-
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
-
-        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-
-        supportedLibraries.put(DEFAULT_LIBRARY, "Resteasy core 3.0.11");
-        library.setEnum(supportedLibraries);
-
-        cliOptions.add(library);
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
-    }
-
-    @Override
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
     }
 
     @Override
@@ -78,16 +46,6 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
-        // clear model and api doc template as AbstractJavaJAXRSServerCodegen
-        // does not support auto-generated markdown doc at the moment
-        modelDocTemplateFiles.remove("model_doc.mustache");
-        apiDocTemplateFiles.remove("api_doc.mustache");
-
-        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
-
-        supportingFiles.clear();
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("gradle.mustache", "", "build.gradle"));
         writeOptional(outputFolder, new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
@@ -152,51 +110,6 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         co.baseName = basePath;
     }
 
-
-    @Override
-    public void preprocessSwagger(Swagger swagger) {
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
-        }
-
-        String host = swagger.getHost();
-        String port = "8080";
-        if (host != null) {
-            String[] parts = host.split(":");
-            if (parts.length > 1) {
-                port = parts[1];
-            }
-        }
-        this.additionalProperties.put("serverPort", port);
-        if (swagger != null && swagger.getPaths() != null) {
-            for (String pathname : swagger.getPaths().keySet()) {
-                Path path = swagger.getPath(pathname);
-                if (path.getOperations() != null) {
-                    for (Operation operation : path.getOperations()) {
-                        if (operation.getTags() != null) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-                            for (String tag : operation.getTags()) {
-                                Map<String, String> value = new HashMap<String, String>();
-                                value.put("tag", tag);
-                                value.put("hasMore", "true");
-                                tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
-                            }
-                            if (operation.getTags().size() > 0) {
-                                String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
-                            }
-                            operation.setVendorExtension("x-tags", tags);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
 
@@ -247,53 +160,6 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
             }
         }
         return objs;
-    }
-
-    @Override
-    public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        name = sanitizeName(name);
-        return camelize(name) + "Api";
-    }
-
-
-    @Override
-    public String apiFilename(String templateName, String tag) {
-
-        String result = super.apiFilename(templateName, tag);
-
-        if (templateName.endsWith("Impl.mustache")) {
-            int ix = result.lastIndexOf('/');
-            result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
-
-            result = result.replace(apiFileFolder(), implFileFolder(implFolder));
-        } else if (templateName.endsWith("Factory.mustache")) {
-            int ix = result.lastIndexOf('/');
-            result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
-
-            result = result.replace(apiFileFolder(), implFileFolder(implFolder));
-        } else if (templateName.endsWith("Service.mustache")) {
-            int ix = result.lastIndexOf('.');
-            result = result.substring(0, ix) + "Service.java";
-        }
-
-        return result;
-    }
-
-
-    private String implFileFolder(String output) {
-        return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
-    }
-
-    @Override
-    public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
-    }
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
     }
 
     @Override

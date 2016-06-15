@@ -1,16 +1,13 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
-import io.swagger.models.Operation;
 
 import java.io.File;
-import java.util.*;
 
-public class GroovyClientCodegen extends JavaClientCodegen {
+public class GroovyClientCodegen extends AbstractJavaCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";
     protected String title = "Petstore Server";
     protected String configPackage = "";
-    protected String templateFileName = "api.mustache";
 
     public GroovyClientCodegen() {
         super();
@@ -18,28 +15,28 @@ public class GroovyClientCodegen extends JavaClientCodegen {
         sourceFolder = projectFolder + File.separator + "groovy";
         outputFolder = "generated-code/groovy";
         modelTemplateFiles.put("model.mustache", ".groovy");
-        apiTemplateFiles.put(templateFileName, ".groovy");
+        apiTemplateFiles.put("api.mustache", ".groovy");
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "Groovy";
+
+        // clear model and api doc template as this codegen
+        // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
         
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         configPackage = "io.swagger.configuration";
         invokerPackage = "io.swagger.api";
-        artifactId = "swagger-spring-mvc-server";
-        dateLibrary = "legacy";
+        artifactId = "swagger-groovy";
+        dateLibrary = "legacy"; //TODO: add joda support to groovy
 
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
-        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
 
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
 
-        supportedLibraries.clear();
     }
 
     @Override
@@ -61,16 +58,10 @@ public class GroovyClientCodegen extends JavaClientCodegen {
     public void processOpts() {
         super.processOpts();
 
-        // clear model and api doc template as this codegen
-        // does not support auto-generated markdown doc at the moment
-        modelDocTemplateFiles.remove("model_doc.mustache");
-        apiDocTemplateFiles.remove("api_doc.mustache");
-
         if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
             this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
         }
 
-        supportingFiles.clear();
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         // TODO readme to be added later
         //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

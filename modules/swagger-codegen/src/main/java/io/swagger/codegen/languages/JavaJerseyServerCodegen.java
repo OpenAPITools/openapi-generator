@@ -3,7 +3,6 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 
-import java.io.File;
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,30 +11,20 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaJerseyServerCodegen() {
         super();
 
-        sourceFolder = "src/gen/java";
-        invokerPackage = "io.swagger.api";
-        artifactId = "swagger-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Jersey";
 
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
+        apiTestTemplateFiles.clear(); // TODO: add test template
 
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
-
-        additionalProperties.put("title", title);
+        // clear model and api doc template as this codegen
+        // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME;
-
-        for ( int i = 0; i < cliOptions.size(); i++ ) {
-            if ( CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt()) ) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
 
@@ -45,8 +34,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         library.setDefault("jersey1");
 
         cliOptions.add(library);
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
-        cliOptions.add(new CliOption("title", "a title describing the application"));
+
     }
 
     @Override
@@ -77,13 +65,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (StringUtils.isEmpty(library)) {
             setLibrary("jersey2");
         }
-
-        supportingFiles.clear();
-
-        // clear model and api doc template as this codegen 
-        // does not support auto-generated markdown doc at the moment
-        modelDocTemplateFiles.remove("model_doc.mustache");
-        apiDocTemplateFiles.remove("api_doc.mustache");
 
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
@@ -137,7 +118,4 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         co.baseName = basePath;
     }
 
-    public void hideGenerationTimestamp(boolean hideGenerationTimestamp) {
-        this.hideGenerationTimestamp = hideGenerationTimestamp;
-    }
 }
