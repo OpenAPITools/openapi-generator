@@ -2,6 +2,7 @@
 import * as models from './models';
 
 export interface User {
+    
 
     id?: number;
 
@@ -22,4 +23,3 @@ export interface User {
      */
     userStatus?: number;
 }
-
