@@ -135,6 +135,9 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
 
         systemIncludes.add("QString");
         systemIncludes.add("QList");
+        systemIncludes.add("QMap");
+        systemIncludes.add("QDate");
+        systemIncludes.add("QDateTime");
     }
 
     /**
