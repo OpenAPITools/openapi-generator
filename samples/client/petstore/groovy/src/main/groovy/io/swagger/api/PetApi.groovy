@@ -6,8 +6,8 @@ import static groovyx.net.http.Method.*
 import io.swagger.api.ApiUtils
 
 import io.swagger.model.Pet
-import java.io.File
 import io.swagger.model.ModelApiResponse
+import java.io.File
 
 import java.util.*;
 

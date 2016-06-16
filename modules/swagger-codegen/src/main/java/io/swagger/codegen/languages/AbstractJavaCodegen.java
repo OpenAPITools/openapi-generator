@@ -571,28 +571,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
-        objs = super.postProcessModelsEnum(objs);
-        String lib = getLibrary();
-        if (StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
-            List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
-            List<Object> models = (List<Object>) objs.get("models");
-            for (Object _mo : models) {
-                Map<String, Object> mo = (Map<String, Object>) _mo;
-                CodegenModel cm = (CodegenModel) mo.get("model");
-                // for enum model
-                if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
-                    cm.imports.add(importMapping.get("JsonValue"));
-                    Map<String, String> item = new HashMap<String, String>();
-                    item.put("import", importMapping.get("JsonValue"));
-                    imports.add(item);
-                }
-            }
-        }
-        return objs;
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if(serializeBigDecimalAsString) {
             if (property.baseType.equals("BigDecimal")) {
@@ -615,17 +593,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             // needed by all pojos, but not enums
             model.imports.add("ApiModelProperty");
             model.imports.add("ApiModel");
-            // comment out below as it's in the model template
-            //model.imports.add("Objects");
-
-            final String lib = getLibrary();
-            if(StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
-                model.imports.add("JsonProperty");
-
-                if(BooleanUtils.toBoolean(model.hasEnums)) {
-                  model.imports.add("JsonValue");
-                }
-            }
         }
         return;
     }
