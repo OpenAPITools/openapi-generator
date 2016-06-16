@@ -13,7 +13,7 @@
 -(instancetype)init {
     self = [super init];
     if (self != nil) {
-   }
+    }
     return self;
 }
 
@@ -22,9 +22,9 @@
     return managedObject;
 }
 
--(SWGTagManagedObject*)SWGTagManagedObjectFromSWGTag:(SWGTag*)Tag context:(NSManagedObjectContext*)context {
+-(SWGTagManagedObject*)SWGTagManagedObjectFromSWGTag:(SWGTag*)object context:(NSManagedObjectContext*)context {
     SWGTagManagedObject* newSWGTag = [self createNewSWGTagManagedObjectInContext:context];
-    [self updateSWGTagManagedObject:newSWGTag withSWGTag:Tag];
+    [self updateSWGTagManagedObject:newSWGTag withSWGTag:object];
     return newSWGTag;
 }
 
@@ -34,6 +34,7 @@
     }
     managedObject._id = [object._id copy];
     managedObject.name = [object.name copy];
+
 }
 
 -(SWGTag*)SWGTagFromSWGTagManagedObject:(SWGTagManagedObject*)obj {

@@ -13,8 +13,9 @@
 -(instancetype)init {
     self = [super init];
     if (self != nil) {
-{{#vars}}{{#complexType}}       _{{name}}Builder = [[{{complexType}}ManagedObjectBuilder alloc] init];
-{{/complexType}}{{/vars}}   }
+{{#isArrayModel}}    _entriesBuilder = [[{{arrayModelType}}ManagedObjectBuilder alloc] init];
+{{/isArrayModel}}{{#vars}}{{#complexType}}{{^isMapContainer}}       _{{name}}Builder = [[{{complexType}}ManagedObjectBuilder alloc] init];
+{{/isMapContainer}}{{/complexType}}{{/vars}}    }
     return self;
 }
 
@@ -23,9 +24,9 @@
     return managedObject;
 }
 
--({{classname}}ManagedObject*){{classname}}ManagedObjectFrom{{classname}}:({{classname}}*){{name}} context:(NSManagedObjectContext*)context {
+-({{classname}}ManagedObject*){{classname}}ManagedObjectFrom{{classname}}:({{classname}}*)object context:(NSManagedObjectContext*)context {
     {{classname}}ManagedObject* new{{classname}} = [self createNew{{{classname}}}ManagedObjectInContext:context];
-    [self update{{classname}}ManagedObject:new{{classname}} with{{classname}}:{{name}}];
+    [self update{{classname}}ManagedObject:new{{classname}} with{{classname}}:object];
     return new{{classname}};
 }
 
@@ -40,13 +41,18 @@
             [convertedObjs addObject:convertedObj];
         }
         managedObject.{{name}} = convertedObjs;
-    }{{/isListContainer}}{{^isListContainer}}
+    }{{/isListContainer}}{{^isListContainer}}{{^isMapContainer}}
     if(!managedObject.{{name}}) {
         managedObject.{{name}} = [self.{{name}}Builder {{complexType}}ManagedObjectFrom{{complexType}}:object.{{name}} context:managedObject.managedObjectContext];
     } else {
         [self.{{name}}Builder update{{complexType}}ManagedObject:managedObject.{{name}} with{{complexType}}:object.{{name}}];
-    }{{/isListContainer}}{{/complexType}}
-    {{/vars}}
+    }{{/isMapContainer}}{{#isMapContainer}}managedObject.{{name}} = [object.{{name}} copy];{{/isMapContainer}}{{/isListContainer}}{{/complexType}}
+{{/vars}}{{#isArrayModel}}    NSMutableSet * convertedObjs = [NSMutableSet set];
+    for (id innerObject in object) {
+        id convertedObj = [self.entriesBuilder {{arrayModelType}}ManagedObjectFrom{{arrayModelType}}:innerObject context:managedObject.managedObjectContext];
+        [convertedObjs addObject:convertedObj];
+    }
+    managedObject.entries = convertedObjs;{{/isArrayModel}}
 }
 
 -({{classname}}*){{classname}}From{{classname}}ManagedObject:({{classname}}ManagedObject*)obj {
@@ -59,7 +65,14 @@
 }
 
 -(void)update{{classname}}:({{classname}}*)new{{classname}} with{{classname}}ManagedObject:({{classname}}ManagedObject*)obj {
-{{#vars}}{{^complexType}}    new{{classname}}.{{name}} = [obj.{{name}} copy];{{/complexType}}{{#complexType}}{{#isListContainer}}    if(obj.{{name}} != nil) {
+{{#isArrayModel}}        [new{{classname}} removeAllObjects];
+        NSMutableArray* convertedObjs = [NSMutableArray array];
+        for (id innerObject in obj.entries) {
+            id convertedObj = [self.entriesBuilder {{arrayModelType}}From{{arrayModelType}}ManagedObject:innerObject];
+            [convertedObjs addObject:convertedObj];
+        }
+        [new{{classname}} addObjectsFromArray:convertedObjs];
+{{/isArrayModel}}{{#vars}}{{^complexType}}    new{{classname}}.{{name}} = [obj.{{name}} copy];{{/complexType}}{{#complexType}}{{#isListContainer}}    if(obj.{{name}} != nil) {
         NSMutableArray* convertedObjs = [NSMutableArray array];
         for (id innerObject in obj.{{name}}) {
             id convertedObj = [self.{{name}}Builder {{complexType}}From{{complexType}}ManagedObject:innerObject];
