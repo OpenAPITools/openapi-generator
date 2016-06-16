@@ -80,7 +80,13 @@ export class {{classname}} {
         {{/hasFormParams}}
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
 {{/operation}}
