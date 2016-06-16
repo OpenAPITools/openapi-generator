@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,6 +96,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
+        if (!StringUtils.isEmpty(getLibrary())) {
+            //TODO: add sbt support to default client
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+        }
+
         //TODO: add doc to retrofit1 and feign
         if ( "feign".equals(getLibrary()) || "retrofit".equals(getLibrary()) ){
             modelDocTemplateFiles.remove("model_doc.mustache");
@@ -108,12 +114,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
-        // library-specific files
-        if (!StringUtils.isEmpty(getLibrary())) {
-            //TODO: add sbt support to default client
-            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-
-        } else if ("feign".equals(getLibrary())) {
+        if ("feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FormAwareEncoder.mustache", invokerFolder, "FormAwareEncoder.java"));
         } else if ("okhttp-gson".equals(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
@@ -159,6 +160,45 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
                     }
                     if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/"))
                     	operation.path = operation.path.substring(1);
+                }
+            }
+        }
+        return objs;
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
+            final String lib = getLibrary();
+            //Needed imports for Jackson based libraries
+            if(StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+                model.imports.add("JsonProperty");
+
+                if(BooleanUtils.toBoolean(model.hasEnums)) {
+                    model.imports.add("JsonValue");
+                }
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+        String lib = getLibrary();
+        //Needed imports for Jackson based libraries
+        if (StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+            List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+            List<Object> models = (List<Object>) objs.get("models");
+            for (Object _mo : models) {
+                Map<String, Object> mo = (Map<String, Object>) _mo;
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                // for enum model
+                if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                    cm.imports.add(importMapping.get("JsonValue"));
+                    Map<String, String> item = new HashMap<String, String>();
+                    item.put("import", importMapping.get("JsonValue"));
+                    imports.add(item);
                 }
             }
         }

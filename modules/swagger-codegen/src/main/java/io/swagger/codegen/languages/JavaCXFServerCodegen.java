@@ -56,8 +56,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("ApiModel");
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
-        model.imports.remove("JsonValue");
-        model.imports.remove("JsonProperty");
     }
     
     @Override

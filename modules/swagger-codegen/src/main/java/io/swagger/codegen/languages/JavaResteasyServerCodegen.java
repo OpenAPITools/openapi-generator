@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -164,28 +165,35 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        if(serializeBigDecimalAsString) {
-            if (property.baseType.equals("BigDecimal")) {
-                // we serialize BigDecimal as `string` to avoid precision loss
-                property.vendorExtensions.put("extraAnnotation", "@JsonSerialize(using = ToStringSerializer.class)");
+        //Add imports for Jackson
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
+            model.imports.add("JsonProperty");
 
-                // this requires some more imports to be added for this model...
-                model.imports.add("ToStringSerializer");
-                model.imports.add("JsonSerialize");
+            if(BooleanUtils.toBoolean(model.hasEnums)) {
+                model.imports.add("JsonValue");
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        //Add imports for Jackson
+        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                cm.imports.add(importMapping.get("JsonValue"));
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("import", importMapping.get("JsonValue"));
+                imports.add(item);
             }
         }
 
-        if(model.isEnum == null || model.isEnum) {
-
-            final String lib = getLibrary();
-            if(StringUtils.isEmpty(lib)) {
-                model.imports.add("JsonProperty");
-
-                if(model.hasEnums != null || model.hasEnums == true) {
-                    model.imports.add("JsonValue");
-                }
-            }
-        }
-        return;
+        return objs;
     }
 }
