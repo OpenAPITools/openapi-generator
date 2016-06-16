@@ -82,14 +82,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         if(System.getProperty("modelDocs") != null) {
             generateModelDocumentation = Boolean.valueOf(System.getProperty("modelDocs"));
-            LOGGER.error("AAAAAAAAAAAAAAAA generateModelDocumentation "+generateModelDocumentation);
         }
         if(System.getProperty("apiTests") != null) {
             generateApiTests = Boolean.valueOf(System.getProperty("apiTests"));
         }
         if(System.getProperty("apiDocs") != null) {
             generateApiDocumentation = Boolean.valueOf(System.getProperty("apiDocs"));
-            LOGGER.error("AAAAAAAAAAAAAAAA generateApiDocumentation "+generateApiDocumentation);
         }
 
         if(generateApis == null && generateModels == null && generateSupportingFiles == null) {
