@@ -4,7 +4,7 @@
 #include "SWGHttpRequest.h"
 
 #include <QString>
-#include "QMap.h"
+#include <QMap>
 #include "SWGOrder.h"
 
 #include <QObject>
