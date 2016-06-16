@@ -35,12 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber* _id;
 
 @property (nullable, nonatomic, retain) NSString* name;
-
 @end
 
 @interface SWGCategoryManagedObject (GeneratedAccessors)
 
-
 @end
+
 
 NS_ASSUME_NONNULL_END

@@ -39,12 +39,12 @@
 
 -(SWGPetManagedObject*)createNewSWGPetManagedObjectInContext:(NSManagedObjectContext*)context;
 
--(SWGPetManagedObject*)SWGPetManagedObjectFromSWGPet:(SWGPet*)Pet context:(NSManagedObjectContext*)context;
+-(SWGPetManagedObject*)SWGPetManagedObjectFromSWGPet:(SWGPet*)object context:(NSManagedObjectContext*)context;
 
--(void)updateSWGPetManagedObject:(SWGPetManagedObject*)Pet withSWGPet:(SWGPet*)Pet2;
+-(void)updateSWGPetManagedObject:(SWGPetManagedObject*)object withSWGPet:(SWGPet*)object2;
 
 -(SWGPet*)SWGPetFromSWGPetManagedObject:(SWGPetManagedObject*)obj;
 
--(void)updateSWGPet:(SWGPet*)Pet withSWGPetManagedObject:(SWGPetManagedObject*)Pet2;
+-(void)updateSWGPet:(SWGPet*)object withSWGPetManagedObject:(SWGPetManagedObject*)object2;
 
 @end

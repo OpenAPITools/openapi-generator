@@ -22,6 +22,7 @@ public class CodegenModel {
     public String unescapedDescription;
     public String discriminator;
     public String defaultValue;
+    public String arrayModelType;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
@@ -35,7 +36,7 @@ public class CodegenModel {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired;
+    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, isArrayModel;
     public ExternalDocs externalDocs;
 
     public Map<String, Object> vendorExtensions;
