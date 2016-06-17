@@ -63,7 +63,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
     private final Map<String, DependencyInfo> dependencies = new HashMap<>();
     private final Set<String> parentModels = new HashSet<>();
-    private final Multimap<String, CodegenModel> children = ArrayListMultimap.create();
+    private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
     private final BiMap<String, String> modelNameMapping = HashBiMap.create();
 
     public NancyFXServerCodegen() {
@@ -225,9 +225,9 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         log.info("Processing parents:  " + parentModels);
         for (final String parent : parentModels) {
             final CodegenModel parentModel = modelByName(parent, models);
-            parentModel.hasChildrens = true;
-            final Collection<CodegenModel> childrens = children.get(parent);
-            for (final CodegenModel child : childrens) {
+            parentModel.hasChildren = true;
+            final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
+            for (final CodegenModel child : childrenModels) {
                 processParentPropertiesInChildModel(parentModel, child);
             }
         }
@@ -282,8 +282,8 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         super.postProcessModelProperty(model, property);
         if (!isNullOrEmpty(model.parent)) {
             parentModels.add(model.parent);
-            if (!children.containsEntry(model.parent, model)) {
-                children.put(model.parent, model);
+            if (!childrenByParent.containsEntry(model.parent, model)) {
+                childrenByParent.put(model.parent, model);
             }
         }
     }
