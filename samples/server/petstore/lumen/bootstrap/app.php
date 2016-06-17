@@ -41,7 +41,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 // $app->withEloquent();
 
@@ -65,8 +65,6 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
-
-class_alias('Illuminate\Support\Facades\Request', 'Request'); //to use the Reqesut facade
 
 /*
 |--------------------------------------------------------------------------
