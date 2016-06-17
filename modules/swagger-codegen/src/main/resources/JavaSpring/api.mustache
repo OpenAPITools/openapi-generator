@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 {{#async}}
-import java.util.concurrent.Callable;
+import java.util.concurrent.{{^java8}}Callable{{/java8}}{{#java8}}CompletableFuture{{/java8}};
 {{/async}}
 
 {{>generatedAnnotation}}
@@ -43,10 +43,9 @@ public interface {{classname}} {
         produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}{{#hasConsumes}}
         consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}{{/singleContentTypes}}
         method = RequestMethod.{{httpMethod}})
-    {{#java8}}default {{/java8}}{{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}}){{^java8}};{{/java8}}{{#java8}} {
+    {{#java8}}default {{/java8}}{{#async}}{{^java8}}Callable{{/java8}}{{#java8}}CompletableFuture<{{/java8}}{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}){{^java8}};{{/java8}}{{#java8}} {
         // do some magic!
-        return {{#async}}() -> {{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+        return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK){{#async}}){{/async}};
     }{{/java8}}
 
 {{/operation}}
