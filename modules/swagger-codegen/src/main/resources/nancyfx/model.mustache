@@ -14,7 +14,7 @@ namespace {{packageName}}.{{packageContext}}.Models
     /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    public {{^hasChildrens}}sealed {{/hasChildrens}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{^isInherited}}
         /// <summary>
         /// {{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
@@ -31,7 +31,7 @@ namespace {{packageName}}.{{packageContext}}.Models
         {
         }
 
-        {{#hasChildrens}}protected{{/hasChildrens}}{{^hasChildrens}}private{{/hasChildrens}} {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}){{#parent}} : base({{#parentVars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
+        {{#hasChildren}}protected{{/hasChildren}}{{^hasChildren}}private{{/hasChildren}} {{classname}}({{#vars}}{{>nullableDataType}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}){{#parent}} : base({{#parentVars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
         {
             {{#vars}}{{^isInherited}}
             this.{{name}} = {{name}};

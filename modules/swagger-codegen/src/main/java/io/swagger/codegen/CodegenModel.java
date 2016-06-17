@@ -38,7 +38,7 @@ public class CodegenModel {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, isArrayModel, hasChildrens;
+    public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, isArrayModel, hasChildren;
     public ExternalDocs externalDocs;
 
     public Map<String, Object> vendorExtensions;
@@ -123,7 +123,7 @@ public class CodegenModel {
             return false;
         if (externalDocs != null ? !externalDocs.equals(that.externalDocs) : that.externalDocs != null)
             return false;
-        if (!Objects.equals(hasChildrens, that.hasChildrens))
+        if (!Objects.equals(hasChildren, that.hasChildren))
             return false;
         if (!Objects.equals(parentVars, that.parentVars))
             return false;
@@ -163,7 +163,7 @@ public class CodegenModel {
         result = 31 * result + (isEnum != null ? isEnum.hashCode() : 0);
         result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + Objects.hash(hasChildrens);
+        result = 31 * result + Objects.hash(hasChildren);
         result = 31 * result + Objects.hash(parentVars);
         return result;
     }
