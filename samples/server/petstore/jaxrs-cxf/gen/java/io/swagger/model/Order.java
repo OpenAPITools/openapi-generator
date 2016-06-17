@@ -19,19 +19,23 @@ import javax.xml.bind.annotation.XmlEnum;
 public class Order  {
   
 
+  @XmlElement(name="id")
   private Long id = null;
 
+  @XmlElement(name="petId")
   private Long petId = null;
 
+  @XmlElement(name="quantity")
   private Integer quantity = null;
 
+  @XmlElement(name="shipDate")
   private javax.xml.datatype.XMLGregorianCalendar shipDate = null;
 
 @XmlType(name="StatusEnum")
 @XmlEnum
 public enum StatusEnum {
 
-    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+    PLACED(String.valueOf("&quot;placed&quot;")), APPROVED(String.valueOf("&quot;approved&quot;")), DELIVERED(String.valueOf("&quot;delivered&quot;"));
 
 
     private String value;
@@ -49,8 +53,10 @@ public enum StatusEnum {
     }
 }
 
+  @XmlElement(name="status")
   private StatusEnum status = null;
 
+  @XmlElement(name="complete")
   private Boolean complete = false;
 
   /**

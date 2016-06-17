@@ -19,8 +19,10 @@ import javax.xml.bind.annotation.XmlEnum;
 public class Tag  {
   
 
+  @XmlElement(name="id")
   private Long id = null;
 
+  @XmlElement(name="name")
   private String name = null;
 
   /**

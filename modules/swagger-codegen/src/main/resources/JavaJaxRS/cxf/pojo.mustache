@@ -18,6 +18,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 
 {{>enumClass}}{{/items}}{{/items.isEnum}}
 
+  @XmlElement(name="{{baseName}}")
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}

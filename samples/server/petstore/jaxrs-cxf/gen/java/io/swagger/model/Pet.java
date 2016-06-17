@@ -23,21 +23,26 @@ import javax.xml.bind.annotation.XmlEnum;
 public class Pet  {
   
 
+  @XmlElement(name="id")
   private Long id = null;
 
+  @XmlElement(name="category")
   private Category category = null;
 
+  @XmlElement(name="name")
   private String name = null;
 
+  @XmlElement(name="photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
 
+  @XmlElement(name="tags")
   private List<Tag> tags = new ArrayList<Tag>();
 
 @XmlType(name="StatusEnum")
 @XmlEnum
 public enum StatusEnum {
 
-    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
+    AVAILABLE(String.valueOf("&quot;available&quot;")), PENDING(String.valueOf("&quot;pending&quot;")), SOLD(String.valueOf("&quot;sold&quot;"));
 
 
     private String value;
@@ -55,6 +60,7 @@ public enum StatusEnum {
     }
 }
 
+  @XmlElement(name="status")
   private StatusEnum status = null;
 
   /**
