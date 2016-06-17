@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void CategoryInstanceTest()
         {
-            Assert.IsInstanceOf<Category> (instance, "instance is a Category");
+			Assert.IsInstanceOfType(typeof(Category), instance, "instance is a Category");
         }
 
         /// <summary>

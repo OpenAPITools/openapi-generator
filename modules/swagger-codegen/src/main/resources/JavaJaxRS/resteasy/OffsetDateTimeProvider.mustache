@@ -1,0 +1,34 @@
+package {{apiPackage}};
+
+import java.time.OffsetDateTime;
+import javax.ws.rs.ext.ParamConverter;
+import javax.ws.rs.ext.ParamConverterProvider;
+import javax.ws.rs.ext.Provider;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
+@Provider
+public class OffsetDateTimeProvider implements ParamConverterProvider {
+
+    public static class OffsetDateTimeConverter implements ParamConverter<OffsetDateTime> {
+
+        @Override
+        public OffsetDateTime fromString(String string) {
+            OffsetDateTime OffsetDateTime = OffsetDateTime.parse(string);
+            return OffsetDateTime;
+        }
+
+        @Override
+        public String toString(OffsetDateTime t) {
+            return t.toString();
+        }
+    }
+
+    @Override
+    public <T> ParamConverter<T> getConverter(Class<T> type, Type type1, Annotation[] antns) {
+        if (OffsetDateTime.class.equals(type)) {
+            return (ParamConverter<T>) new OffsetDateTimeConverter();
+        }
+        return null;
+    }
+}

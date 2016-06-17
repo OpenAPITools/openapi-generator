@@ -15,6 +15,7 @@ import io.swagger.client.model.Animal;
 public class Cat extends Animal  {
   
   private String className = null;
+  private String color = "red";
   private Boolean declawed = null;
 
   
@@ -32,6 +33,23 @@ public class Cat extends Animal  {
   }
   public void setClassName(String className) {
     this.className = className;
+  }
+
+
+  /**
+   **/
+  public Cat color(String color) {
+    this.color = color;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("color")
+  public String getColor() {
+    return color;
+  }
+  public void setColor(String color) {
+    this.color = color;
   }
 
 
@@ -62,13 +80,14 @@ public class Cat extends Animal  {
     }
     Cat cat = (Cat) o;
     return Objects.equals(this.className, cat.className) &&
+        Objects.equals(this.color, cat.color) &&
         Objects.equals(this.declawed, cat.declawed) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, declawed, super.hashCode());
+    return Objects.hash(className, color, declawed, super.hashCode());
   }
 
   @Override
@@ -77,6 +96,7 @@ public class Cat extends Animal  {
     sb.append("class Cat {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();

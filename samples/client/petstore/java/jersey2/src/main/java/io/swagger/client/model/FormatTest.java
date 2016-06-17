@@ -1,17 +1,19 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-06T18:35:03.551+08:00")
+
 public class FormatTest   {
   
   private Integer integer = null;
@@ -23,8 +25,8 @@ public class FormatTest   {
   private String string = null;
   private byte[] _byte = null;
   private byte[] binary = null;
-  private Date date = null;
-  private Date dateTime = null;
+  private LocalDate date = null;
+  private DateTime dateTime = null;
   private String uuid = null;
   private String password = null;
 
@@ -194,34 +196,34 @@ public class FormatTest   {
 
   /**
    **/
-  public FormatTest date(Date date) {
+  public FormatTest date(LocalDate date) {
     this.date = date;
     return this;
   }
   
   @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("date")
-  public Date getDate() {
+  public LocalDate getDate() {
     return date;
   }
-  public void setDate(Date date) {
+  public void setDate(LocalDate date) {
     this.date = date;
   }
 
 
   /**
    **/
-  public FormatTest dateTime(Date dateTime) {
+  public FormatTest dateTime(DateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("dateTime")
-  public Date getDateTime() {
+  public DateTime getDateTime() {
     return dateTime;
   }
-  public void setDateTime(Date dateTime) {
+  public void setDateTime(DateTime dateTime) {
     this.dateTime = dateTime;
   }
 

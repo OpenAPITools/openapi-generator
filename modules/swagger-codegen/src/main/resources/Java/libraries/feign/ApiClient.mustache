@@ -9,6 +9,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 import feign.Feign;
 import feign.RequestInterceptor;
@@ -22,7 +23,7 @@ import {{invokerPackage}}.auth.OAuth.AccessTokenListener;
 public class ApiClient {
   public interface Api {}
 
-  private ObjectMapper objectMapper;
+  protected ObjectMapper objectMapper;
   private String basePath = "{{basePath}}";
   private Map<String, RequestInterceptor> apiAuthorizations;
   private Feign.Builder feignBuilder;
@@ -128,6 +129,13 @@ public class ApiClient {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.registerModule(new JodaModule());
+    return objectMapper;
+  }
+
+  public ObjectMapper getObjectMapper(){
     return objectMapper;
   }
 

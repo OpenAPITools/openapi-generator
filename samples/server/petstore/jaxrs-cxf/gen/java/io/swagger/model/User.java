@@ -19,20 +19,28 @@ import javax.xml.bind.annotation.XmlEnum;
 public class User  {
   
 
+  @XmlElement(name="id")
   private Long id = null;
 
+  @XmlElement(name="username")
   private String username = null;
 
+  @XmlElement(name="firstName")
   private String firstName = null;
 
+  @XmlElement(name="lastName")
   private String lastName = null;
 
+  @XmlElement(name="email")
   private String email = null;
 
+  @XmlElement(name="password")
   private String password = null;
 
+  @XmlElement(name="phone")
   private String phone = null;
 
+  @XmlElement(name="userStatus")
   private Integer userStatus = null;
 
   /**

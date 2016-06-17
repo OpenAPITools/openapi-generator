@@ -7,10 +7,8 @@ import io.swagger.models.properties.*;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
-import java.io.File;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -432,7 +430,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             case "pipes": return "(QueryList 'PipeSeparated (" + type + "))";
             case "multi": return "(QueryList 'MultiParamArray (" + type + "))";
             default:
-                throw new NotImplementedException();
+                throw new UnsupportedOperationException();
         }
     }
 

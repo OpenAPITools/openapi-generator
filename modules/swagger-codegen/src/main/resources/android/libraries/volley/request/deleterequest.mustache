@@ -34,11 +34,17 @@ public class DeleteRequest extends Request<String> {
 
     @Override
     public String getBodyContentType() {
+        if(entity == null) {
+            return null;
+        }
         return entity.getContentType().getValue();
     }
 
     @Override
     public byte[] getBody() throws AuthFailureError {
+        if(entity == null) {
+            return null;
+        }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
             entity.writeTo(bos);

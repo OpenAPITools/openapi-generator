@@ -28,7 +28,7 @@ export class StoreApi {
         const path = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         // verify required parameter 'orderId' is set
         if (!orderId) {
@@ -41,7 +41,13 @@ export class StoreApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -51,7 +57,7 @@ export class StoreApi {
     public getInventory (extraHttpRequestParams?: any ) : Observable<{ [key: string]: number; }> {
         const path = this.basePath + '/store/inventory';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -60,7 +66,13 @@ export class StoreApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -72,7 +84,7 @@ export class StoreApi {
         const path = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         // verify required parameter 'orderId' is set
         if (!orderId) {
@@ -85,7 +97,13 @@ export class StoreApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -96,7 +114,7 @@ export class StoreApi {
     public placeOrder (body?: models.Order, extraHttpRequestParams?: any ) : Observable<models.Order> {
         const path = this.basePath + '/store/order';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -106,7 +124,13 @@ export class StoreApi {
         requestOptions.body = JSON.stringify(body);
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
 }

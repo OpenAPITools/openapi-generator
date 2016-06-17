@@ -575,9 +575,12 @@ paths:
         偽のエンドポイント
         가짜 엔드 포인트
       operationId: testEndpointParameters
+      consumes:
+        - application/xml; charset=utf-8
+        - application/json; charset=utf-8
       produces:
-        - application/xml
-        - application/json
+        - application/xml; charset=utf-8
+        - application/json; charset=utf-8
       parameters:
         - name: integer
           type: integer
@@ -714,6 +717,7 @@ definitions:
       id:
         type: integer
         format: int64
+        x-is-unique: true
       username:
         type: string
       firstName:
@@ -751,6 +755,7 @@ definitions:
       id:
         type: integer
         format: int64
+        x-is-unique: true
       category:
         $ref: '#/definitions/Category'
       name:
@@ -944,6 +949,60 @@ definitions:
         enum:
           - 1.1
           - -1.2
+  AdditionalPropertiesClass:
+    type: object
+    properties:
+      map_property:
+        type: object
+        additionalProperties:
+          type: string
+      map_of_map_property:
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: string
+  MixedPropertiesAndAdditionalPropertiesClass:
+    type: object
+    properties:
+      uuid:
+        type: string
+        format: uuid
+      dateTime:
+        type: string
+        format: date-time
+      map: 
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/Animal'
+  ReadOnlyFirst:
+    type: object
+    properties:
+      bar:
+        type: string
+        readOnly: true
+      baz:
+        type: string
+  ArrayTest:
+    type: object
+    properties:
+      array_of_string:
+        type: array
+        items:
+          type: string
+      array_array_of_integer:
+        type: array
+        items:
+          type: array
+          items:
+            type: integer
+            format: int64
+      array_array_of_model:
+        type: array
+        items:
+          type: array
+          items:
+            $ref: '#/definitions/ReadOnlyFirst'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

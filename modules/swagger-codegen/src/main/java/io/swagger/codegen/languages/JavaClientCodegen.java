@@ -30,13 +30,16 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
 
-    protected String dateLibrary = "default";
+    protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java-client";
     protected String artifactVersion = "1.0.0";
     protected String projectFolder = "src" + File.separator + "main";
+    protected String projectTestFolder = "src" + File.separator + "test";
     protected String sourceFolder = projectFolder + File.separator + "java";
+    protected String testFolder = projectTestFolder + File.separator + "java";
+    protected String gradleWrapperPackage = "gradle.wrapper";
     protected String localVariablePrefix = "";
     protected boolean fullJavaUtil;
     protected String javaUtilPrefix = "";
@@ -52,6 +55,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "java";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
+        apiTestTemplateFiles.put("api_test.mustache", ".java");
         embeddedTemplateDir = templateDir = "Java";
         apiPackage = "io.swagger.client.api";
         modelPackage = "io.swagger.client.model";
@@ -123,7 +127,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<String, String>();
         dateOptions.put("java8", "Java 8 native");
+        dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
         dateOptions.put("joda", "Joda");
+        dateOptions.put("legacy", "Legacy java.util.Date");
         dateLibrary.setEnum(dateOptions);
 
         cliOptions.add(dateLibrary);
@@ -257,12 +263,23 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
-        writeOptional(outputFolder, new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
 
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
         if ("feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FormAwareEncoder.mustache", invokerFolder, "FormAwareEncoder.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         }
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -281,6 +298,14 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
             apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         } else if ("okhttp-gson".equals(getLibrary())) {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
@@ -293,18 +318,54 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
             // "build.sbt" is for development with SBT
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         } else if (usesAnyRetrofitLibrary()) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+
+            //generate markdown docs for retrofit2
+            if ( usesRetrofit2Library() ){
+                modelDocTemplateFiles.put("model_doc.mustache", ".md");
+                apiDocTemplateFiles.put("api_doc.mustache", ".md");
+            }
+
         } else if("jersey2".equals(getLibrary())) {
             // generate markdown docs
             modelDocTemplateFiles.put("model_doc.mustache", ".md");
             apiDocTemplateFiles.put("api_doc.mustache", ".md");
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+
+            //gradleWrapper files
+            supportingFiles.add( new SupportingFile( "gradlew.mustache", "", "gradlew") ); 
+            supportingFiles.add( new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.properties.mustache", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") ); 
+            supportingFiles.add( new SupportingFile( "gradle-wrapper.jar", 
+                    gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+            // "build.sbt" is for development with SBT
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         }
 
         if(additionalProperties.containsKey(DATE_LIBRARY)) {
-            this.dateLibrary = additionalProperties.get(DATE_LIBRARY).toString();
+            setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+            additionalProperties.put(dateLibrary, "true");
         }
 
         if("joda".equals(dateLibrary)) {
@@ -314,13 +375,17 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             importMapping.put("LocalDate", "org.joda.time.LocalDate");
             importMapping.put("DateTime", "org.joda.time.DateTime");
         }
-        else if ("java8".equals(dateLibrary)) {
+        else if (dateLibrary.startsWith("java8")) {
             additionalProperties.put("java8", "true");
-            additionalProperties.put("javaVersion", "1.8");
             typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
-            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+            if ("java8-localdatetime".equals(dateLibrary)) {
+                typeMapping.put("DateTime", "LocalDateTime");
+                importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+            } else {
+                typeMapping.put("DateTime", "OffsetDateTime");
+                importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+            }
         }
 
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -367,6 +432,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiTestFileFolder() {
+        return outputFolder + "/" + testFolder + "/" + apiPackage().replace('.', '/');
+    }
+
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/');
     }
@@ -389,6 +459,11 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + "Test";
     }
 
     @Override
@@ -963,7 +1038,5 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.useRxJava = useRxJava;
     }
 
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
+    public void setDateLibrary(String library) { this.dateLibrary = library; }
 }

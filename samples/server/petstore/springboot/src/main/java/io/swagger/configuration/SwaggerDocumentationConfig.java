@@ -13,7 +13,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 
 @Configuration
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-05-05T15:30:42.322+08:00")
+
 public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {
@@ -30,11 +30,13 @@ public class SwaggerDocumentationConfig {
 
     @Bean
     public Docket customImplementation(){
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-					.apis(RequestHandlerSelectors.basePackage("io.swagger.api"))
-					.build()
-				.apiInfo(apiInfo());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                    .apis(RequestHandlerSelectors.basePackage("io.swagger.api"))
+                    .build()
+                .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
+                .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
+                .apiInfo(apiInfo());
     }
 
 }

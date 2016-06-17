@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void AnimalFarmInstanceTest()
         {
-            Assert.IsInstanceOf<AnimalFarm> (instance, "instance is a AnimalFarm");
+			Assert.IsInstanceOfType(typeof(AnimalFarm), instance, "instance is a AnimalFarm");
         }
 
 

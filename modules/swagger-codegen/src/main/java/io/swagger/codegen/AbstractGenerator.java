@@ -72,31 +72,33 @@ public abstract class AbstractGenerator {
      * @return String Full template file path
      */
     public String getFullTemplateFile(CodegenConfig config, String templateFile) {
-        String library = config.getLibrary();
-        if (library != null && !"".equals(library)) {
-            String libTemplateFile = config.templateDir() + File.separator +
-                "libraries" + File.separator + library + File.separator +
-                templateFile;
-
-            if (new File(libTemplateFile).exists()) {
-                return libTemplateFile;
-            }
-
-            libTemplateFile = config.embeddedTemplateDir() + File.separator +
-                "libraries" + File.separator + library + File.separator +
-                templateFile;
-            if (embeddedTemplateExists(libTemplateFile)) {
-                // Fall back to the template file embedded/packaged in the JAR file...
-                return libTemplateFile;
-            }
-        }
         String template = config.templateDir() + File.separator + templateFile;
         if (new File(template).exists()) {
             return template;
         } else {
+            String library = config.getLibrary();
+            if (library != null && !"".equals(library)) {
+                String libTemplateFile = config.embeddedTemplateDir() + File.separator +
+                    "libraries" + File.separator + library + File.separator +
+                    templateFile;
+                if (embeddedTemplateExists(libTemplateFile)) {
+                    // Fall back to the template file embedded/packaged in the JAR file...
+                    return libTemplateFile;
+                }
+            }
             // Fall back to the template file embedded/packaged in the JAR file...
             return config.embeddedTemplateDir() + File.separator + templateFile;
         }
+    }
+
+    public String readResourceContents(String resourceFilePath) {
+        StringBuilder sb = new StringBuilder();
+        Scanner scanner = new Scanner(this.getClass().getResourceAsStream(getCPResourcePath(resourceFilePath)), "UTF-8");
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            sb.append(line).append('\n');
+        }
+        return sb.toString();
     }
 
     public boolean embeddedTemplateExists(String name) {
