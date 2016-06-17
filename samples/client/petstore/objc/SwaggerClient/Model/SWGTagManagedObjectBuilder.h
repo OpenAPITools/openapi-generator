@@ -35,12 +35,12 @@
 
 -(SWGTagManagedObject*)createNewSWGTagManagedObjectInContext:(NSManagedObjectContext*)context;
 
--(SWGTagManagedObject*)SWGTagManagedObjectFromSWGTag:(SWGTag*)Tag context:(NSManagedObjectContext*)context;
+-(SWGTagManagedObject*)SWGTagManagedObjectFromSWGTag:(SWGTag*)object context:(NSManagedObjectContext*)context;
 
--(void)updateSWGTagManagedObject:(SWGTagManagedObject*)Tag withSWGTag:(SWGTag*)Tag2;
+-(void)updateSWGTagManagedObject:(SWGTagManagedObject*)object withSWGTag:(SWGTag*)object2;
 
 -(SWGTag*)SWGTagFromSWGTagManagedObject:(SWGTagManagedObject*)obj;
 
--(void)updateSWGTag:(SWGTag*)Tag withSWGTagManagedObject:(SWGTagManagedObject*)Tag2;
+-(void)updateSWGTag:(SWGTag*)object withSWGTagManagedObject:(SWGTagManagedObject*)object2;
 
 @end

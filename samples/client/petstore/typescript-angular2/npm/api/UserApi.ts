@@ -27,7 +27,7 @@ export class UserApi {
     public createUser (body?: models.User, extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/user';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -37,7 +37,13 @@ export class UserApi {
         requestOptions.body = JSON.stringify(body);
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -45,10 +51,10 @@ export class UserApi {
      * 
      * @param body List of user object
      */
-    public createUsersWithArrayInput (body?: models.Array<models.User>, extraHttpRequestParams?: any ) : Observable<{}> {
+    public createUsersWithArrayInput (body?: Array<models.User>, extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/user/createWithArray';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -58,7 +64,13 @@ export class UserApi {
         requestOptions.body = JSON.stringify(body);
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -66,10 +78,10 @@ export class UserApi {
      * 
      * @param body List of user object
      */
-    public createUsersWithListInput (body?: models.Array<models.User>, extraHttpRequestParams?: any ) : Observable<{}> {
+    public createUsersWithListInput (body?: Array<models.User>, extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/user/createWithList';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -79,7 +91,13 @@ export class UserApi {
         requestOptions.body = JSON.stringify(body);
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -91,7 +109,7 @@ export class UserApi {
         const path = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         // verify required parameter 'username' is set
         if (!username) {
@@ -104,7 +122,13 @@ export class UserApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -116,7 +140,7 @@ export class UserApi {
         const path = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         // verify required parameter 'username' is set
         if (!username) {
@@ -129,7 +153,13 @@ export class UserApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -141,14 +171,14 @@ export class UserApi {
     public loginUser (username?: string, password?: string, extraHttpRequestParams?: any ) : Observable<string> {
         const path = this.basePath + '/user/login';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         if (username !== undefined) {
-            queryParameters['username'] = username;
+            queryParameters.set('username', username);
         }
 
         if (password !== undefined) {
-            queryParameters['password'] = password;
+            queryParameters.set('password', password);
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -158,7 +188,13 @@ export class UserApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -168,7 +204,7 @@ export class UserApi {
     public logoutUser (extraHttpRequestParams?: any ) : Observable<{}> {
         const path = this.basePath + '/user/logout';
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -177,7 +213,13 @@ export class UserApi {
         };
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
     /**
@@ -190,7 +232,7 @@ export class UserApi {
         const path = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
 
-        let queryParameters: any = ""; // This should probably be an object in the future
+        let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         // verify required parameter 'username' is set
         if (!username) {
@@ -204,7 +246,13 @@ export class UserApi {
         requestOptions.body = JSON.stringify(body);
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
 }
