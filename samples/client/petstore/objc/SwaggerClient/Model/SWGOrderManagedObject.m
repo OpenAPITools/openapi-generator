@@ -13,5 +13,4 @@
 @dynamic shipDate;
 @dynamic status;
 @dynamic complete;
-
 @end

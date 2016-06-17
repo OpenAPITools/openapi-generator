@@ -182,6 +182,7 @@ class PetApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -278,6 +279,7 @@ class PetApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -369,9 +371,6 @@ class PetApi
                 $headerParams,
                 '\Swagger\Client\Model\Pet[]'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
@@ -468,9 +467,6 @@ class PetApi
                 $headerParams,
                 '\Swagger\Client\Model\Pet[]'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
@@ -570,9 +566,6 @@ class PetApi
                 $headerParams,
                 '\Swagger\Client\Model\Pet'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {
@@ -666,6 +659,7 @@ class PetApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -767,6 +761,7 @@ class PetApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {
@@ -875,9 +870,6 @@ class PetApi
                 $headerParams,
                 '\Swagger\Client\Model\ApiResponse'
             );
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\ApiResponse', $httpHeader), $statusCode, $httpHeader);
         } catch (ApiException $e) {

@@ -35,12 +35,12 @@
 
 -(SWGCategoryManagedObject*)createNewSWGCategoryManagedObjectInContext:(NSManagedObjectContext*)context;
 
--(SWGCategoryManagedObject*)SWGCategoryManagedObjectFromSWGCategory:(SWGCategory*)Category context:(NSManagedObjectContext*)context;
+-(SWGCategoryManagedObject*)SWGCategoryManagedObjectFromSWGCategory:(SWGCategory*)object context:(NSManagedObjectContext*)context;
 
--(void)updateSWGCategoryManagedObject:(SWGCategoryManagedObject*)Category withSWGCategory:(SWGCategory*)Category2;
+-(void)updateSWGCategoryManagedObject:(SWGCategoryManagedObject*)object withSWGCategory:(SWGCategory*)object2;
 
 -(SWGCategory*)SWGCategoryFromSWGCategoryManagedObject:(SWGCategoryManagedObject*)obj;
 
--(void)updateSWGCategory:(SWGCategory*)Category withSWGCategoryManagedObject:(SWGCategoryManagedObject*)Category2;
+-(void)updateSWGCategory:(SWGCategory*)object withSWGCategoryManagedObject:(SWGCategoryManagedObject*)object2;
 
 @end

@@ -2,6 +2,7 @@
 import * as models from './models';
 
 export interface Order {
+    
 
     id?: number;
 
@@ -18,7 +19,6 @@ export interface Order {
 
     complete?: boolean;
 }
-
 export namespace Order {
 
     export enum StatusEnum { 

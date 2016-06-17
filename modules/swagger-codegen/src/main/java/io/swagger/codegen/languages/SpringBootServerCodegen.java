@@ -12,11 +12,15 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
+    public static final String JAVA_8 = "java8";
+    public static final String ASYNC = "async";
     protected String title = "Petstore Server";
     protected String configPackage = "";
     protected String basePackage = "";
     protected boolean interfaceOnly = false;
     protected boolean singleContentTypes = false;
+    protected boolean java8 = false;
+    protected boolean async = false;
     protected String templateFileName = "api.mustache";
 
     public SpringBootServerCodegen() {
@@ -45,11 +49,14 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
+        cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
+        cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
 
         supportedLibraries.clear();
         supportedLibraries.put(DEFAULT_LIBRARY, "Default Spring Boot server stub.");
         supportedLibraries.put("j8-async", "Use async servlet feature and Java 8's default interface. Generating interface with service " +
-                "declaration is useful when using Maven plugin. Just provide a implementation with @Controller to instantiate service.");
+                "declaration is useful when using Maven plugin. Just provide a implementation with @Controller to instantiate service." +
+                "(DEPRECATED: use -Djava8=true,async=true instead)");
     }
 
     @Override
@@ -92,11 +99,19 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
             this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
         }
 
+        if (additionalProperties.containsKey(JAVA_8)) {
+            this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
+        }
+
+        if (additionalProperties.containsKey(ASYNC)) {
+            this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
+        }
+
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if(!this.interfaceOnly) {
+        if (!this.interfaceOnly) {
             apiTemplateFiles.put("apiController.mustache", "Controller.java");
             supportingFiles.add(new SupportingFile("apiException.mustache",
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
@@ -114,6 +129,19 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
                     (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
             supportingFiles.add(new SupportingFile("application.properties",
                     ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
+        }
+
+        if ("j8-async".equals(getLibrary())) {
+            setJava8(true);
+            setAsync(true);
+        }
+
+        if (this.java8) {
+            additionalProperties.put("javaVersion", "1.8");
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         }
     }
 
@@ -228,23 +256,6 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
                 }
             }
         }
-        if("j8-async".equals(getLibrary())) {
-            apiTemplateFiles.remove(this.templateFileName);
-            this.templateFileName = "api-j8-async.mustache";
-            apiTemplateFiles.put(this.templateFileName, ".java");
-
-            int originalPomFileIdx = -1;
-            for (int i = 0; i < supportingFiles.size(); i++) {
-                if ("pom.xml".equals(supportingFiles.get(i).destinationFilename)) {
-                    originalPomFileIdx = i;
-                    break;
-                }
-            }
-            if (originalPomFileIdx > -1) {
-                supportingFiles.remove(originalPomFileIdx);
-            }
-            supportingFiles.add(new SupportingFile("pom-j8-async.mustache", "", "pom.xml"));
-        }
 
         return objs;
     }
@@ -266,13 +277,15 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
         this.basePackage = configPackage;
     }
 
-    public void setInterfaceOnly(boolean interfaceOnly) {
-        this.interfaceOnly = interfaceOnly;
-    }
+    public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
 
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;
     }
+
+    public void setJava8(boolean java8) { this.java8 = java8; }
+
+    public void setAsync(boolean async) { this.async = async; }
     
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {

@@ -48,12 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 /* User Status [optional]
  */
 @property (nullable, nonatomic, retain) NSNumber* userStatus;
-
 @end
 
 @interface SWGUserManagedObject (GeneratedAccessors)
 
-
 @end
+
 
 NS_ASSUME_NONNULL_END

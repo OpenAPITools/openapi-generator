@@ -15,7 +15,7 @@
     if (self != nil) {
        _categoryBuilder = [[SWGCategoryManagedObjectBuilder alloc] init];
        _tagsBuilder = [[SWGTagManagedObjectBuilder alloc] init];
-   }
+    }
     return self;
 }
 
@@ -24,9 +24,9 @@
     return managedObject;
 }
 
--(SWGPetManagedObject*)SWGPetManagedObjectFromSWGPet:(SWGPet*)Pet context:(NSManagedObjectContext*)context {
+-(SWGPetManagedObject*)SWGPetManagedObjectFromSWGPet:(SWGPet*)object context:(NSManagedObjectContext*)context {
     SWGPetManagedObject* newSWGPet = [self createNewSWGPetManagedObjectInContext:context];
-    [self updateSWGPetManagedObject:newSWGPet withSWGPet:Pet];
+    [self updateSWGPetManagedObject:newSWGPet withSWGPet:object];
     return newSWGPet;
 }
 
@@ -52,6 +52,7 @@
         managedObject.tags = convertedObjs;
     }
     managedObject.status = [object.status copy];
+
 }
 
 -(SWGPet*)SWGPetFromSWGPetManagedObject:(SWGPetManagedObject*)obj {

@@ -46,16 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
 /* pet status in the store [optional]
  */
 @property (nullable, nonatomic, retain) NSString* status;
-
 @end
 
 @interface SWGPetManagedObject (GeneratedAccessors)
-
 - (void)addTagsObject:(SWGTagManagedObject *)value;
 - (void)removeTagsObject:(SWGTagManagedObject *)value;
 - (void)addTags:(NSSet<SWGTagManagedObject*> *)values;
 - (void)removeTags:(NSSet<SWGTagManagedObject*> *)values;
 
 @end
+
 
 NS_ASSUME_NONNULL_END

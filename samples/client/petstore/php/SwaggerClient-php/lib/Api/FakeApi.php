@@ -289,6 +289,7 @@ class FakeApi
                 $httpBody,
                 $headerParams
             );
+
             return array(null, $statusCode, $httpHeader);
         } catch (ApiException $e) {
             switch ($e->getCode()) {

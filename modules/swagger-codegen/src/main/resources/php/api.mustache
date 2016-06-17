@@ -244,11 +244,8 @@ use \{{invokerPackage}}\ObjectSerializer;
                 $headerParams{{#returnType}},
                 '{{returnType}}'{{/returnType}}
             );
-            {{#returnType}}
-            if (!$response) {
-                return array(null, $statusCode, $httpHeader);
-            }
 
+            {{#returnType}}
             return array($this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader{{#discriminator}}, '{{discriminator}}'{{/discriminator}}), $statusCode, $httpHeader);
             {{/returnType}}
             {{^returnType}}
