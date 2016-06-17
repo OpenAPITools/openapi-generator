@@ -19,6 +19,7 @@ public class GroovyClientCodegen extends JavaClientCodegen {
         outputFolder = "generated-code/groovy";
         modelTemplateFiles.put("model.mustache", ".groovy");
         apiTemplateFiles.put(templateFileName, ".groovy");
+        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "Groovy";
         
         apiPackage = "io.swagger.api";
@@ -26,6 +27,7 @@ public class GroovyClientCodegen extends JavaClientCodegen {
         configPackage = "io.swagger.configuration";
         invokerPackage = "io.swagger.api";
         artifactId = "swagger-spring-mvc-server";
+        dateLibrary = "legacy";
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);

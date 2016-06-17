@@ -29,7 +29,7 @@ namespace IO.Swagger.Test
         [SetUp]
         public void Init()
         {
-            instance = new Dog();
+			instance = new Dog(ClassName: "csharp test");
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void DogInstanceTest()
         {
-            Assert.IsInstanceOf<Dog> (instance, "instance is a Dog");
+			Assert.IsInstanceOfType(typeof(Dog), instance, "instance is a Dog");
         }
 
         /// <summary>

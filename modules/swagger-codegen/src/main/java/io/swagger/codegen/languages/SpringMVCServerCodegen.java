@@ -18,12 +18,14 @@ public class SpringMVCServerCodegen extends JavaClientCodegen implements Codegen
         outputFolder = "generated-code/javaSpringMVC";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put(templateFileName, ".java");
+        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpringMVC";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
         configPackage = "io.swagger.configuration";
         invokerPackage = "io.swagger.api";
         artifactId = "swagger-spring-mvc-server";
+        dateLibrary = "legacy";
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);

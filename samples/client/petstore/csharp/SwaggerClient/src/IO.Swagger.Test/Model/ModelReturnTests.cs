@@ -47,7 +47,7 @@ namespace IO.Swagger.Test
         [Test]
         public void ModelReturnInstanceTest()
         {
-            Assert.IsInstanceOf<ModelReturn> (instance, "instance is a ModelReturn");
+			Assert.IsInstanceOfType(typeof(ModelReturn), instance, "instance is a ModelReturn");
         }
 
         /// <summary>

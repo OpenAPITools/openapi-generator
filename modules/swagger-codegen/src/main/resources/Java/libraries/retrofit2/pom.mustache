@@ -131,6 +131,11 @@
       <groupId>org.apache.oltu.oauth2</groupId>
       <artifactId>org.apache.oltu.oauth2.client</artifactId>
       <version>${oltu-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${jodatime-version}</version>
     </dependency>{{#useRxJava}}
     <dependency>
       <groupId>io.reactivex</groupId>
@@ -153,9 +158,9 @@
   </dependencies>
   <properties>
     <swagger-core-version>1.5.8</swagger-core-version>
-    <retrofit-version>2.0.2</retrofit-version>
-    {{#useRxJava}}<rxjava-version>1.1.3</rxjava-version>{{/useRxJava}}
-    <okhttp-version>3.2.0</okhttp-version>
+    <retrofit-version>2.0.2</retrofit-version>{{#useRxJava}}
+    <rxjava-version>1.1.3</rxjava-version>{{/useRxJava}}
+    <jodatime-version>2.9.3</jodatime-version>
     <oltu-version>1.0.1</oltu-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>

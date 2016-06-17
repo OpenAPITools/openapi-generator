@@ -2,6 +2,7 @@
 import * as models from './models';
 
 export interface Pet {
+    
 
     id?: number;
 
@@ -18,7 +19,6 @@ export interface Pet {
      */
     status?: Pet.StatusEnum;
 }
-
 export namespace Pet {
 
     export enum StatusEnum { 

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T16:29:08.210Z")
+
 public interface UserApi extends ApiClient.Api {
 
 
@@ -23,7 +23,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("POST /user")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   void createUser(User body);
 
@@ -36,7 +36,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("POST /user/createWithArray")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   void createUsersWithArrayInput(List<User> body);
 
@@ -49,7 +49,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("POST /user/createWithList")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   void createUsersWithListInput(List<User> body);
 
@@ -62,7 +62,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("DELETE /user/{username}")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   void deleteUser(@Param("username") String username);
 
@@ -75,7 +75,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("GET /user/{username}")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   User getUserByName(@Param("username") String username);
 
@@ -89,7 +89,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("GET /user/login?username={username}&password={password}")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   String loginUser(@Param("username") String username, @Param("password") String password);
 
@@ -101,7 +101,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("GET /user/logout")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   void logoutUser();
 
@@ -115,7 +115,7 @@ public interface UserApi extends ApiClient.Api {
   @RequestLine("PUT /user/{username}")
   @Headers({
     "Content-type: application/json",
-    "Accepts: application/json",
+    "Accept: application/json",
   })
   void updateUser(@Param("username") String username, User body);
 }

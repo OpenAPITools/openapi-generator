@@ -72,6 +72,9 @@
     contentTypes = @[@"application/json;charset=utf-8", @"application/vnd.github+xml"];
     XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
 
+    contentTypes = @[@"application/json;charset&#x3d;utf-8", @"application/vnd.github+xml"];
+    XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
+
     contentTypes = @[@"application/vnd.github.v3.html+json", @"application/vnd.github+xml"];
     XCTAssertEqualObjects([sanitizer selectHeaderContentType:contentTypes], @"application/json");
 

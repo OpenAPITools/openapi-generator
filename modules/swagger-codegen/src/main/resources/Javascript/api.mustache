@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 {{=< >=}}(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
@@ -74,8 +75,8 @@
       };
 
       var authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
-      var contentTypes = [<#consumes>'<mediaType>'<#hasMore>, </hasMore></consumes>];
-      var accepts = [<#produces>'<mediaType>'<#hasMore>, </hasMore></produces>];
+      var contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
+      var accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
       var returnType = <#returnType><&returnType></returnType><^returnType>null</returnType>;
 
       return this.apiClient.callApi(

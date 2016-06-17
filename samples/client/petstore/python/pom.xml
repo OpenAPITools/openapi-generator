@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.wordnik</groupId>
+    <groupId>io.swagger</groupId>
     <artifactId>PythonPetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -35,7 +35,7 @@
                         <configuration>
                             <executable>make</executable>
                             <arguments>
-                                <argument>test</argument>
+                                <argument>test-all</argument>
                             </arguments>
                         </configuration>
                     </execution>

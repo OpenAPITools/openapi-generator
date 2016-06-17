@@ -5,7 +5,7 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
   return self;
@@ -29,7 +29,6 @@
 
   NSArray *optionalProperties = @[@"_id", @"username", @"firstName", @"lastName", @"email", @"password", @"phone", @"userStatus"];
   return [optionalProperties containsObject:propertyName];
-
 }
 
 @end

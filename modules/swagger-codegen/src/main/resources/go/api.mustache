@@ -1,3 +1,4 @@
+{{>partial_header}}
 package {{packageName}}
 
 {{#operations}}
@@ -95,7 +96,7 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 	{{/queryParams}}{{/hasQueryParams}}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ {{#consumes}}"{{mediaType}}", {{/consumes}} }
+	localVarHttpContentTypes := []string{ {{#consumes}}"{{{mediaType}}}", {{/consumes}} }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -104,7 +105,7 @@ func (a {{classname}}) {{nickname}}({{#allParams}}{{paramName}} {{{dataType}}}{{
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
-		{{#produces}}"{{mediaType}}",
+		{{#produces}}"{{{mediaType}}}",
 {{/produces}}	}
 
 	// set Accept header

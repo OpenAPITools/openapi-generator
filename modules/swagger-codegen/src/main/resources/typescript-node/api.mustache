@@ -1,7 +1,7 @@
 import request = require('request');
 import http = require('http');
 {{^supportsES6}}
-import promise = require('bluebird');
+import Promise = require('bluebird');
 {{/supportsES6}}
 
 let defaultBasePath = '{{basePath}}';
@@ -111,6 +111,7 @@ export enum {{classname}}ApiKeys {
 export class {{classname}} {
     protected basePath = defaultBasePath;
     protected defaultHeaders : any = {};
+    protected _useQuerystring : boolean = false;
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
@@ -151,12 +152,15 @@ export class {{classname}} {
         }
     }
 
+    set useQuerystring(value: boolean) {
+        this._useQuerystring = value;
+    }
+
     public setApiKey(key: {{classname}}ApiKeys, value: string) {
         this.authentications[{{classname}}ApiKeys[key]].apiKey = value;
     }
 {{#authMethods}}
 {{#isBasic}}
-
     set username(username: string) {
         this.authentications.{{name}}.username = username;
     }
@@ -220,14 +224,12 @@ export class {{classname}} {
 {{/isFile}}
 
 {{/formParams}}
-        {{^supportsES6}}
-        let localVarDeferred = promise.defer<{ response: http.ClientResponse; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>();
-        {{/supportsES6}}
         let requestOptions: request.Options = {
             method: '{{httpMethod}}',
             qs: queryParameters,
             headers: headerParams,
             uri: localVarPath,
+            useQuerystring: this._useQuerystring,
             json: true,
 {{#bodyParam}}
             body: {{paramName}},
@@ -247,22 +249,7 @@ export class {{classname}} {
                 requestOptions.form = formParams;
             }
         }
-        {{^supportsES6}}
-        request(requestOptions, (error, response, body) => {
-            if (error) {
-                localVarDeferred.reject(error);
-            } else {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    localVarDeferred.resolve({ response: response, body: body });
-                } else {
-                    localVarDeferred.reject({ response: response, body: body });
-                }
-            }
-        });
-        return localVarDeferred.promise;
-        {{/supportsES6}}
-        {{#supportsES6}}
-        return new Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+        return new Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
             request(requestOptions, (error, response, body) => {
                 if (error) {
                     reject(error);
@@ -275,7 +262,6 @@ export class {{classname}} {
                 }
             });
         });
-        {{/supportsES6}}
     }
 {{/operation}}
 }

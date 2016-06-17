@@ -3,7 +3,7 @@ package io.swagger.client.model;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -23,7 +23,7 @@ public class Order   {
   private Integer quantity = null;
 
   @SerializedName("shipDate")
-  private Date shipDate = null;
+  private DateTime shipDate = null;
 
 
   /**
@@ -90,10 +90,10 @@ public class Order   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public Date getShipDate() {
+  public DateTime getShipDate() {
     return shipDate;
   }
-  public void setShipDate(Date shipDate) {
+  public void setShipDate(DateTime shipDate) {
     this.shipDate = shipDate;
   }
 

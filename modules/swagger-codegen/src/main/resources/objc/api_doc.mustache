@@ -42,29 +42,21 @@ Method | HTTP request | Description
 {{#allParams}}{{{dataType}}} {{paramName}} = {{{example}}}; // {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
-@try
-{ 
-    {{classname}} *apiInstance = [[{{classname}} alloc] init];
+{{classname}}*apiInstance = [[{{classname}} alloc] init];
 
-{{#summary}}    // {{{.}}}
-{{/summary}}    [apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
-                  {{paramName}}{{/secondaryParam}}:{{paramName}}{{/allParams}}
-              {{#hasParams}}completionHandler: {{/hasParams}}^({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error) {
+{{#summary}}// {{{.}}}
+{{/summary}}[apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+              {{paramName}}{{/secondaryParam}}:{{paramName}}{{/allParams}}
+          {{#hasParams}}completionHandler: {{/hasParams}}^({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error) {
 {{#returnType}}
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
+                        if (output) {
+                            NSLog(@"%@", output);
+                        }
 {{/returnType}}
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-}
-@catch (NSException *exception)
-{
-    NSLog(@"Exception when calling {{classname}}->{{operationId}}: %@ ", exception.name);
-    NSLog(@"Reason: %@ ", exception.reason);
-}
+                        if (error) {
+                            NSLog(@"Error calling {{classname}}->{{operationId}}: %@", error);
+                        }
+                    }];
 ```
 
 ### Parameters
@@ -84,8 +76,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

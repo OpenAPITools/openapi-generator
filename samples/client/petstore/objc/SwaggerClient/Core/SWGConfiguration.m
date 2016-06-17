@@ -2,14 +2,15 @@
 
 @interface SWGConfiguration ()
 
-@property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKey;
-@property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKeyPrefix;
+@property (nonatomic, strong) NSMutableDictionary *mutableDefaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *mutableApiKey;
+@property (nonatomic, strong) NSMutableDictionary *mutableApiKeyPrefix;
 
 @end
 
 @implementation SWGConfiguration
 
-#pragma mark - Singletion Methods
+#pragma mark - Singleton Methods
 
 + (instancetype) sharedConfig {
     static SWGConfiguration *shardConfig = nil;
@@ -33,6 +34,8 @@
         self.verifySSL = YES;
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders[@"User-Agent"] = [NSString stringWithFormat:@"Swagger-Codegen/1.0.0/objc (%@; iOS %@; Scale/%0.2f)",[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
         self.logger = [SWGLogger sharedLogger];
     }
     return self;
@@ -130,6 +133,28 @@
 
 -(void)setDebug:(BOOL)debug {
     self.logger.enabled = debug;
+}
+
+
+
+- (void)setDefaultHeaderValue:(NSString *)value forKey:(NSString *)key {
+    if(!value) {
+        [self.mutableDefaultHeaders removeObjectForKey:key];
+        return;
+    }
+    self.mutableDefaultHeaders[key] = value;
+}
+
+-(void) removeDefaultHeaderForKey:(NSString*)key {
+    [self.mutableDefaultHeaders removeObjectForKey:key];
+}
+
+- (NSString *)defaultHeaderForKey:(NSString *)key {
+    return self.mutableDefaultHeaders[key];
+}
+
+- (NSDictionary *)defaultHeaders {
+    return [self.mutableDefaultHeaders copy];
 }
 
 @end

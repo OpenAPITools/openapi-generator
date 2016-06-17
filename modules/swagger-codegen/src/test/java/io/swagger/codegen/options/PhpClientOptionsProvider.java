@@ -18,6 +18,8 @@ public class PhpClientOptionsProvider implements OptionsProvider {
     public static final String SRC_BASE_PATH_VALUE = "libPhp";
     public static final String COMPOSER_VENDOR_NAME_VALUE = "swaggerPhp";
     public static final String COMPOSER_PROJECT_NAME_VALUE = "swagger-client-php";
+    public static final String GIT_USER_ID_VALUE = "gitSwaggerPhp";
+    public static final String GIT_REPO_ID_VALUE = "git-swagger-client-php";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
 
     @Override
@@ -37,7 +39,9 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(PhpClientCodegen.PACKAGE_PATH, PACKAGE_PATH_VALUE)
                 .put(PhpClientCodegen.SRC_BASE_PATH, SRC_BASE_PATH_VALUE)
                 .put(PhpClientCodegen.COMPOSER_VENDOR_NAME, COMPOSER_VENDOR_NAME_VALUE)
+                .put(CodegenConstants.GIT_USER_ID, GIT_USER_ID_VALUE)
                 .put(PhpClientCodegen.COMPOSER_PROJECT_NAME, COMPOSER_PROJECT_NAME_VALUE)
+                .put(CodegenConstants.GIT_REPO_ID, GIT_REPO_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
                 .build();
     }

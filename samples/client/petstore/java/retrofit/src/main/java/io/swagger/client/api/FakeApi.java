@@ -6,8 +6,9 @@ import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
+import org.joda.time.LocalDate;
 import java.math.BigDecimal;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,9 +17,9 @@ import java.util.Map;
 
 public interface FakeApi {
   /**
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Sync method
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param string None (required)
@@ -37,11 +38,11 @@ public interface FakeApi {
   @FormUrlEncoded
   @POST("/fake")
   Void testEndpointParameters(
-    @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") Date date, @Field("dateTime") Date dateTime, @Field("password") String password
+    @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") LocalDate date, @Field("dateTime") DateTime dateTime, @Field("password") String password
   );
 
   /**
-   * Fake endpoint for testing various parameters
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Async method
    * @param number None (required)
    * @param _double None (required)
@@ -62,6 +63,6 @@ public interface FakeApi {
   @FormUrlEncoded
   @POST("/fake")
   void testEndpointParameters(
-    @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") Date date, @Field("dateTime") Date dateTime, @Field("password") String password, Callback<Void> cb
+    @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") LocalDate date, @Field("dateTime") DateTime dateTime, @Field("password") String password, Callback<Void> cb
   );
 }

@@ -32,7 +32,7 @@ $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Create
 try {
     $api_instance->createUser($body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Created user object | 
+ **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Created user object |
 
 ### Return type
 
@@ -76,7 +76,7 @@ $body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
 try {
     $api_instance->createUsersWithArrayInput($body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -85,7 +85,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object | 
+ **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -120,7 +120,7 @@ $body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
 try {
     $api_instance->createUsersWithListInput($body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -129,7 +129,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object | 
+ **body** | [**\Swagger\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -164,7 +164,7 @@ $username = "username_example"; // string | The name that needs to be deleted
 try {
     $api_instance->deleteUser($username);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -173,7 +173,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be deleted | 
+ **username** | **string**| The name that needs to be deleted |
 
 ### Return type
 
@@ -203,13 +203,13 @@ Get user by user name
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\UserApi();
-$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing. 
+$username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing.
 
 try {
     $result = $api_instance->getUserByName($username);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -218,7 +218,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
+ **username** | **string**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -255,7 +255,7 @@ try {
     $result = $api_instance->loginUser($username, $password);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -264,8 +264,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login | 
- **password** | **string**| The password for login in clear text | 
+ **username** | **string**| The user name for login |
+ **password** | **string**| The password for login in clear text |
 
 ### Return type
 
@@ -299,7 +299,7 @@ $api_instance = new Swagger\Client\Api\UserApi();
 try {
     $api_instance->logoutUser();
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -341,7 +341,7 @@ $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Update
 try {
     $api_instance->updateUser($username, $body);
 } catch (Exception $e) {
-    echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), "\n";
+    echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -350,8 +350,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted | 
- **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Updated user object | 
+ **username** | **string**| name that need to be deleted |
+ **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Updated user object |
 
 ### Return type
 

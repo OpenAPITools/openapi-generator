@@ -8,10 +8,12 @@ import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
-public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
-{
+public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen {
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
      * Mustache template for the JAX-RS Codegen.
@@ -19,10 +21,13 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
     protected String implFolder = "src/main/java";
     protected String title = "Swagger Server";
+    static Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
     public AbstractJavaJAXRSServerCodegen()
     {
         super();
+        dateLibrary = "legacy";
+        apiTestTemplateFiles.clear(); // TODO: add test template
     }
 
     @Override
@@ -198,4 +203,5 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
     }
+
 }
