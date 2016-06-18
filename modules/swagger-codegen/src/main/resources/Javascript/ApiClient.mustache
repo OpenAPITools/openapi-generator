@@ -489,7 +489,7 @@
     } else {
       for (var k in data) {
         if (data.hasOwnProperty(k))
-          result[k] = exports.convertToType(data[k], itemType);
+          obj[k] = exports.convertToType(data[k], itemType);
       }
     }
   };
