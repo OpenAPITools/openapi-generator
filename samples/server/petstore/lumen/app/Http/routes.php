@@ -48,12 +48,12 @@ $app->POST('/fake', 'FakeApi@testEndpointParameters');
  */
 $app->POST('/pet', 'PetApi@addPet');
 /**
- * DELETE deletePet
- * Summary: Deletes a pet
+ * PUT updatePet
+ * Summary: Update an existing pet
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->DELETE('/pet/{petId}', 'PetApi@deletePet');
+$app->PUT('/pet', 'PetApi@updatePet');
 /**
  * GET findPetsByStatus
  * Summary: Finds Pets by status
@@ -69,19 +69,19 @@ $app->GET('/pet/findByStatus', 'PetApi@findPetsByStatus');
  */
 $app->GET('/pet/findByTags', 'PetApi@findPetsByTags');
 /**
+ * DELETE deletePet
+ * Summary: Deletes a pet
+ * Notes: 
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->DELETE('/pet/{petId}', 'PetApi@deletePet');
+/**
  * GET getPetById
  * Summary: Find pet by ID
  * Notes: Returns a single pet
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/pet/{petId}', 'PetApi@getPetById');
-/**
- * PUT updatePet
- * Summary: Update an existing pet
- * Notes: 
- * Output-Formats: [application/xml, application/json]
- */
-$app->PUT('/pet', 'PetApi@updatePet');
 /**
  * POST updatePetWithForm
  * Summary: Updates a pet in the store with form data
@@ -97,13 +97,6 @@ $app->POST('/pet/{petId}', 'PetApi@updatePetWithForm');
  */
 $app->POST('/pet/{petId}/uploadImage', 'PetApi@uploadFile');
 /**
- * DELETE deleteOrder
- * Summary: Delete purchase order by ID
- * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
- * Output-Formats: [application/xml, application/json]
- */
-$app->DELETE('/store/order/{orderId}', 'StoreApi@deleteOrder');
-/**
  * GET getInventory
  * Summary: Returns pet inventories by status
  * Notes: Returns a map of status codes to quantities
@@ -111,19 +104,26 @@ $app->DELETE('/store/order/{orderId}', 'StoreApi@deleteOrder');
  */
 $app->GET('/store/inventory', 'StoreApi@getInventory');
 /**
- * GET getOrderById
- * Summary: Find purchase order by ID
- * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
- * Output-Formats: [application/xml, application/json]
- */
-$app->GET('/store/order/{orderId}', 'StoreApi@getOrderById');
-/**
  * POST placeOrder
  * Summary: Place an order for a pet
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
 $app->POST('/store/order', 'StoreApi@placeOrder');
+/**
+ * DELETE deleteOrder
+ * Summary: Delete purchase order by ID
+ * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->DELETE('/store/order/{orderId}', 'StoreApi@deleteOrder');
+/**
+ * GET getOrderById
+ * Summary: Find purchase order by ID
+ * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->GET('/store/order/{orderId}', 'StoreApi@getOrderById');
 /**
  * POST createUser
  * Summary: Create user
@@ -146,20 +146,6 @@ $app->POST('/user/createWithArray', 'UserApi@createUsersWithArrayInput');
  */
 $app->POST('/user/createWithList', 'UserApi@createUsersWithListInput');
 /**
- * DELETE deleteUser
- * Summary: Delete user
- * Notes: This can only be done by the logged in user.
- * Output-Formats: [application/xml, application/json]
- */
-$app->DELETE('/user/{username}', 'UserApi@deleteUser');
-/**
- * GET getUserByName
- * Summary: Get user by user name
- * Notes: 
- * Output-Formats: [application/xml, application/json]
- */
-$app->GET('/user/{username}', 'UserApi@getUserByName');
-/**
  * GET loginUser
  * Summary: Logs user into the system
  * Notes: 
@@ -173,6 +159,20 @@ $app->GET('/user/login', 'UserApi@loginUser');
  * Output-Formats: [application/xml, application/json]
  */
 $app->GET('/user/logout', 'UserApi@logoutUser');
+/**
+ * DELETE deleteUser
+ * Summary: Delete user
+ * Notes: This can only be done by the logged in user.
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->DELETE('/user/{username}', 'UserApi@deleteUser');
+/**
+ * GET getUserByName
+ * Summary: Get user by user name
+ * Notes: 
+ * Output-Formats: [application/xml, application/json]
+ */
+$app->GET('/user/{username}', 'UserApi@getUserByName');
 /**
  * PUT updateUser
  * Summary: Updated user
