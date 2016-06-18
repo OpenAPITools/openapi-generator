@@ -88,12 +88,12 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
         /**
          * Api Package.  Optional, if needed, this can be used in templates
          */
-        apiPackage = "io.swagger.client.api";
+        apiPackage = "app.Http.Controllers";
 
         /**
          * Model Package.  Optional, if needed, this can be used in templates
          */
-        modelPackage = "io.swagger.client.model";
+        modelPackage = "models";
 
         /**
          * Reserved words.  Override this with reserved words specific to your language
@@ -154,7 +154,7 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
      * instantiated
      */
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
 
     /**
@@ -163,7 +163,7 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/app/Http/controllers";
+        return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);//"/app/Http/controllers";
     }
 
     // override with any special post-processing
