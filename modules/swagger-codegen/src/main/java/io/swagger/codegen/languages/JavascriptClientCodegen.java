@@ -74,12 +74,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected boolean emitJSDoc = true;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String apiTestPath = "api/";
+    protected String modelTestPath = "model/";
 
     public JavascriptClientCodegen() {
         super();
         outputFolder = "generated-code/js";
         modelTemplateFiles.put("model.mustache", ".js");
+        modelTestTemplateFiles.put("model_test.mustache", ".js");
         apiTemplateFiles.put("api.mustache", ".js");
+        apiTestTemplateFiles.put("api_test.mustache", ".js");
         templateDir = "Javascript";
         apiPackage = "api";
         modelPackage = "model";
@@ -292,6 +296,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("mocha.opts", "", "mocha.opts"));
+        supportingFiles.add(new SupportingFile("travis.yml", "", ".travis.yml"));
     }
 
     @Override
@@ -320,6 +326,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 buf.setCharAt(i, File.separatorChar);
         }
         return buf.toString();
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + "/test/" + apiTestPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + "/test/" + modelTestPath).replace('/', File.separatorChar);
     }
 
     @Override
@@ -398,6 +414,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name) + ".spec";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelName(name) + ".spec";
     }
 
     @Override

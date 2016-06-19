@@ -1198,6 +1198,8 @@ public class DefaultCodegen {
             ArrayModel am = (ArrayModel) model;
             ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
             m.hasEnums = false; // Otherwise there will be a NullPointerException in JavaClientCodegen.fromModel
+            m.isArrayModel = true;
+            m.arrayModelType = fromProperty(name, arrayProperty).complexType;
             addParentContainer(m, name, arrayProperty);
         } else if (model instanceof RefModel) {
             // TODO
@@ -1465,7 +1467,9 @@ public class DefaultCodegen {
         if (p instanceof BinaryProperty) {
             property.isBinary = true;
         }
-
+        if (p instanceof UUIDProperty) {
+            property.isString = true;
+        }
         if (p instanceof ByteArrayProperty) {
             property.isByteArray = true;
         }

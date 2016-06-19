@@ -35,12 +35,12 @@
 
 -(SWGOrderManagedObject*)createNewSWGOrderManagedObjectInContext:(NSManagedObjectContext*)context;
 
--(SWGOrderManagedObject*)SWGOrderManagedObjectFromSWGOrder:(SWGOrder*)Order context:(NSManagedObjectContext*)context;
+-(SWGOrderManagedObject*)SWGOrderManagedObjectFromSWGOrder:(SWGOrder*)object context:(NSManagedObjectContext*)context;
 
--(void)updateSWGOrderManagedObject:(SWGOrderManagedObject*)Order withSWGOrder:(SWGOrder*)Order2;
+-(void)updateSWGOrderManagedObject:(SWGOrderManagedObject*)object withSWGOrder:(SWGOrder*)object2;
 
 -(SWGOrder*)SWGOrderFromSWGOrderManagedObject:(SWGOrderManagedObject*)obj;
 
--(void)updateSWGOrder:(SWGOrder*)Order withSWGOrderManagedObject:(SWGOrderManagedObject*)Order2;
+-(void)updateSWGOrder:(SWGOrder*)object withSWGOrderManagedObject:(SWGOrderManagedObject*)object2;
 
 @end

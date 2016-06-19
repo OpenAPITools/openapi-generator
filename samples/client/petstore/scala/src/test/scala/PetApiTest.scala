@@ -80,7 +80,6 @@ class PetApiTest extends FlatSpec with Matchers {
   }
 
   it should "find pets by tag" in {
-    println("finding by tags")
     api.findPetsByTags(List("tag1", "tag2")) match {
       case Some(pets) => {
         pets.foreach(pet => {

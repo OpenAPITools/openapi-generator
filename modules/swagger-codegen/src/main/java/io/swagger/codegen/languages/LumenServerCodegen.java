@@ -9,9 +9,20 @@ import java.io.File;
 public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     // source folder where to write the files
-    protected String sourceFolder = "src";
-    protected String apiVersion = "1.0.0";
+    protected String sourceFolder = "";
 
+    public static final String SRC_BASE_PATH = "srcBasePath";
+    public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
+    public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
+    protected String invokerPackage = "Swagger\\Client";
+    protected String composerVendorName = null;
+    protected String composerProjectName = null;
+    protected String packagePath = "SwaggerClient-php";
+    protected String artifactVersion = null;
+    protected String srcBasePath = "lib";
+    protected String apiVersion = "1.0.0";
+    protected String apiDirName = "Api";
+        
     /**
      * Configures the type of generator.
      * 
@@ -46,13 +57,8 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
         super();
 
         // set the output folder here
-        outputFolder = "generated-code/lumen";
-        String packagePath = "lumen";
-
-        // modelPackage = packagePath + "\\lib\\Models";
-        // apiPackage = packagePath + "\\lib";
-        // // outputFolder = "generated-code" + File.separator + "slim";
-        // modelTemplateFiles.put("model.mustache", ".php");
+        outputFolder = "lumen";
+        String packagePath = "";
 
         /**
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -75,7 +81,8 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
         
 
         // no api files
-        apiTemplateFiles.clear();
+        // apiTemplateFiles.clear();
+        apiTemplateFiles.put("api.mustache", ".php");
 
         // embeddedTemplateDir = templateDir = "slim";
 
@@ -115,43 +122,18 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
-        // supportingFiles.add(new SupportingFile("index.mustache", packagePath, "index.php"));
-        // supportingFiles.add(new SupportingFile("routes.mustache", packagePath, "routes.php"));
-
-        supportingFiles.add(new SupportingFile("composer.json", packagePath, "composer.json"));
+        supportingFiles.add(new SupportingFile("composer.mustache", packagePath, "composer.json"));
         supportingFiles.add(new SupportingFile("readme.md", packagePath, "readme.md"));
-        supportingFiles.add(new SupportingFile("artisan", packagePath, "artisan"));
-        // supportingFiles.add(new SupportingFile("server.php", packagePath, "server.php"));
-
-        supportingFiles.add(new SupportingFile("bootstrap" + File.separator + "app.php", packagePath + File.separator + "bootstrap", "app.php"));
-
-        supportingFiles.add(new SupportingFile("public" + File.separator + "index.php", packagePath + File.separator + "public", "index.php"));
-
-        supportingFiles.add(new SupportingFile("app" + File.separator + "User.php", packagePath + File.separator + "app", "User.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Console" + File.separator + "Kernel.php", packagePath + File.separator + "app"  + File.separator + "Console", "Kernel.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Exceptions" + File.separator + "Handler.php", packagePath + File.separator + "app"  + File.separator + "Exceptions", "Handler.php"));
-        // supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Kernel.php", packagePath + File.separator + "app"  + File.separator + "Http", "Kernel.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "routes.mustache", packagePath + File.separator + "app"  + File.separator + "Http", "routes.php"));
+        supportingFiles.add(new SupportingFile("app.php", packagePath + File.separator + "bootstrap", "app.php"));
+        supportingFiles.add(new SupportingFile("index.php", packagePath + File.separator + "public", "index.php"));
+        supportingFiles.add(new SupportingFile("User.php", packagePath + File.separator + "app", "User.php"));
+        supportingFiles.add(new SupportingFile("Kernel.php", packagePath + File.separator + "app"  + File.separator + "Console", "Kernel.php"));
+        supportingFiles.add(new SupportingFile("Handler.php", packagePath + File.separator + "app"  + File.separator + "Exceptions", "Handler.php"));
+        supportingFiles.add(new SupportingFile("routes.mustache", packagePath + File.separator + "app"  + File.separator + "Http", "routes.php"));
         
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Controllers" + File.separator + "Controller.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator, "Controller.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Controllers" + File.separator + "ExampleController.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator, "ExampleController.php"));
-        // supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Controllers" + File.separator + "Auth" + File.separator + "AuthController.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator + "Auth" + File.separator, "AuthController.php"));
-        // supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Controllers" + File.separator + "Auth" + File.separator + "PasswordController.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator + "Auth" + File.separator, "PasswordController.php"));
+        supportingFiles.add(new SupportingFile("Controller.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Controllers" + File.separator, "Controller.php"));
+        supportingFiles.add(new SupportingFile("Authenticate.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Middleware" + File.separator, "Authenticate.php"));
         
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Middleware" + File.separator + "Authenticate.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Middleware" + File.separator, "Authenticate.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Middleware" + File.separator + "ExampleMiddleware.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Middleware" + File.separator, "ExampleMiddleware.php"));
-        // supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Middleware" + File.separator + "RedirectIfAuthenticated.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Middleware" + File.separator, "RedirectIfAuthenticated.php"));
-        // supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Middleware" + File.separator + "VerifyCsrfToken.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Middleware" + File.separator, "VerifyCsrfToken.php"));
-        
-        // supportingFiles.add(new SupportingFile("app" + File.separator + "Http" + File.separator + "Requests" + File.separator + "Request.php", packagePath + File.separator + "app"  + File.separator + "Http" + File.separator + "Requests" + File.separator, "Request.php"));
-                
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Providers" + File.separator + "AppServiceProvider.php", packagePath + File.separator + "app"  + File.separator + "Providers", "AppServiceProvider.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Providers" + File.separator + "AuthServiceProvider.php", packagePath + File.separator + "app"  + File.separator + "Providers", "AuthServiceProvider.php"));
-        supportingFiles.add(new SupportingFile("app" + File.separator + "Providers" + File.separator + "EventServiceProvider.php", packagePath + File.separator + "app"  + File.separator + "Providers", "EventServiceProvider.php"));
-        // supportingFiles.add(new SupportingFile("app" + File.separator + "Providers" + File.separator + "RouteServiceProvider.php", packagePath + File.separator + "app"  + File.separator + "Providers", "RouteServiceProvider.php"));
-
-        // supportingFiles.add(new SupportingFile("config" + File.separator + "app.php", packagePath + File.separator + "config"  + File.separator, "app.php"));
-
         /**
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
@@ -188,7 +170,8 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/app/Http/controllers";
+        // return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
     /**

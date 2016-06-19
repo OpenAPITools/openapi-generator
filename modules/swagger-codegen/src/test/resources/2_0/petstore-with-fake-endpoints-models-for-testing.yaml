@@ -717,6 +717,7 @@ definitions:
       id:
         type: integer
         format: int64
+        x-is-unique: true
       username:
         type: string
       firstName:
@@ -754,6 +755,7 @@ definitions:
       id:
         type: integer
         format: int64
+        x-is-unique: true
       category:
         $ref: '#/definitions/Category'
       name:

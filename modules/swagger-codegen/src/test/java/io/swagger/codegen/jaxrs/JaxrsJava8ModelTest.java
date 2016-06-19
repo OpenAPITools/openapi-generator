@@ -34,6 +34,6 @@ public class JaxrsJava8ModelTest {
         Json.prettyPrint(cm);
         assertEquals(cm.vars.get(0).datatype, "Long");
         assertEquals(cm.vars.get(1).datatype, "LocalDate");
-        assertEquals(cm.vars.get(2).datatype, "LocalDateTime");
+        assertEquals(cm.vars.get(2).datatype, "OffsetDateTime");
     }
 }
