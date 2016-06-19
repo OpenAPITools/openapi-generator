@@ -13,7 +13,7 @@
 -(instancetype)init {
     self = [super init];
     if (self != nil) {
-   }
+    }
     return self;
 }
 
@@ -22,9 +22,9 @@
     return managedObject;
 }
 
--(SWGCategoryManagedObject*)SWGCategoryManagedObjectFromSWGCategory:(SWGCategory*)Category context:(NSManagedObjectContext*)context {
+-(SWGCategoryManagedObject*)SWGCategoryManagedObjectFromSWGCategory:(SWGCategory*)object context:(NSManagedObjectContext*)context {
     SWGCategoryManagedObject* newSWGCategory = [self createNewSWGCategoryManagedObjectInContext:context];
-    [self updateSWGCategoryManagedObject:newSWGCategory withSWGCategory:Category];
+    [self updateSWGCategoryManagedObject:newSWGCategory withSWGCategory:object];
     return newSWGCategory;
 }
 
@@ -34,6 +34,7 @@
     }
     managedObject._id = [object._id copy];
     managedObject.name = [object.name copy];
+
 }
 
 -(SWGCategory*)SWGCategoryFromSWGCategoryManagedObject:(SWGCategoryManagedObject*)obj {

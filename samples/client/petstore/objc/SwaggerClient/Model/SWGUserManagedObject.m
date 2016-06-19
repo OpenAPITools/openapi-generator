@@ -15,5 +15,4 @@
 @dynamic password;
 @dynamic phone;
 @dynamic userStatus;
-
 @end

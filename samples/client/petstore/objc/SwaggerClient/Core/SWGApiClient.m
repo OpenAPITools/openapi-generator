@@ -50,6 +50,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 - (instancetype)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
     if (self) {
+        self.timeoutInterval = 60;
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.securityPolicy = [self customSecurityPolicy];
@@ -85,6 +86,11 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 - (void)setHeaderValue:(NSString*) value forKey:(NSString*) forKey {
     [self.requestSerializer setValue:value forHTTPHeaderField:forKey];
+}
+
+- (void)setRequestSerializer:(AFHTTPRequestSerializer<AFURLRequestSerialization> *)requestSerializer {
+    [super setRequestSerializer:requestSerializer];
+    requestSerializer.timeoutInterval = self.timeoutInterval;
 }
 
 #pragma mark - Cache Methods

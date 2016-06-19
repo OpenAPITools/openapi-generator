@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 #include "{{classname}}.h"
 #include "{{prefix}}Helpers.h"
 #include "{{prefix}}ModelFactory.h"
@@ -87,7 +88,7 @@ void
     HttpRequestInput input(fullPath, "{{httpMethod}}");
 
     {{#formParams}}if ({{paramName}} != NULL) {
-        {{^isFile}}input.add_var("{{paramName}}", *{{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{paramName}}", *{{paramName}}.local_filename, *{{paramName}}.request_filename, *{{paramName}}.mime_type);{{/isFile}}
+        {{^isFile}}input.add_var("{{paramName}}", *{{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{paramName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
     }
     {{/formParams}}
 

@@ -13,7 +13,7 @@
 -(instancetype)init {
     self = [super init];
     if (self != nil) {
-   }
+    }
     return self;
 }
 
@@ -22,9 +22,9 @@
     return managedObject;
 }
 
--(SWGUserManagedObject*)SWGUserManagedObjectFromSWGUser:(SWGUser*)User context:(NSManagedObjectContext*)context {
+-(SWGUserManagedObject*)SWGUserManagedObjectFromSWGUser:(SWGUser*)object context:(NSManagedObjectContext*)context {
     SWGUserManagedObject* newSWGUser = [self createNewSWGUserManagedObjectInContext:context];
-    [self updateSWGUserManagedObject:newSWGUser withSWGUser:User];
+    [self updateSWGUserManagedObject:newSWGUser withSWGUser:object];
     return newSWGUser;
 }
 
@@ -40,6 +40,7 @@
     managedObject.password = [object.password copy];
     managedObject.phone = [object.phone copy];
     managedObject.userStatus = [object.userStatus copy];
+
 }
 
 -(SWGUser*)SWGUserFromSWGUserManagedObject:(SWGUserManagedObject*)obj {

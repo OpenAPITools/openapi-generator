@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
 import {Injectable, Optional} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
@@ -80,7 +81,13 @@ export class {{classname}} {
         {{/hasFormParams}}
 
         return this.http.request(path, requestOptions)
-            .map((response: Response) => response.json());
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
     }
 
 {{/operation}}

@@ -44,12 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString* status;
 
 @property (nullable, nonatomic, retain) NSNumber* complete;
-
 @end
 
 @interface SWGOrderManagedObject (GeneratedAccessors)
 
-
 @end
+
 
 NS_ASSUME_NONNULL_END

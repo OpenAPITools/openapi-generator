@@ -1,5 +1,3 @@
-export * from '../api/PetApi';
-export * from '../api/StoreApi';
-export * from '../api/UserApi';
-
-
+export * from './PetApi';
+export * from './StoreApi';
+export * from './UserApi';

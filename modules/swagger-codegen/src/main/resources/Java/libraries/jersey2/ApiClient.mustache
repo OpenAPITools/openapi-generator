@@ -98,6 +98,15 @@ public class ApiClient {
     return json;
   }
 
+  public Client getHttpClient() {
+    return httpClient;
+  }
+
+  public ApiClient setHttpClient(Client httpClient) {
+    this.httpClient = httpClient;
+    return this;
+  }
+
   public String getBasePath() {
     return basePath;
   }

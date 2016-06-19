@@ -9,5 +9,4 @@
 
 @dynamic _id;
 @dynamic name;
-
 @end
