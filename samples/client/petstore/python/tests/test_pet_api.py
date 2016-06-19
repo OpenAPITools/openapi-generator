@@ -127,11 +127,11 @@ class PetApiTests(unittest.TestCase):
         def callback_function(data):
             #fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
             self.assertIsNotNone(data)
-            self.assertEqual(self.pet.id, data.id)
-            self.assertIsNotNone(data.category)
-            self.assertEqual(self.pet.category.name, data.category.name)
+            self.assertEqual(self.pet.id, data[0].id)
+            self.assertIsNotNone(data[0].category)
+            self.assertEqual(self.pet.category.name, data[0].category.name)
 
-        thread = self.pet_api.get_pet_by_id(pet_id=self.pet.id, callback=callback_function)
+        thread = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id, callback=callback_function)
         thread.join(10)
         if thread.isAlive():
             self.fail("Request timeout")
