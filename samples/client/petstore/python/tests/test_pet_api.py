@@ -97,6 +97,21 @@ class PetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
+    def test_async_add_pet_and_get_pet_by_id(self):
+        self.pet_api.add_pet(body=self.pet)
+
+        def callback_function(data):
+            #fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+            self.assertIsNotNone(data)
+            self.assertEqual(self.pet.id, data.id)
+            self.assertIsNotNone(data.category)
+            self.assertEqual(self.pet.category.name, data.category.name)
+
+        thread = self.pet_api.get_pet_by_id(pet_id=self.pet.id, callback=callback_function)
+        thread.join(10)
+        if thread.isAlive():
+            self.fail("Request timeout")
+
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(body=self.pet)
 
@@ -105,6 +120,21 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched[0].id)
         self.assertIsNotNone(fetched[0].category)
         self.assertEqual(self.pet.category.name, fetched[0].category.name)
+
+    def test_async_add_pet_and_get_pet_by_id_with_http_info(self):
+        self.pet_api.add_pet(body=self.pet)
+
+        def callback_function(data):
+            #fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+            self.assertIsNotNone(data)
+            self.assertEqual(self.pet.id, data.id)
+            self.assertIsNotNone(data.category)
+            self.assertEqual(self.pet.category.name, data.category.name)
+
+        thread = self.pet_api.get_pet_by_id(pet_id=self.pet.id, callback=callback_function)
+        thread.join(10)
+        if thread.isAlive():
+            self.fail("Request timeout")
 
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"
