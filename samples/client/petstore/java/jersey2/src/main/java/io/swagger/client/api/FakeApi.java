@@ -8,8 +8,8 @@ import io.swagger.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import org.joda.time.LocalDate;
-import org.joda.time.DateTime;
 import java.math.BigDecimal;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
