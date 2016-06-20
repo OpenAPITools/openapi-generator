@@ -1,5 +1,6 @@
 package io.swagger.codegen.java;
 
+import com.google.common.collect.Sets;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
@@ -9,16 +10,7 @@ import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.parameters.QueryParameter;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.ByteArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
-
-import com.google.common.collect.Sets;
+import io.swagger.models.properties.*;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -456,6 +448,20 @@ public class JavaModelTest {
         final CodegenParameter cm = codegen.fromParameter(parameter, null);
 
         Assert.assertNull(cm.allowableValues);
+    }
+
+    @Test(description = "model with Map<String, List<BigDecimal>> should import BigDecimal")
+    public void mapWithAnListOfBigDecimalTest() {
+        final Model model = new ModelImpl()
+                .description("model with Map<String, List<BigDecimal>>")
+                .property("map", new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty())));
+
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.datatype, "Map<String, List<BigDecimal>>");
+        Assert.assertTrue(cm.imports.contains("BigDecimal"));
     }
 
     @DataProvider(name = "modelNames")
