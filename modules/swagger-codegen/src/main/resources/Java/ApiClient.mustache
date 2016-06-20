@@ -71,7 +71,7 @@ public class ApiClient {
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     {{#java8}}
-    objectMapper.registerModule(new JSR310Module());
+    objectMapper.registerModule(new JavaTimeModule());
     {{/java8}}
     {{^java8}}
     objectMapper.registerModule(new JodaModule());
