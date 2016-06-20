@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class Model200Response   {
   
   private Integer name = null;
+  private String PropertyClass = null;
 
   
   /**
@@ -34,6 +35,23 @@ public class Model200Response   {
   }
 
 
+  /**
+   **/
+  public Model200Response PropertyClass(String PropertyClass) {
+    this.PropertyClass = PropertyClass;
+    return this;
+  }
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("class")
+  public String getPropertyClass() {
+    return PropertyClass;
+  }
+  public void setPropertyClass(String PropertyClass) {
+    this.PropertyClass = PropertyClass;
+  }
+
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -43,12 +61,13 @@ public class Model200Response   {
       return false;
     }
     Model200Response _200Response = (Model200Response) o;
-    return Objects.equals(this.name, _200Response.name);
+    return Objects.equals(this.name, _200Response.name) &&
+        Objects.equals(this.PropertyClass, _200Response.PropertyClass);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, PropertyClass);
   }
 
   @Override
@@ -57,6 +76,7 @@ public class Model200Response   {
     sb.append("class Model200Response {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    PropertyClass: ").append(toIndentedString(PropertyClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }

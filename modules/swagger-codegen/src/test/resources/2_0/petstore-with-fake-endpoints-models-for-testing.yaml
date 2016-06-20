@@ -834,6 +834,8 @@ definitions:
       name:
         type: integer
         format: int32
+      class:
+        type: string 
     xml:
       name: Name
   Dog:
