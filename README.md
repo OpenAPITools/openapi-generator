@@ -711,6 +711,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
+- [Finder](http://en.finder.pl/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [GraphHopper](https://graphhopper.com/)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
