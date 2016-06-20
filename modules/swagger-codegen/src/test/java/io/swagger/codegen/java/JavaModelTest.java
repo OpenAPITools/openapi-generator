@@ -450,18 +450,19 @@ public class JavaModelTest {
         Assert.assertNull(cm.allowableValues);
     }
 
-    @Test(description = "model with Map<String, List<BigDecimal>> should import BigDecimal")
+    @Test(description = "types used by inner properties should be imported")
     public void mapWithAnListOfBigDecimalTest() {
-        final Model model = new ModelImpl()
+        final CodegenModel cm1 = new JavaClientCodegen().fromModel("sample", new ModelImpl()
                 .description("model with Map<String, List<BigDecimal>>")
-                .property("map", new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty())));
+                .property("map", new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty()))));
+        Assert.assertEquals(cm1.vars.get(0).datatype, "Map<String, List<BigDecimal>>");
+        Assert.assertTrue(cm1.imports.contains("BigDecimal"));
 
-        final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
-
-        final CodegenProperty property = cm.vars.get(0);
-        Assert.assertEquals(property.datatype, "Map<String, List<BigDecimal>>");
-        Assert.assertTrue(cm.imports.contains("BigDecimal"));
+        final CodegenModel cm2 = new JavaClientCodegen().fromModel("sample", new ModelImpl()
+                .description("model with Map<String, Map<String, List<BigDecimal>>>")
+                .property("map", new MapProperty().additionalProperties(new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty())))));
+        Assert.assertEquals(cm2.vars.get(0).datatype, "Map<String, Map<String, List<BigDecimal>>>");
+        Assert.assertTrue(cm2.imports.contains("BigDecimal"));
     }
 
     @DataProvider(name = "modelNames")
