@@ -4,7 +4,6 @@ import io.swagger.TestUtils;
 
 import io.swagger.client.ApiClient;
 import io.swagger.client.CollectionFormats.*;
-import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 
 import java.io.BufferedWriter;
