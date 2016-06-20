@@ -759,6 +759,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Langauges     | Core Team (date joined) | 
 |:------------- |:-------------| 
 | C# ASP.NET5 |  @jimschubert (2016/05/01) |
+| Go Server | @guohuang (2016/06/13) |
 | Haskell Servant |  |
 | Java Spring Boot |  |
 | Java SpringMVC | @kolyjjj (2016/05/01) |
@@ -795,6 +796,7 @@ Here is a list of template creators:
    * TypeScript (Angular2): @roni-frantchi
  * Server Stubs
    * C# ASP.NET5: @jimschubert
+   * Go Server: @guohuang
    * Haskell Servant: @algas
    * Java Spring Boot: @diyfr
    * JAX-RS RestEasy: @chameleon82
