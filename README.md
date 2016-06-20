@@ -474,6 +474,7 @@ JavaJerseyServerCodegen.java
 JavaResteasyServerCodegen.java
 JavascriptClientCodegen.java
 NodeJSServerCodegen.java
+NancyFXServerCodegen
 ObjcClientCodegen.java
 PerlClientCodegen.java
 PhpClientCodegen.java
@@ -777,6 +778,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Java Spring Boot |  |
 | Java SpringMVC | @kolyjjj (2016/05/01) |
 | Java JAX-RS |  |
+| NancyFX |  |
 | NodeJS | @kolyjjj (2016/05/01) |  
 | PHP Lumen | @abcsum (2016/05/01) |
 | PHP Silex |  |
