@@ -21,7 +21,7 @@ python setup.py develop
 nosetests
 
 ### deactivate virtualenv
-if [ $DEACTIVE == true ]; then
-    deactivate
-fi
+#if [ $DEACTIVE == true ]; then
+#    deactivate
+#fi
 
