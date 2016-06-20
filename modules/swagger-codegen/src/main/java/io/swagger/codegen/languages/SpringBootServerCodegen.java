@@ -4,10 +4,12 @@ import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+import org.apache.commons.lang3.BooleanUtils;
+
 import java.io.File;
 import java.util.*;
 
-public class SpringBootServerCodegen extends JavaClientCodegen implements CodegenConfig{
+public class SpringBootServerCodegen extends AbstractJavaCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
@@ -15,33 +17,24 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
     protected String title = "Petstore Server";
-    protected String configPackage = "";
-    protected String basePackage = "";
+    protected String configPackage = "io.swagger.configuration";
+    protected String basePackage = "io.swagger";
     protected boolean interfaceOnly = false;
     protected boolean singleContentTypes = false;
     protected boolean java8 = false;
     protected boolean async = false;
-    protected String templateFileName = "api.mustache";
 
     public SpringBootServerCodegen() {
         super();
         outputFolder = "generated-code/javaSpringBoot";
-        apiTemplateFiles.put(templateFileName, ".java");
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpringBoot";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
-        configPackage = "io.swagger.configuration";
         invokerPackage = "io.swagger.api";
-        basePackage = "io.swagger";
         artifactId = "swagger-springboot-server";
 
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
-        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
         additionalProperties.put(BASE_PACKAGE, basePackage);
 
@@ -52,11 +45,17 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
 
-        supportedLibraries.clear();
         supportedLibraries.put(DEFAULT_LIBRARY, "Default Spring Boot server stub.");
         supportedLibraries.put("j8-async", "Use async servlet feature and Java 8's default interface. Generating interface with service " +
                 "declaration is useful when using Maven plugin. Just provide a implementation with @Controller to instantiate service." +
                 "(DEPRECATED: use -Djava8=true,async=true instead)");
+
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        library.setDefault(DEFAULT_LIBRARY);
+        library.setEnum(supportedLibraries);
+        library.setDefault(DEFAULT_LIBRARY);
+        cliOptions.add(library);
+
     }
 
     @Override
@@ -80,6 +79,7 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
@@ -107,7 +107,6 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
             this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
         }
 
-        supportingFiles.clear();
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -307,6 +306,42 @@ public class SpringBootServerCodegen extends JavaClientCodegen implements Codege
                 }
             }
         }
+        return objs;
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        //Add imports for Jackson
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
+            model.imports.add("JsonProperty");
+
+            if(BooleanUtils.toBoolean(model.hasEnums)) {
+                model.imports.add("JsonValue");
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        //Add imports for Jackson
+        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                cm.imports.add(importMapping.get("JsonValue"));
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("import", importMapping.get("JsonValue"));
+                imports.add(item);
+            }
+        }
+
         return objs;
     }
 }

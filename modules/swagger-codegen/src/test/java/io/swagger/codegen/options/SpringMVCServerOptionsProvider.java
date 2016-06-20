@@ -20,6 +20,8 @@ public class SpringMVCServerOptionsProvider extends JavaOptionsProvider {
         Map<String, String> options = new HashMap<String, String>(super.createOptions());
         options.put(SpringMVCServerCodegen.CONFIG_PACKAGE, CONFIG_PACKAGE_VALUE);
         options.put(CodegenConstants.LIBRARY, LIBRARY_VALUE);
+        options.put(SpringMVCServerCodegen.USE_RX_JAVA, "false");
+
         return options;
     }
 

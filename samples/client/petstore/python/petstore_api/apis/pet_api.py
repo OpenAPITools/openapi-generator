@@ -71,9 +71,37 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.add_pet_with_http_info(body, **kwargs)
+        else:
+            (data) = self.add_pet_with_http_info(body, **kwargs)
+            return data
+
+    def add_pet_with_http_info(self, body, **kwargs):
+        """
+        Add a new pet to the store
+        
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.add_pet_with_http_info(body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param Pet body: Pet object that needs to be added to the store (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -115,7 +143,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -124,8 +152,8 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def delete_pet(self, pet_id, **kwargs):
         """
@@ -148,9 +176,38 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.delete_pet_with_http_info(pet_id, **kwargs)
+        else:
+            (data) = self.delete_pet_with_http_info(pet_id, **kwargs)
+            return data
+
+    def delete_pet_with_http_info(self, pet_id, **kwargs):
+        """
+        Deletes a pet
+        
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.delete_pet_with_http_info(pet_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int pet_id: Pet id to delete (required)
+        :param str api_key: 
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['pet_id', 'api_key']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -194,7 +251,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api(resource_path, 'DELETE',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -203,8 +260,8 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def find_pets_by_status(self, status, **kwargs):
         """
@@ -226,9 +283,37 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.find_pets_by_status_with_http_info(status, **kwargs)
+        else:
+            (data) = self.find_pets_by_status_with_http_info(status, **kwargs)
+            return data
+
+    def find_pets_by_status_with_http_info(self, status, **kwargs):
+        """
+        Finds Pets by status
+        Multiple status values can be provided with comma separated strings
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.find_pets_by_status_with_http_info(status, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param list[str] status: Status values that need to be considered for filter (required)
+        :return: list[Pet]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['status']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -270,7 +355,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -279,8 +364,8 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def find_pets_by_tags(self, tags, **kwargs):
         """
@@ -302,9 +387,37 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.find_pets_by_tags_with_http_info(tags, **kwargs)
+        else:
+            (data) = self.find_pets_by_tags_with_http_info(tags, **kwargs)
+            return data
+
+    def find_pets_by_tags_with_http_info(self, tags, **kwargs):
+        """
+        Finds Pets by tags
+        Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.find_pets_by_tags_with_http_info(tags, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param list[str] tags: Tags to filter by (required)
+        :return: list[Pet]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['tags']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -346,7 +459,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -355,8 +468,8 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def get_pet_by_id(self, pet_id, **kwargs):
         """
@@ -378,9 +491,37 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_pet_by_id_with_http_info(pet_id, **kwargs)
+        else:
+            (data) = self.get_pet_by_id_with_http_info(pet_id, **kwargs)
+            return data
+
+    def get_pet_by_id_with_http_info(self, pet_id, **kwargs):
+        """
+        Find pet by ID
+        Returns a single pet
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_pet_by_id_with_http_info(pet_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int pet_id: ID of pet to return (required)
+        :return: Pet
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['pet_id']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -422,7 +563,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['api_key']
 
-        response = self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api(resource_path, 'GET',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -431,8 +572,8 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='Pet',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def update_pet(self, body, **kwargs):
         """
@@ -454,9 +595,37 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.update_pet_with_http_info(body, **kwargs)
+        else:
+            (data) = self.update_pet_with_http_info(body, **kwargs)
+            return data
+
+    def update_pet_with_http_info(self, body, **kwargs):
+        """
+        Update an existing pet
+        
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.update_pet_with_http_info(body, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param Pet body: Pet object that needs to be added to the store (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['body']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -498,7 +667,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api(resource_path, 'PUT',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -507,8 +676,8 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def update_pet_with_form(self, pet_id, **kwargs):
         """
@@ -532,9 +701,39 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.update_pet_with_form_with_http_info(pet_id, **kwargs)
+        else:
+            (data) = self.update_pet_with_form_with_http_info(pet_id, **kwargs)
+            return data
+
+    def update_pet_with_form_with_http_info(self, pet_id, **kwargs):
+        """
+        Updates a pet in the store with form data
+        
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.update_pet_with_form_with_http_info(pet_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int pet_id: ID of pet that needs to be updated (required)
+        :param str name: Updated name of the pet
+        :param str status: Updated status of the pet
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['pet_id', 'name', 'status']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -580,7 +779,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -589,8 +788,8 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type=None,
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 
     def upload_file(self, pet_id, **kwargs):
         """
@@ -614,9 +813,39 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.upload_file_with_http_info(pet_id, **kwargs)
+        else:
+            (data) = self.upload_file_with_http_info(pet_id, **kwargs)
+            return data
+
+    def upload_file_with_http_info(self, pet_id, **kwargs):
+        """
+        uploads an image
+        
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.upload_file_with_http_info(pet_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int pet_id: ID of pet to update (required)
+        :param str additional_metadata: Additional data to pass to server
+        :param file file: file to upload
+        :return: ApiResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
 
         all_params = ['pet_id', 'additional_metadata', 'file']
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -662,7 +891,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']
 
-        response = self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api(resource_path, 'POST',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -671,5 +900,5 @@ class PetApi(object):
                                             files=local_var_files,
                                             response_type='ApiResponse',
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))

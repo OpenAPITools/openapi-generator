@@ -41,19 +41,6 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [Generating dynamic html api documentation](#generating-dynamic-html-api-documentation)
     - [Generating static html api documentation](#generating-static-html-api-documentation)
     - [To build a server stub](#to-build-a-server-stub)
-      - [Node.js](#nodejs)
-      - [PHP Slim](#php-slim)
-      - [PHP Silex](#php-silex)
-      - [Python Flask (Connexion)](#python-flask-connexion)
-      - [Ruby Sinatra](#ruby-sinatra)
-      - [Scala Scalatra](#scala-scalatra)
-      - [Java JAX-RS (Java JAX-RS (Jersey v1.18)](#java-jax-rs-jersey-v118)
-      - [Java JAX-RS (Apache CXF 2 / 3)](#java-jax-rs-apache-cxf-2--3)
-      - [Java JAX-RS (Resteasy)](#java-jax-rs-resteasy)      
-      - [Java Spring MVC](#java-spring-mvc)
-      - [Java SpringBoot](#java-springboot)
-      - [Haskell Servant](#haskell-servant)
-      - [ASP.NET 5 Web API](#aspnet-5-web-api)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Workflow Integration](#workflow-integration)
   - [Github Integration](#github-integration)
@@ -772,6 +759,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Langauges     | Core Team (date joined) | 
 |:------------- |:-------------| 
 | C# ASP.NET5 |  @jimschubert (2016/05/01) |
+| Go Server | @guohuang (2016/06/13) |
 | Haskell Servant |  |
 | Java Spring Boot |  |
 | Java SpringMVC | @kolyjjj (2016/05/01) |
@@ -808,6 +796,7 @@ Here is a list of template creators:
    * TypeScript (Angular2): @roni-frantchi
  * Server Stubs
    * C# ASP.NET5: @jimschubert
+   * Go Server: @guohuang
    * Haskell Servant: @algas
    * Java Spring Boot: @diyfr
    * JAX-RS RestEasy: @chameleon82

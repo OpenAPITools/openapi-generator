@@ -80,12 +80,17 @@ samples/client/petstore/silex/SwaggerServer/venodr/
 samples/client/petstore/perl/deep_module_test/
 
 # Objc
-samples/client/petstore/objc/PetstoreClient.xcworkspace/xcuserdata
-samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
-samples/client/petstore/objc/SwaggerClientTests/Build
-samples/client/petstore/objc/SwaggerClientTests/Pods
-samples/client/petstore/objc/SwaggerClientTests/SwaggerClient.xcworkspace
-samples/client/petstore/objc/SwaggerClientTests/Podfile.lock
+samples/client/petstore/objc/default/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/objc/default/SwaggerClientTests/Build
+samples/client/petstore/objc/default/SwaggerClientTests/Pods
+samples/client/petstore/objc/default/SwaggerClientTests/SwaggerClient.xcworkspace
+samples/client/petstore/objc/default/SwaggerClientTests/Podfile.lock
+
+samples/client/petstore/objc/core-data/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/objc/core-data/SwaggerClientTests/Build
+samples/client/petstore/objc/core-data/SwaggerClientTests/Pods
+samples/client/petstore/objc/core-data/SwaggerClientTests/SwaggerClient.xcworkspace
+samples/client/petstore/objc/core-data/SwaggerClientTests/Podfile.lock
 
 # Swift
 samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
