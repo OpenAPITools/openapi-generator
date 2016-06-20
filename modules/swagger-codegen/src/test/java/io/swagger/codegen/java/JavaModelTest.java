@@ -10,7 +10,15 @@ import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.parameters.QueryParameter;
-import io.swagger.models.properties.*;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.ByteArrayProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DecimalProperty;
+import io.swagger.models.properties.IntegerProperty;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -467,7 +475,7 @@ public class JavaModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
-        return new Object[][] {
+        return new Object[][]{
                 {"sample", "Sample"},
                 {"sample_name", "SampleName"},
                 {"sample__name", "SampleName"},
