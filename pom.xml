@@ -399,7 +399,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/objc/SwaggerClientTests</module>
+                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
             </modules>
         </profile>
         <profile>
