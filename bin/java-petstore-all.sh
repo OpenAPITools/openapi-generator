@@ -8,3 +8,4 @@
 ./bin/java-petstore-retrofit.sh
 ./bin/java-petstore-retrofit2.sh
 ./bin/java-petstore-retrofit2rx.sh
+./bin/java8-petstore-jersey2.sh
