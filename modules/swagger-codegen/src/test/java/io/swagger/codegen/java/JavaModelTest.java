@@ -475,7 +475,7 @@ public class JavaModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
-        return new Object[][]{
+        return new Object[][] {
                 {"sample", "Sample"},
                 {"sample_name", "SampleName"},
                 {"sample__name", "SampleName"},
