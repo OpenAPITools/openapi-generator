@@ -471,6 +471,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
+        if ("class".equals(name.toLowerCase())) {
+            return "PropertyClass";
+        }
+
         if("_".equals(name)) {
           name = "_u";
         }
