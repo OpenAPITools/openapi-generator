@@ -10,8 +10,8 @@ class ApiClient {
 
   ApiClient() {
     // Setup authentications (key: authentication name, value: authentication).
-    _authentications['api_key'] = new ApiKeyAuth("header", "api_key");
     _authentications['petstore_auth'] = new OAuth();
+    _authentications['api_key'] = new ApiKeyAuth("header", "api_key");
   }
 
   void addDefaultHeader(String key, String value) {

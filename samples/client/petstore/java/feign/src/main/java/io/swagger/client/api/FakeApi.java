@@ -3,8 +3,8 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 
 import org.joda.time.LocalDate;
-import java.math.BigDecimal;
 import org.joda.time.DateTime;
+import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.HashMap;

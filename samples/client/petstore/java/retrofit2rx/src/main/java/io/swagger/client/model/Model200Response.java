@@ -18,6 +18,9 @@ public class Model200Response   {
   @SerializedName("name")
   private Integer name = null;
 
+  @SerializedName("class")
+  private String PropertyClass = null;
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -26,6 +29,16 @@ public class Model200Response   {
   }
   public void setName(Integer name) {
     this.name = name;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getPropertyClass() {
+    return PropertyClass;
+  }
+  public void setPropertyClass(String PropertyClass) {
+    this.PropertyClass = PropertyClass;
   }
 
 
@@ -38,12 +51,13 @@ public class Model200Response   {
       return false;
     }
     Model200Response _200Response = (Model200Response) o;
-    return Objects.equals(name, _200Response.name);
+    return Objects.equals(name, _200Response.name) &&
+        Objects.equals(PropertyClass, _200Response.PropertyClass);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, PropertyClass);
   }
 
   @Override
@@ -52,6 +66,7 @@ public class Model200Response   {
     sb.append("class Model200Response {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    PropertyClass: ").append(toIndentedString(PropertyClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }

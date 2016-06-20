@@ -3,39 +3,29 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 
-import java.io.File;
 import java.util.*;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaJerseyServerCodegen() {
         super();
 
-        sourceFolder = "src/gen/java";
-        invokerPackage = "io.swagger.api";
-        artifactId = "swagger-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Jersey";
 
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
+        apiTestTemplateFiles.clear(); // TODO: add test template
 
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
-
-        additionalProperties.put("title", title);
+        // clear model and api doc template as this codegen
+        // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME;
-
-        for ( int i = 0; i < cliOptions.size(); i++ ) {
-            if ( CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt()) ) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
 
@@ -45,8 +35,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         library.setDefault("jersey1");
 
         cliOptions.add(library);
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
-        cliOptions.add(new CliOption("title", "a title describing the application"));
+
     }
 
     @Override
@@ -67,6 +56,15 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if("null".equals(property.example)) {
             property.example = null;
         }
+
+        //Add imports for Jackson
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
+            model.imports.add("JsonProperty");
+
+            if(BooleanUtils.toBoolean(model.hasEnums)) {
+                model.imports.add("JsonValue");
+            }
+        }
     }
 
     @Override
@@ -77,13 +75,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (StringUtils.isEmpty(library)) {
             setLibrary("jersey2");
         }
-
-        supportingFiles.clear();
-
-        // clear model and api doc template as this codegen 
-        // does not support auto-generated markdown doc at the moment
-        modelDocTemplateFiles.remove("model_doc.mustache");
-        apiDocTemplateFiles.remove("api_doc.mustache");
 
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
@@ -107,6 +98,28 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         writeOptional(outputFolder, new SupportingFile("bootstrap.mustache", (implFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java"));
         writeOptional(outputFolder, new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        //Add imports for Jackson
+        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                cm.imports.add(importMapping.get("JsonValue"));
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("import", importMapping.get("JsonValue"));
+                imports.add(item);
+            }
+        }
+
+        return objs;
     }
 
     @Override
@@ -137,7 +150,4 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         co.baseName = basePath;
     }
 
-    public void hideGenerationTimestamp(boolean hideGenerationTimestamp) {
-        this.hideGenerationTimestamp = hideGenerationTimestamp;
-    }
 }
