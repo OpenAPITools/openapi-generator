@@ -13,7 +13,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -54,10 +53,10 @@ public class ApiClient {
         this();
         for(String authName : authNames) { 
             Interceptor auth;
-            if (authName == "api_key") { 
-                auth = new ApiKeyAuth("header", "api_key");
-            } else if (authName == "petstore_auth") { 
+            if (authName == "petstore_auth") { 
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else if (authName == "api_key") { 
+                auth = new ApiKeyAuth("header", "api_key");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
@@ -354,7 +353,6 @@ class GsonCustomConverterFactory extends Converter.Factory
     }
 }
 
-
 /**
  * Gson TypeAdapter for Joda DateTime type
  */
@@ -384,6 +382,9 @@ class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
     }
 }
 
+/**
+ * Gson TypeAdapter for Joda LocalDate type
+ */
 class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
     private final DateTimeFormatter formatter = ISODateTimeFormat.date();
