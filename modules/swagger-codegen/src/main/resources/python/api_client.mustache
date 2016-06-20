@@ -103,7 +103,7 @@ class ApiClient(object):
     def __call_api(self, resource_path, method,
                    path_params=None, query_params=None, header_params=None,
                    body=None, post_params=None, files=None,
-                   response_type=None, auth_settings=None, callback=None):
+                   response_type=None, auth_settings=None, callback=None, _return_http_data_only=None):
 
         # headers parameters
         header_params = header_params or {}
@@ -157,9 +157,12 @@ class ApiClient(object):
             deserialized_data = None
 
         if callback:
-            callback(deserialized_data)
+            callback(deserialized_data) if _return_http_data_only else callback((deserialized_data, response_data.status, response_data.getheaders()))
+        elif _return_http_data_only:
+            return ( deserialized_data );
         else:
-            return deserialized_data
+            return (deserialized_data, response_data.status, response_data.getheaders())
+        
 
     def to_path_value(self, obj):
         """
@@ -287,7 +290,7 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, callback=None):
+                 response_type=None, auth_settings=None, callback=None, _return_http_data_only=None):
         """
         Makes the HTTP request (synchronous) and return the deserialized data.
         To make an async request, define a function for callback.
@@ -308,6 +311,7 @@ class ApiClient(object):
         :param callback function: Callback function for asynchronous request.
             If provide this parameter,
             the request will be called asynchronously.
+        :param _return_http_data_only: response data without head status code and headers
         :return:
             If provide parameter callback,
             the request will be called asynchronously.
@@ -319,7 +323,7 @@ class ApiClient(object):
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings, callback)
+                                   response_type, auth_settings, callback, _return_http_data_only)
         else:
             thread = threading.Thread(target=self.__call_api,
                                       args=(resource_path, method,
@@ -327,7 +331,7 @@ class ApiClient(object):
                                             header_params, body,
                                             post_params, files,
                                             response_type, auth_settings,
-                                            callback))
+                                            callback,_return_http_data_only))
         thread.start()
         return thread
 
