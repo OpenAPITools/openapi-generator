@@ -25,11 +25,13 @@
         {{/isEnum}}
         {{/vars}}
     {{#hasRequired}}
+    {{^hasOnlyReadOnly}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
         [JsonConstructorAttribute]
         protected {{classname}}() { }
+    {{/hasOnlyReadOnly}}
     {{/hasRequired}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
@@ -39,6 +41,9 @@
         /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
         {{/isReadOnly}}
         {{/vars}}
+    {{#hasOnlyReadOnly}}
+        [JsonConstructorAttribute]
+    {{/hasOnlyReadOnly}}
         public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}?{{/isEnum}} {{name}} = null{{^-last}}, {{/-last}}{{/readWriteVars}})
         {
             {{#vars}}

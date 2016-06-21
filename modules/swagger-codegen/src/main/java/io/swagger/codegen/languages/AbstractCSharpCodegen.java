@@ -259,7 +259,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // check to see if model name is same as the property name
                 // which will result in compilation error
                 // if found, prepend with _ to workaround the limitation
-                if (var.name.equals(cm.name)) {
+                if (var.name.equalsIgnoreCase(cm.name)) {
                     var.name = "_" + var.name;
                 }
             }
@@ -614,8 +614,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("_$", "");
 
         enumName = camelize(enumName) + "Enum";
-
-        LOGGER.info("toEnumVarName = " + enumName);
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
