@@ -37,6 +37,7 @@ public class CodegenModel {
 
     public Set<String> imports = new TreeSet<String>();
     public Boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, isArrayModel;
+    public Boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocs externalDocs;
 
     public Map<String, Object> vendorExtensions;

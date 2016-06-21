@@ -2596,6 +2596,11 @@ public class DefaultCodegen {
                     m.hasEnums = true;
                 }
 
+                // set model's hasOnlyReadOnly to false if the property is read-only
+                if (!Boolean.TRUE.equals(cp.isReadOnly)) {
+                    m.hasOnlyReadOnly = false;
+                }
+
                 if (i+1 != totalCount) {
                     cp.hasMore = true;
                     // check the next entry to see if it's read only
