@@ -34,7 +34,7 @@ public interface {{classname}} {
             {{/hasMore}}{{/scopes}}
             }{{/isOAuth}}){{#hasMore}},
         {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}})
+    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class){{#hasMore}},{{/hasMore}}{{/responses}} })
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}
