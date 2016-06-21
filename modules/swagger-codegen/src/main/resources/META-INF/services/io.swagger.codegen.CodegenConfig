@@ -30,8 +30,7 @@ io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SinatraServerCodegen
 io.swagger.codegen.languages.Rails5ServerCodegen
 io.swagger.codegen.languages.SlimFrameworkServerCodegen
-io.swagger.codegen.languages.SpringBootServerCodegen
-io.swagger.codegen.languages.SpringMVCServerCodegen
+io.swagger.codegen.languages.SpringCodegen
 io.swagger.codegen.languages.StaticDocCodegen
 io.swagger.codegen.languages.StaticHtmlGenerator
 io.swagger.codegen.languages.SwaggerGenerator

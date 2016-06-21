@@ -2,12 +2,12 @@ package io.swagger.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:43:02.966+02:00")
+
 public class WebApplication extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { SwaggerConfig.class };
+        return new Class[] { SwaggerUiConfiguration.class };
     }
 
     @Override

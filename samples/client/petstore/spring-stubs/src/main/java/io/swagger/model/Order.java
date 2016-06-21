@@ -1,34 +1,54 @@
 package io.swagger.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
-
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Objects;
+import org.joda.time.DateTime;
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringBootServerCodegen", date = "2016-06-06T14:29:44.961+02:00")
-public class Order  {
+
+
+
+
+public class Order   {
   
   private Long id = null;
   private Long petId = null;
   private Integer quantity = null;
-  private Date shipDate = null;
+  private DateTime shipDate = null;
+
+
   public enum StatusEnum {
-     placed,  approved,  delivered, 
-  };
-  
+    PLACED("placed"),
+    APPROVED("approved"),
+    DELIVERED("delivered");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return value;
+    }
+  }
+
   private StatusEnum status = null;
   private Boolean complete = false;
 
   /**
    **/
+  public Order id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -40,6 +60,12 @@ public class Order  {
 
   /**
    **/
+  public Order petId(Long petId) {
+    this.petId = petId;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
@@ -51,6 +77,12 @@ public class Order  {
 
   /**
    **/
+  public Order quantity(Integer quantity) {
+    this.quantity = quantity;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -62,18 +94,30 @@ public class Order  {
 
   /**
    **/
+  public Order shipDate(DateTime shipDate) {
+    this.shipDate = shipDate;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
-  public Date getShipDate() {
+  public DateTime getShipDate() {
     return shipDate;
   }
-  public void setShipDate(Date shipDate) {
+  public void setShipDate(DateTime shipDate) {
     this.shipDate = shipDate;
   }
 
   /**
    * Order Status
    **/
+  public Order status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -85,6 +129,12 @@ public class Order  {
 
   /**
    **/
+  public Order complete(Boolean complete) {
+    this.complete = complete;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
@@ -118,17 +168,29 @@ public class Order  {
   }
 
   @Override
-  public String toString()  {
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
     
-    sb.append("  id: ").append(id).append("\n");
-    sb.append("  petId: ").append(petId).append("\n");
-    sb.append("  quantity: ").append(quantity).append("\n");
-    sb.append("  shipDate: ").append(shipDate).append("\n");
-    sb.append("  status: ").append(status).append("\n");
-    sb.append("  complete: ").append(complete).append("\n");
-    sb.append("}\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("}");
     return sb.toString();
   }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+
