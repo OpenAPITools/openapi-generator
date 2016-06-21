@@ -1005,6 +1005,27 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/ReadOnlyFirst'
+  NumberOnly:
+    type: object
+    properties:
+      JustNumber:
+        type: number
+  ArrayOfNumberOnly:
+    type: object
+    properties:
+      ArrayNumber:
+        type: array
+        items:
+          type: number
+  ArrayOfArrayOfNumberOnly:
+    type: object
+    properties:
+      ArrayArrayNumber:
+        type: array
+        items:
+          type: array
+          items:
+            type: number
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
