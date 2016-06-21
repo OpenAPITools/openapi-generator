@@ -42,6 +42,7 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimalFarm" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
         public AnimalFarm()
         {
         }
