@@ -291,33 +291,14 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public void setJava8(boolean java8) { this.java8 = java8; }
 
     public void setAsync(boolean async) { this.async = async; }
-    
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // remove the import of "Object" to avoid compilation error
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        Iterator<Map<String, String>> iterator = imports.iterator();
-        while (iterator.hasNext()) {
-            String _import = iterator.next().get("import");
-            if (_import.endsWith(".Object")) iterator.remove();
-        }
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            for (CodegenProperty var : cm.vars) {
-                // handle default value for enum, e.g. available => StatusEnum.available
-                if (var.isEnum && var.defaultValue != null && !"null".equals(var.defaultValue)) {
-                    var.defaultValue = var.datatypeWithEnum + "." + var.defaultValue;
-                }
-            }
-        }
-        return objs;
-    }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        if("null".equals(property.example)) {
+            property.example = null;
+        }
 
         //Add imports for Jackson
         if(!BooleanUtils.toBoolean(model.isEnum)) {
