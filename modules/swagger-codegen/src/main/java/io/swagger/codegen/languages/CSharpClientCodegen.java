@@ -39,11 +39,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private static final String DATA_TYPE_WITH_ENUM_EXTENSION = "plainDatatypeWithEnum";
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
-    protected String packageTitle = "Swagger Library";
-    protected String packageProductName = "SwaggerLibrary";
-    protected String packageDescription = "A library generated from a Swagger doc";
-    protected String packageCompany = "Swagger";
-    protected String packageCopyright = "No Copyright";
     protected String clientPackage = "IO.Swagger.Client";
     protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
@@ -149,12 +144,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("clientPackage", clientPackage);
 
-        // Add properties used by AssemblyInfo.mustache
-        additionalProperties.put("packageTitle", packageTitle);
-        additionalProperties.put("packageProductName", packageProductName);
-        additionalProperties.put("packageDescription", packageDescription);
-        additionalProperties.put("packageCompany", packageCompany);
-        additionalProperties.put("packageCopyright", packageCopyright);
         additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
 
         if (additionalProperties.containsKey(CodegenConstants.DOTNET_FRAMEWORK)) {
