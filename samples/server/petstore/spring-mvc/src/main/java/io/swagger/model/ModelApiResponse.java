@@ -1,18 +1,16 @@
 package io.swagger.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Objects;
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-22T17:54:58.453+08:00")
-public class ModelApiResponse  {
+
+
+
+public class ModelApiResponse   {
   
   private Integer code = null;
   private String type = null;
@@ -20,6 +18,12 @@ public class ModelApiResponse  {
 
   /**
    **/
+  public ModelApiResponse code(Integer code) {
+    this.code = code;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
@@ -31,6 +35,12 @@ public class ModelApiResponse  {
 
   /**
    **/
+  public ModelApiResponse type(String type) {
+    this.type = type;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
@@ -42,6 +52,12 @@ public class ModelApiResponse  {
 
   /**
    **/
+  public ModelApiResponse message(String message) {
+    this.message = message;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
@@ -72,14 +88,26 @@ public class ModelApiResponse  {
   }
 
   @Override
-  public String toString()  {
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelApiResponse {\n");
     
-    sb.append("  code: ").append(code).append("\n");
-    sb.append("  type: ").append(type).append("\n");
-    sb.append("  message: ").append(message).append("\n");
-    sb.append("}\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("}");
     return sb.toString();
   }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+
