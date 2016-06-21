@@ -461,6 +461,7 @@ JavaJerseyServerCodegen.java
 JavaResteasyServerCodegen.java
 JavascriptClientCodegen.java
 NodeJSServerCodegen.java
+NancyFXServerCodegen
 ObjcClientCodegen.java
 PerlClientCodegen.java
 PhpClientCodegen.java
@@ -698,6 +699,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
+- [Finder](http://en.finder.pl/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
@@ -767,6 +769,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Java Spring Boot |  |
 | Java SpringMVC | @kolyjjj (2016/05/01) |
 | Java JAX-RS |  |
+| NancyFX |  |
 | NodeJS | @kolyjjj (2016/05/01) |  
 | PHP Lumen | @abcsum (2016/05/01) |
 | PHP Silex |  |
