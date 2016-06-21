@@ -985,6 +985,15 @@ definitions:
         readOnly: true
       baz:
         type: string
+  hasOnlyReadOnly:
+    type: object
+    properties:
+      bar:
+        type: string
+        readOnly: true
+      foo:
+        type: string
+        readOnly: true
   ArrayTest:
     type: object
     properties:

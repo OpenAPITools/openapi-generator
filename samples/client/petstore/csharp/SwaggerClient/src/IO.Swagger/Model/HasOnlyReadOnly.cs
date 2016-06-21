@@ -34,32 +34,29 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// Model for testing model name starting with number
+    /// HasOnlyReadOnly
     /// </summary>
     [DataContract]
-    public partial class Model200Response :  IEquatable<Model200Response>
+    public partial class HasOnlyReadOnly :  IEquatable<HasOnlyReadOnly>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Model200Response" /> class.
+        /// Initializes a new instance of the <see cref="HasOnlyReadOnly" /> class.
         /// </summary>
-        /// <param name="Name">Name.</param>
-        /// <param name="_Class">_Class.</param>
-        public Model200Response(int? Name = null, string _Class = null)
+        [JsonConstructorAttribute]
+        public HasOnlyReadOnly()
         {
-            this.Name = Name;
-            this._Class = _Class;
         }
         
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets Bar
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public int? Name { get; set; }
+        [DataMember(Name="bar", EmitDefaultValue=false)]
+        public string Bar { get; private set; }
         /// <summary>
-        /// Gets or Sets _Class
+        /// Gets or Sets Foo
         /// </summary>
-        [DataMember(Name="class", EmitDefaultValue=false)]
-        public string _Class { get; set; }
+        [DataMember(Name="foo", EmitDefaultValue=false)]
+        public string Foo { get; private set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -67,9 +64,9 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Model200Response {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  _Class: ").Append(_Class).Append("\n");
+            sb.Append("class HasOnlyReadOnly {\n");
+            sb.Append("  Bar: ").Append(Bar).Append("\n");
+            sb.Append("  Foo: ").Append(Foo).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -91,15 +88,15 @@ namespace IO.Swagger.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as Model200Response);
+            return this.Equals(obj as HasOnlyReadOnly);
         }
 
         /// <summary>
-        /// Returns true if Model200Response instances are equal
+        /// Returns true if HasOnlyReadOnly instances are equal
         /// </summary>
-        /// <param name="other">Instance of Model200Response to be compared</param>
+        /// <param name="other">Instance of HasOnlyReadOnly to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Model200Response other)
+        public bool Equals(HasOnlyReadOnly other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -107,14 +104,14 @@ namespace IO.Swagger.Model
 
             return 
                 (
-                    this.Name == other.Name ||
-                    this.Name != null &&
-                    this.Name.Equals(other.Name)
+                    this.Bar == other.Bar ||
+                    this.Bar != null &&
+                    this.Bar.Equals(other.Bar)
                 ) && 
                 (
-                    this._Class == other._Class ||
-                    this._Class != null &&
-                    this._Class.Equals(other._Class)
+                    this.Foo == other.Foo ||
+                    this.Foo != null &&
+                    this.Foo.Equals(other.Foo)
                 );
         }
 
@@ -129,10 +126,10 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.Name != null)
-                    hash = hash * 59 + this.Name.GetHashCode();
-                if (this._Class != null)
-                    hash = hash * 59 + this._Class.GetHashCode();
+                if (this.Bar != null)
+                    hash = hash * 59 + this.Bar.GetHashCode();
+                if (this.Foo != null)
+                    hash = hash * 59 + this.Foo.GetHashCode();
                 return hash;
             }
         }
