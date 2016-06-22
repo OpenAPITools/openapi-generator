@@ -28,7 +28,7 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/pet")]
         [SwaggerOperation("AddPet")]
-        public void AddPet([FromBody]Pet body)
+        public virtual void AddPet([FromBody]Pet body)
         { 
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace IO.Swagger.Controllers
         [HttpDelete]
         [Route("/pet/{petId}")]
         [SwaggerOperation("DeletePet")]
-        public void DeletePet([FromRoute]long? petId, [FromHeader]string apiKey)
+        public virtual void DeletePet([FromRoute]long? petId, [FromHeader]string apiKey)
         { 
             throw new NotImplementedException();
         }
@@ -53,7 +53,7 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Finds Pets by status
         /// </summary>
-        /// <remarks>Multiple status values can be provided with comma separated strings</remarks>
+        /// <remarks>Multiple status values can be provided with comma seperated strings</remarks>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid status value</response>
@@ -61,7 +61,7 @@ namespace IO.Swagger.Controllers
         [Route("/pet/findByStatus")]
         [SwaggerOperation("FindPetsByStatus")]
         [SwaggerResponse(200, type: typeof(List<Pet>))]
-        public IActionResult FindPetsByStatus([FromQuery]List<string> status)
+        public virtual IActionResult FindPetsByStatus([FromQuery]List<string> status)
         { 
             string exampleJson = null;
             
@@ -75,7 +75,7 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
-        /// <remarks>Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.</remarks>
+        /// <remarks>Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.</remarks>
         /// <param name="tags">Tags to filter by</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid tag value</response>
@@ -83,7 +83,7 @@ namespace IO.Swagger.Controllers
         [Route("/pet/findByTags")]
         [SwaggerOperation("FindPetsByTags")]
         [SwaggerResponse(200, type: typeof(List<Pet>))]
-        public IActionResult FindPetsByTags([FromQuery]List<string> tags)
+        public virtual IActionResult FindPetsByTags([FromQuery]List<string> tags)
         { 
             string exampleJson = null;
             
@@ -97,8 +97,8 @@ namespace IO.Swagger.Controllers
         /// <summary>
         /// Find pet by ID
         /// </summary>
-        /// <remarks>Returns a single pet</remarks>
-        /// <param name="petId">ID of pet to return</param>
+        /// <remarks>Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions</remarks>
+        /// <param name="petId">ID of pet that needs to be fetched</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Pet not found</response>
@@ -106,7 +106,7 @@ namespace IO.Swagger.Controllers
         [Route("/pet/{petId}")]
         [SwaggerOperation("GetPetById")]
         [SwaggerResponse(200, type: typeof(Pet))]
-        public IActionResult GetPetById([FromRoute]long? petId)
+        public virtual IActionResult GetPetById([FromRoute]long? petId)
         { 
             string exampleJson = null;
             
@@ -128,7 +128,7 @@ namespace IO.Swagger.Controllers
         [HttpPut]
         [Route("/pet")]
         [SwaggerOperation("UpdatePet")]
-        public void UpdatePet([FromBody]Pet body)
+        public virtual void UpdatePet([FromBody]Pet body)
         { 
             throw new NotImplementedException();
         }
@@ -145,7 +145,7 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/pet/{petId}")]
         [SwaggerOperation("UpdatePetWithForm")]
-        public void UpdatePetWithForm([FromRoute]long? petId, [FromForm]string name, [FromForm]string status)
+        public virtual void UpdatePetWithForm([FromRoute]string petId, [FromForm]string name, [FromForm]string status)
         { 
             throw new NotImplementedException();
         }
@@ -158,19 +158,13 @@ namespace IO.Swagger.Controllers
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server</param>
         /// <param name="file">file to upload</param>
-        /// <response code="200">successful operation</response>
+        /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/pet/{petId}/uploadImage")]
         [SwaggerOperation("UploadFile")]
-        [SwaggerResponse(200, type: typeof(ApiResponse))]
-        public IActionResult UploadFile([FromRoute]long? petId, [FromForm]string additionalMetadata, [FromForm]System.IO.Stream file)
+        public virtual void UploadFile([FromRoute]long? petId, [FromForm]string additionalMetadata, [FromForm]System.IO.Stream file)
         { 
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<ApiResponse>(exampleJson)
-            : default(ApiResponse);
-            return new ObjectResult(example);
+            throw new NotImplementedException();
         }
     }
 }
