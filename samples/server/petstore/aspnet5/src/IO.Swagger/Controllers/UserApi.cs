@@ -28,7 +28,7 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/user")]
         [SwaggerOperation("CreateUser")]
-        public void CreateUser([FromBody]User body)
+        public virtual void CreateUser([FromBody]User body)
         { 
             throw new NotImplementedException();
         }
@@ -43,7 +43,7 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/user/createWithArray")]
         [SwaggerOperation("CreateUsersWithArrayInput")]
-        public void CreateUsersWithArrayInput([FromBody]List<User> body)
+        public virtual void CreateUsersWithArrayInput([FromBody]List<User> body)
         { 
             throw new NotImplementedException();
         }
@@ -58,7 +58,7 @@ namespace IO.Swagger.Controllers
         [HttpPost]
         [Route("/user/createWithList")]
         [SwaggerOperation("CreateUsersWithListInput")]
-        public void CreateUsersWithListInput([FromBody]List<User> body)
+        public virtual void CreateUsersWithListInput([FromBody]List<User> body)
         { 
             throw new NotImplementedException();
         }
@@ -74,7 +74,7 @@ namespace IO.Swagger.Controllers
         [HttpDelete]
         [Route("/user/{username}")]
         [SwaggerOperation("DeleteUser")]
-        public void DeleteUser([FromRoute]string username)
+        public virtual void DeleteUser([FromRoute]string username)
         { 
             throw new NotImplementedException();
         }
@@ -92,7 +92,7 @@ namespace IO.Swagger.Controllers
         [Route("/user/{username}")]
         [SwaggerOperation("GetUserByName")]
         [SwaggerResponse(200, type: typeof(User))]
-        public IActionResult GetUserByName([FromRoute]string username)
+        public virtual IActionResult GetUserByName([FromRoute]string username)
         { 
             string exampleJson = null;
             
@@ -115,7 +115,7 @@ namespace IO.Swagger.Controllers
         [Route("/user/login")]
         [SwaggerOperation("LoginUser")]
         [SwaggerResponse(200, type: typeof(string))]
-        public IActionResult LoginUser([FromQuery]string username, [FromQuery]string password)
+        public virtual IActionResult LoginUser([FromQuery]string username, [FromQuery]string password)
         { 
             string exampleJson = null;
             
@@ -134,7 +134,7 @@ namespace IO.Swagger.Controllers
         [HttpGet]
         [Route("/user/logout")]
         [SwaggerOperation("LogoutUser")]
-        public void LogoutUser()
+        public virtual void LogoutUser()
         { 
             throw new NotImplementedException();
         }
@@ -151,7 +151,7 @@ namespace IO.Swagger.Controllers
         [HttpPut]
         [Route("/user/{username}")]
         [SwaggerOperation("UpdateUser")]
-        public void UpdateUser([FromRoute]string username, [FromBody]User body)
+        public virtual void UpdateUser([FromRoute]string username, [FromBody]User body)
         { 
             throw new NotImplementedException();
         }
