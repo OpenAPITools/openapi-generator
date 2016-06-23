@@ -39,17 +39,45 @@ namespace IO.Swagger.Model
     [DataContract]
     public partial class ArrayTest :  IEquatable<ArrayTest>
     {
+
+        /// <summary>
+        /// Gets or Sets ArrayOfEnum
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum ArrayOfEnumEnum
+        {
+            
+            /// <summary>
+            /// Enum Upper for "UPPER"
+            /// </summary>
+            [EnumMember(Value = "UPPER")]
+            Upper,
+            
+            /// <summary>
+            /// Enum Lower for "lower"
+            /// </summary>
+            [EnumMember(Value = "lower")]
+            Lower
+        }
+
+        /// <summary>
+        /// Gets or Sets ArrayOfEnum
+        /// </summary>
+        [DataMember(Name="array_of_enum", EmitDefaultValue=false)]
+        public List<ArrayOfEnumEnum> ArrayOfEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>
         /// <param name="ArrayOfString">ArrayOfString.</param>
         /// <param name="ArrayArrayOfInteger">ArrayArrayOfInteger.</param>
         /// <param name="ArrayArrayOfModel">ArrayArrayOfModel.</param>
-        public ArrayTest(List<string> ArrayOfString = null, List<List<long?>> ArrayArrayOfInteger = null, List<List<ReadOnlyFirst>> ArrayArrayOfModel = null)
+        /// <param name="ArrayOfEnum">ArrayOfEnum.</param>
+        public ArrayTest(List<string> ArrayOfString = null, List<List<long?>> ArrayArrayOfInteger = null, List<List<ReadOnlyFirst>> ArrayArrayOfModel = null, List<ArrayOfEnumEnum> ArrayOfEnum = null)
         {
             this.ArrayOfString = ArrayOfString;
             this.ArrayArrayOfInteger = ArrayArrayOfInteger;
             this.ArrayArrayOfModel = ArrayArrayOfModel;
+            this.ArrayOfEnum = ArrayOfEnum;
         }
         
         /// <summary>
@@ -78,6 +106,7 @@ namespace IO.Swagger.Model
             sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
             sb.Append("  ArrayArrayOfModel: ").Append(ArrayArrayOfModel).Append("\n");
+            sb.Append("  ArrayOfEnum: ").Append(ArrayOfEnum).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -128,6 +157,11 @@ namespace IO.Swagger.Model
                     this.ArrayArrayOfModel == other.ArrayArrayOfModel ||
                     this.ArrayArrayOfModel != null &&
                     this.ArrayArrayOfModel.SequenceEqual(other.ArrayArrayOfModel)
+                ) && 
+                (
+                    this.ArrayOfEnum == other.ArrayOfEnum ||
+                    this.ArrayOfEnum != null &&
+                    this.ArrayOfEnum.SequenceEqual(other.ArrayOfEnum)
                 );
         }
 
@@ -148,6 +182,8 @@ namespace IO.Swagger.Model
                     hash = hash * 59 + this.ArrayArrayOfInteger.GetHashCode();
                 if (this.ArrayArrayOfModel != null)
                     hash = hash * 59 + this.ArrayArrayOfModel.GetHashCode();
+                if (this.ArrayOfEnum != null)
+                    hash = hash * 59 + this.ArrayOfEnum.GetHashCode();
                 return hash;
             }
         }

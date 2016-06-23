@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**TestEnumQueryParameters**](FakeApi.md#testenumqueryparameters) | **GET** /fake | To test enum query parameters
 
 
 # **TestEndpointParameters**
@@ -86,6 +87,68 @@ No authorization required
 
  - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
  - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **TestEnumQueryParameters**
+> void TestEnumQueryParameters (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+
+To test enum query parameters
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class TestEnumQueryParametersExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new FakeApi();
+            var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
+            var enumQueryInteger = 3.4;  // decimal? | Query parameter enum test (double) (optional) 
+            var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
+
+            try
+            {
+                // To test enum query parameters
+                apiInstance.TestEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestEnumQueryParameters: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enumQueryInteger** | **decimal?**| Query parameter enum test (double) | [optional] 
+ **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
