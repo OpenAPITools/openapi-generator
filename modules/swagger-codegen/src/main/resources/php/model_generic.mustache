@@ -74,8 +74,9 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
     {{/isEnum}}{{/vars}}
 
     {{#vars}}
+    /**/
+   //* ${{name}} {{#description}}{{{description}}}{{/description}}
     /**
-     * ${{name}} {{#description}}{{{description}}}{{/description}}
      * @var {{datatype}}
      */
     protected ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
@@ -104,8 +105,9 @@ class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}implements ArrayA
     }
 
     /**
-     * Sets {{name}}.
-     * @param {{datatype}} ${{name}} {{#description}}{{{description}}}{{/description}}
+     * Sets {{name}}. */
+   //* @param {{datatype}} ${{name}} {{#description}}{{{description}}}{{/description}}
+    /**
      * @return $this
      */
     public function {{setter}}(${{name}})
