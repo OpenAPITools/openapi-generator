@@ -234,4 +234,3 @@ class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
         }
     }
 }
-            
