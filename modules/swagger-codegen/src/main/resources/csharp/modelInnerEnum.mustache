@@ -1,9 +1,10 @@
+        {{^isContainer}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+        public enum {{#datatypeWithEnum}}{{&.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
         {
             {{#allowableValues}}{{#enumVars}}
             /// <summary>
@@ -13,3 +14,4 @@
             {{name}}{{#isLong}} = {{{value}}}{{/isLong}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^-last}},
             {{/-last}}{{/enumVars}}{{/allowableValues}}
         }
+        {{/isContainer}}
