@@ -2987,7 +2987,12 @@ public class DefaultCodegen {
         return name.replaceAll("[^a-zA-Z0-9_]", "");
     }
 
-    @SuppressWarnings("static-method")
+    /**
+     * Sanitize tag
+     *
+     * @param tag Tag
+     * @return Sanitized tag
+     */
     public String sanitizeTag(String tag) {
         // remove spaces and make strong case
         String[] parts = tag.split(" ");
@@ -3080,9 +3085,9 @@ public class DefaultCodegen {
 
 
     /**
-     * update codegen property's enum by adding "enumVars" (which has name and value)
+     * Update codegen property's enum by adding "enumVars" (with name and value)
      * 
-     * @param cpList  list of CodegenProperty
+     * @param var list of CodegenProperty
      */
     public void updateCodegenPropertyEnum(CodegenProperty var) {
         Map<String, Object> allowableValues = var.allowableValues;
@@ -3096,7 +3101,6 @@ public class DefaultCodegen {
             return;
         }
 
-        //List<String> values = (List<String>) allowableValues.get("values");
         List<Object> values = (List<Object>) allowableValues.get("values");
         if (values == null) {
             return;
@@ -3122,6 +3126,7 @@ public class DefaultCodegen {
             enumVars.add(enumVar);
         }
         allowableValues.put("enumVars", enumVars);
+
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
         if (var.defaultValue != null) {
             String enumName = null;
