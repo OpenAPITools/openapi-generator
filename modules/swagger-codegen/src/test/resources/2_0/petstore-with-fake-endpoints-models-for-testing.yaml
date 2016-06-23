@@ -561,6 +561,47 @@ paths:
           description: User not found
 
   /fake:
+    get:
+      tags:
+        - fake
+      summary: To test enum query parameters
+      descriptions: To test enum query parameters
+      operationId: testEnumQueryParameters
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: enum_query_string
+          type: string
+          default: '-efg'
+          enum:
+            - _abc
+            - '-efg'
+            - (xyz)
+          in: formData 
+          description: Query parameter enum test (string)
+        - name: enum_query_integer
+          type: number
+          format: int32 
+          enum:
+            - 1
+            - -2
+          in: query
+          description: Query parameter enum test (double)
+        - name: enum_query_double
+          type: number
+          format: double 
+          enum:
+            - 1.1
+            - -1.2
+          in: formData
+          description: Query parameter enum test (double)
+      responses:
+        '400':
+          description: Invalid request
+        '404':
+          description: Not found
     post:
       tags:
         - fake 
@@ -994,6 +1035,31 @@ definitions:
       foo:
         type: string
         readOnly: true
+  MapTest:
+    type: object
+    properties:
+      map_map_of_string:
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: string  
+      map_map_of_enum:
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: string  
+            enum:
+              - UPPER
+              - lower
+      map_of_enum_string:
+        type: object
+        additionalProperties:
+          type: string
+          enum:
+            - UPPER
+            - lower
   ArrayTest:
     type: object
     properties:
@@ -1014,6 +1080,13 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/ReadOnlyFirst'
+      array_of_enum:
+        type: array
+        items:
+          type: string
+          enum:
+            - UPPER
+            - lower
   NumberOnly:
     type: object
     properties:
