@@ -223,58 +223,12 @@ public class DefaultCodegen {
                 cm.allowableValues.put("enumVars", enumVars);
             }
 
-            // for enum model's properties
+            // update codegen property enum with proper naming convention
+            // and handling of numbers, special characters
             for (CodegenProperty var : cm.vars) {
-                Map<String, Object> allowableValues = var.allowableValues;
-
-                // handle ArrayProperty
-                if (var.items != null) {
-                    allowableValues = var.items.allowableValues;
-                }
-
-                if (allowableValues == null) {
-                    continue;
-                }
-                //List<String> values = (List<String>) allowableValues.get("values");
-                List<Object> values = (List<Object>) allowableValues.get("values");
-                if (values == null) {
-                    continue;
-                }
-
-                // put "enumVars" map into `allowableValues", including `name` and `value`
-                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
-                String commonPrefix = findCommonPrefixOfVars(values);
-                int truncateIdx = commonPrefix.length();
-                for (Object value : values) {
-                    Map<String, String> enumVar = new HashMap<String, String>();
-                    String enumName;
-                    if (truncateIdx == 0) {
-                        enumName = value.toString();
-                    } else {
-                        enumName = value.toString().substring(truncateIdx);
-                        if ("".equals(enumName)) {
-                            enumName = value.toString();
-                        }
-                    }
-                    enumVar.put("name", toEnumVarName(enumName, var.datatype));
-                    enumVar.put("value", toEnumValue(value.toString(), var.datatype));
-                    enumVars.add(enumVar);
-                }
-                allowableValues.put("enumVars", enumVars);
-                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
-                if (var.defaultValue != null) {
-                    String enumName = null;
-                    for (Map<String, String> enumVar : enumVars) {
-                        if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
-                            enumName = enumVar.get("name");
-                            break;
-                        }
-                    }
-                    if (enumName != null) {
-                        var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
-                    }
-                }
+                updateCodegenPropertyEnum(var);
             }
+
         }
         return objs;
     }
@@ -1572,46 +1526,135 @@ public class DefaultCodegen {
         property.baseType = getSwaggerType(p);
 
       	if (p instanceof ArrayProperty) {
-        		property.isContainer = true;
-        		property.isListContainer = true;
-        		property.containerType = "array";
-        		ArrayProperty ap = (ArrayProperty) p;
-        		CodegenProperty cp = fromProperty(property.name, ap.getItems());
-        		if (cp == null) {
-        			LOGGER.warn("skipping invalid property " + Json.pretty(p));
-        		} else {
-          			property.baseType = getSwaggerType(p);
-          			if (!languageSpecificPrimitives.contains(cp.baseType)) {
-          				  property.complexType = cp.baseType;
-          			} else {
-          				  property.isPrimitiveType = true;
-          			}
-          			property.items = cp;
-          			if (property.items.isEnum) {
-          				  property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.baseType,
-          						property.items.datatypeWithEnum);
-                            if(property.defaultValue != null)
-          				        property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
-          			}
-        		}
+            property.isContainer = true;
+            property.isListContainer = true;
+            property.containerType = "array";
+            property.baseType = getSwaggerType(p);
+            // handle inner property
+            ArrayProperty ap = (ArrayProperty) p;
+            CodegenProperty cp = fromProperty(property.name, ap.getItems());
+            updatePropertyForArray(property, cp);
       	} else if (p instanceof MapProperty) {
             property.isContainer = true;
             property.isMapContainer = true;
             property.containerType = "map";
+            property.baseType = getSwaggerType(p);
+            // handle inner property
             MapProperty ap = (MapProperty) p;
             CodegenProperty cp = fromProperty("inner", ap.getAdditionalProperties());
-            property.items = cp;
-
-            property.baseType = getSwaggerType(p);
-            if (!languageSpecificPrimitives.contains(cp.baseType)) {
-                property.complexType = cp.baseType;
-            } else {
-                property.isPrimitiveType = true;
-            }
+            updatePropertyForMap(property, cp);
         } else {
             setNonArrayMapProperty(property, type);
         }
         return property;
+    }
+
+    /**
+     * Update property for array(list) container
+     * @param property Codegen property
+     * @param innerProperty Codegen inner property of map or list
+     */
+    protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
+        if (innerProperty == null) {
+            LOGGER.warn("skipping invalid array property " + Json.pretty(property));
+        } else {
+            if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+                property.complexType = innerProperty.baseType;
+            } else {
+                property.isPrimitiveType = true;
+            }
+            property.items = innerProperty;
+            // inner item is Enum
+            if (isPropertyInnerMostEnum(property)) {
+                property.isEnum = true;
+                // update datatypeWithEnum for array
+                // e.g. List<string> => List<StatusEnum>
+                updateDataTypeWithEnumForArray(property);
+
+                // TOOD need to revise the default value for enum
+                if (property.defaultValue != null) {
+                    property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
+                }
+            }
+        }
+    }
+
+    /**
+     * Update property for map container
+     * @param property Codegen property
+     * @param innerProperty Codegen inner property of map or list
+     */
+    protected void updatePropertyForMap(CodegenProperty property, CodegenProperty innerProperty) {
+        if (innerProperty == null) {
+            LOGGER.warn("skipping invalid map property " + Json.pretty(property));
+            return;
+        } else {
+            if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+                property.complexType = innerProperty.baseType;
+            } else {
+                property.isPrimitiveType = true;
+            }
+            property.items = innerProperty;
+            // inner item is Enum
+            if (isPropertyInnerMostEnum(property)) {
+                property.isEnum = true;
+                // update datatypeWithEnum for map
+                // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
+                updateDataTypeWithEnumForMap(property);
+
+                // TOOD need to revise the default value for enum
+                // set default value
+                if (property.defaultValue != null) {
+                    property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Update property for map container
+     * @param property Codegen property
+     * @return True if the inner most type is enum
+     */
+    protected Boolean isPropertyInnerMostEnum(CodegenProperty property) {
+        CodegenProperty currentProperty = property;
+        while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
+                    || Boolean.TRUE.equals(currentProperty.isListContainer))) {
+            currentProperty = currentProperty.items;
+        }
+
+        return currentProperty.isEnum;
+    }
+
+    /**
+     * Update datatypeWithEnum for array container
+     * @param property Codegen property
+     */
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
+                    || Boolean.TRUE.equals(baseItem.isListContainer))) {
+            baseItem = baseItem.items;
+        }
+        // set both datatype and datetypeWithEnum as only the inner type is enum
+        property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, toEnumName(baseItem));
+        //property.datatype = property.datatypeWithEnum;
+    }
+
+    /**
+     * Update datatypeWithEnum for map container
+     * @param property Codegen property
+     */
+    protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
+                    || Boolean.TRUE.equals(baseItem.isListContainer))) {
+            baseItem = baseItem.items;
+        }
+        // set both datatype and datetypeWithEnum as only the inner type is enum
+        property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
+        //property.datatype = property.datatypeWithEnum;
     }
 
     protected void setNonArrayMapProperty(CodegenProperty property, String type) {
@@ -2064,22 +2107,28 @@ public class DefaultCodegen {
                 LOGGER.warn("warning!  Property type \"" + type + "\" not found for parameter \"" + param.getName() + "\", using String");
                 property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + type + " but not supported");
             }
+
             property.setRequired(param.getRequired());
-            CodegenProperty model = fromProperty(qp.getName(), property);
+            CodegenProperty cp = fromProperty(qp.getName(), property);
 
             // set boolean flag (e.g. isString)
-            setParameterBooleanFlagWithCodegenProperty(p, model);
+            setParameterBooleanFlagWithCodegenProperty(p, cp);
 
-            p.dataType = model.datatype;
-            if(model.isEnum) {
-                p.datatypeWithEnum = model.datatypeWithEnum;
+            p.dataType = cp.datatype;
+            if(cp.isEnum) {
+                p.datatypeWithEnum = cp.datatypeWithEnum;
             }
-            p.isEnum = model.isEnum;
-            p._enum = model._enum;
-            p.allowableValues = model.allowableValues;
-            if(model.items != null && model.items.isEnum) {
-                p.datatypeWithEnum = model.datatypeWithEnum;
-                p.items = model.items;
+
+            // enum
+            updateCodegenPropertyEnum(cp);
+            p.isEnum = cp.isEnum;
+            p._enum = cp._enum;
+            p.allowableValues = cp.allowableValues;
+
+
+            if (cp.items != null && cp.items.isEnum) {
+                p.datatypeWithEnum = cp.datatypeWithEnum;
+                p.items = cp.items;
             }
             p.collectionFormat = collectionFormat;
             if(collectionFormat != null && collectionFormat.equals("multi")) {
@@ -2087,10 +2136,12 @@ public class DefaultCodegen {
             }
             p.paramName = toParamName(qp.getName());
 
-            if (model.complexType != null) {
-                imports.add(model.complexType);
+            // import
+            if (cp.complexType != null) {
+                imports.add(cp.complexType);
             }
 
+            // validation
             p.maximum = qp.getMaximum();
             p.exclusiveMaximum = qp.isExclusiveMaximum();
             p.minimum = qp.getMinimum();
@@ -3024,6 +3075,65 @@ public class DefaultCodegen {
             parameter.isPrimitiveType = true;
         } else {
             LOGGER.debug("Property type is not primitive: " + property.datatype);
+        }
+    }
+
+
+    /**
+     * update codegen property's enum by adding "enumVars" (which has name and value)
+     * 
+     * @param cpList  list of CodegenProperty
+     */
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        Map<String, Object> allowableValues = var.allowableValues;
+
+        // handle ArrayProperty
+        if (var.items != null) {
+            allowableValues = var.items.allowableValues;
+        }
+
+        if (allowableValues == null) {
+            return;
+        }
+
+        //List<String> values = (List<String>) allowableValues.get("values");
+        List<Object> values = (List<Object>) allowableValues.get("values");
+        if (values == null) {
+            return;
+        }
+
+        // put "enumVars" map into `allowableValues", including `name` and `value`
+        List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+        String commonPrefix = findCommonPrefixOfVars(values);
+        int truncateIdx = commonPrefix.length();
+        for (Object value : values) {
+            Map<String, String> enumVar = new HashMap<String, String>();
+            String enumName;
+            if (truncateIdx == 0) {
+                enumName = value.toString();
+            } else {
+                enumName = value.toString().substring(truncateIdx);
+                if ("".equals(enumName)) {
+                    enumName = value.toString();
+                }
+            }
+            enumVar.put("name", toEnumVarName(enumName, var.datatype));
+            enumVar.put("value", toEnumValue(value.toString(), var.datatype));
+            enumVars.add(enumVar);
+        }
+        allowableValues.put("enumVars", enumVars);
+        // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
+        if (var.defaultValue != null) {
+            String enumName = null;
+            for (Map<String, String> enumVar : enumVars) {
+                if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
+                    enumName = enumVar.get("name");
+                    break;
+                }
+            }
+            if (enumName != null) {
+                var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+            }
         }
     }
 }
