@@ -738,7 +738,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 Swaagger Codegen core team members are contributors who have been making signficiant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ## API Clients
-| Langauges     | Core Team (join date) | 
+| Languages     | Core Team (join date) | 
 |:-------------|:-------------| 
 | ActionScript | |
 | C++      |  |  
@@ -761,7 +761,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | TypeScript (Angular2) | @Vrolijkx (2016/05/01) |
 | TypeScript (Fetch) |  |
 ## Server Stubs
-| Langauges     | Core Team (date joined) | 
+| Languages     | Core Team (date joined) | 
 |:------------- |:-------------| 
 | C# ASP.NET5 |  @jimschubert (2016/05/01) |
 | Go Server | @guohuang (2016/06/13) |
