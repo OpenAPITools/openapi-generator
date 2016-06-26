@@ -43,6 +43,8 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
+
+
 /**
  * SpecialModelName Class Doc Comment
  *
@@ -232,3 +234,5 @@ class SpecialModelName implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
+

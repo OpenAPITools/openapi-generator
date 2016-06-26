@@ -48,7 +48,7 @@
                         <configuration>
                             <executable>vendor/bin/phpunit</executable>
                             <arguments>
-                                <argument>tests</argument>
+                                <argument>test</argument>
                             </arguments>
                         </configuration>
                     </execution>

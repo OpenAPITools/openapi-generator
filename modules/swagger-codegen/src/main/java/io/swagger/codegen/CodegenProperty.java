@@ -45,6 +45,7 @@ public class CodegenProperty implements Cloneable {
     public Map<String, Object> vendorExtensions;
     public Boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public Boolean isInherited;
+    public String nameInCamelCase; // property name in camel case
 
     @Override
     public String toString() {
@@ -108,6 +109,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isMapContainer == null) ? 0 : isMapContainer.hashCode());
         result = prime * result + ((isListContainer == null) ? 0 : isListContainer.hashCode());
         result = prime * result + Objects.hashCode(isInherited);
+        result = prime * result + Objects.hashCode(nameInCamelCase);
         return result;
     }
 
@@ -260,6 +262,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (!Objects.equals(this.isInherited, other.isInherited)) {
+            return false;
+        }
+        if (!Objects.equals(this.nameInCamelCase, other.nameInCamelCase)) {
             return false;
         }
         return true;

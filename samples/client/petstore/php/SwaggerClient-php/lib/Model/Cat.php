@@ -43,6 +43,8 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
+
+
 /**
  * Cat Class Doc Comment
  *
@@ -234,3 +236,5 @@ class Cat extends Animal implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
+

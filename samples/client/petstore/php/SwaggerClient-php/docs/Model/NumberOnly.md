@@ -1,10 +1,9 @@
-# Model200Response
+# NumberOnly
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **int** |  | [optional] 
-**class** | **string** |  | [optional] 
+**just_number** | **float** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

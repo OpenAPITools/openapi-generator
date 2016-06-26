@@ -1,6 +1,6 @@
 <?php
 /**
- * PetTest
+ * MapTestTest
  *
  * PHP version 5
  *
@@ -39,19 +39,19 @@
  * Please update the test case below to test the model.
  */
 
-namespace Swagger\Client;
+namespace Swagger\Client\Model;
 
 /**
- * PetTest Class Doc Comment
+ * MapTestTest Class Doc Comment
  *
  * @category    Class
- * @description Pet
+ * @description MapTest
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class PetTest extends \PHPUnit_Framework_TestCase
+class MapTestTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -71,69 +71,10 @@ class PetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "Pet"
+     * Test "MapTest"
      */
-    public function testPet()
+    public function testMapTest()
     {
 
     }
-
-    /**
-     * test empty object serialization
-     */
-    public function testEmptyPetSerialization()
-    {
-        $new_pet = new Model\Pet;
-        // the empty object should be serialised to {}
-        $this->assertSame("{}", "$new_pet");
-    }
-
-    /**
-     * Test attribute "id"
-     */
-    public function testPropertyId()
-    {
-
-    }
-
-    /**
-     * Test attribute "category"
-     */
-    public function testPropertyCategory()
-    {
-
-    }
-
-    /**
-     * Test attribute "name"
-     */
-    public function testPropertyName()
-    {
-
-    }
-
-    /**
-     * Test attribute "photo_urls"
-     */
-    public function testPropertyPhotoUrls()
-    {
-
-    }
-
-    /**
-     * Test attribute "tags"
-     */
-    public function testPropertyTags()
-    {
-
-    }
-
-    /**
-     * Test attribute "status"
-     */
-    public function testPropertyStatus()
-    {
-
-    }
-
 }
