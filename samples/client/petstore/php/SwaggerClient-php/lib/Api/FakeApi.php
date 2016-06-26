@@ -298,4 +298,92 @@ class FakeApi
             throw $e;
         }
     }
+    /**
+     * Operation testEnumQueryParameters
+     *
+     * To test enum query parameters.
+     *
+     * @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
+     * @param float $enum_query_integer Query parameter enum test (double) (optional)
+     * @param double $enum_query_double Query parameter enum test (double) (optional)
+     *
+     * @return void
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function testEnumQueryParameters($enum_query_string = null, $enum_query_integer = null, $enum_query_double = null)
+    {
+        list($response) = $this->testEnumQueryParametersWithHttpInfo($enum_query_string, $enum_query_integer, $enum_query_double);
+        return $response;
+    }
+
+
+    /**
+     * Operation testEnumQueryParametersWithHttpInfo
+     *
+     * To test enum query parameters.
+     *
+     * @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
+     * @param float $enum_query_integer Query parameter enum test (double) (optional)
+     * @param double $enum_query_double Query parameter enum test (double) (optional)
+     *
+     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     */
+    public function testEnumQueryParametersWithHttpInfo($enum_query_string = null, $enum_query_integer = null, $enum_query_double = null)
+    {
+        
+        // parse inputs
+        $resourcePath = "/fake";
+        $httpBody = '';
+        $queryParams = array();
+        $headerParams = array();
+        $formParams = array();
+        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json'));
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json'));
+
+        // query params
+        if ($enum_query_integer !== null) {
+            $queryParams['enum_query_integer'] = $this->apiClient->getSerializer()->toQueryValue($enum_query_integer);
+        }
+        
+        
+        // default format to json
+        $resourcePath = str_replace("{format}", "json", $resourcePath);
+
+        // form params
+        if ($enum_query_string !== null) {
+            $formParams['enum_query_string'] = $this->apiClient->getSerializer()->toFormValue($enum_query_string);
+        }// form params
+        if ($enum_query_double !== null) {
+            $formParams['enum_query_double'] = $this->apiClient->getSerializer()->toFormValue($enum_query_double);
+        }
+        
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+                // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'GET',
+                $queryParams,
+                $httpBody,
+                $headerParams
+            );
+
+            return array(null, $statusCode, $httpHeader);
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            }
+
+            throw $e;
+        }
+    }
 }

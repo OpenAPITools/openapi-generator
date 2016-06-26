@@ -1296,6 +1296,7 @@ public class DefaultCodegen {
 
         property.name = toVarName(name);
         property.baseName = name;
+        property.nameInCamelCase = camelize(name, false);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
         property.getter = "get" + getterAndSetterCapitalize(name);
