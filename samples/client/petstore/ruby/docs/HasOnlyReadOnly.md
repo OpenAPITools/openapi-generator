@@ -1,9 +1,9 @@
-# Petstore::Model200Response
+# Petstore::HasOnlyReadOnly
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **Integer** |  | [optional] 
-**_class** | **String** |  | [optional] 
+**bar** | **String** |  | [optional] 
+**foo** | **String** |  | [optional] 
 
 

@@ -28,18 +28,22 @@ module Petstore
   class Model200Response
     attr_accessor :name
 
+    attr_accessor :_class
+
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name'
+        :'name' => :'name',
+        :'_class' => :'class'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'name' => :'Integer'
+        :'name' => :'Integer',
+        :'_class' => :'String'
       }
     end
 
@@ -53,6 +57,10 @@ module Petstore
 
       if attributes.has_key?(:'name')
         self.name = attributes[:'name']
+      end
+
+      if attributes.has_key?(:'class')
+        self._class = attributes[:'class']
       end
 
     end
@@ -75,7 +83,8 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name
+          name == o.name &&
+          _class == o._class
     end
 
     # @see the `==` method
@@ -87,7 +96,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name].hash
+      [name, _class].hash
     end
 
     # Builds the object from hash
