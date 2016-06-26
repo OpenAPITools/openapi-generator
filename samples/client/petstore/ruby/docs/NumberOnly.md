@@ -1,9 +1,8 @@
-# Petstore::Model200Response
+# Petstore::NumberOnly
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **Integer** |  | [optional] 
-**_class** | **String** |  | [optional] 
+**just_number** | **Float** |  | [optional] 
 
 
