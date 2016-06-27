@@ -47,7 +47,7 @@ public class Tag  {
         (name == null ? tag.name == null : name.equals(tag.name));
   }
 
-  @Override 
+  @Override
   public int hashCode() {
     int result = 17;
     result = 31 * result + (id == null ? 0: id.hashCode());
