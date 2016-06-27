@@ -684,6 +684,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         op.returnType = normalizeType(op.returnType);
       }
 
+      //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'    
+      op.path = sanitizePath(op.path);
+
       // Set vendor-extension to be used in template:
       //     x-codegen-hasMoreRequired
       //     x-codegen-hasMoreOptional
@@ -738,6 +741,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
+    private String sanitizePath(String p) {
+        //prefer replace a ', instead of a fuLL URL encode for readability
+        return p.replaceAll("'", "%27");
+    }
+    
     private String trimBrackets(String s) {
         if (s != null) {
             int beginIdx = s.charAt(0) == '[' ? 1 : 0;

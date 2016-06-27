@@ -722,6 +722,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+
+        op.path = sanitizePath(op.path);
+        
+        return op;
+    }
+    
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
@@ -809,6 +818,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setSerializableModel(Boolean serializableModel) {
         this.serializableModel = serializableModel;
+    }
+
+    private String sanitizePath(String p) {
+        //prefer replace a ", instead of a fuLL URL encode for readability
+        return p.replaceAll("\"", "%22");
     }
 
     public void setFullJavaUtil(boolean fullJavaUtil) {
