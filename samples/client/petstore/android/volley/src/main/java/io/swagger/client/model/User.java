@@ -126,7 +126,7 @@ public class User  {
         (userStatus == null ? user.userStatus == null : userStatus.equals(user.userStatus));
   }
 
-  @Override 
+  @Override
   public int hashCode() {
     int result = 17;
     result = 31 * result + (id == null ? 0: id.hashCode());
