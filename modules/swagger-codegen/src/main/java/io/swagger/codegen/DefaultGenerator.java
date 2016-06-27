@@ -144,10 +144,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
             if (info.getTitle() != null) {
-                config.additionalProperties().put("appName", info.getTitle());
+                config.additionalProperties().put("appName", config.escapeText(info.getTitle()));
             }
             if (info.getVersion() != null) {
-                config.additionalProperties().put("appVersion", info.getVersion());
+                config.additionalProperties().put("appVersion", config.escapeText(info.getVersion()));
             }
             if (info.getDescription() != null) {
                 config.additionalProperties().put("appDescription",
@@ -155,25 +155,25 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
             if (info.getContact() != null) {
                 Contact contact = info.getContact();
-                config.additionalProperties().put("infoUrl", contact.getUrl());
+                config.additionalProperties().put("infoUrl", config.escapeText(contact.getUrl()));
                 if (contact.getEmail() != null) {
-                    config.additionalProperties().put("infoEmail", contact.getEmail());
+                    config.additionalProperties().put("infoEmail", config.escapeText(contact.getEmail()));
                 }
             }
             if (info.getLicense() != null) {
                 License license = info.getLicense();
                 if (license.getName() != null) {
-                    config.additionalProperties().put("licenseInfo", license.getName());
+                    config.additionalProperties().put("licenseInfo", config.escapeText(license.getName()));
                 }
                 if (license.getUrl() != null) {
-                    config.additionalProperties().put("licenseUrl", license.getUrl());
+                    config.additionalProperties().put("licenseUrl", config.escapeText(license.getUrl()));
                 }
             }
             if (info.getVersion() != null) {
-                config.additionalProperties().put("version", info.getVersion());
+                config.additionalProperties().put("version", config.escapeText(info.getVersion()));
             }
             if (info.getTermsOfService() != null) {
-                config.additionalProperties().put("termsOfService", info.getTermsOfService());
+                config.additionalProperties().put("termsOfService", config.escapeText(info.getTermsOfService()));
             }
         }
         
@@ -184,7 +184,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         StringBuilder hostBuilder = new StringBuilder();
         String scheme;
         if (swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
-            scheme = swagger.getSchemes().get(0).toValue();
+            scheme = config.escapeText(swagger.getSchemes().get(0).toValue());
         } else {
             scheme = "https";
         }

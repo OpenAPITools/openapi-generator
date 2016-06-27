@@ -662,4 +662,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         return objs;
     }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "");
+    }
+
 }
