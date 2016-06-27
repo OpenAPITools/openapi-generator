@@ -61,6 +61,8 @@ public interface CodegenConfig {
 
     String escapeReservedWord(String name);
 
+    String escapeQuotationMark(String input);
+
     String getTypeDeclaration(Property p);
 
     String getTypeDeclaration(String name);

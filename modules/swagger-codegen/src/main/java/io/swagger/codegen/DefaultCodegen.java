@@ -335,8 +335,8 @@ public class DefaultCodegen {
         }
 
         // remove \t, \n, \r
-        // repalce \ with \\
-        // repalce " with \"
+        // replace \ with \\
+        // replace " with \"
         // outter unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\""));
@@ -354,6 +354,16 @@ public class DefaultCodegen {
         // later we'll make this method abstract to make sure
         // code generator implements this method
         return input;
+    }
+
+    /**
+     * Escape single and/or double quote to avoid code injection 
+     * @param input String to be cleaned up
+     * @return string with quotation mark removed or escaped
+     */
+    public String escapeQuotationMark(String input) {
+        LOGGER.info("### calling default escapeText");
+        return input.replace("\"", "\\\"");
     }
 
     public Set<String> defaultIncludes() {
@@ -1763,7 +1773,7 @@ public class DefaultCodegen {
             int count = 0;
             for (String key : consumes) {
                 Map<String, String> mediaType = new HashMap<String, String>();
-                mediaType.put("mediaType", key);
+                mediaType.put("mediaType", escapeQuotationMark(key));
                 count += 1;
                 if (count < consumes.size()) {
                     mediaType.put("hasMore", "true");

@@ -1,16 +1,16 @@
 swagger: '2.0'
 info:
-  description: 'This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: " \  */ =end'
-  version: 1.0.0 */ =end
-  title: Swagger Petstore */ =end
+  description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end"
+  version: 1.0.0 */ ' " =end
+  title: Swagger Petstore */ ' " =end
   termsOfService: 'http://swagger.io/terms/ */ =end'
   contact:
-    email: apiteam@swagger.io */ =end
+    email: apiteam@swagger.io */ ' " =end
   license:
-    name: Apache 2.0 */ =end
+    name: Apache 2.0 */ ' " =end
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html */ =end'
-host: petstore.swagger.io */ =end
-basePath: /v2 */ =end
+host: petstore.swagger.io */ ' " =end
+basePath: /v2 */ ' " =end
 tags:
   - name: pet
     description: Everything about your Pets
@@ -25,7 +25,7 @@ tags:
       description: Find out more about our store
       url: 'http://swagger.io'
 schemes:
-  - http */ end
+  - http */ end ' "
 paths:
   /pet:
     post:
@@ -569,7 +569,7 @@ paths:
       operationId: testCodeInject */ =end
       consumes:
         - application/json
-        - '*/ =end'
+        - "*/ =end'));(phpinfo('"
       produces:
         - application/json
         - '*/ end'
