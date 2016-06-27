@@ -1,6 +1,6 @@
 <?php
 /**
- * AnimalFarm
+ * ArrayOfNumberOnly
  *
  * PHP version 5
  *
@@ -46,7 +46,7 @@ use \ArrayAccess;
 
 
 /**
- * AnimalFarm Class Doc Comment
+ * ArrayOfNumberOnly Class Doc Comment
  *
  * @category    Class
  * @package     Swagger\Client
@@ -54,20 +54,20 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class AnimalFarm implements ArrayAccess
+class ArrayOfNumberOnly implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'AnimalFarm';
+    protected static $swaggerModelName = 'ArrayOfNumberOnly';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        
+        'array_number' => 'float[]'
     );
 
     public static function swaggerTypes()
@@ -80,7 +80,7 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        
+        'array_number' => 'ArrayNumber'
     );
 
     public static function attributeMap()
@@ -93,7 +93,7 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        
+        'array_number' => 'setArrayNumber'
     );
 
     public static function setters()
@@ -106,7 +106,7 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        
+        'array_number' => 'getArrayNumber'
     );
 
     public static function getters()
@@ -130,6 +130,7 @@ class AnimalFarm implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['array_number'] = isset($data['array_number']) ? $data['array_number'] : null;
     }
 
     /**
@@ -154,6 +155,27 @@ class AnimalFarm implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets array_number
+     * @return float[]
+     */
+    public function getArrayNumber()
+    {
+        return $this->container['array_number'];
+    }
+
+    /**
+     * Sets array_number
+     * @param float[] $array_number
+     * @return $this
+     */
+    public function setArrayNumber($array_number)
+    {
+        $this->container['array_number'] = $array_number;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset

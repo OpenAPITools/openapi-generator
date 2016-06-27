@@ -43,6 +43,8 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
+
+
 /**
  * AdditionalPropertiesClass Class Doc Comment
  *
@@ -258,3 +260,5 @@ class AdditionalPropertiesClass implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
+

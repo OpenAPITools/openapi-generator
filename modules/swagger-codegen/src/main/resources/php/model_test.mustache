@@ -20,7 +20,7 @@
  * Please update the test case below to test the model.
  */
 
-namespace {{modelPackage}};
+namespace {{invokerPackage}};
 
 /**
  * {{classname}}Test Class Doc Comment
@@ -36,7 +36,7 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Setup before running each test case
+     * Setup before running any test case
      */
     public static function setUpBeforeClass()
     {
@@ -44,7 +44,23 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Setup before running each test case
+     */
+    public function setUp()
+    {
+
+    }
+
+    /**
      * Clean up after running each test case
+     */
+    public function tearDown()
+    {
+
+    }
+
+    /**
+     * Clean up after running all test cases
      */
     public static function tearDownAfterClass()
     {
@@ -58,6 +74,17 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
     {
 
     }
+
+{{#vars}}
+    /**
+     * Test attribute "{{name}}"
+     */
+    public function testProperty{{nameInCamelCase}}()
+    {
+
+    }
+
+{{/vars}}
 }
 {{/model}}
 {{/models}}

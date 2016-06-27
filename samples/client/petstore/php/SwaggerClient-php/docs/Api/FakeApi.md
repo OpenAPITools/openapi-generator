@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+[**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** /fake | To test enum query parameters
 
 
 # **testEndpointParameters**
@@ -70,6 +71,52 @@ No authorization required
 
  - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
  - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **testEnumQueryParameters**
+> testEnumQueryParameters($enum_query_string, $enum_query_integer, $enum_query_double)
+
+To test enum query parameters
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\FakeApi();
+$enum_query_string = "-efg"; // string | Query parameter enum test (string)
+$enum_query_integer = 3.4; // float | Query parameter enum test (double)
+$enum_query_double = 1.2; // double | Query parameter enum test (double)
+
+try {
+    $api_instance->testEnumQueryParameters($enum_query_string, $enum_query_integer, $enum_query_double);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testEnumQueryParameters: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enum_query_integer** | **float**| Query parameter enum test (double) | [optional]
+ **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

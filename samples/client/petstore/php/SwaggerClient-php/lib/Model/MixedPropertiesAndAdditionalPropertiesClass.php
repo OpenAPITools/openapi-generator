@@ -43,6 +43,8 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
+
+
 /**
  * MixedPropertiesAndAdditionalPropertiesClass Class Doc Comment
  *
@@ -284,3 +286,5 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
+
