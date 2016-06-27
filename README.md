@@ -676,6 +676,52 @@ curl -X POST -H "content-type:application/json" -d '{"swaggerUrl":"http://petsto
 ```
 Then you will receieve a JSON response with the URL to download the zipped code.
 
+To customize the SDK, you can `POST` to `https://generator.swagger.io/gen/clients/{language}` with the following HTTP body:
+```
+{
+  "options": {},
+  "swaggerUrl": "http://petstore.swagger.io/v2/swagger.json"
+}
+```
+in which the `options` for a language can be obtained by submitting a `GET` request to `https://generator.swagger.io/api/gen/clients/{language}`:
+
+For example, `curl https://generator.swagger.io/api/gen/clients/python` returns
+```
+{
+  "packageName":{
+    "opt":"packageName",
+    "description":"python package name (convention: snake_case).",
+    "type":"string",
+    "default":"swagger_client"
+  },
+  "packageVersion":{
+    "opt":"packageVersion",
+    "description":"python package version.",
+    "type":"string",
+    "default":"1.0.0"
+  },
+  "sortParamsByRequiredFlag":{
+    "opt":"sortParamsByRequiredFlag",
+    "description":"Sort method arguments to place required parameters before optional parameters.",
+    "type":"boolean",
+    "default":"true"
+  }
+}
+```
+To set package name to `pet_store`, the HTTP body of the request is as follows:
+```
+{
+  "options": {
+    "packageName": "pet_store"
+  },
+  "swaggerUrl": "http://petstore.swagger.io/v2/swagger.json"
+}
+```
+and here is the curl command:
+```
+curl -H "Content-type: application/json" -X POST -d '{"options": {"packageName": "pet_store"},"swaggerUrl": "http://petstore.swagger.io/v2/swagger.json"}' https://generator.swagger.io/api/gen/clients/python
+```
+
 Guidelines for Contribution
 ---------------------------
 
