@@ -93,9 +93,9 @@ public class ExampleGenerator {
                 };
             }
         } else if (property instanceof DateProperty) {
-            return "2000-01-23T04:56:07.000+0000";
+            return "2000-01-23T04:56:07.000+00:00";
         } else if (property instanceof DateTimeProperty) {
-            return "2000-01-23T04:56:07.000+0000";
+            return "2000-01-23T04:56:07.000+00:00";
         } else if (property instanceof DecimalProperty) {
             return new BigDecimal(1.3579);
         } else if (property instanceof DoubleProperty) {
