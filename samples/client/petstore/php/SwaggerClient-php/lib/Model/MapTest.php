@@ -1,6 +1,6 @@
 <?php
 /**
- * AnimalFarm
+ * MapTest
  *
  * PHP version 5
  *
@@ -46,7 +46,7 @@ use \ArrayAccess;
 
 
 /**
- * AnimalFarm Class Doc Comment
+ * MapTest Class Doc Comment
  *
  * @category    Class
  * @package     Swagger\Client
@@ -54,20 +54,22 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class AnimalFarm implements ArrayAccess
+class MapTest implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'AnimalFarm';
+    protected static $swaggerModelName = 'MapTest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        
+        'map_map_of_string' => 'map[string,map[string,string]]',
+        'map_map_of_enum' => 'map[string,map[string,string]]',
+        'map_of_enum_string' => 'map[string,string]'
     );
 
     public static function swaggerTypes()
@@ -80,7 +82,9 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        
+        'map_map_of_string' => 'map_map_of_string',
+        'map_map_of_enum' => 'map_map_of_enum',
+        'map_of_enum_string' => 'map_of_enum_string'
     );
 
     public static function attributeMap()
@@ -93,7 +97,9 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        
+        'map_map_of_string' => 'setMapMapOfString',
+        'map_map_of_enum' => 'setMapMapOfEnum',
+        'map_of_enum_string' => 'setMapOfEnumString'
     );
 
     public static function setters()
@@ -106,7 +112,9 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        
+        'map_map_of_string' => 'getMapMapOfString',
+        'map_map_of_enum' => 'getMapMapOfEnum',
+        'map_of_enum_string' => 'getMapOfEnumString'
     );
 
     public static function getters()
@@ -116,6 +124,28 @@ class AnimalFarm implements ArrayAccess
 
     
 
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getMapMapOfEnumAllowableValues()
+    {
+        return [
+            
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getMapOfEnumStringAllowableValues()
+    {
+        return [
+            
+        ];
+    }
     
 
     /**
@@ -130,6 +160,9 @@ class AnimalFarm implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['map_map_of_string'] = isset($data['map_map_of_string']) ? $data['map_map_of_string'] : null;
+        $this->container['map_map_of_enum'] = isset($data['map_map_of_enum']) ? $data['map_map_of_enum'] : null;
+        $this->container['map_of_enum_string'] = isset($data['map_of_enum_string']) ? $data['map_of_enum_string'] : null;
     }
 
     /**
@@ -140,6 +173,14 @@ class AnimalFarm implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = array();
+        $allowed_values = array();
+        if (!in_array($this->container['map_map_of_enum'], $allowed_values)) {
+            $invalid_properties[] = "invalid value for 'map_map_of_enum', must be one of #{allowed_values}.";
+        }
+        $allowed_values = array();
+        if (!in_array($this->container['map_of_enum_string'], $allowed_values)) {
+            $invalid_properties[] = "invalid value for 'map_of_enum_string', must be one of #{allowed_values}.";
+        }
         return $invalid_properties;
     }
 
@@ -151,9 +192,88 @@ class AnimalFarm implements ArrayAccess
      */
     public function valid()
     {
+        $allowed_values = array();
+        if (!in_array($this->container['map_map_of_enum'], $allowed_values)) {
+            return false;
+        }
+        $allowed_values = array();
+        if (!in_array($this->container['map_of_enum_string'], $allowed_values)) {
+            return false;
+        }
         return true;
     }
 
+
+    /**
+     * Gets map_map_of_string
+     * @return map[string,map[string,string]]
+     */
+    public function getMapMapOfString()
+    {
+        return $this->container['map_map_of_string'];
+    }
+
+    /**
+     * Sets map_map_of_string
+     * @param map[string,map[string,string]] $map_map_of_string
+     * @return $this
+     */
+    public function setMapMapOfString($map_map_of_string)
+    {
+        $this->container['map_map_of_string'] = $map_map_of_string;
+
+        return $this;
+    }
+
+    /**
+     * Gets map_map_of_enum
+     * @return map[string,map[string,string]]
+     */
+    public function getMapMapOfEnum()
+    {
+        return $this->container['map_map_of_enum'];
+    }
+
+    /**
+     * Sets map_map_of_enum
+     * @param map[string,map[string,string]] $map_map_of_enum
+     * @return $this
+     */
+    public function setMapMapOfEnum($map_map_of_enum)
+    {
+        $allowed_values = array();
+        if (!in_array($map_map_of_enum, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'map_map_of_enum', must be one of ");
+        }
+        $this->container['map_map_of_enum'] = $map_map_of_enum;
+
+        return $this;
+    }
+
+    /**
+     * Gets map_of_enum_string
+     * @return map[string,string]
+     */
+    public function getMapOfEnumString()
+    {
+        return $this->container['map_of_enum_string'];
+    }
+
+    /**
+     * Sets map_of_enum_string
+     * @param map[string,string] $map_of_enum_string
+     * @return $this
+     */
+    public function setMapOfEnumString($map_of_enum_string)
+    {
+        $allowed_values = array();
+        if (!in_array($map_of_enum_string, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'map_of_enum_string', must be one of ");
+        }
+        $this->container['map_of_enum_string'] = $map_of_enum_string;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset

@@ -1,6 +1,6 @@
 <?php
 /**
- * AnimalFarm
+ * HasOnlyReadOnly
  *
  * PHP version 5
  *
@@ -46,7 +46,7 @@ use \ArrayAccess;
 
 
 /**
- * AnimalFarm Class Doc Comment
+ * HasOnlyReadOnly Class Doc Comment
  *
  * @category    Class
  * @package     Swagger\Client
@@ -54,20 +54,21 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class AnimalFarm implements ArrayAccess
+class HasOnlyReadOnly implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'AnimalFarm';
+    protected static $swaggerModelName = 'hasOnlyReadOnly';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        
+        'bar' => 'string',
+        'foo' => 'string'
     );
 
     public static function swaggerTypes()
@@ -80,7 +81,8 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        
+        'bar' => 'bar',
+        'foo' => 'foo'
     );
 
     public static function attributeMap()
@@ -93,7 +95,8 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        
+        'bar' => 'setBar',
+        'foo' => 'setFoo'
     );
 
     public static function setters()
@@ -106,7 +109,8 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        
+        'bar' => 'getBar',
+        'foo' => 'getFoo'
     );
 
     public static function getters()
@@ -130,6 +134,8 @@ class AnimalFarm implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['bar'] = isset($data['bar']) ? $data['bar'] : null;
+        $this->container['foo'] = isset($data['foo']) ? $data['foo'] : null;
     }
 
     /**
@@ -154,6 +160,48 @@ class AnimalFarm implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets bar
+     * @return string
+     */
+    public function getBar()
+    {
+        return $this->container['bar'];
+    }
+
+    /**
+     * Sets bar
+     * @param string $bar
+     * @return $this
+     */
+    public function setBar($bar)
+    {
+        $this->container['bar'] = $bar;
+
+        return $this;
+    }
+
+    /**
+     * Gets foo
+     * @return string
+     */
+    public function getFoo()
+    {
+        return $this->container['foo'];
+    }
+
+    /**
+     * Sets foo
+     * @param string $foo
+     * @return $this
+     */
+    public function setFoo($foo)
+    {
+        $this->container['foo'] = $foo;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset

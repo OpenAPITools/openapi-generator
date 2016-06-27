@@ -17,7 +17,7 @@
  * Please update the test case below to test the endpoint.
  */
 
-namespace {{apiPackage}};
+namespace {{invokerPackage}};
 
 use \{{invokerPackage}}\Configuration;
 use \{{invokerPackage}}\ApiClient;
@@ -37,7 +37,7 @@ use \{{invokerPackage}}\ObjectSerializer;
 {
 
     /**
-     * Setup before running each test case
+     * Setup before running any test cases
      */
     public static function setUpBeforeClass()
     {
@@ -45,7 +45,23 @@ use \{{invokerPackage}}\ObjectSerializer;
     }
 
     /**
+     * Setup before running each test case
+     */
+    public function setUp()
+    {
+
+    }
+
+    /**
      * Clean up after running each test case
+     */
+    public function tearDown()
+    {
+
+    }
+
+    /**
+     * Clean up after running all test cases
      */
     public static function tearDownAfterClass()
     {
@@ -63,6 +79,7 @@ use \{{invokerPackage}}\ObjectSerializer;
     {
 
     }
+
     {{/operation}}
 }
 {{/operations}}

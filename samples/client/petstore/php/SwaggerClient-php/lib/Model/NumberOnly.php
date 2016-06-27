@@ -1,6 +1,6 @@
 <?php
 /**
- * AnimalFarm
+ * NumberOnly
  *
  * PHP version 5
  *
@@ -46,7 +46,7 @@ use \ArrayAccess;
 
 
 /**
- * AnimalFarm Class Doc Comment
+ * NumberOnly Class Doc Comment
  *
  * @category    Class
  * @package     Swagger\Client
@@ -54,20 +54,20 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class AnimalFarm implements ArrayAccess
+class NumberOnly implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'AnimalFarm';
+    protected static $swaggerModelName = 'NumberOnly';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        
+        'just_number' => 'float'
     );
 
     public static function swaggerTypes()
@@ -80,7 +80,7 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        
+        'just_number' => 'JustNumber'
     );
 
     public static function attributeMap()
@@ -93,7 +93,7 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        
+        'just_number' => 'setJustNumber'
     );
 
     public static function setters()
@@ -106,7 +106,7 @@ class AnimalFarm implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        
+        'just_number' => 'getJustNumber'
     );
 
     public static function getters()
@@ -130,6 +130,7 @@ class AnimalFarm implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['just_number'] = isset($data['just_number']) ? $data['just_number'] : null;
     }
 
     /**
@@ -154,6 +155,27 @@ class AnimalFarm implements ArrayAccess
         return true;
     }
 
+
+    /**
+     * Gets just_number
+     * @return float
+     */
+    public function getJustNumber()
+    {
+        return $this->container['just_number'];
+    }
+
+    /**
+     * Sets just_number
+     * @param float $just_number
+     * @return $this
+     */
+    public function setJustNumber($just_number)
+    {
+        $this->container['just_number'] = $just_number;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset
