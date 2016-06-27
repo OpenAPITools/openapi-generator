@@ -26,15 +26,24 @@ require 'date'
 module Petstore
 
   class AdditionalPropertiesClass
+    attr_accessor :map_property
+
+    attr_accessor :map_of_map_property
+
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'map_property' => :'map_property',
+        :'map_of_map_property' => :'map_of_map_property'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
+        :'map_property' => :'Hash<String, String>',
+        :'map_of_map_property' => :'Hash<String, Hash<String, String>>'
       }
     end
 
@@ -45,6 +54,18 @@ module Petstore
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
+
+      if attributes.has_key?(:'map_property')
+        if (value = attributes[:'map_property']).is_a?(Array)
+          self.map_property = value
+        end
+      end
+
+      if attributes.has_key?(:'map_of_map_property')
+        if (value = attributes[:'map_of_map_property']).is_a?(Array)
+          self.map_of_map_property = value
+        end
+      end
 
     end
 
@@ -58,13 +79,16 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return true
     end
 
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class
+      self.class == o.class &&
+          map_property == o.map_property &&
+          map_of_map_property == o.map_of_map_property
     end
 
     # @see the `==` method
@@ -76,7 +100,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [].hash
+      [map_property, map_of_map_property].hash
     end
 
     # Builds the object from hash
