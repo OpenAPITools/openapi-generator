@@ -569,8 +569,8 @@
             <modules>
                 <!-- run ruby test first which has a random delay script to
                      avoid issues with running 2 CI jobs in parallel.       -->
-                <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>

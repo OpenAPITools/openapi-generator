@@ -47,7 +47,7 @@ public class Category  {
         (name == null ? category.name == null : name.equals(category.name));
   }
 
-  @Override 
+  @Override
   public int hashCode() {
     int result = 17;
     result = 31 * result + (id == null ? 0: id.hashCode());

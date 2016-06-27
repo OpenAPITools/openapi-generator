@@ -104,7 +104,7 @@ public class Order  {
         (complete == null ? order.complete == null : complete.equals(order.complete));
   }
 
-  @Override 
+  @Override
   public int hashCode() {
     int result = 17;
     result = 31 * result + (id == null ? 0: id.hashCode());
