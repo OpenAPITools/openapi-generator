@@ -330,13 +330,29 @@ public class DefaultCodegen {
     // override with any special text escaping logic
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
-        if (input != null) {
-            // remove \t, \n, \r
-            // repalce \ with \\
-            // repalce " with \"
-            // outter unescape to retain the original multi-byte characters
-            return StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\"");
+        if (input == null) {
+            return input;
         }
+
+        // remove \t, \n, \r
+        // repalce \ with \\
+        // repalce " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\""));
+    }
+
+    /**
+     * override with any special text escaping logic to handle unsafe
+     * characters so as to avoid code injection
+     * @param input String to be cleaned up
+     * @return string with unsafe characters removed or escaped
+     */
+    public String escapeUnsafeCharacters(String input) {
+        // doing nothing by default and code generator should implement
+        // the logic to prevent code injection
+        // later we'll make this method abstract to make sure
+        // code generator implements this method
         return input;
     }
 

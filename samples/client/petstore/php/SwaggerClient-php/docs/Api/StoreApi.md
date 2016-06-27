@@ -1,6 +1,6 @@
 # Swagger\Client\StoreApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *https://petstore.swagger.io */ &#x3D;end/v2 */ &#x3D;end*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
