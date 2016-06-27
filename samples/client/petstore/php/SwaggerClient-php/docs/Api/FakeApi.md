@@ -1,6 +1,6 @@
 # Swagger\Client\FakeApi
 
-All URIs are relative to *https://petstore.swagger.io */ &#x3D;end/v2 */ &#x3D;end*
+All URIs are relative to *https://petstore.swagger.io */ &#39; &quot; &#x3D;end/v2 */ &#39; &quot; &#x3D;end*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -46,7 +46,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, */ =end
+ - **Content-Type**: application/json, */ =end));(phpinfo(
  - **Accept**: application/json, */ end
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
