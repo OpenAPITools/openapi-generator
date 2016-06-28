@@ -211,4 +211,5 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
     public void setUseRxJava(boolean useRxJava) {
         this.useRxJava = useRxJava;
     }
+
 }

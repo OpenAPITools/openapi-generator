@@ -833,4 +833,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        LOGGER.info("escaping ......" + input.replace("*/", ""));
+        return input.replace("*/", "");
+    }
+
 }
