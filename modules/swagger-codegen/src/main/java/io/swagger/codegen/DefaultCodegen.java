@@ -1773,6 +1773,7 @@ public class DefaultCodegen {
             int count = 0;
             for (String key : consumes) {
                 Map<String, String> mediaType = new HashMap<String, String>();
+                // escape quotation to avoid code injection
                 mediaType.put("mediaType", escapeQuotationMark(key));
                 count += 1;
                 if (count < consumes.size()) {
@@ -1806,7 +1807,8 @@ public class DefaultCodegen {
             int count = 0;
             for (String key : produces) {
                 Map<String, String> mediaType = new HashMap<String, String>();
-                mediaType.put("mediaType", key);
+                // escape quotation to avoid code injection
+                mediaType.put("mediaType", escapeQuotationMark(key));
                 count += 1;
                 if (count < produces.size()) {
                     mediaType.put("hasMore", "true");
