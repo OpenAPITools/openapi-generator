@@ -179,10 +179,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
             //Needed imports for Jackson based libraries
             if(additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonProperty");
-
-                /*if(BooleanUtils.toBoolean(model.hasEnums)) {
-                    model.imports.add("JsonValue");
-                }*/
             }
             if(additionalProperties.containsKey("gson")) {
                 model.imports.add("SerializedName");
