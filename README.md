@@ -765,6 +765,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Pepipost](https://www.pepipost.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
+- [Rapid7](https://rapid7.com/)
 - [Reload! A/S](https://reload.dk/) 
 - [REstore](https://www.restore.eu)
 - [Revault Sàrl](http://revault.ch)
