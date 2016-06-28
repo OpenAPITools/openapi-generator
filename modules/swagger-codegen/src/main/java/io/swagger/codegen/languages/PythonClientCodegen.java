@@ -590,5 +590,16 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         p.example = example;
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // remove multiline comment
+        return input.replace("'''", "");
+    }
 
 }
