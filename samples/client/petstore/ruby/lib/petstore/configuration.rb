@@ -1,7 +1,7 @@
 =begin
-Swagger Petstore
+#Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -96,6 +96,13 @@ module Petstore
     # @return [true, false]
     attr_accessor :verify_ssl
 
+    # Set this to customize parameters encoding of array parameter with multi collectionFormat.
+    # Default to nil.
+    #
+    # @see The params_encoding option of Ethon. Related source code:
+    # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
+    attr_accessor :params_encoding
+
     # Set this to customize the certificate file to verify the peer.
     #
     # @return [String] the path to the certificate file
@@ -122,6 +129,7 @@ module Petstore
       @api_key_prefix = {}
       @timeout = 0
       @verify_ssl = true
+      @params_encoding = nil
       @cert_file = nil
       @key_file = nil
       @debugging = false
@@ -180,19 +188,19 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
-        'api_key' =>
-          {
-            type: 'api_key',
-            in: 'header',
-            key: 'api_key',
-            value: api_key_with_prefix('api_key')
-          },
         'petstore_auth' =>
           {
             type: 'oauth2',
             in: 'header',
             key: 'Authorization',
             value: "Bearer #{access_token}"
+          },
+        'api_key' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'api_key',
+            value: api_key_with_prefix('api_key')
           },
       }
     end
