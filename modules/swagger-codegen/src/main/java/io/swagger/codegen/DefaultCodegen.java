@@ -349,6 +349,7 @@ public class DefaultCodegen {
      * @return string with unsafe characters removed or escaped
      */
     public String escapeUnsafeCharacters(String input) {
+        LOGGER.warn("escapeUnsafeCharacters should be overriden in the code generator with proper logic to escape unsafe characters");
         // doing nothing by default and code generator should implement
         // the logic to prevent code injection
         // later we'll make this method abstract to make sure
@@ -362,7 +363,7 @@ public class DefaultCodegen {
      * @return string with quotation mark removed or escaped
      */
     public String escapeQuotationMark(String input) {
-        LOGGER.info("### calling default escapeText");
+        LOGGER.warn("escapeQuotationMark should be overriden in the code generator with proper logic to escape single/double quote");
         return input.replace("\"", "\\\"");
     }
 
