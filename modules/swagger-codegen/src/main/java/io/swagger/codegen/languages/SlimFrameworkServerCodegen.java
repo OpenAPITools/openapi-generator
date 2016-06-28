@@ -225,4 +225,15 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         return toModelName(name);
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "");
+    }
+
 }

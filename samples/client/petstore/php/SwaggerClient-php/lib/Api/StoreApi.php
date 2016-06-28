@@ -105,10 +105,9 @@ class StoreApi
     /**
      * Operation deleteOrder
      *
-     * Delete purchase order by ID.
+     * Delete purchase order by ID
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
-     *
      * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -118,20 +117,17 @@ class StoreApi
         return $response;
     }
 
-
     /**
      * Operation deleteOrderWithHttpInfo
      *
-     * Delete purchase order by ID.
+     * Delete purchase order by ID
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
-     *
      * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteOrderWithHttpInfo($order_id)
     {
-        
         // verify the required parameter 'order_id' is set
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
@@ -139,7 +135,6 @@ class StoreApi
         if ($order_id < 1.0) {
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
         }
-
 
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
@@ -153,8 +148,6 @@ class StoreApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
-        
-        
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
@@ -167,15 +160,13 @@ class StoreApi
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
         
-        
-
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-                // make the API Call
+        // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath,
@@ -193,11 +184,11 @@ class StoreApi
             throw $e;
         }
     }
+
     /**
      * Operation getInventory
      *
-     * Returns pet inventories by status.
-     *
+     * Returns pet inventories by status
      *
      * @return map[string,int]
      * @throws \Swagger\Client\ApiException on non-2xx response
@@ -208,19 +199,16 @@ class StoreApi
         return $response;
     }
 
-
     /**
      * Operation getInventoryWithHttpInfo
      *
-     * Returns pet inventories by status.
-     *
+     * Returns pet inventories by status
      *
      * @return Array of map[string,int], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getInventoryWithHttpInfo()
     {
-        
         // parse inputs
         $resourcePath = "/store/inventory";
         $httpBody = '';
@@ -233,28 +221,21 @@ class StoreApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
-        
-        
-        
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
         
-        
-
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-        
         // this endpoint requires API key authentication
         $apiKey = $this->apiClient->getApiKeyWithPrefix('api_key');
         if (strlen($apiKey) !== 0) {
             $headerParams['api_key'] = $apiKey;
         }
-        
         // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
@@ -278,13 +259,13 @@ class StoreApi
             throw $e;
         }
     }
+
     /**
      * Operation getOrderById
      *
-     * Find purchase order by ID.
+     * Find purchase order by ID
      *
      * @param int $order_id ID of pet that needs to be fetched (required)
-     *
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -294,20 +275,17 @@ class StoreApi
         return $response;
     }
 
-
     /**
      * Operation getOrderByIdWithHttpInfo
      *
-     * Find purchase order by ID.
+     * Find purchase order by ID
      *
      * @param int $order_id ID of pet that needs to be fetched (required)
-     *
      * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getOrderByIdWithHttpInfo($order_id)
     {
-        
         // verify the required parameter 'order_id' is set
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling getOrderById');
@@ -318,7 +296,6 @@ class StoreApi
         if ($order_id < 1.0) {
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.0.');
         }
-
 
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
@@ -332,8 +309,6 @@ class StoreApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
-        
-        
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
@@ -346,15 +321,13 @@ class StoreApi
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
         
-        
-
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-                // make the API Call
+        // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath,
@@ -377,13 +350,13 @@ class StoreApi
             throw $e;
         }
     }
+
     /**
      * Operation placeOrder
      *
-     * Place an order for a pet.
+     * Place an order for a pet
      *
      * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
-     *
      * @return \Swagger\Client\Model\Order
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
@@ -393,25 +366,21 @@ class StoreApi
         return $response;
     }
 
-
     /**
      * Operation placeOrderWithHttpInfo
      *
-     * Place an order for a pet.
+     * Place an order for a pet
      *
      * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
-     *
      * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function placeOrderWithHttpInfo($body)
     {
-        
         // verify the required parameter 'body' is set
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling placeOrder');
         }
-
         // parse inputs
         $resourcePath = "/store/order";
         $httpBody = '';
@@ -424,13 +393,9 @@ class StoreApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
 
-        
-        
-        
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
 
-        
         // body params
         $_tempBody = null;
         if (isset($body)) {
@@ -443,7 +408,7 @@ class StoreApi
         } elseif (count($formParams) > 0) {
             $httpBody = $formParams; // for HTTP post (form)
         }
-                // make the API Call
+        // make the API Call
         try {
             list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
                 $resourcePath,
@@ -466,4 +431,5 @@ class StoreApi
             throw $e;
         }
     }
+
 }

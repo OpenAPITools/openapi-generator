@@ -1,0 +1,35 @@
+{
+    "name": "GIT_USER_ID/GIT_REPO_ID",
+    "description": "",
+    "keywords": [
+        "swagger",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "http://swagger.io",
+    "license": "Apache v2",
+    "authors": [
+        {
+            "name": "Swagger and contributors",
+            "homepage": "https://github.com/swagger-api/swagger-codegen"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8",
+        "satooshi/php-coveralls": "~1.0",
+        "squizlabs/php_codesniffer": "~2.6"
+    },
+    "autoload": {
+        "psr-4": { "Swagger\\Client\\" : "lib/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Swagger\\Client\\" : "test/" }
+    }
+}

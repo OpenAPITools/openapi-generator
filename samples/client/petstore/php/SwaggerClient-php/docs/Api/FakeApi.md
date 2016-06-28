@@ -4,9 +4,52 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**testCodeInjectEnd**](FakeApi.md#testCodeInjectEnd) | **PUT** /fake | To test code injection  &#x3D;end
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 [**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** /fake | To test enum query parameters
 
+
+# **testCodeInjectEnd**
+> testCodeInjectEnd($test_code_inject__end)
+
+To test code injection  =end
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\FakeApi();
+$test_code_inject__end = "test_code_inject__end_example"; // string | To test code injection  =end
+
+try {
+    $api_instance->testCodeInjectEnd($test_code_inject__end);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testCodeInjectEnd: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **test_code_inject__end** | **string**| To test code injection  &#x3D;end | [optional]
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, */ =end));(phpinfo(
+ - **Accept**: application/json, */ end
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testEndpointParameters**
 > testEndpointParameters($number, $double, $string, $byte, $integer, $int32, $int64, $float, $binary, $date, $date_time, $password)

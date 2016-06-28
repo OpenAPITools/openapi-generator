@@ -43,13 +43,12 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
-
-
 /**
  * Name Class Doc Comment
  *
- * @category    Class
- * @description Model for testing model name same as property name
+ * @category    Class */
+ // @description Model for testing model name same as property name
+/** 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
