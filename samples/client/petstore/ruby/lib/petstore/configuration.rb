@@ -1,7 +1,7 @@
 =begin
 #Swagger Petstore
 
-#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -188,19 +188,19 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
-        'petstore_auth' =>
-          {
-            type: 'oauth2',
-            in: 'header',
-            key: 'Authorization',
-            value: "Bearer #{access_token}"
-          },
         'api_key' =>
           {
             type: 'api_key',
             in: 'header',
             key: 'api_key',
             value: api_key_with_prefix('api_key')
+          },
+        'petstore_auth' =>
+          {
+            type: 'oauth2',
+            in: 'header',
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
           },
       }
     end
