@@ -43,13 +43,12 @@ namespace Swagger\Client\Model;
 
 use \ArrayAccess;
 
-
-
 /**
  * Model200Response Class Doc Comment
  *
- * @category    Class
- * @description Model for testing model name starting with number
+ * @category    Class */
+ // @description Model for testing model name starting with number
+/** 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

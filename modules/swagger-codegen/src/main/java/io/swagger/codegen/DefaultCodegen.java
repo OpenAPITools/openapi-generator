@@ -330,14 +330,41 @@ public class DefaultCodegen {
     // override with any special text escaping logic
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
-        if (input != null) {
-            // remove \t, \n, \r
-            // repalce \ with \\
-            // repalce " with \"
-            // outter unescape to retain the original multi-byte characters
-            return StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\"");
+        if (input == null) {
+            return input;
         }
+
+        // remove \t, \n, \r
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\""));
+    }
+
+    /**
+     * override with any special text escaping logic to handle unsafe
+     * characters so as to avoid code injection
+     * @param input String to be cleaned up
+     * @return string with unsafe characters removed or escaped
+     */
+    public String escapeUnsafeCharacters(String input) {
+        LOGGER.warn("escapeUnsafeCharacters should be overriden in the code generator with proper logic to escape unsafe characters");
+        // doing nothing by default and code generator should implement
+        // the logic to prevent code injection
+        // later we'll make this method abstract to make sure
+        // code generator implements this method
         return input;
+    }
+
+    /**
+     * Escape single and/or double quote to avoid code injection 
+     * @param input String to be cleaned up
+     * @return string with quotation mark removed or escaped
+     */
+    public String escapeQuotationMark(String input) {
+        LOGGER.warn("escapeQuotationMark should be overriden in the code generator with proper logic to escape single/double quote");
+        return input.replace("\"", "\\\"");
     }
 
     public Set<String> defaultIncludes() {
@@ -1747,7 +1774,8 @@ public class DefaultCodegen {
             int count = 0;
             for (String key : consumes) {
                 Map<String, String> mediaType = new HashMap<String, String>();
-                mediaType.put("mediaType", key);
+                // escape quotation to avoid code injection
+                mediaType.put("mediaType", escapeQuotationMark(key));
                 count += 1;
                 if (count < consumes.size()) {
                     mediaType.put("hasMore", "true");
@@ -1780,7 +1808,8 @@ public class DefaultCodegen {
             int count = 0;
             for (String key : produces) {
                 Map<String, String> mediaType = new HashMap<String, String>();
-                mediaType.put("mediaType", key);
+                // escape quotation to avoid code injection
+                mediaType.put("mediaType", escapeQuotationMark(key));
                 count += 1;
                 if (count < produces.size()) {
                     mediaType.put("hasMore", "true");
