@@ -3,7 +3,7 @@
 """
     Swagger Petstore
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
     OpenAPI spec version: 1.0.0
     Contact: apiteam@swagger.io
@@ -29,6 +29,8 @@ from .models.additional_properties_class import AdditionalPropertiesClass
 from .models.animal import Animal
 from .models.animal_farm import AnimalFarm
 from .models.api_response import ApiResponse
+from .models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from .models.array_of_number_only import ArrayOfNumberOnly
 from .models.array_test import ArrayTest
 from .models.cat import Cat
 from .models.category import Category
@@ -36,10 +38,13 @@ from .models.dog import Dog
 from .models.enum_class import EnumClass
 from .models.enum_test import EnumTest
 from .models.format_test import FormatTest
+from .models.has_only_read_only import HasOnlyReadOnly
+from .models.map_test import MapTest
 from .models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from .models.model_200_response import Model200Response
 from .models.model_return import ModelReturn
 from .models.name import Name
+from .models.number_only import NumberOnly
 from .models.order import Order
 from .models.pet import Pet
 from .models.read_only_first import ReadOnlyFirst
