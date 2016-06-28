@@ -1,6 +1,7 @@
 package io.swagger.codegen;
 
 import io.swagger.codegen.languages.JavaClientCodegen;
+import io.swagger.codegen.languages.RubyClientCodegen;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.apache.commons.io.FileUtils;
@@ -218,6 +219,31 @@ public class DefaultGeneratorTest {
                 assertFalse(opIds.contains(op.operationId));
                 opIds.add(op.operationId);
             }
+        }
+    }
+
+    @Test
+    public void testGenerateWithHtmlEntity() throws Exception {
+        final File output = folder.getRoot();
+
+        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/pathWithHtmlEntity.yaml");
+        CodegenConfig codegenConfig = new RubyClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput);
+        List<File> files = generator.generate();
+        boolean apiFileGenerated = false;
+        for (File file : files) {
+          if (file.getName().equals("default_api.rb")) {
+            apiFileGenerated = true;
+            assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8).contains("local_var_path = \"/foo=bar\""));
+          }
+        }
+        if (!apiFileGenerated) {
+          fail("Default api file is not generated!");
         }
     }
 
