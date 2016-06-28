@@ -631,7 +631,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             String templateFile = getFullTemplateFile(config, templateName);
             String template = readTemplate(templateFile);
             Template tmpl = Mustache.compiler()
-                    .escapeHTML(false)
                     .withLoader(new Mustache.TemplateLoader() {
                         @Override
                         public Reader getTemplate(String name) {

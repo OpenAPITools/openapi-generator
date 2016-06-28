@@ -223,7 +223,7 @@ public class DefaultGeneratorTest {
     }
 
     @Test
-    public void testGenerateWithHtmlEntity() throws Exception {
+    public void testGenerateRubyClientWithHtmlEntity() throws Exception {
         final File output = folder.getRoot();
 
         final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/pathWithHtmlEntity.yaml");
@@ -239,6 +239,7 @@ public class DefaultGeneratorTest {
         for (File file : files) {
           if (file.getName().equals("default_api.rb")) {
             apiFileGenerated = true;
+            // Ruby client should set the path unescaped in the api file
             assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8).contains("local_var_path = \"/foo=bar\""));
           }
         }
