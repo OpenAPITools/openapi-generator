@@ -6,5 +6,13 @@ Name | Type | Description | Notes
 **arrayOfString** | **[String]** |  | [optional] 
 **arrayArrayOfInteger** | **[[Integer]]** |  | [optional] 
 **arrayArrayOfModel** | **[[ReadOnlyFirst]]** |  | [optional] 
+**arrayOfEnum** | **[String]** |  | [optional] 
+
+
+<a name="[ArrayOfEnumEnum]"></a>
+## Enum: [ArrayOfEnumEnum]
+
+
+
 
 
