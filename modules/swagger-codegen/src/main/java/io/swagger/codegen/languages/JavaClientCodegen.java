@@ -115,6 +115,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
 
         if ("feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FormAwareEncoder.mustache", invokerFolder, "FormAwareEncoder.java"));
+            additionalProperties.put("jackson", "true");
         } else if ("okhttp-gson".equals(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
@@ -122,11 +123,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
+            additionalProperties.put("gson", "true");
         } else if (usesAnyRetrofitLibrary()) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
+            additionalProperties.put("gson", "true");
         } else if("jersey2".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            additionalProperties.put("jackson", "true");
+        } else if(StringUtils.isEmpty(getLibrary())) {
+            additionalProperties.put("jackson", "true");
         }
     }
 
@@ -171,12 +177,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         if(!BooleanUtils.toBoolean(model.isEnum)) {
             final String lib = getLibrary();
             //Needed imports for Jackson based libraries
-            if(StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+            if(additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonProperty");
-
-                if(BooleanUtils.toBoolean(model.hasEnums)) {
-                    model.imports.add("JsonValue");
-                }
+            }
+            if(additionalProperties.containsKey("gson")) {
+                model.imports.add("SerializedName");
             }
         }
     }
@@ -184,9 +189,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
     @Override
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
-        String lib = getLibrary();
-        //Needed imports for Jackson based libraries
-        if (StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+        //Needed import for Gson based libraries
+        if (additionalProperties.containsKey("gson")) {
             List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
             List<Object> models = (List<Object>) objs.get("models");
             for (Object _mo : models) {
@@ -194,9 +198,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 // for enum model
                 if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
-                    cm.imports.add(importMapping.get("JsonValue"));
+                    cm.imports.add(importMapping.get("SerializedName"));
                     Map<String, String> item = new HashMap<String, String>();
-                    item.put("import", importMapping.get("JsonValue"));
+                    item.put("import", importMapping.get("SerializedName"));
                     imports.add(item);
                 }
             }
