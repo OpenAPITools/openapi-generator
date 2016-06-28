@@ -712,4 +712,15 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         //
         //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("=end", "");
+    }
 }
