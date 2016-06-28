@@ -1,7 +1,7 @@
 =begin
-Swagger Petstore
+#Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -103,6 +103,7 @@ module Petstore
         :method => http_method,
         :headers => header_params,
         :params => query_params,
+        :params_encoding => @config.params_encoding,
         :timeout => @config.timeout,
         :ssl_verifypeer => @config.verify_ssl,
         :sslcert => @config.cert_file,
