@@ -373,7 +373,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             return underscore("call_" + operationId);
         }
 
-        return underscore(operationId);
+        //return underscore(operationId).replaceAll("[^A-Za-z0-9_]", "");
+        return underscore(sanitizeName(operationId));
     }
 
     public void setModuleName(String moduleName) {
@@ -402,5 +403,16 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             p.example = "DateTime->from_epoch(epoch => str2time('" + p.example + "'))";
         }
 
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // remove =end, =cut to avoid code injection
+        return input.replace("=end", "").replace("=cut", "");
     }
 }
