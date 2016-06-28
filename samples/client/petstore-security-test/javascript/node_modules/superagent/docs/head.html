@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SuperAgent - Ajax with less suck</title>
+    <link rel="stylesheet" href="docs/style.css">
+    <script src="docs/jquery.js"></script>
+    <script src="docs/jquery-ui.min.js"></script>
+    <script src="docs/highlight.js"></script>
+    <script src="docs/jquery.tocify.min.js"></script>
+    <script>
+      $(function(){
+        $('#menu').tocify({
+          selectors: 'h2',
+          hashGenerator: 'pretty'
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <ul id="menu"></ul>
+    <div id="content">
