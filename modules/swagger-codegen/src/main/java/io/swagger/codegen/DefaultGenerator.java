@@ -188,6 +188,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         } else {
             scheme = "https";
         }
+        scheme = config.escapeText(scheme);
         hostBuilder.append(scheme);
         hostBuilder.append("://");
         if (swagger.getHost() != null) {
@@ -198,9 +199,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (swagger.getBasePath() != null) {
             hostBuilder.append(swagger.getBasePath());
         }
-        String contextPath = swagger.getBasePath() == null ? "" : swagger.getBasePath();
-        String basePath = hostBuilder.toString();
-        String basePathWithoutHost = swagger.getBasePath();
+        String contextPath = config.escapeText(swagger.getBasePath() == null ? "" : swagger.getBasePath());
+        String basePath = config.escapeText(hostBuilder.toString());
+        String basePathWithoutHost = config.escapeText(swagger.getBasePath());
 
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
