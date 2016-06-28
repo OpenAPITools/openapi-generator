@@ -75,6 +75,8 @@ samples/client/petstore/php/SwaggerClient-php/composer.lock
 samples/client/petstore/php/SwaggerClient-php/vendor/
 samples/client/petstore/silex/SwaggerServer/composer.lock
 samples/client/petstore/silex/SwaggerServer/venodr/
+**/vendor/
+**/composer.lock
 
 # Perl
 samples/client/petstore/perl/deep_module_test/
