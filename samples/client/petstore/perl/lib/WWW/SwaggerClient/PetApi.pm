@@ -2,7 +2,7 @@
 
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -77,7 +77,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ add_pet } = { 
+    __PACKAGE__->method_documentation->{ 'add_pet' } = { 
     	summary => 'Add a new pet to the store',
         params => $params,
         returns => undef,
@@ -145,7 +145,7 @@ sub add_pet {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ delete_pet } = { 
+    __PACKAGE__->method_documentation->{ 'delete_pet' } = { 
     	summary => 'Deletes a pet',
         params => $params,
         returns => undef,
@@ -214,7 +214,7 @@ sub delete_pet {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ find_pets_by_status } = { 
+    __PACKAGE__->method_documentation->{ 'find_pets_by_status' } = { 
     	summary => 'Finds Pets by status',
         params => $params,
         returns => 'ARRAY[Pet]',
@@ -280,7 +280,7 @@ sub find_pets_by_status {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ find_pets_by_tags } = { 
+    __PACKAGE__->method_documentation->{ 'find_pets_by_tags' } = { 
     	summary => 'Finds Pets by tags',
         params => $params,
         returns => 'ARRAY[Pet]',
@@ -346,7 +346,7 @@ sub find_pets_by_tags {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ get_pet_by_id } = { 
+    __PACKAGE__->method_documentation->{ 'get_pet_by_id' } = { 
     	summary => 'Find pet by ID',
         params => $params,
         returns => 'Pet',
@@ -414,7 +414,7 @@ sub get_pet_by_id {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ update_pet } = { 
+    __PACKAGE__->method_documentation->{ 'update_pet' } = { 
     	summary => 'Update an existing pet',
         params => $params,
         returns => undef,
@@ -488,7 +488,7 @@ sub update_pet {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ update_pet_with_form } = { 
+    __PACKAGE__->method_documentation->{ 'update_pet_with_form' } = { 
     	summary => 'Updates a pet in the store with form data',
         params => $params,
         returns => undef,
@@ -574,7 +574,7 @@ sub update_pet_with_form {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ upload_file } = { 
+    __PACKAGE__->method_documentation->{ 'upload_file' } = { 
     	summary => 'uploads an image',
         params => $params,
         returns => 'ApiResponse',
