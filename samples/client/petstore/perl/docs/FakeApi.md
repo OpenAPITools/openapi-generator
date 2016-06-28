@@ -9,8 +9,51 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**test_code_inject__end**](FakeApi.md#test_code_inject__end) | **PUT** /fake | To test code injection */ 
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**test_enum_query_parameters**](FakeApi.md#test_enum_query_parameters) | **GET** /fake | To test enum query parameters
 
+
+# **test_code_inject__end**
+> test_code_inject__end(test code inject */ &#x3D;end => $test code inject */ &#x3D;end)
+
+To test code injection */ 
+
+### Example 
+```perl
+use Data::Dumper;
+
+my $api_instance = WWW::SwaggerClient::FakeApi->new();
+my $test code inject */ &#x3D;end = 'test code inject */ =end_example'; # string | To test code injection */ 
+
+eval { 
+    $api_instance->test_code_inject__end(test code inject */ &#x3D;end => $test code inject */ &#x3D;end);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_code_inject__end: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **test code inject */ &#x3D;end** | **string**| To test code injection */  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, */ =end));(phpinfo(
+ - **Accept**: application/json, */ end
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_parameters**
 > test_endpoint_parameters(number => $number, double => $double, string => $string, byte => $byte, integer => $integer, int32 => $int32, int64 => $int64, float => $float, binary => $binary, date => $date, date_time => $date_time, password => $password)
@@ -74,6 +117,51 @@ No authorization required
 
  - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
  - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_enum_query_parameters**
+> test_enum_query_parameters(enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double)
+
+To test enum query parameters
+
+### Example 
+```perl
+use Data::Dumper;
+
+my $api_instance = WWW::SwaggerClient::FakeApi->new();
+my $enum_query_string = 'enum_query_string_example'; # string | Query parameter enum test (string)
+my $enum_query_integer = 3.4; # Number | Query parameter enum test (double)
+my $enum_query_double = 1.2; # double | Query parameter enum test (double)
+
+eval { 
+    $api_instance->test_enum_query_parameters(enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_enum_query_parameters: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enum_query_integer** | **Number**| Query parameter enum test (double) | [optional] 
+ **enum_query_double** | **double**| Query parameter enum test (double) | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

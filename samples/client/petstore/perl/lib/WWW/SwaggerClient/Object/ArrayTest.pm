@@ -2,7 +2,7 @@
 
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -56,7 +56,7 @@ use base ("Class::Accessor", "Class::Data::Inheritable");
 
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -187,18 +187,27 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
+    'array_of_enum' => {
+    	datatype => 'ARRAY[string]',
+    	base_name => 'array_of_enum',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
 });
 
 __PACKAGE__->swagger_types( {
     'array_of_string' => 'ARRAY[string]',
     'array_array_of_integer' => 'ARRAY[ARRAY[int]]',
-    'array_array_of_model' => 'ARRAY[ARRAY[ReadOnlyFirst]]'
+    'array_array_of_model' => 'ARRAY[ARRAY[ReadOnlyFirst]]',
+    'array_of_enum' => 'ARRAY[string]'
 } );
 
 __PACKAGE__->attribute_map( {
     'array_of_string' => 'array_of_string',
     'array_array_of_integer' => 'array_array_of_integer',
-    'array_array_of_model' => 'array_array_of_model'
+    'array_array_of_model' => 'array_array_of_model',
+    'array_of_enum' => 'array_of_enum'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});
