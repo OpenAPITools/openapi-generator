@@ -199,7 +199,7 @@ module {{moduleName}}
     # @return [Tempfile] the file downloaded
     def download_file(response)
       content_disposition = response.headers['Content-Disposition']
-      if content_disposition
+      if content_disposition and content_disposition =~ /filename=/i
         filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
         prefix = sanitize_filename(filename)
       else
