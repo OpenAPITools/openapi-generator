@@ -52,8 +52,8 @@
    * Constructs a new <code>Pet</code>.
    * @alias module:model/Pet
    * @class
-   * @param name
-   * @param photoUrls
+   * @param name {String} 
+   * @param photoUrls {Array.<String>} 
    */
   var exports = function(name, photoUrls) {
     var _this = this;

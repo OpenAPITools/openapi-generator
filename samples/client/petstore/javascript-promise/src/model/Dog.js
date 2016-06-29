@@ -53,7 +53,7 @@
    * @alias module:model/Dog
    * @class
    * @extends module:model/Animal
-   * @param className
+   * @param className {String} 
    */
   var exports = function(className) {
     var _this = this;
