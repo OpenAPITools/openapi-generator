@@ -4,8 +4,55 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**testCodeInjectEnd**](FakeApi.md#testCodeInjectEnd) | **PUT** /fake | To test code injection  &#x3D;end
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** /fake | To test enum query parameters
 
+
+<a name="testCodeInjectEnd"></a>
+# **testCodeInjectEnd**
+> testCodeInjectEnd(opts)
+
+To test code injection  &#x3D;end
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger_petstore');
+
+var apiInstance = new SwaggerPetstore.FakeApi();
+
+var opts = { 
+  'testCodeInjectEnd': "testCodeInjectEnd_example" // String | To test code injection  =end
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+apiInstance.testCodeInjectEnd(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **testCodeInjectEnd** | **String**| To test code injection  &#x3D;end | [optional] 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, */ =end));(phpinfo(
+ - **Accept**: application/json, */ end
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
@@ -17,7 +64,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.FakeApi();
 
@@ -79,4 +126,53 @@ No authorization required
 
  - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
  - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+
+<a name="testEnumQueryParameters"></a>
+# **testEnumQueryParameters**
+> testEnumQueryParameters(opts)
+
+To test enum query parameters
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger_petstore');
+
+var apiInstance = new SwaggerPetstore.FakeApi();
+
+var opts = { 
+  'enumQueryString': "-efg", // String | Query parameter enum test (string)
+  'enumQueryInteger': 3.4, // Number | Query parameter enum test (double)
+  'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+apiInstance.testEnumQueryParameters(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enumQueryInteger** | **Number**| Query parameter enum test (double) | [optional] 
+ **enumQueryDouble** | **Number**| Query parameter enum test (double) | [optional] 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 

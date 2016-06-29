@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -25,16 +25,16 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/AdditionalPropertiesClass', 'model/Animal', 'model/AnimalFarm', 'model/ApiResponse', 'model/ArrayTest', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/MixedPropertiesAndAdditionalPropertiesClass', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/Order', 'model/Pet', 'model/ReadOnlyFirst', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
+    define(['ApiClient', 'model/AdditionalPropertiesClass', 'model/Animal', 'model/AnimalFarm', 'model/ApiResponse', 'model/ArrayOfArrayOfNumberOnly', 'model/ArrayOfNumberOnly', 'model/ArrayTest', 'model/Cat', 'model/Category', 'model/Dog', 'model/EnumClass', 'model/EnumTest', 'model/FormatTest', 'model/HasOnlyReadOnly', 'model/MapTest', 'model/MixedPropertiesAndAdditionalPropertiesClass', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/NumberOnly', 'model/Order', 'model/Pet', 'model/ReadOnlyFirst', 'model/SpecialModelName', 'model/Tag', 'model/User', 'api/FakeApi', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/AdditionalPropertiesClass'), require('./model/Animal'), require('./model/AnimalFarm'), require('./model/ApiResponse'), require('./model/ArrayTest'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/MixedPropertiesAndAdditionalPropertiesClass'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/Order'), require('./model/Pet'), require('./model/ReadOnlyFirst'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/AdditionalPropertiesClass'), require('./model/Animal'), require('./model/AnimalFarm'), require('./model/ApiResponse'), require('./model/ArrayOfArrayOfNumberOnly'), require('./model/ArrayOfNumberOnly'), require('./model/ArrayTest'), require('./model/Cat'), require('./model/Category'), require('./model/Dog'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/FormatTest'), require('./model/HasOnlyReadOnly'), require('./model/MapTest'), require('./model/MixedPropertiesAndAdditionalPropertiesClass'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/NumberOnly'), require('./model/Order'), require('./model/Pet'), require('./model/ReadOnlyFirst'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/User'), require('./api/FakeApi'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, AdditionalPropertiesClass, Animal, AnimalFarm, ApiResponse, ArrayTest, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, MixedPropertiesAndAdditionalPropertiesClass, Model200Response, ModelReturn, Name, Order, Pet, ReadOnlyFirst, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, AdditionalPropertiesClass, Animal, AnimalFarm, ApiResponse, ArrayOfArrayOfNumberOnly, ArrayOfNumberOnly, ArrayTest, Cat, Category, Dog, EnumClass, EnumTest, FormatTest, HasOnlyReadOnly, MapTest, MixedPropertiesAndAdditionalPropertiesClass, Model200Response, ModelReturn, Name, NumberOnly, Order, Pet, ReadOnlyFirst, SpecialModelName, Tag, User, FakeApi, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
-   * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\ .<br>
+   * This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters__.<br>
    * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -91,6 +91,16 @@
      */
     ApiResponse: ApiResponse,
     /**
+     * The ArrayOfArrayOfNumberOnly model constructor.
+     * @property {module:model/ArrayOfArrayOfNumberOnly}
+     */
+    ArrayOfArrayOfNumberOnly: ArrayOfArrayOfNumberOnly,
+    /**
+     * The ArrayOfNumberOnly model constructor.
+     * @property {module:model/ArrayOfNumberOnly}
+     */
+    ArrayOfNumberOnly: ArrayOfNumberOnly,
+    /**
      * The ArrayTest model constructor.
      * @property {module:model/ArrayTest}
      */
@@ -126,6 +136,16 @@
      */
     FormatTest: FormatTest,
     /**
+     * The HasOnlyReadOnly model constructor.
+     * @property {module:model/HasOnlyReadOnly}
+     */
+    HasOnlyReadOnly: HasOnlyReadOnly,
+    /**
+     * The MapTest model constructor.
+     * @property {module:model/MapTest}
+     */
+    MapTest: MapTest,
+    /**
      * The MixedPropertiesAndAdditionalPropertiesClass model constructor.
      * @property {module:model/MixedPropertiesAndAdditionalPropertiesClass}
      */
@@ -145,6 +165,11 @@
      * @property {module:model/Name}
      */
     Name: Name,
+    /**
+     * The NumberOnly model constructor.
+     * @property {module:model/NumberOnly}
+     */
+    NumberOnly: NumberOnly,
     /**
      * The Order model constructor.
      * @property {module:model/Order}
