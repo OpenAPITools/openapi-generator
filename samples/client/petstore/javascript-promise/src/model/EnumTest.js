@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -115,6 +115,7 @@
      * @const
      */
     "lower": "lower"  };
+
   /**
    * Allowed values for the <code>enum_integer</code> property.
    * @enum {Integer}
@@ -131,6 +132,7 @@
      * @const
      */
     "-1": -1  };
+
   /**
    * Allowed values for the <code>enum_number</code> property.
    * @enum {Number}

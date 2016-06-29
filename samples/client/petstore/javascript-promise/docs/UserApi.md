@@ -24,7 +24,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 
@@ -67,7 +67,7 @@ Creates list of users with given input array
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 
@@ -110,7 +110,7 @@ Creates list of users with given input array
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 
@@ -153,7 +153,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 
@@ -196,7 +196,7 @@ Get user by user name
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 
@@ -239,7 +239,7 @@ Logs user into the system
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 
@@ -285,7 +285,7 @@ Logs out current logged in user session
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 apiInstance.logoutUser().then(function() {
@@ -322,7 +322,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.UserApi();
 
