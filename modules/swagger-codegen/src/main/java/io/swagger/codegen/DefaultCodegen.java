@@ -1595,14 +1595,10 @@ public class DefaultCodegen {
             // inner item is Enum
             if (isPropertyInnerMostEnum(property)) {
                 property.isEnum = true;
-                // update datatypeWithEnum for array
+                // update datatypeWithEnum and default value for array
                 // e.g. List<string> => List<StatusEnum>
                 updateDataTypeWithEnumForArray(property);
 
-                // TOOD need to revise the default value for enum
-                if (property.defaultValue != null) {
-                    property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
-                }
             }
         }
     }
@@ -1626,15 +1622,9 @@ public class DefaultCodegen {
             // inner item is Enum
             if (isPropertyInnerMostEnum(property)) {
                 property.isEnum = true;
-                // update datatypeWithEnum for map
+                // update datatypeWithEnum and default value for map
                 // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
                 updateDataTypeWithEnumForMap(property);
-
-                // TOOD need to revise the default value for enum
-                // set default value
-                if (property.defaultValue != null) {
-                    property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
-                }
             }
         }
 
@@ -1667,7 +1657,11 @@ public class DefaultCodegen {
         }
         // set both datatype and datetypeWithEnum as only the inner type is enum
         property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, toEnumName(baseItem));
-        //property.datatype = property.datatypeWithEnum;
+
+        // set default value for variable with inner enum
+        if (property.defaultValue != null) {
+            property.defaultValue = property.defaultValue.replace(property.items.baseType, toEnumName(property.items));
+        }
     }
 
     /**
@@ -1682,7 +1676,11 @@ public class DefaultCodegen {
         }
         // set both datatype and datetypeWithEnum as only the inner type is enum
         property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
-        //property.datatype = property.datatypeWithEnum;
+
+        // set default value for variable with inner enum
+        if (property.defaultValue != null) {
+            property.defaultValue = property.defaultValue.replace(", " + property.items.baseType, ", " + toEnumName(property.items));
+        }
     }
 
     protected void setNonArrayMapProperty(CodegenProperty property, String type) {
