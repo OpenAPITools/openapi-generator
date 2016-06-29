@@ -42,9 +42,6 @@ public class MapTest   {
   @SerializedName("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
-  @SerializedName("map_map_of_enum")
-  private Map<String, Map<String, InnerEnum>> mapMapOfEnum = new HashMap<String, InnerEnum<String, String>>();
-
   /**
    * Gets or Sets inner
    */
@@ -88,24 +85,6 @@ public class MapTest   {
     this.mapMapOfString = mapMapOfString;
   }
 
-  public MapTest mapMapOfEnum(Map<String, Map<String, InnerEnum>> mapMapOfEnum) {
-    this.mapMapOfEnum = mapMapOfEnum;
-    return this;
-  }
-
-   /**
-   * Get mapMapOfEnum
-   * @return mapMapOfEnum
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public Map<String, Map<String, InnerEnum>> getMapMapOfEnum() {
-    return mapMapOfEnum;
-  }
-
-  public void setMapMapOfEnum(Map<String, Map<String, InnerEnum>> mapMapOfEnum) {
-    this.mapMapOfEnum = mapMapOfEnum;
-  }
-
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
     return this;
@@ -135,13 +114,12 @@ public class MapTest   {
     }
     MapTest mapTest = (MapTest) o;
     return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(this.mapMapOfEnum, mapTest.mapMapOfEnum) &&
         Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapMapOfString, mapMapOfEnum, mapOfEnumString);
+    return Objects.hash(mapMapOfString, mapOfEnumString);
   }
 
   @Override
@@ -150,7 +128,6 @@ public class MapTest   {
     sb.append("class MapTest {\n");
     
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
-    sb.append("    mapMapOfEnum: ").append(toIndentedString(mapMapOfEnum)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
     sb.append("}");
     return sb.toString();
