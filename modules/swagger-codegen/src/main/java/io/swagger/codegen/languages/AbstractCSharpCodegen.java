@@ -656,4 +656,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String testPackageName() {
         return this.packageName + ".Test";
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "");
+    }
+
 }
