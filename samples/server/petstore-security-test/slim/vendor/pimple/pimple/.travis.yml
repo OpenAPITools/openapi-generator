@@ -1,0 +1,32 @@
+language: php
+
+env:
+  matrix:
+    - PIMPLE_EXT=no
+    - PIMPLE_EXT=yes
+  global:
+    - REPORT_EXIT_STATUS=1
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+
+before_script:
+  - composer self-update
+  - COMPOSER_ROOT_VERSION=dev-master composer dump-autoload
+  - if [ "$PIMPLE_EXT" == "yes" ]; then sh -c "cd ext/pimple && phpize && ./configure && make && sudo make install"; fi
+  - if [ "$PIMPLE_EXT" == "yes" ]; then echo "extension=pimple.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`; fi
+
+script:
+  - cd ext/pimple
+  - if [ "$PIMPLE_EXT" == "yes" ]; then yes n | make test | tee output ; grep -E 'Tests failed +. +0' output; fi
+  - cd ../..
+  - phpunit
+
+matrix:
+  exclude:
+    - php: hhvm
+      env: PIMPLE_EXT=yes
