@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -26,6 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
@@ -34,117 +35,116 @@ import java.util.List;
 import java.util.Map;
 import org.joda.time.DateTime;
 
-import com.google.gson.annotations.SerializedName;
-
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
+
 public class MixedPropertiesAndAdditionalPropertiesClass   {
-    @SerializedName("uuid")
-    private String uuid = null;
-    @SerializedName("dateTime")
-    private DateTime dateTime = null;
-    @SerializedName("map")
-    private Map<String, Animal> map = new HashMap<String, Animal>();
+  @SerializedName("uuid")
+  private String uuid = null;
 
-    /**
-     * Get uuid
-     * @return uuid
-     **/
-    @ApiModelProperty(value = "")
-    public String getUuid() {
-        return uuid;
+  @SerializedName("dateTime")
+  private DateTime dateTime = null;
+
+  @SerializedName("map")
+  private Map<String, Animal> map = new HashMap<String, Animal>();
+
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(String uuid) {
+    this.uuid = uuid;
+    return this;
+  }
+
+   /**
+   * Get uuid
+   * @return uuid
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getUuid() {
+    return uuid;
+  }
+
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(DateTime dateTime) {
+    this.dateTime = dateTime;
+    return this;
+  }
+
+   /**
+   * Get dateTime
+   * @return dateTime
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public DateTime getDateTime() {
+    return dateTime;
+  }
+
+  public void setDateTime(DateTime dateTime) {
+    this.dateTime = dateTime;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+    this.map = map;
+    return this;
+  }
+
+   /**
+   * Get map
+   * @return map
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public Map<String, Animal> getMap() {
+    return map;
+  }
+
+  public void setMap(Map<String, Animal> map) {
+    this.map = map;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Set uuid
-     *
-     * @param uuid uuid
-     */
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
-
-    /**
-     * Get dateTime
-     * @return dateTime
-     **/
-    @ApiModelProperty(value = "")
-    public DateTime getDateTime() {
-        return dateTime;
-    }
-
-    /**
-     * Set dateTime
-     *
-     * @param dateTime dateTime
-     */
-    public void setDateTime(DateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    /**
-     * Get map
-     * @return map
-     **/
-    @ApiModelProperty(value = "")
-    public Map<String, Animal> getMap() {
-        return map;
-    }
-
-    /**
-     * Set map
-     *
-     * @param map map
-     */
-    public void setMap(Map<String, Animal> map) {
-        this.map = map;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-        return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+    MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
+    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
         Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
         Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
-    }
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid, dateTime, map);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(uuid, dateTime, map);
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-        
-        sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-        sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-        sb.append("    map: ").append(toIndentedString(map)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
+    
+    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     *
-     * @param o Object to be converted to indented string
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
 

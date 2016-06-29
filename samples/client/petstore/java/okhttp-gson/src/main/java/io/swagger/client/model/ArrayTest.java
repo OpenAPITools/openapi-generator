@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -26,122 +26,168 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.client.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.annotations.SerializedName;
 
 
 /**
  * ArrayTest
  */
+
 public class ArrayTest   {
-    @SerializedName("array_of_string")
-    private List<String> arrayOfString = new ArrayList<String>();
-    @SerializedName("array_array_of_integer")
-    private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
-    @SerializedName("array_array_of_model")
-    private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+  @SerializedName("array_of_string")
+  private List<String> arrayOfString = new ArrayList<String>();
 
-    /**
-     * Get arrayOfString
-     * @return arrayOfString
-     **/
-    @ApiModelProperty(value = "")
-    public List<String> getArrayOfString() {
-        return arrayOfString;
-    }
+  @SerializedName("array_array_of_integer")
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
 
-    /**
-     * Set arrayOfString
-     *
-     * @param arrayOfString arrayOfString
-     */
-    public void setArrayOfString(List<String> arrayOfString) {
-        this.arrayOfString = arrayOfString;
-    }
+  @SerializedName("array_array_of_model")
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
-    /**
-     * Get arrayArrayOfInteger
-     * @return arrayArrayOfInteger
-     **/
-    @ApiModelProperty(value = "")
-    public List<List<Long>> getArrayArrayOfInteger() {
-        return arrayArrayOfInteger;
-    }
+  /**
+   * Gets or Sets arrayOfEnum
+   */
+  public enum ArrayOfEnumEnum {
+    @SerializedName("UPPER")
+    UPPER("UPPER"),
+    
+    @SerializedName("lower")
+    LOWER("lower");
 
-    /**
-     * Set arrayArrayOfInteger
-     *
-     * @param arrayArrayOfInteger arrayArrayOfInteger
-     */
-    public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-        this.arrayArrayOfInteger = arrayArrayOfInteger;
-    }
+    private String value;
 
-    /**
-     * Get arrayArrayOfModel
-     * @return arrayArrayOfModel
-     **/
-    @ApiModelProperty(value = "")
-    public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
-        return arrayArrayOfModel;
-    }
-
-    /**
-     * Set arrayArrayOfModel
-     *
-     * @param arrayArrayOfModel arrayArrayOfModel
-     */
-    public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-        this.arrayArrayOfModel = arrayArrayOfModel;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ArrayTest arrayTest = (ArrayTest) o;
-        return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+    ArrayOfEnumEnum(String value) {
+      this.value = value;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class ArrayTest {\n");
-        
-        sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
-        sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
-        sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
-        sb.append("}");
-        return sb.toString();
+      return String.valueOf(value);
     }
+  }
 
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     *
-     * @param o Object to be converted to indented string
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+  @SerializedName("array_of_enum")
+  private List<ArrayOfEnumEnum> arrayOfEnum = new ArrayList<ArrayOfEnumEnum>();
+
+  public ArrayTest arrayOfString(List<String> arrayOfString) {
+    this.arrayOfString = arrayOfString;
+    return this;
+  }
+
+   /**
+   * Get arrayOfString
+   * @return arrayOfString
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public List<String> getArrayOfString() {
+    return arrayOfString;
+  }
+
+  public void setArrayOfString(List<String> arrayOfString) {
+    this.arrayOfString = arrayOfString;
+  }
+
+  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+    this.arrayArrayOfInteger = arrayArrayOfInteger;
+    return this;
+  }
+
+   /**
+   * Get arrayArrayOfInteger
+   * @return arrayArrayOfInteger
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public List<List<Long>> getArrayArrayOfInteger() {
+    return arrayArrayOfInteger;
+  }
+
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+    this.arrayArrayOfInteger = arrayArrayOfInteger;
+  }
+
+  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    this.arrayArrayOfModel = arrayArrayOfModel;
+    return this;
+  }
+
+   /**
+   * Get arrayArrayOfModel
+   * @return arrayArrayOfModel
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+    return arrayArrayOfModel;
+  }
+
+  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    this.arrayArrayOfModel = arrayArrayOfModel;
+  }
+
+  public ArrayTest arrayOfEnum(List<ArrayOfEnumEnum> arrayOfEnum) {
+    this.arrayOfEnum = arrayOfEnum;
+    return this;
+  }
+
+   /**
+   * Get arrayOfEnum
+   * @return arrayOfEnum
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public List<ArrayOfEnumEnum> getArrayOfEnum() {
+    return arrayOfEnum;
+  }
+
+  public void setArrayOfEnum(List<ArrayOfEnumEnum> arrayOfEnum) {
+    this.arrayOfEnum = arrayOfEnum;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayTest arrayTest = (ArrayTest) o;
+    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel) &&
+        Objects.equals(this.arrayOfEnum, arrayTest.arrayOfEnum);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel, arrayOfEnum);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class ArrayTest {\n");
+    
+    sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
+    sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
+    sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
+    sb.append("    arrayOfEnum: ").append(toIndentedString(arrayOfEnum)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
 

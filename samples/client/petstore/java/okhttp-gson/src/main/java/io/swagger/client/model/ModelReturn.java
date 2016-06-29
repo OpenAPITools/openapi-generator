@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -26,77 +26,75 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import com.google.gson.annotations.SerializedName;
 
 
 /**
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
+
 public class ModelReturn   {
-    @SerializedName("return")
-    private Integer _return = null;
+  @SerializedName("return")
+  private Integer _return = null;
 
-    /**
-     * Get _return
-     * @return _return
-     **/
-    @ApiModelProperty(value = "")
-    public Integer getReturn() {
-        return _return;
+  public ModelReturn _return(Integer _return) {
+    this._return = _return;
+    return this;
+  }
+
+   /**
+   * Get _return
+   * @return _return
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public Integer getReturn() {
+    return _return;
+  }
+
+  public void setReturn(Integer _return) {
+    this._return = _return;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Set _return
-     *
-     * @param _return _return
-     */
-    public void setReturn(Integer _return) {
-        this._return = _return;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    ModelReturn _return = (ModelReturn) o;
+    return Objects.equals(this._return, _return._return);
+  }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(_return);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ModelReturn _return = (ModelReturn) o;
-        return Objects.equals(this._return, _return._return);
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class ModelReturn {\n");
+    
+    sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(_return);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class ModelReturn {\n");
-        
-        sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     *
-     * @param o Object to be converted to indented string
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
 
