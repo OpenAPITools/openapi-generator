@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -64,8 +64,8 @@
      * @type {Array.<String>}
      */
     this.authentications = {
-      'petstore_auth': {type: 'oauth2'},
-      'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'}
+      'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
+      'petstore_auth': {type: 'oauth2'}
     };
     /**
      * The default HTTP headers to be included for all API calls.

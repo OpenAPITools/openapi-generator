@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -55,6 +55,39 @@
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
 
+
+
+    /**
+     * To test code injection  &#x3D;end
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.testCodeInjectEnd To test code injection  &#x3D;end
+     */
+    this.testCodeInjectEnd = function(opts) {
+      opts = opts || {};
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+        'test code inject */ &#x3D;end': opts['testCodeInjectEnd']
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json', '*/ =end));(phpinfo('];
+      var accepts = ['application/json', '*/ end'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
 
 
     /**
@@ -127,6 +160,43 @@
 
       return this.apiClient.callApi(
         '/fake', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+
+    /**
+     * To test enum query parameters
+     * @param {Object} opts Optional parameters
+     * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
+     * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
+     * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
+     */
+    this.testEnumQueryParameters = function(opts) {
+      opts = opts || {};
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+        'enum_query_integer': opts['enumQueryInteger']
+      };
+      var headerParams = {
+      };
+      var formParams = {
+        'enum_query_string': opts['enumQueryString'],
+        'enum_query_double': opts['enumQueryDouble']
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json'];
+      var accepts = ['application/json'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );

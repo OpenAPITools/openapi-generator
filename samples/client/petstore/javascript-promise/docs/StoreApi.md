@@ -20,7 +20,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
 
@@ -63,7 +63,7 @@ Returns a map of status codes to quantities
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 var defaultClient = SwaggerPetstore.ApiClient.default;
 
 // Configure API key authorization: api_key
@@ -107,7 +107,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
 
@@ -150,7 +150,7 @@ Place an order for a pet
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger-petstore');
+var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
 

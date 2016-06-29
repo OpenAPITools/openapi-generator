@@ -96,8 +96,20 @@ exports.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaul
   }
 
 {{/vars}}{{/emitModelMethods}}
-{{#vars}}{{#isEnum}}{{>partial_model_inner_enum}}{{/isEnum}}{{#items.isEnum}}{{#items}}
-{{>partial_model_inner_enum}}{{/items}}*/{{/items.isEnum}}{{/vars}}
+{{#vars}}
+{{#isEnum}}
+{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}
+{{/isEnum}}
+{{#items.isEnum}}
+{{#items}}
+{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}
+{{/items}}
+{{/items.isEnum}}
+{{/vars}}
 
   return exports;
 {{/model}}{{/models}}}));

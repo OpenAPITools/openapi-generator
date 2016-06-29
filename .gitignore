@@ -41,7 +41,7 @@ samples/server-generator/scalatra/target
 samples/server-generator/scalatra/output/.history
 
 # nodejs
-**/node_modules/
+**/node_modules
 samples/server-generator/node/output/node_modules
 samples/server/petstore/nodejs/node_modules
 samples/server/petstore/nodejs-server/node_modules

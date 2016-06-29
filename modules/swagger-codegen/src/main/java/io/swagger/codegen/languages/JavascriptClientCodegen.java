@@ -240,21 +240,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Info info = swagger.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = dashize(info.getTitle());
+                projectName = sanitizeName(dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(projectVersion)) {
                 // when projectVersion is not specified, use info.version
-                projectVersion = info.getVersion();
+                projectVersion = escapeUnsafeCharacters(escapeQuotationMark(info.getVersion()));
             }
             if (projectDescription == null) {
                 // when projectDescription is not specified, use info.description
-                projectDescription = info.getDescription();
+                projectDescription = sanitizeName(info.getDescription());
             }
             if (additionalProperties.get(PROJECT_LICENSE_NAME) == null) {
                 // when projectLicense is not specified, use info.license
                 if (info.getLicense() != null) {
                     License license = info.getLicense();
-                    additionalProperties.put(PROJECT_LICENSE_NAME, license.getName());
+                    additionalProperties.put(PROJECT_LICENSE_NAME, sanitizeName(license.getName()));
                 }
             }
         }
@@ -1030,6 +1030,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         } else {
             return "\"" + escapeText(value) + "\"";
         }
+    }
+
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ', " to avoid code injection
+        return input.replace("\"", "").replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "");
     }
 
 }
