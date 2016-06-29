@@ -41,7 +41,7 @@ import io.swagger.client.auth.OAuthFlow;
 public class ApiClient {
 
     private Map<String, Interceptor> apiAuthorizations;
-    private OkHttpClient okClient;
+    private OkHttpClient.Builder okBuilder;
     private Retrofit.Builder adapterBuilder;
 
     public ApiClient() {
@@ -110,14 +110,14 @@ public class ApiClient {
                 .setPassword(password);
     }
 
-   public void createDefaultAdapter() {
+    public void createDefaultAdapter() {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                 .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
 
-        okClient = new OkHttpClient();
+        okBuilder = new OkHttpClient.Builder();
 
         String baseUrl = "http://petstore.swagger.io/v2";
         if(!baseUrl.endsWith("/"))
@@ -126,14 +126,16 @@ public class ApiClient {
         adapterBuilder = new Retrofit
                 .Builder()
                 .baseUrl(baseUrl)
-                .client(okClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
 
     public <S> S createService(Class<S> serviceClass) {
-        return adapterBuilder.build().create(serviceClass);
+        return adapterBuilder
+            .client(okBuilder.build())
+            .build()
+            .create(serviceClass);
 
     }
 
@@ -259,7 +261,7 @@ public class ApiClient {
             throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
         }
         apiAuthorizations.put(authName, authorization);
-        okClient.interceptors().add(authorization);
+        okBuilder.addInterceptor(authorization);
     }
 
     public Map<String, Interceptor> getApiAuthorizations() {
@@ -278,24 +280,24 @@ public class ApiClient {
         this.adapterBuilder = adapterBuilder;
     }
 
-    public OkHttpClient getOkClient() {
-        return okClient;
+    public OkHttpClient.Builder getOkBuilder() {
+        return okBuilder;
     }
 
-    public void addAuthsToOkClient(OkHttpClient okClient) {
+    public void addAuthsToOkBuilder(OkHttpClient.Builder okBuilder) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
-            okClient.interceptors().add(apiAuthorization);
+            okBuilder.addInterceptor(apiAuthorization);
         }
     }
 
     /**
-     * Clones the okClient given in parameter, adds the auth interceptors and uses it to configure the Retrofit
+     * Clones the okBuilder given in parameter, adds the auth interceptors and uses it to configure the Retrofit
      * @param okClient
      */
     public void configureFromOkclient(OkHttpClient okClient) {
-        OkHttpClient clone = okClient.newBuilder().build();
-        addAuthsToOkClient(clone);
-        adapterBuilder.client(clone);
+        this.okBuilder = okClient.newBuilder();
+        addAuthsToOkBuilder(this.okBuilder);
+
     }
 }
 
