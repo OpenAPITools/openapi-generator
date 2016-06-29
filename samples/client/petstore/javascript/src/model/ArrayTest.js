@@ -59,7 +59,6 @@
 
 
 
-
   };
 
   /**
@@ -82,9 +81,6 @@
       if (data.hasOwnProperty('array_array_of_model')) {
         obj['array_array_of_model'] = ApiClient.convertToType(data['array_array_of_model'], [[ReadOnlyFirst]]);
       }
-      if (data.hasOwnProperty('array_of_enum')) {
-        obj['array_of_enum'] = ApiClient.convertToType(data['array_of_enum'], ['String']);
-      }
     }
     return obj;
   }
@@ -101,37 +97,8 @@
    * @member {Array.<Array.<module:model/ReadOnlyFirst>>} array_array_of_model
    */
   exports.prototype['array_array_of_model'] = undefined;
-  /**
-   * @member {Array.<module:model/ArrayTest.ArrayOfEnumEnum>} array_of_enum
-   */
-  exports.prototype['array_of_enum'] = undefined;
 
 
-  /**
-   * Allowed values for the <code>array_of_enum</code> property.
-   * @enum {[String]}
-   * @readonly
-   */
-  exports.[ArrayOfEnumEnum] = {
-  };
-
-  /**
-   * Allowed values for the <code>arrayOfEnum</code> property.
-   * @enum {String}
-   * @readonly
-   */
-  exports.ArrayOfEnumEnum = {
-    /**
-     * value: "UPPER"
-     * @const
-     */
-    "UPPER": "UPPER",
-    /**
-     * value: "lower"
-     * @const
-     */
-    "lower": "lower"  };
-*/
 
   return exports;
 }));

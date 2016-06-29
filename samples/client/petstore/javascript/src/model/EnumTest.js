@@ -115,6 +115,7 @@
      * @const
      */
     "lower": "lower"  };
+
   /**
    * Allowed values for the <code>enum_integer</code> property.
    * @enum {Integer}
@@ -131,6 +132,7 @@
      * @const
      */
     "-1": -1  };
+
   /**
    * Allowed values for the <code>enum_number</code> property.
    * @enum {Number}
