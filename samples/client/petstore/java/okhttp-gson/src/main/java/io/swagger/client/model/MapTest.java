@@ -43,7 +43,7 @@ public class MapTest   {
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
   @SerializedName("map_map_of_enum")
-  private Map<String, Map<String, InnerEnum>> mapMapOfEnum = new HashMap<String, Map<String, InnerEnum>>();
+  private Map<String, Map<String, InnerEnum>> mapMapOfEnum = new HashMap<String, InnerEnum<String, String>>();
 
   /**
    * Gets or Sets inner
