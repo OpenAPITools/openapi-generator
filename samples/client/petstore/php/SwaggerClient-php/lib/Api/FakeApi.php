@@ -161,7 +161,9 @@ class FakeApi
                 'PUT',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/fake'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -357,7 +359,9 @@ class FakeApi
                 'POST',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/fake'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -440,7 +444,9 @@ class FakeApi
                 'GET',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/fake'
             );
 
             return array(null, $statusCode, $httpHeader);

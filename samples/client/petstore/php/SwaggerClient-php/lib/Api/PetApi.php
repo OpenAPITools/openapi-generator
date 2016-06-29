@@ -170,7 +170,9 @@ class PetApi
                 'POST',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/pet'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -259,7 +261,9 @@ class PetApi
                 'DELETE',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/pet/{petId}'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -342,7 +346,8 @@ class PetApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\Swagger\Client\Model\Pet[]'
+                '\Swagger\Client\Model\Pet[]',
+                '/pet/findByStatus'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
@@ -429,7 +434,8 @@ class PetApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\Swagger\Client\Model\Pet[]'
+                '\Swagger\Client\Model\Pet[]',
+                '/pet/findByTags'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
@@ -518,7 +524,8 @@ class PetApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\Swagger\Client\Model\Pet'
+                '\Swagger\Client\Model\Pet',
+                '/pet/{petId}'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader);
@@ -602,7 +609,9 @@ class PetApi
                 'PUT',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/pet'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -697,7 +706,9 @@ class PetApi
                 'POST',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/pet/{petId}'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -799,7 +810,8 @@ class PetApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\Swagger\Client\Model\ApiResponse'
+                '\Swagger\Client\Model\ApiResponse',
+                '/pet/{petId}/uploadImage'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\ApiResponse', $httpHeader), $statusCode, $httpHeader);

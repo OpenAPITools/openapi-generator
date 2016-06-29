@@ -1,6 +1,6 @@
 # Swagger\Client\FakeApi
 
-All URIs are relative to *https://petstore.swagger.io */ &#39; &quot; &#x3D;end/v2 */ &#39; &quot; &#x3D;end*
+All URIs are relative to *https://petstore.swagger.io  &#39; \&quot; &#x3D;end/v2  &#39; \&quot; &#x3D;end*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
