@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -26,7 +26,6 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-
 import com.google.gson.annotations.SerializedName;
 
 
@@ -34,24 +33,25 @@ import com.google.gson.annotations.SerializedName;
  * Gets or Sets EnumClass
  */
 public enum EnumClass {
-    @SerializedName("_abc")
-    _ABC("_abc"),
+  
+  @SerializedName("_abc")
+  _ABC("_abc"),
+  
+  @SerializedName("-efg")
+  _EFG("-efg"),
+  
+  @SerializedName("(xyz)")
+  _XYZ_("(xyz)");
 
-    @SerializedName("-efg")
-    _EFG("-efg"),
+  private String value;
 
-    @SerializedName("(xyz)")
-    _XYZ_("(xyz)");
+  EnumClass(String value) {
+    this.value = value;
+  }
 
-    private String value;
-
-    EnumClass(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
+  @Override
+  public String toString() {
+    return String.valueOf(value);
+  }
 }
 

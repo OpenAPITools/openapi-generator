@@ -132,7 +132,7 @@ public class ApiClient {
 
         okClient = new OkHttpClient();
 
-        String baseUrl = "{{basePath}}";
+        String baseUrl = "{{{basePath}}}";
         if(!baseUrl.endsWith("/"))
         	baseUrl = baseUrl + "/";
 

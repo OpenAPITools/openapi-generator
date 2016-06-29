@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -26,98 +26,97 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import com.google.gson.annotations.SerializedName;
 
 
 /**
  * Animal
  */
+
 public class Animal   {
-    @SerializedName("className")
-    private String className = null;
-    @SerializedName("color")
-    private String color = "red";
+  @SerializedName("className")
+  private String className = null;
 
-    /**
-     * Get className
-     * @return className
-     **/
-    @ApiModelProperty(required = true, value = "")
-    public String getClassName() {
-        return className;
+  @SerializedName("color")
+  private String color = "red";
+
+  public Animal className(String className) {
+    this.className = className;
+    return this;
+  }
+
+   /**
+   * Get className
+   * @return className
+  **/
+  @ApiModelProperty(example = "null", required = true, value = "")
+  public String getClassName() {
+    return className;
+  }
+
+  public void setClassName(String className) {
+    this.className = className;
+  }
+
+  public Animal color(String color) {
+    this.color = color;
+    return this;
+  }
+
+   /**
+   * Get color
+   * @return color
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getColor() {
+    return color;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Set className
-     *
-     * @param className className
-     */
-    public void setClassName(String className) {
-        this.className = className;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
-
-    /**
-     * Get color
-     * @return color
-     **/
-    @ApiModelProperty(value = "")
-    public String getColor() {
-        return color;
-    }
-
-    /**
-     * Set color
-     *
-     * @param color color
-     */
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Animal animal = (Animal) o;
-        return Objects.equals(this.className, animal.className) &&
+    Animal animal = (Animal) o;
+    return Objects.equals(this.className, animal.className) &&
         Objects.equals(this.color, animal.color);
-    }
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(className, color);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(className, color);
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class Animal {\n");
-        
-        sb.append("    className: ").append(toIndentedString(className)).append("\n");
-        sb.append("    color: ").append(toIndentedString(color)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Animal {\n");
+    
+    sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     *
-     * @param o Object to be converted to indented string
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
 
