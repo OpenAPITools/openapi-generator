@@ -166,7 +166,9 @@ class UserApi
                 'POST',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/user'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -242,7 +244,9 @@ class UserApi
                 'POST',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/user/createWithArray'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -318,7 +322,9 @@ class UserApi
                 'POST',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/user/createWithList'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -397,7 +403,9 @@ class UserApi
                 'DELETE',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/user/{username}'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -477,7 +485,8 @@ class UserApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\Swagger\Client\Model\User'
+                '\Swagger\Client\Model\User',
+                '/user/{username}'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\User', $httpHeader), $statusCode, $httpHeader);
@@ -567,7 +576,8 @@ class UserApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                'string'
+                'string',
+                '/user/login'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'string', $httpHeader), $statusCode, $httpHeader);
@@ -636,7 +646,9 @@ class UserApi
                 'GET',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/user/logout'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -726,7 +738,9 @@ class UserApi
                 'PUT',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/user/{username}'
             );
 
             return array(null, $statusCode, $httpHeader);

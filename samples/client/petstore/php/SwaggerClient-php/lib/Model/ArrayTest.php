@@ -68,8 +68,7 @@ class ArrayTest implements ArrayAccess
     protected static $swaggerTypes = array(
         'array_of_string' => 'string[]',
         'array_array_of_integer' => 'int[][]',
-        'array_array_of_model' => '\Swagger\Client\Model\ReadOnlyFirst[][]',
-        'array_of_enum' => 'string[]'
+        'array_array_of_model' => '\Swagger\Client\Model\ReadOnlyFirst[][]'
     );
 
     public static function swaggerTypes()
@@ -84,8 +83,7 @@ class ArrayTest implements ArrayAccess
     protected static $attributeMap = array(
         'array_of_string' => 'array_of_string',
         'array_array_of_integer' => 'array_array_of_integer',
-        'array_array_of_model' => 'array_array_of_model',
-        'array_of_enum' => 'array_of_enum'
+        'array_array_of_model' => 'array_array_of_model'
     );
 
     public static function attributeMap()
@@ -100,8 +98,7 @@ class ArrayTest implements ArrayAccess
     protected static $setters = array(
         'array_of_string' => 'setArrayOfString',
         'array_array_of_integer' => 'setArrayArrayOfInteger',
-        'array_array_of_model' => 'setArrayArrayOfModel',
-        'array_of_enum' => 'setArrayOfEnum'
+        'array_array_of_model' => 'setArrayArrayOfModel'
     );
 
     public static function setters()
@@ -116,8 +113,7 @@ class ArrayTest implements ArrayAccess
     protected static $getters = array(
         'array_of_string' => 'getArrayOfString',
         'array_array_of_integer' => 'getArrayArrayOfInteger',
-        'array_array_of_model' => 'getArrayArrayOfModel',
-        'array_of_enum' => 'getArrayOfEnum'
+        'array_array_of_model' => 'getArrayArrayOfModel'
     );
 
     public static function getters()
@@ -127,17 +123,6 @@ class ArrayTest implements ArrayAccess
 
     
 
-    
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public function getArrayOfEnumAllowableValues()
-    {
-        return [
-            
-        ];
-    }
     
 
     /**
@@ -155,7 +140,6 @@ class ArrayTest implements ArrayAccess
         $this->container['array_of_string'] = isset($data['array_of_string']) ? $data['array_of_string'] : null;
         $this->container['array_array_of_integer'] = isset($data['array_array_of_integer']) ? $data['array_array_of_integer'] : null;
         $this->container['array_array_of_model'] = isset($data['array_array_of_model']) ? $data['array_array_of_model'] : null;
-        $this->container['array_of_enum'] = isset($data['array_of_enum']) ? $data['array_of_enum'] : null;
     }
 
     /**
@@ -166,10 +150,6 @@ class ArrayTest implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = array();
-        $allowed_values = array();
-        if (!in_array($this->container['array_of_enum'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'array_of_enum', must be one of #{allowed_values}.";
-        }
         return $invalid_properties;
     }
 
@@ -181,10 +161,6 @@ class ArrayTest implements ArrayAccess
      */
     public function valid()
     {
-        $allowed_values = array();
-        if (!in_array($this->container['array_of_enum'], $allowed_values)) {
-            return false;
-        }
         return true;
     }
 
@@ -248,31 +224,6 @@ class ArrayTest implements ArrayAccess
     public function setArrayArrayOfModel($array_array_of_model)
     {
         $this->container['array_array_of_model'] = $array_array_of_model;
-
-        return $this;
-    }
-
-    /**
-     * Gets array_of_enum
-     * @return string[]
-     */
-    public function getArrayOfEnum()
-    {
-        return $this->container['array_of_enum'];
-    }
-
-    /**
-     * Sets array_of_enum
-     * @param string[] $array_of_enum
-     * @return $this
-     */
-    public function setArrayOfEnum($array_of_enum)
-    {
-        $allowed_values = array();
-        if (!in_array($array_of_enum, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'array_of_enum', must be one of ");
-        }
-        $this->container['array_of_enum'] = $array_of_enum;
 
         return $this;
     }

@@ -73,7 +73,7 @@ class FakeApi
     {
         if ($apiClient == null) {
             $apiClient = new ApiClient();
-            $apiClient->getConfig()->setHost('https://petstore.swagger.io */ &#39; &quot; &#x3D;end/v2 */ &#39; &quot; &#x3D;end');
+            $apiClient->getConfig()->setHost('https://petstore.swagger.io  &#39; \&quot; &#x3D;end/v2  &#39; \&quot; &#x3D;end');
         }
 
         $this->apiClient = $apiClient;
@@ -161,7 +161,9 @@ class FakeApi
                 'PUT',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/fake'
             );
 
             return array(null, $statusCode, $httpHeader);
