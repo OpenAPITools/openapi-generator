@@ -1064,15 +1064,16 @@ definitions:
           type: object
           additionalProperties:
             type: string  
-      map_map_of_enum:
-        type: object
-        additionalProperties:
-          type: object
-          additionalProperties:
-            type: string  
-            enum:
-              - UPPER
-              - lower
+      # comment out the following (map of map of enum) as many language not yet support this
+      #map_map_of_enum:
+      #  type: object
+      #  additionalProperties:
+      #    type: object
+      #    additionalProperties:
+      #      type: string  
+      #      enum:
+      #        - UPPER
+      #        - lower
       map_of_enum_string:
         type: object
         additionalProperties:
