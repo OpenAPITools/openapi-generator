@@ -102,7 +102,7 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'https://petstore.swagger.io */ &#39; &quot; &#x3D;end/v2 */ &#39; &quot; &#x3D;end';
+    protected $host = 'https://petstore.swagger.io  &#39; \&quot; &#x3D;end/v2  &#39; \&quot; &#x3D;end';
 
     /**
      * Timeout (second) of the HTTP request, by default set to 0, no timeout

@@ -266,8 +266,14 @@ use \{{invokerPackage}}\ObjectSerializer;
                 '{{httpMethod}}',
                 $queryParams,
                 $httpBody,
-                $headerParams{{#returnType}},
-                '{{returnType}}'{{/returnType}}
+                $headerParams,
+                {{#returnType}}
+                '{{returnType}}',
+                {{/returnType}}
+                {{^returnType}}
+                null,
+                {{/returnType}}
+                '{{path}}'
             );
 
             {{#returnType}}

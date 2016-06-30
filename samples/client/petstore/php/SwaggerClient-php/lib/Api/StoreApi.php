@@ -173,7 +173,9 @@ class StoreApi
                 'DELETE',
                 $queryParams,
                 $httpBody,
-                $headerParams
+                $headerParams,
+                null,
+                '/store/order/{orderId}'
             );
 
             return array(null, $statusCode, $httpHeader);
@@ -244,7 +246,8 @@ class StoreApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                'map[string,int]'
+                'map[string,int]',
+                '/store/inventory'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, 'map[string,int]', $httpHeader), $statusCode, $httpHeader);
@@ -335,7 +338,8 @@ class StoreApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\Swagger\Client\Model\Order'
+                '\Swagger\Client\Model\Order',
+                '/store/order/{orderId}'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
@@ -416,7 +420,8 @@ class StoreApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                '\Swagger\Client\Model\Order'
+                '\Swagger\Client\Model\Order',
+                '/store/order'
             );
 
             return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader);
