@@ -87,6 +87,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
                 );
         defaultIncludes = new HashSet<String>(
                 Arrays.asList(
+                    "NSData",
                     "NSDate",
                     "NSURL", // for file
                     "NSUUID",
@@ -129,10 +130,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("double", "Double");
         typeMapping.put("object", "AnyObject");
         typeMapping.put("file", "NSURL");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "String");
-        typeMapping.put("ByteArray", "String");
+        typeMapping.put("binary", "NSData");
+        typeMapping.put("ByteArray", "NSData");
         typeMapping.put("UUID", "NSUUID");
 
         importMapping = new HashMap<String, String>();
@@ -256,6 +255,11 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         } else
             type = swaggerType;
         return toModelName(type);
+    }
+
+    @Override
+    public boolean isDataTypeBinary(final String dataType) {
+      return dataType != null && dataType.equals("NSData");
     }
 
     /**

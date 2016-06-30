@@ -1,5 +1,12 @@
-package io.swagger.codegen.languages;
+package io.swagger.codegen.swift;
 
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.InlineModelResolver;
+import io.swagger.codegen.languages.SwiftCodegen;
+import io.swagger.models.Operation;
+import io.swagger.models.Swagger;
+import io.swagger.parser.SwaggerParser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -40,6 +47,20 @@ public class SwiftCodegenTest {
     @Test
     public void testLowercaseWithUnderscore() throws Exception {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("entry_name"), "EntryName");
+    }
+
+    @Test(description = "returns NSData when response format is binary")
+    public void binaryDataTest() {
+        final Swagger model = new SwaggerParser().read("src/test/resources/2_0/binaryDataTest.json");
+        final DefaultCodegen codegen = new SwiftCodegen();
+        final String path = "/tests/binaryResponse";
+        final Operation p = model.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getDefinitions());
+
+        Assert.assertEquals(op.returnType, "NSData");
+        Assert.assertEquals(op.bodyParam.dataType, "NSData");
+        Assert.assertTrue(op.bodyParam.isBinary);
+        Assert.assertTrue(op.responses.get(0).isBinary);
     }
 
     @Test

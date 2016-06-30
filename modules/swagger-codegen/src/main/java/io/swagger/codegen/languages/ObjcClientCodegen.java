@@ -703,6 +703,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 example = "2013-10-20T19:20:30+01:00";
             }
             example = "@\"" + escapeText(example) + "\"";
+        } else if ("NSData".equalsIgnoreCase(type)) {
+            example = "1234";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             type = type.replace("*", "");

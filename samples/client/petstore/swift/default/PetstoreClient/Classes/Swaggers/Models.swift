@@ -68,6 +68,9 @@ class Decoders {
         if source is T {
             return source as! T
         }
+        if T.self is NSData.Type && source is String {
+            return NSData(base64EncodedString: source as! String, options: NSDataBase64DecodingOptions()) as! T
+        }
 
         let key = "\(T.self)"
         if let decoder = decoders[key] {
