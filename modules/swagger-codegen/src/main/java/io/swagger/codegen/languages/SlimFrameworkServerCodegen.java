@@ -14,12 +14,17 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.regex.Matcher;
 
 public class SlimFrameworkServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
+    protected String srcBasePath = "lib";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-server";
     protected String artifactVersion = "1.0.0";
+    protected String packagePath = ""; // empty packagePath (top folder)
+
+
     private String variableNamingConvention = "camelCase";
 
     public SlimFrameworkServerCodegen() {
@@ -27,10 +32,10 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
         invokerPackage = camelize("SwaggerServer");
 
-        String packagePath = "SwaggerServer";
+        //String packagePath = "SwaggerServer";
 
-        modelPackage = packagePath + "\\lib\\Models";
-        apiPackage = packagePath + "\\lib";
+        modelPackage = packagePath + "\\Models";
+        apiPackage = packagePath;
         outputFolder = "generated-code" + File.separator + "slim";
         modelTemplateFiles.put("model.mustache", ".php");
 
@@ -115,12 +120,12 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
     }
 
     @Override
@@ -223,6 +228,39 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
+    }
+
+    public String toPackagePath(String packageName, String basePath) {
+        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        if (basePath != null && basePath.length() > 0) {
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        }
+
+        String regFirstPathSeparator;
+        if ("/".equals(File.separator)) { // for mac, linux
+            regFirstPathSeparator = "^/";
+        } else { // for windows
+            regFirstPathSeparator = "^\\\\";
+        }
+
+        String regLastPathSeparator;
+        if ("/".equals(File.separator)) { // for mac, linux
+            regLastPathSeparator = "/$";
+        } else { // for windows
+            regLastPathSeparator = "\\\\$";
+        }
+
+        return (getPackagePath() + File.separatorChar + basePath
+                    // Replace period, backslash, forward slash with file separator in package name
+                    + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
+                    // Trim prefix file separators from package path
+                    .replaceAll(regFirstPathSeparator, ""))
+                    // Trim trailing file separators from the overall path
+                    .replaceAll(regLastPathSeparator+ "$", "");
+    }
+
+    public String getPackagePath() {
+        return packagePath;
     }
 
     @Override

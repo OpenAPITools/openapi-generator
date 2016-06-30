@@ -16,7 +16,7 @@ namespace {{packageName}}.Controllers
     /// <summary>
     /// {{description}}
     /// </summary>{{#description}}{{#basePath}}
-    [Route("{{basePath}}")]
+    [Route("{{{basePath}}}")]
     {{/basePath}}[Description("{{description}}")]{{/description}}
     public class {{classname}}Controller : Controller
     { {{#operation}}
