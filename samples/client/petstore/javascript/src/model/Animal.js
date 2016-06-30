@@ -52,7 +52,7 @@
    * Constructs a new <code>Animal</code>.
    * @alias module:model/Animal
    * @class
-   * @param className
+   * @param className {String} 
    */
   var exports = function(className) {
     var _this = this;

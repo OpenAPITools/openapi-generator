@@ -882,8 +882,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             // Collect each model's required property names in *document order*.
             // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts names
             // alphabetically and in any case the document order of 'required' and 'properties' can differ.
-            List<String> required = new ArrayList<String>();
-            List<String> allRequired = supportsInheritance ? new ArrayList<String>() : required;
+            List<CodegenProperty> required = new ArrayList<>();
+            List<CodegenProperty> allRequired = supportsInheritance ? new ArrayList<CodegenProperty>() : required;
             cm.vendorExtensions.put("x-required", required);
             cm.vendorExtensions.put("x-all-required", allRequired);
 
@@ -893,14 +893,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 var.vendorExtensions.put("x-jsdoc-type", jsDocType);
 
                 if (Boolean.TRUE.equals(var.required)) {
-                    required.add(var.name);
+                    required.add(var);
                 }
             }
 
             if (supportsInheritance) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.required)) {
-                        allRequired.add(var.name);
+                        allRequired.add(var);
                     }
                 }
             }
