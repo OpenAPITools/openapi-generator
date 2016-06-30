@@ -53,7 +53,7 @@
    * Model for testing model name same as property name
    * @alias module:model/Name
    * @class
-   * @param name
+   * @param name {Integer} 
    */
   var exports = function(name) {
     var _this = this;
