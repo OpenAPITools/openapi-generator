@@ -1,0 +1,13 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/IO.Swagger/Client/Configuration.cs">
+    <Files>
+      <File FileName="src/IO.Swagger/Client/ApiClient.cs" Line="72" Column="77" />
+      <File FileName="src/IO.Swagger/Client/Configuration.cs" Line="311" Column="58" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
