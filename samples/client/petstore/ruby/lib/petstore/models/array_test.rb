@@ -32,37 +32,12 @@ module Petstore
 
     attr_accessor :array_array_of_model
 
-    attr_accessor :array_of_enum
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'array_of_string' => :'array_of_string',
         :'array_array_of_integer' => :'array_array_of_integer',
-        :'array_array_of_model' => :'array_array_of_model',
-        :'array_of_enum' => :'array_of_enum'
+        :'array_array_of_model' => :'array_array_of_model'
       }
     end
 
@@ -71,8 +46,7 @@ module Petstore
       {
         :'array_of_string' => :'Array<String>',
         :'array_array_of_integer' => :'Array<Array<Integer>>',
-        :'array_array_of_model' => :'Array<Array<ReadOnlyFirst>>',
-        :'array_of_enum' => :'Array<String>'
+        :'array_array_of_model' => :'Array<Array<ReadOnlyFirst>>'
       }
     end
 
@@ -102,12 +76,6 @@ module Petstore
         end
       end
 
-      if attributes.has_key?(:'array_of_enum')
-        if (value = attributes[:'array_of_enum']).is_a?(Array)
-          self.array_of_enum = value
-        end
-      end
-
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -120,19 +88,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      array_of_enum_validator = EnumAttributeValidator.new('Array<String>', [])
-      return false unless array_of_enum_validator.valid?(@array_of_enum)
       return true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] array_of_enum Object to be assigned
-    def array_of_enum=(array_of_enum)
-      validator = EnumAttributeValidator.new('Array<String>', [])
-      unless validator.valid?(array_of_enum)
-        fail ArgumentError, "invalid value for 'array_of_enum', must be one of #{validator.allowable_values}."
-      end
-      @array_of_enum = array_of_enum
     end
 
     # Checks equality by comparing each attribute.
@@ -142,8 +98,7 @@ module Petstore
       self.class == o.class &&
           array_of_string == o.array_of_string &&
           array_array_of_integer == o.array_array_of_integer &&
-          array_array_of_model == o.array_array_of_model &&
-          array_of_enum == o.array_of_enum
+          array_array_of_model == o.array_array_of_model
     end
 
     # @see the `==` method
@@ -155,7 +110,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [array_of_string, array_array_of_integer, array_array_of_model, array_of_enum].hash
+      [array_of_string, array_array_of_integer, array_array_of_model].hash
     end
 
     # Builds the object from hash
