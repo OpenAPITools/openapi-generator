@@ -123,11 +123,12 @@ class ApiClient
      * @param array  $postData     parameters to be placed in POST body
      * @param array  $headerParams parameters to be place in request header
      * @param string $responseType expected response type of the endpoint
+     * @param string $endpointPath path to method endpoint before expanding parameters
      *
      * @throws \{{invokerPackage}}\ApiException on a non 2xx response
      * @return mixed
      */
-    public function callApi($resourcePath, $method, $queryParams, $postData, $headerParams, $responseType = null)
+    public function callApi($resourcePath, $method, $queryParams, $postData, $headerParams, $responseType = null, $endpointPath = null)
     {
 
         $headers = array();
