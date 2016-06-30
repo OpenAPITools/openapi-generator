@@ -111,46 +111,6 @@ class UserApi extends Controller
         return response('How about implementing createUsersWithListInput as a POST method ?');
     }
     /**
-     * Operation deleteUser
-     *
-     * Delete user.
-     *
-     * @param String $username The name that needs to be deleted (required)
-     *
-     * @return Http response
-     */
-    public function deleteUser($username)
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-
-        return response('How about implementing deleteUser as a DELETE method ?');
-    }
-    /**
-     * Operation getUserByName
-     *
-     * Get user by user name.
-     *
-     * @param String $username The name that needs to be fetched. Use user1 for testing.  (required)
-     *
-     * @return Http response
-     */
-    public function getUserByName($username)
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-
-        return response('How about implementing getUserByName as a GET method ?');
-    }
-    /**
      * Operation loginUser
      *
      * Logs user into the system.
@@ -197,6 +157,46 @@ class UserApi extends Controller
         //not path params validation
 
         return response('How about implementing logoutUser as a GET method ?');
+    }
+    /**
+     * Operation deleteUser
+     *
+     * Delete user.
+     *
+     * @param String $username The name that needs to be deleted (required)
+     *
+     * @return Http response
+     */
+    public function deleteUser($username)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing deleteUser as a DELETE method ?');
+    }
+    /**
+     * Operation getUserByName
+     *
+     * Get user by user name.
+     *
+     * @param String $username The name that needs to be fetched. Use user1 for testing.  (required)
+     *
+     * @return Http response
+     */
+    public function getUserByName($username)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing getUserByName as a GET method ?');
     }
     /**
      * Operation updateUser
