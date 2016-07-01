@@ -1,0 +1,10 @@
+---
+swagger: "2.0"
+basePath: "/"
+paths:
+  /foo=bar:
+    get:
+      parameters: []
+      responses:
+        200:
+          description: "success"

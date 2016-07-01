@@ -176,7 +176,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 config.additionalProperties().put("termsOfService", config.escapeText(info.getTermsOfService()));
             }
         }
-        
+
         if(swagger.getVendorExtensions() != null) {
         	config.vendorExtensions().putAll(swagger.getVendorExtensions());
         }
@@ -280,21 +280,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         Map<String, Object> models = processModels(config, modelMap, definitions);
                         models.put("classname", config.toModelName(name));
                         models.putAll(config.additionalProperties());
-                        
+
                         allProcessedModels.put(name, models);
 
                     } catch (Exception e) {
                         throw new RuntimeException("Could not process model '" + name + "'", e);
                     }
                 }
-                
+
                 // post process all processed models
                 allProcessedModels = config.postProcessAllModels(allProcessedModels);
-                
+
                 // generate files based on processed models
                 for (String name: allProcessedModels.keySet()) {
                 	Map<String, Object> models = (Map<String, Object>)allProcessedModels.get(name);
-                
+
                 	try {
                         //don't generate models that have an import mapping
                         if(config.importMapping().containsKey(name)) {
@@ -394,7 +394,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("classname", config.toApiName(tag));
                     operation.put("classVarName", config.toApiVarName(tag));
                     operation.put("importPath", config.toApiImport(tag));
-                    
+
                     if(!config.vendorExtensions().isEmpty()) {
                     	operation.put("vendorExtensions", config.vendorExtensions());
                     }
@@ -705,7 +705,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 tags = new ArrayList<String>();
                 tags.add("default");
             }
-            
+
             /*
              build up a set of parameter "ids" defined at the operation level
              per the swagger 2.0 spec "A unique parameter is defined by a combination of a name and location"
