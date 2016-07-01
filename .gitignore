@@ -99,6 +99,7 @@ samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserd
 samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
 samples/client/petstore/swift/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
 samples/client/petstore/swift/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
+samples/client/petstore/swift/**/SwaggerClientTests/Podfile.lock 
 
 # C#
 *.csproj.user

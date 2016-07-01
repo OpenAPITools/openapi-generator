@@ -18,14 +18,15 @@ public class {{classname}}: APIBase {
 {{#operation}}
     {{#allParams}}
     {{#isEnum}}
+    {{^isContainer}}
     /**
-
-    enum for parameter {{paramName}}
-    */
+     * enum for parameter {{paramName}}
+     */
     public enum {{{datatypeWithEnum}}}_{{operationId}}: String { {{#allowableValues}}{{#values}}
         case {{enum}} = "{{raw}}"{{/values}}{{/allowableValues}}
     }
 
+    {{/isContainer}}
     {{/isEnum}}
     {{/allParams}}
     /**
@@ -35,7 +36,7 @@ public class {{classname}}: APIBase {
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func {{operationId}}({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{{datatypeWithEnum}}}_{{operationId}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: (({{#returnType}}data: {{{returnType}}}?, {{/returnType}}error: ErrorType?) -> Void)) {
+    public class func {{operationId}}({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: (({{#returnType}}data: {{{returnType}}}?, {{/returnType}}error: ErrorType?) -> Void)) {
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
             completion({{#returnType}}data: response?.body, {{/returnType}}error: error);
         }
@@ -49,7 +50,7 @@ public class {{classname}}: APIBase {
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - returns: Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
      */
-    public class func {{operationId}}({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{{datatypeWithEnum}}}_{{operationId}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
+    public class func {{operationId}}({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         let deferred = Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.pendingPromise()
         {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { {{#returnType}}data, {{/returnType}}error in
             if let error = error {
@@ -81,16 +82,16 @@ public class {{classname}}: APIBase {
 
      - returns: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{description}}
      */
-    public class func {{operationId}}WithRequestBuilder({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{{datatypeWithEnum}}}_{{operationId}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
+    public class func {{operationId}}WithRequestBuilder({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{path}}"{{#pathParams}}
-        path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}}{{#isEnum}}.rawValue{{/isEnum}})", options: .LiteralSearch, range: nil){{/pathParams}}
+        path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}}{{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}})", options: .LiteralSearch, range: nil){{/pathParams}}
         let URLString = {{projectName}}API.basePath + path
         {{#bodyParam}}
         let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
         let nillableParameters: [String:AnyObject?] = {{^queryParams}}{{^formParams}}[:]{{/formParams}}{{#formParams}}{{^secondaryParam}}[{{/secondaryParam}}
             "{{baseName}}": {{paramName}}{{#isInteger}}{{^required}}?{{/required}}.encodeToJSON(){{/isInteger}}{{#isLong}}{{^required}}?{{/required}}.encodeToJSON(){{/isLong}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]{{/hasMore}}{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
-            "{{baseName}}": {{paramName}}{{#isInteger}}{{^required}}?{{/required}}.encodeToJSON(){{/isInteger}}{{#isLong}}{{^required}}?{{/required}}.encodeToJSON(){{/isLong}}{{#isEnum}}{{^required}}?{{/required}}.rawValue{{/isEnum}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+            "{{baseName}}": {{paramName}}{{#isInteger}}{{^required}}?{{/required}}.encodeToJSON(){{/isInteger}}{{#isLong}}{{^required}}?{{/required}}.encodeToJSON(){{/isLong}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}.rawValue{{/isContainer}}{{/isEnum}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
         ]{{/hasMore}}{{/queryParams}}
  
         let parameters = APIHelper.rejectNil(nillableParameters){{/bodyParam}}
