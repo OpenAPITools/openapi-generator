@@ -423,7 +423,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/jaxrs-resteasy</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-resteasy-server-joda</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
             </modules>
         </profile>
         <profile>
@@ -591,7 +603,8 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs-resteasy</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default</module>
+                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
             </modules>
