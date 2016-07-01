@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-jaxrs-resteasy-server</artifactId>
+    <artifactId>swagger-jaxrs-resteasy-joda</artifactId>
     <packaging>war</packaging>
     <name>swagger-jaxrs-resteasy-server</name>
     <version>1.0.0</version>
