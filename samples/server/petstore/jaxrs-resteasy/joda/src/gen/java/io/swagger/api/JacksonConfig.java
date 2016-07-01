@@ -1,4 +1,4 @@
-package {{invokerPackage}};
+package io.swagger.api;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
