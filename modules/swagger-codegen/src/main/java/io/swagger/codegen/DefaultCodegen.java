@@ -1543,6 +1543,7 @@ public class DefaultCodegen {
             }
         }
         property.datatype = getTypeDeclaration(p);
+        property.dataFormat = p.getFormat();
 
         // this can cause issues for clients which don't support enums
         if (property.isEnum) {
@@ -2143,6 +2144,7 @@ public class DefaultCodegen {
             setParameterBooleanFlagWithCodegenProperty(p, cp);
 
             p.dataType = cp.datatype;
+            p.dataFormat = cp.dataFormat;
             if(cp.isEnum) {
                 p.datatypeWithEnum = cp.datatypeWithEnum;
             }
