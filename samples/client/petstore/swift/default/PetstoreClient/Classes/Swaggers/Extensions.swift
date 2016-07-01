@@ -72,4 +72,10 @@ extension NSDate: JSONEncodable {
     }
 }
 
+extension NSUUID: JSONEncodable {
+    func encodeToJSON() -> AnyObject {
+        return self.UUIDString
+    }
+}
+
 
