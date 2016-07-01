@@ -73,6 +73,12 @@ extension NSDate: JSONEncodable {
     }
 }
 
+extension NSUUID: JSONEncodable {
+    func encodeToJSON() -> AnyObject {
+        return self.UUIDString
+    }
+}
+
 {{#usePromiseKit}}extension RequestBuilder {
     public func execute() -> Promise<Response<T>>  {
         let deferred = Promise<Response<T>>.pendingPromise()
