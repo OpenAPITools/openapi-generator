@@ -165,7 +165,7 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
@@ -180,7 +180,7 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
@@ -250,7 +250,7 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
@@ -265,7 +265,7 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }, contentType=application/json}, {example=<Order>
   <id>123456</id>
   <petId>123456</petId>
