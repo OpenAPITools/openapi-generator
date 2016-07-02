@@ -274,4 +274,15 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         return camelize(operationId);
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }

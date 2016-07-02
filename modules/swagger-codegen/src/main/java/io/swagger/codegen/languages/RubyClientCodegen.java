@@ -721,6 +721,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "");
+        return input.replace("=end", "=_end").replace("=begin", "=_begin");
     }
 }

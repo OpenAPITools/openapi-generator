@@ -377,4 +377,16 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
     public String toApiName(String type) {
         return Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }

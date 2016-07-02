@@ -281,4 +281,14 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         return camelize(operationId, true);
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
 }
