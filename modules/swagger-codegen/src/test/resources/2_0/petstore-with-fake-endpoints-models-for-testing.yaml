@@ -561,26 +561,6 @@ paths:
           description: User not found
 
   /fake:
-    put:
-      tags:
-        - fake
-      summary: To test code injection */ =end
-      descriptions:  To test code injection */ =end
-      operationId: testCodeInject */ =end
-      consumes:
-        - application/json
-        - "*/ =end'));(phpinfo('"
-      produces:
-        - application/json
-        - '*/ end'
-      parameters:
-        - name: test code inject */ =end
-          type: string
-          in: formData 
-          description: To test code injection */ =end
-      responses:
-        '400':
-          description: To test code injection */ =end
     get:
       tags:
         - fake
