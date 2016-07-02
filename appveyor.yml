@@ -1,4 +1,5 @@
 # for CI with appveyor.yml
+# Ref: http://www.yegor256.com/2015/01/10/windows-appveyor-maven.html
 version: '{build}'
 os: Windows Server 2012
 install:
