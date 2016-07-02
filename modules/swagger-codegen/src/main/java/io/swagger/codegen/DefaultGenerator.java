@@ -284,7 +284,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         allProcessedModels.put(name, models);
 
                     } catch (Exception e) {
-                        throw new RuntimeException("Could not process model '" + name + "'", e);
+                        throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
                     }
                 }
 
