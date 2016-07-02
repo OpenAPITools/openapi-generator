@@ -842,7 +842,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "");
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

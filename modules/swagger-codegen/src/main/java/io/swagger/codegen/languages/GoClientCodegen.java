@@ -452,4 +452,15 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
 }

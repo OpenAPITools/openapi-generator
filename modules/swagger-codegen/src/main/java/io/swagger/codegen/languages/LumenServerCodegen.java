@@ -235,7 +235,7 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "");
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

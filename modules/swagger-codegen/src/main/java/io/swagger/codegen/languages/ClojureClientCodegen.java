@@ -212,4 +212,16 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String namespaceToFolder(String ns) {
         return ns.replace(".", File.separator).replace("-", "_");
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // ref: https://clojurebridge.github.io/community-docs/docs/clojure/comment/
+        return input.replace("(comment", "(_comment");
+    }
 }

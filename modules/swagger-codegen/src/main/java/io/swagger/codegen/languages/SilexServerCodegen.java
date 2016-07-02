@@ -208,7 +208,6 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "");
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
-
 }
