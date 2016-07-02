@@ -599,7 +599,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String escapeUnsafeCharacters(String input) {
         // remove multiline comment
-        return input.replace("'''", "");
+        return input.replace("'''", "'_'_'");
     }
 
 }

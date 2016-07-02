@@ -183,4 +183,16 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
       type = swaggerType;
     return toModelName(type);
   }
+
+  @Override
+  public String escapeQuotationMark(String input) {
+    // remove ' to avoid code injection
+    return input.replace("'", "");
+  }
+
+  @Override
+  public String escapeUnsafeCharacters(String input) {
+    return input.replace("*/", "*_/").replace("/*", "/_*");
+  }
+
 }
