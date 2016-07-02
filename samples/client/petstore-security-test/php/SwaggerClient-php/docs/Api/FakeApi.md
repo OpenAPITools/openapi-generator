@@ -1,16 +1,16 @@
 # Swagger\Client\FakeApi
 
-All URIs are relative to *https://petstore.swagger.io  &#39; \&quot; &#x3D;end/v2  &#39; \&quot; &#x3D;end*
+All URIs are relative to *https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end/v2 *_/ &#39; \&quot; &#x3D;end*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testCodeInjectEnd**](FakeApi.md#testCodeInjectEnd) | **PUT** /fake | To test code injection  &#39; \&quot; &#x3D;end
+[**testCodeInjectEnd**](FakeApi.md#testCodeInjectEnd) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end
 
 
 # **testCodeInjectEnd**
 > testCodeInjectEnd($test_code_inject____end)
 
-To test code injection  ' \" =end
+To test code injection *_/ ' \" =end
 
 ### Example
 ```php
@@ -18,7 +18,7 @@ To test code injection  ' \" =end
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\FakeApi();
-$test_code_inject____end = "test_code_inject____end_example"; // string | To test code injection  ' \" =end
+$test_code_inject____end = "test_code_inject____end_example"; // string | To test code injection *_/ ' \" =end
 
 try {
     $api_instance->testCodeInjectEnd($test_code_inject____end);
@@ -32,7 +32,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **test_code_inject____end** | **string**| To test code injection  &#39; \&quot; &#x3D;end | [optional]
+ **test_code_inject____end** | **string**| To test code injection *_/ &#39; \&quot; &#x3D;end | [optional]
 
 ### Return type
 

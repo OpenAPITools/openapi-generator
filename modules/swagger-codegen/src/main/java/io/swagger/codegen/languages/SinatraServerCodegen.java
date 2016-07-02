@@ -243,4 +243,14 @@ public class SinatraServerCodegen extends DefaultCodegen implements CodegenConfi
         return super.postProcessSupportingFileData(objs);
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("=end", "=_end").replace("=begin", "=_begin");
+    }
 }
