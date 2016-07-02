@@ -5,11 +5,9 @@ import io.swagger.api.impl.StoreApiServiceImpl;
 
 
 public class StoreApiServiceFactory {
+    private final static StoreApiService service = new StoreApiServiceImpl();
 
-   private final static StoreApiService service = new StoreApiServiceImpl();
-
-   public static StoreApiService getStoreApi()
-   {
-      return service;
-   }
+    public static StoreApiService getStoreApi() {
+        return service;
+    }
 }
