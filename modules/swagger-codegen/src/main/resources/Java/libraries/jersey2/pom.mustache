@@ -52,7 +52,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.2</version>
+        <version>2.6</version>
         <executions>
           <execution>
             <goals>
@@ -98,7 +98,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>2.5.1</version>
         <configuration>
           {{#java8}}
           <source>1.8</source>
@@ -133,7 +133,7 @@
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-json-jackson</artifactId>
-      <version>2.22.1</version>
+      <version>${jersey-version}</version>
     </dependency>
 
     <!-- JSON processing: jackson -->
@@ -163,7 +163,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-joda</artifactId>
-      <version>2.1.5</version>
+      <version>${jackson-version}</version>
     </dependency>
     <dependency>
       <groupId>joda-time</groupId>
@@ -190,9 +190,9 @@
   <properties>
     <swagger-core-version>1.5.8</swagger-core-version>
     <jersey-version>2.22.2</jersey-version>
-    <jackson-version>2.7.0</jackson-version>
+    <jackson-version>2.7.5</jackson-version>
     {{^java8}}
-    <jodatime-version>2.9.3</jodatime-version>
+    <jodatime-version>2.9.4</jodatime-version>
     {{/java8}}
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
