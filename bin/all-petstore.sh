@@ -30,6 +30,7 @@ cd $APP_DIR
 ./bin/java-petstore-okhttp-gson.sh
 ./bin/java-petstore-retrofit.sh
 ./bin/java-petstore-retrofit2.sh
+./bin/java8-petstore-jersey2.sh
 ./bin/jaxrs-petstore-server.sh
 ./bin/nodejs-petstore-server.sh
 ./bin/objc-petstore.sh

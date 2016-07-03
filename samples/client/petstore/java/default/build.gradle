@@ -77,7 +77,7 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    
+
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
     
@@ -95,9 +95,9 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.8"
-    jackson_version = "2.7.0"
+    jackson_version = "2.7.5"
     jersey_version = "1.19.1"
-    jodatime_version = "2.9.3"
+    jodatime_version = "2.9.4"
     junit_version = "4.12"
 }
 
@@ -109,7 +109,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.1.5"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"

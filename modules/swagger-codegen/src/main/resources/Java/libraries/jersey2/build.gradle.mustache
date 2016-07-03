@@ -106,10 +106,10 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.8"
-    jackson_version = "2.7.0"
+    jackson_version = "2.7.5"
     jersey_version = "2.22.2"
     {{^java8}}
-    jodatime_version = "2.9.3"
+    jodatime_version = "2.9.4"
     {{/java8}}
     junit_version = "4.12"
 }
@@ -118,7 +118,7 @@ dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
-    compile "org.glassfish.jersey.media:jersey-media-json-jackson:2.22.1"
+    compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
@@ -126,7 +126,7 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{^java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.1.5"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
     {{/java8}}
     compile "com.brsanthu:migbase64:2.2"

@@ -25,7 +25,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     {{#java8}}
-    mapper.registerModule(new JSR310Module());
+    mapper.registerModule(new JavaTimeModule());
     {{/java8}}
     {{^java8}}
     mapper.registerModule(new JodaModule());
