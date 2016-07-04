@@ -32,6 +32,7 @@ module Petstore
 
     attr_accessor :array_array_of_model
 
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
