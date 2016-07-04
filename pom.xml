@@ -29,7 +29,7 @@
     </developers>
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/swagger-api/swagger-core/issues</url>
+        <url>https://github.com/swagger-api/swagger-codegen/issues</url>
     </issueManagement>
     <mailingLists>
         <mailingList>
