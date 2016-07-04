@@ -1122,12 +1122,18 @@ public class DefaultCodegen {
     }
 
     /**
-     * Output the proper model name (capitalized)
+     * Output the proper model name (capitalized).
+     * In case the name belongs to the TypeSystem it won't be renamed.
      *
      * @param name the name of the model
      * @return capitalized model name
      */
     public String toModelName(final String name) {
+        // Don't do any kind of renaming to language specific types
+        if(typeMapping.values().contains(name)) {
+            return name;
+        }
+
         return initialCaps(modelNamePrefix + name + modelNameSuffix);
     }
 

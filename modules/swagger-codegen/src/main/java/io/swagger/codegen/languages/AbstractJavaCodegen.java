@@ -343,6 +343,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
+        // Don't do any kind of sanitizing to Java types (e.g. BigDecimal)
+        if(typeMapping.values().contains(name)) {
+            return name;
+        }
+
         final String sanitizedName = sanitizeName(modelNamePrefix + name + modelNameSuffix);
 
         // camelize the model name
