@@ -28,8 +28,6 @@ module Petstore
   class MapTest
     attr_accessor :map_map_of_string
 
-    attr_accessor :map_map_of_enum
-
     attr_accessor :map_of_enum_string
 
     class EnumAttributeValidator
@@ -58,7 +56,6 @@ module Petstore
     def self.attribute_map
       {
         :'map_map_of_string' => :'map_map_of_string',
-        :'map_map_of_enum' => :'map_map_of_enum',
         :'map_of_enum_string' => :'map_of_enum_string'
       }
     end
@@ -67,7 +64,6 @@ module Petstore
     def self.swagger_types
       {
         :'map_map_of_string' => :'Hash<String, Hash<String, String>>',
-        :'map_map_of_enum' => :'Hash<String, Hash<String, String>>',
         :'map_of_enum_string' => :'Hash<String, String>'
       }
     end
@@ -83,12 +79,6 @@ module Petstore
       if attributes.has_key?(:'map_map_of_string')
         if (value = attributes[:'map_map_of_string']).is_a?(Array)
           self.map_map_of_string = value
-        end
-      end
-
-      if attributes.has_key?(:'map_map_of_enum')
-        if (value = attributes[:'map_map_of_enum']).is_a?(Array)
-          self.map_map_of_enum = value
         end
       end
 
@@ -110,21 +100,9 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      map_map_of_enum_validator = EnumAttributeValidator.new('Hash<String, Hash<String, String>>', [])
-      return false unless map_map_of_enum_validator.valid?(@map_map_of_enum)
       map_of_enum_string_validator = EnumAttributeValidator.new('Hash<String, String>', [])
       return false unless map_of_enum_string_validator.valid?(@map_of_enum_string)
       return true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] map_map_of_enum Object to be assigned
-    def map_map_of_enum=(map_map_of_enum)
-      validator = EnumAttributeValidator.new('Hash<String, Hash<String, String>>', [])
-      unless validator.valid?(map_map_of_enum)
-        fail ArgumentError, "invalid value for 'map_map_of_enum', must be one of #{validator.allowable_values}."
-      end
-      @map_map_of_enum = map_map_of_enum
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -143,7 +121,6 @@ module Petstore
       return true if self.equal?(o)
       self.class == o.class &&
           map_map_of_string == o.map_map_of_string &&
-          map_map_of_enum == o.map_map_of_enum &&
           map_of_enum_string == o.map_of_enum_string
     end
 
@@ -156,7 +133,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [map_map_of_string, map_map_of_enum, map_of_enum_string].hash
+      [map_map_of_string, map_of_enum_string].hash
     end
 
     # Builds the object from hash
