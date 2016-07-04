@@ -4,54 +4,8 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_code_inject__end**](FakeApi.md#test_code_inject__end) | **PUT** /fake | To test code injection */ 
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_query_parameters**](FakeApi.md#test_enum_query_parameters) | **GET** /fake | To test enum query parameters
-
-
-# **test_code_inject__end**
-> test_code_inject__end(opts)
-
-To test code injection */ 
-
-### Example
-```ruby
-# load the gem
-require 'petstore'
-
-api_instance = Petstore::FakeApi.new
-
-opts = { 
-  test_code_inject__end: "test_code_inject__end_example" # String | To test code injection */ 
-}
-
-begin
-  #To test code injection */ 
-  api_instance.test_code_inject__end(opts)
-rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_code_inject__end: #{e}"
-end
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **test_code_inject__end** | **String**| To test code injection */  | [optional] 
-
-### Return type
-
-nil (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json, */ =end));(phpinfo(
- - **Accept**: application/json, */ end
-
 
 
 # **test_endpoint_parameters**
