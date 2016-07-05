@@ -29,56 +29,35 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
- * AdditionalPropertiesClass
+ * HasOnlyReadOnly
  */
 
-public class AdditionalPropertiesClass   {
-  @JsonProperty("map_property")
-  private Map<String, String> mapProperty = new HashMap<String, String>();
+public class HasOnlyReadOnly   {
+  @JsonProperty("bar")
+  private String bar = null;
 
-  @JsonProperty("map_of_map_property")
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
+  @JsonProperty("foo")
+  private String foo = null;
 
-  public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
-    this.mapProperty = mapProperty;
-    return this;
+   /**
+   * Get bar
+   * @return bar
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getBar() {
+    return bar;
   }
 
    /**
-   * Get mapProperty
-   * @return mapProperty
+   * Get foo
+   * @return foo
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Map<String, String> getMapProperty() {
-    return mapProperty;
-  }
-
-  public void setMapProperty(Map<String, String> mapProperty) {
-    this.mapProperty = mapProperty;
-  }
-
-  public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-    this.mapOfMapProperty = mapOfMapProperty;
-    return this;
-  }
-
-   /**
-   * Get mapOfMapProperty
-   * @return mapOfMapProperty
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public Map<String, Map<String, String>> getMapOfMapProperty() {
-    return mapOfMapProperty;
-  }
-
-  public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-    this.mapOfMapProperty = mapOfMapProperty;
+  public String getFoo() {
+    return foo;
   }
 
 
@@ -90,23 +69,23 @@ public class AdditionalPropertiesClass   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
-    return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty);
+    return Objects.hash(bar, foo);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesClass {\n");
+    sb.append("class HasOnlyReadOnly {\n");
     
-    sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
-    sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -35,50 +35,70 @@ import java.util.Map;
 
 
 /**
- * AdditionalPropertiesClass
+ * MapTest
  */
 
-public class AdditionalPropertiesClass   {
-  @JsonProperty("map_property")
-  private Map<String, String> mapProperty = new HashMap<String, String>();
+public class MapTest   {
+  @JsonProperty("map_map_of_string")
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
-  @JsonProperty("map_of_map_property")
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
+  /**
+   * Gets or Sets inner
+   */
+  public enum InnerEnum {
+    UPPER("UPPER"),
+    
+    LOWER("lower");
 
-  public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
-    this.mapProperty = mapProperty;
+    private String value;
+
+    InnerEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+
+  @JsonProperty("map_of_enum_string")
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
+
+  public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+    this.mapMapOfString = mapMapOfString;
     return this;
   }
 
    /**
-   * Get mapProperty
-   * @return mapProperty
+   * Get mapMapOfString
+   * @return mapMapOfString
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Map<String, String> getMapProperty() {
-    return mapProperty;
+  public Map<String, Map<String, String>> getMapMapOfString() {
+    return mapMapOfString;
   }
 
-  public void setMapProperty(Map<String, String> mapProperty) {
-    this.mapProperty = mapProperty;
+  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+    this.mapMapOfString = mapMapOfString;
   }
 
-  public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-    this.mapOfMapProperty = mapOfMapProperty;
+  public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+    this.mapOfEnumString = mapOfEnumString;
     return this;
   }
 
    /**
-   * Get mapOfMapProperty
-   * @return mapOfMapProperty
+   * Get mapOfEnumString
+   * @return mapOfEnumString
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Map<String, Map<String, String>> getMapOfMapProperty() {
-    return mapOfMapProperty;
+  public Map<String, InnerEnum> getMapOfEnumString() {
+    return mapOfEnumString;
   }
 
-  public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-    this.mapOfMapProperty = mapOfMapProperty;
+  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+    this.mapOfEnumString = mapOfEnumString;
   }
 
 
@@ -90,23 +110,23 @@ public class AdditionalPropertiesClass   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
-    return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+    MapTest mapTest = (MapTest) o;
+    return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
+        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty);
+    return Objects.hash(mapMapOfString, mapOfEnumString);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesClass {\n");
+    sb.append("class MapTest {\n");
     
-    sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
-    sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
+    sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
+    sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
     sb.append("}");
     return sb.toString();
   }
