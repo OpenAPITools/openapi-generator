@@ -4,54 +4,9 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_code_inject__end**](FakeApi.md#test_code_inject__end) | **PUT** /fake | To test code injection */ &#x3D;end
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_query_parameters**](FakeApi.md#test_enum_query_parameters) | **GET** /fake | To test enum query parameters
 
-
-# **test_code_inject__end**
-> test_code_inject__end(test_code_inject__end=test_code_inject__end)
-
-To test code injection */ =end
-
-### Example 
-```python
-import time
-import petstore_api
-from petstore_api.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = petstore_api.FakeApi()
-test_code_inject__end = 'test_code_inject__end_example' # str | To test code injection */ =end (optional)
-
-try: 
-    # To test code injection */ =end
-    api_instance.test_code_inject__end(test_code_inject__end=test_code_inject__end)
-except ApiException as e:
-    print "Exception when calling FakeApi->test_code_inject__end: %s\n" % e
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **test_code_inject__end** | **str**| To test code injection */ &#x3D;end | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json, */ =end));(phpinfo(
- - **Accept**: application/json, */ end
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_parameters**
 > test_endpoint_parameters(number, double, string, byte, integer=integer, int32=int32, int64=int64, float=float, binary=binary, date=date, date_time=date_time, password=password)
