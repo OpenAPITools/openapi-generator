@@ -2349,6 +2349,7 @@ public class DefaultCodegen {
             CodegenSecurity sec = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
             sec.name = entry.getKey();
             sec.type = schemeDefinition.getType();
+            sec.isCode = sec.isPassword = sec.isApplication = sec.isImplicit = false;
 
             if (schemeDefinition instanceof ApiKeyAuthDefinition) {
                 final ApiKeyAuthDefinition apiKeyDefinition = (ApiKeyAuthDefinition) schemeDefinition;
@@ -2365,6 +2366,22 @@ public class DefaultCodegen {
             	sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
                 sec.isOAuth = true;
                 sec.flow = oauth2Definition.getFlow();
+                switch(sec.flow) {
+                    case "accessCode":
+                        sec.isCode = true;
+                        break;
+                    case "password":
+                        sec.isPassword = true;
+                        break;
+                    case "application":
+                        sec.isApplication = true;
+                        break;
+                    case "implicit":
+                        sec.isImplicit = true;
+                        break;
+                    default:
+                        throw new RuntimeException("unknown oauth flow: " + sec.flow);
+                }
                 sec.authorizationUrl = oauth2Definition.getAuthorizationUrl();
                 sec.tokenUrl = oauth2Definition.getTokenUrl();
                 if (oauth2Definition.getScopes() != null) {
