@@ -376,7 +376,7 @@ To control the specific files being generated, you can pass a CSV list of what y
 -Dmodels=User -DsupportingFiles=StringUtil.java
 ```
 
-To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `-DapiTest=false` and `-DapiDocs=false`. For models, `-DmodelTest=false` and `-DmodelDocs=false`.
+To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `-DapiTests=false` and `-DapiDocs=false`. For models, `-DmodelTests=false` and `-DmodelDocs=false`.
 These options default to true and don't limit the generation of the feature options listed above (like `-Dapi`):
 
 ```
