@@ -188,7 +188,7 @@ public class ApiClient {
 
     /**
      * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-     * @return
+     * @return Token request builder
      */
     public TokenRequestBuilder getTokenEndPoint() {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -202,7 +202,7 @@ public class ApiClient {
 
     /**
      * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-     * @return
+     * @return Authentication request builder
      */
     public AuthenticationRequestBuilder getAuthorizationEndPoint() {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
