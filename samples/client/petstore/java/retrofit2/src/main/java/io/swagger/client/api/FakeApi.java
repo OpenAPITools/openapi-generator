@@ -9,8 +9,8 @@ import retrofit2.http.*;
 import okhttp3.RequestBody;
 
 import org.joda.time.LocalDate;
-import java.math.BigDecimal;
 import org.joda.time.DateTime;
+import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,19 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
-  /**
-   * To test code injection  &#x3D;end
-   * 
-   * @param testCodeInjectEnd To test code injection  &#x3D;end (optional)
-   * @return Call<Void>
-   */
-  
-  @FormUrlEncoded
-  @PUT("fake")
-  Call<Void> testCodeInjectEnd(
-    @Field("test code inject */ &#x3D;end") String testCodeInjectEnd
-  );
-
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
