@@ -96,6 +96,55 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- For testing build.gradle, build.sbt, mvn javadoc:javadoc -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <id>gradle-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>gradle</executable>
+              <arguments>
+                <argument>check</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>sbt-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>sbt</executable>
+              <arguments>
+                <argument>publishLocal</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>mvn-javadoc-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>mvn</executable>
+              <arguments>
+                <argument>javadoc:javadoc</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
   <dependencies>
