@@ -20,11 +20,11 @@ public interface UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object (required)
-   * @return Call[Void]
+   * @return Call&lt;Void&gt;
    */
   
   @POST("user")
-  Call[Void] createUser(
+  Call<Void> createUser(
     @Body User body
   );
 
@@ -32,11 +32,11 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call[Void]
+   * @return Call&lt;Void&gt;
    */
   
   @POST("user/createWithArray")
-  Call[Void] createUsersWithArrayInput(
+  Call<Void> createUsersWithArrayInput(
     @Body List<User> body
   );
 
@@ -44,11 +44,11 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call[Void]
+   * @return Call&lt;Void&gt;
    */
   
   @POST("user/createWithList")
-  Call[Void] createUsersWithListInput(
+  Call<Void> createUsersWithListInput(
     @Body List<User> body
   );
 
@@ -56,11 +56,11 @@ public interface UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
-   * @return Call[Void]
+   * @return Call&lt;Void&gt;
    */
   
   @DELETE("user/{username}")
-  Call[Void] deleteUser(
+  Call<Void> deleteUser(
     @Path("username") String username
   );
 
@@ -68,11 +68,11 @@ public interface UserApi {
    * Get user by user name
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.  (required)
-   * @return Call[User]
+   * @return Call&lt;User&gt;
    */
   
   @GET("user/{username}")
-  Call[User] getUserByName(
+  Call<User> getUserByName(
     @Path("username") String username
   );
 
@@ -81,22 +81,22 @@ public interface UserApi {
    * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
-   * @return Call[String]
+   * @return Call&lt;String&gt;
    */
   
   @GET("user/login")
-  Call[String] loginUser(
+  Call<String> loginUser(
     @Query("username") String username, @Query("password") String password
   );
 
   /**
    * Logs out current logged in user session
    * 
-   * @return Call[Void]
+   * @return Call&lt;Void&gt;
    */
   
   @GET("user/logout")
-  Call[Void] logoutUser();
+  Call<Void> logoutUser();
     
 
   /**
@@ -104,11 +104,11 @@ public interface UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
-   * @return Call[Void]
+   * @return Call&lt;Void&gt;
    */
   
   @PUT("user/{username}")
-  Call[Void] updateUser(
+  Call<Void> updateUser(
     @Path("username") String username, @Body User body
   );
 
