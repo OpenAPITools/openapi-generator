@@ -20,33 +20,33 @@ public interface StoreApi {
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param orderId ID of the order that needs to be deleted (required)
-   * @return Call<Void>
+   * @return Call[Void]
    */
   
   @DELETE("store/order/{orderId}")
-  Call<Void> deleteOrder(
+  Call[Void] deleteOrder(
     @Path("orderId") String orderId
   );
 
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Call<Map<String, Integer>>
+   * @return Call[Map<String, Integer>]
    */
   
   @GET("store/inventory")
-  Call<Map<String, Integer>> getInventory();
+  Call[Map<String, Integer>] getInventory();
     
 
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
-   * @return Call<Order>
+   * @return Call[Order]
    */
   
   @GET("store/order/{orderId}")
-  Call<Order> getOrderById(
+  Call[Order] getOrderById(
     @Path("orderId") Long orderId
   );
 
@@ -54,11 +54,11 @@ public interface StoreApi {
    * Place an order for a pet
    * 
    * @param body order placed for purchasing the pet (required)
-   * @return Call<Order>
+   * @return Call[Order]
    */
   
   @POST("store/order")
-  Call<Order> placeOrder(
+  Call[Order] placeOrder(
     @Body Order body
   );
 
