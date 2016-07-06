@@ -126,7 +126,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
                 supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
-                supportingFiles.add(new SupportingFile("application.properties",
+                supportingFiles.add(new SupportingFile("application.mustache",
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
             }
             if (library.equals("spring-mvc")) {
