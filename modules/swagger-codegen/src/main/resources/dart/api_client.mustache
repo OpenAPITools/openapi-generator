@@ -1,5 +1,44 @@
 part of api;
 
+class QueryParam {
+  String name;
+  String value;
+
+  QueryParam(this.name, this.value);
+}
+
+const _delimiters = const {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
+
+// port from Java version
+List<QueryParam> convertParametersForCollectionFormat(
+  String collectionFormat, String name, dynamic value) {
+  var params = {};
+
+  // preconditions
+  if (name == null || name.isEmpty || value == null) return params;
+
+  if (value is! List) {
+  params.add(new QueryParam(name, value as String));
+  return params;
+  }
+
+  List<String> values = value as List<String>;
+
+  // get the collection format
+  collectionFormat = (collectionFormat == null || collectionFormat.isEmpty)
+  ? "csv"
+  : collectionFormat; // default: csv
+
+  if (collectionFormat == "multi") {
+  return values.map((v) => new QueryParam(name, v));
+  }
+
+  String delimiter = _delimiters[collectionFormat] ?? ",";
+
+  params.add(new QueryParam(name, values.join(delimiter)));
+  return params;
+}
+
 class ApiClient {
   static ApiClient defaultApiClient = new ApiClient();
 
@@ -85,43 +124,33 @@ class ApiClient {
     return serialized;
   }
 
-  Future<Response> invokeAPI( String host, 
-                              String path,
-                              String method,
-                              Map<String, String> queryParams,
-                              Object body,
-                              Map<String, String> headerParams,
-                              Map<String, String> formParams,
-                              String contentType,
-                              List<String> authNames)  {
+  // We don't use a Map<String, String> for queryParams.
+  // If collectionFormat is 'multi' a key might appear multiple times.
+  Future<Response> invokeAPI(String host,
+                             String path,
+                             String method,
+                             List<QueryParam> queryParams,
+                             Object body,
+                             Map<String, String> headerParams,
+                             Map<String, String> formParams,
+                             String contentType,
+                             List<String> authNames) async {
 
     updateParamsForAuth(authNames, queryParams, headerParams);
 
     var client = new {{#browserClient}}Browser{{/browserClient}}Client();
 
     StringBuffer sb = new StringBuffer();
-    
-    for(String key in queryParams.keys) {
-      String value = queryParams[key];
-      if (value != null){
-        if(sb.toString().length == 0) {
-          sb.write("?");
-        } else {
-          sb.write("&");
-        }
-        sb.write(key);
-        sb.write("=");
-        sb.write(value);
-      }
-    }
-    String querystring = sb.toString();
 
-    String url = host + path + querystring;
+    var ps = queryParams.where((p) => p.value != null).map((p) => '${p.key}=${p.value}');
+    String queryString = ps.isNotEmpty ?
+                         '?' + ps.join('&') :
+                         '';
+
+    String url = host + path + queryString;
 
     headerParams.addAll(_defaultHeaderMap);
     headerParams['Content-Type'] = contentType;
-
-    var completer = new Completer();
 
     if(body is MultipartRequest) {
       var request = new MultipartRequest(method, Uri.parse(url));      
@@ -129,27 +158,26 @@ class ApiClient {
       request.files.addAll(body.files);
       request.headers.addAll(body.headers);
       request.headers.addAll(headerParams);
-      client.send(request).then((response) => completer.complete(Response.fromStream(response)));
+      var response = await client.send(request);
+      return Response.fromStream(response);
     } else {
       var msgBody = contentType == "application/x-www-form-urlencoded" ? formParams : serialize(body);
       switch(method) {
-        case "GET":
-          return client.get(url, headers: headerParams);
         case "POST":
           return client.post(url, headers: headerParams, body: msgBody);
         case "PUT":
           return client.put(url, headers: headerParams, body: msgBody);
         case "DELETE":
           return client.delete(url, headers: headerParams);
+        default:
+          return client.get(url, headers: headerParams);
       }
     }
-
-    return completer.future;
   }
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply  
-  void updateParamsForAuth(List<String> authNames, Map<String, String> queryParams, Map<String, String> headerParams) {
+  void updateParamsForAuth(List<String> authNames, List<QueryParam> queryParams, Map<String, String> headerParams) {
     authNames.forEach((authName) {
       Authentication auth = _authentications[authName];
       if (auth == null) throw new ArgumentError("Authentication undefined: " + authName);
