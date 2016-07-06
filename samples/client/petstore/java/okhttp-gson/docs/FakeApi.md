@@ -4,52 +4,9 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testCodeInjectEnd**](FakeApi.md#testCodeInjectEnd) | **PUT** /fake | To test code injection  &#x3D;end
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** /fake | To test enum query parameters
 
-
-<a name="testCodeInjectEnd"></a>
-# **testCodeInjectEnd**
-> testCodeInjectEnd(testCodeInjectEnd)
-
-To test code injection  &#x3D;end
-
-### Example
-```java
-// Import classes:
-//import io.swagger.client.ApiException;
-//import io.swagger.client.api.FakeApi;
-
-
-FakeApi apiInstance = new FakeApi();
-String testCodeInjectEnd = "testCodeInjectEnd_example"; // String | To test code injection  =end
-try {
-    apiInstance.testCodeInjectEnd(testCodeInjectEnd);
-} catch (ApiException e) {
-    System.err.println("Exception when calling FakeApi#testCodeInjectEnd");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **testCodeInjectEnd** | **String**| To test code injection  &#x3D;end | [optional]
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json, */ =end'));(phpinfo('
- - **Accept**: application/json, */ end
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
