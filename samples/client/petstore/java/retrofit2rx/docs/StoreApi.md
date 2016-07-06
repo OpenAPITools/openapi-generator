@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** store/order/{orderId} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getInventory) | **GET** store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **GET** store/order/{orderId} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeOrder) | **POST** store/order | Place an order for a pet
+[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
+[**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
+[**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
 
 
 <a name="deleteOrder"></a>
 # **deleteOrder**
-> Void deleteOrder(orderId)
+> deleteOrder(orderId)
 
 Delete purchase order by ID
 
@@ -28,8 +28,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 StoreApi apiInstance = new StoreApi();
 String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
 try {
-    Void result = apiInstance.deleteOrder(orderId);
-    System.out.println(result);
+    apiInstance.deleteOrder(orderId);
 } catch (ApiException e) {
     System.err.println("Exception when calling StoreApi#deleteOrder");
     e.printStackTrace();
@@ -44,7 +43,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 

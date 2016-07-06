@@ -9,8 +9,8 @@ import retrofit2.http.*;
 import okhttp3.RequestBody;
 
 import org.joda.time.LocalDate;
-import java.math.BigDecimal;
 import org.joda.time.DateTime;
+import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,19 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
-  /**
-   * To test code injection  &#x3D;end
-   * 
-   * @param testCodeInjectEnd To test code injection  &#x3D;end (optional)
-   * @return Call<Void>
-   */
-  
-  @FormUrlEncoded
-  @PUT("fake")
-  Observable<Void> testCodeInjectEnd(
-    @Field("test code inject */ &#x3D;end") String testCodeInjectEnd
-  );
-
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -46,12 +33,12 @@ public interface FakeApi {
    * @param date None (optional)
    * @param dateTime None (optional)
    * @param password None (optional)
-   * @return Call<Void>
+   * @return Call&lt;Object&gt;
    */
   
   @FormUrlEncoded
-  @POST("fake")
-  Observable<Void> testEndpointParameters(
+  @POST("/fake")
+  Observable<Object> testEndpointParameters(
     @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") LocalDate date, @Field("dateTime") DateTime dateTime, @Field("password") String password
   );
 
@@ -61,12 +48,12 @@ public interface FakeApi {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @return Call<Void>
+   * @return Call&lt;Object&gt;
    */
   
   @FormUrlEncoded
-  @GET("fake")
-  Observable<Void> testEnumQueryParameters(
+  @GET("/fake")
+  Observable<Object> testEnumQueryParameters(
     @Field("enum_query_string") String enumQueryString, @Query("enum_query_integer") BigDecimal enumQueryInteger, @Field("enum_query_double") Double enumQueryDouble
   );
 

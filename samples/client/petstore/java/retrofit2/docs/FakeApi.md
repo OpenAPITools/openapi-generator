@@ -4,13 +4,13 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** fake | To test enum query parameters
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** /fake | To test enum query parameters
 
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
-> Void testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password)
+> testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -37,8 +37,7 @@ LocalDate date = new LocalDate(); // LocalDate | None
 DateTime dateTime = new DateTime(); // DateTime | None
 String password = "password_example"; // String | None
 try {
-    Void result = apiInstance.testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
-    System.out.println(result);
+    apiInstance.testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testEndpointParameters");
     e.printStackTrace();
@@ -64,7 +63,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
@@ -77,7 +76,7 @@ No authorization required
 
 <a name="testEnumQueryParameters"></a>
 # **testEnumQueryParameters**
-> Void testEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble)
+> testEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble)
 
 To test enum query parameters
 
@@ -93,8 +92,7 @@ String enumQueryString = "-efg"; // String | Query parameter enum test (string)
 BigDecimal enumQueryInteger = new BigDecimal(); // BigDecimal | Query parameter enum test (double)
 Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
 try {
-    Void result = apiInstance.testEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble);
-    System.out.println(result);
+    apiInstance.testEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testEnumQueryParameters");
     e.printStackTrace();
@@ -111,7 +109,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Void**](.md)
+null (empty response body)
 
 ### Authorization
 
