@@ -37,7 +37,7 @@ public class ClientConfiguration {
     return details;
   }
 
-  @Value("${ swaggerPetstore.security.apiKey.key }")
+  @Value("${ swaggerPetstore.security.apiKey.key:}")
   private String apiKeyKey;
 
   @Bean
