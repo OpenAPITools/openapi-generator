@@ -33,12 +33,12 @@ public interface FakeApi {
    * @param date None (optional)
    * @param dateTime None (optional)
    * @param password None (optional)
-   * @return Call&lt;Void&gt;
+   * @return Call&lt;Object&gt;
    */
   
   @FormUrlEncoded
-  @POST("fake")
-  Call<Void> testEndpointParameters(
+  @POST("/fake")
+  Call<Object> testEndpointParameters(
     @Field("number") BigDecimal number, @Field("double") Double _double, @Field("string") String string, @Field("byte") byte[] _byte, @Field("integer") Integer integer, @Field("int32") Integer int32, @Field("int64") Long int64, @Field("float") Float _float, @Field("binary") byte[] binary, @Field("date") LocalDate date, @Field("dateTime") DateTime dateTime, @Field("password") String password
   );
 
@@ -48,12 +48,12 @@ public interface FakeApi {
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @return Call&lt;Void&gt;
+   * @return Call&lt;Object&gt;
    */
   
   @FormUrlEncoded
-  @GET("fake")
-  Call<Void> testEnumQueryParameters(
+  @GET("/fake")
+  Call<Object> testEnumQueryParameters(
     @Field("enum_query_string") String enumQueryString, @Query("enum_query_integer") BigDecimal enumQueryInteger, @Field("enum_query_double") Double enumQueryDouble
   );
 

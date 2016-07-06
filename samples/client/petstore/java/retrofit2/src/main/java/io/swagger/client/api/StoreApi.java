@@ -20,11 +20,11 @@ public interface StoreApi {
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param orderId ID of the order that needs to be deleted (required)
-   * @return Call&lt;Void&gt;
+   * @return Call&lt;Object&gt;
    */
   
-  @DELETE("store/order/{orderId}")
-  Call<Void> deleteOrder(
+  @DELETE("/store/order/{orderId}")
+  Call<Object> deleteOrder(
     @Path("orderId") String orderId
   );
 
@@ -34,7 +34,7 @@ public interface StoreApi {
    * @return Call&lt;Map<String, Integer>&gt;
    */
   
-  @GET("store/inventory")
+  @GET("/store/inventory")
   Call<Map<String, Integer>> getInventory();
     
 
@@ -45,7 +45,7 @@ public interface StoreApi {
    * @return Call&lt;Order&gt;
    */
   
-  @GET("store/order/{orderId}")
+  @GET("/store/order/{orderId}")
   Call<Order> getOrderById(
     @Path("orderId") Long orderId
   );
@@ -57,7 +57,7 @@ public interface StoreApi {
    * @return Call&lt;Order&gt;
    */
   
-  @POST("store/order")
+  @POST("/store/order")
   Call<Order> placeOrder(
     @Body Order body
   );
