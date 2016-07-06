@@ -343,11 +343,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
-        // Don't do any kind of sanitizing to Java types (e.g. BigDecimal)
-        if(typeMapping.values().contains(name)) {
-            return name;
-        }
-
         final String sanitizedName = sanitizeName(modelNamePrefix + name + modelNameSuffix);
 
         // camelize the model name
@@ -525,21 +520,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
-        String type;
+
+        // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
-                type.equals("Map") || type.equals("List") ||
-                type.equals("File") || type.equals("Date")) {
-                return type;
-            }
-        } else {
-            type = swaggerType;
+            return typeMapping.get(swaggerType);
         }
-        if (null == type) {
+
+        if (null == swaggerType) {
             LOGGER.error("No Type defined for Property " + p);
         }
-        return toModelName(type);
+        return toModelName(swaggerType);
     }
 
     @Override
@@ -733,10 +723,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
 
         op.path = sanitizePath(op.path);
-        
+
         return op;
     }
-    
+
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
