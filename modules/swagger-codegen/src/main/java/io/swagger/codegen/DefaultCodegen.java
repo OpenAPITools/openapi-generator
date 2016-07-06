@@ -1129,11 +1129,6 @@ public class DefaultCodegen {
      * @return capitalized model name
      */
     public String toModelName(final String name) {
-        // Don't do any kind of renaming to language specific types
-        if(typeMapping.values().contains(name)) {
-            return name;
-        }
-
         return initialCaps(modelNamePrefix + name + modelNameSuffix);
     }
 
