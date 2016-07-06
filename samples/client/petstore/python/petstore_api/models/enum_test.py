@@ -80,8 +80,8 @@ class EnumTest(object):
         allowed_values = ["UPPER", "lower"]
         if enum_string not in allowed_values:
             raise ValueError(
-                "Invalid value for `enum_string`, must be one of {0}"
-                .format(allowed_values)
+                "Invalid value for `enum_string` ({0}), must be one of {1}"
+                .format(enum_string, allowed_values)
             )
 
         self._enum_string = enum_string
@@ -109,8 +109,8 @@ class EnumTest(object):
         allowed_values = ["1", "-1"]
         if enum_integer not in allowed_values:
             raise ValueError(
-                "Invalid value for `enum_integer`, must be one of {0}"
-                .format(allowed_values)
+                "Invalid value for `enum_integer` ({0}), must be one of {1}"
+                .format(enum_integer, allowed_values)
             )
 
         self._enum_integer = enum_integer
@@ -138,8 +138,8 @@ class EnumTest(object):
         allowed_values = ["1.1", "-1.2"]
         if enum_number not in allowed_values:
             raise ValueError(
-                "Invalid value for `enum_number`, must be one of {0}"
-                .format(allowed_values)
+                "Invalid value for `enum_number` ({0}), must be one of {1}"
+                .format(enum_number, allowed_values)
             )
 
         self._enum_number = enum_number

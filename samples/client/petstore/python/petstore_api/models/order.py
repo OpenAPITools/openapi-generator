@@ -181,8 +181,8 @@ class Order(object):
         allowed_values = ["placed", "approved", "delivered"]
         if status not in allowed_values:
             raise ValueError(
-                "Invalid value for `status`, must be one of {0}"
-                .format(allowed_values)
+                "Invalid value for `status` ({0}), must be one of {1}"
+                .format(status, allowed_values)
             )
 
         self._status = status

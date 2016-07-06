@@ -100,8 +100,8 @@ class MapTest(object):
         allowed_values = []
         if map_of_enum_string not in allowed_values:
             raise ValueError(
-                "Invalid value for `map_of_enum_string`, must be one of {0}"
-                .format(allowed_values)
+                "Invalid value for `map_of_enum_string` ({0}), must be one of {1}"
+                .format(map_of_enum_string, allowed_values)
             )
 
         self._map_of_enum_string = map_of_enum_string
