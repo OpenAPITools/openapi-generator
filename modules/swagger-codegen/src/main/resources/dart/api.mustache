@@ -2,6 +2,7 @@ part of api;
 
 {{#operations}}
 
+
 class {{classname}} {
   String basePath = "{{basePath}}";
   ApiClient apiClient = ApiClient.defaultApiClient;
@@ -16,13 +17,17 @@ class {{classname}} {
   /// {{summary}}
   ///
   /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) async {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-    {{#allParams}}
+
     // verify required params are set
-    if({{/allParams}}{{#required}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/required}}{{#allParams}}) {
-       throw new ApiException(400, "missing required params");
-    }{{/allParams}}
+    {{#allParams}}
+      {{#required}}
+    if({{paramName}} == null) {
+     throw new ApiException(400, "Missing required param: {{paramName}}");
+    }
+      {{/required}}
+    {{/allParams}}
 
     // create path and map variables
     String path = "{{path}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{paramName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
@@ -32,7 +37,7 @@ class {{classname}} {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
     {{#queryParams}}if("null" != {{paramName}})
-      queryParams["{{baseName}}"] = {{paramName}} is List ? {{paramName}}.join(',') : {{paramName}};
+      queryParams.addAll(convertParametersForCollectionFormat({{collectionFormat}}, {{baseName}}, {{paramName}}));
     {{/queryParams}}
     {{#headerParams}}headerParams["{{baseName}}"] = {{paramName}};
     {{/headerParams}}
@@ -66,17 +71,23 @@ class {{classname}} {
       {{/formParams}}
     }
 
-    return apiClient.invokeAPI(basePath, path, '{{httpMethod}}', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return {{#returnType}}ApiClient.deserialize(response.body, {{returnBaseType}}){{/returnType}};
-      }
-      else {
-        return {{#returnType}}null{{/returnType}};
-      }
-    });
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             '{{httpMethod}}',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return {{#returnType}}ApiClient.deserialize(response.body, {{returnBaseType}}){{/returnType}};
+    } else {
+      return {{#returnType}}null{{/returnType}};
+    }
   }
   {{/operation}}
 }
