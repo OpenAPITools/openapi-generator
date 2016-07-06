@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**TestEnumQueryParameters**](FakeApi.md#testenumqueryparameters) | **GET** /fake | To test enum query parameters
 
 
+<a name="testendpointparameters"></a>
 # **TestEndpointParameters**
 > void TestEndpointParameters (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
 
@@ -90,6 +91,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="testenumqueryparameters"></a>
 # **TestEnumQueryParameters**
 > void TestEnumQueryParameters (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
 

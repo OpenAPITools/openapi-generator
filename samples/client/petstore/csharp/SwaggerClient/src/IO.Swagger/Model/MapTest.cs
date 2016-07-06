@@ -34,25 +34,53 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// ArrayOfNumberOnly
+    /// MapTest
     /// </summary>
     [DataContract]
-    public partial class ArrayOfNumberOnly :  IEquatable<ArrayOfNumberOnly>
+    public partial class MapTest :  IEquatable<MapTest>
     {
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ArrayOfNumberOnly" /> class.
+        /// Gets or Sets Inner
         /// </summary>
-        /// <param name="ArrayNumber">ArrayNumber.</param>
-        public ArrayOfNumberOnly(List<decimal?> ArrayNumber = null)
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum InnerEnum
         {
-            this.ArrayNumber = ArrayNumber;
+            
+            /// <summary>
+            /// Enum Upper for "UPPER"
+            /// </summary>
+            [EnumMember(Value = "UPPER")]
+            Upper,
+            
+            /// <summary>
+            /// Enum Lower for "lower"
+            /// </summary>
+            [EnumMember(Value = "lower")]
+            Lower
+        }
+
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [DataMember(Name="map_of_enum_string", EmitDefaultValue=false)]
+        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapTest" /> class.
+        /// </summary>
+        /// <param name="MapMapOfString">MapMapOfString.</param>
+        /// <param name="MapOfEnumString">MapOfEnumString.</param>
+        public MapTest(Dictionary<string, Dictionary<string, string>> MapMapOfString = null, Dictionary<string, InnerEnum> MapOfEnumString = null)
+        {
+            this.MapMapOfString = MapMapOfString;
+            this.MapOfEnumString = MapOfEnumString;
         }
         
         /// <summary>
-        /// Gets or Sets ArrayNumber
+        /// Gets or Sets MapMapOfString
         /// </summary>
-        [DataMember(Name="ArrayNumber", EmitDefaultValue=false)]
-        public List<decimal?> ArrayNumber { get; set; }
+        [DataMember(Name="map_map_of_string", EmitDefaultValue=false)]
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -60,8 +88,9 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class ArrayOfNumberOnly {\n");
-            sb.Append("  ArrayNumber: ").Append(ArrayNumber).Append("\n");
+            sb.Append("class MapTest {\n");
+            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
+            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -83,15 +112,15 @@ namespace IO.Swagger.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as ArrayOfNumberOnly);
+            return this.Equals(obj as MapTest);
         }
 
         /// <summary>
-        /// Returns true if ArrayOfNumberOnly instances are equal
+        /// Returns true if MapTest instances are equal
         /// </summary>
-        /// <param name="other">Instance of ArrayOfNumberOnly to be compared</param>
+        /// <param name="other">Instance of MapTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ArrayOfNumberOnly other)
+        public bool Equals(MapTest other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -99,9 +128,14 @@ namespace IO.Swagger.Model
 
             return 
                 (
-                    this.ArrayNumber == other.ArrayNumber ||
-                    this.ArrayNumber != null &&
-                    this.ArrayNumber.SequenceEqual(other.ArrayNumber)
+                    this.MapMapOfString == other.MapMapOfString ||
+                    this.MapMapOfString != null &&
+                    this.MapMapOfString.SequenceEqual(other.MapMapOfString)
+                ) && 
+                (
+                    this.MapOfEnumString == other.MapOfEnumString ||
+                    this.MapOfEnumString != null &&
+                    this.MapOfEnumString.SequenceEqual(other.MapOfEnumString)
                 );
         }
 
@@ -116,8 +150,10 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.ArrayNumber != null)
-                    hash = hash * 59 + this.ArrayNumber.GetHashCode();
+                if (this.MapMapOfString != null)
+                    hash = hash * 59 + this.MapMapOfString.GetHashCode();
+                if (this.MapOfEnumString != null)
+                    hash = hash * 59 + this.MapOfEnumString.GetHashCode();
                 return hash;
             }
         }
