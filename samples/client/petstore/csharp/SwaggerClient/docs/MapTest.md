@@ -1,11 +1,10 @@
-# IO.Swagger.Model.ArrayTest
+# IO.Swagger.Model.MapTest
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArrayOfString** | **List&lt;string&gt;** |  | [optional] 
-**ArrayArrayOfInteger** | **List&lt;List&lt;long?&gt;&gt;** |  | [optional] 
-**ArrayArrayOfModel** | **List&lt;List&lt;ReadOnlyFirst&gt;&gt;** |  | [optional] 
+**MapMapOfString** | **Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt;** |  | [optional] 
+**MapOfEnumString** | **Dictionary&lt;string, string&gt;** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
