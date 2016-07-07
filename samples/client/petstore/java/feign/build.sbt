@@ -9,9 +9,9 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.8" % "compile",
+      "io.swagger" % "swagger-annotations" % "1.5.9" % "compile",
       "com.netflix.feign" % "feign-core" % "8.16.0" % "compile",
-      "com.netflix.feign" % "feign-jackson" % "8.16.0" % "compile",
+      "com.netflix.feign" % "feign-jackson" % "8.17.0" % "compile",
       "com.netflix.feign" % "feign-slf4j" % "8.16.0" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.7.5" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.5" % "compile",
