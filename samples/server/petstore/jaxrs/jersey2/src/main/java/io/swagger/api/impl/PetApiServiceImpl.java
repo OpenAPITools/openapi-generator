@@ -4,8 +4,8 @@ import io.swagger.api.*;
 import io.swagger.model.*;
 
 import io.swagger.model.Pet;
-import io.swagger.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -55,7 +55,7 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response uploadFile(Long petId, String additionalMetadata, InputStream inputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
+    public Response uploadFile(Long petId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
