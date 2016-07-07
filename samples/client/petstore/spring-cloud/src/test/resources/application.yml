@@ -1,0 +1,10 @@
+spring:
+    application:
+        name: petstore-test
+
+feign.hystrix.enabled: false
+
+logging.level.io.swagger.api:
+    PetApiClient: DEBUG
+    StoreApiClient: DEBUG
+    UserApiClient: DEBUG

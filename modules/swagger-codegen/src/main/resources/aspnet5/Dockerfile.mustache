@@ -1,10 +1,12 @@
-FROM microsoft/aspnet:1.0.0-rc1-final
+FROM microsoft/dotnet:latest
+
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 RUN mkdir -p /app/{{packageName}}
 COPY . /app/{{packageName}}
 WORKDIR /app/{{packageName}}
-RUN ["dnu", "restore"]
-RUN ["dnu", "pack", "--out", "artifacts"]
 
 EXPOSE 5000/tcp
-ENTRYPOINT ["dnx", "-p", "project.json", "web"]
+
+RUN ["dotnet", "restore"]
+ENTRYPOINT ["dotnet", "run", "-p", "project.json", "web"]
