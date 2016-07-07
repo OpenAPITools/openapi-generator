@@ -3,7 +3,7 @@
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#parcelableModel}}implements Parcelable{{#serializableModel}}, Serializable{{/serializableModel}}{{/parcelableModel}}{{#serializableModel}}implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#parcelableModel}}implements Parcelable{{#serializableModel}}, Serializable{{/serializableModel}}{{/parcelableModel}}{{^parcelableModel}}{{#serializableModel}}implements Serializable{{/serializableModel}}{{/parcelableModel}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
