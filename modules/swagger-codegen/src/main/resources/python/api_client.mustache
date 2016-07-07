@@ -46,6 +46,14 @@ except ImportError:
     # for python2
     from urllib import quote
 
+# special handling of `long` (python2 only)
+try:
+    # Python 2
+    long
+except NameError:
+    # Python 3
+    long = int
+
 from .configuration import Configuration
 
 
