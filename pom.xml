@@ -571,6 +571,30 @@
             </modules>
         </profile>
         <profile>
+            <id>springboot</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/springboot</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>spring-cloud</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/spring-cloud</module>
+            </modules>
+        </profile>
+        <profile>
             <id>samples</id>
             <activation>
                 <property>
@@ -601,6 +625,8 @@
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/springboot</module>
+                <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>

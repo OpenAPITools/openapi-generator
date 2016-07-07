@@ -84,14 +84,22 @@ public class AspNet5ServerCodegen extends AbstractCSharpCodegen {
         apiPackage = packageName + ".Controllers";
         modelPackage = packageName + ".Models";
 
+        supportingFiles.add(new SupportingFile("NuGet.Config", "", "NuGet.Config"));
         supportingFiles.add(new SupportingFile("global.json", "", "global.json"));
-        supportingFiles.add(new SupportingFile("build.mustache", "", "build.sh"));
+        supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
+        supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", this.packageName + ".sln"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", this.sourceFolder, "Dockerfile"));
         supportingFiles.add(new SupportingFile("gitignore", this.sourceFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("appsettings.json", this.sourceFolder, "appsettings.json"));
 
-        supportingFiles.add(new SupportingFile("project.mustache", this.sourceFolder, "project.json"));
+        supportingFiles.add(new SupportingFile("project.json.mustache", this.sourceFolder, "project.json"));
         supportingFiles.add(new SupportingFile("Startup.mustache", this.sourceFolder, "Startup.cs"));
+        supportingFiles.add(new SupportingFile("Program.mustache", this.sourceFolder, "Program.cs"));
+        supportingFiles.add(new SupportingFile("web.config", this.sourceFolder, "web.config"));
+
+        supportingFiles.add(new SupportingFile("Project.xproj.mustache", this.sourceFolder, this.packageName + ".xproj"));
 
         supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json", this.sourceFolder + File.separator + "Properties", "launchSettings.json"));
 
