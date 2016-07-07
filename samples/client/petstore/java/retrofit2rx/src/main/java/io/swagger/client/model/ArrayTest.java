@@ -48,31 +48,6 @@ public class ArrayTest   {
   @SerializedName("array_array_of_model")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
-  /**
-   * Gets or Sets arrayOfEnum
-   */
-  public enum ArrayOfEnumEnum {
-    @SerializedName("UPPER")
-    UPPER("UPPER"),
-    
-    @SerializedName("lower")
-    LOWER("lower");
-
-    private String value;
-
-    ArrayOfEnumEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
-
-  @SerializedName("array_of_enum")
-  private List<ArrayOfEnumEnum> arrayOfEnum = new ArrayList<ArrayOfEnumEnum>();
-
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;
@@ -127,24 +102,6 @@ public class ArrayTest   {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-  public ArrayTest arrayOfEnum(List<ArrayOfEnumEnum> arrayOfEnum) {
-    this.arrayOfEnum = arrayOfEnum;
-    return this;
-  }
-
-   /**
-   * Get arrayOfEnum
-   * @return arrayOfEnum
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public List<ArrayOfEnumEnum> getArrayOfEnum() {
-    return arrayOfEnum;
-  }
-
-  public void setArrayOfEnum(List<ArrayOfEnumEnum> arrayOfEnum) {
-    this.arrayOfEnum = arrayOfEnum;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -157,13 +114,12 @@ public class ArrayTest   {
     ArrayTest arrayTest = (ArrayTest) o;
     return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
         Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel) &&
-        Objects.equals(this.arrayOfEnum, arrayTest.arrayOfEnum);
+        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel, arrayOfEnum);
+    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
   @Override
@@ -174,7 +130,6 @@ public class ArrayTest   {
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
-    sb.append("    arrayOfEnum: ").append(toIndentedString(arrayOfEnum)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -812,6 +812,7 @@ public class ApiClient {
      * @throws ApiException If fail to deserialize response body, i.e. cannot read response body
      *   or the Content-Type of the response is not supported.
      */
+    @SuppressWarnings("unchecked")
     public <T> T deserialize(Response response, Type returnType) throws ApiException {
         if (response == null || returnType == null) {
             return null;
@@ -1006,6 +1007,7 @@ public class ApiClient {
      * @param returnType Return type
      * @param callback ApiCallback
      */
+    @SuppressWarnings("unchecked")
     public <T> void executeAsync(Call call, final Type returnType, final ApiCallback<T> callback) {
         call.enqueue(new Callback() {
             @Override

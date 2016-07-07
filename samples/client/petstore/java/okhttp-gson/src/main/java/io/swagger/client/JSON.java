@@ -103,6 +103,7 @@ public class JSON {
      * @param returnType The type to deserialize inot
      * @return The deserialized Java object
      */
+    @SuppressWarnings("unchecked")
     public <T> T deserialize(String body, Type returnType) {
         try {
             if (apiClient.isLenientOnJson()) {
