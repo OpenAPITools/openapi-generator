@@ -78,6 +78,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         writeOptional(outputFolder, new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        writeOptional(outputFolder, new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
@@ -96,14 +97,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
-        if (!StringUtils.isEmpty(getLibrary())) {
-            // set library to okhttp-gson as default
-            setLibrary("okhttp-gson");
-
-            //TODO: add sbt support to default client
-            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        }
 
         //TODO: add doc to retrofit1 and feign
         if ( "feign".equals(getLibrary()) || "retrofit".equals(getLibrary()) ){
@@ -139,7 +132,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         } else if("jersey1".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
         } else {
-            LOGGER.error("Unknown library option (-l/--library): " + StringUtils.isEmpty(getLibrary()));
+            LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
     }
 

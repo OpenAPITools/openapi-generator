@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
@@ -37,13 +37,13 @@ import io.swagger.client.model.Animal;
  */
 
 public class Dog extends Animal  {
-  @SerializedName("className")
+  @JsonProperty("className")
   private String className = null;
 
-  @SerializedName("color")
+  @JsonProperty("color")
   private String color = "red";
 
-  @SerializedName("breed")
+  @JsonProperty("breed")
   private String breed = null;
 
   public Dog className(String className) {

@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,10 +36,10 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class Animal   {
-  @SerializedName("className")
+  @JsonProperty("className")
   private String className = null;
 
-  @SerializedName("color")
+  @JsonProperty("color")
   private String color = "red";
 
   public Animal className(String className) {

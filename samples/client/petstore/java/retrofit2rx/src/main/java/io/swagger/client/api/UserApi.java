@@ -20,11 +20,11 @@ public interface UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object (required)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @POST("/user")
-  Observable<Object> createUser(
+  @POST("user")
+  Observable<Void> createUser(
     @Body User body
   );
 
@@ -32,11 +32,11 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @POST("/user/createWithArray")
-  Observable<Object> createUsersWithArrayInput(
+  @POST("user/createWithArray")
+  Observable<Void> createUsersWithArrayInput(
     @Body List<User> body
   );
 
@@ -44,11 +44,11 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @POST("/user/createWithList")
-  Observable<Object> createUsersWithListInput(
+  @POST("user/createWithList")
+  Observable<Void> createUsersWithListInput(
     @Body List<User> body
   );
 
@@ -56,11 +56,11 @@ public interface UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @DELETE("/user/{username}")
-  Observable<Object> deleteUser(
+  @DELETE("user/{username}")
+  Observable<Void> deleteUser(
     @Path("username") String username
   );
 
@@ -71,7 +71,7 @@ public interface UserApi {
    * @return Call&lt;User&gt;
    */
   
-  @GET("/user/{username}")
+  @GET("user/{username}")
   Observable<User> getUserByName(
     @Path("username") String username
   );
@@ -84,7 +84,7 @@ public interface UserApi {
    * @return Call&lt;String&gt;
    */
   
-  @GET("/user/login")
+  @GET("user/login")
   Observable<String> loginUser(
     @Query("username") String username, @Query("password") String password
   );
@@ -92,11 +92,11 @@ public interface UserApi {
   /**
    * Logs out current logged in user session
    * 
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @GET("/user/logout")
-  Observable<Object> logoutUser();
+  @GET("user/logout")
+  Observable<Void> logoutUser();
     
 
   /**
@@ -104,11 +104,11 @@ public interface UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @PUT("/user/{username}")
-  Observable<Object> updateUser(
+  @PUT("user/{username}")
+  Observable<Void> updateUser(
     @Path("username") String username, @Body User body
   );
 

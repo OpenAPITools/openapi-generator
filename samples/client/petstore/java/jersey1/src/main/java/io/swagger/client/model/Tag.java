@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,10 +36,10 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class Tag   {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Long id = null;
 
-  @SerializedName("name")
+  @JsonProperty("name")
   private String name = null;
 
   public Tag id(Long id) {

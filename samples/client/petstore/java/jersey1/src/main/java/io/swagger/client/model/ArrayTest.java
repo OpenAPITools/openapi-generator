@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.ReadOnlyFirst;
@@ -39,13 +39,13 @@ import java.util.List;
  */
 
 public class ArrayTest   {
-  @SerializedName("array_of_string")
+  @JsonProperty("array_of_string")
   private List<String> arrayOfString = new ArrayList<String>();
 
-  @SerializedName("array_array_of_integer")
+  @JsonProperty("array_array_of_integer")
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
 
-  @SerializedName("array_array_of_model")
+  @JsonProperty("array_array_of_model")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {

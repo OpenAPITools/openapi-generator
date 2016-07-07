@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,28 +36,28 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class User   {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Long id = null;
 
-  @SerializedName("username")
+  @JsonProperty("username")
   private String username = null;
 
-  @SerializedName("firstName")
+  @JsonProperty("firstName")
   private String firstName = null;
 
-  @SerializedName("lastName")
+  @JsonProperty("lastName")
   private String lastName = null;
 
-  @SerializedName("email")
+  @JsonProperty("email")
   private String email = null;
 
-  @SerializedName("password")
+  @JsonProperty("password")
   private String password = null;
 
-  @SerializedName("phone")
+  @JsonProperty("phone")
   private String phone = null;
 
-  @SerializedName("userStatus")
+  @JsonProperty("userStatus")
   private Integer userStatus = null;
 
   public User id(Long id) {

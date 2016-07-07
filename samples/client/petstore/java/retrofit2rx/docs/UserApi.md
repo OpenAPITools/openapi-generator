@@ -4,19 +4,19 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createUser**](UserApi.md#createUser) | **POST** /user | Create user
-[**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-[**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-[**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-[**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+[**createUser**](UserApi.md#createUser) | **POST** user | Create user
+[**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** user/createWithArray | Creates list of users with given input array
+[**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** user/createWithList | Creates list of users with given input array
+[**deleteUser**](UserApi.md#deleteUser) | **DELETE** user/{username} | Delete user
+[**getUserByName**](UserApi.md#getUserByName) | **GET** user/{username} | Get user by user name
+[**loginUser**](UserApi.md#loginUser) | **GET** user/login | Logs user into the system
+[**logoutUser**](UserApi.md#logoutUser) | **GET** user/logout | Logs out current logged in user session
+[**updateUser**](UserApi.md#updateUser) | **PUT** user/{username} | Updated user
 
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(body)
+> Void createUser(body)
 
 Create user
 
@@ -32,7 +32,8 @@ This can only be done by the logged in user.
 UserApi apiInstance = new UserApi();
 User body = new User(); // User | Created user object
 try {
-    apiInstance.createUser(body);
+    Void result = apiInstance.createUser(body);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUser");
     e.printStackTrace();
@@ -47,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -60,7 +61,7 @@ No authorization required
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> Void createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -76,7 +77,8 @@ Creates list of users with given input array
 UserApi apiInstance = new UserApi();
 List<User> body = Arrays.asList(new User()); // List<User> | List of user object
 try {
-    apiInstance.createUsersWithArrayInput(body);
+    Void result = apiInstance.createUsersWithArrayInput(body);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
     e.printStackTrace();
@@ -91,7 +93,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -104,7 +106,7 @@ No authorization required
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> Void createUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -120,7 +122,8 @@ Creates list of users with given input array
 UserApi apiInstance = new UserApi();
 List<User> body = Arrays.asList(new User()); // List<User> | List of user object
 try {
-    apiInstance.createUsersWithListInput(body);
+    Void result = apiInstance.createUsersWithListInput(body);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithListInput");
     e.printStackTrace();
@@ -135,7 +138,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -148,7 +151,7 @@ No authorization required
 
 <a name="deleteUser"></a>
 # **deleteUser**
-> deleteUser(username)
+> Void deleteUser(username)
 
 Delete user
 
@@ -164,7 +167,8 @@ This can only be done by the logged in user.
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | The name that needs to be deleted
 try {
-    apiInstance.deleteUser(username);
+    Void result = apiInstance.deleteUser(username);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#deleteUser");
     e.printStackTrace();
@@ -179,7 +183,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -284,7 +288,7 @@ No authorization required
 
 <a name="logoutUser"></a>
 # **logoutUser**
-> logoutUser()
+> Void logoutUser()
 
 Logs out current logged in user session
 
@@ -299,7 +303,8 @@ Logs out current logged in user session
 
 UserApi apiInstance = new UserApi();
 try {
-    apiInstance.logoutUser();
+    Void result = apiInstance.logoutUser();
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#logoutUser");
     e.printStackTrace();
@@ -311,7 +316,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -324,7 +329,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> Void updateUser(username, body)
 
 Updated user
 
@@ -341,7 +346,8 @@ UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | name that need to be deleted
 User body = new User(); // User | Updated user object
 try {
-    apiInstance.updateUser(username, body);
+    Void result = apiInstance.updateUser(username, body);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#updateUser");
     e.printStackTrace();
@@ -357,7 +363,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 

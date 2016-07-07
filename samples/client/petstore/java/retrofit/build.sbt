@@ -9,10 +9,10 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.8",
-      "com.squareup.okhttp" % "okhttp" % "2.7.5",
-      "com.squareup.okhttp" % "logging-interceptor" % "2.7.5",
-      "com.google.code.gson" % "gson" % "2.6.2",
+      "com.squareup.okhttp" % "okhttp" % "2.7.5" % "compile",
+      "com.squareup.retrofit" % "retrofit" % "1.9.0" % "compile",
+      "io.swagger" % "swagger-annotations" % "1.5.8" % "compile",
+      "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       "joda-time" % "joda-time" % "2.9.3" % "compile",
       "junit" % "junit" % "4.12" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"

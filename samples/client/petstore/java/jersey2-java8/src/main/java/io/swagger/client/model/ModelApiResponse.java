@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -36,13 +36,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class ModelApiResponse   {
-  @SerializedName("code")
+  @JsonProperty("code")
   private Integer code = null;
 
-  @SerializedName("type")
+  @JsonProperty("type")
   private String type = null;
 
-  @SerializedName("message")
+  @JsonProperty("message")
   private String message = null;
 
   public ModelApiResponse code(Integer code) {

@@ -4,19 +4,19 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**addPet**](PetApi.md#addPet) | **POST** pet | Add a new pet to the store
+[**deletePet**](PetApi.md#deletePet) | **DELETE** pet/{petId} | Deletes a pet
+[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** pet/findByStatus | Finds Pets by status
+[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** pet/findByTags | Finds Pets by tags
+[**getPetById**](PetApi.md#getPetById) | **GET** pet/{petId} | Find pet by ID
+[**updatePet**](PetApi.md#updatePet) | **PUT** pet | Update an existing pet
+[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** pet/{petId} | Updates a pet in the store with form data
+[**uploadFile**](PetApi.md#uploadFile) | **POST** pet/{petId}/uploadImage | uploads an image
 
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(body)
+> Void addPet(body)
 
 Add a new pet to the store
 
@@ -40,7 +40,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 PetApi apiInstance = new PetApi();
 Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.addPet(body);
+    Void result = apiInstance.addPet(body);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#addPet");
     e.printStackTrace();
@@ -55,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -68,7 +69,7 @@ null (empty response body)
 
 <a name="deletePet"></a>
 # **deletePet**
-> deletePet(petId, apiKey)
+> Void deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -93,7 +94,8 @@ PetApi apiInstance = new PetApi();
 Long petId = 789L; // Long | Pet id to delete
 String apiKey = "apiKey_example"; // String | 
 try {
-    apiInstance.deletePet(petId, apiKey);
+    Void result = apiInstance.deletePet(petId, apiKey);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#deletePet");
     e.printStackTrace();
@@ -109,7 +111,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -283,7 +285,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(body)
+> Void updatePet(body)
 
 Update an existing pet
 
@@ -307,7 +309,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 PetApi apiInstance = new PetApi();
 Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.updatePet(body);
+    Void result = apiInstance.updatePet(body);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#updatePet");
     e.printStackTrace();
@@ -322,7 +325,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 
@@ -335,7 +338,7 @@ null (empty response body)
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
-> updatePetWithForm(petId, name, status)
+> Void updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -361,7 +364,8 @@ Long petId = 789L; // Long | ID of pet that needs to be updated
 String name = "name_example"; // String | Updated name of the pet
 String status = "status_example"; // String | Updated status of the pet
 try {
-    apiInstance.updatePetWithForm(petId, name, status);
+    Void result = apiInstance.updatePetWithForm(petId, name, status);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#updatePetWithForm");
     e.printStackTrace();
@@ -378,7 +382,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Void**](.md)
 
 ### Authorization
 

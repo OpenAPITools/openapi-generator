@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
@@ -41,13 +41,13 @@ import java.util.Map;
  */
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
-  @SerializedName("uuid")
+  @JsonProperty("uuid")
   private String uuid = null;
 
-  @SerializedName("dateTime")
+  @JsonProperty("dateTime")
   private OffsetDateTime dateTime = null;
 
-  @SerializedName("map")
+  @JsonProperty("map")
   private Map<String, Animal> map = new HashMap<String, Animal>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(String uuid) {
