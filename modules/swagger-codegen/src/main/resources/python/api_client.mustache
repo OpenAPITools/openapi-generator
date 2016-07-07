@@ -46,6 +46,14 @@ except ImportError:
     # for python2
     from urllib import quote
 
+# special handling of `long` (python2 only)
+try:
+    # Python 2
+    long
+except NameError:
+    # Python 3
+    long = int
+
 from .configuration import Configuration
 
 
@@ -183,7 +191,7 @@ class ApiClient(object):
         Builds a JSON POST object.
 
         If obj is None, return None.
-        If obj is str, int, float, bool, return directly.
+        If obj is str, int, long, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
             convert to string in iso8601 format.
         If obj is list, sanitize each element in the list.
@@ -193,7 +201,7 @@ class ApiClient(object):
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
-        types = (str, int, float, bool, tuple)
+        types = (str, int, long, float, bool, tuple)
         if sys.version_info < (3, 0):
             types = types + (unicode,)
         if isinstance(obj, type(None)):
@@ -269,14 +277,14 @@ class ApiClient(object):
 
             # convert str to class
             # for native types
-            if klass in ['int', 'float', 'str', 'bool',
+            if klass in ['int', 'long', 'float', 'str', 'bool',
                          "date", 'datetime', "object"]:
                 klass = eval(klass)
             # for model types
             else:
                 klass = eval('models.' + klass)
 
-        if klass in [int, float, str, bool]:
+        if klass in [int, long, float, str, bool]:
             return self.__deserialize_primitive(data, klass)
         elif klass == object:
             return self.__deserialize_object(data)
@@ -505,7 +513,7 @@ class ApiClient(object):
         :param data: str.
         :param klass: class literal.
 
-        :return: int, float, str, bool.
+        :return: int, long, float, str, bool.
         """
         try:
             value = klass(data)
