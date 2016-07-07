@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
+<a name="addpet"></a>
 # **AddPet**
 > void AddPet (Pet body)
 
@@ -77,6 +78,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="deletepet"></a>
 # **DeletePet**
 > void DeletePet (long? petId, string apiKey = null)
 
@@ -142,6 +144,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="findpetsbystatus"></a>
 # **FindPetsByStatus**
 > List<Pet> FindPetsByStatus (List<string> status)
 
@@ -206,6 +209,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="findpetsbytags"></a>
 # **FindPetsByTags**
 > List<Pet> FindPetsByTags (List<string> tags)
 
@@ -270,6 +274,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="getpetbyid"></a>
 # **GetPetById**
 > Pet GetPetById (long? petId)
 
@@ -336,6 +341,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="updatepet"></a>
 # **UpdatePet**
 > void UpdatePet (Pet body)
 
@@ -399,6 +405,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="updatepetwithform"></a>
 # **UpdatePetWithForm**
 > void UpdatePetWithForm (long? petId, string name = null, string status = null)
 
@@ -466,6 +473,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="uploadfile"></a>
 # **UploadFile**
 > ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
 
