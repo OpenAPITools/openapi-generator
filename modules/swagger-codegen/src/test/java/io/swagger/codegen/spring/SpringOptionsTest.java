@@ -50,6 +50,8 @@ public class SpringOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setFullJavaUtil(Boolean.valueOf(SpringOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;
+            clientCodegen.setTitle(SpringOptionsProvider.TITLE);
+            times = 1;
             clientCodegen.setConfigPackage(SpringOptionsProvider.CONFIG_PACKAGE_VALUE);
             times = 1;
             clientCodegen.setBasePackage(SpringOptionsProvider.BASE_PACKAGE_VALUE);

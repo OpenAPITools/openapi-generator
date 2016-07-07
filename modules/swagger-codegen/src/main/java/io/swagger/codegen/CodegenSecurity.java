@@ -13,6 +13,7 @@ public class CodegenSecurity {
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
     public List<Map<String, Object>> scopes;
+    public Boolean isCode, isPassword, isApplication, isImplicit;
 
     @Override
     public String toString() {
@@ -50,6 +51,14 @@ public class CodegenSecurity {
             return false;
         if (tokenUrl != null ? !tokenUrl.equals(that.tokenUrl) : that.tokenUrl != null)
             return false;
+        if (isCode != null ? !isCode.equals(that.isCode) : that.isCode != null)
+            return false;
+        if (isPassword != null ? !isPassword.equals(that.isPassword) : that.isPassword != null)
+            return false;
+        if (isApplication != null ? !isApplication.equals(that.isApplication) : that.isApplication != null)
+            return false;
+        if (isImplicit != null ? !isImplicit.equals(that.isImplicit) : that.isImplicit != null)
+            return false;
         return scopes != null ? scopes.equals(that.scopes) : that.scopes == null;
 
     }
@@ -68,6 +77,10 @@ public class CodegenSecurity {
         result = 31 * result + (flow != null ? flow.hashCode() : 0);
         result = 31 * result + (authorizationUrl != null ? authorizationUrl.hashCode() : 0);
         result = 31 * result + (tokenUrl != null ? tokenUrl.hashCode() : 0);
+        result = 31 * result + (isCode != null ? isCode.hashCode() : 0);
+        result = 31 * result + (isPassword != null ? isPassword.hashCode() : 0);
+        result = 31 * result + (isApplication != null ? isApplication.hashCode() : 0);
+        result = 31 * result + (isImplicit != null ? isImplicit.hashCode() : 0);
         result = 31 * result + (scopes != null ? scopes.hashCode() : 0);
         return result;
     }
