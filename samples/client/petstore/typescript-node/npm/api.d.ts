@@ -82,8 +82,8 @@ export declare class PetApi {
     protected _useQuerystring: boolean;
     protected authentications: {
         'default': Authentication;
-        'petstore_auth': OAuth;
         'api_key': ApiKeyAuth;
+        'petstore_auth': OAuth;
     };
     constructor(basePath?: string);
     useQuerystring: boolean;
@@ -132,8 +132,8 @@ export declare class StoreApi {
     protected _useQuerystring: boolean;
     protected authentications: {
         'default': Authentication;
-        'petstore_auth': OAuth;
         'api_key': ApiKeyAuth;
+        'petstore_auth': OAuth;
     };
     constructor(basePath?: string);
     useQuerystring: boolean;
@@ -168,8 +168,8 @@ export declare class UserApi {
     protected _useQuerystring: boolean;
     protected authentications: {
         'default': Authentication;
-        'petstore_auth': OAuth;
         'api_key': ApiKeyAuth;
+        'petstore_auth': OAuth;
     };
     constructor(basePath?: string);
     useQuerystring: boolean;

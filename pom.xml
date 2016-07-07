@@ -283,7 +283,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client</id>
+            <id>java-client-jersey1</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -291,7 +291,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey1</module>
             </modules>
         </profile>
         <profile>
@@ -615,7 +615,7 @@
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/android/volley</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>

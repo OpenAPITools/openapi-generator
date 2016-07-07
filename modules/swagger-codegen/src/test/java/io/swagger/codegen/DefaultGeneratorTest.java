@@ -163,6 +163,7 @@ public class DefaultGeneratorTest {
 
         final Swagger swagger = new SwaggerParser().read("src/test/resources/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
+        codegenConfig.setLibrary("jersey1");
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
         ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
