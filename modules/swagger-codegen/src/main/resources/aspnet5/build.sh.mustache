@@ -14,6 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dotnet restore src/IO.Swagger/ && \
-    dotnet build src/IO.Swagger/ && \
-    echo "Now, run the following to start the project: dotnet run -p src/IO.Swagger/project.json web"
+dotnet restore src/{{packageName}}/ && \
+    dotnet build src/{{packageName}}/ && \
+    echo "Now, run the following to start the project: dotnet run -p src/{{packageName}}/project.json web"
