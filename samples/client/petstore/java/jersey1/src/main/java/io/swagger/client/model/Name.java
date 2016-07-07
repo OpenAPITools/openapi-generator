@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -37,16 +37,16 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Model for testing model name same as property name")
 
 public class Name   {
-  @SerializedName("name")
+  @JsonProperty("name")
   private Integer name = null;
 
-  @SerializedName("snake_case")
+  @JsonProperty("snake_case")
   private Integer snakeCase = null;
 
-  @SerializedName("property")
+  @JsonProperty("property")
   private String property = null;
 
-  @SerializedName("123Number")
+  @JsonProperty("123Number")
   private Integer _123Number = null;
 
   public Name name(Integer name) {

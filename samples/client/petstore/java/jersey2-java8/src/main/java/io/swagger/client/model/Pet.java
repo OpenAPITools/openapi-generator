@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Category;
@@ -40,32 +40,29 @@ import java.util.List;
  */
 
 public class Pet   {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Long id = null;
 
-  @SerializedName("category")
+  @JsonProperty("category")
   private Category category = null;
 
-  @SerializedName("name")
+  @JsonProperty("name")
   private String name = null;
 
-  @SerializedName("photoUrls")
+  @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
 
-  @SerializedName("tags")
+  @JsonProperty("tags")
   private List<Tag> tags = new ArrayList<Tag>();
 
   /**
    * pet status in the store
    */
   public enum StatusEnum {
-    @SerializedName("available")
     AVAILABLE("available"),
     
-    @SerializedName("pending")
     PENDING("pending"),
     
-    @SerializedName("sold")
     SOLD("sold");
 
     private String value;
@@ -80,7 +77,7 @@ public class Pet   {
     }
   }
 
-  @SerializedName("status")
+  @JsonProperty("status")
   private StatusEnum status = null;
 
   public Pet id(Long id) {

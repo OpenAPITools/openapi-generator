@@ -26,7 +26,6 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
 
 
 /**
@@ -34,13 +33,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public enum EnumClass {
   
-  @SerializedName("_abc")
   _ABC("_abc"),
   
-  @SerializedName("-efg")
   _EFG("-efg"),
   
-  @SerializedName("(xyz)")
   _XYZ_("(xyz)");
 
   private String value;

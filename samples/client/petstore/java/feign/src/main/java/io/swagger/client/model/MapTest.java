@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
@@ -39,17 +39,15 @@ import java.util.Map;
  */
 
 public class MapTest   {
-  @SerializedName("map_map_of_string")
+  @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
   /**
    * Gets or Sets inner
    */
   public enum InnerEnum {
-    @SerializedName("UPPER")
     UPPER("UPPER"),
     
-    @SerializedName("lower")
     LOWER("lower");
 
     private String value;
@@ -64,7 +62,7 @@ public class MapTest   {
     }
   }
 
-  @SerializedName("map_of_enum_string")
+  @JsonProperty("map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

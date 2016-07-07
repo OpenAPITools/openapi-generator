@@ -22,11 +22,11 @@ public interface PetApi {
    * Add a new pet to the store
    * 
    * @param body Pet object that needs to be added to the store (required)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @POST("/pet")
-  Observable<Object> addPet(
+  @POST("pet")
+  Observable<Void> addPet(
     @Body Pet body
   );
 
@@ -35,11 +35,11 @@ public interface PetApi {
    * 
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @DELETE("/pet/{petId}")
-  Observable<Object> deletePet(
+  @DELETE("pet/{petId}")
+  Observable<Void> deletePet(
     @Path("petId") Long petId, @Header("api_key") String apiKey
   );
 
@@ -50,7 +50,7 @@ public interface PetApi {
    * @return Call&lt;List<Pet>&gt;
    */
   
-  @GET("/pet/findByStatus")
+  @GET("pet/findByStatus")
   Observable<List<Pet>> findPetsByStatus(
     @Query("status") CSVParams status
   );
@@ -62,7 +62,7 @@ public interface PetApi {
    * @return Call&lt;List<Pet>&gt;
    */
   
-  @GET("/pet/findByTags")
+  @GET("pet/findByTags")
   Observable<List<Pet>> findPetsByTags(
     @Query("tags") CSVParams tags
   );
@@ -74,7 +74,7 @@ public interface PetApi {
    * @return Call&lt;Pet&gt;
    */
   
-  @GET("/pet/{petId}")
+  @GET("pet/{petId}")
   Observable<Pet> getPetById(
     @Path("petId") Long petId
   );
@@ -83,11 +83,11 @@ public interface PetApi {
    * Update an existing pet
    * 
    * @param body Pet object that needs to be added to the store (required)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
-  @PUT("/pet")
-  Observable<Object> updatePet(
+  @PUT("pet")
+  Observable<Void> updatePet(
     @Body Pet body
   );
 
@@ -97,12 +97,12 @@ public interface PetApi {
    * @param petId ID of pet that needs to be updated (required)
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
-   * @return Call&lt;Object&gt;
+   * @return Call&lt;Void&gt;
    */
   
   @FormUrlEncoded
-  @POST("/pet/{petId}")
-  Observable<Object> updatePetWithForm(
+  @POST("pet/{petId}")
+  Observable<Void> updatePetWithForm(
     @Path("petId") Long petId, @Field("name") String name, @Field("status") String status
   );
 
@@ -115,10 +115,10 @@ public interface PetApi {
    * @return Call&lt;ModelApiResponse&gt;
    */
   
-  @FormUrlEncoded
-  @POST("/pet/{petId}/uploadImage")
+  @Multipart
+  @POST("pet/{petId}/uploadImage")
   Observable<ModelApiResponse> uploadFile(
-    @Path("petId") Long petId, @Field("additionalMetadata") String additionalMetadata, @Field("file\"; filename=\"file\"") RequestBody file
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file\"; filename=\"file\"") RequestBody file
   );
 
 }

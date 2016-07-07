@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
@@ -39,43 +39,43 @@ import org.joda.time.LocalDate;
  */
 
 public class FormatTest   {
-  @SerializedName("integer")
+  @JsonProperty("integer")
   private Integer integer = null;
 
-  @SerializedName("int32")
+  @JsonProperty("int32")
   private Integer int32 = null;
 
-  @SerializedName("int64")
+  @JsonProperty("int64")
   private Long int64 = null;
 
-  @SerializedName("number")
+  @JsonProperty("number")
   private BigDecimal number = null;
 
-  @SerializedName("float")
+  @JsonProperty("float")
   private Float _float = null;
 
-  @SerializedName("double")
+  @JsonProperty("double")
   private Double _double = null;
 
-  @SerializedName("string")
+  @JsonProperty("string")
   private String string = null;
 
-  @SerializedName("byte")
+  @JsonProperty("byte")
   private byte[] _byte = null;
 
-  @SerializedName("binary")
+  @JsonProperty("binary")
   private byte[] binary = null;
 
-  @SerializedName("date")
+  @JsonProperty("date")
   private LocalDate date = null;
 
-  @SerializedName("dateTime")
+  @JsonProperty("dateTime")
   private DateTime dateTime = null;
 
-  @SerializedName("uuid")
+  @JsonProperty("uuid")
   private String uuid = null;
 
-  @SerializedName("password")
+  @JsonProperty("password")
   private String password = null;
 
   public FormatTest integer(Integer integer) {

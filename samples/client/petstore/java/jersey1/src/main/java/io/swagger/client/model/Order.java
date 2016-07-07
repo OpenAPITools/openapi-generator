@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
@@ -37,29 +37,26 @@ import org.joda.time.DateTime;
  */
 
 public class Order   {
-  @SerializedName("id")
+  @JsonProperty("id")
   private Long id = null;
 
-  @SerializedName("petId")
+  @JsonProperty("petId")
   private Long petId = null;
 
-  @SerializedName("quantity")
+  @JsonProperty("quantity")
   private Integer quantity = null;
 
-  @SerializedName("shipDate")
+  @JsonProperty("shipDate")
   private DateTime shipDate = null;
 
   /**
    * Order Status
    */
   public enum StatusEnum {
-    @SerializedName("placed")
     PLACED("placed"),
     
-    @SerializedName("approved")
     APPROVED("approved"),
     
-    @SerializedName("delivered")
     DELIVERED("delivered");
 
     private String value;
@@ -74,10 +71,10 @@ public class Order   {
     }
   }
 
-  @SerializedName("status")
+  @JsonProperty("status")
   private StatusEnum status = null;
 
-  @SerializedName("complete")
+  @JsonProperty("complete")
   private Boolean complete = false;
 
   public Order id(Long id) {

@@ -26,7 +26,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -40,10 +40,8 @@ public class EnumTest   {
    * Gets or Sets enumString
    */
   public enum EnumStringEnum {
-    @SerializedName("UPPER")
     UPPER("UPPER"),
     
-    @SerializedName("lower")
     LOWER("lower");
 
     private String value;
@@ -58,17 +56,15 @@ public class EnumTest   {
     }
   }
 
-  @SerializedName("enum_string")
+  @JsonProperty("enum_string")
   private EnumStringEnum enumString = null;
 
   /**
    * Gets or Sets enumInteger
    */
   public enum EnumIntegerEnum {
-    @SerializedName("1")
     NUMBER_1(1),
     
-    @SerializedName("-1")
     NUMBER_MINUS_1(-1);
 
     private Integer value;
@@ -83,17 +79,15 @@ public class EnumTest   {
     }
   }
 
-  @SerializedName("enum_integer")
+  @JsonProperty("enum_integer")
   private EnumIntegerEnum enumInteger = null;
 
   /**
    * Gets or Sets enumNumber
    */
   public enum EnumNumberEnum {
-    @SerializedName("1.1")
     NUMBER_1_DOT_1(1.1),
     
-    @SerializedName("-1.2")
     NUMBER_MINUS_1_DOT_2(-1.2);
 
     private Double value;
@@ -108,7 +102,7 @@ public class EnumTest   {
     }
   }
 
-  @SerializedName("enum_number")
+  @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber = null;
 
   public EnumTest enumString(EnumStringEnum enumString) {
