@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SpringOptionsProvider extends JavaOptionsProvider {
+    public static final String TITLE = "swagger";
     public static final String CONFIG_PACKAGE_VALUE = "configPackage";
     public static final String BASE_PACKAGE_VALUE = "basePackage";
     public static final String LIBRARY_VALUE = "spring-mvc"; //FIXME hidding value from super class
@@ -23,6 +24,7 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
     @Override
     public Map<String, String> createOptions() {
         Map<String, String> options = new HashMap<String, String>(super.createOptions());
+        options.put(SpringCodegen.TITLE, TITLE);
         options.put(SpringCodegen.CONFIG_PACKAGE, CONFIG_PACKAGE_VALUE);
         options.put(SpringCodegen.BASE_PACKAGE, BASE_PACKAGE_VALUE);
         options.put(CodegenConstants.LIBRARY, LIBRARY_VALUE);

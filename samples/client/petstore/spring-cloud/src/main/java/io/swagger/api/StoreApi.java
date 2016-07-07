@@ -25,7 +25,8 @@ public interface StoreApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
     @RequestMapping(value = "/store/order/{orderId}",
-        produces = { "application/xml", "application/json" }, 
+        produces = "application/json",
+        consumes = "application/json",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId);
 
@@ -36,7 +37,8 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Integer.class) })
     @RequestMapping(value = "/store/inventory",
-        produces = { "application/json" }, 
+        produces = "application/json",
+        consumes = "application/json",
         method = RequestMethod.GET)
     ResponseEntity<Map<String, Integer>> getInventory();
 
@@ -47,7 +49,8 @@ public interface StoreApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
         @ApiResponse(code = 404, message = "Order not found", response = Order.class) })
     @RequestMapping(value = "/store/order/{orderId}",
-        produces = { "application/xml", "application/json" }, 
+        produces = "application/json",
+        consumes = "application/json",
         method = RequestMethod.GET)
     ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId);
 
@@ -57,7 +60,8 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
     @RequestMapping(value = "/store/order",
-        produces = { "application/xml", "application/json" }, 
+        produces = "application/json",
+        consumes = "application/json",
         method = RequestMethod.POST)
     ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body);
 
