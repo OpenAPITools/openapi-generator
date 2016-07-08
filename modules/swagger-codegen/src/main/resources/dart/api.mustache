@@ -5,19 +5,19 @@ part of api;
 
 class {{classname}} {
   String basePath = "{{basePath}}";
-  ApiClient apiClient = ApiClient.defaultApiClient;
+  final ApiClient apiClient;
 
-  {{classname}}([ApiClient apiClient]) {
-    if (apiClient != null) {
-      this.apiClient = apiClient;
-    }
-  }
+  {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   {{#operation}}
   /// {{summary}}
   ///
   /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) async {
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}, {{/required}}{{/allParams}} { {{#allParams}}{{^required}} {{{dataType}}} {{paramName}}, {{/required}}{{/allParams}} bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
 
     // verify required params are set
@@ -33,11 +33,13 @@ class {{classname}} {
     String path = "{{path}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{paramName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
 
     // query params
-    Map<String, String> queryParams = {};
+    List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    {{#queryParams}}if("null" != {{paramName}})
-      queryParams.addAll(convertParametersForCollectionFormat({{collectionFormat}}, {{baseName}}, {{paramName}}));
+    {{#queryParams}}
+    if("null" != {{paramName}}) {
+      queryParams.addAll(_convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+    }
     {{/queryParams}}
     {{#headerParams}}headerParams["{{baseName}}"] = {{paramName}};
     {{/headerParams}}
@@ -84,7 +86,7 @@ class {{classname}} {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return {{#returnType}}ApiClient.deserialize(response.body, {{returnBaseType}}){{/returnType}};
+      return {{#returnType}} apiClient.deserialize(response.body, '{{{returnType}}}') {{/returnType}};
     } else {
       return {{#returnType}}null{{/returnType}};
     }
